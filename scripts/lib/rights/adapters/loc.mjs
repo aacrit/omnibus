@@ -9,7 +9,9 @@
 // US federal source (pd-us-federal), or when its date is old enough that it
 // is public domain whether or not it was published (pd-age, 120 years).
 
-import { clip, firstDate, plain } from "../text.mjs";
+import { clip, firstDate, latestYear, plain } from "../text.mjs";
+
+export { latestYear };
 
 export function itemUrl(id) {
   return `https://www.loc.gov/item/${encodeURIComponent(String(id))}/?fo=json&at=item`;
@@ -17,9 +19,30 @@ export function itemUrl(id) {
 
 const FEDERAL = /\b(Farm Security Administration|Office of War Information|U\.?S\.? (federal )?government|federal government|work of the United States|U\.S\. Army|U\.S\. Navy|WPA|Works Progress Administration|National Park Service)\b/i;
 
-/** The oldest year a work can be and still be under US copyright, at `year`: older than this is PD regardless of publication. */
+/** Latest year a work of unknown authorship can be created in and be PD at `year` (120 years from creation). */
 export function pdAgeCutoff(year) {
   return year - 121;
+}
+
+/** Latest year a work can be published in and be PD in the US at `year` (95 years from publication). */
+export function publishedCutoff(year) {
+  return year - 96;
+}
+
+// LoC's standard link titles, which name copyright and restrictions on every item page without stating any.
+const LOC_BOILERPLATE = /Rights and Restrictions Information|More about Copyright and other Restrictions|Copyright and other Restrictions|No known restrictions( on publication)?\.?/gi;
+const CAUTION = /[^.]*\b(may be protected|copyright(ed)?|restricted|restrictions apply|not (been )?evaluated|permission (is )?required|rights status not evaluated)\b[^.]*\.?/i;
+
+/** The first cautionary sentence in rights text once LoC's boilerplate is removed, or null. */
+export function cautionIn(text) {
+  const m = String(text ?? "").replace(LOC_BOILERPLATE, " ").match(CAUTION);
+  return m ? m[0].trim() : null;
+}
+
+/** The sentence that states public domain and names a federal source together, or null. */
+export function federalPdSentence(text) {
+  const sentences = String(text ?? "").split(/(?<=\.)\s+/);
+  return sentences.find((s) => /\bpublic domain\b/i.test(s) && FEDERAL.test(s) && !/\b(not|may|except|unless)\b/i.test(s)) ?? null;
 }
 
 function largestImage(urls) {
@@ -40,21 +63,31 @@ export function parseLoc(json, { ref, capturedAt }) {
   const rights = (Array.isArray(it.rights) ? it.rights : [it.rights]).filter(Boolean).map(plain).join(" ");
   const advisory = plain(it.rights_advisory) || null;
   const date = firstDate(it.date) ?? firstDate((it.created_published ?? [])[0]);
-  const year = date ? Number(date.slice(0, 4)) : null;
+  // A range ("1890-1935", "between 1900 and 1940") is judged by its latest year.
+  const year = latestYear([it.date, ...(it.created_published ?? []), ...(it.dates ?? []).flatMap((d) => Object.keys(d ?? {}))]);
   const yearNow = new Date(capturedAt).getUTCFullYear();
+  const caution = cautionIn(`${rights} ${advisory ?? ""}`);
+  const federal = federalPdSentence(rights);
+  const named = (it.contributor_names ?? []).length > 0;
+  const published = (it.created_published ?? []).some((s) => /\s:\s|\bpublished\b|\bpublisher\b/i.test(String(s)));
   let licence = null;
   let basis = null;
   let note = null;
-  if (/\bpublic domain\b/i.test(rights) && FEDERAL.test(rights)) {
+  if (caution) {
+    note = `the rights text says "${clip(caution, 120)}"`;
+  } else if (federal) {
     licence = "pd-us-federal";
-    basis = `Library of Congress rights statement: "${clip(rights.match(/[^.]*public domain[^.]*\./i)?.[0] ?? rights, 300)}"; a US federal government collection`;
-  } else if (year !== null && year <= pdAgeCutoff(yearNow)) {
+    basis = `Library of Congress rights statement: "${clip(federal, 300)}"; a US federal government collection`;
+  } else if (year !== null && published && year <= publishedCutoff(yearNow)) {
     licence = "pd-age";
-    basis = `Dated ${date} in the Library of Congress record: created more than 120 years ago, public domain in the US whether or not it was published`;
+    basis = `Published in ${year} per the Library of Congress record (latest year stated): more than 95 years ago, so its US copyright term has ended`;
+  } else if (year !== null && !named && year <= pdAgeCutoff(yearNow)) {
+    licence = "pd-age";
+    basis = `Created by ${year} per the Library of Congress record (latest year stated), author unknown: more than 120 years from creation, so public domain in the US whether or not it was published`;
   } else if (/\bpublic domain\b/i.test(rights)) {
-    note = "the rights text says public domain but names no federal source, and the item is under 120 years old";
+    note = "the rights text says public domain but not in the same sentence as a federal source, and no age basis applies";
   } else {
-    note = advisory ? `the rights advisory reads "${clip(advisory, 120)}", which is not a licence` : "no rights statement";
+    note = advisory ? `the rights advisory reads "${clip(advisory, 120)}", which is not a licence` : "no rights statement, and no age basis applies";
   }
   const creditLine = rights.match(/Credit Line:\s*([^.]+)\./i)?.[1]?.trim() ?? "Library of Congress";
   const contributor = (it.contributor_names ?? [])[0];

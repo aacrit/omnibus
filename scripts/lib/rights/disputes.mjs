@@ -42,7 +42,7 @@ export function buildDisputePacket(ledger, ledgerText) {
     note: "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
     ledger_sha256: sha256Text(String(ledgerText).replace(/\r\n/g, "\n")),
     assets: ledger.items.map((item) => {
-      const terms = licenceTerms(item.licence);
+      const terms = licenceTerms(item.licence, item);
       return {
         id: item.id,
         title: item.title,

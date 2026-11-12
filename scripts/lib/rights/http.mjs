@@ -39,6 +39,28 @@ export const FETCH_HOSTS = [
 
 export class RefusedHost extends Error {}
 
+/** How much of each file is scanned for embedded provenance (XMP sits near the start of JPEG, PNG and MP4 headers). */
+export const SNIFF_BYTES = 256 * 1024;
+
+/**
+ * Provenance marks embedded in a file's first bytes: an XMP/IPTC
+ * DigitalSourceType naming algorithmic media, and a C2PA manifest (its JUMBF
+ * "c2pa" label). A C2PA manifest alone is recorded, not judged: cameras sign
+ * too, and its claims are not verified here.
+ */
+export function sniffGeneratorTags(buf) {
+  const s = Buffer.from(buf).toString("latin1");
+  const tags = [];
+  const dst = s.match(/DigitalSourceType[\s\S]{0,300}?(compositeWithTrainedAlgorithmicMedia|trainedAlgorithmicMedia|compositeSynthetic|algorithmicMedia)/i);
+  if (dst) tags.push(`XMP DigitalSourceType: ${dst[1]}`);
+  else {
+    const bare = s.match(/(trainedAlgorithmicMedia|compositeWithTrainedAlgorithmicMedia|compositeSynthetic)/);
+    if (bare) tags.push(`embedded IPTC term: ${bare[1]}`);
+  }
+  if (/jumb[\s\S]{0,64}c2pa/.test(s)) tags.push("C2PA manifest present (claims not verified)");
+  return tags;
+}
+
 export function assertAllowedUrl(url) {
   let u;
   try {
@@ -167,6 +189,8 @@ export function getMedia(url, dest, { fetchImpl = fetch, sleep, retries, maxByte
     const sha256 = createHash("sha256");
     const sha1 = createHash("sha1");
     let bytes = 0;
+    const head = [];
+    let headBytes = 0;
     const out = createWriteStream(part);
     let streamError = null;
     out.on("error", (err) => (streamError = err));
@@ -183,6 +207,10 @@ export function getMedia(url, dest, { fetchImpl = fetch, sleep, retries, maxByte
         }
         sha256.update(value);
         sha1.update(value);
+        if (headBytes < SNIFF_BYTES) {
+          head.push(value.subarray(0, SNIFF_BYTES - headBytes));
+          headBytes += Math.min(value.byteLength, SNIFF_BYTES - headBytes);
+        }
         if (streamError) throw streamError;
         if (!out.write(value)) await once(out, "drain");
       }
@@ -202,7 +230,15 @@ export function getMedia(url, dest, { fetchImpl = fetch, sleep, retries, maxByte
       throw new Error(`${url}: empty body`);
     }
     renameSync(part, dest);
-    return { status: "ok", sha256: sha256.digest("hex"), sha1: sha1.digest("hex"), bytes, mime: res.headers.get("content-type"), url: finalUrl };
+    return {
+      status: "ok",
+      sha256: sha256.digest("hex"),
+      sha1: sha1.digest("hex"),
+      bytes,
+      mime: res.headers.get("content-type"),
+      url: finalUrl,
+      generator_tags: sniffGeneratorTags(Buffer.concat(head)),
+    };
   });
 }
 

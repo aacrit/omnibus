@@ -1,0 +1,36 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/asset/NHQ202409270003",
+  "at": "2026-11-12T09:24:31Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/asset/NHQ202409270003",
+   "items": [
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~orig.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~orig.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~large.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~medium.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~small.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~thumb.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/NHQ202409270003/metadata.json"
+    }
+   ]
+  }
+ }
+}

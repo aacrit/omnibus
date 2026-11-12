@@ -10,7 +10,7 @@ import * as loc from "../scripts/lib/rights/adapters/loc.mjs";
 import * as nasa from "../scripts/lib/rights/adapters/nasa.mjs";
 import { PLACEMENT_PENDING, buildDisputePacket, serialisePacket } from "../scripts/lib/rights/disputes.mjs";
 import { fetchRequests, mediaFileName } from "../scripts/lib/rights/fetcher.mjs";
-import { FETCH_HOSTS, RefusedHost, USER_AGENT, getJson, getMedia } from "../scripts/lib/rights/http.mjs";
+import { FETCH_HOSTS, RefusedHost, USER_AGENT, getJson, getMedia, sniffGeneratorTags } from "../scripts/lib/rights/http.mjs";
 import { validate } from "../scripts/lib/rights/json-schema.mjs";
 import { LEDGER_SCHEMA, emptyLedger, serialiseLedger, validateLedger, validateRequests } from "../scripts/lib/rights/ledger.mjs";
 import { evidenceMarker, lintAiGeneratedShareZero, lintEpisode, lintLicenceAllowlist, lintLicenceEvidence } from "../scripts/lib/rights/lints.mjs";
@@ -162,6 +162,23 @@ describe("fetcher: walks the ladder and records every refusal", () => {
     const req = { ...REQUESTS, requests: [{ id: "F-1", kind: "footage", candidates: [{ adapter: "nasa", ref: "as11-40-5903", tier: 1 }] }] };
     const { ledger } = await fetchRequests(req, null, { adapters, http: fakeHttp(), mediaDir: tmp(), checkedBy: "test", now, env: {} });
     expect(ledger.rejected[0].reasons[0]).toMatch(/holds a still, and the request is for footage/);
+  });
+
+  it("refuses and deletes a file whose embedded XMP names algorithmic media", async () => {
+    const http = fakeHttp();
+    const real = http.getMedia;
+    http.getMedia = async (url: string, dest: string) => ({ ...(await real(url, dest)), generator_tags: ["XMP DigitalSourceType: trainedAlgorithmicMedia"] });
+    const mediaDir = tmp();
+    const req = { ...REQUESTS, requests: [{ id: "S-X", kind: "still", candidates: [{ adapter: "nasa", ref: "as11-40-5903", tier: 1 }] }] };
+    const { ledger } = await fetchRequests(req, null, { adapters, http, mediaDir, checkedBy: "test", now, env: {} });
+    expect(ledger.items).toEqual([]);
+    expect(ledger.rejected[0].reasons.join(" ")).toMatch(/AI-generated: XMP DigitalSourceType: trainedAlgorithmicMedia/);
+    expect(existsSync(path.join(mediaDir, "S-X.jpg"))).toBe(false);
+  });
+
+  it("records that the file was scanned", async () => {
+    const { ledger } = await fetchAll();
+    expect(ledger.items[0].ai_provenance_check.checked).toEqual(expect.arrayContaining(["xmp-digital-source-type", "c2pa-label"]));
   });
 
   it("dry run downloads nothing", async () => {
@@ -327,6 +344,22 @@ describe("rights lints", () => {
     expect(f.map((x: any) => x.item)).toEqual(["S-MOON", "S-TOLEDO", "sh-9"]);
   });
 
+  it("re-reads stored text instead of trusting a recorded clear status or credit", async () => {
+    const { ledger } = await episode();
+    ledger.items[0].title = "Moon walk, upscaled with AI";
+    ledger.items[1].credit = "Photo: CNN";
+    expect(lintAiGeneratedShareZero(ledger).map((x: any) => x.item)).toEqual(["S-MOON"]);
+    expect(lintLicenceAllowlist(ledger).map((x: any) => x.message)).toContain("denied source: a news network or outlet material");
+  });
+
+  it("the dispute packet never cites the CC0 deed for a plain dedication", async () => {
+    const { ledger } = await episode();
+    ledger.items[0].licence = "pd-dedication";
+    const p = buildDisputePacket(ledger, serialiseLedger(ledger));
+    expect(p.assets[0].licence.deed_url).toBe(ledger.items[0].licence_evidence.url);
+    expect(JSON.stringify(p.assets[0])).not.toMatch(/publicdomain\/zero/);
+  });
+
   it("disputes-generated blocks a hand edit and a missing packet", async () => {
     const e = await episode();
     const edited = e.disputesText.replace("We are entitled", "We are surely entitled");
@@ -417,6 +450,18 @@ describe("polite http with the domain allowlist", () => {
     const notFound = async () => (calls++, res(404));
     expect(await getJson("https://www.loc.gov/x", { fetchImpl: notFound, sleep: async () => {} })).toMatchObject({ status: "not_found" });
     expect(calls).toBe(1);
+  });
+
+  it("reads embedded provenance from the first bytes of the file", async () => {
+    expect(sniffGeneratorTags(Buffer.from('<x:xmpmeta><rdf:Description Iptc4xmpExt:DigitalSourceType="http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"/>'))).toEqual([
+      "XMP DigitalSourceType: trainedAlgorithmicMedia",
+    ]);
+    expect(sniffGeneratorTags(Buffer.from("<Iptc4xmpExt:DigitalSourceType>http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture</Iptc4xmpExt:DigitalSourceType>"))).toEqual([]);
+    expect(sniffGeneratorTags(Buffer.concat([Buffer.from([0xff, 0xd8]), Buffer.from("....jumb....jumdc2pa....")]))).toEqual(["C2PA manifest present (claims not verified)"]);
+    const dir = tmp();
+    const body = `JFIF xmp DigitalSourceType="...compositeSynthetic" ${"x".repeat(100)}`;
+    const r = await getMedia("https://upload.wikimedia.org/x.jpg", path.join(dir, "s.jpg"), { fetchImpl: async () => res(200, body) });
+    expect(r.generator_tags).toEqual(["XMP DigitalSourceType: compositeSynthetic"]);
   });
 
   it("streams media to disk with its sha256 and refuses past the byte cap", async () => {

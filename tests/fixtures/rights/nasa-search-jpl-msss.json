@@ -1,0 +1,79 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/search?nasa_id=PIA25046",
+  "at": "2026-11-12T09:24:30Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/search?nasa_id=PIA25046",
+   "items": [
+    {
+     "href": "https://images-assets.nasa.gov/image/PIA25046/collection.json",
+     "data": [
+      {
+       "center": "JPL",
+       "date_created": "2022-01-25T00:00:00Z",
+       "description": "NASA's Curiosity Mars rover used its Mast Camera, or Mastcam, to capture this scene around a drill hole named \"Edinburgh.\" The images used to create the scene were taken on March 22 and 23, 2020, which were the 2,711th and 2,712th Martian days, or sols, of the mission.  The scene was captured while Curiosity was parked on top of a feature called the \"Greenheugh Pediment.\" Looming above in the background is the top of Mount Sharp, the 3-mile-tall (5-kilometer-tall) mountain that Curiosity has been ascending since 2014.  The color balance of the scene was processed to reflect the way it would look to the human eye under daytime lighting on Earth.  https://photojournal.jpl.nasa.gov/catalog/PIA25046",
+       "description_508": "NASA's Curiosity Mars rover used its Mast Camera, or Mastcam, to capture this scene of a drill hole named Edinburgh. The images used to create the scene were taken on March 22 and 23, 2020.",
+       "keywords": [
+        "Mars Science Laboratory (MSL)",
+        "Mars"
+       ],
+       "media_type": "image",
+       "nasa_id": "PIA25046",
+       "secondary_creator": "NASA/JPL-Caltech/MSSS",
+       "title": "Curiosity Mastcam's View of Edinburgh"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/image/PIA25046/PIA25046~medium.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 1023,
+       "size": 248000,
+       "height": 1280
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/PIA25046/PIA25046~small.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 511,
+       "size": 68000,
+       "height": 640
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/PIA25046/PIA25046~thumb.jpg",
+       "rel": "preview",
+       "render": "image",
+       "width": 511,
+       "size": 68000,
+       "height": 640
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/PIA25046/PIA25046~large.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 1535,
+       "size": 546000,
+       "height": 1920
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/PIA25046/PIA25046~orig.jpg",
+       "rel": "canonical",
+       "render": "image",
+       "height": 5688,
+       "width": 4550,
+       "size": 4508876
+      }
+     ]
+    }
+   ],
+   "metadata": {
+    "total_hits": 1
+   }
+  }
+ }
+}

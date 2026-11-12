@@ -61,7 +61,6 @@ export function launderingCheck(c) {
 /** The AI-provenance record for the ledger, from every text signal the adapter read. */
 export function aiProvenanceCheck(c) {
   const fields = [
-    ...(c.categories ?? []),
     ...(c.keywords ?? []),
     ...(c.generator_tags ?? []),
     c.title,
@@ -69,12 +68,12 @@ export function aiProvenanceCheck(c) {
     c.credit,
     c.licence_raw,
   ];
-  const findings = aiSignals(fields);
+  const findings = aiSignals(fields, { categories: c.categories ?? [] });
   if (c.kind === "generated") findings.push("the request is for a generated picture");
   return {
     status: findings.length ? "flagged" : "clear",
     method: "metadata",
-    checked: c.ai_fields_checked?.length ? [...c.ai_fields_checked] : ["title", "description", "credit"],
+    checked: [...(c.ai_fields_checked?.length ? c.ai_fields_checked : ["title", "description", "credit"]), ...(c.file_scanned ? ["xmp-digital-source-type", "c2pa-label"] : [])],
     findings,
     vision: "pending",
   };
@@ -95,7 +94,8 @@ export function checkCandidate(c) {
   reasons.push(
     ...deniedBy({
       urls: [c.item_url, c.media_url, ...(c.related_urls ?? [])],
-      texts: [c.credit, c.title, c.description, c.basis],
+      texts: [c.title, c.description, c.basis],
+      credits: [c.credit, ...(c.credit_fields ?? [])],
       tags: [...(c.categories ?? []), ...(c.keywords ?? [])],
     }),
   );
@@ -103,6 +103,7 @@ export function checkCandidate(c) {
   if (ai.status !== "clear") reasons.push(...ai.findings.map((f) => `AI-generated: ${f}`));
   const laundering = launderingCheck(c);
   if (laundering.status === "suspect") reasons.push(...laundering.findings.map((f) => `laundering suspicion: ${f}`));
+  reasons.push(...(c.restriction_reasons ?? []));
   if (!c.media_url) reasons.push("no media address");
   return { ok: reasons.length === 0, reasons: [...new Set(reasons)], ai_provenance_check: ai, laundering_check: laundering };
 }

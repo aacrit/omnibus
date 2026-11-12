@@ -10,7 +10,7 @@
 // alone, before any render exists, and to count a metadata flag as generated.
 
 import { isAllowedUrl } from "./http.mjs";
-import { deniedBy, licenceProblems } from "./licences.mjs";
+import { aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
 import { validateLedger } from "./ledger.mjs";
 import { buildDisputePacket, serialisePacket } from "./disputes.mjs";
 
@@ -22,7 +22,7 @@ export function lintLicenceAllowlist(ledger) {
   const out = [];
   for (const it of ledger.items) {
     for (const p of licenceProblems(it)) out.push(f("licence-allowlist", it.id, p));
-    for (const p of deniedBy({ urls: [it.item_url, it.media_url], texts: [it.credit, it.title, it.basis], tags: [] })) {
+    for (const p of deniedBy({ urls: [it.item_url, it.media_url, it.licence_evidence?.url], texts: [it.title, it.basis], credits: [it.credit, it.licence_evidence?.captured_text], tags: [] })) {
       out.push(f("licence-allowlist", it.id, p));
     }
     if (!isAllowedUrl(it.media_url)) out.push(f("licence-allowlist", it.id, `media_url ${it.media_url} is not on the fetcher's domain allowlist`));
@@ -89,6 +89,13 @@ export function lintAiGeneratedShareZero(ledger, { shots = [] } = {}) {
       out.push(f("ai-generated-share-zero", it.id, `AI provenance not clear: ${(ai?.findings ?? ["no check recorded"]).join("; ")}`));
     } else if (ai.vision === "flagged") {
       out.push(f("ai-generated-share-zero", it.id, "the vision pass flagged the item as synthetic"));
+    }
+  }
+  // Re-read the stored text too: a recorded "clear" is not trusted on its own.
+  for (const it of ledger.items) {
+    const again = aiSignals([it.title, it.credit, it.basis, it.licence_evidence?.captured_text]);
+    if (again.length && it.ai_provenance_check?.status === "clear") {
+      out.push(f("ai-generated-share-zero", it.id, `stored text carries an AI signal: ${again.join("; ")}`));
     }
   }
   for (const s of shots) {

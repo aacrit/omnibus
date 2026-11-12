@@ -10,7 +10,7 @@
 // iiextmetadatafilter, and never to download here (the fetcher does that).
 
 import { readLicence } from "../licences.mjs";
-import { clip, firstDate, isoSecond, plain } from "../text.mjs";
+import { clip, firstDate, isoSecond, latestYear, plain } from "../text.mjs";
 
 const API = "https://commons.wikimedia.org/w/api.php";
 const EXTMETA = [
@@ -51,16 +51,35 @@ export function userUrl(name) {
 
 // Commons categories that state a public-domain basis.
 const PD_FEDERAL = /^PD[ -](USGov|US[ -]?Gov(ernment)?|NASA|NOAA|USGS|FEMA|CDC|USAID|NPS|NIH|USDA|USFWS|US[ -]?Army|US[ -]?Navy|US[ -]?Air[ -]?Force|USMC|US[ -]?Marine|US[ -]?Coast[ -]?Guard|DVIDS|White[ -]House|EOP)\b/i;
-const PD_AGE = /^PD[ -](old|1923|1926|1929|US[ -](expired|no[ -]notice|not[ -]renewed|unpublished))\b|^PD[ -]Art \(PD[ -]old/i;
+// A US basis by age: published before the US cutoff, or expired under US rules.
+const PD_AGE_US = /^PD[ -](1923|1926|1929|US|US[ -](expired|no[ -]notice|not[ -]renewed|unpublished|1923|1926|1929))\b/i;
+// PD-old, PD-old-70, PD-old-assumed, PD-Art (PD-old...): a life-plus term, which is not a US basis on its own.
+const PD_OLD = /^PD[ -](old|Art \(PD[ -]old)/i;
 const PD_DEDICATION = /^PD[ -](self|author|user|release)\b/i;
 
-/** The PD basis Commons categories state: { id, category } or null. */
-export function pdBasis(categories) {
-  for (const [id, re] of [["pd-us-federal", PD_FEDERAL], ["pd-age", PD_AGE], ["pd-dedication", PD_DEDICATION]]) {
-    const cat = categories.find((c) => re.test(c));
-    if (cat) return { id, category: cat };
-  }
+/**
+ * The PD basis Commons categories state: { id, category } or null. PD-old
+ * and its kin count only when the file's latest stated year is old enough
+ * for the US too (published 95 years ago or more).
+ */
+export function pdBasis(categories, { year = null, yearNow = new Date().getUTCFullYear() } = {}) {
+  const fed = categories.find((c) => PD_FEDERAL.test(c));
+  if (fed) return { id: "pd-us-federal", category: fed };
+  const us = categories.find((c) => PD_AGE_US.test(c));
+  if (us) return { id: "pd-age", category: us };
+  const old = categories.find((c) => PD_OLD.test(c));
+  if (old && year !== null && year <= yearNow - 96) return { id: "pd-age", category: old, year };
+  const ded = categories.find((c) => PD_DEDICATION.test(c));
+  if (ded) return { id: "pd-dedication", category: ded };
   return null;
+}
+
+/** Commons "Restrictions" values that forbid our use whatever the licence: a trademark or an insignia. */
+export function restrictionReasons(restrictions) {
+  return String(restrictions ?? "")
+    .split(/[|,\s]+/)
+    .filter((r) => /^(trademarked|insignia)$/i.test(r))
+    .map((r) => `Commons marks the file "${r.toLowerCase()}", a restriction no licence lifts`);
 }
 
 const BASIS_WORDS = {
@@ -91,7 +110,7 @@ export function parseInfo(json, { ref, user = null, capturedAt }) {
   let basis = null;
   let licenceNote = null;
   if (read.family === "pd" || template === "pd") {
-    const b = pdBasis(categories);
+    const b = pdBasis(categories, { year: latestYear([plain(em.DateTimeOriginal)]), yearNow: new Date(capturedAt).getUTCFullYear() });
     if (b) {
       licence = b.id;
       basis = `Wikimedia Commons marks the file public domain (category "${b.category}"): ${BASIS_WORDS[b.id]}`;
@@ -143,6 +162,7 @@ export function parseInfo(json, { ref, user = null, capturedAt }) {
       keywords: [],
       own_work: ownWork,
       uploader: ownWork ? parseUser(user, first.user) : null,
+      restriction_reasons: restrictionReasons(plain(em.Restrictions)),
       ai_fields_checked: ["commons-categories", "title", "description", "credit", "licence"],
       ref_requested: ref,
     },

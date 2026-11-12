@@ -60,6 +60,12 @@ describe("licence allowlist (bible section f)", () => {
     }
   });
 
+  it("fails loose NC and ND spellings before the kind match can read them as BY", () => {
+    for (const raw of ["CC BYNC 2.0", "cc-by_nc-2.0", "CC BY Non Commercial 4.0", "CC BY NoDerivatives 4.0", "CC-BY-SA-NC 3.0", "Creative Commons BY (non-commercial) 2.0", "CC BY ND 3.0"]) {
+      expect(readLicence(raw).id, raw).toBeNull();
+    }
+  });
+
   it("fails what is not a licence on the list", () => {
     for (const raw of ["GFDL", "All rights reserved", "Fair use", "CC BY 5.0", "CC BY-SA", "MIT", "", "No known restrictions", "Copyrighted free use"]) {
       expect(ok(raw), raw).toBe(false);
@@ -86,8 +92,13 @@ describe("licence allowlist (bible section f)", () => {
       const t = licenceTerms(id);
       expect(t.name, id).toBe(licenceName(id));
       expect(t.terms, id).toBeTruthy();
-      expect(t.deed_url, id).toMatch(/^https:\/\//);
+      if (id === "pd-dedication") expect(t.deed_url, id).toBeNull();
+      else expect(t.deed_url, id).toMatch(/^https:\/\//);
     }
+    // A plain dedication has no deed: the packet cites the item's own evidence, never CC0's.
+    expect(licenceTerms("pd-dedication", { licence_evidence: { url: "https://commons.wikimedia.org/wiki/File:X.jpg" } }).deed_url).toBe(
+      "https://commons.wikimedia.org/wiki/File:X.jpg",
+    );
     expect(licenceName("cc-by-sa-2.0")).toBe("CC BY-SA 2.0");
     expect(licenceTerms("cc-by-sa-2.0").legalcode_url).toBe("https://creativecommons.org/licenses/by-sa/2.0/legalcode");
   });
@@ -115,6 +126,21 @@ describe("denylist", () => {
     expect(deniedBy({ texts: ["Adam Schuster, via Wikimedia Commons"] })).toEqual([]);
   });
 
+  it("refuses AP credited as photo, credit or source", () => {
+    for (const t of ["Photo: AP", "Credit: AP", "Source: AP", "photo AP"]) expect(deniedBy({ credits: [t] }), t).toContain("denied source: AP material");
+    expect(deniedBy({ credits: ["Apollo 11, NASA"] })).toEqual([]);
+  });
+
+  it("refuses networks and outlets by credit and by host, not when merely named in a title", () => {
+    for (const c of ["Al Jazeera", "BBC News", "CNN", "NBC News", "CBS News", "ABC News", "Fox News", "Sky News", "DW News", "France 24", "VOA", "Voice of America"]) {
+      expect(deniedBy({ credits: [`Photo: ${c}`] }), c).toContain("denied source: a news network or outlet material");
+    }
+    for (const u of ["https://www.aljazeera.com/x.jpg", "https://ichef.bbci.co.uk/x.jpg", "https://media.cnn.com/x.jpg", "https://www.dw.com/x", "https://www.france24.com/x", "https://www.voanews.com/x"]) {
+      expect(deniedBy({ urls: [u] }), u).not.toEqual([]);
+    }
+    expect(deniedBy({ texts: ["BBC Broadcasting House at night"], credits: ["Jane Roe, via Wikimedia Commons"] })).toEqual([]);
+  });
+
   it("refuses network logos and any other logo", () => {
     expect(deniedBy({ tags: ["CNN logos"] })).toContain("a logo is never used");
     expect(deniedBy({ texts: ["BBC News logo 2019"] })).toContain("a logo is never used");
@@ -127,5 +153,27 @@ describe("denylist", () => {
     expect(aiSignals(["Made with Midjourney v6"])).toHaveLength(1);
     expect(aiSignals(["trainedAlgorithmicMedia"])).toHaveLength(1);
     expect(aiSignals(["Punch card sorters", "Apollo 11", "NASA"])).toEqual([]);
+  });
+
+  it("finds the wider set of AI marks", () => {
+    for (const t of [
+      "Image generated with ChatGPT",
+      "Created using Gemini",
+      "made with Grok",
+      "Ideogram render",
+      "upscaled with AI",
+      "Colorized using AI",
+      "enhanced by artificial intelligence",
+      "AI-enhanced photograph",
+      "a deepfake of the minister",
+      "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+      "digitalsourcetype/compositeWithTrainedAlgorithmicMedia",
+    ]) {
+      expect(aiSignals([t]), t).toHaveLength(1);
+    }
+    expect(aiSignals([], { categories: ["Art by AI", "AI images of cats"] })).toHaveLength(2);
+    // ordinary words and programmes are not generators on their own
+    expect(aiSignals(["Omega Speedmaster in Apollo, Gemini and other space programs", "Firefly squid", "Magnetic flux ropes", "Said told reporters"])).toEqual([]);
+    expect(aiSignals([], { categories: ["Maine coons", "Aircraft"] })).toEqual([]);
   });
 });

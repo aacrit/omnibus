@@ -27,7 +27,8 @@ export function plain(text) {
   let t = String(text ?? "");
   t = t.replace(/<(div|span)[^>]*display:\s*none[^>]*>[\s\S]*?<\/\1>/gi, "");
   t = t.replace(/<[^>]+>/g, " ");
-  t = decodeEntities(t).replace(/\s+/g, " ").trim();
+  // Decode, then strip again: an encoded tag ("&lt;img onerror=...&gt;") must not survive as markup.
+  t = decodeEntities(t).replace(/<[^>]*>?/g, " ").replace(/[<>]/g, " ").replace(/\s+/g, " ").trim();
   t = t.replace(/\s+([,.;:)])/g, "$1").replace(/\(\s+/g, "(");
   const m = t.match(DOUBLED) ?? t.match(ANON_UNKNOWN);
   return m ? m[1] : t;
@@ -53,4 +54,10 @@ export function isoSecond(ts) {
 export function clip(s, n) {
   const t = String(s ?? "");
   return t.length > n ? `${t.slice(0, n - 3)}...` : t;
+}
+
+/** The latest four-digit year in any of the texts, or null. */
+export function latestYear(texts) {
+  const ys = texts.flatMap((t) => [...String(t ?? "").matchAll(/(?<!\d)(1[5-9]\d\d|20\d\d)(?!\d)/g)].map((m) => Number(m[1])));
+  return ys.length ? Math.max(...ys) : null;
 }

@@ -95,6 +95,28 @@ describe("Wikimedia Commons adapter", () => {
     expect(chk.reasons.every((x: string) => x.startsWith("AI-generated: "))).toBe(true);
   });
 
+  it("needs a US basis for PD-old: the file's latest year must be 95 years past", () => {
+    const json = structuredClone(fx("commons-pd-nasa.json").response);
+    const page = json.query.pages[0];
+    page.categories = [{ title: "Category:PD-old-70" }];
+    page.imageinfo[0].extmetadata.Categories.value = "PD-old-70";
+    expect(commons.parseInfo(json, { ref: "x", capturedAt: AT }).candidate.licence).toBeNull(); // dated 1969
+    page.imageinfo[0].extmetadata.DateTimeOriginal.value = "1890";
+    expect(commons.parseInfo(json, { ref: "x", capturedAt: AT }).candidate.licence).toBe("pd-age");
+    page.categories = [{ title: "Category:PD-old-assumed" }];
+    page.imageinfo[0].extmetadata.Categories.value = "PD-old-assumed";
+    page.imageinfo[0].extmetadata.DateTimeOriginal.value = "1890 (file-date: 2015-01-01)";
+    expect(commons.parseInfo(json, { ref: "x", capturedAt: AT }).candidate.licence).toBeNull();
+  });
+
+  it("refuses a file Commons marks trademarked or an insignia", () => {
+    const json = structuredClone(fx("commons-cc-by-2.0.json").response);
+    json.query.pages[0].imageinfo[0].extmetadata.Restrictions.value = "trademarked";
+    const c = commons.parseInfo(json, { ref: "x", capturedAt: AT }).candidate;
+    expect(checkCandidate({ ...c, kind: "still" }).reasons).toContain('Commons marks the file "trademarked", a restriction no licence lifts');
+    expect(commons.restrictionReasons("insignia|personality")).toHaveLength(1);
+  });
+
   it("reports a missing file as not found", () => {
     expect(commons.parseInfo(fx("commons-missing.json").response, { ref: "x", capturedAt: AT })).toEqual({ status: "not_found" });
   });
@@ -104,7 +126,8 @@ describe("Wikimedia Commons adapter", () => {
     json.query.pages[0].imageinfo[0].extmetadata.Artist.value = `<a href="x">${XSS}</a>`;
     const c = commons.parseInfo(json, { ref: "x", capturedAt: AT }).candidate;
     expect(c.credit).not.toMatch(/<img|onerror=alert\(1\)>/);
-    expect(plain(XSS)).toBe('">');
+    expect(plain(XSS)).toBe('"');
+    expect(plain("&lt;img src=x onerror=alert(1)&gt;Name")).toBe("Name");
   });
 });
 
@@ -162,6 +185,40 @@ describe("NASA Image and Video Library adapter", () => {
     expect(nasa.parseNasa(search, fx("nasa-asset-as11-40-5903.json").response, { ref: "as11-40-5903", capturedAt: AT }).candidate.licence).toBeNull();
   });
 
+  const parsed = (name: string, id: string) => nasa.parseNasa(fx(name).response, null, { ref: id, capturedAt: AT }).candidate;
+
+  it("fails partner and contractor credits recorded from the library: SpaceX, JPL-Caltech/MSSS, Boeing, ESA in a description credit", () => {
+    for (const [name, id, who] of [
+      ["nasa-search-spacex.json", "KSC-20200429-PH-SPX01_0001", /SpaceX/],
+      ["nasa-search-jpl-msss.json", "PIA25046", /JPL-Caltech\/MSSS/],
+      ["nasa-search-boeing.json", "KSC-20161017-PH_BOE01_0001", /Boeing/],
+      ["nasa-search-esa-in-description.json", "GSFC_20171208_Archive_e000982", /ESA\/Hubble/],
+    ] as const) {
+      const c = parsed(name, id);
+      expect(c.licence, name).toBeNull();
+      expect(c.licence_raw, name).toMatch(who);
+      expect(checkCandidate({ ...c, kind: "still", media_url: "https://images-assets.nasa.gov/x.jpg" }).ok, name).toBe(false);
+    }
+  });
+
+  it("passes a NASA staff photographer's credit", async () => {
+    const r = await nasa.lookup("NHQ202409270003", { http: fixtureHttp("nasa-search-nasa-staff.json", "nasa-asset-nasa-staff.json"), now });
+    expect(r.candidate).toMatchObject({ licence: "pd-us-federal", credit: "NASA/Keegan Barber" });
+  });
+
+  it("fails an ESA credit hidden in description_508 alone (hand-edited from the Apollo record)", () => {
+    const search = structuredClone(fx("nasa-search-as11-40-5903.json").response);
+    search.collection.items[0].data[0].description_508 = "A nebula. Image credit: ESA/Webb, NASA & CSA";
+    expect(nasa.parseNasa(search, null, { ref: "as11-40-5903", capturedAt: AT }).candidate.licence).toBeNull();
+  });
+
+  it("reads which credits are NASA's alone", () => {
+    for (const ok of ["NASA", "NASA/JSC", "NASA/Keegan Barber", "(NASA/Bill Ingalls)", "NASA/GSFC"]) expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    for (const no of ["NASA/JPL-Caltech", "NASA/JPL", "SpaceX", "Boeing", "ESA/Hubble & NASA", "NASA/JPL-Caltech/MSSS", "NASA/Johns Hopkins APL", "NASA, ESA and STScI", "NASA/Univ. of Arizona"]) {
+      expect(nasa.isNasaOnlyCredit(no), no).toBe(false);
+    }
+  });
+
   it("reports an id the search does not hold as not found", () => {
     expect(nasa.parseNasa({ collection: { items: [] } }, null, { ref: "zz", capturedAt: AT })).toEqual({ status: "not_found" });
   });
@@ -188,13 +245,47 @@ describe("Library of Congress adapter", () => {
     expect(r.candidate.licence_note).toMatch(/No known restrictions.*not a licence/);
   });
 
-  it("passes an item over 120 years old by age", () => {
+  const aged = (item: Record<string, unknown>) => {
     const json = structuredClone(fx("loc-item-2017762891.json").response);
     json.item.rights = [];
-    json.item.date = "1888";
-    expect(loc.parseLoc(json, { ref: "2017762891", capturedAt: AT }).candidate.licence).toBe("pd-age");
-    json.item.date = "1910";
+    json.item.dates = [];
+    json.item.contributor_names = [];
+    Object.assign(json.item, item);
+    return loc.parseLoc(json, { ref: "2017762891", capturedAt: AT }).candidate;
+  };
+
+  it("passes pd-age only on 120 years from creation with no author, or publication 95 years ago", () => {
+    const anon = aged({ date: "1888", created_published: ["1888."] });
+    expect(anon.licence).toBe("pd-age");
+    expect(anon.basis).toMatch(/Created by 1888 .* author unknown: more than 120 years from creation/);
+    expect(aged({ date: "1888", created_published: ["1888."], contributor_names: ["Doe, Jane, photographer"] }).licence).toBeNull();
+    const pub = aged({ date: "1925", created_published: ["New York : Harper, 1925."], contributor_names: ["Doe, Jane"] });
+    expect(pub.licence).toBe("pd-age");
+    expect(pub.basis).toMatch(/Published in 1925 .* more than 95 years ago/);
+    expect(aged({ date: "1910", created_published: ["1910."] }).licence).toBeNull();
+  });
+
+  it("judges a date range by its latest year", () => {
+    expect(aged({ date: "1880-1935", created_published: ["between 1880 and 1935."] }).licence).toBeNull();
+    expect(loc.latestYear(["1880-1935", "between 1880 and 1935"])).toBe(1935);
+  });
+
+  it("refuses pd-age when the rights text cautions", () => {
+    for (const r of ["Rights status not evaluated.", "This item may be protected by copyright.", "Publication may be restricted."]) {
+      const c = aged({ date: "1888", created_published: ["1888."], rights: [r] });
+      expect(c.licence, r).toBeNull();
+      expect(c.licence_note, r).toMatch(/the rights text says/);
+    }
+  });
+
+  it("needs public domain and a federal source in one sentence, with no caution beside it", () => {
+    const json = structuredClone(fx("loc-item-2017762891.json").response);
+    json.item.rights = ["Photographs by the Farm Security Administration. Some items are in the public domain."];
     expect(loc.parseLoc(json, { ref: "2017762891", capturedAt: AT }).candidate.licence).toBeNull();
+    json.item.rights = ["The Farm Security Administration negatives are in the public domain. Some prints may be protected by copyright."];
+    expect(loc.parseLoc(json, { ref: "2017762891", capturedAt: AT }).candidate.licence).toBeNull();
+    // the recorded FSA statement, with LoC's standard "Copyright and other Restrictions" link titles, passes
+    expect(loc.parseLoc(fx("loc-item-2017762891.json").response, { ref: "2017762891", capturedAt: AT }).candidate.licence).toBe("pd-us-federal");
   });
 });
 

@@ -130,11 +130,14 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       const fileProblems = [];
       if (c.sha1 && media.sha1 !== c.sha1) fileProblems.push(`downloaded file's sha1 ${media.sha1} differs from the source's ${c.sha1}`);
       if (c.bytes_expected && media.bytes !== c.bytes_expected) fileProblems.push(`downloaded ${media.bytes} bytes, the source states ${c.bytes_expected}`);
-      const entry = ledgerEntry({ request, candidate: c, tier: cand.tier, check, media, file, checkedBy, today });
+      // The file's own provenance marks (XMP DigitalSourceType, a C2PA label) join the AI check.
+      const scanned = { ...c, generator_tags: [...(c.generator_tags ?? []), ...(media.generator_tags ?? [])], file_scanned: true };
+      const fileCheck = checkCandidate(scanned);
+      const entry = ledgerEntry({ request, candidate: scanned, tier: cand.tier, check: fileCheck, media, file, checkedBy, today });
       const schemaProblems = validateLedger({ ...emptyLedger(ledger.issue), items: [entry] });
-      if (fileProblems.length || schemaProblems.length) {
+      if (fileProblems.length || schemaProblems.length || !fileCheck.ok) {
         rmSync(dest, { force: true });
-        refuse([...fileProblems, ...schemaProblems.map((p) => `ledger entry invalid: ${p}`)]);
+        refuse([...fileProblems, ...fileCheck.reasons, ...schemaProblems.map((p) => `ledger entry invalid: ${p}`)]);
         continue;
       }
       taken = { candidate: cand, entry };

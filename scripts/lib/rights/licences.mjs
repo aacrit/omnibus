@@ -27,6 +27,8 @@ export const ALLOWED_IDS = new Set([
 /** The credit the EU's reuse decision makes mandatory: "© European Union, 2026". */
 export const EU_CREDIT = /^© European Union, (19|20)\d\d\b/;
 
+const NC_ND = /(^|[^a-z])(by)?[-_ ]?(nc|nd)([^a-z]|$)|non[-_ ]?commercial|no[-_ ]?deriv|noderiv|bync|bynd/i;
+
 const CC_KIND_WORDS = [
   // longest first, so "by-nc-sa" is never read as "by"
   ["by-nc-nd", /\bby[- ]?nc[- ]?nd\b|attribution[- ]noncommercial[- ]no ?derivs?/i],
@@ -79,6 +81,9 @@ export function readLicence(raw) {
     }
   }
   if (kind === "by-nd-nc") kind = "by-nc-nd";
+  // A non-commercial or no-derivatives term in any spelling ("BYNC", "by_nc",
+  // "Non Commercial", "NoDerivatives") fails before the kind match can call it BY.
+  if (NC_ND.test(low)) kind = kind === "by" || kind === "by-sa" || !kind ? "nc-or-nd" : kind;
   const vm = url ? [null, url[2]] : low.match(/(?:^|[^\d.])(\d\.\d)(?![\d.])/);
   const version = vm ? vm[1] : null;
   const port = url?.[3] ?? low.match(/\d\.\d[- ]([a-z]{2,3})\b/)?.[1] ?? null;
@@ -108,7 +113,7 @@ export function licenceName(id) {
 }
 
 /** The licence's deed and legal text addresses, and what it lets us do, for the dispute packet. */
-export function licenceTerms(id) {
+export function licenceTerms(id, item = null) {
   const m = String(id).match(/^cc-(by|by-sa)-(\d\.\d)$/);
   if (m) {
     const deed = `https://creativecommons.org/licenses/${m[1]}/${m[2]}/`;
@@ -151,10 +156,11 @@ export function licenceTerms(id) {
     };
   }
   if (id === "pd-dedication") {
+    // No deed exists for a plain dedication: the item's own statement is the evidence.
     return {
       id,
       name: licenceName(id),
-      deed_url: "https://creativecommons.org/publicdomain/zero/1.0/",
+      deed_url: item?.licence_evidence?.url ?? null,
       legalcode_url: null,
       terms: "The author has released the work into the public domain by an explicit statement, quoted in the licence evidence.",
     };
@@ -175,48 +181,60 @@ export function licenceTerms(id) {
 // The denylist: sources and marks that fail whatever licence they claim.
 // ---------------------------------------------------------------------------
 
-/** Hosts whose material is never used (agency, stock, UN Web TV). Subdomains included. */
+/** Hosts whose material is never used (agencies, stock, networks and outlets, UN Web TV). Subdomains included. */
 export const DENIED_HOSTS = [
-  "apnews.com",
-  "ap.org",
-  "apimages.com",
-  "reuters.com",
-  "reutersconnect.com",
-  "gettyimages.com",
-  "gettyimages.co.uk",
-  "istockphoto.com",
-  "pexels.com",
-  "pixabay.com",
-  "webtv.un.org",
-  "media.un.org",
+  // agencies and stock
+  "apnews.com", "ap.org", "apimages.com", "reuters.com", "reutersconnect.com", "afp.com", "gettyimages.com",
+  "gettyimages.co.uk", "istockphoto.com", "shutterstock.com", "alamy.com", "pexels.com", "pixabay.com", "unsplash.com",
+  // networks and outlets: outlet photographs are never used (bible section f)
+  "aljazeera.com", "aljazeera.net", "bbc.co.uk", "bbc.com", "bbci.co.uk", "cnn.com", "nbcnews.com", "nbc.com",
+  "cbsnews.com", "cbs.com", "abcnews.go.com", "abc.net.au", "foxnews.com", "fox.com", "news.sky.com", "sky.com",
+  "dw.com", "france24.com", "voanews.com", "rferl.org", "euronews.com", "rt.com", "cgtn.com", "nytimes.com",
+  "washingtonpost.com", "theguardian.com", "msnbc.com", "npr.org", "pbs.org",
+  // UN Web TV
+  "webtv.un.org", "media.un.org",
 ];
 
-/** Names in a credit, author, title or description that mark agency or stock material. */
+/** Names in a credit, author, title or description that mark agency, stock or outlet material. */
 export const DENIED_NAMES = [
-  { name: "AP", re: /\bAssociated Press\b|\bAP (Photo|Images|Video)\b|\(AP\)|©\s*AP\b/i },
+  { name: "AP", re: /\bAssociated Press\b|\bAP (Photo|Images|Video)\b|\(AP\)|©\s*AP\b|\b(photo|credit|source|image|video)[:\s]+AP\b/i },
   { name: "Reuters", re: /\bReuters\b/i },
   { name: "Getty Images", re: /\bGetty\b|\biStock(photo)?\b/i },
   { name: "AFP", re: /\bAFP\b|Agence France[- ]Presse/i },
-  { name: "Pexels", re: /\bPexels\b/i },
-  { name: "Pixabay", re: /\bPixabay\b/i },
+  { name: "stock library", re: /\b(Shutterstock|Alamy|Unsplash|Pexels|Pixabay)\b/i },
   { name: "UN Web TV", re: /\bUN Web TV\b|\bwebtv\.un\.org\b/i },
+  {
+    name: "a news network or outlet",
+    creditOnly: true,
+    re: /\b(Al Jazeera|BBC|CNN|NBC( News)?|CBS( News)?|ABC News|Fox News|FOX|Sky News|Deutsche Welle|DW News|France ?24|Voice of America|VOA|Radio Free Europe|RFE\/RL|Euronews|RT|CGTN|MSNBC|NPR|PBS|New York Times|Washington Post|The Guardian)\b/,
+  },
 ];
 
 /** A logo (network logos and any other trademark artwork) is never a picture. */
 export const LOGO = /\blogo(s|type|types)?\b|\bwordmark\b/i;
 
-/** Signals that a picture was made by a generative model. */
+/** Signals that a picture was made or altered by a generative model. */
+// Names that mean a generator wherever they appear.
+const AI_TOOLS_ALONE =
+  "Stable Diffusion|SDXL|DALL[·.\\- ]?E|Midjourney|ChatGPT|Ideogram|Leonardo\\.?Ai|Craiyon|NovelAI|Bing Image Creator|Copilot Designer|Adobe Firefly|Google Imagen|OpenAI Sora|Runway Gen-?\\d|Topaz (Gigapixel|Photo AI|Video AI)|Remini|DeepAI|NightCafe|Dream ?Studio|Playground ?AI|Recraft|Meta AI|Grok Imagine|Gemini (Image|Nano Banana)|Nano Banana";
+// Names that are also ordinary words or programmes (Project Gemini, a flux tube): only after "generated by/with/using".
+const AI_TOOLS = `${AI_TOOLS_ALONE}|Firefly|Imagen|Flux|Sora|Runway|GPT-4o?|OpenAI|Gemini|Grok|Kling|Pika|Luma|Krea|Topaz|neural network|diffusion model|GAN\\b|machine learning`;
 export const AI_MARKS = [
   /\bAI[- ]generated\b/i,
   /\bAI[- ]assisted\b/i,
-  /\bgenerated (by|with|using) (an? )?(AI|artificial intelligence|Stable Diffusion|DALL[·.\- ]?E|Midjourney|Firefly|Imagen|Flux|Sora|Runway)\b/i,
-  /\b(Stable Diffusion|DALL[·.\- ]?E|Midjourney|Adobe Firefly|Bing Image Creator|Leonardo\.Ai|Craiyon|NovelAI)\b/i,
+  /\bAI[- ](created|made|art|image|enhanced|upscaled|colori[sz]ed|restored|edited)\b/i,
+  new RegExp(`\\b(generated|created|made|rendered|produced|imagined) (by|with|using|in|via) (an? |the )?(AI|artificial intelligence|${AI_TOOLS})`, "i"),
+  new RegExp(`\\b(${AI_TOOLS_ALONE})`, "i"),
+  /\b(upscal|colou?ri[sz]|enhanc|restor|interpolat)\w* (by|with|using) (an? )?(AI|artificial intelligence|machine learning|neural)/i,
+  /\bdeep ?fakes?\b/i,
   /\btext[- ]to[- ](image|video)\b/i,
   /\bPD[- ]algorithm\b/i,
-  /\bsynthetic (image|media|video)\b/i,
-  /\btrainedAlgorithmicMedia\b|\bcompositeSynthetic\b|\balgorithmicMedia\b/i,
+  /\bsynthetic (image|media|video|photo)/i,
+  // IPTC digital source types, matched anywhere (they arrive glued to namespaces: ".../trainedAlgorithmicMedia")
+  /trainedAlgorithmicMedia|compositeSynthetic|algorithmicMedia|compositeWithTrainedAlgorithmicMedia/i,
 ];
-
+/** In a category or tag, a bare "AI" is enough ("AI images", "Art by AI"). */
+const AI_WORD = /(^|[^A-Za-z])AI([^A-Za-z]|$)/;
 export function hostOf(url) {
   try {
     return new URL(url).hostname.toLowerCase();
@@ -231,15 +249,17 @@ export function hostMatches(host, list) {
 }
 
 /** Every reason a candidate's text fields put it on the denylist. */
-export function deniedBy({ urls = [], texts = [], tags = [] }) {
+export function deniedBy({ urls = [], texts = [], tags = [], credits = [] }) {
   const reasons = [];
   for (const u of urls) {
     const host = hostOf(u);
     if (host && hostMatches(host, DENIED_HOSTS)) reasons.push(`denied source host ${host}`);
   }
-  const joined = texts.filter(Boolean).map(String);
-  for (const { name, re } of DENIED_NAMES) {
-    if (joined.some((t) => re.test(t))) reasons.push(`denied source: ${name} material`);
+  const creditTexts = credits.filter(Boolean).map(String);
+  const joined = [...texts.filter(Boolean).map(String), ...creditTexts];
+  for (const { name, re, creditOnly } of DENIED_NAMES) {
+    // An outlet named in a title or description is a subject; named in a credit, it is the source.
+    if ((creditOnly ? creditTexts : joined).some((t) => re.test(t))) reasons.push(`denied source: ${name} material`);
   }
   for (const t of [...joined, ...tags.map(String)]) {
     if (LOGO.test(t)) {
@@ -251,9 +271,12 @@ export function deniedBy({ urls = [], texts = [], tags = [] }) {
 }
 
 /** Every AI signal found in the given text fields and tags (empty when none). */
-export function aiSignals(fields) {
+export function aiSignals(fields, { categories = [] } = {}) {
   const found = [];
-  for (const f of fields.filter(Boolean).map(String)) {
+  for (const c of categories.filter(Boolean).map(String)) {
+    if (AI_WORD.test(c)) found.push(c.length > 160 ? `${c.slice(0, 157)}...` : c);
+  }
+  for (const f of [...fields, ...categories].filter(Boolean).map(String)) {
     for (const re of AI_MARKS) {
       if (re.test(f)) {
         found.push(f.length > 160 ? `${f.slice(0, 157)}...` : f);
