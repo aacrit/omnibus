@@ -241,6 +241,60 @@ describe("normaliseWeek, schema 2 (printed editions)", () => {
     expect(out.lead.excluded_clusters).toEqual([{ cluster_id: CID, source_count: 9, member_count: 75, members_read: 3 }]);
   });
 
+  it("the claim starts at the first timeline entry printed as a day lead; boards, counts and terms come only from it", async () => {
+    // CID0 (context, 1 Nov, not a day lead) holds Fox's headline; CID (the 2 Nov day lead) is the claim.
+    const CID0 = "00000000-0000-4000-8000-000000000000";
+    const src = fakeSource({});
+    const base = src.weekly();
+    base.issue.cover_timelines[0].entries.unshift({ date_iso: "2026-11-01", title: "Context", source_count: 7, cluster_id: CID0 });
+    src.weekly = () => base;
+    const claimRows = src.deepdive(CID)!.rows;
+    src.deepdive = ((id: string) =>
+      id === CID0
+        ? { rows: [{ article: { title: "Fox context", url: "https://www.foxnews.com/a", published_at: "2026-11-01T08:00:00Z", source: { name: "Fox News" } } }], link: "dd0" }
+        : { rows: claimRows, link: "dd" }) as typeof src.deepdive;
+    // A second, untitled Fox member is the claim's own: the right rung is occupied by the claim but has no headline.
+    const rows = src.archive().rows.map((r) => (r.source_cluster_id === CID ? { ...r, members: [...r.members, { source_name: "Fox News", url: "https://www.foxnews.com/b", published_at: "2026-11-02T07:00:00Z" }] } : r));
+    src.archive = () => ({ rows, link: "archive" });
+    const out = await normaliseWeek(src, 99, { ...V2, claimTerms: ["Vance", "Iran"] });
+    expect(out.lead.records.map((r: { role: string }) => r.role)).toEqual(["context", "claim"]);
+    // Fox /a is first read in the context record, so the claim holds no Fox headline: right is untitled, named.
+    expect(out.lead.board.map((b: { rung: string }) => b.rung)).toEqual(["center-right"]);
+    expect(out.lead.board[0]).toMatchObject({ cluster_id: CID, record_date: "2026-11-02" });
+    expect(out.lead.board_untitled_rungs).toEqual(["right"]);
+    expect(out.lead.board_untitled_outlets).toEqual({ right: ["Fox News"] });
+    expect(out.lead.claim).toMatchObject({ from_record: 1, clusters: [CID], outlets: 2, articles: 2, titled: 1, unplaced: 0 }); // the Tribune link and Fox /b
+    expect(out.lead.claim.rung_counts).toEqual([0, 0, 0, 0, 1, 1, 0]);
+    expect(out.lead.claim.titled_by_rung).toEqual([0, 0, 0, 0, 1, 0, 0]);
+    expect(out.lead.claim.terms).toEqual([
+      { term: "Vance", titled: 1, by_rung: [0, 0, 0, 0, 1, 0, 0], unplaced: 0 },
+      { term: "Iran", titled: 0, by_rung: [0, 0, 0, 0, 0, 0, 0], unplaced: 0 },
+    ]);
+    // The lead's own counts still pool every record.
+    expect(out.lead.outlets).toBe(2);
+  });
+
+  it("with no timeline entry printed as a day lead, every entry is the claim", async () => {
+    const src = fakeSource({});
+    // CID2 leads the 2 Nov edition, so the timeline's one entry (CID) was never a day lead.
+    const rows = src.archive().rows.map((r) => (r.source_cluster_id === CID ? { ...r, edition_position: 3 } : r));
+    src.archive = () => ({ rows, link: "archive" });
+    const out = await normaliseWeek(src, 99, V2);
+    expect(out.lead.records.map((r: { role: string }) => r.role)).toEqual(["claim"]);
+    expect(out.lead.claim.from_record).toBe(0);
+  });
+
+  it("gives a ledger row with a provable publisher suffix a headline_shown, keeping headline verbatim", async () => {
+    const out = await normaliseWeek(fakeSource({}), 99, V2);
+    const row = out.lead.ledger.find((a: { headline: string | null }) => a.headline);
+    expect(row).toMatchObject({ headline: "Vance speaks - Chicago Tribune", headline_shown: "Vance speaks" });
+  });
+
+  it("refuses claim terms that are not single words, or at schema 1", async () => {
+    await expect(normaliseWeek(fakeSource({}), 99, { ...V2, claimTerms: ["a.*"] })).rejects.toThrow(/claimTerms/);
+    await expect(normaliseWeek(fakeSource({}), 99, { echo: "pending", claimTerms: ["Iran"] })).rejects.toThrow(/claimTerms needs schema 2/);
+  });
+
   it("refuses a source without archive.json", async () => {
     const src: Record<string, unknown> = fakeSource({});
     delete src.archive;

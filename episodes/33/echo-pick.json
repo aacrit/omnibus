@@ -236,7 +236,8 @@
       "Truman gave no reason tied to Korea when he withdrew; his 29 March words are used only for the withdrawal.",
       "The New Hampshire vote is a preference poll inside one party in one state, not a national election.",
       "Congress is not in the mechanism sentence: the 1952 House and Senate majorities were not read from a primary source in this session, and they were settled in the days after the vote.",
-      "No leader of the governing party names the war as the reason for the loss inside the horizon (the week's lead has one); none is held."
+      "No leader of the governing party names the war as the reason for the loss inside the horizon (the week's lead has one); none is held.",
+      "Truman's own address of 14 June 1951 says controls would be needed even if the fighting in Korea stopped tomorrow: the war is not, in his words, the only cause of the controls. The Echo reads that line (period_perspectives[0].counter)."
     ],
     "as_of": "1952-11-05T12:00:00-05:00",
     "as_of_basis": "The vote was cast on Tuesday 4 November 1952; the horizon is noon in Washington the next day. The result is known inside it from Stevenson's concession as the New York Times printed it that morning (src-stevenson-19521105), so the Echo may say who won the presidency and nothing more. Official counts (the electors' votes of December 1952, the Clerk's 1953 statistics) are later records and are never shown as known at the horizon. Truman's own statement of 5 November is not used: its hour is not shown.",
@@ -258,12 +259,18 @@
       "quote_sha256": "7759abd732b7f21c3723494eae12afeb1e3bd9cbdbacfdad67389d2b53f1a4b8",
       "also": {
         "quote": "Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea.",
-        "quote_sha256": "c0ef2611a00aee866621a50276193995f1da72bf7b173658f196badb2e86366a",
-        "note": "the line 'We would need controls even if the fighting in Korea stopped tomorrow.' was dropped: it argues against the link"
+        "quote_sha256": "c0ef2611a00aee866621a50276193995f1da72bf7b173658f196badb2e86366a"
       },
-      "linked_by_speaker": "In this address Truman sets price controls beside the mobilisation and the fighting in Korea himself ('Now we are in a great mobilization effort. ... Now our men are fighting in Korea.').",
+      "linked_by_speaker": "In this address Truman sets price controls beside the mobilisation and the fighting in Korea himself ('Now we are in a great mobilization effort. ... Now our men are fighting in Korea.'), and in the same address says the controls would be needed even if the fighting stopped (counter).",
       "source": "src-truman-19510614",
-      "rights": "public (a presidential address, a federal work)"
+      "rights": "public (a presidential address, a federal work)",
+      "counter": {
+        "quote": "Some people have the idea that if the fighting stopped in Korea we could cut down our defense effort enough to do away with the danger of inflation. That is not true. We would need controls even if the fighting in Korea stopped tomorrow. The threat of Communist aggression is worldwide, and must be met with worldwide defenses.",
+        "quote_sha256": "ee63c06f3dd13fc5b0194e62c19ce26e44dcf21fe92e0547a80d730bbf9c2127",
+        "source": "src-truman-19510614",
+        "read_from": "the American Presidency Project page, sha256 5e4529bc... (the same file as src-truman-19510614), re-read on 2026-11-12; four whole sentences, contiguous",
+        "note": "The speaker's own counter-view: in the same address Truman says controls would be needed even if the fighting stopped. It is read by the reader right after the two lines above (rundown echo-x3), never dropped. The review's text ended at 'worldwide'; the printed sentence continues ', and must be met with worldwide defenses.', so the whole sentence is kept."
+      }
     },
     {
       "who": "Harry S. Truman, President",
@@ -294,7 +301,17 @@
       ],
       "linked_by_speaker": "Eisenhower makes Korea the issue of the election himself in this address.",
       "source": "src-eisenhower-19521024 (transcribed from the scan)",
-      "rights": "a campaign text, quoted only"
+      "rights": "a campaign text, quoted only",
+      "cut": {
+        "passages": 3,
+        "contiguous": false,
+        "locators": "page 1 (the first two lines) and page 5 ('I shall go to Korea.'), per the analyst's transcription",
+        "shown_as": "the reader pauses between passages; any typeset or subtitle form shows the gap with an ellipsis in brackets, '[...]'"
+      },
+      "verify": {
+        "status": "required before E5",
+        "how": "read each line against the page images of the scan (no text layer) and record page and line; a mismatch replaces the line, never the scan"
+      }
     },
     {
       "who": "Adlai E. Stevenson, the governing party's nominee",
@@ -335,7 +352,8 @@
         "Truman": 15927
       },
       "source": "src-nh-manual-1953",
-      "show": "a count card from the record; the Manual's page is printed later and is not shown as of March 1952"
+      "show": "a count card from the record, its date line disclosing the 1953 printing; the Manual's page itself is not shown",
+      "basis": "The count is the State's canvass as printed in the Manual for the General Court, No. 33 (1953), p. 426; no March 1952 printing of it is held. The count card says so on its date line ('11 MAR 1952 · STATE CANVASS, PRINTED 1953') and the sources page repeats it."
     }
   ],
   "items": [
@@ -610,8 +628,32 @@
       "Congo",
       "Ebola",
       "Antigua",
-      "GOP"
-    ]
+      "GOP",
+      "JD Vance",
+      "Donald Trump",
+      "Pete Hegseth",
+      "Stephen Miller",
+      "Susie Wiles",
+      "Wiles",
+      "Elissa Slotkin",
+      "Slotkin",
+      "Zohran Mamdani",
+      "Mamdani",
+      "Susan Collins",
+      "Troy Jackson",
+      "King Charles",
+      "Charles III",
+      "Gadi Eisenkot",
+      "Eisenkot",
+      "Antonio Tajani",
+      "Tajani",
+      "Tehran",
+      "Krakow",
+      "Frankfurt",
+      "Riyadh",
+      "St Kitts"
+    ],
+    "word_rule": "Bare surnames that are also 1952 words or names are flagged only in full: 'Troy Jackson' (the Jefferson-Jackson Day Dinner is the 1952 event's own name), 'Susan Collins'; 'Miller', 'Wiles', 'Slotkin', 'Mamdani', 'Eisenkot' and 'Tajani' are flagged bare."
   },
   "picked_after_week_known": true,
   "picked_after_week_known_statement": "This Echo was picked on 2026-11-12, after week 33's lead was known, because the pre-registered echo bank (24 echoes tagged by mechanism before any week's news, bible section k) has not yet been built.",
