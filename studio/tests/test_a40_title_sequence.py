@@ -1,4 +1,7 @@
-# Transplanted from document@b62c4fa:studio/tests/test_a40_title_sequence.py (lift)
+# Transplanted from document@b62c4fa:studio/tests/test_a40_title_sequence.py (tweak:
+# test_a40_the_lockup_ink_is_the_house_ink_token reads studio/house/document/tokens.css
+# (studio/engine/house.HOUSE_ROOT) instead of design/tokens.css, never merged into omnibus's own; coordinator
+# ruling 2026-11-12. Every other case is unchanged.)
 """A40, the series titles (void document · As It Was): a pre-rendered master played as it is, right after the cold
 open and before Part 1, its own marks burned in and checked on its pixels, its provenance declared and free of AI,
 its format matched, its record beat this film's own record; the main-title theme's slot under it. Small synthetic
@@ -18,6 +21,7 @@ from PIL import Image, ImageDraw, ImageOps
 
 from conftest import make_film, tone
 from studio.engine import description as D
+from studio.engine import house as HOUSE
 from studio.engine import journal as J
 from studio.engine import motion as M
 from studio.engine import render as R
@@ -1106,7 +1110,7 @@ def test_a40_lockup_card_without_paper_is_the_v11_card_byte_for_byte():
 
 
 def test_a40_the_lockup_ink_is_the_house_ink_token():
-    css = Path(M.__file__).resolve().parents[2] / "design" / "tokens.css"
+    css = HOUSE.HOUSE_ROOT / "tokens.css"
     hexv = css.read_text(encoding="utf-8").split("--doc-ink:")[1].split(";")[0].strip()
     assert M.PALETTE["ink"] == tuple(int(hexv[i:i + 2], 16) for i in (1, 3, 5))
 

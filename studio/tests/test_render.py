@@ -1,4 +1,7 @@
-# Transplanted from document@b62c4fa:studio/tests/test_render.py (lift)
+# Transplanted from document@b62c4fa:studio/tests/test_render.py (tweak:
+# test_brand_kit_reexports_the_engine_motion reads studio/house/document/brand-kit/motion.py
+# (studio/engine/house.HOUSE_ROOT) instead of design/brand-kit/motion.py, since that folder is document's own
+# and was never transplanted whole; coordinator ruling 2026-11-12. Every other case is unchanged.)
 import json
 import subprocess
 import sys
@@ -8,6 +11,7 @@ import numpy as np
 import pytest
 from PIL import Image
 
+from studio.engine import house as HOUSE
 from studio.engine import journal as J
 from studio.engine import motion as M
 from studio.engine import render as R
@@ -595,13 +599,13 @@ def test_subtitles_burn_only_behind_the_flag(film, plan):
 
 def test_brand_kit_reexports_the_engine_motion():
     import importlib.util
-    spec = importlib.util.spec_from_file_location("kit_motion", ROOT / "design" / "brand-kit" / "motion.py")
+    spec = importlib.util.spec_from_file_location("kit_motion", HOUSE.HOUSE_ROOT / "brand-kit" / "motion.py")
     kit = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(kit)
     for name in ("rostrum_move", "lower_third_frame", "mark_plate_frame", "chapter_card_frame", "silent_card_frame",
                  "title_card_frame", "credits_frame", "watermark", "Spring", "PALETTE", "WM", "LT", "LABEL"):
         assert getattr(kit, name) is getattr(M, name), name
-    r = subprocess.run([sys.executable, str(ROOT / "design" / "brand-kit" / "motion.py"), "--table"], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(HOUSE.HOUSE_ROOT / "brand-kit" / "motion.py"), "--table"], capture_output=True, text=True)
     assert r.returncode == 0 and "| `stamp` |" in r.stdout
 
 

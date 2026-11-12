@@ -1,4 +1,6 @@
-# Transplanted from document@b62c4fa:studio/tests/test_cine11_levels.py (lift)
+# Transplanted from document@b62c4fa:studio/tests/test_cine11_levels.py (tweak:
+# test_the_copy_claims_exactly_what_the_map_does no longer reads web/src/film-data.ts, document's own Sources
+# page copy, which omnibus has no equivalent of; every other case, and the rest of that test, is unchanged.)
 """Cinematography ticket 11, GRAMMAR A46 (founder ruling 4, 2026-10-17: "Black
 floor: AUTOMATED ... every still over the threshold (p2 > 24). White, gamma and
 hue stay untouched. Log each applied floor in the ledger as non-material ...
@@ -182,12 +184,12 @@ def test_a_pale_scan_past_the_gain_cap_is_shown_as_held(black, floored):
 
 
 def test_the_copy_claims_exactly_what_the_map_does():
-    """Every claim in the record's WHAT and the Sources page's copy, paired with the math (like the privacy page)."""
-    web = (Path(R.__file__).resolve().parents[2] / "web" / "src" / "film-data.ts").read_text(encoding="utf-8")
-    page = web.split("export const BLACK_FLOOR_COPY =", 1)[1].split('"')[1]
+    """Every claim in the record's WHAT, paired with the math (like the privacy page). Document's own Sources
+    page copy (web/src/film-data.ts BLACK_FLOOR_COPY) was checked here too; omnibus has no such page yet, so
+    that half is dropped (docs/TRANSPLANT-document-engine.md)."""
     claims = ("grey floor taken down to near black", "one straight-line level", "the same on every colour",
               "raises contrast and colour strength by the same small factor", "the white point kept")
-    for text in (LV.WHAT, page):
+    for text in (LV.WHAT,):
         for c in claims:
             assert c in text, (c, text)
         for word in ("hue", "untouched", "flat", "unchanged", "gamma"):

@@ -27,7 +27,7 @@ instead. JSON and other non-commentable files carry their provenance only in thi
 | `studio/engine/kokoro_worker.py` | lift | Runs under a separate Kokoro venv (`studio/requirements-tts.txt`, left behind, a later ticket); the module itself imports cleanly and is kept so the module name is stable when that ticket lands. | same |
 | `studio/engine/layers.py` | lift | `--layers` compositing. | same |
 | `studio/engine/levels.py` | lift | Loudness measurement and gain. | same |
-| `studio/engine/maps.py` | lift | Natural Earth maps (named by `reports/briefs/omnibus-engine-plan.md` as the E6 graphics source). | same |
+| `studio/engine/maps.py` | **tweak** | Natural Earth maps (named by `reports/briefs/omnibus-engine-plan.md` as the E6 graphics source). `TOKENS` now reads `studio/house/document/tokens.css` via `studio/engine/house.HOUSE_ROOT` instead of `design/tokens.css` directly (one line; see below). Everything else unchanged. | same |
 | `studio/engine/motion.py` | lift | Every graphic draw (cards, lockup, marks). | same |
 | `studio/engine/moves.py` | lift | Camera move primitives. | same |
 | `studio/engine/narrator.py` | lift | Kokoro voice/lock lookups; reads `studio/kokoro.lock.json`. | same |
@@ -61,6 +61,11 @@ yet).
 | `studio/tests/test_films.py` | **tweak** | One case, `test_e3_the_poster_reads_the_films_rule`, calls `publish.poster_record`/`poster_rule`; removed along with the now-unused `from studio.engine import publish as P` import. Every other case (A21 imagery rule, A25 settings/shortfalls, A26 archival-soundtrack spans) is unchanged. | same |
 | `studio/tests/test_placeholder_media.py` | **tweak** | One case, `test_publish_refuses_a_placeholder_poster`, imports `publish` locally; removed. Every other placeholder-media case (GRAMMAR 11.1) is unchanged. | same |
 | `studio/tests/test_narrator.py` | **tweak** | One case, `test_the_requirements_are_pinned_with_hashes`, reads `studio/requirements-tts.txt`, left behind; removed. Every other narrator case is unchanged. | same |
+| `studio/tests/test_e15.py` | **tweak** | Four "kit" cases read `studio/house/document/brand-kit/*` via `HOUSE_ROOT` instead of `design/brand-kit/*` (above). Every other case is unchanged. | same |
+| `studio/tests/test_render.py` | **tweak** | `test_brand_kit_reexports_the_engine_motion` reads `studio/house/document/brand-kit/motion.py` via `HOUSE_ROOT`. Every other case is unchanged. | same |
+| `studio/tests/test_a40_title_sequence.py` | **tweak** | `test_a40_the_lockup_ink_is_the_house_ink_token` reads `studio/house/document/tokens.css` via `HOUSE_ROOT`. Every other case is unchanged. | same |
+| `studio/tests/test_a41_tour.py` | **tweak** | One case, `test_the_js_tour_helper_agrees_with_the_engine`, cross-checks `tour.py` against `studio/tour.mjs`, left behind; removed. Every other case is unchanged. | same |
+| `studio/tests/test_cine11_levels.py` | **tweak** | `test_the_copy_claims_exactly_what_the_map_does` no longer reads `web/src/film-data.ts` (document's own Sources page copy, no omnibus equivalent); the `LV.WHAT` claims check and the real black-floor math it shares the function with are unchanged. | same |
 | `pytest.ini` (repo root) | lift | Found by running the suite: `test_temp_roots.py` reads it (`tmp_path_retention_policy`), and `conftest.py`'s own temp-root pruning assumes it. Not under `studio/`, so not named in the ticket. | `pytest.ini` |
 
 ## Support files the engine reads at import or run time
@@ -80,28 +85,25 @@ yet).
 | `studio/tour.mjs` | leave behind | The JS twin of `tour.py` for a web viewer that doesn't exist yet; `tour.py`'s own comments cite it only as a cross-check, never import it. | none |
 | `studio/requirements-studio.txt` | net-new | Document's gate pins these same versions inline in `.github/workflows/gate.yml`; omnibus keeps them in a file so `npm run gate` and CI install from one place. | `studio/requirements-studio.txt` |
 | `package.json` devDependencies `@fontsource/fraunces`, `@fontsource/jetbrains-mono` (5.3.0, `@fontsource/inter` was already present) | net-new (dependency, not a lifted module) | Found by running the suite, not named in the ticket: `motion.py` (lines 68-81) loads the engine's card and title typefaces by a hard-coded path into `node_modules/@fontsource/{fraunces,inter,jetbrains-mono}`, document's own three faces, regardless of what a product's own site uses. Without them every card-drawing test and the skeleton's own render failed with `OSError: cannot open resource`. omnibus's site already uses Playfair Display/IBM Plex Mono/Barlow Condensed (`design/tokens.css`); these three are additional, used only by the Python engine, never by `web/`. See `episodes/skeleton/census.md`. | `package.json` |
+| `design/tokens.css` | lift, namespaced | Found on CI (PR omnibus#10): `maps.py`'s palette reads named custom properties beyond the base Ink & Momentum set (`--color-letterbox`, `--mark-text`, `--mark-generated`, `--color-generated-text`, `--scrim-strong`, `--color-border`, `--color-cream-faint`). Carried unchanged under `studio/house/document/`, read through one constant (`studio/engine/house.HOUSE_ROOT`), never merged into omnibus's own `design/tokens.css` (docs/DECISIONS.md, 2026-11-12). | `studio/house/document/tokens.css` |
+| `design/brand-kit/{motion.py,watermark.svg,logomark.svg,watermark-youtube.svg,wordmark.svg}` | lift, namespaced (`motion.py` also tweaked: `parents[2]` to `parents[4]`, the new depth) | Same reason, found the same way: three tests (`test_e15.py`, `test_render.py`) load these files directly to check the engine's watermark/logomark/lockup against the authored brand-kit assets. `design/brand-kit/BRAND-KIT.md` and `preview.html` are not opened by any code or test (only cited in comments) and are not carried over. | `studio/house/document/brand-kit/*` |
+| `studio/engine/house.py` | net-new | One constant, `HOUSE_ROOT`, so every lifted module or test that needs a document design file reads it from the same place. | `studio/engine/house.py` |
 
 ## Gate
 
-`npm run gate` runs `studio-test` (`pytest studio/tests -q -p no:cacheprovider`) right after the JS `test` step,
-mirroring document's own gate order; see `scripts/gate.mjs` and `.github/workflows/gate.yml`. No test is skipped:
-the four files above were trimmed before the transplant commit, per the transplant skill's rule 5, rather than
-carried in and marked `skip`.
+`npm run gate`'s `studio-test` step runs a **fast subset** of the lifted suite (aswas, clips, pages,
+disclosure, counts, maps: 597 cases, ~90s measured locally), chosen because it needs no real render or audio
+measurement; render core, layers/stems, narrator and the titles/score audio checks are slow (`test_render.py`
+alone: ~4 min locally) and run only in `.github/workflows/studio-full.yml` (every PR, but only executes when
+`studio/**` changed; always on push to `main` and nightly). See `docs/DECISIONS.md` (2026-11-12) for the exact
+split and the measurements behind it. No test is skipped: the seven files above were trimmed before the
+transplant commit, per the transplant skill's rule 5, rather than carried in and marked `skip`.
 
-**Known, undispositioned gap: ~87 of the suite's ~2,560 cases fail on a missing design token, not an engine
-bug.** `studio/engine/maps.py`'s `palette()` (`maps.py:136-158`) and its `ROLES` table (`maps.py:134-146`) read
-named custom properties from `design/tokens.css` that go beyond the seven base Ink & Momentum tokens:
-`--color-letterbox`, `--color-border`, `--color-cream-faint`, `--mark-text`, `--mark-generated`,
-`--color-generated-text`, `--scrim-strong`. These are document's own extension for its archival-footage mark
-system (A42); omnibus's `design/tokens.css` does not define them (it was never asked to), so `resolve()` refuses
-with `token --color-letterbox is not in tokens.css` (`maps.py:116`) before a single map or count card can draw.
-That one refusal cascades through `test_maps.py`, `test_a56_map_credit.py`, `test_counts.py` and part of
-`test_e15.py`'s brand-kit checks (the last few of those also compare against `design/brand-kit/*.svg`, a file
-set that is document's own and was not transplanted). This is not fixed in this PR: choosing omnibus's own
-values for these roles is a design decision (`ink-and-momentum`'s "earned-accent" re-expression), not a
-mechanical transplant step, and none of `studio/engine/*` changed to produce this finding. It belongs to a
-Studio/Graphics ticket (the plan's E6) that gives omnibus its own extended token set or gives `maps.py`/`motion.py`
-a fallback. The gate's evidence block in this ticket's PR states the exact pass/fail counts.
+**Resolved in this PR (was a gap in PR omnibus#10):** `studio/engine/maps.py`'s `palette()` and three tests
+read document's own `design/tokens.css` and `design/brand-kit/*`, which were not in omnibus's repo. Fixed by
+lifting those files unchanged into `studio/house/document/` (above), read through one constant
+(`studio/engine/house.HOUSE_ROOT`); omnibus's own `design/tokens.css` is never touched. The full suite now
+passes; see this ticket's PR evidence for the exact count.
 
 ## Dead claims refused
 

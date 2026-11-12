@@ -1,4 +1,6 @@
-# Transplanted from document@b62c4fa:studio/tests/test_a41_tour.py (lift)
+# Transplanted from document@b62c4fa:studio/tests/test_a41_tour.py (tweak:
+# test_the_js_tour_helper_agrees_with_the_engine removed below, since studio/tour.mjs is left behind per
+# docs/TRANSPLANT-document-engine.md; every other case is unchanged.)
 """A41 TOUR (founder, 2026-10-17): every still fills 16:9 on every frame and
 the camera tours it along a path of stops timed to the narration. Pure
 geometry on tiny synthetic sizes first, then the plan-time lints on the
@@ -196,33 +198,9 @@ def test_the_tour_resolver_visits_each_region_when_it_is_named():
     assert T.tour_stops(roi, [], 9.0, 8.0, LANDSCAPE43, A, 2.0) is None      # nothing named: the default tour
 
 
-def test_the_js_tour_helper_agrees_with_the_engine():
-    node = shutil.which("node")
-    if node is None:
-        pytest.fail("node is needed for the tour helper (the builders run on it)")
-    item = {"roi": [{"name": "the mill", "x": 0.6, "y": 0.5, "w": 0.2, "h": 0.2},
-                    {"name": "road", "cue": "Bengal", "x": 0.1, "y": 0.1, "w": 0.3, "h": 0.3}]}
-    words = T.shot_words([LINE], 9.0, 17.0)
-    js = ("import { tour } from " + json.dumps((ROOT / "studio" / "tour.mjs").as_uri()) + ";"
-          f"const item = {json.dumps(item)};"
-          f"const words = {json.dumps([{'w': w['w'], 't': w['t']} for w in words])};"
-          f"console.log(JSON.stringify([tour(item, {{narration: {json.dumps(LINE['text'])}}}),"
-          " tour(item, {words, start_s: 9}), tour(item), tour(item, {narration: 'nothing here'}),"
-          " tour(item, {words, start_s: 9, dur_s: 3.0})]));")
-    out = subprocess.run([node, "--input-type=module", "-e", js], capture_output=True, text=True, check=True).stdout
-    by_cue, timed, bare, none, short = json.loads(out)
-    # a region named too late to reach is left out, in both
-    py_short = T.tour_stops(item["roi"], words, 9.0, 3.0, LANDSCAPE43, A, 2.0)
-    assert [s.get("roi") for s in short] == [s.get("roi") for s in py_short] == [None, "road"]
-    assert by_cue == [{"t": 0, "z": 1, "x": 0.5, "y": 0.5}, {"at": "Bengal", "roi": "road"}, {"at": "the mill", "roi": "the mill"}]
-    assert bare == "tour" and none is None
-    py = T.tour_stops(item["roi"], words, 9.0, 8.0, LANDSCAPE43, A, 2.0)
-    roi = {r["name"]: r for r in item["roi"]}
-    for path in (by_cue, timed):
-        stops, probs = T.parse_path(path, 8.0, words, 9.0, roi, LANDSCAPE43, A, 2.0)
-        assert not probs
-        assert [(round(s["t"], 2), round(s["x"], 4), round(s["y"], 4), round(s["z"], 4)) for s in stops] == \
-               [(round(s["t"], 2), round(s["x"], 4), round(s["y"], 4), round(s["z"], 4)) for s in py]
+# test_the_js_tour_helper_agrees_with_the_engine removed here: it cross-checked T.tour_stops against
+# studio/tour.mjs, the JS twin left behind per docs/TRANSPLANT-document-engine.md (no web viewer uses it yet).
+# Carried back if that file lands.
 
 
 # --------------------------------------------------------------------------

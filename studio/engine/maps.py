@@ -1,4 +1,6 @@
-# Transplanted from document@b62c4fa:studio/engine/maps.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/maps.py (tweak: TOKENS now reads studio/house/document/
+# (studio/engine/house.py) instead of design/tokens.css, so document's own tokens never merge into omnibus's;
+# coordinator ruling 2026-11-12. Nothing else in this file changed.)
 """void document: the studio's map engine. A map spec (JSON) becomes one
 1920x1080 DRAWN frame in the house style, deterministically.
 
@@ -41,10 +43,11 @@ import numpy as np
 from PIL import Image, ImageChops, ImageDraw
 
 from . import disclosure as DS
+from . import house as HOUSE
 from . import motion as M
 
 ROOT = Path(__file__).resolve().parents[2]
-TOKENS = ROOT / "design" / "tokens.css"
+TOKENS = HOUSE.HOUSE_ROOT / "tokens.css"
 W, H = 1920, 1080
 SS = 2  # supersampling factor
 

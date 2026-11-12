@@ -1,0 +1,55 @@
+name: studio-full
+
+# The per-commit `gate` job only runs a fast subset of the lifted engine's suite (scripts/gate.mjs: render core,
+# layers/stems, narrator, aswas, clips, pages, counts, disclosure, score checks, titles, maps), to keep the
+# per-commit gate under its 3-minute budget (coordinator ruling 2026-11-12, after PR omnibus#10's gate failed).
+# This workflow runs the WHOLE lifted suite (studio/tests, about 2,560 cases): on every pull request (so the
+# check always reports, satisfying branch protection even for a PR that never touches studio/**) but only
+# executes pytest when studio/** changed or on the nightly schedule; otherwise it reports success without
+# running it. No advisory escape hatch of any kind (rules 1, 14): a run that executes pytest fails the job on
+# any failing or erroring test.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 7 * * *"
+
+jobs:
+  studio-full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: does this PR touch studio/**?
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only "origin/${{ github.event.pull_request.base.ref }}"...HEAD | grep -q '^studio/'; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.changed.outputs.run == 'true'
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        if: steps.changed.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+        if: steps.changed.outputs.run == 'true'
+      - run: python -m pip install -r studio/requirements-studio.txt
+        if: steps.changed.outputs.run == 'true'
+      # npm install, not npm ci: the engine's card-drawing tests need the @fontsource packages under
+      # node_modules (studio/engine/motion.py), the same install the per-commit gate already runs.
+      - run: npm install
+        if: steps.changed.outputs.run == 'true'
+      - run: python -m pytest studio/tests -q -p no:cacheprovider
+        if: steps.changed.outputs.run == 'true'
+      - run: echo "studio/** unchanged on this PR; the full suite runs on push to main and nightly instead"
+        if: steps.changed.outputs.run == 'false'

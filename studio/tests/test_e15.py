@@ -1,4 +1,7 @@
-# Transplanted from document@b62c4fa:studio/tests/test_e15.py (lift)
+# Transplanted from document@b62c4fa:studio/tests/test_e15.py (tweak: the four "kit" checks below read
+# studio/house/document/brand-kit/* (studio/engine/house.HOUSE_ROOT) instead of design/brand-kit/*, since that
+# folder is document's own and was never transplanted whole; coordinator ruling 2026-11-12. Every other case is
+# unchanged.)
 """E15 (brand audit of film 2, "Nought"): cards never cut their text, dips hold
 black for at least 2 frames, lower thirds stay up long enough to read, the
 credits print a year once, a source line takes no comma after "?" or "!", the
@@ -18,6 +21,7 @@ import pytest
 from PIL import Image, ImageDraw
 
 from conftest import ROOT, make_film
+from studio.engine import house as HOUSE
 from studio.engine import journal as J
 from studio.engine import maps as MP
 from studio.engine import motion as M
@@ -363,7 +367,7 @@ def test_the_kit_watermark_svg_is_the_engines_watermark(grey):
     frame = M.watermark(Image.new("RGB", (W, H), (grey,) * 3), 60.0, start=0.0)
     x, y = int(round(L.W - L.w(M.WM["right"]) - box)), int(round(L.h(M.WM["top"])))
     engine = np.asarray(frame.convert("RGB"), dtype=int)[y:y + box, x:x + box]
-    kit = _over(rasterise_svg(ROOT / "design" / "brand-kit" / "watermark.svg", box), grey)
+    kit = _over(rasterise_svg(HOUSE.HOUSE_ROOT / "brand-kit" / "watermark.svg", box), grey)
     diff = np.abs(engine - kit)
     assert diff.mean() < 1.5 and np.percentile(diff, 99) <= 24, (diff.mean(), np.percentile(diff, 99), diff.max())
     # the tolerance is antialiasing only: the G2 values (opacity 0.6, halo 0.35) fail it
@@ -380,7 +384,7 @@ def test_the_kit_watermark_halo_is_the_engines_halo(monkeypatch):
     L = M.Layout(W, H)
     box = L.px(M.WM["box"])
     x, y = int(round(L.W - L.w(M.WM["right"]) - box)), int(round(L.h(M.WM["top"])))
-    kit = _over(rasterise_svg(ROOT / "design" / "brand-kit" / "watermark.svg", box), grey)
+    kit = _over(rasterise_svg(HOUSE.HOUSE_ROOT / "brand-kit" / "watermark.svg", box), grey)
 
     def engine():
         f = M.watermark(Image.new("RGB", (W, H), (grey,) * 3), 60.0, start=0.0)
@@ -397,7 +401,7 @@ def test_the_kit_logomark_svg_is_the_engines_logomark():
     # compared large, where the two antialiasing filters (Lanczos in the engine, a box here) differ least
     for px in (192, 384):
         engine = _over(M.draw_logomark(px, halo=0.0), 0)
-        kit = _over(rasterise_svg(ROOT / "design" / "brand-kit" / "logomark.svg", px), 0)
+        kit = _over(rasterise_svg(HOUSE.HOUSE_ROOT / "brand-kit" / "logomark.svg", px), 0)
         diff = np.abs(engine - kit)
         assert diff.mean() < 1.5, (px, diff.mean(), np.percentile(diff, 99))
         moved = _over(M.draw_logomark(px, halo=0.0, spread=0.01), 0)          # corners 1% of the box out of place are caught
@@ -405,14 +409,14 @@ def test_the_kit_logomark_svg_is_the_engines_logomark():
 
 
 def test_the_kit_motion_is_a_pure_reexport_of_the_engine():
-    spec = importlib.util.spec_from_file_location("kit_motion_e15", ROOT / "design" / "brand-kit" / "motion.py")
+    spec = importlib.util.spec_from_file_location("kit_motion_e15", HOUSE.HOUSE_ROOT / "brand-kit" / "motion.py")
     kit = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(kit)
     for name in ("WM", "LT", "LABEL", "SILENT", "LOGOMARK_CORNERS", "LOGOMARK_RING", "LOGOMARK_EMBER", "LOGOMARK_STROKE",
                  "draw_logomark", "watermark", "dip_level", "card_layout", "lower_third_layout", "PRESETS"):
         assert getattr(kit, name) is getattr(M, name), name
     # the kit file defines nothing of its own: imports, its root path and the CLI guard only
-    tree = ast.parse((ROOT / "design" / "brand-kit" / "motion.py").read_text(encoding="utf-8"))
+    tree = ast.parse((HOUSE.HOUSE_ROOT / "brand-kit" / "motion.py").read_text(encoding="utf-8"))
     own = [n for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef, ast.AsyncFunctionDef))]
     assigned = [t.id for n in tree.body if isinstance(n, ast.Assign) for t in n.targets if isinstance(t, ast.Name)]
     assert not own and assigned == ["_ROOT"]

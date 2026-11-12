@@ -60,16 +60,17 @@ satisfied.
 | **Parts count** | checked `rulebook.py`, `render.py`, `policy.py` for a minimum/maximum part count | **No rule found.** Nothing in the transplanted engine enforces a number of chapter parts; `reports/briefs/omnibus-engine-plan.md`'s "parts 4 to 6" reads as an editorial expectation (GRAMMAR.md, not lifted here), not a lint. This skeleton's 5 chapters plus a title and a credits part (7 total) built and rendered without any part-count complaint. | Nothing for the engine; if a part-count rule is wanted, it would be net-new, not a tweak. |
 | **Engine-private keys (`_` prefix)** | `render.py:2914-2927` | **No.** None of this skeleton's own fields collide; noted because it is the same lint family as the others above and was exercised incidentally. | Nothing. |
 
-## One more, found by the lifted suite rather than this skeleton
+## One more, found by the lifted suite rather than this skeleton (now fixed)
 
 `studio/engine/maps.py`'s palette reads several design tokens beyond the seven base Ink & Momentum ones
 (`--color-letterbox`, `--mark-text`, `--mark-generated`, `--color-generated-text`, `--scrim-strong`,
 `--color-border`, `--color-cream-faint`): document's own extension for its archival-footage mark system, not
-exercised by this skeleton (it never calls `maps.render_map`) but the reason about 87 of the lifted suite's own
-tests fail (see `docs/TRANSPLANT-document-engine.md`'s Gate section). Listed here because it is the same shape
-of finding as the wordmark above: a hard-coded dependency on document's own design values, not a content-shape
-refusal, and not fixed in this PR for the same reason (choosing omnibus's hues for these roles is a design
-decision, not a transplant step).
+exercised by this skeleton (it never calls `maps.render_map`) but the reason the lifted suite's own tests first
+failed on CI (PR omnibus#10). Fixed by carrying document's `design/tokens.css` and `design/brand-kit/*`
+unchanged into `studio/house/document/`, read through one constant; omnibus's own `design/tokens.css` is
+untouched (`docs/TRANSPLANT-document-engine.md`, `docs/DECISIONS.md` 2026-11-12). Listed here because it is the
+same shape of finding as the wordmark above: a hard-coded dependency on document's own design values, not a
+content-shape refusal.
 
 ## How this was run
 
