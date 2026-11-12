@@ -54,5 +54,22 @@ for (const issue of [32, 33]) {
       const out = await normaliseWeek(gitSource(voidnewsAt(at), { at }), issue, options);
       expect(JSON.stringify(out, null, 2) + "\n").toBe(text);
     }, 240_000);
+
+    it("records no day as NO PRINT that void news's archive or the weekly's week_days holds", () => {
+      const rec = JSON.parse(readFileSync(path.join(root, "data", `week-${issue}.json`), "utf8"));
+      if ((rec.schema ?? 1) < 2) return; // schema 1 (week 32) has every day printed
+      const at = rec.normalised_from.origin_main as string;
+      const dir = voidnewsAt(at);
+      const show = (p: string) => JSON.parse(execFileSync("git", ["-C", dir, "show", `${at}:${p}`], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 }));
+      const printed = new Set((show("frontend/build-data/archive.json") as { printed_on: string }[]).map((r) => r.printed_on));
+      const weekly = (show("frontend/build-data/weekly-issues.json") as { issue_number: number; week_days?: { date: string }[] }[]).find(
+        (w) => w.issue_number === issue,
+      );
+      const listed = new Set((weekly?.week_days ?? []).map((d) => d.date));
+      for (const d of rec.days) {
+        if (d.no_print) expect(printed.has(d.date) || listed.has(d.date), `${d.date} is recorded NO PRINT but void news holds it`).toBe(false);
+        if (d.available) expect(printed.has(d.date), d.date).toBe(true);
+      }
+    }, 240_000);
   });
 }

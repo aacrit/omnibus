@@ -21,11 +21,12 @@
 //
 // --echo <slug> names the week's echo from the history bank
 // (data/history/events/<slug>.yaml); --echo pending records it as not yet
-// picked. Without it, week 32's candidate (spanish-flu-1918, alternate
-// black-death) is used, so week 32 rebuilds unchanged.
-// --schema 2 strips a provable Google News publisher suffix from board
-// headlines, keeping headline_raw (scripts/lib/normalise.mjs publisherSuffix);
-// the default, 1, is week 32's rules. Week 33:
+// picked. It is required except for week 32 at schema 1, which keeps its
+// recorded candidate (spanish-flu-1918, alternate black-death).
+// --schema 2 reads the days from void news's printed editions (archive.json),
+// pools their members into the lead, and strips a provable Google News
+// publisher suffix from board headlines (scripts/lib/normalise.mjs); it needs
+// the git source. The default, 1, is week 32's rules. Week 33:
 //   node scripts/normalise-week.mjs --issue 33 --at dcffaaf8bf5e979808cd195de80e2403af074c64 --schema 2 --echo pending
 
 import { mkdirSync, writeFileSync } from "node:fs";
