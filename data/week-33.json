@@ -403,6 +403,34 @@
             1
           ],
           "unplaced": 8
+        },
+        {
+          "term": "Israel",
+          "titled": 4,
+          "by_rung": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            1,
+            0
+          ],
+          "unplaced": 0
+        },
+        {
+          "term": "inflation",
+          "titled": 1,
+          "by_rung": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "unplaced": 0
         }
       ]
     },

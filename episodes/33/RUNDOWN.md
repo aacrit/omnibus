@@ -63,7 +63,7 @@ Device: board first, desk second. Bible e. Desk-first needs two or more primary 
 
 Test card (the claim): 1, 3, 13, 23, 10, 12, 3 (far left to far right); 65 placed, 11 unplaced, 76 outlets. Count cards: 76 outlets; 46 titled headlines of 89 articles.
 
-Sources page: board rows come only from the claim's own records; the 2 Nov election-eve record is context; the claim's counts include 2ec1fcb8's untitled printed members published on 3 Nov, before the 4 Nov print (ledger [23] The National, ledger [24] Raw Story): void news printed them in the claim's cluster; they carry no headline, so they count as outlets and never as board rows; the Weight's test card and count cards measure the claim (76 outlets, 11 unplaced); the pooled lead record, context included, is 86 outlets and 71 titled headlines of 114 articles; board pick rule: tier, then article count, then name; no reach figure is claimed.
+Sources page: board rows come only from the claim's own records; the 2 Nov election-eve record is context; the claim's counts include 2ec1fcb8's untitled printed members published on 3 Nov, before the 4 Nov print (ledger [23] The National, ledger [24] Raw Story): void news printed them in the claim's cluster; they carry no headline, so they count as outlets and never as board rows; the Weight's test card and count cards measure the claim (76 outlets, 11 unplaced); the pooled lead record, context included, is 86 outlets and 71 titled headlines of 114 articles; board pick rule: tier, then article count, then name; no reach figure is claimed; the reason words counted on the consensus card (Iran, Israel, inflation) are an editorial input to the normaliser (--claim-terms), taken from the claim's own headlines and, once captured, the Vice President's post; each count is read from the record (lead.claim.terms).
 
 What was known, in record order (slates carry the printed date):
 - context: "JD Vance Rallies Conservative Voters in Rome Ahead of Midterms", 18 sources, PRINTED TUE 03 NOV 2026
@@ -86,13 +86,13 @@ Untitled occupied rung (board-rule exception, DECISIONS 2026-11-12): far-left, t
 - **weight-known** (45 s): What was known by the horizon, in record order. Context first: the 2 Nov election-eve record (2e2978da), the Vice President campaigning, which is the story before the claim and supplies no board row. Then the claim: its two records, each slated with the date void news printed it (archive.printed_on), not the timeline date. Count cards from the claim only: its outlets, then its titled headlines of its articles. The pooled lead counts (86 outlets, 71 titled of 114) stay on the sources page as context. Intent: who, when, where; the counts; no reason weighed yet.
 - **weight-board** (40 s): Narrator says the count before the board, then is silent. Rows only from the claim's records (normaliser rule, schema 2). Six rows on two pages (spec 3.6: four a page): page 1 left, center-left, center, center-right; page 2 right, far-right. The far-left rung is occupied by the claim but holds no headline: board-rule exception, recorded in DECISIONS 2026-11-12; the rung mark is drawn with the outlet's name and no row. Intent: the count only, before the first flap; silence during the rows.
 - **weight-desk** (120 s): The primary sources, in time order: the Vice President's post (reader, verbatim, typeset page, from the dated capture); the President's reply (reader, from the White House transcript); Senator Slotkin's words (reader, from her release or floor video). Each read only from a captured primary text; a missing one is left out, never paraphrased. Intent: who said it, where, when; then the reader speaks it; the narrator adds nothing about what it means.
-- **weight-consensus** (50 s): Consensus cards by the written rule (consensus_rule). Intent: the count, said once; cards are read by the viewer; the reader does not voice outlet headlines.
+- **weight-consensus** (50 s): Consensus cards by the written rule (consensus_rule). Intent: the counts, said once each; cards are read by the viewer; the reader does not voice outlet headlines.
 - **weight-divergence** (30 s): Divergence pairs by the written rule (divergence_rule): paired verbatim headlines with outlet and rung, one pair per question that has one. The narrator says only which question each pair answers, as a plain who/what line. Intent: one neutral line per pair naming its question; no adjective, no paraphrase of a headline on screen.
 - **weight-end** (8 s): Ends on a frame, not a line: a second election-day picture (e33-weight-05), own sound, no voice. Intent: no voice.
 
 **Consensus rule.** Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.
 
-- cw-1: 39 of 46 name Iran; by rung 0, 1, 2, 18, 5, 4, 1, unplaced 8.
+- cw-1, of 46 titled claim headlines: Iran 39 (by rung 0 1 2 18 5 4 1, unplaced 8); Israel 4 (by rung 0 0 0 1 2 1 0, unplaced 0); inflation 1 (by rung 0 0 0 0 1 0 0, unplaced 0). Term list: an editorial input (--claim-terms), the reasons the Vice President gave as the claim's own headlines name them: the Iran war, Israel ties, inflation (ARY News, ledger; the post itself when captured).
 - cw-2: "everyone knows why we lost" on 3 rungs: Raw Story (left): "'Everyone knows why we lost': JD Vance rebukes Iran war after 'Democrat blowout'" / Stuff (NZ) (center): "‘Everyone knows why we lost’: JD Vance blames Trump's Iran war for election wipeout" / The Daily Signal (right): "‘Everyone Knows Why We Lost’: Vance Blames Iran War for Blue Wave"
 
 **Divergence rule.** Pool: the claim's titled headlines from placed outlets. For each fixed question, a headline is asked only if it names the people the question is about; words the headline attributes to someone else (a modal plus 'blame' and what follows, up to 'for' or punctuation) are set aside; its answers are the patterns the rest matches (case-insensitive, whole words; synonyms of one answer count as one). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.
@@ -101,7 +101,7 @@ Untitled occupied rung (board-rule exception, DECISIONS 2026-11-12): far-left, t
 - dw-2: no card (no qualifying pair under the rule).
 - dw-3, the President's reply (rungs 2 apart): The Media Line (center): "Vance Blames Iran War, Israel Ties for Midterm Losses; President Trump Defends Strikes" [defends] / Daily Sabah (right): "Trump admits Iran war fueled Republican midterm election losses" [admits]
 
-Short run (E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)): weight-desk 120 s to 0 s; margins-1 48 s to 70 s; margins-2 48 s to 70 s; margins-3 48 s to 70 s; week-day-4 20 s to 30 s; week-day-1 28.5 s to 36 s; weight-known 45 s to 60 s; weight-end 8 s to 14 s; week-day-7 35 s to 45 s; runtime 20:02.
+Short run (E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)), Week factor 1.64: weight-desk 120 s to 0 s; week-day-1 28.5 s to 46.5 s; week-day-2 34 s to 56 s; week-day-3 56 s to 70 s; week-day-4 20 s to 33 s; week-day-5 38 s to 62.5 s; week-day-6 70 s to 70 s; week-day-7 35 s to 57.5 s; runtime 20:02.
 
 ## The Echo
 
@@ -174,7 +174,9 @@ Founder's ruling. Return to the lead's last frame (not the Echo's). One line, th
 | weight-known slates | 18 | lead.records[0].source_count |
 | weight-known slates | 53 | lead.records[1].source_count |
 | weight-known slates | 45 | lead.records[2].source_count |
-| weight-consensus cw-1 | 39 of 46, unplaced 8 | lead.claim.terms[0] (by_rung, unplaced) and lead.claim.titled |
+| weight-consensus cw-1 (Iran) | 39 of 46, unplaced 8 | lead.claim.terms[0] (by_rung, unplaced) and lead.claim.titled |
+| weight-consensus cw-1 (Israel) | 4 of 46, unplaced 0 | lead.claim.terms[1] (by_rung, unplaced) and lead.claim.titled |
+| weight-consensus cw-1 (inflation) | 1 of 46, unplaced 0 | lead.claim.terms[2] (by_rung, unplaced) and lead.claim.titled |
 | The Margins test card bars | 1 5 9 6 3 1 6 (total 31) | sum of margins.stories[i].buckets |
 | margins-1 count | 10 | margins.stories[0].source_count |
 | margins-2 count | 12 | margins.stories[1].source_count |

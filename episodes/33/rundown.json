@@ -669,7 +669,8 @@
       },
       "short_run": {
         "trigger": "E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)",
-        "rule": "The Week and The Margins flex first (bible d); nothing new is claimed, pictures and pages hold longer inside each beat's own range",
+        "rule": "the desk is removed; every Week beat is multiplied by one factor, each capped at 70 s and rounded to 0.5 s; nothing else changes and nothing new is claimed",
+        "factor": 1.64,
         "changes": [
           {
             "beat": "weight-desk",
@@ -678,55 +679,42 @@
             "note": "removed; nothing paraphrased in its place"
           },
           {
-            "beat": "margins-1",
-            "from_s": 48,
-            "to_s": 70,
-            "note": "the story's picture and primary page breathe; the count unchanged"
+            "beat": "week-day-1",
+            "from_s": 28.5,
+            "to_s": 46.5
           },
           {
-            "beat": "margins-2",
-            "from_s": 48,
-            "to_s": 70,
-            "note": "as above"
+            "beat": "week-day-2",
+            "from_s": 34,
+            "to_s": 56
           },
           {
-            "beat": "margins-3",
-            "from_s": 48,
-            "to_s": 70,
-            "note": "as above"
+            "beat": "week-day-3",
+            "from_s": 56,
+            "to_s": 70
           },
           {
             "beat": "week-day-4",
             "from_s": 20,
-            "to_s": 30,
-            "note": "the quiet day gets its map"
+            "to_s": 33
           },
           {
-            "beat": "week-day-1",
-            "from_s": 28.5,
-            "to_s": 36,
-            "note": "the visit's place and the statement page"
+            "beat": "week-day-5",
+            "from_s": 38,
+            "to_s": 62.5
           },
           {
-            "beat": "weight-known",
-            "from_s": 45,
-            "to_s": 60,
-            "note": "the context record's picture held longer; no added claim"
-          },
-          {
-            "beat": "weight-end",
-            "from_s": 8,
-            "to_s": 14,
-            "note": "the end frame breathes"
+            "beat": "week-day-6",
+            "from_s": 70,
+            "to_s": 70
           },
           {
             "beat": "week-day-7",
             "from_s": 35,
-            "to_s": 45,
-            "note": "the task force's locator map held; still inside 20 to 70 s"
+            "to_s": 57.5
           }
         ],
-        "runtime_s": 1202.4,
+        "runtime_s": 1201.9,
         "runtime": "20:02",
         "in_range": true
       },
@@ -940,20 +928,57 @@
             {
               "id": "cw-1",
               "kind": "count",
-              "hero": 39,
               "of": 46,
-              "context": "of the claim's 46 titled headlines name Iran",
-              "by_rung": [
-                0,
-                1,
-                2,
-                18,
-                5,
-                4,
-                1
+              "context": "of the claim's 46 titled headlines name each reason",
+              "terms": [
+                {
+                  "term": "Iran",
+                  "hero": 39,
+                  "by_rung": [
+                    0,
+                    1,
+                    2,
+                    18,
+                    5,
+                    4,
+                    1
+                  ],
+                  "unplaced": 8,
+                  "field": "lead.claim.terms[0]"
+                },
+                {
+                  "term": "Israel",
+                  "hero": 4,
+                  "by_rung": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    1,
+                    0
+                  ],
+                  "unplaced": 0,
+                  "field": "lead.claim.terms[1]"
+                },
+                {
+                  "term": "inflation",
+                  "hero": 1,
+                  "by_rung": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ],
+                  "unplaced": 0,
+                  "field": "lead.claim.terms[2]"
+                }
               ],
-              "unplaced": 8,
-              "field": "lead.claim.terms[0] and lead.claim.titled"
+              "term_list": "an editorial input (--claim-terms), the reasons the Vice President gave as the claim's own headlines name them: the Iran war, Israel ties, inflation (ARY News, ledger; the post itself when captured)",
+              "field": "lead.claim.terms and lead.claim.titled"
             },
             {
               "id": "cw-2",
@@ -992,7 +1017,7 @@
             "reader_s": 0,
             "rate_wpm": 150
           },
-          "intent": "the count, said once; cards are read by the viewer; the reader does not voice outlet headlines"
+          "intent": "the counts, said once each; cards are read by the viewer; the reader does not voice outlet headlines"
         },
         {
           "id": "weight-divergence",
@@ -1701,6 +1726,7 @@
         "board pick rule: tier, then article count, then name; no reach figure is claimed",
         "untitled occupied rung: far-left (Tehran Times)",
         "consensus and divergence cards follow the written rules on the sources page",
+        "the reason words counted on the consensus card (Iran, Israel, inflation) are an editorial input to the normaliser (--claim-terms), taken from the claim's own headlines and, once captured, the Vice President's post; each count is read from the record (lead.claim.terms)",
         "the New Hampshire count is the State's canvass printed in 1953",
         "the Echo was picked after the week was known (echo-pick.json)"
       ],
@@ -3416,7 +3442,7 @@
       "field": "lead.records[2].source_count"
     },
     {
-      "where": "weight-consensus cw-1",
+      "where": "weight-consensus cw-1 (Iran)",
       "value": 39,
       "of": 46,
       "by_rung": [
@@ -3430,6 +3456,38 @@
       ],
       "unplaced": 8,
       "field": "lead.claim.terms[0] (by_rung, unplaced) and lead.claim.titled"
+    },
+    {
+      "where": "weight-consensus cw-1 (Israel)",
+      "value": 4,
+      "of": 46,
+      "by_rung": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "unplaced": 0,
+      "field": "lead.claim.terms[1] (by_rung, unplaced) and lead.claim.titled"
+    },
+    {
+      "where": "weight-consensus cw-1 (inflation)",
+      "value": 1,
+      "of": 46,
+      "by_rung": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "unplaced": 0,
+      "field": "lead.claim.terms[2] (by_rung, unplaced) and lead.claim.titled"
     },
     {
       "where": "The Margins test card bars",

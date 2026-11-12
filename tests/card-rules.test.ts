@@ -34,6 +34,19 @@ describe("card rules", () => {
     expect([pairs[0].a.outlet, pairs[0].b.outlet]).toEqual(["O1", "O2"]);
   });
 
+  it("reads an apostrophe between two letters as a possessive, never as a quote mark", () => {
+    const pool = [
+      row(1, "left", "Trump's aide says 'we will not wait' as GOP’s count slips"),
+      row(2, "center", "Vance’s team: ‘we will not wait’"),
+      row(3, "right", "'We will not wait' says Trump's party"),
+      row(4, "far-right", "Trump's men and Vance's men meet"),
+    ];
+    const cards = quotedPhraseCards(pool);
+    expect(cards.map((c) => c.phrase)).toEqual(["we will not wait"]);
+    expect(cards[0].rungs).toBe(3); // the possessives in rows 1, 3 and 4 open no quote
+    expect(quotedPhraseCards([row(4, "left", "Trump's men and Vance's men meet"), row(5, "center", "Trump's men and Vance's men meet"), row(6, "right", "Trump's men and Vance's men meet")])).toEqual([]);
+  });
+
   it("week 33: no card claims a headline's attributed words, and every pair names both people when asked", () => {
     const w = JSON.parse(readFileSync(path.join(root, "data", "week-33.json"), "utf8"));
     const pairs = divergencePairs(claimPool(w.lead));

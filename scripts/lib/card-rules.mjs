@@ -33,6 +33,7 @@ export const CONSENSUS_RULE =
   "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.";
 
 const wc = (s) => s.split(/\s+/).filter(Boolean).length;
+const APOS = "\u0000"; // stands in for an in-word apostrophe while quotes are matched
 const cmp = (a, b) => { for (let k = 0; k < a.length; k++) { if (a[k] < b[k]) return -1; if (a[k] > b[k]) return 1; } return 0; };
 
 export function claimPool(lead) {
@@ -73,9 +74,13 @@ export function divergencePairs(pool, questions = QUESTIONS) {
 export function quotedPhraseCards(pool) {
   const spans = new Map();
   for (const a of pool) {
-    const txt = a.text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+    // An apostrophe between two letters (Trump's, GOP’s) is not a quote mark: hold it aside, then restore it.
+    const txt = a.text
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/(?<=\p{L})'(?=\p{L})/gu, APOS);
     for (const m of txt.matchAll(/'([^']{3,}?)'|"([^"]{3,}?)"/g)) {
-      const span = (m[1] ?? m[2]).toLowerCase().trim();
+      const span = (m[1] ?? m[2]).replaceAll(APOS, "'").toLowerCase().trim();
       if (wc(span) < 3) continue;
       const list = spans.get(span) ?? [];
       list.push(a);
