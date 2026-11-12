@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Report an error in void omnibus week 32.">
+<title>Flag an error, week 32 · void omnibus</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body data-default-state="idle">
+<header class="site-header"><div class="wrap"><a class="lockup" href="home.html" aria-label="void omnibus, the programme guide"><span>V</span><svg class="sigil-o" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.70" stroke-width="2.6"/></svg><span>ID</span><span class="word2">OMNIBUS</span></a><nav class="nav" aria-label="Site"><a href="home.html" aria-current="page">Guide</a><a href="privacy.html">Privacy</a></nav></div></header>
+<main>
+
+<div class="wrap wrap--read">
+  <p class="crumb"><a href="home.html">void omnibus</a> / <a href="episode.html">Week <span class="num" data-numeral>32</span></a> / Corrections</p>
+  <h1 class="h1">Flag an error in week <span class="num" data-numeral>32</span></h1>
+  <p class="lede">Tell us what is wrong and what shows it. A correction accepted by Thursday <span class="num" data-numeral>12:00</span> UTC is read at the start of the next episode's margins and listed here and on both weeks' sources pages.</p>
+
+  <form class="card" style="margin-top:28px" novalidate>
+    <div data-state="error"><div class="status status--error" role="alert"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M8.2 3.5h7.6l4.7 4.7v7.6l-4.7 4.7H8.2l-4.7-4.7V8.2z M12 7.5v5.5 M12 16.4v.1"/></svg><p><strong>Not sent.</strong> The server did not answer. Your text is still here; send again in a minute.</p></div></div>
+    <div data-state="limited"><div class="status status--error" role="alert"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M8.2 3.5h7.6l4.7 4.7v7.6l-4.7 4.7H8.2l-4.7-4.7V8.2z M12 7.5v5.5 M12 16.4v.1"/></svg><p><strong>Not sent.</strong> Your network has sent several messages in a short time. Wait a minute, then send again.</p></div></div>
+    <div data-state="sent"><div class="status status--sent" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M4 12.5l5 5L20 6.5"/></svg><p><strong>Correction received.</strong> It is checked against the record. If it is accepted, it is listed below and read on air, without a name.</p></div></div>
+
+    <fieldset class="choices"><legend>Where is it?</legend>
+      <label class="chip"><input type="radio" name="where" value="0"><span>The week</span></label><label class="chip"><input type="radio" name="where" value="1" checked><span>The weight</span></label><label class="chip"><input type="radio" name="where" value="2"><span>The echo</span></label><label class="chip"><input type="radio" name="where" value="3"><span>The margins</span></label><label class="chip"><input type="radio" name="where" value="4"><span>The sources page</span></label><label class="chip"><input type="radio" name="where" value="5"><span>Somewhere else</span></label>
+    </fieldset>
+    <div class="field">
+      <label for="what">What is wrong?</label>
+      <p class="hint">The claim as it appears, and what the record says instead.</p>
+      <textarea id="what" rows="5" maxlength="2000" aria-describedby="what-err">The count card says 10,000 cases. The lead coverage record for 26 Oct gives that figure as passed, not reached; the card could say more than 10,000.</textarea>
+      <p class="field-error" id="what-err" data-state="invalid"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M8.2 3.5h7.6l4.7 4.7v7.6l-4.7 4.7H8.2l-4.7-4.7V8.2z M12 7.5v5.5 M12 16.4v.1"/></svg>Write what is wrong before sending.</p>
+    </div>
+    <div class="field">
+      <label for="src">A source that shows it <span class="muted" style="font-weight:400">(optional)</span></label>
+      <input id="src" type="url" inputmode="url" placeholder="https://" value="">
+    </div>
+    <p class="hint">Send only the error and its source. No name or contact details: there are no accounts here, and we cannot reply.</p>
+    <div class="actions"><button class="btn" type="button" data-state="idle invalid error limited">Send correction</button><button class="btn" type="button" aria-busy="true" data-state="sending">Sending</button><button class="btn btn--quiet" type="button" data-state="sent">Send another correction</button></div>
+  </form>
+
+  <section class="section" aria-labelledby="acc"><div class="stair" aria-hidden="true"></div>
+    <div class="section-head"><h2 id="acc">Accepted corrections</h2><span class="muted">Week <span class="num" data-numeral>32</span></span></div>
+    <p class="headline" style="font-size:1.1875rem">None yet.</p>
+    <p class="muted">Accepted corrections appear here with the date they were read on air. Nothing in an episode is changed without a note.</p>
+  </section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap"><span>A void news programme</span><a href="privacy.html">Privacy</a><a href="home.html">Feed (RSS)</a><span>Episodes and pages: CC BY-SA 4.0</span></div></footer>
+<script>
+  // Mock-only switches: ?state=<name> shows that state, ?theme=light|dark pins the theme.
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var t = q.get("theme"); if (t) document.documentElement.setAttribute("data-theme", t);
+    var s = q.get("state") || document.body.getAttribute("data-default-state");
+    document.querySelectorAll("[data-state]").forEach(function (el) {
+      el.hidden = el.getAttribute("data-state").split(" ").indexOf(s) < 0;
+    });
+  })();
+</script>
+
+</body>
+</html>

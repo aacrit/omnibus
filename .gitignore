@@ -27,3 +27,6 @@ coverage/
 *.sqlite3
 *.db
 .gate-last.log
+
+# design review screenshots go to Agentique/reports/g2, never git (rule 8)
+design/shots/

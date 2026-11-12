@@ -1,27 +1,95 @@
 /*
  * void omnibus tokens over Ink & Momentum: the ONLY file in this repo
- * allowed to define a color literal (hex, rgb(), hsl()). Every other file
- * references these custom properties; scripts/lint-design.mjs enforces it.
+ * allowed to define a color literal (hex, rgb(), hsl(), oklch() literal).
+ * Every other file references these custom properties;
+ * scripts/lint-design.mjs enforces it.
  *
- * Values from the show bible, section c. Walnut ground, cream ink, and one
- * neutral accent, chrome, so the bias spectrum stays the only chroma on the
- * page, drawn only where a measurement is shown. Red, green and blue are
- * never decorative.
+ * Ink & Momentum is the grammar (three type voices plus the caps register,
+ * earned accents, motion tiers, copy voice). This file is the product's
+ * hue and texture layer, from the show bible, section c:
+ *   ground   walnut (Evening) or paper (Morning), never pure black or white
+ *   ink      cream on walnut, near-black on paper
+ *   accent   chrome, neutral: it marks what acts (links, buttons, focus)
+ *            and the station's own marks (lower-third rule, clock hands,
+ *            the provenance dot, the Sigil-O)
+ *   past     umber, only inside the Echo
+ *   spectrum the seven rungs, drawn only where a lean is measured
+ *   texture  the test card's grey staircase, one layer, and nothing else
+ *
+ * Mapping onto Ink & Momentum's roles:
+ *   --color-bg / --color-surface   bg / surface
+ *   --color-ink (-2, -3)           cream (primary text) and its muted steps
+ *   --color-accent                 terracotta's role (interactive), as chrome
+ *   forest / burgundy / ochre      not used. Their meanings (good, owed,
+ *                                  pending) do not exist here, and any red,
+ *                                  green or blue would read as a lean. Errors
+ *                                  are ink with a stop mark and plain words;
+ *                                  pending is ink-2 with the pulse.
+ *
+ * Every state colour is derived with relative color (oklch for chromatic
+ * sources, oklab for near-neutral ones) from a source token below: no new
+ * hexes past the source block.
+ *
+ * Scopes: :root is walnut; paper applies through prefers-color-scheme or
+ * [data-theme="light"]. `.on-air` re-asserts walnut on any element that
+ * shows the programme's own picture (posters, the player stage), so a test
+ * card looks the same on a paper page as on air. The broadcast frames set
+ * data-theme="dark" on <html>.
+ *
+ * Contrast (WCAG 2.x), measured in headless Chromium (Edge) from the
+ * computed tokens, 2026-11-11. Text needs 4.5:1; large text (24px+, or
+ * 18.7px+ bold) and graphics need 3:1. Pairs: text token on bg / surface /
+ * echo surface.
+ *   Walnut
+ *     --color-ink                14.24 / 13.33 / 14.11
+ *     --color-ink-2               8.10 /  7.58 /  8.03
+ *     --color-ink-3               5.72 /  5.36 /  5.67  (4.91 on surface-raised)
+ *     --color-accent (chrome)     9.63 /  9.01 /  9.54
+ *     --color-on-accent on accent 9.63 (button label on a chrome button)
+ *     --color-echo-ink            6.71 /  6.28 /  6.65
+ *     --color-echo-accent         3.87 /  3.62 /  3.84  rules, the dot and
+ *                                 type of 24px and up only, never body text
+ *     --rung-ink-*  far-left 5.47, left 5.44, center-left 6.89, center 6.47,
+ *                   center-right 5.23, right 5.41, far-right 4.77 (on surface)
+ *                   (raw --bias-* as text would fail: far-right 2.53,
+ *                   right 3.33, center-right 4.11, far-left 4.47)
+ *     --color-ink on --color-bar over a picture slot: 13.94
+ *   Paper
+ *     --color-ink                14.61 / 13.58 / 13.04
+ *     --color-ink-2               8.13 /  7.55 /  7.26
+ *     --color-ink-3               5.32 /  4.94 /  4.75
+ *     --color-accent (chrome-deep) 5.32 / 4.94 /  4.75
+ *     --color-on-accent on accent 5.32
+ *     --color-echo-ink (umber)    7.88 /  7.32 /  7.04
+ *     --rung-ink-*  far-left 9.97, left 6.05, center-left 5.66, center 5.48,
+ *                   center-right 5.50, right 5.86, far-right 9.17 (on surface)
+ *                   (raw paper --bias-* as text would fail: center-left 3.67,
+ *                   center-right 3.59, center 4.18)
+ *   The measured bars are graphics whose count is always printed beside
+ *   them, so colour is never the only carrier of a value. The raw walnut
+ *   far-right bar is 2.70:1 on the ground; its printed count carries it.
+ *   Re-measure after any change here (the Blueprint harness reads computed
+ *   colours through a canvas; Edge serialises a relative hue of a
+ *   low-chroma source as `none`, so low-chroma steps derive in oklab).
  */
 
 /* Faces are self-hosted (design/fonts.css); never a font CDN (V3). */
 @import "./fonts.css";
 
 :root {
-  /* Walnut (default): the evening edition */
-  --o-black: #1c1a17;
-  --o-field: #232019;
-  --o-white: #ede8e0;
-  --o-grey-2: #b8b0a5;
-  --o-grey-3: #9a938b;
-  --o-chrome: #b9c2cb;
-  --o-echo-field: #201a15;
-  --o-echo-accent: #8b7355;
+  /* ---- Source values: the bible's palette, the only hexes ------------- */
+  --o-black: #1c1a17;        /* walnut: the ground and the pillars */
+  --o-field: #232019;        /* the 4:3 field, one step up */
+  --o-white: #ede8e0;        /* cream: primary text, the test card's white */
+  --o-grey-2: #b8b0a5;       /* second lines */
+  --o-grey-3: #9a938b;       /* eyebrows */
+  --o-chrome: #b9c2cb;       /* the accent on walnut */
+  --o-chrome-deep: #55616c;  /* the accent on paper */
+  --o-echo-field: #201a15;   /* the Echo's warmed field */
+  --o-echo-accent: #8b7355;  /* History's umber */
+  --o-echo-accent-deep: #5c4033; /* umber on paper */
+  --o-paper: #f0ebdd;        /* Morning Edition ground */
+  --o-ink: #1a1a1a;          /* Morning Edition ink */
 
   /* The test card's grey staircase: the one texture */
   --o-stair-1: #2a2725;
@@ -31,80 +99,215 @@
   --o-stair-5: #948d85;
   --o-stair-6: #b8b0a5;
 
-  /* Bias spectrum, far left to far right (void news palette, dark set).
-     Drawn only as measured bars, rung marks and outlet names. */
-  --bias-far-left: #5088d0;
-  --bias-left: #6498d8;
-  --bias-center-left: #78aede;
-  --bias-center: #48b870;
-  --bias-center-right: #d05c48;
-  --bias-right: #cc3e34;
-  --bias-far-right: #b02e26;
+  /* Bias spectrum, far left to far right (void news palette). Drawn only
+     as measured bars, rung marks and outlet names. Walnut set, then paper. */
+  --spectrum-dark-far-left: #5088d0;
+  --spectrum-dark-left: #6498d8;
+  --spectrum-dark-center-left: #78aede;
+  --spectrum-dark-center: #48b870;
+  --spectrum-dark-center-right: #d05c48;
+  --spectrum-dark-right: #cc3e34;
+  --spectrum-dark-far-right: #b02e26;
+  --spectrum-paper-far-left: #0e2e70;
+  --spectrum-paper-left: #1b5298;
+  --spectrum-paper-center-left: #2e78b4;
+  --spectrum-paper-center: #2b784a;
+  --spectrum-paper-center-right: #c4503e;
+  --spectrum-paper-right: #9c2c22;
+  --spectrum-paper-far-right: #6e1610;
 
-  /* Roles */
+  /* Radii: the character generator's rectangle. Small, never a rounded
+     screen. Pills only for the provenance dot. */
+  --radius-card: 4px;
+  --radius-control: 3px;
+  --radius-pill: 999px;
+
+  /* ---- Type: void's four faces, and no fifth ---------------------------- */
+  --font-board: "Playfair Display", ui-serif, Georgia, serif;          /* display voice */
+  --font-structure: "Inter", ui-sans-serif, system-ui, sans-serif;     /* structure voice */
+  --font-caps: "Barlow Condensed", "Arial Narrow", ui-sans-serif, sans-serif; /* caps register */
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;   /* data voice */
+  --track-caps: 0.08em;
+
+  /* Site type scale (rem) */
+  --fs-eyebrow: 0.8125rem;
+  --fs-small: 0.875rem;
+  --fs-body: 1rem;
+  --fs-lead: 1.125rem;
+  --fs-headline: 1.375rem;
+  --fs-title: clamp(1.75rem, 4.2vw, 2.75rem);
+  --fs-display: clamp(2.25rem, 6vw, 3.5rem);
+
+  /* Broadcast type scale (px at 1920x1080), section c of the bible */
+  --bc-name: 38px;        /* lower-third name, Inter 700, -0.01em */
+  --bc-place: 44px;       /* slate place, Barlow 600 caps */
+  --bc-second: 26px;      /* second lines and slates, Barlow 600 caps, +0.08em */
+  --bc-board: 42px;       /* board headlines, Playfair 600, -0.02em, 1.15 */
+  --bc-hero: 132px;       /* hero counts, Plex Mono */
+  --bc-segment: 76px;     /* test-card segment word, Barlow 600 caps */
+  --bc-rung: 22px;        /* ladder rung labels, Barlow 600 caps */
+  --bc-data: 28px;        /* Mono lines under cards */
+
+  /* ---- Motion ----------------------------------------------------------- */
+  /* Ink & Momentum tiers, for the site's interactive UI */
+  --dur-instant: 80ms;
+  --dur-fast: 160ms;
+  --dur-normal: 240ms;
+  --dur-morph: 360ms;
+  --dur-cinema: 520ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-rack: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-whip: cubic-bezier(0.25, 0, 0, 1);
+  --spring-snappy: linear(0 0%, 0.41 12.7%, 0.71 27.1%, 0.91 39.7%, 1.02 50.2%, 1 100%);
+  --spring-gentle: linear(0 0%, 0.47 11.3%, 0.78 25.9%, 0.95 42.2%, 1 100%);
+
+  /* The programme's named presets (bible c). Period graphics cut, wipe and
+     flap; the physics is in the flap's fall and the hands' sweep. */
+  --dur-wipe: 240ms;            /* wipe: lower third on, hard edge, linear */
+  --dur-flap: 180ms;            /* flap: one half-card falls */
+  --dur-flap-row: 400ms;        /* flap: rows start 400 ms apart */
+  --dur-echo-dissolve: 1500ms;  /* echo-dissolve: the only dissolve */
+  --dur-pulse: 3s;              /* pending: pulse breathing */
+  --ease-hard: steps(1, end);   /* cut and step */
+  --ease-wipe: linear;
+  --ease-flap: cubic-bezier(0.55, 0, 1, 0.45); /* gravity: accelerates into the stop */
+  --spring-flap-settle: linear(0 0%, 1 70%, 0.97 80%, 1 100%); /* one small rebound on the stop */
+  --ease-sweep: linear;         /* sweep: constant angular velocity */
+}
+
+/* Walnut roles: the default, and the programme's picture anywhere. */
+:root,
+.on-air {
   --color-bg: var(--o-black);
   --color-surface: var(--o-field);
+  --color-surface-raised: oklab(from var(--o-field) calc(l + 0.03) a b);
+  --color-pillar: var(--o-black);
   --color-ink: var(--o-white);
   --color-ink-2: var(--o-grey-2);
   --color-ink-3: var(--o-grey-3);
+  --color-ink-muted: oklab(from var(--o-white) l a b / 0.62);
   --color-accent: var(--o-chrome);
+  --color-accent-hover: oklab(from var(--o-chrome) calc(l + 0.06) a b);
+  --color-accent-press: oklab(from var(--o-chrome) calc(l - 0.06) a b);
+  --color-on-accent: var(--o-black);
+  --color-focus: var(--o-chrome);
   --color-echo-surface: var(--o-echo-field);
   --color-echo-accent: var(--o-echo-accent);
-  --color-rule: oklch(from var(--o-white) l c h / 0.14);
-  --color-error: var(--bias-right);
+  --color-echo-ink: oklab(from var(--o-echo-accent) calc(l + 0.14) a b);
+  --color-rule: oklab(from var(--o-white) l a b / 0.14);
+  --color-hairline: oklab(from var(--o-white) l a b / 0.28);
+  --color-grid: oklab(from var(--o-white) l a b / 0.07);
+  --color-bar: oklab(from var(--o-black) l a b / 0.92);
+  --color-scrim: oklab(from var(--o-black) l a b / 0.72);
+  --color-slot: var(--o-stair-2);
+  --color-error: var(--color-ink);   /* never a spectrum red: see header */
+  --color-pending: var(--color-ink-2);
 
-  /* Type: void's four faces, and no fifth */
-  --font-board: "Playfair Display", ui-serif, Georgia, serif;
-  --font-structure: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-caps: "Barlow Condensed", "Arial Narrow", ui-sans-serif, sans-serif;
-  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  /* The spectrum, walnut set */
+  --bias-far-left: var(--spectrum-dark-far-left);
+  --bias-left: var(--spectrum-dark-left);
+  --bias-center-left: var(--spectrum-dark-center-left);
+  --bias-center: var(--spectrum-dark-center);
+  --bias-center-right: var(--spectrum-dark-center-right);
+  --bias-right: var(--spectrum-dark-right);
+  --bias-far-right: var(--spectrum-dark-far-right);
 
-  /* Motion: period graphics cut, wipe and flap; nothing eases into place */
-  --dur-wipe: 240ms;
-  --dur-flap: 180ms;
-  --ease-hard: steps(1, end);
-  --ease-wipe: linear;
+  /* Rung ink: the spectrum as text, lifted until it holds 4.5:1 on the
+     field. Same hue, so the outlet still wears its rung. */
+  --rung-ink-far-left: oklch(from var(--spectrum-dark-far-left) calc(l + 0.05) c h);
+  --rung-ink-left: var(--spectrum-dark-left);
+  --rung-ink-center-left: var(--spectrum-dark-center-left);
+  --rung-ink-center: var(--spectrum-dark-center);
+  --rung-ink-center-right: oklch(from var(--spectrum-dark-center-right) calc(l + 0.06) c h);
+  --rung-ink-right: oklch(from var(--spectrum-dark-right) calc(l + 0.12) c h);
+  --rung-ink-far-right: oklch(from var(--spectrum-dark-far-right) calc(l + 0.15) calc(c * 0.9) h);
+
+  --shadow-card: 0 1px 2px oklab(from var(--o-black) calc(l - 0.12) a b / 0.4), 0 8px 24px oklab(from var(--o-black) calc(l - 0.08) a b / 0.35);
+  --shadow-hover: 0 2px 4px oklab(from var(--o-black) calc(l - 0.12) a b / 0.4), 0 16px 40px oklab(from var(--o-black) calc(l - 0.08) a b / 0.45);
 }
 
-/* Morning edition: site paper and ink. Same roles; only the ground, the
-   ink, chrome and the spectrum (void's paper set, AA on paper) swap. */
+/* Morning Edition: site paper and ink. Same roles; ground, ink, chrome,
+   umber and the spectrum swap. The programme itself is always walnut. */
 :root[data-theme="light"] {
-  --color-bg: #f0ebdd;
-  --color-surface: #e8e2d2;
-  --color-ink: #1a1a1a;
-  --color-ink-2: #3d3a35;
-  --color-ink-3: #5c5750;
-  --color-accent: #55616c;
-  --color-echo-surface: #ebe2d2;
-  --color-echo-accent: #5c4033;
-  --color-rule: oklch(from #1a1a1a l c h / 0.14);
-  --bias-far-left: #0e2e70;
-  --bias-left: #1b5298;
-  --bias-center-left: #2e78b4;
-  --bias-center: #2b784a;
-  --bias-center-right: #c4503e;
-  --bias-right: #9c2c22;
-  --bias-far-right: #6e1610;
+  --color-bg: var(--o-paper);
+  --color-surface: oklab(from var(--o-paper) calc(l - 0.025) a b);
+  --color-surface-raised: oklab(from var(--o-paper) calc(l + 0.012) a b);
+  --color-pillar: oklab(from var(--o-paper) calc(l - 0.05) a b);
+  --color-ink: var(--o-ink);
+  --color-ink-2: oklch(from var(--o-ink) calc(l + 0.17) 0.008 75);
+  --color-ink-3: oklch(from var(--o-ink) calc(l + 0.27) 0.01 75);
+  --color-ink-muted: oklab(from var(--o-ink) l a b / 0.62);
+  --color-accent: var(--o-chrome-deep);
+  --color-accent-hover: oklab(from var(--o-chrome-deep) calc(l - 0.06) a b);
+  --color-accent-press: oklab(from var(--o-chrome-deep) calc(l - 0.1) a b);
+  --color-on-accent: var(--o-paper);
+  --color-focus: var(--o-chrome-deep);
+  --color-echo-surface: oklch(from var(--o-paper) calc(l - 0.035) calc(c + 0.01) 75);
+  --color-echo-accent: var(--o-echo-accent-deep);
+  --color-echo-ink: var(--o-echo-accent-deep);
+  --color-rule: oklab(from var(--o-ink) l a b / 0.14);
+  --color-hairline: oklab(from var(--o-ink) l a b / 0.3);
+  --color-grid: oklab(from var(--o-ink) l a b / 0.06);
+  --color-scrim: oklab(from var(--o-paper) l a b / 0.8);
+  --color-slot: oklab(from var(--o-paper) calc(l - 0.1) a b);
+  --bias-far-left: var(--spectrum-paper-far-left);
+  --bias-left: var(--spectrum-paper-left);
+  --bias-center-left: var(--spectrum-paper-center-left);
+  --bias-center: var(--spectrum-paper-center);
+  --bias-center-right: var(--spectrum-paper-center-right);
+  --bias-right: var(--spectrum-paper-right);
+  --bias-far-right: var(--spectrum-paper-far-right);
+  --rung-ink-far-left: var(--spectrum-paper-far-left);
+  --rung-ink-left: var(--spectrum-paper-left);
+  --rung-ink-center-left: oklch(from var(--spectrum-paper-center-left) calc(l - 0.1) c h);
+  --rung-ink-center: oklch(from var(--spectrum-paper-center) calc(l - 0.06) c h);
+  --rung-ink-center-right: oklch(from var(--spectrum-paper-center-right) calc(l - 0.1) c h);
+  --rung-ink-right: var(--spectrum-paper-right);
+  --rung-ink-far-right: var(--spectrum-paper-far-right);
+  --shadow-card: 0 1px 2px oklab(from var(--o-ink) l a b / 0.08), 0 8px 24px oklab(from var(--o-echo-accent-deep) l a b / 0.1);
+  --shadow-hover: 0 2px 4px oklab(from var(--o-ink) l a b / 0.1), 0 16px 40px oklab(from var(--o-echo-accent-deep) l a b / 0.14);
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --color-bg: #f0ebdd;
-    --color-surface: #e8e2d2;
-    --color-ink: #1a1a1a;
-    --color-ink-2: #3d3a35;
-    --color-ink-3: #5c5750;
-    --color-accent: #55616c;
-    --color-echo-surface: #ebe2d2;
-    --color-echo-accent: #5c4033;
-    --color-rule: oklch(from #1a1a1a l c h / 0.14);
-    --bias-far-left: #0e2e70;
-    --bias-left: #1b5298;
-    --bias-center-left: #2e78b4;
-    --bias-center: #2b784a;
-    --bias-center-right: #c4503e;
-    --bias-right: #9c2c22;
-    --bias-far-right: #6e1610;
+    --color-bg: var(--o-paper);
+    --color-surface: oklab(from var(--o-paper) calc(l - 0.025) a b);
+    --color-surface-raised: oklab(from var(--o-paper) calc(l + 0.012) a b);
+    --color-pillar: oklab(from var(--o-paper) calc(l - 0.05) a b);
+    --color-ink: var(--o-ink);
+    --color-ink-2: oklch(from var(--o-ink) calc(l + 0.17) 0.008 75);
+    --color-ink-3: oklch(from var(--o-ink) calc(l + 0.27) 0.01 75);
+    --color-ink-muted: oklab(from var(--o-ink) l a b / 0.62);
+    --color-accent: var(--o-chrome-deep);
+    --color-accent-hover: oklab(from var(--o-chrome-deep) calc(l - 0.06) a b);
+    --color-accent-press: oklab(from var(--o-chrome-deep) calc(l - 0.1) a b);
+    --color-on-accent: var(--o-paper);
+    --color-focus: var(--o-chrome-deep);
+    --color-echo-surface: oklch(from var(--o-paper) calc(l - 0.035) calc(c + 0.01) 75);
+    --color-echo-accent: var(--o-echo-accent-deep);
+    --color-echo-ink: var(--o-echo-accent-deep);
+    --color-rule: oklab(from var(--o-ink) l a b / 0.14);
+    --color-hairline: oklab(from var(--o-ink) l a b / 0.3);
+    --color-grid: oklab(from var(--o-ink) l a b / 0.06);
+    --color-scrim: oklab(from var(--o-paper) l a b / 0.8);
+    --color-slot: oklab(from var(--o-paper) calc(l - 0.1) a b);
+    --bias-far-left: var(--spectrum-paper-far-left);
+    --bias-left: var(--spectrum-paper-left);
+    --bias-center-left: var(--spectrum-paper-center-left);
+    --bias-center: var(--spectrum-paper-center);
+    --bias-center-right: var(--spectrum-paper-center-right);
+    --bias-right: var(--spectrum-paper-right);
+    --bias-far-right: var(--spectrum-paper-far-right);
+    --rung-ink-far-left: var(--spectrum-paper-far-left);
+    --rung-ink-left: var(--spectrum-paper-left);
+    --rung-ink-center-left: oklch(from var(--spectrum-paper-center-left) calc(l - 0.1) c h);
+    --rung-ink-center: oklch(from var(--spectrum-paper-center) calc(l - 0.06) c h);
+    --rung-ink-center-right: oklch(from var(--spectrum-paper-center-right) calc(l - 0.1) c h);
+    --rung-ink-right: var(--spectrum-paper-right);
+    --rung-ink-far-right: var(--spectrum-paper-far-right);
+    --shadow-card: 0 1px 2px oklab(from var(--o-ink) l a b / 0.08), 0 8px 24px oklab(from var(--o-echo-accent-deep) l a b / 0.1);
+    --shadow-hover: 0 2px 4px oklab(from var(--o-ink) l a b / 0.1), 0 16px 40px oklab(from var(--o-echo-accent-deep) l a b / 0.14);
   }
 }
 
