@@ -1,0 +1,635 @@
+{
+  "issue": 33,
+  "ticket": "E1 (redone after review)",
+  "written": "2026-11-12",
+  "by": "Opus analyst (E1 of the void omnibus engine plan)",
+  "approved_by": "founder, chat 2026-11-12",
+  "approval": "The founder chose korean-war (1952) in chat on 2026-11-12, after the reviewer blocked the first pick (vietnam-war) on false and unshown facts. data/week-33.json records the same slug, horizon and approver as echo.status \"approved\".",
+  "supersedes": "the vietnam-war pick of the same day (commits b7d11dd and 660f6ac); its analysis is kept below only as a rejected candidate, with the corrected facts",
+  "week": {
+    "record": "data/week-33.json at main 1877580, regenerated here with --echo korean-war --echo-horizon 1952-11-05 --echo-approved-by \"founder, chat 2026-11-12\". Nothing here depends on day leads or outlet counts.",
+    "cover_headline": "The Cost of the Strait",
+    "lead": "JD Vance blames the Iran war for the Republican midterm defeat (cluster 2ec1fcb8)",
+    "mechanism": "A war fought abroad comes home as higher prices and a closed sea lane, the governing party loses a national election, and a leader inside that party names the war as the reason."
+  },
+  "method": {
+    "order": "Mechanism fit first (0 to 5); asset availability (0 to 5) breaks ties, and among equal fits media already in a void document ledger wins. no-bridge is applied before scoring, on the founder's narrow reading (no_bridge below).",
+    "sources_rule": "Every count and quotation below was read from a primary source opened on 2026-11-12 and hashed (sources). A quotation is used only for what its speaker linked himself."
+  },
+  "sources": [
+    {
+      "id": "src-nh-manual-1953",
+      "what": "Manual for the General Court, No. 33 (1953), New Hampshire Department of State, Concord: 'Democrat Presidential Primary Vote', Vote on Preference for President of U. S., summary by counties, printed page 426",
+      "url": "https://archive.org/download/manualforgeneral33newh/manualforgeneral33newh.pdf",
+      "sha256": "ef239ba943b940d9ba14ea904969f631fcd3b74af3a3a5b1a5991ce4330ef621",
+      "locator": "PDF page 452 (printed page 426); the primary's date, 11 March 1952, is on printed page 305 ('elected at the Presidential Primary as of March 11, 1952')",
+      "read": "Totals row read from the page image: Kefauver 19800, Truman 15927, Farley 77, MacArthur 151, Stevenson 40, Scattering 257",
+      "printed": "1953, after the horizon: shown as a later-printed record of a count made in March 1952"
+    },
+    {
+      "id": "src-truman-19520329",
+      "what": "Harry S. Truman, Address at the Jefferson-Jackson Day Dinner, 29 March 1952 (Public Papers of the Presidents, Harry S. Truman, 1952-53, item 69), the Truman Library's text; its note: 'The President spoke at 10:30 p.m. at the National Guard Armory in Washington.'",
+      "url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+      "sha256": "0ab64abac915d13cae4a5470df67b393c2b33f47622c0d1f154601202290a5f4",
+      "printed": "the Public Papers volume was printed after the horizon: a later-typeset page"
+    },
+    {
+      "id": "src-truman-19510614",
+      "what": "Harry S. Truman, Radio and Television Report to the American People on the Need for Extending Inflation Controls, 14 June 1951 ('[Broadcast from the White House at 10:30 p.m.]'), The American Presidency Project, from the Public Papers",
+      "url": "https://www.presidency.ucsb.edu/documents/radio-and-television-report-the-american-people-the-need-for-extending-inflation-controls",
+      "sha256": "5e4529bcce689eefaf58da37ecc8952f9abf61d1e1f1d44d50666b2f2f358ab7"
+    },
+    {
+      "id": "src-eisenhower-19521024",
+      "what": "Text of the address by Dwight D. Eisenhower, Republican nominee for President, delivered at Detroit, Michigan, 24 October 1952 (Eisenhower campaign train press release, for the morning papers of 25 October 1952), Eisenhower Presidential Library, 6 pages, scan without a text layer",
+      "url": "https://www.eisenhowerlibrary.gov/sites/default/files/research/online-documents/korean-war/i-shall-go-to-korea-1952-10-24.pdf",
+      "sha256": "e11195ce35f5291b06e30ae6e2e02a5546b821dbb6765fc205e0ad74d76550ab",
+      "transcription": "the quotations below were transcribed by the analyst from the page images (page 1 and page 5) on 2026-11-12; the reader line must be checked against the scan before E5"
+    },
+    {
+      "id": "src-fr-19510130",
+      "what": "Federal Register, vol. 16, no. 20, Tuesday 30 January 1951: Office of Price Stabilization, Economic Stabilization Agency, General Ceiling Price Regulation (issued 26 January 1951) with its statement of considerations ('This regulation, freezing prices at the highest levels charged in the period December 19, 1950-January 25, 1951'), pages 808 to 817",
+      "url": "https://www.govinfo.gov/content/pkg/FR-1951-01-30/pdf/FR-1951-01-30.pdf",
+      "sha256": "84213c6ee2f40a62229b22aa702d7858dc31fc93d4acac24131b295638d9cb31",
+      "printed": "30 January 1951, inside the horizon; a federal publication ('There are no restrictions on the republication of material appearing in the Federal Register', page 794)",
+      "locator": "statement of considerations, page 808 (PDF page 16), read from the text layer and checked against the page image"
+    },
+    {
+      "id": "src-nara-ofr-1952",
+      "what": "National Archives, Office of the Federal Register, 1952 Electoral College Results (Eisenhower 442, Stevenson 89)",
+      "url": "https://www.archives.gov/electoral-college/1952",
+      "sha256": "52fdaa24f09ece7dab3160c4f9f7106cdeafb1008db2b42269fe124bd498b67a",
+      "printed": "the electors voted in December 1952, after the horizon: cited as the later record of the 4 November vote, never shown as known at the horizon"
+    },
+    {
+      "id": "src-stevenson-19521105",
+      "what": "Adlai E. Stevenson, Remarks Conceding the Presidential Election, Springfield, Illinois, as printed in the New York Times of 5 November 1952, p. 14 ('Statements by the Loser and the Winner'); text on The American Presidency Project",
+      "url": "https://www.presidency.ucsb.edu/node/345906",
+      "sha256": "9ceaa8808e800a980c05725d47657ac433527cb80905f895302ad327c36ab143",
+      "printed": "5 November 1952, a morning paper: inside the horizon",
+      "rights": "copyright (the newspaper's printing); quoted only, never shown"
+    }
+  ],
+  "candidates": [
+    {
+      "slug": "korean-war",
+      "source": "void history event + evidence ledger; primary sources above",
+      "horizon": "1952-11-05",
+      "fit": 4,
+      "mechanism": "A war fought abroad brings price and wage controls at home; on 11 March 1952 the sitting President loses his own party's New Hampshire primary to Senator Estes Kefauver, 19,800 votes to 15,927; on 29 March he says he will not run again; on 4 November 1952 his party loses the presidency.",
+      "fit_reason": "A war abroad, its cost at home as price and wage controls, the sitting President beaten in his own party's first primary, his withdrawal, and his party's loss of the presidency, all inside one horizon and all on primary record.",
+      "assets": 3,
+      "asset_counts": {
+        "document_ledger_items": 0,
+        "history_ledger_entries": 34,
+        "history_ledger_public": 19,
+        "history_recordings": 0,
+        "allowlisted_items_found": 7,
+        "footage_seconds": 0,
+        "period_documents": 3,
+        "period_perspectives": 2
+      },
+      "bridge": "clear on the founder's reading; the parties are named as 1952 institutions (no_bridge)"
+    },
+    {
+      "slug": "world-war-i",
+      "source": "void history event (no evidence ledger)",
+      "horizon": "1918-11-05",
+      "fit": 4,
+      "mechanism": "Submarines close the sea lanes, food and fuel prices climb at home, and the governing party loses both houses at a midterm its President had asked voters to make a vote on the war.",
+      "fit_reason": "Sea lane, prices and a lost midterm; not checked against primary sources in this session, and no held document of a party figure naming the war.",
+      "assets": 1,
+      "asset_counts": {
+        "document_ledger_items": 0,
+        "history_ledger_entries": 0,
+        "history_recordings": 0,
+        "footage_seconds": 0,
+        "period_documents": 0,
+        "period_perspectives": 0
+      },
+      "bridge": "risk: the story names Britain and France, both in the week's record"
+    },
+    {
+      "slug": "vietnam-war",
+      "source": "void history event + evidence ledger",
+      "horizon": "1968-03-31",
+      "fit": 2,
+      "status": "rejected (reviewer, 2026-11-12)",
+      "mechanism": "A war abroad, a President who tells the nation that prices and interest rates have risen because Congress has not passed his tax bill, and who on 31 March 1968 says he will not seek his party's nomination.",
+      "corrected_facts": [
+        "Johnson won the 12 March 1968 New Hampshire primary as a write-in candidate; McCarthy was second (the reviewer gives about 49.6% to 41.9%; not re-read from an official count in this session). The first pick's sentence said the reverse and was false.",
+        "No national election was lost inside the 31 March 1968 horizon.",
+        "The 'prices' sentence of 31 March 1968 blames congressional inaction on the tax bill, not the war; it cannot carry the mechanism.",
+        "Guevara is not a home-front perspective.",
+        "e33-echo-02 of the first pick (the address film) is the LBJ Library's YouTube post with an unknown camera, so 'federal work' was not shown; e33-echo-08 had neither a basis nor a date."
+      ],
+      "assets": 3,
+      "bridge": "clear"
+    },
+    {
+      "slug": "peloponnesian-war",
+      "source": "void history event (no evidence ledger)",
+      "horizon": "405 BC (Aegospotami)",
+      "fit": 3,
+      "mechanism": "A city's grain route through a strait is cut during a long war abroad, and its assembly votes under the cost.",
+      "fit_reason": "Strait and cost at home; no election turns out a governing party.",
+      "assets": 1,
+      "asset_counts": {
+        "document_ledger_items": 0,
+        "history_ledger_entries": 0,
+        "history_recordings": 0,
+        "footage_seconds": 0,
+        "period_documents": 0,
+        "period_perspectives": 0
+      },
+      "bridge": "clear"
+    },
+    {
+      "slug": "cuban-missile-crisis",
+      "source": "void history event + evidence ledger; void document film thirteen-days",
+      "horizon": "1962-10-28",
+      "fit": 2,
+      "mechanism": "A government closes a sea lane by naval quarantine two weeks before a midterm election.",
+      "fit_reason": "Sea lane and an election; no war, no cost at home through prices, no party punished.",
+      "assets": 5,
+      "asset_counts": {
+        "document_ledger_items": 44,
+        "history_ledger_entries": 61,
+        "history_ledger_public": 23,
+        "history_recordings": 3
+      },
+      "bridge": "clear on the founder's reading (the Soviet Union is not the week's Russia as an actor)"
+    },
+    {
+      "slug": "berlin-airlift (void document film every-three-minutes; not in the history bank)",
+      "source": "void document film",
+      "horizon": "1949-05-12",
+      "fit": 2,
+      "mechanism": "A blockade closes the routes into a city and its food and coal are rationed.",
+      "fit_reason": "A closed route and rationing; no war fought abroad by the city's government, no election lost.",
+      "assets": 4,
+      "asset_counts": {
+        "document_ledger_items": 34,
+        "footage_seconds": 11098
+      },
+      "bridge": "watch: Germany"
+    },
+    {
+      "slug": "panama-canal (void document film)",
+      "source": "void document film",
+      "horizon": "1914",
+      "fit": 1,
+      "mechanism": "A government builds a sea lane.",
+      "fit_reason": "A sea lane opened, not closed; no war cost, no election.",
+      "assets": 5,
+      "asset_counts": {
+        "document_ledger_items": 71,
+        "footage_seconds": 1744
+      },
+      "bridge": "clear"
+    }
+  ],
+  "excluded_by_no_bridge": [
+    {
+      "slug": "iran-iraq-war",
+      "names": [
+        "Iran"
+      ]
+    },
+    {
+      "slug": "suez-crisis",
+      "names": [
+        "Israel"
+      ]
+    },
+    {
+      "slug": "six-day-war",
+      "names": [
+        "Israel"
+      ]
+    },
+    {
+      "slug": "oil-embargo-1973 (not in the history bank)",
+      "names": [
+        "Israel",
+        "Saudi Arabia"
+      ]
+    }
+  ],
+  "top_three": [
+    "korean-war (fit 4, assets 3)",
+    "world-war-i (fit 4, assets 1)",
+    "peloponnesian-war (fit 3, assets 1)"
+  ],
+  "chosen": {
+    "slug": "korean-war",
+    "reason": "The founder's choice (chat 2026-11-12), and the highest fit on primary record: every link of the mechanism except the sea lane is held in a source opened and hashed here. It ties world-war-i on fit and leads it on assets and on sourcing.",
+    "mechanism": "A war fought abroad brings price and wage controls at home; on 11 March 1952 the sitting President loses his own party's New Hampshire primary to Senator Estes Kefauver, 19,800 votes to 15,927; on 29 March he says he will not run again; on 4 November 1952 his party loses the presidency.",
+    "mechanism_sources": {
+      "price and wage controls": "src-fr-19510130 (the regulation and its statement of considerations); src-truman-19510614",
+      "19,800 votes to 15,927": "src-nh-manual-1953",
+      "29 March": "src-truman-19520329",
+      "4 November 1952": "src-stevenson-19521105 (in the horizon: the concession as printed on the morning of 5 November); src-nara-ofr-1952 is the later record only"
+    },
+    "fit_gap": [
+      "No sea lane closes.",
+      "Truman gave no reason tied to Korea when he withdrew; his 29 March words are used only for the withdrawal.",
+      "The New Hampshire vote is a preference poll inside one party in one state, not a national election.",
+      "Congress is not in the mechanism sentence: the 1952 House and Senate majorities were not read from a primary source in this session, and they were settled in the days after the vote.",
+      "No leader of the governing party names the war as the reason for the loss inside the horizon (the week's lead has one); none is held."
+    ],
+    "as_of": "1952-11-05T12:00:00-05:00",
+    "as_of_basis": "The vote was cast on Tuesday 4 November 1952; the horizon is noon in Washington the next day. The result is known inside it from Stevenson's concession as the New York Times printed it that morning (src-stevenson-19521105), so the Echo may say who won the presidency and nothing more. Official counts (the electors' votes of December 1952, the Clerk's 1953 statistics) are later records and are never shown as known at the horizon. Truman's own statement of 5 November is not used: its hour is not shown.",
+    "outside_horizon": [
+      "the electors' votes of 15 December 1952 and the Clerk's printed counts",
+      "the December 1952 trip to Korea",
+      "the armistice of 27 July 1953",
+      "the 1953 congressional session"
+    ],
+    "told_story": "the war abroad (1951 pictures from the front); the price freeze of January 1951 on the desk; Truman's own words on prices and controls (June 1951); the New Hampshire count of 11 March 1952; the dinner of 29 March 1952 and the line he spoke there; Eisenhower's Detroit speech of 24 October 1952; the vote of 4 November.",
+    "result_rule": "The result enters a spoken or printed line only through src-stevenson-19521105, which is ledgered here; no other source for it is used."
+  },
+  "period_perspectives": [
+    {
+      "who": "Harry S. Truman, President (the governing party)",
+      "where": "broadcast from the White House, Washington",
+      "date": "1951-06-14",
+      "quote": "This is the problem of inflation and high prices.",
+      "quote_sha256": "7759abd732b7f21c3723494eae12afeb1e3bd9cbdbacfdad67389d2b53f1a4b8",
+      "also": {
+        "quote": "Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea.",
+        "quote_sha256": "c0ef2611a00aee866621a50276193995f1da72bf7b173658f196badb2e86366a",
+        "note": "the line 'We would need controls even if the fighting in Korea stopped tomorrow.' was dropped: it argues against the link"
+      },
+      "linked_by_speaker": "In this address Truman sets price controls beside the mobilisation and the fighting in Korea himself ('Now we are in a great mobilization effort. ... Now our men are fighting in Korea.').",
+      "source": "src-truman-19510614",
+      "rights": "public (a presidential address, a federal work)"
+    },
+    {
+      "who": "Harry S. Truman, President",
+      "where": "Jefferson-Jackson Day Dinner, National Guard Armory, Washington, 10:30 p.m.",
+      "date": "1952-03-29",
+      "quote": "I shall not be a candidate for reelection.",
+      "quote_sha256": "84ad550844ada9eb11b35440cd216465be50c1a8dccbec2c53986dd44f243588",
+      "linked_by_speaker": "the withdrawal only; he did not tie it to Korea, and the Echo does not",
+      "source": "src-truman-19520329",
+      "rights": "public",
+      "avoid": "the same address names Iran ('in Italy and Iran') in another passage; that passage is never quoted"
+    },
+    {
+      "who": "Dwight D. Eisenhower, Republican nominee for President (the opposition)",
+      "where": "Detroit, Michigan",
+      "date": "1952-10-24",
+      "quote": "In this anxious autumn for America, one fact looms above all others in our people's mind.",
+      "quote_sha256": "188d6129582b928d16e194134ed45a61ae773ae23b7bd8d879ca70c659cdcbfa",
+      "also": [
+        {
+          "quote": "This fact, this tragedy, this word is: Korea.",
+          "quote_sha256": "48e66695bc0ede391f12972f8f5f7c8ecccac96298e2fe52372d7d00288959f4"
+        },
+        {
+          "quote": "I shall go to Korea.",
+          "quote_sha256": "530845bafd8e587e3919608e93701c64b1226051214687feecc4c8bcbd0d9936"
+        }
+      ],
+      "linked_by_speaker": "Eisenhower makes Korea the issue of the election himself in this address.",
+      "source": "src-eisenhower-19521024 (transcribed from the scan)",
+      "rights": "a campaign text, quoted only"
+    },
+    {
+      "who": "Adlai E. Stevenson, the governing party's nominee",
+      "where": "Springfield, Illinois (printed in the New York Times, 5 November 1952, p. 14)",
+      "date": "1952-11-05",
+      "quote": "My fellow citizens have made their choice and have selected General Eisenhower and the Republican Party as the instruments of their will for the next four years.",
+      "quote_sha256": "b35c274bd2e5b94d8be1d8c5196690394a91a9089d2f24fc7f14826c9d1b1dea",
+      "linked_by_speaker": "the result only",
+      "source": "src-stevenson-19521105",
+      "rights": "copyright; quoted only"
+    }
+  ],
+  "period_documents": [
+    {
+      "id": "src-fr-19510130",
+      "what": "the General Ceiling Price Regulation in the Federal Register of 30 January 1951, printed then",
+      "licence": "pd-us-federal",
+      "show": "toured as the printed page"
+    },
+    {
+      "id": "src-eisenhower-19521024",
+      "what": "the Detroit speech as the campaign train released it, 24 October 1952",
+      "licence": "none: quoted, not shown",
+      "show": "read by the reader voice only"
+    },
+    {
+      "id": "src-truman-19520329",
+      "what": "the 29 March 1952 address",
+      "licence": "pd-us-federal",
+      "show": "typeset verbatim as a page and labelled as printed later (Public Papers)"
+    }
+  ],
+  "counts_on_screen": [
+    {
+      "what": "New Hampshire Democratic preference for President, 11 March 1952",
+      "values": {
+        "Kefauver": 19800,
+        "Truman": 15927
+      },
+      "source": "src-nh-manual-1953",
+      "show": "a count card from the record; the Manual's page is printed later and is not shown as of March 1952"
+    }
+  ],
+  "items": [
+    {
+      "id": "e33-echo-01",
+      "kind": "still",
+      "title": "Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200382, NLT-AVC-PHT-(73)3881, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, carried on the Commons page by the National Archives bot",
+      "licence": "pd-us-federal",
+      "basis": "a work of a federal employee in his official duties (17 U.S.C. 105); Commons PD-USGov and NARA-Author: Rowe, Abbie",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov",
+        "Creator:Abbie Rowe"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "7f294cce9043253b7853bbacfbd5f9249e638ee5",
+      "file_bytes": 1668786,
+      "width": 3000,
+      "height": 2399,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:10:59Z",
+      "inside_horizon": true,
+      "note": "The President and Mrs. Truman at the Jefferson-Jackson Day Dinner, the night he said he would not run. The 2026 catalogue search did not return this older identifier; the fetcher re-reads the NARA record before ledgering."
+    },
+    {
+      "id": "e33-echo-02",
+      "kind": "still",
+      "title": "Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200380, NLT-AVC-PHT-(73)3872, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, as above",
+      "licence": "pd-us-federal",
+      "basis": "as e33-echo-01",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov",
+        "Creator:Abbie Rowe"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "ecf5ee701f4e227ffd277381411e8dfc1a0ee515",
+      "file_bytes": 1844911,
+      "width": 3000,
+      "height": 2404,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:10:17Z",
+      "inside_horizon": true,
+      "note": "The President receiving applause at the dinner, National Guard Armory, Washington."
+    },
+    {
+      "id": "e33-echo-03",
+      "kind": "still",
+      "title": "Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President..._-_NARA_-_200383.jpg",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200383, NLT-AVC-PHT-(73)3883, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, as above",
+      "licence": "pd-us-federal",
+      "basis": "as e33-echo-01",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "c08bcef79e84ba7945644b83b6fef3aa286978d5",
+      "file_bytes": 1779036,
+      "width": 3000,
+      "height": 2399,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:11:25Z",
+      "inside_horizon": true,
+      "note": "A third frame at the dinner. The .tif master of the same record is on Commons too; fetch one, not both."
+    },
+    {
+      "id": "e33-echo-04",
+      "kind": "still",
+      "title": "Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200379, NLT-AVC-PHT-(73)3866, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, as above",
+      "licence": "pd-us-federal",
+      "basis": "as e33-echo-01",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov",
+        "Creator:Abbie Rowe"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "0923e10465e6230e11edbaa4c70c8e453ba029e6",
+      "file_bytes": 1565735,
+      "width": 3000,
+      "height": 2406,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:10:04Z",
+      "inside_horizon": true,
+      "note": "Arrival at the National Guard Armory before the address."
+    },
+    {
+      "id": "e33-echo-05",
+      "kind": "still",
+      "title": "Long trek southward, Seemingly endless file of Korean refugees slogs through snow outside of Kangnung, blocking... - NARA - 531397.tif",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Long_trek_southward%2C_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung%2C_blocking..._-_NARA_-_531397.tif",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 531397, 111-SC-356475, Records of the Office of the Chief Signal Officer (RG 111), Photographs of American Military Activities; use and access unrestricted (catalogue read 2026-11-12)",
+      "author": "a US Army Signal Corps photographer (RG 111-SC; the record names no individual)",
+      "date": "1951-01-08",
+      "date_basis": "the NARA record's production date, 8 January 1951",
+      "licence": "pd-us-federal",
+      "basis": "a work of the US Army made in the course of duty (17 U.S.C. 105); Commons PD-USGov",
+      "commons_templates": [
+        "Template:PD-USGov"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+        "captured_text": "LicenseShortName: Public domain; Artist: Unknown authorUnknown author or not provided; licence template: {{PD-USGov",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "51a5231d90394b736df2f543c9a65e8fe05a36ea",
+      "file_bytes": 7557282,
+      "width": 3000,
+      "height": 2519,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-09-12T20:25:27Z",
+      "inside_horizon": true,
+      "note": "Refugees in snow outside Kangnung: the war abroad, inside the horizon. The NARA title names no week entity."
+    },
+    {
+      "id": "e33-echo-06",
+      "kind": "still",
+      "title": "Missouri infantrymen with the 19th Infantry Regiment along the Kumsong front wish Happy New Year to the stateside folks. - NARA - 531422.tif",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 531422, 111-SC-387519, RG 111 as above; unrestricted",
+      "author": "a US Army Signal Corps photographer (RG 111-SC; no individual named)",
+      "date": "1951-12-14",
+      "date_basis": "the NARA record's production date, 14 December 1951",
+      "licence": "pd-us-federal",
+      "basis": "a work of the US Army made in the course of duty; Commons PD-USGov",
+      "commons_templates": [
+        "Template:PD-USGov"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+        "captured_text": "LicenseShortName: Public domain; Artist: Unknown authorUnknown author or not provided; licence template: {{PD-USGov",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "05feb794feb538176a8015710cfd014ab569901b",
+      "file_bytes": 7587282,
+      "width": 3000,
+      "height": 2529,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-09-12T20:12:24Z",
+      "inside_horizon": true,
+      "note": "Infantrymen on the Kumsong front sending New Year greetings home: the front and the home front in one frame."
+    },
+    {
+      "id": "e33-echo-07",
+      "kind": "still",
+      "title": "Bell H-13 and Curtiss C-46 in Korea 1952.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Bell_H-13_and_Curtiss_C-46_in_Korea_1952.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Bell_H-13_and_Curtiss_C-46_in_Korea_1952.jpg",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 542283, 342-AF-86335AC, Records of U.S. Air Force Commands, Activities, and Organizations (RG 342); unrestricted",
+      "author": "a US Air Force photographer (RG 342-AF; no individual named)",
+      "date": "1952-06",
+      "date_basis": "the NARA record dates it June 1952; the Commons page says 1952-01. NARA's date is used",
+      "licence": "pd-us-federal",
+      "basis": "a work of the US Air Force made in the course of duty; Commons PD-USGov-Military-Air Force",
+      "commons_templates": [
+        "Template:PD-USGov-Military-Air Force"
+      ],
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Bell_H-13_and_Curtiss_C-46_in_Korea_1952.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: USAF (photo 342-AF-86335AC); licence template: {{PD-USGov-Military-Air Force",
+        "captured_at": "2026-11-12"
+      },
+      "commons_sha1": "a0a630cdb35e6207d48b3e3f41ab53d3d40b8ea1",
+      "file_bytes": 2286201,
+      "width": 2829,
+      "height": 1988,
+      "uploader": "Cobatfor",
+      "uploaded": "2011-08-24T06:20:32Z",
+      "inside_horizon": true,
+      "note": "A helicopter carrying two wounded soldiers to a front-line airstrip. Uploaded in 2011 by a Commons user, not the NARA bot; the fetcher's uploader check applies, and the NARA copy is the one to fetch. Fetch NARA 542283's own file.",
+      "fetch_from": "the National Archives copy of record 542283 (342-AF-86335AC), not the Commons upload"
+    }
+  ],
+  "items_counted": {
+    "distinct_allowlisted": 7,
+    "bases": "7 pd-us-federal: 4 by Abbie Rowe (National Park Service), 2 by US Army Signal Corps photographers (RG 111), 1 by a US Air Force photographer (RG 342); none from an agency, wire service or network; all dated on or before the horizon",
+    "footage_seconds": 0
+  },
+  "held_back": [
+    {
+      "title": "Terror-stricken Koreans flee the advancing Chinese Communists (SC 355573), National Museum of Health and Medicine (3298815186).jpg",
+      "licence_as_stated": "CC BY 2.0 (the museum's Flickr post)",
+      "reason": "a Signal Corps photograph reached through a museum's Flickr licence, with no capture date on the Commons page; fetch the NARA original of SC 355573 with its date, or leave it"
+    },
+    {
+      "title": "Text of the address by Dwight D. Eisenhower, Detroit, 24 October 1952 (Eisenhower campaign train press release)",
+      "item_url": "https://www.eisenhowerlibrary.gov/sites/default/files/research/online-documents/korean-war/i-shall-go-to-korea-1952-10-24.pdf",
+      "licence_as_stated": "none stated",
+      "reason": "a campaign document, not a federal work, and no licence on the Library's page: quoted only (reader voice), never shown as a picture"
+    },
+    {
+      "title": "The .tif masters of NARA 200380, 200382 and 200383",
+      "licence_as_stated": "Public domain",
+      "reason": "duplicates of e33-echo-01 to -03; one file per record"
+    }
+  ],
+  "sha_note": "Commons gives sha1 only; sha256 is computed when the fetcher downloads each item into D:/omnibus-media/33/ and is written to rights-ledger.json then. Source documents were downloaded to the analyst's scratch folder only, and their sha256 is above.",
+  "reused_from_document": {
+    "items": 0,
+    "ledger": "ledgers/echo-reused.json",
+    "reason": "No void document film covers 1950 to 1952."
+  },
+  "no_bridge": {
+    "ruling": "Founder, chat 2026-11-12: no-bridge flags only the week's named actors, places and parties (Vance, Iran, Hormuz, the parties as actors in this week's news), not shared institutions (United States, Congress, Washington).",
+    "parties": "Founder's ruling (chat 2026-11-12, asked directly): the 1952 party names 'Democratic' and 'Republican' are allowed in the Echo as institutions; no person or event from this week's news may appear. 'GOP' and this week's persons and places stay flagged.",
+    "must_not_appear_in_echo_lines": [
+      "Iran",
+      "Israel",
+      "Hormuz",
+      "Vance",
+      "Trump",
+      "Hegseth",
+      "Miller",
+      "Qeshm",
+      "Gulf of Oman",
+      "Saudi",
+      "Aramco",
+      "Russia",
+      "Ukraine",
+      "Kyiv",
+      "Britain",
+      "British",
+      "Congo",
+      "Ebola",
+      "Antigua",
+      "GOP"
+    ]
+  },
+  "picked_after_week_known": true,
+  "picked_after_week_known_statement": "This Echo was picked on 2026-11-12, after week 33's lead was known, because the pre-registered echo bank (24 echoes tagged by mechanism before any week's news, bible section k) has not yet been built.",
+  "sources_considered_not_used": [
+    {
+      "id": "src-truman-19521105",
+      "what": "Statement by the President on the Election of Dwight D. Eisenhower, dated 5 November 1952",
+      "url": "https://www.presidency.ucsb.edu/node/231080",
+      "sha256": "b5e520f71a81407c30e0440e94ef571feffdb1a77ab20f0e157b87e2e7fed4f5",
+      "reason": "the page gives the date but no hour of issue; it is not shown to be before noon on 5 November, so it is not used"
+    }
+  ],
+  "document_lines": [
+    {
+      "source": "src-fr-19510130",
+      "quote": "Since the outbreak in Korea, basic commodity prices have risen almost 50 percent, farm prices about 16 percent, wholesale food prices 12 percent, and industrial prices about 14 percent.",
+      "quote_sha256": "adee056ba1e6025c01425a5aa770796b972b0aad262014bd38607486e009491a",
+      "note": "the Office of Price Stabilization's own link of Korea and prices, printed 30 January 1951; line-end hyphens of the printed column joined"
+    }
+  ]
+}

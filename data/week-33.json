@@ -1291,7 +1291,14 @@
     ]
   },
   "echo": {
-    "slug": null,
-    "status": "pending"
+    "slug": "korean-war",
+    "title": "The Korean War",
+    "date_display": "1950-1953",
+    "horizon": "1952-11-05",
+    "status": "approved",
+    "approved_by": "founder, chat 2026-11-12",
+    "pick": "episodes/33/echo-pick.json",
+    "page": "https://news.voidvision.org/history/korean-war/",
+    "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/data/history/events/korean-war.yaml"
   }
 }
