@@ -54,6 +54,14 @@
       "database_id": "37aae62e-cd63-41d2-92a2-7b54498df034"
     }
   ],
+  // The daily snapshots of void news's printed day (scripts/snapshot.mjs,
+  // .github/workflows/snapshot.yml) live here under snapshots/. The Worker
+  // only reads snapshots/heartbeat.json (GET /api/snapshots/heartbeat). R2
+  // bills past its free tier, so the uploader caps every size in code
+  // (scripts/lib/snapshot.mjs LIMITS, scripts/lib/snapshot-store.mjs).
+  "r2_buckets": [
+    { "binding": "SNAPSHOTS", "bucket_name": "omnibus" }
+  ],
   "vars": {
     "BUILD_TAG": "dev",
     // Day ceilings (worker/src/config.ts). Together their worst case is this
