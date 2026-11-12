@@ -1,0 +1,83 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/search?nasa_id=as11-40-5903",
+  "at": "2026-11-12T09:02:43Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/search?nasa_id=as11-40-5903",
+   "items": [
+    {
+     "href": "https://images-assets.nasa.gov/image/as11-40-5903/collection.json",
+     "data": [
+      {
+       "center": "JSC",
+       "date_created": "1969-07-20T00:00:00Z",
+       "description": "AS11-40-5903 (20 July 1969) --- Astronaut Edwin E. Aldrin Jr., lunar module pilot, walks on the surface of the moon near the leg of the Lunar Module (LM) \"Eagle\" during the Apollo 11 extravehicular activity (EVA). Astronaut Neil A. Armstrong, commander, took this photograph with a 70mm lunar surface camera. While astronauts Armstrong and Aldrin descended in the Lunar Module (LM) \"Eagle\" to explore the Sea of Tranquility region of the moon, astronaut Michael Collins, command module pilot, remained with the Command and Service Modules (CSM) \"Columbia\" in lunar orbit.",
+       "keywords": [
+        "ACTIVITY",
+        "APOLLO 11",
+        "APOLLO PROJECT",
+        "ASTRONAUTS",
+        "EXTRAVEHICULAR ACTIVITY",
+        "EXTRAVEHICULAR MOBILITY UNITS",
+        "LUNAR MODULE",
+        "LUNAR PHOTOGRAPHY",
+        "LUNAR SOIL LUNAR SURFACE",
+        "MOON",
+        "PHOTOGRAPHY"
+       ],
+       "media_type": "image",
+       "nasa_id": "as11-40-5903",
+       "title": "Astronaut Edwin Aldrin walks on lunar surface near leg of Lunar Module"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 1280,
+       "size": 262000,
+       "height": 1249
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~small.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 640,
+       "size": 83000,
+       "height": 624
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~thumb.jpg",
+       "rel": "preview",
+       "render": "image",
+       "width": 640,
+       "size": 83000,
+       "height": 624
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~large.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 1920,
+       "size": 496000,
+       "height": 1874
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~orig.jpg",
+       "rel": "canonical",
+       "render": "image"
+      }
+     ]
+    }
+   ],
+   "metadata": {
+    "total_hits": 1
+   }
+  }
+ }
+}

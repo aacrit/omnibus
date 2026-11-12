@@ -1,0 +1,20 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&list=users&ususers=Ziko&usprop=registration%7Ceditcount",
+  "at": "2026-11-12T09:02:43Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "users": [
+    {
+     "userid": 133575,
+     "name": "Ziko",
+     "editcount": 42012,
+     "registration": "2007-03-25T22:02:37Z"
+    }
+   ]
+  }
+ }
+}

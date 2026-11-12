@@ -1,0 +1,73 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/search?nasa_id=KSC-20200429-PH-SPX01_0001",
+  "at": "2026-11-12T09:24:30Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/search?nasa_id=KSC-20200429-PH-SPX01_0001",
+   "items": [
+    {
+     "href": "https://images-assets.nasa.gov/image/KSC-20200429-PH-SPX01_0001/collection.json",
+     "data": [
+      {
+       "center": "KSC",
+       "date_created": "2020-04-29T00:00:00Z",
+       "description": "An illustration of the SpaceX Crew Dragon.",
+       "keywords": [
+        "CCP",
+        "Commercial Crew Program",
+        "SpaceX",
+        "Crew Dragon"
+       ],
+       "location": "KSC",
+       "media_type": "image",
+       "nasa_id": "KSC-20200429-PH-SPX01_0001",
+       "photographer": "SpaceX",
+       "title": "An illustration of the SpaceX Crew Dragon"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20200429-PH-SPX01_0001/KSC-20200429-PH-SPX01_0001~medium.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 1280,
+       "size": 35000,
+       "height": 719
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20200429-PH-SPX01_0001/KSC-20200429-PH-SPX01_0001~small.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 640,
+       "size": 11000,
+       "height": 359
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20200429-PH-SPX01_0001/KSC-20200429-PH-SPX01_0001~thumb.jpg",
+       "rel": "preview",
+       "render": "image",
+       "width": 640,
+       "size": 11000,
+       "height": 359
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20200429-PH-SPX01_0001/KSC-20200429-PH-SPX01_0001~orig.jpg",
+       "rel": "canonical",
+       "render": "image",
+       "height": 1500,
+       "width": 2667,
+       "size": 156000
+      }
+     ]
+    }
+   ],
+   "metadata": {
+    "total_hits": 1
+   }
+  }
+ }
+}

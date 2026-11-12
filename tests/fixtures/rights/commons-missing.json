@@ -1,0 +1,23 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3ANo+such+file+omnibus+T2+fixture.jpg",
+  "at": "2026-11-12T09:02:43Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "ns": 6,
+     "title": "File:No such file omnibus T2 fixture.jpg",
+     "missing": true,
+     "imagerepository": ""
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

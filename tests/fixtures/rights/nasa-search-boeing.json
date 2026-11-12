@@ -1,0 +1,65 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/search?nasa_id=KSC-20161017-PH_BOE01_0001",
+  "at": "2026-11-12T09:24:31Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/search?nasa_id=KSC-20161017-PH_BOE01_0001",
+   "items": [
+    {
+     "href": "https://images-assets.nasa.gov/image/KSC-20161017-PH_BOE01_0001/collection.json",
+     "data": [
+      {
+       "center": "KSC",
+       "date_created": "2016-10-17T00:00:00Z",
+       "description": "Engineers work with the solar array for Boeing's CST-100 Starliner spacecraft at Spectrolab in Sylmar, California. The solar arrays will power the Starliner as it flies through space and while it is docked to the International Space Station. Photo credit: Boeing",
+       "keywords": [
+        "Boeing",
+        "Starliner",
+        "CST-100",
+        "solar array"
+       ],
+       "location": "Spectrolab, Sylmar California",
+       "media_type": "image",
+       "nasa_id": "KSC-20161017-PH_BOE01_0001",
+       "photographer": "Boeing",
+       "title": "Boeing's Starliner CST-100"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20161017-PH_BOE01_0001/KSC-20161017-PH_BOE01_0001~small.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 640,
+       "size": 49000,
+       "height": 369
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20161017-PH_BOE01_0001/KSC-20161017-PH_BOE01_0001~thumb.jpg",
+       "rel": "preview",
+       "render": "image",
+       "width": 640,
+       "size": 49000,
+       "height": 369
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/KSC-20161017-PH_BOE01_0001/KSC-20161017-PH_BOE01_0001~orig.jpg",
+       "rel": "canonical",
+       "render": "image",
+       "height": 967,
+       "width": 1676,
+       "size": 1025000
+      }
+     ]
+    }
+   ],
+   "metadata": {
+    "total_hits": 1
+   }
+  }
+ }
+}

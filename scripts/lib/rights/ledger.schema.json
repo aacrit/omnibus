@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omnibus.voidvision.org/schema/rights-ledger-1.json",
+  "title": "void omnibus rights ledger, one per episode (episodes/<issue>/rights-ledger.json)",
+  "description": "Item fields lifted from void document's ledgers (aacrit/document@b62c4fa42017d5f3432bb3317b0fc03465bda193: films/panama-canal/stills-ledger.json and footage-ledger.json); licence_evidence and rights_checked are structured here where document kept prose. Written by scripts/rights.mjs fetch, never by hand.",
+  "type": "object",
+  "required": ["schema", "issue", "items", "rejected"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "omnibus.rights-ledger/1" },
+    "issue": { "type": "integer", "minimum": 1 },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/item" } },
+    "rejected": { "type": "array", "items": { "$ref": "#/$defs/rejection" } }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?$" },
+    "datetime": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+    "https": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 2048 },
+    "item": {
+      "type": "object",
+      "required": [
+        "id", "request_id", "kind", "adapter", "title", "licence", "licence_evidence", "basis", "rights_checked",
+        "item_url", "media_url", "file", "sha256", "bytes", "credit", "date", "content_date", "source_tier",
+        "ai_provenance_check", "laundering_check"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$" },
+        "request_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$" },
+        "kind": { "enum": ["still", "footage", "sound", "document"] },
+        "adapter": { "enum": ["commons", "nasa", "loc", "dvids"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 400 },
+        "licence": {
+          "description": "A canonical id; the licence-allowlist lint (scripts/lib/rights/lints.mjs) decides which pass, so a wrong one fails under that rule's name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "licence_evidence": {
+          "type": "object",
+          "required": ["url", "captured_text", "captured_at"],
+          "additionalProperties": false,
+          "properties": {
+            "url": { "$ref": "#/$defs/https" },
+            "captured_text": { "type": "string", "minLength": 1, "maxLength": 4000 },
+            "captured_at": { "$ref": "#/$defs/datetime" }
+          }
+        },
+        "basis": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "rights_checked": {
+          "type": "object",
+          "required": ["date", "by"],
+          "additionalProperties": false,
+          "properties": {
+            "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+            "by": { "type": "string", "minLength": 1, "maxLength": 200 }
+          }
+        },
+        "item_url": { "$ref": "#/$defs/https" },
+        "media_url": { "$ref": "#/$defs/https" },
+        "file": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$" },
+        "mime": { "type": ["string", "null"], "maxLength": 100 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "credit": { "type": "string", "minLength": 1, "maxLength": 600 },
+        "date": { "anyOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+        "published_at": { "anyOf": [{ "$ref": "#/$defs/datetime" }, { "$ref": "#/$defs/date" }, { "type": "null" }] },
+        "content_date": { "anyOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+        "source_tier": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "ai_provenance_check": {
+          "type": "object",
+          "required": ["status", "method", "checked", "findings", "vision"],
+          "additionalProperties": false,
+          "properties": {
+            "status": { "enum": ["clear", "flagged"] },
+            "method": { "const": "metadata" },
+            "checked": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            "findings": { "type": "array", "items": { "type": "string" } },
+            "vision": { "enum": ["pending", "clear", "flagged"] }
+          }
+        },
+        "laundering_check": {
+          "type": "object",
+          "required": ["status", "findings"],
+          "additionalProperties": false,
+          "properties": {
+            "status": { "enum": ["clear", "suspect", "not_applicable"] },
+            "findings": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "rejection": {
+      "type": "object",
+      "required": ["request_id", "adapter", "ref", "reasons"],
+      "additionalProperties": false,
+      "properties": {
+        "request_id": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "adapter": { "type": "string", "minLength": 1, "maxLength": 20 },
+        "ref": { "type": "string", "minLength": 1, "maxLength": 400 },
+        "reasons": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    }
+  }
+}

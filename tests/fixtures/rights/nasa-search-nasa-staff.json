@@ -1,0 +1,91 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/search?nasa_id=NHQ202409270003",
+  "at": "2026-11-12T09:24:31Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/search?nasa_id=NHQ202409270003",
+   "items": [
+    {
+     "href": "https://images-assets.nasa.gov/image/NHQ202409270003/collection.json",
+     "data": [
+      {
+       "album": [
+        "SpaceX_Crew_9"
+       ],
+       "center": "HQ",
+       "date_created": "2024-09-27T00:00:00Z",
+       "description": "A SpaceX Falcon 9 rocket with the company's Dragon spacecraft on top is seen, photographed at an angle, as it is raised into a vertical position on the launch pad at Space Launch Complex 40 as preparations continue for the Crew-9 mission, Friday, Sept. 27, 2024, at Cape Canaveral Space Force Station in Florida. NASA’s SpaceX Crew-9 mission is the ninth crew rotation mission of the SpaceX Dragon spacecraft and Falcon 9 rocket to the International Space Station as part of the agency’s Commercial Crew Program. NASA astronaut Nick Hague and Roscosmos cosmonaut Aleksandr Gorbunov are scheduled to launch on 1:17 p.m. EDT on Saturday, Sept. 28, from Space Launch Complex 40 at the Cape Canaveral Space Force Station. Photo Credit: (NASA/Keegan Barber)",
+       "keywords": [
+        "Cape Canaveral",
+        "Cape Canaveral Space Force Station (CCSFS)",
+        "Commercial Crew Program",
+        "Crew Dragon",
+        "Crew-9",
+        "Crew-9 Preflight",
+        "Falcon 9",
+        "Florida",
+        "Roscosmos",
+        "Space Launch Complex 40",
+        "SpaceX"
+       ],
+       "location": "Cape Canaveral Space Force Stati",
+       "media_type": "image",
+       "nasa_id": "NHQ202409270003",
+       "photographer": "NASA/Keegan Barber",
+       "title": "NASA’s SpaceX Crew-9 Falcon 9/Dragon Rollout at Space Launch C"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~medium.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 820,
+       "size": 108000,
+       "height": 1280
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~small.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 410,
+       "size": 36000,
+       "height": 640
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~thumb.jpg",
+       "rel": "preview",
+       "render": "image",
+       "width": 410,
+       "size": 36000,
+       "height": 640
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~large.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 1230,
+       "size": 207000,
+       "height": 1920
+      },
+      {
+       "href": "https://images-assets.nasa.gov/image/NHQ202409270003/NHQ202409270003~orig.jpg",
+       "rel": "canonical",
+       "render": "image",
+       "height": 7442,
+       "width": 4769,
+       "size": 19922944
+      }
+     ]
+    }
+   ],
+   "metadata": {
+    "total_hits": 1
+   }
+  }
+ }
+}

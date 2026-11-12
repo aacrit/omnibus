@@ -35,6 +35,8 @@ const STEPS = [
   { label: "lint-design", run: () => runNode("scripts/lint-design.mjs") },
   { label: "lint-docs", run: () => runNode("scripts/lint-docs.mjs") },
   { label: "lint-events", run: () => runNode("scripts/lint-events.mjs") },
+  // Rights (bible section j): licence-allowlist, licence-evidence, ai-generated-share-zero.
+  { label: "lint-rights", run: () => runNode("scripts/lint-rights.mjs") },
   { label: "gate-selftest", run: () => runNode("scripts/gate-selftest.mjs") },
 ];
 

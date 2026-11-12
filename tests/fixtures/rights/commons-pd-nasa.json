@@ -1,0 +1,199 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3AAldrin+Apollo+11+original.jpg",
+  "at": "2026-11-12T09:02:43Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 3847764,
+     "ns": 6,
+     "title": "File:Aldrin Apollo 11 original.jpg",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2012-01-26T16:29:10Z",
+       "user": "Prof. Professorson",
+       "size": 4815461,
+       "width": 3912,
+       "height": 3936,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/9/98/Aldrin_Apollo_11_original.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Aldrin_Apollo_11_original.jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=3847764",
+       "sha1": "d1e48ecc990e97f4543038b4ecc8eaf77a33b24b",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Aldrin Apollo 11 original",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "A Man on the Moon (photo by Neil Armstrong)|PD NASA|Omega Speedmaster in Apollo, Gemini and other space programs|Files with derivative versions|Formerly featured pictures on Wikipedia, English|Files from NASA with known IDs|Files with Assessments template missing SDC Commons no value quality assessment|Featured pictures on Wikipedia, Arabic|Apollo 11 Hasselblad film magazine 40",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "<br>\n<ul><li><b>Short description</b>: Astronaut Buzz Aldrin on the <a href=\"//commons.wikimedia.org/wiki/Moon\" title=\"Moon\">moon</a></li>\n<li><b>Full description</b>: Astronaut <a href=\"https://en.wikipedia.org/wiki/Buzz_Aldrin\" class=\"extiw\" title=\"en:Buzz Aldrin\">Buzz Aldrin</a>, <a href=\"https://en.wikipedia.org/wiki/Apollo_program#Manned_missions\" class=\"extiw\" title=\"en:Apollo program\">lunar module pilot</a>, stands on the surface of the moon near the leg of the lunar module, <i>Eagle</i>, during the Apollo 11 <a href=\"https://en.wikipedia.org/wiki/Extra-vehicular_activity\" class=\"extiw\" title=\"en:Extra-vehicular activity\">moonwalk</a>. Astronaut <a href=\"https://en.wikipedia.org/wiki/Neil_Armstrong\" class=\"extiw\" title=\"en:Neil Armstrong\">Neil Armstrong</a>, <a href=\"https://en.wikipedia.org/wiki/Apollo_program#Manned_missions\" class=\"extiw\" title=\"en:Apollo program\">mission commander</a>, took this photograph with a 70mm lunar surface camera. While Armstrong and Aldrin descended in the <a href=\"https://en.wikipedia.org/wiki/Apollo_Lunar_Module\" class=\"extiw\" title=\"en:Apollo Lunar Module\">lunar module</a> to explore the <a href=\"https://en.wikipedia.org/wiki/Mare_Tranquillitatis\" class=\"extiw\" title=\"en:Mare Tranquillitatis\">Sea of Tranquility</a>, astronaut <a href=\"https://en.wikipedia.org/wiki/Michael_Collins_(astronaut)\" class=\"extiw\" title=\"en:Michael Collins (astronaut)\">Michael Collins</a>, <a href=\"https://en.wikipedia.org/wiki/Apollo_program#Manned_missions\" class=\"extiw\" title=\"en:Apollo program\">command module pilot</a>, remained in lunar orbit with the <a href=\"https://en.wikipedia.org/wiki/Apollo_Command/Service_Module\" class=\"extiw\" title=\"en:Apollo Command/Service Module\">Command and Service Module</a>, <i>Columbia</i>. The picture features additionally to Aldrin, in his visor as reflections, Armstrong, Earth,<sup id=\"cite_ref-Byrne._2019_1-0\" class=\"reference\"><a href=\"#cite_note-Byrne._2019-1\"><span class=\"cite-bracket\">[</span>1<span class=\"cite-bracket\">]</span></a></sup> the lander, as well as the placed flag and instruments.</li>\n<li>This is the actual photograph as exposed on the moon by Armstrong. He held the camera slightly rotated so that the camera frame did not include the top of Aldrin's <a href=\"https://en.wikipedia.org/wiki/Portable_Life_Support_System\" class=\"extiw\" title=\"en:Portable Life Support System\">portable life support system</a> (\"backpack\"). A communications antenna mounted on top of the backpack is also cut off in this picture. When the image was released to the public, it was rotated clockwise to restore the astronaut to vertical for a more harmonious composition, and a black area was added above his head to recreate the missing black lunar \"sky\". The edited version is the one most commonly reproduced and known to the public, but the original version, above, is the authentic exposure. A full explanation with illustrations can be seen at the <a rel=\"nofollow\" class=\"external text\" data-mw-original-href=\"http://www.hq.nasa.gov/alsj/a11/a11-5903history.html\" href=\"https://www.hq.nasa.gov/alsj/a11/a11-5903history.html\"><i>Apollo Lunar Surface Journal</i></a>.</li></ul>",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "1969-07-21",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<ul><li><a rel=\"nofollow\" class=\"external free\" data-mw-original-href=\"http://www.hq.nasa.gov/alsj/a11/AS11-40-5903HR.jpg\" href=\"https://www.hq.nasa.gov/alsj/a11/AS11-40-5903HR.jpg\">http://www.hq.nasa.gov/alsj/a11/AS11-40-5903HR.jpg</a></li>\n<li><a rel=\"nofollow\" class=\"external free\" href=\"http://www.archive.org/details/AS11-40-5903\">http://www.archive.org/details/AS11-40-5903</a> (<a rel=\"nofollow\" class=\"external text\" href=\"https://archive.org/download/AS11-40-5903/as11-40-5903.tif\">TIFF image</a>)</li>\n<li><a rel=\"nofollow\" class=\"external text\" href=\"https://images.nasa.gov/details-as11-40-5903\">NASA Image and Video Library</a></li></ul>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a href=\"https://en.wikipedia.org/wiki/Neil_Armstrong\" class=\"extiw\" title=\"en:Neil Armstrong\">Neil Armstrong</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Public domain",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "false",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Copyrighted": {
+         "value": "False",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "pd",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      },
+      {
+       "timestamp": "2008-04-08T10:09:20Z",
+       "user": "TheDJ",
+       "size": 1173657,
+       "width": 2349,
+       "height": 2373,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/archive/9/98/20120126162909%21Aldrin_Apollo_11_original.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Aldrin_Apollo_11_original.jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=3847764",
+       "sha1": "0a33f4f0fe9f5d812a47e67fb480713bb6063b22",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Aldrin Apollo 11 original",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "A Man on the Moon (photo by Neil Armstrong)|PD NASA|Omega Speedmaster in Apollo, Gemini and other space programs|Files with derivative versions|Formerly featured pictures on Wikipedia, English|Files from NASA with known IDs|Files with Assessments template missing SDC Commons no value quality assessment|Featured pictures on Wikipedia, Arabic|Apollo 11 Hasselblad film magazine 40",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "<br>\n<ul><li><b>Short description</b>: Astronaut Buzz Aldrin on the <a href=\"/wiki/Moon\" title=\"Moon\">moon</a></li>\n<li><b>Full description</b>: Astronaut <a href=\"https://en.wikipedia.org/wiki/Buzz_Aldrin\" class=\"extiw\" title=\"en:Buzz Aldrin\">Buzz Aldrin</a>, <a href=\"https://en.wikipedia.org/wiki/Apollo_program#Manned_missions\" class=\"extiw\" title=\"en:Apollo program\">lunar module pilot</a>, stands on the surface of the moon near the leg of the lunar module, <i>Eagle</i>, during the Apollo 11 <a href=\"https://en.wikipedia.org/wiki/Extra-vehicular_activity\" class=\"extiw\" title=\"en:Extra-vehicular activity\">moonwalk</a>. Astronaut <a href=\"https://en.wikipedia.org/wiki/Neil_Armstrong\" class=\"extiw\" title=\"en:Neil Armstrong\">Neil Armstrong</a>, <a href=\"https://en.wikipedia.org/wiki/Apollo_program#Manned_missions\" class=\"extiw\" title=\"en:Apollo program\">mission commander</a>, took this photograph with a 70mm lunar surface camera. While Armstrong and Aldrin descended in the <a href=\"https://en.wikipedia.org/wiki/Apollo_Lunar_Module\" class=\"extiw\" title=\"en:Apollo Lunar Module\">lunar module</a> to explore the <a href=\"https://en.wikipedia.org/wiki/Mare_Tranquillitatis\" class=\"extiw\" title=\"en:Mare Tranquillitatis\">Sea of Tranquility</a>, astronaut <a href=\"https://en.wikipedia.org/wiki/Michael_Collins_(astronaut)\" class=\"extiw\" title=\"en:Michael Collins (astronaut)\">Michael Collins</a>, <a href=\"https://en.wikipedia.org/wiki/Apollo_program#Manned_missions\" class=\"extiw\" title=\"en:Apollo program\">command module pilot</a>, remained in lunar orbit with the <a href=\"https://en.wikipedia.org/wiki/Apollo_Command/Service_Module\" class=\"extiw\" title=\"en:Apollo Command/Service Module\">Command and Service Module</a>, <i>Columbia</i>. The picture features additionally to Aldrin, in his visor as reflections, Armstrong, Earth,<sup id=\"cite_ref-Byrne._2019_1-0\" class=\"reference\"><a href=\"#cite_note-Byrne._2019-1\"><span class=\"cite-bracket\">[</span>1<span class=\"cite-bracket\">]</span></a></sup> the lander, as well as the placed flag and instruments.</li>\n<li>This is the actual photograph as exposed on the moon by Armstrong. He held the camera slightly rotated so that the camera frame did not include the top of Aldrin's <a href=\"https://en.wikipedia.org/wiki/Portable_Life_Support_System\" class=\"extiw\" title=\"en:Portable Life Support System\">portable life support system</a> (\"backpack\"). A communications antenna mounted on top of the backpack is also cut off in this picture. When the image was released to the public, it was rotated clockwise to restore the astronaut to vertical for a more harmonious composition, and a black area was added above his head to recreate the missing black lunar \"sky\". The edited version is the one most commonly reproduced and known to the public, but the original version, above, is the authentic exposure. A full explanation with illustrations can be seen at the <a rel=\"nofollow\" class=\"external text\" data-mw-original-href=\"http://www.hq.nasa.gov/alsj/a11/a11-5903history.html\" href=\"https://www.hq.nasa.gov/alsj/a11/a11-5903history.html\"><i>Apollo Lunar Surface Journal</i></a>.</li></ul>",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "1969-07-21",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<ul><li><a rel=\"nofollow\" class=\"external free\" data-mw-original-href=\"http://www.hq.nasa.gov/alsj/a11/AS11-40-5903HR.jpg\" href=\"https://www.hq.nasa.gov/alsj/a11/AS11-40-5903HR.jpg\">http://www.hq.nasa.gov/alsj/a11/AS11-40-5903HR.jpg</a></li>\n<li><a rel=\"nofollow\" class=\"external free\" href=\"http://www.archive.org/details/AS11-40-5903\">http://www.archive.org/details/AS11-40-5903</a> (<a rel=\"nofollow\" class=\"external text\" href=\"https://archive.org/download/AS11-40-5903/as11-40-5903.tif\">TIFF image</a>)</li>\n<li><a rel=\"nofollow\" class=\"external text\" href=\"https://images.nasa.gov/details-as11-40-5903\">NASA Image and Video Library</a></li></ul>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a href=\"https://en.wikipedia.org/wiki/Neil_Armstrong\" class=\"extiw\" title=\"en:Neil Armstrong\">Neil Armstrong</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Public domain",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "false",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Copyrighted": {
+         "value": "False",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "pd",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:A Man on the Moon (photo by Neil Armstrong)"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Apollo 11 Hasselblad film magazine 40"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Featured pictures on Wikipedia, Arabic"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Files from NASA with known IDs"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Files with Assessments template missing SDC Commons no value quality assessment"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Files with derivative versions"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Formerly featured pictures on Wikipedia, English"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Omega Speedmaster in Apollo, Gemini and other space programs"
+      },
+      {
+       "ns": 14,
+       "title": "Category:PD NASA"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

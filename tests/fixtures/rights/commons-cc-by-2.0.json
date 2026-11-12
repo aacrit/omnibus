@@ -1,0 +1,187 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3AHollerithMachine.CHM.jpg",
+  "at": "2026-11-12T09:02:43Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 13310425,
+     "ns": 6,
+     "title": "File:HollerithMachine.CHM.jpg",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2015-03-07T02:07:12Z",
+       "user": "Atompowered",
+       "size": 1777136,
+       "width": 2755,
+       "height": 2066,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/HollerithMachine.CHM.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:HollerithMachine.CHM.jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=13310425",
+       "sha1": "a944c4b6d8b06451d7456aec554493fabee7bc3b",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "HollerithMachine.CHM",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Flickr images uploaded by Flickr upload bot|Punch card sorters|Hollerith census machine in the Computer History Museum",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Replica of early <a href=\"https://en.wikipedia.org/wiki/Hollerith\" class=\"extiw\" title=\"w:Hollerith\">w:Hollerith</a> punched card tabulator and sorting box (right) at <a href=\"https://en.wikipedia.org/wiki/Computer_History_Museum\" class=\"extiw\" title=\"w:Computer History Museum\">w:Computer History Museum</a>",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "circa 1890<div style=\"display: none;\">date QS:P,+1890-00-00T00:00:00Z/9,P1480,Q5727902</div> (file-date: 2007-02-25 20:04:28)",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a href=\"//commons.wikimedia.org/wiki/Flickr\" class=\"mw-redirect\" title=\"Flickr\">Flickr</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/44124384537@N01/411109339\">Proto IBM</a>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/44124384537@N01\">Adam Schuster</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY 2.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution 2.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by/2.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-2.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      },
+      {
+       "timestamp": "2011-02-15T19:13:07Z",
+       "user": "Flickr upload bot",
+       "size": 400072,
+       "width": 1024,
+       "height": 683,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/archive/4/4e/20150307020711%21HollerithMachine.CHM.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:HollerithMachine.CHM.jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=13310425",
+       "sha1": "b98d1cca5d291a8becb69cb9184d009159c05e87",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "HollerithMachine.CHM",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Flickr images uploaded by Flickr upload bot|Punch card sorters|Hollerith census machine in the Computer History Museum",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Replica of early <a href=\"https://en.wikipedia.org/wiki/Hollerith\" class=\"extiw\" title=\"w:Hollerith\">w:Hollerith</a> punched card tabulator and sorting box (right) at <a href=\"https://en.wikipedia.org/wiki/Computer_History_Museum\" class=\"extiw\" title=\"w:Computer History Museum\">w:Computer History Museum</a>",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "circa 1890<div style=\"display: none;\">date QS:P,+1890-00-00T00:00:00Z/9,P1480,Q5727902</div> (file-date: 2007-02-25 20:04:28)",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a href=\"/wiki/Flickr\" class=\"mw-redirect\" title=\"Flickr\">Flickr</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/44124384537@N01/411109339\">Proto IBM</a>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/44124384537@N01\">Adam Schuster</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY 2.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution 2.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by/2.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-2.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:CC-BY-2.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Flickr images uploaded by Flickr upload bot"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Hollerith census machine in the Computer History Museum"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Punch card sorters"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

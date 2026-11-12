@@ -1,0 +1,565 @@
+{
+ "_recorded": {
+  "url": "https://www.loc.gov/item/2017762891/?fo=json&at=item",
+  "at": "2026-11-12T09:02:44Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "item": {
+   "_version_": 1876129686944219100,
+   "access_restricted": false,
+   "aka": [
+    "https://www.loc.gov/pictures/item/2017762891/",
+    "http://www.loc.gov/item/2017762891/",
+    "http://www.loc.gov/pictures/item/2017762891/",
+    "https://www.loc.gov/pictures/collection/fsa/item/2017762891/",
+    "http://www.loc.gov/pictures/collection/fsa/item/2017762891/",
+    "https://hdl.loc.gov/loc.pnp/fsa.8b29516",
+    "https://hdl.loc.gov/loc.pnp/fsa.8b29516",
+    "https://hdl.loc.gov/loc.pnp/cph.3b41800",
+    "https://hdl.loc.gov/loc.pnp/cph.3b41800",
+    "https://hdl.loc.gov/loc.pnp/ppmsca.23845",
+    "https://hdl.loc.gov/loc.pnp/ppmsca.23845",
+    "https://hdl.loc.gov/loc.pnp/ppmsca.12883",
+    "https://hdl.loc.gov/loc.pnp/ppmsca.12883",
+    "http://www.loc.gov/resource/fsa.8b29516/",
+    "http://www.loc.gov/resource/cph.3b41800/",
+    "http://www.loc.gov/resource/ppmsca.23845/",
+    "http://www.loc.gov/resource/ppmsca.12883/",
+    "http://lccn.loc.gov/2017762891"
+   ],
+   "call_number": "LC-USF34- 009058-C [P&P] LC-USF346-009058-C b&w film transparency LC-USF347-009058-C b&w film safety neg. LOT 344 (corresponding photographic print)",
+   "campaigns": [],
+   "contributor_names": [
+    "Lange, Dorothea, photographer"
+   ],
+   "contributors": [
+    {
+     "lange, dorothea": "https://www.loc.gov/search/?fa=contributor:lange,+dorothea&fo=json"
+    }
+   ],
+   "control_number": "",
+   "created": "2026-09-09T21:14:42Z",
+   "created_published": [
+    "1936 March."
+   ],
+   "created_published_date": "1936 March.",
+   "date": "1936",
+   "dates": [
+    {
+     "1936": "https://www.loc.gov/search/?dates=1936/1936&fo=json"
+    }
+   ],
+   "description": [
+    "1 negative : nitrate ; 4 x 5 in. | Photograph shows Florence Thompson with three of her children in a photograph known as \"Migrant Mother.\" For background information, see \"Dorothea Lange's M̀igrant Mother' photographs ...\" http://www.loc.gov/rr/print/list/128_migm.html"
+   ],
+   "digital_id": [
+    "fsa 8b29516 https://hdl.loc.gov/loc.pnp/fsa.8b29516",
+    "cph 3b41800 https://hdl.loc.gov/loc.pnp/cph.3b41800",
+    "ppmsca 23845 https://hdl.loc.gov/loc.pnp/ppmsca.23845",
+    "ppmsca 12883 https://hdl.loc.gov/loc.pnp/ppmsca.12883"
+   ],
+   "digitized": true,
+   "display_offsite": true,
+   "extract_timestamp": "2026-09-12T12:37:34.749Z",
+   "extract_urls": [
+    "http://www.loc.gov/pictures/collection/fsa/item/2017762891/#fsa",
+    "http://lccn.loc.gov/2017762891#catalog-split-11"
+   ],
+   "format": [
+    {
+     "photo, print, drawing": "https://www.loc.gov/search/?fa=original_format:photo,+print,+drawing&fo=json"
+    }
+   ],
+   "format_headings": [
+    "Group portraits.",
+    "Nitrate negatives.",
+    "Photojournalism.",
+    "Portrait photographs."
+   ],
+   "genre": [
+    "Group portraits",
+    "Nitrate negatives",
+    "Portrait photographs"
+   ],
+   "group": [
+    "fsa",
+    "catalog-split-11",
+    "catalog",
+    "fsa-owi-black-and-white-negatives",
+    "main-catalog-split-11"
+   ],
+   "hassegments": false,
+   "id": "http://www.loc.gov/item/2017762891/",
+   "image_url": [
+    "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516_150px.jpg#h=150&w=120",
+    "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516t.gif#h=150&w=120",
+    "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516r.jpg#h=640&w=513",
+    "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516v.jpg#h=1024&w=821"
+   ],
+   "index": 1,
+   "item": {
+    "call_number": "LC-USF34- 009058-C [P&P] LC-USF346-009058-C b&w film transparency LC-USF347-009058-C b&w film safety neg. LOT 344 (corresponding photographic print)",
+    "contributors": [
+     "Lange, Dorothea, photographer"
+    ],
+    "control_number": "2017762891",
+    "created": "2026-09-09T21:14:42Z",
+    "created_published": "1936 March.",
+    "created_published_date": "1936 March.",
+    "creators": [
+     {
+      "link": "https://www.loc.gov/pictures/related/?fi=name&q=Lange%2C%20Dorothea&co=fsa",
+      "role": "photographer",
+      "title": "Lange, Dorothea"
+     }
+    ],
+    "date": "1936 March.",
+    "digital_id": [
+     "fsa 8b29516 https://hdl.loc.gov/loc.pnp/fsa.8b29516",
+     "cph 3b41800 https://hdl.loc.gov/loc.pnp/cph.3b41800",
+     "ppmsca 23845 https://hdl.loc.gov/loc.pnp/ppmsca.23845",
+     "ppmsca 12883 https://hdl.loc.gov/loc.pnp/ppmsca.12883"
+    ],
+    "display_offsite": true,
+    "format": [
+     "still image"
+    ],
+    "formats": [
+     {
+      "link": "https://www.loc.gov/pictures/related/?fi=format&q=Group%20portraits.&co=fsa",
+      "title": "Group portraits."
+     },
+     {
+      "link": "https://www.loc.gov/pictures/related/?fi=format&q=Nitrate%20negatives.&co=fsa",
+      "title": "Nitrate negatives."
+     },
+     {
+      "link": "https://www.loc.gov/pictures/related/?fi=format&q=Photojournalism.&co=fsa",
+      "title": "Photojournalism."
+     },
+     {
+      "link": "https://www.loc.gov/pictures/related/?fi=format&q=Portrait%20photographs.&co=fsa",
+      "title": "Portrait photographs."
+     }
+    ],
+    "genre": [
+     "Group portraits",
+     "Nitrate negatives",
+     "Portrait photographs"
+    ],
+    "id": "2017762891",
+    "language": [
+     "eng"
+    ],
+    "link": "https://www.loc.gov/pictures/item/2017762891/",
+    "marc": "https://www.loc.gov/pictures/item/2017762891/marc/",
+    "medium": [
+     "1 negative : nitrate ; 4 x 5 in."
+    ],
+    "medium_brief": "1 negative :",
+    "mediums": [
+     "1 negative : nitrate ; 4 x 5 in."
+    ],
+    "modified": "2026-09-09T21:15:32Z",
+    "notes": [
+     "A copy transparency (LC-USF346-009058-C) and a copy safety negative (LC-USF347-009058-C) are also in the collection.",
+     "Digital file was made from the original nitrate negative for \"Migrant Mother\" (LC-USF34-009058-C). The negative was retouched in the 1930s to erase the thumb holding a tent pole in lower right hand corner. The file print made before the thumb was retouched can be seen at http://hdl.loc.gov/loc.pnp/ppmsca.12883",
+     "Title from caption card for negative. Title on print: \"Destitute pea pickers in California. A 32 year old mother of seven children.\"",
+     "Date from: Dorothea Lange : migrant mother / Sara Hermanson Meister. New York: Museum of Modern Art, 2018.",
+     "Additional information about this photograph might be available through the Flickr Commons project at http://www.flickr.com/photos/library_of_congress/3551599565",
+     "Transfer; United States. Office of War Information. Overseas Picture Division.",
+     "More information about the FSA/OWI Collection is available at http://hdl.loc.gov/loc.pnp/pp.fsaowi",
+     "Published in: The Joy of Looking: Great Photographs from the Library of Congress, 2023.",
+     "Published in: American women : a Library of Congress guide ... Washington : Library of Congress, 2001, p. 186.",
+     "Published in: Eyes of the nation / Vincent Virga ... New York : Knopf, 1997.",
+     "Published in: Library of Congress prints and photographs: an illustrated guide. Washington : Library of Congress, 1995, p. 4.",
+     "Published in: \"Images of America\" chapter of the ebook Great Photographs from the Library of Congress, 2013.",
+     "Published in: Dorothea Lange : migrant mother / Sara Hermanson Meister. New York: Museum of Modern Art, 2018, p. 13 (File card).",
+     "Exhibited as a digital copy in: \"Not an Ostrich: And Other Images from America's Library\" at the Annenberg Space for Photography, 2018;  Icons section.",
+     "Temp. note: usf34batch1",
+     "DCRM(G) example 1B3.4 - multiple titles.",
+     "Original file print is stored in PR 12, FSA file prints, with dimensions of 18 cm. by 23 cm."
+    ],
+    "number_former_id": [
+     "https://www.loc.gov/item/2017762891",
+     "https://www.loc.gov/item/fsa1998021539/PP"
+    ],
+    "other_control_numbers": [
+     "fsa1998021539/PP"
+    ],
+    "other_number": "J 339168",
+    "other_title": [
+     "Migrant mother."
+    ],
+    "part_of": "Farm Security Administration - Office of War Information Photograph Collection (Library of Congress)",
+    "place": [
+     {
+      "latitude": "",
+      "link": "https://www.loc.gov/pictures/related/?fi=place&q=California--San%20Luis%20Obispo%20County--Nipomo&co=fsa",
+      "longitude": "",
+      "title": "California--San Luis Obispo County--Nipomo"
+     }
+    ],
+    "raw_collections": [
+     "ammem",
+     "awh",
+     "diof",
+     "flickrfsa",
+     "fsa",
+     "pnp",
+     "pp",
+     "wdl"
+    ],
+    "repository": "Library of Congress Prints and Photographs Division Washington, D.C. 20540 USA http://hdl.loc.gov/loc.pnp/pp.print",
+    "reproduction_number": "LC-DIG-fsa-8b29516 (digital file from original neg.)\nLC-DIG-ppmsca-12883 (digital file from print, pre-conservation)\nLC-DIG-ppmsca-23845 (digital file from print, post-conservation)\nLC-USF34-T01-009058-C (b&w film dup. neg.)\nLC-USZ62-95653 (b&w film copy neg. of an unretouched file, showing thumb)",
+    "resource_links": [
+     "https://hdl.loc.gov/loc.pnp/fsa.8b29516",
+     "https://hdl.loc.gov/loc.pnp/cph.3b41800",
+     "https://hdl.loc.gov/loc.pnp/ppmsca.23845",
+     "https://hdl.loc.gov/loc.pnp/ppmsca.12883"
+    ],
+    "rights_advisory": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+    "rights_information": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+    "service_low": "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516_150px.jpg",
+    "service_medium": "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516r.jpg",
+    "sort_date": "1936",
+    "source_collection": [
+     "Farm Security Administration - Office of War Information Photograph Collection (Library of Congress)"
+    ],
+    "source_created": "1998-09-24T00:00:00Z",
+    "source_modified": "2026-07-15T01:34:48Z",
+    "subject_headings": [
+     "Migrant agricultural laborers.",
+     "Mothers.",
+     "Poor persons.",
+     "United States--California--San Luis Obispo County--Nipomo.",
+     "Migrants--California",
+     "California--San Luis Obispo County--Nipomo"
+    ],
+    "subjects": [
+     "Migrant agricultural laborers",
+     "Mothers",
+     "Poor persons",
+     "United States--California--San Luis Obispo County--Nipomo",
+     "Migrants--California"
+    ],
+    "summary": "Photograph shows Florence Thompson with three of her children in a photograph known as \"Migrant Mother.\" For background information, see \"Dorothea Lange's M̀igrant Mother' photographs ...\" https://www.loc.gov/rr/print/list/128_migm.html",
+    "thumb_gallery": "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516_150px.jpg",
+    "title": "Destitute pea pickers in California. Mother of seven children. Age thirty-two. Nipomo, California"
+   },
+   "language": [
+    "english"
+   ],
+   "languages": [
+    {
+     "english": "https://www.loc.gov/search/?fa=language:english&fo=json"
+    }
+   ],
+   "library_of_congress_control_number": "2017762891",
+   "link": "https://www.loc.gov/pictures/item/2017762891/",
+   "location": [
+    "united states",
+    "california",
+    "san luis obispo county",
+    "nipomo"
+   ],
+   "location_city": [
+    "nipomo"
+   ],
+   "location_country": [
+    "united states"
+   ],
+   "location_county": [
+    "san luis obispo county"
+   ],
+   "location_state": [
+    "california"
+   ],
+   "locations": [
+    {
+     "california": "https://www.loc.gov/search/?fa=location:california&fo=json"
+    },
+    {
+     "nipomo": "https://www.loc.gov/search/?fa=location:nipomo&fo=json"
+    },
+    {
+     "san luis obispo county": "https://www.loc.gov/search/?fa=location:san+luis+obispo+county&fo=json"
+    },
+    {
+     "united states": "https://www.loc.gov/search/?fa=location:united+states&fo=json"
+    }
+   ],
+   "locations_city": [
+    {
+     "nipomo": "https://www.loc.gov/search/?fa=location_city:nipomo&fo=json"
+    }
+   ],
+   "locations_country": [
+    {
+     "united states": "https://www.loc.gov/search/?fa=location_country:united+states&fo=json"
+    }
+   ],
+   "locations_county": [
+    {
+     "san luis obispo county": "https://www.loc.gov/search/?fa=location_county:san+luis+obispo+county&fo=json"
+    }
+   ],
+   "locations_state": [
+    {
+     "california": "https://www.loc.gov/search/?fa=location_state:california&fo=json"
+    }
+   ],
+   "marc": "https://www.loc.gov/pictures/item/2017762891/marc/",
+   "medium": [
+    "1 negative : nitrate ; 4 x 5 in."
+   ],
+   "medium_brief": "1 negative :",
+   "mime_type": [
+    "image/gif",
+    "image/jpg",
+    "image/tif"
+   ],
+   "modified": "2026-09-09T21:15:32Z",
+   "notes": [
+    "A copy transparency (LC-USF346-009058-C) and a copy safety negative (LC-USF347-009058-C) are also in the collection.",
+    "Digital file was made from the original nitrate negative for \"Migrant Mother\" (LC-USF34-009058-C). The negative was retouched in the 1930s to erase the thumb holding a tent pole in lower right hand corner. The file print made before the thumb was retouched can be seen at http://hdl.loc.gov/loc.pnp/ppmsca.12883",
+    "Title from caption card for negative. Title on print: \"Destitute pea pickers in California. A 32 year old mother of seven children.\"",
+    "Date from: Dorothea Lange : migrant mother / Sara Hermanson Meister. New York: Museum of Modern Art, 2018.",
+    "Additional information about this photograph might be available through the Flickr Commons project at http://www.flickr.com/photos/library_of_congress/3551599565",
+    "Transfer; United States. Office of War Information. Overseas Picture Division.",
+    "More information about the FSA/OWI Collection is available at http://hdl.loc.gov/loc.pnp/pp.fsaowi",
+    "Published in: The Joy of Looking: Great Photographs from the Library of Congress, 2023.",
+    "Published in: American women : a Library of Congress guide ... Washington : Library of Congress, 2001, p. 186.",
+    "Published in: Eyes of the nation / Vincent Virga ... New York : Knopf, 1997.",
+    "Published in: Library of Congress prints and photographs: an illustrated guide. Washington : Library of Congress, 1995, p. 4.",
+    "Published in: \"Images of America\" chapter of the ebook Great Photographs from the Library of Congress, 2013.",
+    "Published in: Dorothea Lange : migrant mother / Sara Hermanson Meister. New York: Museum of Modern Art, 2018, p. 13 (File card).",
+    "Exhibited as a digital copy in: \"Not an Ostrich: And Other Images from America's Library\" at the Annenberg Space for Photography, 2018;  Icons section.",
+    "Temp. note: usf34batch1",
+    "DCRM(G) example 1B3.4 - multiple titles.",
+    "Original file print is stored in PR 12, FSA file prints, with dimensions of 18 cm. by 23 cm."
+   ],
+   "number": [
+    "http://www.loc.gov/item/2017762891",
+    "http://www.loc.gov/item/fsa1998021539/pp",
+    "2017762891",
+    "2023-02-22t20:27:17"
+   ],
+   "number_former_id": [
+    "http://www.loc.gov/item/fsa1998021539/pp",
+    "http://www.loc.gov/item/2017762891"
+   ],
+   "number_lccn": [
+    "2017762891"
+   ],
+   "number_source_modified": [
+    "2023-02-22t20:27:17"
+   ],
+   "online_format": [
+    "image"
+   ],
+   "original_format": [
+    "photo, print, drawing"
+   ],
+   "other_control_numbers": [
+    "fsa1998021539/PP"
+   ],
+   "other_formats": [
+    {
+     "label": "MARCXML Record",
+     "link": "https://lccn.loc.gov/2017762891/marcxml"
+    },
+    {
+     "label": "MODS Record",
+     "link": "https://lccn.loc.gov/2017762891/mods"
+    },
+    {
+     "label": "Dublin Core Record",
+     "link": "https://lccn.loc.gov/2017762891/dc"
+    }
+   ],
+   "other_number": "J 339168",
+   "other_title": [
+    "Migrant mother"
+   ],
+   "partof": [
+    {
+     "count": 214,
+     "title": "lot 344",
+     "url": "https://www.loc.gov/search/?fa=partof:lot+344&fo=json"
+    },
+    {
+     "count": 269,
+     "title": "american women: a gateway to library of congress resources for the study of women's history and culture in the united states",
+     "url": "https://www.loc.gov/search/?fa=partof:american+women:+a+gateway+to+library+of+congress+resources+for+the+study+of+women%27s+history+and+culture+in+the+united+states&fo=json"
+    },
+    {
+     "count": 171342,
+     "title": "farm security administration/office of war information black-and-white negatives",
+     "url": "https://www.loc.gov/collections/fsa-owi-black-and-white-negatives/?fo=json"
+    },
+    {
+     "count": 419259,
+     "title": "american memory",
+     "url": "https://www.loc.gov/search/?fa=partof:american+memory&fo=json"
+    },
+    {
+     "count": 1163167,
+     "title": "prints and photographs division",
+     "url": "https://www.loc.gov/search/?fa=partof:prints+and+photographs+division&fo=json"
+    },
+    {
+     "count": 1905446,
+     "title": "catalog",
+     "url": "https://www.loc.gov/search/?fa=partof:catalog&fo=json"
+    }
+   ],
+   "place": [
+    {
+     "latitude": "",
+     "link": "https://www.loc.gov/pictures/related/?fi=place&q=California--San%20Luis%20Obispo%20County--Nipomo&co=fsa",
+     "longitude": "",
+     "title": "California--San Luis Obispo County--Nipomo"
+    }
+   ],
+   "raw_collections": [
+    "ammem",
+    "awh",
+    "diof",
+    "flickrfsa",
+    "fsa",
+    "pnp",
+    "pp",
+    "wdl"
+   ],
+   "related": {
+    "group_record": "https://www.loc.gov/pictures/search/?q=LOT 344&fi=number&op=PHRASE&va=exact&co=coll&sg=true",
+    "neighbors": "https://www.loc.gov/pictures/related/?&co=fsa&pk=2017762891&st=gallery&sb=call_number#focus"
+   },
+   "repository": [
+    "Library of Congress Prints and Photographs Division Washington, D.C. 20540 USA http://hdl.loc.gov/loc.pnp/pp.print"
+   ],
+   "reproduction_number": "LC-DIG-fsa-8b29516 (digital file from original neg.)\nLC-DIG-ppmsca-12883 (digital file from print, pre-conservation)\nLC-DIG-ppmsca-23845 (digital file from print, post-conservation)\nLC-USF34-T01-009058-C (b&w film dup. neg.)\nLC-USZ62-95653 (b&w film copy neg. of an unretouched file, showing thumb)",
+   "reproductions": [
+    "<p> If an image is displaying, you can download it yourself. (Some images display only as thumbnails outside the Library of Congress because of rights considerations, but you have access to larger size images on site.) </p>\n<p> Alternatively, you can purchase copies of various types through Library  of Congress Duplication Services. </p>\n<ol class=\"margin-bottom-single-li\">\n\t<li> <strong>If a digital image is displaying:</strong> The qualities of the digital image partially depend on whether it was made from the original or an intermediate such as a copy negative or transparency. If the Reproduction Number field above includes a reproduction number that starts with LC-DIG..., then there is a digital image that was made directly from the original and is of sufficient resolution for most publication    purposes. </li>\n\t<li> <strong>If there is information listed in the Reproduction Number field above:</strong> You can use the reproduction number to purchase a copy from Duplication Services.  It will be made from the source listed in the parentheses after  the number.\n\t\t If only black-and-white (\"b&amp;w\") sources are listed and you desire a copy showing color or tint (assuming the original has any), you can generally purchase a quality copy of the original in color by citing the Call Number listed above and including the catalog record (\"About This Item\") with your request.\n\t</li>\n\t<li> <strong>If there is no information listed in the Reproduction Number field above:</strong> You can generally purchase a quality copy through Duplication Services. Cite the Call Number listed above and include the catalog record (\"About This Item\") with your request. </li>\n</ol>\n<p> Price lists, contact information, and order forms are available on the <a href=\"https://lcweb.loc.gov/preserv/pds/\">Duplication Services Web site</a>. </p>\n<h4>Expect Delays in Service of Nitrate Negatives </h4>\n<p>Reproductions of all types are available, but Duplication Services anticipates an  8-10 week turnaround in completing orders, as all negatives must be reproduced at  their off-site, cold storage facility. </p>\n<p> Clues that an FSA/OWI/OEM image may be affected are:<br />\n\t<strong>Medium</strong> field says \"1 negative : nitrate\" OR <br />\n\t<strong>Reproduction Number</strong> field begins with: LC-USF33- </p>\n<p> If either is the case, you may wish to consult with Prints and Photographs Division reference staff (202-707-6394). In certain instances, duplicate negatives are available for copying. </p>\n"
+   ],
+   "resource_links": [
+    "https://hdl.loc.gov/loc.pnp/fsa.8b29516",
+    "https://hdl.loc.gov/loc.pnp/cph.3b41800",
+    "https://hdl.loc.gov/loc.pnp/ppmsca.23845",
+    "https://hdl.loc.gov/loc.pnp/ppmsca.12883"
+   ],
+   "resources": [
+    {
+     "caption": "digital file from original neg.",
+     "files": 1,
+     "image": "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516_150px.jpg",
+     "url": "https://www.loc.gov/resource/fsa.8b29516/"
+    },
+    {
+     "caption": "digital file of b&w film copy neg. of unretouched fileprint showing thumb",
+     "files": 1,
+     "image": "https://tile.loc.gov/storage-services/service/pnp/cph/3b40000/3b41000/3b41800/3b41800_150px.jpg",
+     "url": "https://www.loc.gov/resource/cph.3b41800/"
+    },
+    {
+     "caption": "digital file of print, post-conservation",
+     "files": 1,
+     "image": "https://tile.loc.gov/storage-services/service/pnp/ppmsca/23800/23845_150px.jpg",
+     "url": "https://www.loc.gov/resource/ppmsca.23845/"
+    },
+    {
+     "caption": "digital file of print, pre-conservation",
+     "files": 1,
+     "image": "https://tile.loc.gov/storage-services/service/pnp/ppmsca/12800/12883_150px.jpg",
+     "url": "https://www.loc.gov/resource/ppmsca.12883/"
+    }
+   ],
+   "rights": [
+    "<p>The contents of the Library of Congress Farm Security Administration/Office of War Information Black-and-White Negatives are in the public domain and are free to use and reuse.</p>\r\n<p> Credit Line: Library of Congress, Prints &amp; Photographs Division, Farm Security Administration/Office of War Information Black-and-White Negatives.</p>\r\n<p>For information about reproducing, publishing, and citing material from this collection, as well as access to the original items, see: <a href=\"https://www.loc.gov/rr/print/res/071_fsab.html\">U.S. Farm Security Administration/Office of War Information Black &amp; White Photographs - Rights and Restrictions Information</a>\r\n</p>\r\n<p>More about <a href=\"/legal/\">Copyright and other Restrictions</a> </p>\r\n<p>For guidance about compiling full citations consult <a href=\"https://www.loc.gov/teachers/usingprimarysources/citing.html\">Citing Primary Sources</a>.</p>"
+   ],
+   "rights_advisory": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "rights_information": "No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black & White Photographs https://www.loc.gov/rr/print/res/071_fsab.html",
+   "score": 18.890041,
+   "shard": "00",
+   "shelf_id": "LC-USF34- 009058-C [P&P] LC-USF346-009058-C b&w film transparency LC-USF347-009058-C b&w film safety neg. LOT 344 (corresponding photographic print)",
+   "site": [
+    "pictures",
+    "catalog"
+   ],
+   "sort_date": "1936",
+   "source_collection": "Farm Security Administration - Office of War Information Photograph Collection (Library of Congress)",
+   "source_created": "1998-09-24T00:00:00Z",
+   "source_modified": "2000-01-01T12:00:00Z",
+   "subject": [
+    "san luis obispo county",
+    "nipomo",
+    "portrait photographs",
+    "united states",
+    "migrant agricultural laborers",
+    "migrants",
+    "photojournalism",
+    "mothers",
+    "group portraits",
+    "california",
+    "poor persons",
+    "nitrate negatives"
+   ],
+   "subject_headings": [
+    "Migrant agricultural laborers",
+    "Mothers",
+    "Poor persons",
+    "United States--California--San Luis Obispo County--Nipomo",
+    "Migrants--California"
+   ],
+   "subjects": [
+    {
+     "california": "https://www.loc.gov/search/?fa=subject:california&fo=json"
+    },
+    {
+     "group portraits": "https://www.loc.gov/search/?fa=subject:group+portraits&fo=json"
+    },
+    {
+     "migrant agricultural laborers": "https://www.loc.gov/search/?fa=subject:migrant+agricultural+laborers&fo=json"
+    },
+    {
+     "migrants": "https://www.loc.gov/search/?fa=subject:migrants&fo=json"
+    },
+    {
+     "mothers": "https://www.loc.gov/search/?fa=subject:mothers&fo=json"
+    },
+    {
+     "nipomo": "https://www.loc.gov/search/?fa=subject:nipomo&fo=json"
+    },
+    {
+     "nitrate negatives": "https://www.loc.gov/search/?fa=subject:nitrate+negatives&fo=json"
+    },
+    {
+     "photojournalism": "https://www.loc.gov/search/?fa=subject:photojournalism&fo=json"
+    },
+    {
+     "poor persons": "https://www.loc.gov/search/?fa=subject:poor+persons&fo=json"
+    },
+    {
+     "portrait photographs": "https://www.loc.gov/search/?fa=subject:portrait+photographs&fo=json"
+    },
+    {
+     "san luis obispo county": "https://www.loc.gov/search/?fa=subject:san+luis+obispo+county&fo=json"
+    },
+    {
+     "united states": "https://www.loc.gov/search/?fa=subject:united+states&fo=json"
+    }
+   ],
+   "summary": "Photograph shows Florence Thompson with three of her children in a photograph known as \"Migrant Mother.\" For background information, see \"Dorothea Lange's M̀igrant Mother' photographs ...\" https://www.loc.gov/rr/print/list/128_migm.html",
+   "thumb_gallery": "https://tile.loc.gov/storage-services/service/pnp/fsa/8b29000/8b29500/8b29516_150px.jpg",
+   "timestamp": "2026-09-12T12:38:16.639Z",
+   "title": "Destitute pea pickers in California. Mother of seven children. Age thirty-two. Nipomo, California",
+   "type": [
+    "still image"
+   ],
+   "unrestricted": true,
+   "url": "https://www.loc.gov/item/2017762891/"
+  }
+ }
+}
