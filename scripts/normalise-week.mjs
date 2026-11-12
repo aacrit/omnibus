@@ -8,7 +8,9 @@
 // From void news's public repo at pinned commits (a checkout that only
 // needs `git fetch`; everything is read with `git show <sha>:<path>` from
 // origin/main's history, never the working tree):
-//   node scripts/normalise-week.mjs --voidnews ../voidnews --issue 32
+//   node scripts/normalise-week.mjs --voidnews ../voidnews --issue 32 [--at <sha>]
+// --at pins the history to a commit (default origin/main); a record rebuilt
+// at its own normalised_from.origin_main comes out byte for byte the same.
 //
 // From the daily snapshots (scripts/snapshot.mjs), in a local directory or
 // in R2 (fetched through wrangler into .cache/snapshots-r2/):
@@ -41,7 +43,7 @@ if (snapshots === "r2") {
 } else if (snapshots) {
   source = snapshotSource(dirReader(path.resolve(snapshots)), { voidnews });
 } else {
-  source = gitSource(path.resolve(voidnews ?? path.join(repoRoot, "..", "voidnews")));
+  source = gitSource(path.resolve(voidnews ?? path.join(repoRoot, "..", "voidnews")), { at: arg("at", "origin/main") });
 }
 
 const out = await normaliseWeek(source, issueNo);

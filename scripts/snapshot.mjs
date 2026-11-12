@@ -8,20 +8,23 @@
 //   node scripts/snapshot.mjs [--out .cache/snapshots]
 //
 // Every file is read from void news's public repo at one commit, resolved
-// once with `git ls-remote`, so the snapshot is one consistent printed state
+// once with `git ls-remote`, so the capture is one consistent printed state
 // and its provenance is a permanent public URL. feed.json is not served on
 // news.voidvision.org (the site bakes it into its pages), and reading the
 // repo puts no load on void news's own Worker.
 //
-// Polite by construction: one request at a time with a pause between,
-// a User-Agent naming void omnibus, a timeout per request, three retries
-// with backoff on network errors, 429 and 5xx (never on 404), and every
-// body capped in bytes while it streams (scripts/lib/snapshot.mjs LIMITS).
-// A missing or broken deep dive is recorded in the manifest, not fatal;
-// a missing feed, weekly issue or outlet list fails the run.
+// Polite by construction: one request at a time with a pause between, a
+// User-Agent naming void omnibus, a timeout per request, three retries with
+// backoff on network errors, 429 and 5xx (never on 404), honouring
+// Retry-After up to a minute, every body capped in bytes while it streams
+// (scripts/lib/snapshot.mjs LIMITS) and every unread body cancelled, and no
+// more deep-dive requests after five failures in a row. A missing or broken
+// deep dive is recorded in the manifest, not fatal; a missing feed, weekly
+// issue or outlet list fails the run. A capture of an edition already held
+// merges into it and never loses a file (scripts/lib/snapshot.mjs planSnapshot).
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync, appendFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -29,11 +32,9 @@ import {
   PATHS,
   RAW_BASE,
   VOIDNEWS_REPO,
-  buildManifest,
-  checkCaps,
-  decideWrite,
   isCommit,
   planDeepDives,
+  planSnapshot,
   printedDate,
   sha256Hex,
   validateDeepDive,
@@ -49,6 +50,8 @@ export const USER_AGENT = "void-omnibus-snapshot/1 (+https://omnibus.voidvision.
 const TIMEOUT_MS = 20_000;
 const RETRIES = 3;
 const PAUSE_MS = 250;
+const MAX_RETRY_AFTER_MS = 60_000;
+export const MAX_CONSECUTIVE_FAILURES = 5;
 
 const realSleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -63,10 +66,30 @@ export function resolveMainCommit() {
   return sha;
 }
 
+/** Retry-After in ms (seconds or an HTTP date), capped; null when absent or unreadable. */
+export function retryAfterMs(value, now = Date.now()) {
+  if (value == null || value === "") return null;
+  const secs = Number(value);
+  const ms = Number.isFinite(secs) ? secs * 1000 : Date.parse(value) - now;
+  if (!Number.isFinite(ms) || ms < 0) return null;
+  return Math.min(ms, MAX_RETRY_AFTER_MS);
+}
+
+async function discard(res) {
+  try {
+    await res.body?.cancel();
+  } catch {
+    // already consumed or closed
+  }
+}
+
 /** Reads a body, refusing it once it passes maxBytes, without buffering more than that. */
 async function readCapped(res, maxBytes) {
   const declared = Number(res.headers.get("content-length") ?? "");
-  if (Number.isFinite(declared) && declared > maxBytes) return null;
+  if (Number.isFinite(declared) && declared > maxBytes) {
+    await discard(res);
+    return null;
+  }
   if (!res.body) {
     const buf = new Uint8Array(await res.arrayBuffer());
     return buf.byteLength > maxBytes ? null : buf;
@@ -99,25 +122,40 @@ async function readCapped(res, maxBytes) {
  */
 export async function politeGet(url, { fetchImpl = fetch, sleep = realSleep, maxBytes = LIMITS.maxFileBytes, retries = RETRIES } = {}) {
   let lastError;
+  let wait = 0;
   for (let attempt = 0; attempt <= retries; attempt++) {
-    if (attempt > 0) await sleep(1000 * 2 ** (attempt - 1));
+    if (attempt > 0) await sleep(Math.max(1000 * 2 ** (attempt - 1), wait));
+    wait = 0;
+    let res;
     try {
-      const res = await fetchImpl(url, {
+      res = await fetchImpl(url, {
         headers: { "user-agent": USER_AGENT, accept: "application/json" },
         signal: AbortSignal.timeout(TIMEOUT_MS),
         redirect: "follow",
       });
-      if (res.status === 404) return { status: "not_found" };
-      if (res.status === 429 || res.status >= 500) {
-        lastError = new Error(`${url} answered ${res.status}`);
-        continue;
-      }
-      if (!res.ok) throw Object.assign(new Error(`${url} answered ${res.status}`), { final: true });
+    } catch (err) {
+      lastError = err;
+      continue;
+    }
+    if (res.status === 404) {
+      await discard(res);
+      return { status: "not_found" };
+    }
+    if (res.status === 429 || res.status >= 500) {
+      wait = retryAfterMs(res.headers.get("retry-after")) ?? 0;
+      await discard(res);
+      lastError = new Error(`${url} answered ${res.status}`);
+      continue;
+    }
+    if (!res.ok) {
+      await discard(res);
+      throw new Error(`${url} answered ${res.status}`);
+    }
+    try {
       const bytes = await readCapped(res, maxBytes);
       return bytes ? { status: "ok", bytes } : { status: "too_large" };
     } catch (err) {
-      if (err.final) throw err;
-      lastError = err;
+      lastError = err; // the body broke off mid-stream: retry
     }
   }
   throw lastError ?? new Error(`${url} failed`);
@@ -131,19 +169,27 @@ function parse(bytes, what) {
   }
 }
 
-function readManifest(file) {
+/** The stored manifest for a date folder, if it is valid and its files match it. */
+function readStored(dir) {
+  const file = path.join(dir, "manifest.json");
   if (!existsSync(file)) return null;
   try {
     const m = JSON.parse(readFileSync(file, "utf8"));
-    return validateManifest(m).length === 0 ? m : null;
+    if (validateManifest(m).length) return null;
+    for (const f of m.files) {
+      const p = path.join(dir, f.path);
+      if (!existsSync(p) || sha256Hex(readFileSync(p)) !== f.sha256) return null;
+    }
+    return m;
   } catch {
-    return null; // an unreadable manifest is replaced, never trusted
+    return null; // an unreadable or damaged snapshot is replaced, never trusted
   }
 }
 
 /**
  * Captures one snapshot into outDir. Returns { date, action, manifest, dir }
- * where action is "write", "replace" or "unchanged" (nothing written).
+ * where action is planSnapshot's: write, merge, replace, unchanged or older
+ * (the last two write nothing).
  */
 export async function runSnapshot({
   outDir,
@@ -158,9 +204,11 @@ export async function runSnapshot({
   if (!isCommit(commit)) throw new Error("resolveCommit returned no commit");
   const raw = (p) => `${RAW_BASE}/${commit}/${p}`;
   const get = async (p) => {
-    const r = await politeGet(raw(p), { fetchImpl, sleep, maxBytes: limits.maxFileBytes });
-    await sleep(PAUSE_MS);
-    return r;
+    try {
+      return await politeGet(raw(p), { fetchImpl, sleep, maxBytes: limits.maxFileBytes });
+    } finally {
+      await sleep(PAUSE_MS);
+    }
   };
   const required = async (rel, repoPath, validate) => {
     const r = await get(repoPath);
@@ -179,14 +227,21 @@ export async function runSnapshot({
   const { ids, skipped } = planDeepDives(feed.json, limits);
   const missing = [...skipped];
   const deep = [];
+  let failures = 0;
   for (const id of ids) {
+    if (failures >= MAX_CONSECUTIVE_FAILURES) {
+      missing.push({ cluster_id: id, reason: "skipped_after_failures" });
+      continue;
+    }
     let r;
     try {
       r = await get(PATHS.deepdive(id));
     } catch {
+      failures++;
       missing.push({ cluster_id: id, reason: "fetch_failed" });
       continue;
     }
+    failures = 0;
     if (r.status !== "ok") {
       missing.push({ cluster_id: id, reason: r.status });
       continue;
@@ -202,51 +257,48 @@ export async function runSnapshot({
       missing.push({ cluster_id: id, reason: "invalid" });
       continue;
     }
-    deep.push({ rel: `deepdive/${id}.json`, bytes: r.bytes, id });
+    deep.push({ rel: `deepdive/${id}.json`, bytes: r.bytes });
   }
 
-  const describe = (f) => ({ path: f.rel, bytes: f.bytes.byteLength, sha256: sha256Hex(f.bytes) });
-  const core = [feed, weekly, sources];
-  const coreErrors = checkCaps(core.map(describe), { ...limits, maxTotalBytes: Infinity });
-  if (coreErrors.length) throw new Error(coreErrors.join("; "));
-  // Over the total cap, the lowest-printed deep dives give way first.
-  while (deep.length && checkCaps([...core, ...deep].map(describe), limits).length) {
-    const dropped = deep.pop();
-    missing.push({ cluster_id: dropped.id, reason: "over_total_cap" });
-  }
-  const files = [...core, ...deep];
-  const capErrors = checkCaps(files.map(describe), limits);
-  if (capErrors.length) throw new Error(capErrors.join("; "));
-
-  const manifest = buildManifest({
-    date,
-    printedAt: feed.json.builtAt,
-    commit,
-    capturedAt: now().toISOString(),
-    files: files.map(describe),
-    missing,
-    weeklyIssue: weekly.json.issue_number,
-  });
-
+  const captured = [feed, weekly, sources, ...deep];
+  const bytesBySha = new Map(captured.map((f) => [sha256Hex(f.bytes), f.bytes]));
   const dir = path.join(outDir, date);
-  const action = decideWrite(readManifest(path.join(dir, "manifest.json")), manifest);
-  if (action === "unchanged") {
-    log(`snapshot: ${date} unchanged (${manifest.content_sha256.slice(0, 12)}), nothing written`);
+  const stored = readStored(dir);
+  const plan = planSnapshot(
+    stored,
+    {
+      date,
+      printedAt: feed.json.builtAt,
+      commit,
+      capturedAt: now().toISOString(),
+      weeklyIssue: weekly.json.issue_number,
+      files: captured.map((f) => ({ path: f.rel, bytes: f.bytes.byteLength, sha256: sha256Hex(f.bytes) })),
+      missing,
+    },
+    limits,
+  );
+  const { action, manifest } = plan;
+  if (action === "unchanged" || action === "older") {
+    log(`snapshot: ${date} ${action} (${manifest.content_sha256.slice(0, 12)}), nothing written`);
     return { date, action, manifest, dir };
   }
 
   // Written beside the old copy, then swapped in, so a failed run never
-  // leaves half a snapshot under the date.
+  // leaves half a snapshot under the date. A merged file the capture did
+  // not bring is copied from the stored snapshot (checked by readStored).
   const tmp = path.join(outDir, `.${date}.tmp-${process.pid}`);
   rmSync(tmp, { recursive: true, force: true });
   mkdirSync(path.join(tmp, "deepdive"), { recursive: true });
-  for (const f of files) writeFileSync(path.join(tmp, f.rel), f.bytes);
+  for (const f of manifest.files) {
+    const bytes = bytesBySha.get(f.sha256) ?? readFileSync(path.join(dir, f.path));
+    writeFileSync(path.join(tmp, f.path), bytes);
+  }
   writeFileSync(path.join(tmp, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   rmSync(dir, { recursive: true, force: true });
   renameSync(tmp, dir);
   log(
     `snapshot: ${action} ${date} (printed ${manifest.printed_at}, commit ${commit.slice(0, 8)}): ` +
-      `${deep.length} deep dives, ${missing.length} missing, ${manifest.total_bytes} bytes`,
+      `${manifest.files.length} files, ${manifest.missing.length} missing, ${manifest.total_bytes} bytes`,
   );
   return { date, action, manifest, dir };
 }

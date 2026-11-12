@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync, cpSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,9 +10,9 @@ import {
   RAW_BASE,
   buildManifest,
   checkCaps,
-  decideWrite,
   isSnapshotPath,
   planDeepDives,
+  planSnapshot,
   printedDate,
   sha256Hex,
   validateDeepDive,
@@ -21,9 +21,9 @@ import {
   validateSources,
   validateWeekly,
 } from "../scripts/lib/snapshot.mjs";
-import { politeGet, runSnapshot, USER_AGENT } from "../scripts/snapshot.mjs";
-import { HEARTBEAT_KEY, INDEX_KEY, LATEST_KEY, fileKey, planUpload } from "../scripts/lib/snapshot-store.mjs";
-import { parseSize, readLocalSnapshot, uploadSnapshot } from "../scripts/snapshot-r2.mjs";
+import { MAX_CONSECUTIVE_FAILURES, USER_AGENT, politeGet, retryAfterMs, runSnapshot } from "../scripts/snapshot.mjs";
+import { BUCKET_CAP_BYTES, HEARTBEAT_KEY, INDEX_KEY, LATEST_KEY, blobKey, manifestKey, planUpload, readIndex } from "../scripts/lib/snapshot-store.mjs";
+import { findSnapshotDirs, parseSize, readLocalSnapshot, uploadSnapshot } from "../scripts/snapshot-r2.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const XSS = '"><img src=x onerror=alert(1)>';
@@ -61,7 +61,7 @@ const sources = () => [{ name: "Outlet A", political_lean_baseline: "center", ti
 const deepdive = (n: number) => [{ article: { url: `https://example.org/${n}`, title: `Headline ${n}`, published_at: "2026-11-03T10:00:00Z", source: { name: "Outlet A" } } }];
 
 /** A fake void news repo at a commit: path -> JSON body (or a status / raw text). */
-type Body = unknown | { status: number } | { raw: string };
+type Body = unknown | { status: number; headers?: Record<string, string> } | { raw: string };
 function fakeFetch(files: Record<string, Body>, calls: { url: string; ua: string | null }[] = []) {
   let inFlight = 0;
   let maxInFlight = 0;
@@ -74,7 +74,10 @@ function fakeFetch(files: Record<string, Body>, calls: { url: string; ua: string
       const p = url.replace(/^https:\/\/raw\.githubusercontent\.com\/aacrit\/void--news\/[0-9a-f]{40}\//, "");
       const body = files[p];
       if (body === undefined) return new Response("Not Found", { status: 404 });
-      if (body && typeof body === "object" && "status" in (body as object)) return new Response("x", { status: (body as { status: number }).status });
+      if (body && typeof body === "object" && "status" in (body as object)) {
+        const b = body as { status: number; headers?: Record<string, string> };
+        return new Response("x", { status: b.status, headers: b.headers });
+      }
       if (body && typeof body === "object" && "raw" in (body as object)) return new Response((body as { raw: string }).raw, { status: 200 });
       return new Response(JSON.stringify(body), { status: 200 });
     } finally {
@@ -93,6 +96,7 @@ function repoFiles(builtAt = "2026-11-11T20:09:28Z", ids = [1, 2, 3], w = weekly
 const noSleep = async () => {};
 const run = (outDir: string, files: Record<string, Body>, extra: Record<string, unknown> = {}) =>
   runSnapshot({ outDir, fetchImpl: fakeFetch(files).impl, sleep: noSleep, resolveCommit: () => COMMIT, now: () => new Date("2026-11-12T12:00:05Z"), ...extra });
+const deepPaths = (m: { files: { path: string }[] }) => m.files.map((f) => f.path).filter((p) => p.startsWith("deepdive/"));
 
 // ---- Validation ----------------------------------------------------------------
 
@@ -128,53 +132,89 @@ describe("snapshot validation", () => {
     expect(printedDate({ builtAt: "2026-11-10T19:43:56Z" })).toBe("2026-11-10");
   });
 
-  it("allows only the four snapshot file names, so no id can reach outside the date's folder", () => {
+  it("allows only the four snapshot file names and content keys, so no id can reach outside the date's folder", () => {
     expect(isSnapshotPath("feed.json")).toBe(true);
     expect(isSnapshotPath(`deepdive/${id(1)}.json`)).toBe(true);
     for (const bad of ["manifest.json", "../feed.json", `deepdive/${XSS}.json`, "deepdive/../../x.json", `deepdive/${id(1)}.json/..`]) {
       expect(isSnapshotPath(bad), bad).toBe(false);
     }
-    expect(() => fileKey("2026-11-11", `deepdive/${XSS}.json`)).toThrow();
-    expect(() => fileKey(XSS, "feed.json")).toThrow();
+    expect(() => blobKey("2026-11-11", XSS)).toThrow();
+    expect(() => blobKey(XSS, "c".repeat(64))).toThrow();
+    expect(() => manifestKey(XSS)).toThrow();
+    expect(blobKey("2026-11-11", "c".repeat(64))).toBe(`snapshots/2026-11-11/blobs/${"c".repeat(64)}.json`);
   });
 });
 
-// ---- Manifest ------------------------------------------------------------------
+// ---- Manifest and merge ----------------------------------------------------------
 
 describe("snapshot manifest", () => {
-  const files = [
-    { path: "weekly.json", bytes: 3, sha256: sha256Hex("abc") },
-    { path: "feed.json", bytes: 2, sha256: sha256Hex("ab") },
-  ];
+  const f = (p: string, content: string) => ({ path: p, bytes: content.length, sha256: sha256Hex(content) });
+  const files = [f("weekly.json", "abc"), f("feed.json", "ab")];
   const base = { date: "2026-11-11", printedAt: "2026-11-11T20:09:28Z", commit: COMMIT, capturedAt: "2026-11-12T12:00:00Z", files, missing: [] };
 
-  it("hashes what was printed, not when it was captured or in what order", () => {
+  it("hashes what was printed, not when, in what order, or at which void news commit it was read", () => {
     const a = buildManifest(base);
-    const b = buildManifest({ ...base, capturedAt: "2026-11-12T23:40:00Z", files: [...files].reverse() });
+    const b = buildManifest({ ...base, capturedAt: "2026-11-12T23:40:00Z", files: [...files].reverse(), commit: COMMIT2 });
     expect(a.content_sha256).toBe(b.content_sha256);
-    expect(a.files.map((f: { path: string }) => f.path)).toEqual(["feed.json", "weekly.json"]);
+    expect(b.source.commit).toBe(COMMIT2); // kept as provenance
+    expect(b.files.every((x: { commit: string }) => x.commit === COMMIT2)).toBe(true);
+    expect(a.files.map((x: { path: string }) => x.path)).toEqual(["feed.json", "weekly.json"]);
     expect(a.total_bytes).toBe(5);
     expect(validateManifest(a)).toEqual([]);
   });
 
-  it("changes when any file, the commit or what is missing changes", () => {
+  it("changes when any file or what is missing changes", () => {
     const a = buildManifest(base).content_sha256;
-    expect(buildManifest({ ...base, files: [files[0], { ...files[1], sha256: sha256Hex("zz") }] }).content_sha256).not.toBe(a);
-    expect(buildManifest({ ...base, commit: COMMIT2 }).content_sha256).not.toBe(a);
+    expect(buildManifest({ ...base, files: [files[0], f("feed.json", "zz")] }).content_sha256).not.toBe(a);
     expect(buildManifest({ ...base, missing: [{ cluster_id: id(9), reason: "not_found" }] }).content_sha256).not.toBe(a);
   });
 
-  it("decides write, unchanged or replace from the stored manifest", () => {
-    const m = buildManifest(base);
-    expect(decideWrite(null, m)).toBe("write");
-    expect(decideWrite(m, buildManifest({ ...base, capturedAt: "later" }))).toBe("unchanged");
-    expect(decideWrite(m, buildManifest({ ...base, commit: COMMIT2 }))).toBe("replace");
+  it("an unrelated void news commit with the same edition is unchanged, not a replace", () => {
+    const stored = buildManifest(base);
+    expect(planSnapshot(stored, { ...base, commit: COMMIT2, capturedAt: "later" }).action).toBe("unchanged");
+    expect(planSnapshot(null, base).action).toBe("write");
+  });
+
+  it("a worse later capture of the same edition loses nothing: stored files stay, new ones are added, missing only shrinks", () => {
+    const dd = (n: number) => f(`deepdive/${id(n)}.json`, `dd${n}`);
+    const stored = buildManifest({ ...base, files: [...files, dd(1), dd(2)], missing: [{ cluster_id: id(3), reason: "not_found" }] });
+    // Later capture: deep dive 2 is gone (void news dropped it), 3 has appeared, 1 is the same.
+    const later = { ...base, commit: COMMIT2, files: [...files, dd(1), dd(3)], missing: [{ cluster_id: id(2), reason: "not_found" }] };
+    const plan = planSnapshot(stored, later);
+    expect(plan.action).toBe("merge");
+    expect(deepPaths(plan.manifest)).toEqual([`deepdive/${id(1)}.json`, `deepdive/${id(2)}.json`, `deepdive/${id(3)}.json`]);
+    expect(plan.manifest.missing).toEqual([]);
+    expect(plan.superseded).toEqual([]);
+    // Kept files keep the commit they were read at; new ones carry the new one.
+    const commitOf = (p: string) => plan.manifest.files.find((x: { path: string }) => x.path === p).commit;
+    expect(commitOf(`deepdive/${id(2)}.json`)).toBe(COMMIT);
+    expect(commitOf(`deepdive/${id(3)}.json`)).toBe(COMMIT2);
+  });
+
+  it("takes a new weekly issue for the same edition and supersedes only the old weekly copy", () => {
+    const stored = buildManifest(base);
+    const plan = planSnapshot(stored, { ...base, files: [files[1], f("weekly.json", "issue34")] });
+    expect(plan.action).toBe("merge");
+    expect(plan.manifest.files.find((x: { path: string }) => x.path === "weekly.json").sha256).toBe(sha256Hex("issue34"));
+    expect(plan.superseded).toEqual([sha256Hex("abc")]);
+  });
+
+  it("a later printing replaces the day whole; an earlier one changes nothing", () => {
+    const stored = buildManifest(base);
+    const reprint = planSnapshot(stored, { ...base, printedAt: "2026-11-11T22:00:00Z", files: [f("feed.json", "new"), files[0]] });
+    expect(reprint.action).toBe("replace");
+    expect(reprint.superseded).toEqual([sha256Hex("ab")]);
+    const backfill = planSnapshot(stored, { ...base, printedAt: "2026-11-11T09:00:00Z", files: [f("feed.json", "old")] });
+    expect(backfill.action).toBe("older");
+    expect(backfill.manifest).toBe(stored);
   });
 
   it("refuses a stored manifest whose paths could escape the snapshot", () => {
     const m = buildManifest(base);
     expect(validateManifest({ ...m, files: [{ path: "../../x", bytes: 1, sha256: "0".repeat(64) }] })).not.toEqual([]);
     expect(validateManifest({ ...m, date: XSS })).not.toEqual([]);
+    expect(validateManifest({ ...m, files: [{ ...m.files[0], commit: XSS }] })).not.toEqual([]);
+    expect(validateManifest({ ...m, missing: [{ cluster_id: XSS, reason: "x" }] })).not.toEqual([]);
   });
 });
 
@@ -209,7 +249,7 @@ describe("snapshot size caps (R2 bills past its free tier)", () => {
     const ddBytes = JSON.stringify(deepdive(1)).length;
     const limits = { maxFileBytes: 1_000_000, maxTotalBytes: coreBytes + ddBytes + 2, maxDeepDives: 60 };
     const r = await run(out, files, { limits });
-    expect(r.manifest.files.filter((f: { path: string }) => f.path.startsWith("deepdive/"))).toHaveLength(1);
+    expect(deepPaths(r.manifest)).toHaveLength(1);
     expect(r.manifest.missing).toEqual([
       { cluster_id: id(2), reason: "over_total_cap" },
       { cluster_id: id(3), reason: "over_total_cap" },
@@ -218,13 +258,17 @@ describe("snapshot size caps (R2 bills past its free tier)", () => {
     await expect(run(tmp(), files, { limits: { ...limits, maxFileBytes: 10 } })).rejects.toThrow(/too_large/);
   });
 
-  it("budget.yaml's R2 row covers a year at the total cap within the uploader's bucket share", async () => {
-    const { BUCKET_CAP_BYTES } = await import("../scripts/lib/snapshot-store.mjs");
+  it("budget.yaml's R2 row covers a year at the total cap within the uploader's bucket share", () => {
     expect(366 * LIMITS.maxTotalBytes).toBeLessThanOrEqual(BUCKET_CAP_BYTES);
     const budget = parseYaml(readFileSync(path.join(root, "budget.yaml"), "utf8")) as { alert_at: number; quotas: { name: string; ceiling: number; estimate_at_1000_users_per_day: number }[] };
     const r2 = budget.quotas.find((q) => q.name === "r2_storage_gb")!;
     expect(r2.estimate_at_1000_users_per_day).toBeGreaterThan(0);
     expect(BUCKET_CAP_BYTES / 1024 ** 3).toBeLessThanOrEqual(r2.ceiling * budget.alert_at);
+    // Class A: one new day of up to 64 objects a day, plus two heartbeats; a
+    // re-run of the same edition writes only the heartbeat.
+    const a = budget.quotas.find((q) => q.name === "r2_class_a_ops_per_month")!;
+    expect(a.estimate_at_1000_users_per_day).toBeGreaterThanOrEqual(31 * (LIMITS.maxDeepDives + 3 + 3 + 2));
+    expect(a.estimate_at_1000_users_per_day).toBeLessThanOrEqual(a.ceiling * budget.alert_at);
   });
 });
 
@@ -247,20 +291,31 @@ describe("runSnapshot", () => {
     expect(readLocalSnapshot(path.join(out, "2026-11-11")).content_sha256).toBe(m.content_sha256);
   });
 
-  it("re-run for the same printed day writes nothing", async () => {
+  it("re-run for the same printed day writes nothing, even after void news moved on to a new commit", async () => {
     const out = tmp();
     const files = repoFiles();
     const first = await run(out, files);
     const mf = path.join(out, "2026-11-11", "manifest.json");
     const before = statSync(mf).mtimeMs;
-    const again = await run(out, files, { now: () => new Date("2026-11-12T23:40:00Z") });
+    const again = await run(out, files, { now: () => new Date("2026-11-12T23:40:00Z"), resolveCommit: () => COMMIT2 });
     expect(again.action).toBe("unchanged");
     expect(again.manifest.content_sha256).toBe(first.manifest.content_sha256);
     expect(statSync(mf).mtimeMs).toBe(before);
     expect(JSON.parse(readFileSync(mf, "utf8")).captured_at).toBe("2026-11-12T12:00:05.000Z");
   });
 
-  it("replaces the day when void news reprints it, and drops files the new printing lacks", async () => {
+  it("a later capture of the same edition missing a deep dive keeps the stored one on disk", async () => {
+    const out = tmp();
+    await run(out, repoFiles("2026-11-11T20:00:00Z", [1, 2, 3]));
+    const worse = repoFiles("2026-11-11T20:00:00Z", [1, 2, 3]);
+    delete worse[PATHS.deepdive(id(2))];
+    const r = await run(out, worse, { resolveCommit: () => COMMIT2 });
+    expect(r.action).toBe("unchanged");
+    expect(existsSync(path.join(out, "2026-11-11", "deepdive", `${id(2)}.json`))).toBe(true);
+    expect(r.manifest.missing).toEqual([]);
+  });
+
+  it("replaces the day when void news reprints it later, and drops files the new printing lacks", async () => {
     const out = tmp();
     await run(out, repoFiles("2026-11-11T12:00:00Z", [1, 2, 3]));
     const r = await run(out, repoFiles("2026-11-11T20:00:00Z", [1, 4], weekly(34)));
@@ -289,13 +344,42 @@ describe("runSnapshot", () => {
     expect(fake.calls.filter((c) => c.url.endsWith(`${id(4)}.json`))).toHaveLength(4);
   });
 
-  it("retries a transient failure with backoff, then succeeds", async () => {
+  it(`stops asking after ${MAX_CONSECUTIVE_FAILURES} deep-dive failures in a row`, async () => {
+    const ids = Array.from({ length: MAX_CONSECUTIVE_FAILURES + 3 }, (_, i) => i + 1);
+    const files = repoFiles("2026-11-11T20:09:28Z", ids);
+    for (const n of ids) files[PATHS.deepdive(id(n))] = { status: 500 };
+    const fake = fakeFetch(files);
+    const r = await runSnapshot({ outDir: tmp(), fetchImpl: fake.impl, sleep: noSleep, resolveCommit: () => COMMIT });
+    const asked = new Set(fake.calls.map((c) => c.url).filter((u) => u.includes("/deepdive/")));
+    expect(asked.size).toBe(MAX_CONSECUTIVE_FAILURES);
+    expect(r.manifest.missing.filter((m: { reason: string }) => m.reason === "skipped_after_failures")).toHaveLength(3);
+  });
+
+  it("retries a transient failure with backoff, honouring Retry-After up to a minute", async () => {
     let n = 0;
     const waits: number[] = [];
-    const impl = (async () => (++n < 3 ? new Response("busy", { status: 429 }) : new Response("{}", { status: 200 }))) as unknown as typeof fetch;
+    const impl = (async () =>
+      ++n === 1
+        ? new Response("busy", { status: 429, headers: { "retry-after": "7" } })
+        : n === 2
+          ? new Response("busy", { status: 503, headers: { "retry-after": "9999" } })
+          : n === 3
+            ? new Response("busy", { status: 503 })
+            : new Response("{}", { status: 200 })) as unknown as typeof fetch;
     const r = await politeGet("https://example.org/x", { fetchImpl: impl, sleep: async (ms: number) => void waits.push(ms) });
     expect(r.status).toBe("ok");
-    expect(waits).toEqual([1000, 2000]);
+    expect(waits).toEqual([7000, 60000, 4000]);
+    expect(retryAfterMs(new Date(Date.now() + 5000).toUTCString())).toBeGreaterThan(0);
+    expect(retryAfterMs("soon")).toBeNull();
+  });
+
+  it("cancels every body it does not read", async () => {
+    let cancelled = 0;
+    const body = () => new ReadableStream({ pull(c) { c.enqueue(new TextEncoder().encode("x")); }, cancel() { cancelled++; } });
+    const statuses = [503, 404];
+    const impl = (async () => new Response(body(), { status: statuses.shift()! })) as unknown as typeof fetch;
+    expect(await politeGet("https://example.org/x", { fetchImpl: impl, sleep: noSleep })).toEqual({ status: "not_found" });
+    expect(cancelled).toBe(2);
   });
 
   it("fails without writing when the feed, weekly issue or outlet list is missing or malformed", async () => {
@@ -318,58 +402,139 @@ describe("runSnapshot", () => {
 
 function memoryStore(bytes = 0) {
   const objects = new Map<string, string>();
-  const puts: string[] = [];
+  const ops: string[] = [];
+  let sizeCalls = 0;
   return {
     objects,
-    puts,
+    ops,
+    sizeCalls: () => sizeCalls,
     get: (k: string) => objects.get(k) ?? null,
     put: (k: string, file: string) => {
-      puts.push(k);
+      ops.push(`put ${k}`);
       objects.set(k, readFileSync(file, "utf8"));
     },
-    bucketBytes: () => bytes,
+    delete: (k: string) => {
+      ops.push(`delete ${k}`);
+      objects.delete(k);
+    },
+    bucketBytes: () => {
+      sizeCalls++;
+      return bytes;
+    },
   };
 }
+const puts = (s: ReturnType<typeof memoryStore>) => s.ops.filter((o) => o.startsWith("put ")).map((o) => o.slice(4));
+const storedManifest = (s: ReturnType<typeof memoryStore>, date = "2026-11-11") => JSON.parse(s.objects.get(manifestKey(date))!);
 
 describe("snapshot upload to R2", () => {
-  it("puts data files first, then the manifest, the index, the latest pointer and the heartbeat", async () => {
-    const out = tmp();
-    const r = await run(out, repoFiles());
+  it("puts content-named blobs first, then the manifest, the index, the latest pointer and the heartbeat", async () => {
+    const r = await run(tmp(), repoFiles());
     const store = memoryStore();
     expect(uploadSnapshot({ dir: r.dir, store, now: () => new Date("2026-11-12T12:01:00Z") })).toBe("write");
     const n = r.manifest.files.length;
-    expect(store.puts.slice(0, n).every((k) => /^snapshots\/2026-11-11\/(feed|weekly|sources|deepdive\/.+)\.json$/.test(k))).toBe(true);
-    expect(store.puts.slice(n)).toEqual(["snapshots/2026-11-11/manifest.json", INDEX_KEY, LATEST_KEY, HEARTBEAT_KEY]);
-    expect(JSON.parse(store.objects.get(INDEX_KEY)!).dates.map((d: { date: string }) => d.date)).toEqual(["2026-11-11"]);
+    expect(puts(store).slice(0, n).every((k) => /^snapshots\/2026-11-11\/blobs\/[0-9a-f]{64}\.json$/.test(k))).toBe(true);
+    expect(puts(store).slice(n)).toEqual([manifestKey("2026-11-11"), INDEX_KEY, LATEST_KEY, HEARTBEAT_KEY]);
+    for (const f of storedManifest(store).files) expect(sha256Hex(store.objects.get(blobKey("2026-11-11", f.sha256))!)).toBe(f.sha256);
+    expect(readIndex(store.objects.get(INDEX_KEY)!).dates.map((d: { date: string }) => d.date)).toEqual(["2026-11-11"]);
     expect(JSON.parse(store.objects.get(HEARTBEAT_KEY)!)).toMatchObject({ schema: 1, result: "write", date: "2026-11-11", ran_at: "2026-11-12T12:01:00.000Z" });
   });
 
-  it("re-uploading the same day writes only the heartbeat", async () => {
-    const out = tmp();
-    const r = await run(out, repoFiles());
+  it("re-uploading the same edition from a new void news commit writes only the heartbeat", async () => {
     const store = memoryStore();
-    uploadSnapshot({ dir: r.dir, store });
-    store.puts.length = 0;
-    expect(uploadSnapshot({ dir: r.dir, store })).toBe("unchanged");
-    expect(store.puts).toEqual([HEARTBEAT_KEY]);
+    uploadSnapshot({ dir: (await run(tmp(), repoFiles())).dir, store });
+    store.ops.length = 0;
+    const again = await run(tmp(), repoFiles(), { resolveCommit: () => COMMIT2 });
+    expect(uploadSnapshot({ dir: again.dir, store })).toBe("unchanged");
+    expect(store.ops).toEqual([`put ${HEARTBEAT_KEY}`]);
+  });
+
+  it("a fresh runner's worse capture of the same edition merges into R2 and never deletes a stored file", async () => {
+    const store = memoryStore();
+    uploadSnapshot({ dir: (await run(tmp(), repoFiles("2026-11-11T20:00:00Z", [1, 2, 3]))).dir, store });
+    const before = storedManifest(store);
+    // The 23:43 run on a fresh runner: deep dive 2 failed, a new weekly issue landed.
+    const worse = repoFiles("2026-11-11T20:00:00Z", [1, 2, 3], weekly(34));
+    worse[PATHS.deepdive(id(2))] = { status: 404 };
+    store.ops.length = 0;
+    expect(uploadSnapshot({ dir: (await run(tmp(), worse, { resolveCommit: () => COMMIT2 })).dir, store })).toBe("merge");
+    const after = storedManifest(store);
+    expect(deepPaths(after)).toEqual(deepPaths(before));
+    expect(after.missing).toEqual([]);
+    expect(after.weekly_issue).toBe(34);
+    // Only the new weekly blob went up; the old weekly blob went after the manifest.
+    const oldWeekly = before.files.find((f: { path: string }) => f.path === "weekly.json").sha256;
+    const newWeekly = after.files.find((f: { path: string }) => f.path === "weekly.json").sha256;
+    expect(store.ops[0]).toBe(`put ${blobKey("2026-11-11", newWeekly)}`);
+    const iManifest = store.ops.indexOf(`put ${manifestKey("2026-11-11")}`);
+    const iDelete = store.ops.indexOf(`delete ${blobKey("2026-11-11", oldWeekly)}`);
+    expect(iDelete).toBeGreaterThan(iManifest);
+    expect(store.ops.filter((o) => o.startsWith("delete "))).toHaveLength(1);
+    for (const f of after.files) expect(store.objects.has(blobKey("2026-11-11", f.sha256))).toBe(true);
+  });
+
+  it("a later printing replaces the day, deleting superseded blobs only after the new manifest lands", async () => {
+    const store = memoryStore();
+    uploadSnapshot({ dir: (await run(tmp(), repoFiles("2026-11-11T12:00:00Z", [1, 2, 3]))).dir, store });
+    store.ops.length = 0;
+    expect(uploadSnapshot({ dir: (await run(tmp(), repoFiles("2026-11-11T20:00:00Z", [1, 4]))).dir, store })).toBe("replace");
+    const iManifest = store.ops.indexOf(`put ${manifestKey("2026-11-11")}`);
+    const deletes = store.ops.map((o, i) => [o, i] as const).filter(([o]) => o.startsWith("delete "));
+    expect(deletes.length).toBeGreaterThan(0);
+    expect(deletes.every(([, i]) => i > iManifest)).toBe(true);
+    for (const f of storedManifest(store).files) expect(store.objects.has(blobKey("2026-11-11", f.sha256))).toBe(true);
+    const blobs = [...store.objects.keys()].filter((k) => k.includes("/blobs/"));
+    expect(blobs).toHaveLength(storedManifest(store).files.length);
+  });
+
+  it("an earlier printing, replayed from a backfill, changes nothing", async () => {
+    const store = memoryStore();
+    uploadSnapshot({ dir: (await run(tmp(), repoFiles("2026-11-11T20:00:00Z"))).dir, store });
+    store.ops.length = 0;
+    expect(uploadSnapshot({ dir: (await run(tmp(), repoFiles("2026-11-11T12:00:00Z", [9]))).dir, store })).toBe("older");
+    expect(store.ops).toEqual([`put ${HEARTBEAT_KEY}`]);
   });
 
   it("never moves the latest pointer back for a late or replayed older day", async () => {
-    const root = tmp();
-    const newer = await run(root, repoFiles("2026-11-11T20:00:00Z"));
-    const older = await run(root, repoFiles("2026-11-09T12:00:00Z"));
+    const out = tmp();
+    const newer = await run(out, repoFiles("2026-11-11T20:00:00Z"));
+    const older = await run(out, repoFiles("2026-11-09T12:00:00Z"));
     const store = memoryStore();
     uploadSnapshot({ dir: newer.dir, store });
     uploadSnapshot({ dir: older.dir, store });
     expect(JSON.parse(store.objects.get(LATEST_KEY)!).date).toBe("2026-11-11");
-    expect(JSON.parse(store.objects.get(INDEX_KEY)!).dates.map((d: { date: string }) => d.date)).toEqual(["2026-11-09", "2026-11-11"]);
+    expect(readIndex(store.objects.get(INDEX_KEY)!).dates.map((d: { date: string }) => d.date)).toEqual(["2026-11-09", "2026-11-11"]);
   });
 
   it("refuses to grow the bucket past this product's cap, and uploads nothing", async () => {
     const r = await run(tmp(), repoFiles());
     const store = memoryStore(1000);
     expect(() => uploadSnapshot({ dir: r.dir, store, capBytes: 1500 })).toThrow(/cap/);
-    expect(store.puts).toEqual([]);
+    expect(store.ops).toEqual([]);
+  });
+
+  it("counts a backfill's own uploads against the cap, with the index's total as a floor", async () => {
+    const out = tmp();
+    const a = await run(out, repoFiles("2026-11-09T12:00:00Z"));
+    const b = await run(out, repoFiles("2026-11-10T12:00:00Z"));
+    const store = memoryStore(0); // wrangler's size figure lags uploads
+    const budget = { used: null as number | null };
+    uploadSnapshot({ dir: a.dir, store, budget });
+    const afterOne = budget.used!;
+    expect(afterOne).toBeGreaterThanOrEqual(a.manifest.total_bytes);
+    expect(() => uploadSnapshot({ dir: b.dir, store, budget, capBytes: afterOne + 100 })).toThrow(/cap/);
+    expect(store.sizeCalls()).toBe(1);
+    // A fresh run sees the stored index's total even when the bucket says 0.
+    expect(() => uploadSnapshot({ dir: b.dir, store: { ...store, bucketBytes: () => 0 }, capBytes: a.manifest.total_bytes + 100 })).toThrow(/cap/);
+  });
+
+  it("refuses an unreadable stored index rather than rewriting it from one date", async () => {
+    const r = await run(tmp(), repoFiles());
+    const store = memoryStore();
+    store.objects.set(INDEX_KEY, "{oops");
+    expect(() => uploadSnapshot({ dir: r.dir, store })).toThrow(/index/);
+    store.objects.set(INDEX_KEY, JSON.stringify({ schema: 2, dates: [] }));
+    expect(() => uploadSnapshot({ dir: r.dir, store })).toThrow(/index/);
+    expect(store.ops).toEqual([]);
   });
 
   it("refuses a local snapshot whose files no longer match their manifest", async () => {
@@ -377,13 +542,24 @@ describe("snapshot upload to R2", () => {
     writeFileSync(path.join(r.dir, "feed.json"), "{}");
     const store = memoryStore();
     expect(() => uploadSnapshot({ dir: r.dir, store })).toThrow(/does not match/);
-    expect(store.puts).toEqual([]);
+    expect(store.ops).toEqual([]);
   });
 
-  it("an unchanged plan with a corrupt stored manifest is treated as a fresh write", async () => {
+  it("treats a corrupt stored manifest as absent and re-sends every blob", async () => {
     const r = await run(tmp(), repoFiles());
-    const plan = planUpload({ manifest: r.manifest, remote: { manifest: "{oops", index: null, latest: null }, ranAt: "2026-11-12T00:00:00Z" });
+    const plan = planUpload({ local: r.manifest, remote: { manifest: "{oops", index: null, latest: null }, ranAt: "2026-11-12T00:00:00Z" });
     expect(plan.action).toBe("write");
+    expect(plan.puts.filter((p: { sha256?: string }) => p.sha256)).toHaveLength(r.manifest.files.length);
+  });
+
+  it("finds snapshots in a downloaded artifact's nested layout, oldest first", async () => {
+    const dl = tmp();
+    const a = await run(path.join(dl, "snapshot-2026-11-10-111", "snapshots-out"), repoFiles("2026-11-10T12:00:00Z"));
+    const b = await run(path.join(dl, "snapshot-2026-11-09-222"), repoFiles("2026-11-09T12:00:00Z"));
+    mkdirSync(path.join(dl, "2026-11-08")); // no manifest: not a snapshot
+    expect(findSnapshotDirs(dl)).toEqual([b.dir, a.dir]);
+    cpSync(a.dir, path.join(dl, "copy", "2026-11-10"), { recursive: true });
+    expect(findSnapshotDirs(dl)).toHaveLength(3);
   });
 
   it("reads wrangler's bucket size, erring high", () => {
@@ -394,14 +570,16 @@ describe("snapshot upload to R2", () => {
   });
 });
 
-// ---- The workflow (rule 10) ----------------------------------------------------------
+// ---- The workflows (rule 10) ----------------------------------------------------------
 
+type Step = { name?: string; if?: string; run?: string; env?: Record<string, string> };
 describe("snapshot workflow", () => {
   const text = readFileSync(path.join(root, ".github", "workflows", "snapshot.yml"), "utf8");
-  const wf = parseYaml(text) as { on: { schedule: { cron: string }[] }; jobs: Record<string, { steps: { name?: string; if?: string; run?: string }[] }> };
+  const wf = parseYaml(text) as { on: { schedule: { cron: string }[] }; jobs: Record<string, { env?: Record<string, string>; steps: Step[] }> };
+  const steps = wf.jobs.snapshot.steps;
 
-  it("runs daily at 12:00 UTC, plus a late-edition catch", () => {
-    expect(wf.on.schedule.map((s) => s.cron)).toEqual(["0 12 * * *", "40 23 * * *"]);
+  it("runs daily just after 12:00 UTC, plus a late-edition catch, off the busy minutes", () => {
+    expect(wf.on.schedule.map((s) => s.cron)).toEqual(["17 12 * * *", "43 23 * * *"]);
   });
 
   it("declares owner, kill_after_idle_days and a heartbeat_url on this product's Worker", () => {
@@ -410,20 +588,32 @@ describe("snapshot workflow", () => {
     expect(text).toMatch(/^#\s+heartbeat_url: https:\/\/omnibus\.voidvision\.org\/api\/snapshots\/heartbeat$/m);
   });
 
-  it("skips R2 with a warning when the secret is missing, never by swallowing a failure", () => {
-    const steps = wf.jobs.snapshot.steps;
-    const store = steps.find((s) => s.name === "Store it in R2")!;
-    expect(store.if).toContain("CLOUDFLARE_API_TOKEN != ''");
-    const notice = steps.find((s) => s.name === "R2 is not configured")!;
-    expect(notice.run).toContain("::warning");
+  it("gives the token only to the R2 step, and skips R2 with a warning when it is missing, never by swallowing a failure", () => {
+    expect(wf.jobs.snapshot.env).toEqual({ HAS_R2: "${{ secrets.CLOUDFLARE_API_TOKEN != '' }}" });
+    const withToken = steps.filter((s) => JSON.stringify(s).includes("secrets.CLOUDFLARE_API_TOKEN"));
+    expect(withToken.map((s) => s.name)).toEqual(["Store it in R2"]);
+    expect(steps.find((s) => s.name === "Store it in R2")!.if).toContain("env.HAS_R2 == 'true'");
+    expect(steps.find((s) => s.name === "R2 is not configured")!.run).toContain("::warning");
     expect(text).not.toMatch(/continue-on-error|\|\|\s*true|\|\|\s*echo/);
+  });
+
+  it("verify-production checks the heartbeat, failing on anything but 200, once SNAPSHOT_R2_ENABLED is true", () => {
+    const vp = parseYaml(readFileSync(path.join(root, ".github", "workflows", "verify-production.yml"), "utf8")) as { jobs: Record<string, { steps: Step[] }> };
+    const all = vp.jobs.verify.steps;
+    const i = all.findIndex((s) => s.name === "Check the daily snapshot's heartbeat");
+    expect(i).toBeGreaterThan(-1);
+    expect(all[i].if).toContain("vars.SNAPSHOT_R2_ENABLED == 'true'");
+    expect(all[i].run).toContain("https://omnibus.voidvision.org/api/snapshots/heartbeat");
+    expect(all[i].run).toMatch(/!= "200"[\s\S]*exit 1/);
+    const issue = all.findIndex((s) => s.name === "Open or update the prod-red issue on failure");
+    expect(issue).toBeGreaterThan(i);
   });
 });
 
 // ---- The week record from snapshots ------------------------------------------------
 
 describe("normalise-week from snapshots", () => {
-  async function buildWeek(root: string, opts: { skipDay?: string; tamper?: boolean } = {}) {
+  async function buildWeek(rootDir: string, opts: { skipDay?: string; tamper?: boolean } = {}) {
     // Seven printed days of week 33 (2 to 8 Nov), plus the 9th holding the weekly issue.
     for (let i = 0; i < 8; i++) {
       const date = `2026-11-0${2 + i}`;
@@ -435,12 +625,12 @@ describe("normalise-week from snapshots", () => {
         (files[PATHS.feed] as { clusters: unknown[] }).clusters.push(cluster(1));
         files[PATHS.deepdive(id(1))] = deepdive(200); // a later state: must not be used
       }
-      await runSnapshot({ outDir: root, fetchImpl: fakeFetch(files).impl, sleep: noSleep, resolveCommit: () => (i === 7 ? COMMIT2 : COMMIT) });
+      await runSnapshot({ outDir: rootDir, fetchImpl: fakeFetch(files).impl, sleep: noSleep, resolveCommit: () => (i === 7 ? COMMIT2 : COMMIT) });
     }
-    if (opts.tamper) writeFileSync(path.join(root, "2026-11-04", "feed.json"), JSON.stringify(feedOf("2026-11-04T14:00:00Z", [9])));
+    if (opts.tamper) writeFileSync(path.join(rootDir, "2026-11-04", "feed.json"), JSON.stringify(feedOf("2026-11-04T14:00:00Z", [9])));
     const { normaliseWeek } = await import("../scripts/lib/normalise.mjs");
     const { dirReader, snapshotSource } = await import("../scripts/lib/week-sources.mjs");
-    const source = snapshotSource(dirReader(root));
+    const source = snapshotSource(dirReader(rootDir));
     // The echo record is read at the anchor's commit; stub it, no network in tests.
     source.echo = async (p: string) => ({ text: "slug: spanish-flu-1918\ntitle: 'The flu'\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
     return normaliseWeek(source, 33);
@@ -473,11 +663,25 @@ describe("normalise-week from snapshots", () => {
     await expect(buildWeek(tmp(), { tamper: true })).rejects.toThrow(/sha256/);
   });
 
+  it("reads the same week back from R2 by content key", async () => {
+    const local = tmp();
+    await buildWeek(local);
+    const store = memoryStore();
+    for (const d of findSnapshotDirs(local)) uploadSnapshot({ dir: d, store });
+    const { normaliseWeek } = await import("../scripts/lib/normalise.mjs");
+    const { r2Reader, snapshotSource } = await import("../scripts/lib/week-sources.mjs");
+    const source = snapshotSource(r2Reader(store, tmp()));
+    source.echo = async (p: string) => ({ text: "slug: s\ntitle: t\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
+    const w = await normaliseWeek(source, 33);
+    expect(w.days.filter((d: { available: boolean }) => d.available)).toHaveLength(7);
+    expect(w.lead.ledger.map((a: { headline: string }) => a.headline)).toEqual(["Headline 100"]);
+    expect(w.normalised_from.snapshots.store).toBe("r2://omnibus/snapshots");
+  });
+
   it("says plainly when no snapshot holds the issue", async () => {
-    const root = tmp();
-    mkdirSync(root, { recursive: true });
+    const rootDir = tmp();
     const { normaliseWeek } = await import("../scripts/lib/normalise.mjs");
     const { dirReader, snapshotSource } = await import("../scripts/lib/week-sources.mjs");
-    await expect(normaliseWeek(snapshotSource(dirReader(root)), 33)).rejects.toThrow(/no snapshot .* holds weekly issue 33/);
+    await expect(normaliseWeek(snapshotSource(dirReader(rootDir)), 33)).rejects.toThrow(/no snapshot .* holds weekly issue 33/);
   });
 });

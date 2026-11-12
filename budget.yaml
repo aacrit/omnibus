@@ -40,8 +40,8 @@ quotas:
 
   - name: r2_class_a_ops_per_month
     ceiling: 1000000
-    estimate_at_1000_users_per_day: 1800
-    notes: "Writes. A new or reprinted day is about 52 puts (its files, manifest, index, latest pointer); a run that finds the same edition writes only the heartbeat. Two runs a day: about 1,600 to 1,800 a month, independent of visitors."
+    estimate_at_1000_users_per_day: 2200
+    notes: "Writes, independent of visitors. A new printed day puts its blobs once (at most 60 deep dives + 3 core files, about 48 today), then its manifest, the index and the latest pointer; every run puts the heartbeat. A later run that finds the same edition (an unrelated void news commit included, since the commit is not part of the content hash) writes only the heartbeat; a merge puts only the files that changed (a new weekly issue is one blob). So at most about 31 x (63 + 3 + 2) = 2,108 a month, plus a rare reprint; deletes are free."
 
   - name: r2_class_b_ops_per_month
     ceiling: 10000000

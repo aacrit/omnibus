@@ -41,7 +41,7 @@ describe("GET /api/snapshots/heartbeat", () => {
   it("reads the uploader's heartbeat key, the one snapshot-r2.mjs writes every run", () => {
     expect(HEARTBEAT_KEY).toBe(UPLOADER_HEARTBEAT_KEY);
     const m = buildManifest({ date: "2026-11-11", printedAt: "2026-11-11T20:09:28Z", commit: "a".repeat(40), capturedAt: "x", files: [], missing: [] });
-    const hb = planUpload({ manifest: m, remote: { manifest: null, index: null, latest: null }, ranAt: "2026-11-12T12:01:00.000Z" }).puts.at(-1)!;
+    const hb = planUpload({ local: m, remote: { manifest: null, index: null, latest: null }, ranAt: "2026-11-12T12:01:00.000Z" }).heartbeat;
     expect(hb.key).toBe(HEARTBEAT_KEY);
     expect(readHeartbeat(JSON.parse(hb.body!))).not.toBeNull();
   });

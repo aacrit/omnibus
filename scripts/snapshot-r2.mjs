@@ -3,23 +3,26 @@
 // under snapshots/<date>/ (keys and order: scripts/lib/snapshot-store.mjs),
 // with wrangler. Before anything is sent, every file is re-hashed against
 // its manifest and the size caps are checked again, and the bucket's size
-// is read so it never grows past this product's share (R2 bills past its
-// free tier). A date already stored with the same content is not
-// re-uploaded; only the heartbeat is written.
+// is checked so it never grows past this product's share (R2 bills past its
+// free tier): the larger of wrangler's figure and the index's own total,
+// carried forward across every date of a backfill. A capture of an edition
+// R2 already holds merges into it and never removes a file; a date already
+// stored with the same content writes only the heartbeat.
 //
 //   node scripts/snapshot-r2.mjs --dir .cache/snapshots/2026-11-12
-//   node scripts/snapshot-r2.mjs --root <dir>   # every date under <dir>, oldest first (backfill)
+//   node scripts/snapshot-r2.mjs --root <dir>   # every <date>/manifest.json under <dir>, at any
+//                                               # depth (a downloaded workflow artifact), oldest first
 //
 // Auth: wrangler's own (CLOUDFLARE_API_TOKEN in CI, `wrangler login` locally).
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveBinPath } from "./lib/run-bin.mjs";
 import { LIMITS, checkCaps, isDate, sha256Hex, validateManifest } from "./lib/snapshot.mjs";
-import { BUCKET, BUCKET_CAP_BYTES, INDEX_KEY, LATEST_KEY, manifestKey, planBytes, planUpload } from "./lib/snapshot-store.mjs";
+import { BUCKET, BUCKET_CAP_BYTES, INDEX_KEY, LATEST_KEY, indexedBytes, manifestKey, planBytes, planUpload, readIndex } from "./lib/snapshot-store.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -63,6 +66,10 @@ export function wranglerStore(bucket = BUCKET) {
       const r = run(["r2", "object", "put", `${bucket}/${key}`, "--file", file, "--remote", "--content-type", "application/json"]);
       if (r.status !== 0) throw new Error(`wrangler r2 object put ${key} failed, ${why(r)}`);
     },
+    delete(key) {
+      const r = run(["r2", "object", "delete", `${bucket}/${key}`, "--remote"]);
+      if (r.status !== 0 && !missingKey(r)) throw new Error(`wrangler r2 object delete ${key} failed, ${why(r)}`);
+    },
     bucketBytes() {
       const r = run(["r2", "bucket", "info", bucket, "--json"]);
       if (r.status !== 0) throw new Error(`wrangler r2 bucket info failed, ${why(r)}`);
@@ -89,30 +96,57 @@ export function readLocalSnapshot(dir, limits = LIMITS) {
   return manifest;
 }
 
-/** Uploads one local snapshot directory. Returns the plan's action. */
-export function uploadSnapshot({ dir, store, now = () => new Date(), capBytes = BUCKET_CAP_BYTES, log = () => {} }) {
-  const manifest = readLocalSnapshot(dir);
-  const remote = { manifest: store.get(manifestKey(manifest.date)), index: store.get(INDEX_KEY), latest: store.get(LATEST_KEY) };
-  const { action, puts } = planUpload({ manifest, remote, ranAt: now().toISOString() });
-  if (action !== "unchanged") {
-    const used = store.bucketBytes();
-    const adding = planBytes(manifest, puts);
-    if (used + adding > capBytes) {
-      throw new Error(`bucket ${BUCKET} holds ${used} bytes; ${adding} more would pass this product's ${capBytes}-byte cap, so nothing was uploaded`);
-    }
+/**
+ * Uploads one local snapshot directory. `budget` ({ used }) carries the
+ * bucket's size across calls, so a backfill counts what it has already sent.
+ * Returns the plan's action.
+ */
+export function uploadSnapshot({ dir, store, now = () => new Date(), capBytes = BUCKET_CAP_BYTES, budget = { used: null }, log = () => {} }) {
+  const local = readLocalSnapshot(dir);
+  const remote = { manifest: store.get(manifestKey(local.date)), index: store.get(INDEX_KEY), latest: store.get(LATEST_KEY) };
+  const plan = planUpload({ local, remote, ranAt: now().toISOString() });
+  const adding = planBytes(plan.manifest, plan);
+  const floor = indexedBytes(readIndex(remote.index));
+  budget.used = Math.max(budget.used ?? store.bucketBytes(), floor);
+  if (budget.used + adding > capBytes) {
+    throw new Error(`bucket ${BUCKET} holds at least ${budget.used} bytes; ${adding} more would pass this product's ${capBytes}-byte cap, so nothing was uploaded`);
   }
+  const fileBySha = new Map(local.files.map((f) => [f.sha256, path.join(dir, f.path)]));
   const tmp = mkdtempSync(path.join(os.tmpdir(), "omnibus-r2-"));
   try {
-    puts.forEach((p, i) => {
-      const file = p.rel ? path.join(dir, p.rel) : path.join(tmp, `${i}.json`);
-      if (!p.rel) writeFileSync(file, p.body);
+    const send = (p, i) => {
+      let file = fileBySha.get(p.sha256);
+      if (!p.sha256) {
+        file = path.join(tmp, `${i}.json`);
+        writeFileSync(file, p.body);
+      }
+      if (!file) throw new Error(`no local file for blob ${p.sha256}`);
       store.put(p.key, file);
-    });
+    };
+    plan.puts.forEach(send);
+    for (const key of plan.deletes) store.delete(key);
+    send(plan.heartbeat, "heartbeat");
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
-  log(`snapshot-r2: ${manifest.date} ${action} (${puts.length} object${puts.length === 1 ? "" : "s"} written)`);
-  return action;
+  budget.used += adding;
+  log(`snapshot-r2: ${local.date} ${plan.action} (${plan.puts.length + 1} written, ${plan.deletes.length} deleted)`);
+  return plan.action;
+}
+
+/** Every <date>/ folder holding a manifest.json under root, at most four levels down, oldest date first. */
+export function findSnapshotDirs(root, depth = 4) {
+  const found = [];
+  const walk = (dir, left) => {
+    for (const name of readdirSync(dir)) {
+      const p = path.join(dir, name);
+      if (!statSync(p).isDirectory()) continue;
+      if (isDate(name) && existsSync(path.join(p, "manifest.json"))) found.push(p);
+      else if (left > 0) walk(p, left - 1);
+    }
+  };
+  walk(root, depth);
+  return found.sort((a, b) => path.basename(a).localeCompare(path.basename(b)) || a.localeCompare(b));
 }
 
 function arg(name) {
@@ -124,14 +158,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   try {
     const root = arg("root");
     const one = arg("dir");
-    const dirs = root
-      ? readdirSync(root).filter(isDate).sort().map((d) => path.join(root, d))
-      : one
-        ? [path.resolve(one)]
-        : [];
-    if (dirs.length === 0) throw new Error("give --dir <snapshot dir> or --root <dir of snapshots>");
+    const dirs = root ? findSnapshotDirs(path.resolve(root)) : one ? [path.resolve(one)] : [];
+    if (dirs.length === 0) throw new Error("give --dir <snapshot dir> or --root <dir holding snapshots>");
     const store = wranglerStore();
-    for (const dir of dirs) uploadSnapshot({ dir, store, log: (m) => console.log(m) });
+    const budget = { used: null };
+    for (const dir of dirs) uploadSnapshot({ dir, store, budget, log: (m) => console.log(m) });
   } catch (err) {
     console.error(`snapshot-r2: failed: ${err.message}`);
     process.exit(1);

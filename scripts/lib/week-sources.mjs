@@ -1,8 +1,9 @@
 // Where normaliseWeek (scripts/lib/normalise.mjs) reads void news's record.
 //
-// gitSource: a voidnews checkout's origin/main history at pinned commits.
+// gitSource: a voidnews checkout's main history at pinned commits, as of
+//   origin/main or a given commit (`at`, so a record can be rebuilt exactly).
 //   Each day is the last commit of feed.json on that UTC date; a deep dive
-//   is the commit that first added it; ratings and the echo at origin/main.
+//   is the commit that first added it; ratings and the echo at that commit.
 //
 // snapshotSource: the daily snapshots (scripts/snapshot.mjs), from a local
 //   directory (dirReader) or R2 (r2Reader). Each day is that printed date's
@@ -17,7 +18,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { blobUrl, isDate, isSnapshotPath, sha256Hex, validateManifest, RAW_BASE } from "./snapshot.mjs";
-import { INDEX_KEY, fileKey, manifestKey } from "./snapshot-store.mjs";
+import { INDEX_KEY, blobKey, manifestKey } from "./snapshot-store.mjs";
 import { REPO_URL, addDays } from "./normalise.mjs";
 
 const FEED = "frontend/build-data/feed.json";
@@ -26,12 +27,13 @@ const SOURCES = "data/sources.json";
 const DEEPDIVE = (id) => `frontend/public/data/deepdive/${id}.json`;
 const blob = (sha, p) => `${REPO_URL}/blob/${sha}/${p}`;
 
-export function gitSource(vn) {
+export function gitSource(vn, { at = "origin/main" } = {}) {
   const git = (...a) => execFileSync("git", ["-C", vn, ...a], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const head = git("rev-parse", "--verify", `${at}^{commit}`).trim();
   const show = (sha, p) => JSON.parse(git("show", `${sha}:${p}`));
   // Commits on origin/main touching a path, oldest first, with their UTC dates.
   const commits = (p) =>
-    git("log", "origin/main", "--format=%H %cI", "--", p)
+    git("log", head, "--format=%H %cI", "--", p)
       .trim()
       .split("\n")
       .filter(Boolean)
@@ -40,7 +42,6 @@ export function gitSource(vn) {
         return { sha, at: new Date(iso).toISOString() };
       })
       .reverse();
-  const head = git("rev-parse", "origin/main").trim();
   let feedCommits;
   return {
     origin: () => head,
@@ -58,7 +59,7 @@ export function gitSource(vn) {
     },
     deepdive(id) {
       // The commit that first added this cluster's deep dive: its printed state.
-      const sha = git("log", "origin/main", "--diff-filter=A", "--format=%H", "--", DEEPDIVE(id)).trim().split("\n").at(-1);
+      const sha = git("log", head, "--diff-filter=A", "--format=%H", "--", DEEPDIVE(id)).trim().split("\n").at(-1);
       if (!sha) return null;
       return { rows: Object.values(show(sha, DEEPDIVE(id))), link: blob(sha, DEEPDIVE(id)) };
     },
@@ -75,8 +76,8 @@ export function dirReader(root) {
       const f = path.join(root, date, "manifest.json");
       return existsSync(f) ? readFileSync(f, "utf8") : null;
     },
-    file(date, rel) {
-      const f = path.join(root, date, rel);
+    file(date, entry) {
+      const f = path.join(root, date, entry.path);
       return existsSync(f) ? readFileSync(f) : null;
     },
     weeklyIssue: () => undefined, // unknown without opening the manifest
@@ -116,7 +117,7 @@ export function r2Reader(store, cacheDir) {
     label: "r2://omnibus/snapshots",
     dates: () => entries().map((d) => d.date).sort(),
     manifest: (date) => cached(manifestKey(date), false),
-    file: (date, rel) => cached(fileKey(date, rel), true),
+    file: (date, entry) => cached(blobKey(date, entry.sha256), true),
     weeklyIssue: (date) => entries().find((d) => d.date === date)?.weekly_issue,
   };
 }
@@ -145,11 +146,13 @@ export function snapshotSource(reader, { voidnews } = {}) {
     const m = manifest(date);
     const entry = m?.files.find((f) => f.path === rel);
     if (!entry || !isSnapshotPath(rel)) return null;
-    const bytes = reader.file(date, rel);
+    const bytes = reader.file(date, entry);
     if (!bytes) throw new Error(`snapshot ${date} names ${rel} but it is not stored`);
     if (sha256Hex(bytes) !== entry.sha256) throw new Error(`snapshot ${date}/${rel} does not match its manifest sha256`);
     return JSON.parse(Buffer.from(bytes).toString("utf8"));
   };
+  // The public blob URL of a file at the commit it was read at.
+  const link = (m, rel) => blobUrl(m.files.find((f) => f.path === rel)?.commit ?? m.source.commit, rel);
   let anchor = null; // { date, manifest }
   const used = new Set();
   return {
@@ -163,18 +166,18 @@ export function snapshotSource(reader, { voidnews } = {}) {
         if (w?.issue_number !== issueNo) continue;
         anchor = { date, manifest: m };
         used.add(date);
-        return { issue: w, link: blobUrl(m.source.commit, "weekly.json") };
+        return { issue: w, link: link(m, "weekly.json") };
       }
       throw new Error(`no snapshot in ${reader.label} holds weekly issue ${issueNo}`);
     },
     origin: () => anchor.manifest.source.commit,
-    outlets: () => ({ list: json(anchor.date, "sources.json"), link: blobUrl(anchor.manifest.source.commit, "sources.json") }),
+    outlets: () => ({ list: json(anchor.date, "sources.json"), link: link(anchor.manifest, "sources.json") }),
     day(date) {
       const m = manifest(date);
       const feed = m && json(date, "feed.json");
       if (!feed) return null;
       used.add(date);
-      return { feed, link: blobUrl(m.source.commit, "feed.json") };
+      return { feed, link: link(m, "feed.json") };
     },
     deepdive(id) {
       const rel = `deepdive/${id}.json`;
@@ -187,7 +190,7 @@ export function snapshotSource(reader, { voidnews } = {}) {
         if (!m?.files.some((f) => f.path === rel)) continue;
         const rows = json(date, rel);
         used.add(date);
-        return { rows: Array.isArray(rows) ? rows : Object.values(rows), link: blobUrl(m.source.commit, rel) };
+        return { rows: Array.isArray(rows) ? rows : Object.values(rows), link: link(m, rel) };
       }
       return null;
     },

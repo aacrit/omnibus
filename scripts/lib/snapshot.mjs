@@ -133,18 +133,22 @@ export function planDeepDives(feed, limits = LIMITS) {
 
 /**
  * The manifest of one snapshot. `content_sha256` covers what was printed
- * (each file's path and hash, and what was missing), not when it was
- * captured, so two captures of the same edition have the same value.
+ * (the printed time, each file's path, hash and size, and what is missing),
+ * never when or at which void news commit it was read: void news commits
+ * many times a day, and an unrelated commit must not make the same edition
+ * look new. The commit stays as provenance: `source.commit` for the latest
+ * capture, and each file's own `commit`, the one it was read at.
  */
 export function buildManifest({ date, printedAt, commit, capturedAt, files, missing, weeklyIssue = null }) {
   if (!isDate(date)) throw new Error(`manifest date ${JSON.stringify(date)} is not a date`);
   if (!isCommit(commit)) throw new Error("manifest commit is not a sha");
-  const sorted = [...files].sort((a, b) => a.path.localeCompare(b.path));
+  const sorted = [...files]
+    .map((f) => ({ path: f.path, bytes: f.bytes, sha256: f.sha256, commit: f.commit ?? commit }))
+    .sort((a, b) => a.path.localeCompare(b.path));
   const gone = [...missing].sort((a, b) => a.cluster_id.localeCompare(b.cluster_id));
   const content = [
     `date ${date}`,
     `printed_at ${printedAt}`,
-    `commit ${commit}`,
     ...sorted.map((f) => `file ${f.path} ${f.sha256} ${f.bytes}`),
     ...gone.map((m) => `missing ${m.cluster_id} ${m.reason}`),
   ].join("\n");
@@ -176,16 +180,80 @@ export function checkCaps(files, limits = LIMITS) {
   return errors;
 }
 
+const CORE = new Set(["feed.json", "weekly.json", "sources.json"]);
+
 /**
- * What to do given the manifest already stored for this printed date (or
- * null): "write" a new date, "unchanged" when the same edition is already
- * held (a re-run writes nothing), or "replace" when void news reprinted the
- * same date (the later printing wins, as normalise-week's git source takes
- * the day's last commit).
+ * What a new capture does to the snapshot already stored for its printed
+ * date (`existing`, a valid manifest, or null). `next` is the capture:
+ * { date, printedAt, commit, capturedAt, weeklyIssue, files, missing }, its
+ * files ({ path, bytes, sha256, commit? }) in priority order, the three core
+ * files first, then deep dives in printed order.
+ *
+ *   write      nothing stored for the date yet.
+ *   unchanged  the same edition with nothing new: nothing is written.
+ *   merge      the same edition (same printed time): a later capture never
+ *              loses what an earlier one held. Every stored file is kept
+ *              unless the capture has a different copy of that path (a new
+ *              weekly issue lands on Sunday evening without a reprint), new
+ *              deep dives are added, and `missing` only loses entries.
+ *   replace    void news reprinted the date (a later printed time): the
+ *              later printing wins whole, as normalise-week's git source
+ *              takes the day's last commit.
+ *   older      the capture is an earlier printing than the one stored (a
+ *              late backfill): nothing is written.
+ *
+ * Returns { action, manifest, superseded }: the manifest to store (the
+ * existing one for unchanged and older) and the sha256 of every stored file
+ * the new manifest no longer names, to delete once it has landed. Caps hold
+ * for the result: past the total cap, the capture's lowest-printed deep
+ * dives give way; a core file over a cap throws.
  */
-export function decideWrite(existing, next) {
-  if (!existing) return "write";
-  return existing.content_sha256 === next.content_sha256 ? "unchanged" : "replace";
+export function planSnapshot(existing, next, limits = LIMITS) {
+  const fit = (base, incoming) => {
+    const byPath = new Map(base.map((f) => [f.path, f]));
+    const over = [];
+    for (const f of incoming) {
+      const prior = byPath.get(f.path);
+      if (prior && prior.sha256 === f.sha256) continue;
+      const trial = new Map(byPath).set(f.path, f);
+      const errors = checkCaps([...trial.values()], limits);
+      if (errors.length === 0) byPath.set(f.path, f);
+      else if (CORE.has(f.path)) throw new Error(errors.join("; "));
+      else if (!prior) over.push({ cluster_id: f.path.slice("deepdive/".length, -".json".length), reason: "over_total_cap" });
+    }
+    return { files: [...byPath.values()], over };
+  };
+  const manifestOf = (files, missing) => {
+    const present = new Set(files.filter((f) => !CORE.has(f.path)).map((f) => f.path.slice("deepdive/".length, -".json".length)));
+    const byId = new Map();
+    for (const m of missing) if (!present.has(m.cluster_id)) byId.set(m.cluster_id, m);
+    return buildManifest({ ...next, files, missing: [...byId.values()] });
+  };
+  const fresh = () => {
+    const { files, over } = fit([], next.files);
+    return manifestOf(files, [...next.missing, ...over]);
+  };
+  const shas = (m) => new Set(m.files.map((f) => f.sha256));
+  const supersededBy = (m) => {
+    if (!existing) return [];
+    const keep = shas(m);
+    return [...shas(existing)].filter((h) => !keep.has(h));
+  };
+
+  if (!existing) return { action: "write", manifest: fresh(), superseded: [] };
+  const was = Date.parse(existing.printed_at);
+  const now = Date.parse(next.printedAt);
+  if (now < was) return { action: "older", manifest: existing, superseded: [] };
+  if (now > was) {
+    const manifest = fresh();
+    return { action: "replace", manifest, superseded: supersededBy(manifest) };
+  }
+  const { files, over } = fit(existing.files, next.files);
+  // Union of what either capture lacked, minus whatever is now held; an id
+  // the stored snapshot never planned can appear, nothing stored is lost.
+  const manifest = manifestOf(files, [...existing.missing, ...next.missing, ...over]);
+  if (manifest.content_sha256 === existing.content_sha256) return { action: "unchanged", manifest: existing, superseded: [] };
+  return { action: "merge", manifest, superseded: supersededBy(manifest) };
 }
 
 /** Shape errors in a stored manifest read back from disk or R2. */
@@ -196,11 +264,15 @@ export function validateManifest(m) {
   if (!isDate(m.date)) errors.push("manifest.date is not a date");
   if (!isCommit(m.source?.commit)) errors.push("manifest.source.commit is not a sha");
   if (!/^[0-9a-f]{64}$/.test(m.content_sha256 ?? "")) errors.push("manifest.content_sha256 is not a sha256");
+  if (!isIso(m.printed_at)) errors.push("manifest.printed_at is not a timestamp");
+  if (!Array.isArray(m.missing) || m.missing.some((x) => !isClusterId(x?.cluster_id) || !isStr(x?.reason))) errors.push("manifest.missing is not a list of cluster ids");
   if (!Array.isArray(m.files)) errors.push("manifest.files is not a list");
   else
     for (const f of m.files) {
       if (!isSnapshotPath(f?.path)) errors.push(`manifest file path ${JSON.stringify(f?.path)} is not a snapshot path`);
       if (!/^[0-9a-f]{64}$/.test(f?.sha256 ?? "")) errors.push(`manifest file ${JSON.stringify(f?.path)} has no sha256`);
+      if (f?.commit !== undefined && !isCommit(f.commit)) errors.push(`manifest file ${JSON.stringify(f?.path)} has a commit that is not a sha`);
+      if (!Number.isInteger(f?.bytes) || f.bytes < 0) errors.push(`manifest file ${JSON.stringify(f?.path)} has no size`);
     }
   return errors;
 }

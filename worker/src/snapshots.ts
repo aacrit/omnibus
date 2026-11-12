@@ -15,12 +15,16 @@ export interface SnapshotEnv {
 
 export const HEARTBEAT_KEY = "snapshots/heartbeat.json";
 
-// The workflow runs at 12:00 and 23:40 UTC, at most about 12.3 hours apart,
-// and GitHub can start a scheduled run late. Two missed runs in a row pass
-// 18 hours, and a day missed is a printed day lost, so that is stale.
-export const HEARTBEAT_STALE_HOURS = 18;
+// The workflow runs at 12:17 and 23:43 UTC, at most 12.6 hours apart, and
+// GitHub can start a scheduled run an hour or more late. 30 hours is chosen
+// so that one missed or failed run does not page (the next run still
+// catches that day's edition: snapshots are keyed by printed date), while
+// two in a row do. That is late, not early: by the time this turns 503 a
+// printed day may already be lost, because the 503 comes after the misses,
+// not before. It tells the founder to fix the job, not that nothing is lost.
+export const HEARTBEAT_STALE_HOURS = 30;
 
-const RESULTS = new Set(["write", "replace", "unchanged"]);
+const RESULTS = new Set(["write", "merge", "replace", "unchanged", "older"]);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const HEX64 = /^[0-9a-f]{64}$/;
 

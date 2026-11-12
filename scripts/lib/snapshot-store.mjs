@@ -1,14 +1,20 @@
 // Where snapshots live in R2, and the pure plan for copying one there.
 // Keys (bucket `omnibus`):
-//   snapshots/<date>/<file>        the snapshot's files, then its manifest
+//   snapshots/<date>/blobs/<sha256>.json  each file, named by its content, so
+//                                  an object a manifest names is never
+//                                  overwritten; the manifest maps paths to
+//                                  them
+//   snapshots/<date>/manifest.json the date's snapshot
 //   snapshots/index.json           every stored date, oldest first
-//   snapshots/latest.json          the newest printed date's manifest summary
+//   snapshots/latest.json          the newest printed date's summary
 //   snapshots/heartbeat.json       the last successful run, written every run;
 //                                  the Worker serves it at /api/snapshots/heartbeat
-// Data files go first, the manifest after them, the index and pointers
-// last: a reader that finds a manifest finds every file it names.
+// New blobs go first, then the manifest, the index and the pointer; blobs
+// the new manifest no longer names are deleted only after it has landed, and
+// the heartbeat is last. A reader that finds a manifest finds every blob it
+// names, whenever it reads.
 
-import { isDate, isSnapshotPath, validateManifest } from "./snapshot.mjs";
+import { isDate, planSnapshot, validateManifest } from "./snapshot.mjs";
 
 export const BUCKET = "omnibus";
 export const PREFIX = "snapshots";
@@ -21,9 +27,11 @@ export const HEARTBEAT_KEY = `${PREFIX}/heartbeat.json`;
 // (budget.yaml r2_storage_gb; the document product shares the account).
 export const BUCKET_CAP_BYTES = 3 * 1024 ** 3;
 
-export const fileKey = (date, rel) => {
-  if (!isDate(date) || !isSnapshotPath(rel)) throw new Error(`not a snapshot key: ${date}/${rel}`);
-  return `${PREFIX}/${date}/${rel}`;
+const HEX64 = /^[0-9a-f]{64}$/;
+
+export const blobKey = (date, sha256) => {
+  if (!isDate(date) || !HEX64.test(sha256 ?? "")) throw new Error(`not a snapshot blob key: ${date}/${sha256}`);
+  return `${PREFIX}/${date}/blobs/${sha256}.json`;
 };
 
 export const manifestKey = (date) => {
@@ -31,7 +39,7 @@ export const manifestKey = (date) => {
   return `${PREFIX}/${date}/manifest.json`;
 };
 
-/** A summary of a manifest small enough for the index and the pointers. */
+/** A summary of a manifest small enough for the index and the pointer. */
 export function summary(m) {
   return {
     date: m.date,
@@ -45,59 +53,123 @@ export function summary(m) {
   };
 }
 
-function parseJson(text) {
+/**
+ * The stored index. Absent means no dates yet; present but unreadable throws,
+ * because rewriting it from one date would silently forget every other.
+ */
+export function readIndex(text) {
+  if (text == null) return { schema: 1, dates: [] };
+  let idx;
+  try {
+    idx = JSON.parse(text);
+  } catch {
+    throw new Error(`${INDEX_KEY} is not JSON; fix or remove it by hand before uploading`);
+  }
+  if (idx?.schema !== 1 || !Array.isArray(idx.dates) || idx.dates.some((d) => !isDate(d?.date))) {
+    throw new Error(`${INDEX_KEY} is not a schema 1 index; fix or remove it by hand before uploading`);
+  }
+  return idx;
+}
+
+/** The bytes the index says are stored: a floor under the bucket's own size figure. */
+export function indexedBytes(index) {
+  return index.dates.reduce((n, d) => n + (Number.isFinite(d.total_bytes) ? d.total_bytes : 0), 0);
+}
+
+function readStoredManifest(text) {
   if (text == null) return null;
   try {
-    return JSON.parse(text);
+    const m = JSON.parse(text);
+    return validateManifest(m).length === 0 ? m : null;
   } catch {
-    return null;
+    return null; // a damaged manifest is replaced: its blobs are re-sent
   }
 }
 
-function readIndex(text) {
-  const idx = parseJson(text);
-  if (!idx || idx.schema !== 1 || !Array.isArray(idx.dates)) return { schema: 1, dates: [] };
-  return { schema: 1, dates: idx.dates.filter((d) => isDate(d?.date)) };
-}
-
 /**
- * The puts that store `manifest` (already checked against its local files).
- * `remote` holds what R2 has now: { manifest, index, latest } as text or null.
- * Returns { action, puts } with puts in upload order; each put is
- * { key, rel } for a snapshot file or { key, body } for JSON written here.
+ * The puts and deletes that store the local snapshot `local` (a manifest
+ * already checked against its files) beside what R2 holds: `remote` =
+ * { manifest, index, latest } as text or null. The stored and local
+ * captures meet through planSnapshot, so a capture that holds less than R2
+ * never removes anything from the same edition.
+ *
+ * Returns { action, manifest, puts, deletes }: each put is
+ * { key, sha256 } for a blob from the local snapshot or { key, body };
+ * deletes run after the manifest has landed.
  */
-export function planUpload({ manifest, remote, ranAt }) {
-  const problems = validateManifest(manifest);
+export function planUpload({ local, remote, ranAt, limits }) {
+  const problems = validateManifest(local);
   if (problems.length) throw new Error(`manifest is not valid: ${problems.join("; ")}`);
-  const stored = parseJson(remote.manifest);
-  const same = stored && validateManifest(stored).length === 0 && stored.content_sha256 === manifest.content_sha256;
-  const action = !stored ? "write" : same ? "unchanged" : "replace";
+  const index = readIndex(remote.index);
+  const stored = readStoredManifest(remote.manifest);
+  const plan = planSnapshot(
+    stored,
+    {
+      date: local.date,
+      printedAt: local.printed_at,
+      commit: local.source.commit,
+      capturedAt: local.captured_at,
+      weeklyIssue: local.weekly_issue,
+      files: priorityOrder(local.files),
+      missing: local.missing,
+    },
+    limits,
+  );
+  const { action, manifest } = plan;
 
   const puts = [];
-  if (action !== "unchanged") {
-    for (const f of manifest.files) puts.push({ key: fileKey(manifest.date, f.path), rel: f.path });
+  const deletes = [];
+  if (action !== "unchanged" && action !== "older") {
+    const held = new Set(stored ? stored.files.map((f) => f.sha256) : []);
+    const sent = new Set();
+    for (const f of manifest.files) {
+      if (held.has(f.sha256) || sent.has(f.sha256)) continue;
+      sent.add(f.sha256);
+      puts.push({ key: blobKey(manifest.date, f.sha256), sha256: f.sha256 });
+    }
     puts.push({ key: manifestKey(manifest.date), body: JSON.stringify(manifest, null, 2) + "\n" });
 
-    const index = readIndex(remote.index);
     const entry = summary(manifest);
     index.dates = [...index.dates.filter((d) => d.date !== manifest.date), entry].sort((a, b) => a.date.localeCompare(b.date));
     puts.push({ key: INDEX_KEY, body: JSON.stringify(index, null, 2) + "\n" });
 
     // A late or replayed older date never moves the pointer back.
-    const latest = parseJson(remote.latest);
+    let latest = null;
+    try {
+      latest = remote.latest == null ? null : JSON.parse(remote.latest);
+    } catch {
+      latest = null;
+    }
     if (!latest || !isDate(latest.date) || latest.date <= manifest.date) {
       puts.push({ key: LATEST_KEY, body: JSON.stringify(entry, null, 2) + "\n" });
     }
+    for (const sha of plan.superseded) deletes.push(blobKey(manifest.date, sha));
   }
-  puts.push({
+  const heartbeat = {
     key: HEARTBEAT_KEY,
-    body: JSON.stringify({ schema: 1, ran_at: ranAt, result: action, date: manifest.date, printed_at: manifest.printed_at, content_sha256: manifest.content_sha256 }, null, 2) + "\n",
-  });
-  return { action, puts };
+    body:
+      JSON.stringify(
+        { schema: 1, ran_at: ranAt, result: action, date: manifest.date, printed_at: manifest.printed_at, content_sha256: manifest.content_sha256 },
+        null,
+        2,
+      ) + "\n",
+  };
+  return { action, manifest, puts, deletes, heartbeat, index };
 }
 
-/** Bytes this plan adds to the bucket, at most (snapshot files plus the JSON written here). */
-export function planBytes(manifest, puts) {
-  const sizes = new Map(manifest.files.map((f) => [f.path, f.bytes]));
-  return puts.reduce((n, p) => n + (p.rel ? sizes.get(p.rel) ?? 0 : Buffer.byteLength(p.body)), 0);
+/** Core files first, then deep dives, in the order the local manifest kept them. */
+function priorityOrder(files) {
+  const core = ["feed.json", "weekly.json", "sources.json"];
+  return [...files].sort((a, b) => {
+    const ca = core.indexOf(a.path);
+    const cb = core.indexOf(b.path);
+    return (ca === -1 ? 9 : ca) - (cb === -1 ? 9 : cb);
+  });
 }
+
+/** Bytes this plan adds to the bucket, at most (new blobs plus the JSON written here). */
+export function planBytes(manifest, plan) {
+  const sizes = new Map(manifest.files.map((f) => [f.sha256, f.bytes]));
+  return [...plan.puts, plan.heartbeat].reduce((n, p) => n + (p.sha256 ? sizes.get(p.sha256) ?? 0 : Buffer.byteLength(p.body)), 0);
+}
+
