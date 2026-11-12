@@ -197,7 +197,7 @@ ${days}
   <p class="count">${num(w.lead.articles)} articles from ${num(w.lead.outlets)} outlets in the lead's record; ${num(w.lead.outlets - w.lead.unplaced)} placed on the ladder, ${num(w.lead.unplaced)} unrated.</p>
   ${bars(w.lead.rung_counts, "Outlets on the lead, by rung")}
   <h3 class="board-title">Framings board</h3>
-  <p class="segment-line">One headline per occupied rung, verbatim, from that rung's outlet with the widest reach in the record.</p>
+  <p class="segment-line">One headline per occupied rung, verbatim, from the outlet the rung's rule picks: tier first, then article count in the record, then name.</p>
   ${board}
 </section>
 

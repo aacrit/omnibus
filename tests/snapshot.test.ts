@@ -633,7 +633,7 @@ describe("normalise-week from snapshots", () => {
     const source = snapshotSource(dirReader(rootDir));
     // The echo record is read at the anchor's commit; stub it, no network in tests.
     source.echo = async (p: string) => ({ text: "slug: spanish-flu-1918\ntitle: 'The flu'\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
-    return normaliseWeek(source, 33);
+    return normaliseWeek(source, 33, { echo: "spanish-flu-1918" });
   }
 
   it("builds the week from the seven daily snapshots and the snapshot holding the issue", async () => {
@@ -671,8 +671,8 @@ describe("normalise-week from snapshots", () => {
     const { normaliseWeek } = await import("../scripts/lib/normalise.mjs");
     const { r2Reader, snapshotSource } = await import("../scripts/lib/week-sources.mjs");
     const source = snapshotSource(r2Reader(store, tmp()));
-    source.echo = async (p: string) => ({ text: "slug: s\ntitle: t\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
-    const w = await normaliseWeek(source, 33);
+    source.echo = async (p: string) => ({ text: "slug: spanish-flu-1918\ntitle: t\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
+    const w = await normaliseWeek(source, 33, { echo: "spanish-flu-1918" });
     expect(w.days.filter((d: { available: boolean }) => d.available)).toHaveLength(7);
     expect(w.lead.ledger.map((a: { headline: string }) => a.headline)).toEqual(["Headline 100"]);
     expect(w.normalised_from.snapshots.store).toBe("r2://omnibus/snapshots");
@@ -682,6 +682,6 @@ describe("normalise-week from snapshots", () => {
     const rootDir = tmp();
     const { normaliseWeek } = await import("../scripts/lib/normalise.mjs");
     const { dirReader, snapshotSource } = await import("../scripts/lib/week-sources.mjs");
-    await expect(normaliseWeek(snapshotSource(dirReader(rootDir)), 33)).rejects.toThrow(/no snapshot .* holds weekly issue 33/);
+    await expect(normaliseWeek(snapshotSource(dirReader(rootDir)), 33, { echo: "pending" })).rejects.toThrow(/no snapshot .* holds weekly issue 33/);
   });
 });

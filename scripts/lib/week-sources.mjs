@@ -3,7 +3,8 @@
 // gitSource: a voidnews checkout's main history at pinned commits, as of
 //   origin/main or a given commit (`at`, so a record can be rebuilt exactly).
 //   Each day is the last commit of feed.json on that UTC date; a deep dive
-//   is the commit that first added it; ratings and the echo at that commit.
+//   is the commit that first added it; ratings, the printed-edition archive
+//   (archive.json, schema 2) and the echo at that commit.
 //
 // snapshotSource: the daily snapshots (scripts/snapshot.mjs), from a local
 //   directory (dirReader) or R2 (r2Reader). Each day is that printed date's
@@ -24,11 +25,12 @@ import { REPO_URL, addDays } from "./normalise.mjs";
 const FEED = "frontend/build-data/feed.json";
 const WEEKLY = "frontend/build-data/weekly-issues.json";
 const SOURCES = "data/sources.json";
+const ARCHIVE = "frontend/build-data/archive.json";
 const DEEPDIVE = (id) => `frontend/public/data/deepdive/${id}.json`;
 const blob = (sha, p) => `${REPO_URL}/blob/${sha}/${p}`;
 
 export function gitSource(vn, { at = "origin/main" } = {}) {
-  const git = (...a) => execFileSync("git", ["-C", vn, ...a], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const git = (...a) => execFileSync("git", ["-C", vn, ...a], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 }); // archive.json is about 44 MB
   const head = git("rev-parse", "--verify", `${at}^{commit}`).trim();
   const show = (sha, p) => JSON.parse(git("show", `${sha}:${p}`));
   // Commits on origin/main touching a path, oldest first, with their UTC dates.
@@ -52,6 +54,8 @@ export function gitSource(vn, { at = "origin/main" } = {}) {
       return { issue, link: blob(sha, WEEKLY) };
     },
     outlets: () => ({ list: show(head, SOURCES), link: blob(head, SOURCES) }),
+    // The printed editions (schema 2), at the pinned commit.
+    archive: () => ({ rows: show(head, ARCHIVE), link: blob(head, ARCHIVE) }),
     day(date) {
       feedCommits ??= commits(FEED);
       const snap = feedCommits.filter((c) => c.at.slice(0, 10) === date).at(-1);
