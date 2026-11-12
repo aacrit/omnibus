@@ -270,6 +270,12 @@
         "source": "src-truman-19510614",
         "read_from": "the American Presidency Project page, sha256 5e4529bc... (the same file as src-truman-19510614), re-read on 2026-11-12; four whole sentences, contiguous",
         "note": "The speaker's own counter-view: in the same address Truman says controls would be needed even if the fighting stopped. It is read by the reader right after the two lines above (rundown echo-x3), never dropped. The review's text ended at 'worldwide'; the printed sentence continues ', and must be met with worldwide defenses.', so the whole sentence is kept."
+      },
+      "cut": {
+        "passages": 3,
+        "contiguous": false,
+        "order": "quote, then also, then counter: the address's own order",
+        "shown_as": "the reader pauses between passages; any typeset or subtitle form marks each gap '[…]'"
       }
     },
     {
@@ -306,7 +312,7 @@
         "passages": 3,
         "contiguous": false,
         "locators": "page 1 (the first two lines) and page 5 ('I shall go to Korea.'), per the analyst's transcription",
-        "shown_as": "the reader pauses between passages; any typeset or subtitle form shows the gap with an ellipsis in brackets, '[...]'"
+        "shown_as": "the reader pauses between passages; any typeset or subtitle form marks each gap '[…]'"
       },
       "verify": {
         "status": "required before E5",

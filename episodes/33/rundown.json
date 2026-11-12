@@ -38,14 +38,14 @@
     }
   },
   "runtime": {
-    "target_s": 1267.9,
-    "target": "21:08",
+    "target_s": 1207.9,
+    "target": "20:08",
     "range": "20:00 to 25:00 (guidance)",
-    "voiced_s": 514.5,
-    "voiced_share": 0.41,
+    "voiced_s": 502.5,
+    "voiced_share": 0.42,
     "ceiling": 0.55,
     "short_run": {
-      "runtime": "20:15",
+      "runtime": "20:02",
       "trigger": "E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)"
     }
   },
@@ -61,8 +61,8 @@
     "no reason for the vote is named before The Weight's board"
   ],
   "card_rules": {
-    "consensus": "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), shown as a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.",
-    "divergence": "Pool: the claim's titled headlines (lead.ledger rows whose cluster_id is in lead.claim.clusters), placed outlets only, each shown as headline_shown when a Google News suffix is provably stripped. For each fixed question, a headline's answers are the patterns it matches (case-insensitive, whole words). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.",
+    "consensus": "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.",
+    "divergence": "Pool: the claim's titled headlines from placed outlets. For each fixed question, a headline is asked only if it names the people the question is about; words the headline attributes to someone else (a modal plus 'blame' and what follows, up to 'for' or punctuation) are set aside; its answers are the patterns the rest matches (case-insensitive, whole words; synonyms of one answer count as one). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.",
     "for": "the sources page, verbatim"
   },
   "parts": [
@@ -645,7 +645,7 @@
       "id": "the-weight",
       "kind": "segment",
       "title": "The Weight",
-      "dur_s": 354.8,
+      "dur_s": 294.8,
       "as_of": "2026-11-08T22:16:50.309638+00:00",
       "lead": {
         "cluster": "2ec1fcb8",
@@ -669,6 +669,7 @@
       },
       "short_run": {
         "trigger": "E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)",
+        "rule": "The Week and The Margins flex first (bible d); nothing new is claimed, pictures and pages hold longer inside each beat's own range",
         "changes": [
           {
             "beat": "weight-desk",
@@ -677,26 +678,56 @@
             "note": "removed; nothing paraphrased in its place"
           },
           {
-            "beat": "weight-known",
-            "from_s": 45,
-            "to_s": 60,
-            "note": "the context record's picture held longer; no added claim"
+            "beat": "margins-1",
+            "from_s": 48,
+            "to_s": 70,
+            "note": "the story's picture and primary page breathe; the count unchanged"
           },
           {
-            "beat": "margins-1..3",
+            "beat": "margins-2",
             "from_s": 48,
-            "to_s": 62,
-            "note": "each story's picture and primary page breathe; the count unchanged"
+            "to_s": 70,
+            "note": "as above"
+          },
+          {
+            "beat": "margins-3",
+            "from_s": 48,
+            "to_s": 70,
+            "note": "as above"
           },
           {
             "beat": "week-day-4",
             "from_s": 20,
             "to_s": 30,
             "note": "the quiet day gets its map"
+          },
+          {
+            "beat": "week-day-1",
+            "from_s": 28.5,
+            "to_s": 36,
+            "note": "the visit's place and the statement page"
+          },
+          {
+            "beat": "weight-known",
+            "from_s": 45,
+            "to_s": 60,
+            "note": "the context record's picture held longer; no added claim"
+          },
+          {
+            "beat": "weight-end",
+            "from_s": 8,
+            "to_s": 14,
+            "note": "the end frame breathes"
+          },
+          {
+            "beat": "week-day-7",
+            "from_s": 35,
+            "to_s": 45,
+            "note": "the task force's locator map held; still inside 20 to 70 s"
           }
         ],
-        "runtime_s": 1214.9,
-        "runtime": "20:15",
+        "runtime_s": 1202.4,
+        "runtime": "20:02",
         "in_range": true
       },
       "beats": [
@@ -709,17 +740,17 @@
             "bars": [
               1,
               3,
-              16,
-              26,
-              12,
               13,
-              4
+              23,
+              10,
+              12,
+              3
             ],
-            "placed": 75,
+            "placed": 65,
             "unplaced": 11,
-            "outlets": 86,
-            "caption": "OUTLETS CARRYING THE LEAD · 75 PLACED · 11 UNPLACED",
-            "field": "lead.rung_counts, lead.unplaced, lead.outlets"
+            "outlets": 76,
+            "caption": "OUTLETS CARRYING THE CLAIM · 65 PLACED · 11 UNPLACED",
+            "field": "lead.claim.rung_counts, lead.claim.unplaced, lead.claim.outlets"
           },
           "budget": {
             "voiced_s": 0,
@@ -732,7 +763,7 @@
         {
           "id": "weight-known",
           "dur_s": 45,
-          "plan": "What was known by the horizon, in record order. Context first: the 2 Nov election-eve record (2e2978da), the Vice President campaigning, which is the story before the claim and supplies no board row. Then the claim: its two records, each slated with the date void news printed it (archive.printed_on), not the timeline date. Count cards: the lead's outlets and its titled headlines, then the claim's titled headlines.",
+          "plan": "What was known by the horizon, in record order. Context first: the 2 Nov election-eve record (2e2978da), the Vice President campaigning, which is the story before the claim and supplies no board row. Then the claim: its two records, each slated with the date void news printed it (archive.printed_on), not the timeline date. Count cards from the claim only: its outlets, then its titled headlines of its articles. The pooled lead counts (86 outlets, 71 titled of 114) stay on the sources page as context.",
           "known": [
             {
               "role": "context",
@@ -764,19 +795,15 @@
           ],
           "count_cards": [
             {
-              "hero": 86,
-              "context": "outlets carried the story",
-              "field": "lead.outlets"
-            },
-            {
-              "hero": 71,
-              "context": "titled headlines of 114 articles",
-              "field": "lead.articles - lead.untitled_articles"
+              "hero": 76,
+              "context": "outlets carried the claim",
+              "field": "lead.claim.outlets"
             },
             {
               "hero": 46,
-              "context": "of them from the claim's own records",
-              "field": "lead.claim.titled"
+              "of": 89,
+              "context": "titled headlines of 89 articles",
+              "field": "lead.claim.titled, lead.claim.articles"
             }
           ],
           "asset_requests": [
@@ -908,7 +935,7 @@
           "id": "weight-consensus",
           "dur_s": 50,
           "plan": "Consensus cards by the written rule (consensus_rule).",
-          "rule": "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), shown as a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.",
+          "rule": "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.",
           "cards": [
             {
               "id": "cw-1",
@@ -969,77 +996,13 @@
         },
         {
           "id": "weight-divergence",
-          "dur_s": 90,
-          "plan": "Divergence pairs by the written rule (divergence_rule): paired verbatim headlines with outlet and rung, one pair per question. The narrator says only which question each pair answers, as a plain who/what line.",
-          "rule": "Pool: the claim's titled headlines (lead.ledger rows whose cluster_id is in lead.claim.clusters), placed outlets only, each shown as headline_shown when a Google News suffix is provably stripped. For each fixed question, a headline's answers are the patterns it matches (case-insensitive, whole words). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.",
+          "dur_s": 30,
+          "plan": "Divergence pairs by the written rule (divergence_rule): paired verbatim headlines with outlet and rung, one pair per question that has one. The narrator says only which question each pair answers, as a plain who/what line.",
+          "rule": "Pool: the claim's titled headlines from placed outlets. For each fixed question, a headline is asked only if it names the people the question is about; words the headline attributes to someone else (a modal plus 'blame' and what follows, up to 'for' or punctuation) are set aside; its answers are the patterns the rest matches (case-insensitive, whole words; synonyms of one answer count as one). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.",
           "pairs": [
-            {
-              "id": "dw-1",
-              "question": "what the Vice President named as the reason",
-              "answers": {
-                "war": "\\b(Iran|war|conflict)\\b",
-                "israel": "\\bIsrael\\b",
-                "migration": "\\bmigration\\b",
-                "inflation": "\\binflation\\b"
-              },
-              "rung_distance": 5,
-              "a": {
-                "outlet": "Raw Story",
-                "rung": "left",
-                "headline": "'Everyone knows why we lost': JD Vance rebukes Iran war after 'Democrat blowout'",
-                "published_at": "2026-11-04T16:53:43+00:00",
-                "field": "lead.ledger[62]",
-                "answers": [
-                  "war"
-                ]
-              },
-              "b": {
-                "outlet": "Breitbart News",
-                "rung": "far-right",
-                "headline": "JD Vance Warns Establishment Will Blame Migration Curbs for 2026 Wipeout",
-                "published_at": "2026-11-04T18:30:52+00:00",
-                "field": "lead.ledger[85]",
-                "answers": [
-                  "migration"
-                ]
-              }
-            },
-            {
-              "id": "dw-2",
-              "question": "the Vice President and the President",
-              "answers": {
-                "breaks": "\\bbreak(s|ing)?\\b",
-                "distance": "\\bdistanc(e|es|ing)\\b"
-              },
-              "rung_distance": 3,
-              "a": {
-                "outlet": "Military.com",
-                "rung": "center",
-                "headline": "Vance Tries to Distance Himself From Iran War After GOP’s Deep Losses in Midterm Elections",
-                "published_at": "2026-11-04T18:49:50+00:00",
-                "field": "lead.ledger[89]",
-                "answers": [
-                  "distance"
-                ]
-              },
-              "b": {
-                "outlet": "LifeSiteNews",
-                "rung": "far-right",
-                "headline": "JD Vance Breaks With Trump on Iran — And Four Steps to Win Back America First",
-                "published_at": "2026-11-05T16:02:35+00:00",
-                "field": "lead.ledger[109]",
-                "answers": [
-                  "breaks"
-                ]
-              }
-            },
             {
               "id": "dw-3",
               "question": "the President's reply",
-              "answers": {
-                "admits": "\\badmits?\\b",
-                "defends": "\\bdefends?\\b"
-              },
               "rung_distance": 2,
               "a": {
                 "outlet": "The Media Line",
@@ -1063,10 +1026,21 @@
               }
             }
           ],
+          "dropped": [
+            {
+              "id": "dw-1",
+              "reason": "no qualifying pair under the rule"
+            },
+            {
+              "id": "dw-2",
+              "reason": "no qualifying pair under the rule"
+            }
+          ],
+          "dur_note": "30 s a pair",
           "budget": {
-            "voiced_s": 18,
+            "voiced_s": 6,
             "voiced_share": 0.2,
-            "narrator_words_max": 45,
+            "narrator_words_max": 15,
             "reader_s": 0,
             "rate_wpm": 150
           },
@@ -1090,13 +1064,13 @@
         }
       ],
       "start_s": 347.3,
-      "end_s": 702.1,
+      "end_s": 642.1,
       "start": "5:47.3",
-      "end": "11:42.1",
+      "end": "10:42.1",
       "budget": {
-        "voiced_s": 136.3,
-        "voiced_share": 0.38,
-        "narrator_words_max": 240,
+        "voiced_s": 124.3,
+        "voiced_share": 0.42,
+        "narrator_words_max": 210,
         "reader_s": 40,
         "from": "sum of the beats"
       }
@@ -1290,10 +1264,16 @@
               "source": "src-truman-19510614"
             }
           ],
+          "cut": {
+            "passages": 3,
+            "contiguous": false,
+            "order": "quote, then also, then counter: the address's own order",
+            "shown_as": "the reader pauses between passages; any typeset or subtitle form marks each gap '[…]'"
+          },
           "asset_requests": [
             "e33-echo-req-08"
           ],
-          "intent": "who spoke, from where, when; then the reader, all three passages in the address's order",
+          "intent": "who spoke, from where, when; then the reader, all three passages in the address's order, with a pause at each cut",
           "budget": {
             "voiced_s": 45.1,
             "voiced_share": 0.82,
@@ -1426,7 +1406,7 @@
             "passages": 3,
             "contiguous": false,
             "locators": "page 1 (the first two lines) and page 5 ('I shall go to Korea.'), per the analyst's transcription",
-            "shown_as": "the reader pauses between passages; any typeset or subtitle form shows the gap with an ellipsis in brackets, '[...]'"
+            "shown_as": "the reader pauses between passages; any typeset or subtitle form marks each gap '[…]'"
           },
           "verify": {
             "status": "required before E5",
@@ -1489,10 +1469,10 @@
           }
         }
       ],
-      "start_s": 702.1,
-      "end_s": 1032.1,
-      "start": "11:42.1",
-      "end": "17:12.1",
+      "start_s": 642.1,
+      "end_s": 972.1,
+      "start": "10:42.1",
+      "end": "16:12.1",
       "budget": {
         "voiced_s": 181.1,
         "voiced_share": 0.55,
@@ -1664,10 +1644,10 @@
           "intent": "the place, the toll as printed on 2 Nov (one dead, eight wounded); the count; no music, no adjective"
         }
       ],
-      "start_s": 1032.1,
-      "end_s": 1177.9,
-      "start": "17:12.1",
-      "end": "19:37.9",
+      "start_s": 972.1,
+      "end_s": 1117.9,
+      "start": "16:12.1",
+      "end": "18:37.9",
       "budget": {
         "voiced_s": 64.8,
         "voiced_share": 0.44,
@@ -1700,10 +1680,10 @@
         "reader_s": 0,
         "rate_wpm": 150
       },
-      "start_s": 1177.9,
-      "end_s": 1222.9,
-      "start": "19:37.9",
-      "end": "20:22.9"
+      "start_s": 1117.9,
+      "end_s": 1162.9,
+      "start": "18:37.9",
+      "end": "19:22.9"
     },
     {
       "id": "credits",
@@ -1716,6 +1696,8 @@
       "disclosures": [
         "void news ratings are shown as printed: each outlet's rung on void news's seven-rung ladder (since 2026-11-04), read from data/sources.json at the pin; void news placed them, this programme did not",
         "board rows come only from the claim's own records; the 2 Nov election-eve record is context",
+        "the claim's counts include 2ec1fcb8's untitled printed members published on 3 Nov, before the 4 Nov print (ledger [23] The National, ledger [24] Raw Story): void news printed them in the claim's cluster; they carry no headline, so they count as outlets and never as board rows",
+        "the Weight's test card and count cards measure the claim (76 outlets, 11 unplaced); the pooled lead record, context included, is 86 outlets and 71 titled headlines of 114 articles",
         "board pick rule: tier, then article count, then name; no reach figure is claimed",
         "untitled occupied rung: far-left (Tehran Times)",
         "consensus and divergence cards follow the written rules on the sources page",
@@ -1730,10 +1712,10 @@
         "rate_wpm": 150
       },
       "intent": "no voice",
-      "start_s": 1222.9,
-      "end_s": 1267.9,
-      "start": "20:22.9",
-      "end": "21:07.9"
+      "start_s": 1162.9,
+      "end_s": 1207.9,
+      "start": "19:22.9",
+      "end": "20:07.9"
     }
   ],
   "asset_requests": [
@@ -3397,31 +3379,26 @@
       "value": [
         1,
         3,
-        16,
-        26,
-        12,
         13,
-        4
+        23,
+        10,
+        12,
+        3
       ],
-      "total": 75,
+      "total": 65,
       "unplaced": 11,
-      "field": "lead.rung_counts, lead.unplaced"
+      "field": "lead.claim.rung_counts, lead.claim.unplaced"
     },
     {
       "where": "weight-known count card",
-      "value": 86,
-      "field": "lead.outlets"
-    },
-    {
-      "where": "weight-known count card",
-      "value": 71,
-      "of": 114,
-      "field": "lead.articles - lead.untitled_articles (71 titled of 114)"
+      "value": 76,
+      "field": "lead.claim.outlets"
     },
     {
       "where": "weight-known count card",
       "value": 46,
-      "field": "lead.claim.titled (46)"
+      "of": 89,
+      "field": "lead.claim.titled, lead.claim.articles"
     },
     {
       "where": "weight-known slates",
@@ -3582,7 +3559,7 @@
     {
       "gap": "no primary documents held for the lead",
       "detail": "desk-first rule not met (0 of 2)",
-      "fallback": "board first; the short-run plan (20:15) if the desk stays empty"
+      "fallback": "board first; the short-run plan (20:02) if the desk stays empty"
     },
     {
       "gap": "divergence_score and lean_spread absent from the record",
