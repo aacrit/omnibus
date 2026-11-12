@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,6 +30,31 @@ describe("approved echoes and their pick files", () => {
       expect(pick.approved_by).toBe(rec.echo.approved_by);
       expect(pick.picked_after_week_known).toBe(true);
       expect(pick.candidates.map((c: { slug: string }) => c.slug)).toContain(rec.echo.slug);
+    });
+
+    it(`${f}: every quote_sha256 is the sha256 of its quote`, () => {
+      const pick = JSON.parse(readFileSync(path.join(root, rec.echo.pick), "utf8"));
+      const pairs: Array<{ quote: string; quote_sha256: string }> = [];
+      const walk = (v: unknown): void => {
+        if (Array.isArray(v)) v.forEach(walk);
+        else if (v && typeof v === "object") {
+          const o = v as Record<string, unknown>;
+          if (typeof o.quote === "string" && typeof o.quote_sha256 === "string") pairs.push(o as { quote: string; quote_sha256: string });
+          Object.values(o).forEach(walk);
+        }
+      };
+      walk(pick);
+      expect(pairs.length).toBeGreaterThanOrEqual(4);
+      for (const { quote, quote_sha256 } of pairs) expect(createHash("sha256").update(quote).digest("hex"), quote).toBe(quote_sha256);
+    });
+
+    it(`${f}: every item is dated on or before the echo's as_of`, () => {
+      const pick = JSON.parse(readFileSync(path.join(root, rec.echo.pick), "utf8"));
+      expect(pick.items.length).toBeGreaterThanOrEqual(6);
+      for (const it of pick.items as Array<{ id: string; date: string }>) {
+        expect(it.date, it.id).toMatch(/^\d{4}(-\d{2}(-\d{2})?)?$/);
+        expect(it.date <= pick.chosen.as_of.slice(0, it.date.length), it.id).toBe(true);
+      }
     });
   }
 });
