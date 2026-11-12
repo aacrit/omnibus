@@ -10,6 +10,11 @@ dist/
 cloudflare-env.d.ts
 reports/
 coverage/
+
+# daily snapshots of void news and their caches live in R2, never git (rule 8)
+.cache/
+snapshots/
+snapshots-out/
 .vitest-report.json
 
 # media / binaries don't belong in this repo; data lives in D1/R2

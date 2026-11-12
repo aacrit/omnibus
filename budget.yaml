@@ -35,10 +35,20 @@ quotas:
 
   - name: r2_storage_gb
     ceiling: 10
-    estimate_at_1000_users_per_day: 0
-    notes: "No blob storage in v1."
+    estimate_at_1000_users_per_day: 1
+    notes: "Account-wide (the document product's document-media holds about 0.9 GB). This product's bucket `omnibus` holds the daily snapshots of void news's printed day: about 2.5 MB a day, about 0.9 GB a year, independent of visitors. R2 bills past its free tier, so sizes are capped in code: 2 MiB a file and 8 MiB a day (scripts/lib/snapshot.mjs LIMITS, under 3 GB a year at the cap), and the uploader refuses to grow the bucket past 3 GiB (scripts/lib/snapshot-store.mjs BUCKET_CAP_BYTES), 30% of the account's 10 GB. tests/snapshot.test.ts checks both against this row. Episode media will add its own line when the player ships."
+
+  - name: r2_class_a_ops_per_month
+    ceiling: 1000000
+    estimate_at_1000_users_per_day: 2200
+    notes: "Writes, independent of visitors. A new printed day puts its blobs once (at most 60 deep dives + 3 core files, about 48 today), then its manifest, the index and the latest pointer; every run puts the heartbeat. A later run that finds the same edition (an unrelated void news commit included, since the commit is not part of the content hash) writes only the heartbeat; a merge puts only the files that changed (a new weekly issue is one blob). So at most about 31 x (63 + 3 + 2) = 2,108 a month, plus a rare reprint; deletes are free."
+
+  - name: r2_class_b_ops_per_month
+    ceiling: 10000000
+    estimate_at_1000_users_per_day: 2000
+    notes: "Reads. The uploader reads 3 objects a run (about 180 a month); GET /api/snapshots/heartbeat reads one object per request, behind the per-client rate limit, polled by the sentinel; the normaliser reads a week's snapshots once a week. Visitors never read R2 in v1."
 
   - name: github_actions_minutes_per_month
     ceiling: 2000
-    estimate_at_1000_users_per_day: 60
-    notes: "gate on every PR/push, verify-production every 6 hours, weekly branch-prune."
+    estimate_at_1000_users_per_day: 240
+    notes: "gate on every PR/push, verify-production every 6 hours, weekly branch-prune, and the snapshot twice a day (about 3 minutes a run, about 180 minutes a month). Public repos are not billed for minutes; the figure is kept as the check."

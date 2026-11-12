@@ -28,8 +28,11 @@ See `CHARTER.md` for its surfaces and kill dates, and `contract.yaml` for what
 - **Web baseline.** Every response carries the security headers and CSP from
   `scripts/lib/csp.mjs` (static files through the build's `_headers`, the
   Worker through `worker/src/headers.ts`). POSTs are same-origin JSON only.
-- **Data:** D1 only, schema in `migrations/0001_events.sql`. No R2, no KV
-  writes, unless a charter amendment adds a surface that needs them.
+- **Data:** D1 for counts and feedback, schema in `migrations/0001_events.sql`.
+  R2 bucket `omnibus` holds the daily snapshots of void news's printed day
+  (the Studio row: `scripts/snapshot.mjs`, `scripts/snapshot-r2.mjs`), every
+  size capped in code because R2 bills past its free tier. No KV writes, and
+  no other R2 use, unless a charter surface needs it.
 - **Telemetry is aggregate counts only.** `/e` bumps a same-day, same-name
   counter in `event_counts`; there is no per-visit row, no anonymous id, and
   no cookie or local storage. No third-party analytics script (including
@@ -56,7 +59,8 @@ See `CHARTER.md` for its surfaces and kill dates, and `contract.yaml` for what
 - A week page `/e/<issue>` is static HTML rendered at build time
   (`web/vite.config.ts`, `web/src/render/week.ts`) from its committed record
   `data/week-<issue>.json`, which `scripts/normalise-week.mjs` writes from
-  void news's public repo at pinned commits. Never hand-edit a record; never
+  void news's public repo at pinned commits, read from its git history or
+  from the daily snapshots (`scripts/lib/week-sources.mjs`). Never hand-edit a record; never
   invent a field the record lacks; the page says what is missing.
 - Lean is the outlet's placement on void news's ladder, lifted verbatim into
   `web/src/lib/ladder.mjs`. Rung labels are never retyped.
