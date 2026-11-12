@@ -73,7 +73,7 @@
         return;
       }
       show("sending");
-      setTimeout(function () { text.value = ""; where.checked = false; document.getElementById("src").value = ""; show("sent"); }, 600);
+      setTimeout(function () { text.value = ""; where.checked = false; document.getElementById("src").value = ""; show("sent"); var st=document.querySelector(".status--sent"); if (st) st.scrollIntoView({block:"center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"}); }, 600);
     });
   })();
 </script>
