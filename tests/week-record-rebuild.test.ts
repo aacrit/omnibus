@@ -14,7 +14,6 @@ import { gitSource } from "../scripts/lib/week-sources.mjs";
 // the blobs the normaliser reads). Never skipped: no checkout, no pass.
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const RECORD = path.join(root, "data", "week-32.json");
 
 function hasCommit(dir: string, sha: string): boolean {
   if (!existsSync(dir)) return false;
@@ -41,12 +40,19 @@ function voidnewsAt(sha: string): string {
   return clone;
 }
 
-describe("data/week-32.json", () => {
-  it("is rebuilt byte for byte by the git source at its own commit", async () => {
-    const text = readFileSync(RECORD, "utf8");
-    const at = JSON.parse(text).normalised_from.origin_main as string;
-    expect(at).toMatch(/^[0-9a-f]{40}$/);
-    const out = await normaliseWeek(gitSource(voidnewsAt(at), { at }), 32);
-    expect(JSON.stringify(out, null, 2) + "\n").toBe(text);
-  }, 240_000);
-});
+// Each committed record is rebuilt with the options it records: its schema
+// (absent means 1, week 32's rules) and, from schema 2, its echo as picked
+// (a slug, or "pending" before one is picked).
+for (const issue of [32, 33]) {
+  describe(`data/week-${issue}.json`, () => {
+    it("is rebuilt byte for byte by the git source at its own commit", async () => {
+      const text = readFileSync(path.join(root, "data", `week-${issue}.json`), "utf8");
+      const rec = JSON.parse(text);
+      const at = rec.normalised_from.origin_main as string;
+      expect(at).toMatch(/^[0-9a-f]{40}$/);
+      const options = rec.schema ? { schema: rec.schema, echo: rec.echo.status === "pending" ? "pending" : rec.echo.slug } : {};
+      const out = await normaliseWeek(gitSource(voidnewsAt(at), { at }), issue, options);
+      expect(JSON.stringify(out, null, 2) + "\n").toBe(text);
+    }, 240_000);
+  });
+}
