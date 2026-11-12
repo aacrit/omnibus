@@ -21,10 +21,17 @@ export function assetUrl(nasaId) {
 
 // NASA's own centres and offices. JPL is left out on purpose: it is run by
 // Caltech, and "NASA/JPL-Caltech" is a Caltech credit, not a federal work.
-const NASA_UNITS = /^(HQ|JSC|KSC|GSFC|Goddard|MSFC|Marshall|ARC|Ames|LaRC|Langley|GRC|Glenn|AFRC|Armstrong|SSC|Stennis|WSTF|Johnson|Kennedy|NASA HQ|Headquarters)$/i;
+const NASA_UNITS =
+  /^(HQ|JSC|KSC|GSFC|Goddard|MSFC|Marshall|ARC|Ames|LaRC|Langley|GRC|Glenn|AFRC|Armstrong|SSC|Stennis|WSTF|Johnson|Kennedy|NASA HQ|Headquarters|NASA Headquarters|Goddard Space Flight Center|Marshall Space Flight Center|Johnson Space Center|Kennedy Space Center|Stennis Space Center|Ames Research Center|Langley Research Center|Glenn Research Center|Armstrong Flight Research Center|White Sands Test Facility|Wallops Flight Facility|Wallops|Michoud Assembly Facility|Michoud|Scientific Visualization Studio|SVS|Conceptual Image Lab)$/i;
 // Anything that names an organisation, so it cannot be a NASA staff photographer's name.
-const ORG = /Caltech|JPL|MSSS|Malin|SpaceX|Boeing|Lockheed|Northrop|Blue Origin|Sierra|Axiom|Orbital|Ball|Maxar|Planet|\bESA\b|JAXA|\bCSA\b|ISRO|CNES|DLR|Roscosmos|Hubble|Webb|STScI|AURA|APL|SwRI|Univ|College|Institut|Observatory|Laboratory|\bLab\b|Inc\b|LLC|Corp|Ltd|GmbH|Getty|Reuters|\bAP\b|AFP|Agency|Company|Team|Science/i;
+// Whole words only: "Laura Rochon" is not AURA, "Ben Kaplan" is not APL, "Sierra Smith" is not Sierra Space.
+const ORG =
+  /\b(Caltech|JPL|MSSS|Malin|SpaceX|Boeing|Lockheed|Northrop|Grumman|Blue Origin|Sierra Space|Sierra Nevada|Axiom|Orbital|Ball Aerospace|Maxar|Planet Labs?|ESA|JAXA|CSA|ISRO|CNES|DLR|Roscosmos|Hubble|Webb|STScI|AURA|APL|SwRI|Univ(ersity)?|College|Institut[eo]?|Observatory|Laborator(y|ies)|Labs?|Inc|LLC|Corp(oration)?|Ltd|GmbH|Getty|Reuters|AP|AFP|Agency|Company|Team|Sciences?|Aerospace|Space|Machines|Systems|Technolog(y|ies)|Industries|Dynamics|Robotics|Foundation|Museum|Society|Group|Studios?|Media|News|Press|Images|Photos|Photography)\b/i;
 const PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){0,3}$/;
+// A bare name standing alone in a credit field: a given name and a surname at least.
+const BARE_PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){1,3}$/;
+
+const isPerson = (p, re = PERSON) => re.test(p) && !ORG.test(p);
 
 /**
  * Whether one credit is NASA's alone: "NASA", "NASA/<centre>", or
@@ -32,16 +39,41 @@ const PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){0,3}$/;
  * "ESA/Hubble & NASA" and anything joined with & , or "and" are not.
  */
 export function isNasaOnlyCredit(raw) {
-  const s = plain(raw).replace(/^[\s(]+|[\s).]+$/g, "").replace(/^NASA['’]s\s+/i, "NASA ");
+  const s = plain(raw).replace(/^[\s(]+|[\s).]+$/g, "").replace(/^NASA['’]s\s+/i, "NASA ").replace(/^NASA\s+(?=[A-Z])/, "NASA/");
   if (!s) return true;
   if (/[&,;]|\band\b|\bwith\b/i.test(s)) return false;
   const parts = s.split(/\s*\/\s*/);
   if (!/^NASA$/i.test(parts[0])) return false;
-  return parts.slice(1).every((p) => NASA_UNITS.test(p) || (PERSON.test(p) && !ORG.test(p)));
+  return parts.slice(1).every((p) => NASA_UNITS.test(p) || isPerson(p));
 }
 
-// A credit statement inside free text: "Photo credit: Boeing", "Image Credit: (NASA/Keegan Barber)", "courtesy of SpaceX", "© ESA".
-const CREDIT_IN_TEXT = /(?:(?:photo|image|video|illustration|animation)\s+)?(?:credits?|courtesy(?: of)?)\s*[:\-]?\s*\(?([^)\n;]{1,120}?)\)?(?=$|[.;\n]\s|\s{2,}|\s*\/\s*Acknowledg|$)|©\s*([^.;\n]{1,80})/gi;
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * A bare staff name ("Bill Ingalls") in a credit field, accepted only when the
+ * record is held by a NASA centre (JPL is not one here) and its own title or
+ * description credits "NASA/<the same name>". A name shape alone cannot tell a
+ * photographer from a contractor ("United Launch Alliance", "Virgin Galactic").
+ */
+export function isNasaStaffName(raw, { centre, texts = [] } = {}) {
+  const name = plain(raw).trim();
+  if (!NASA_UNITS.test(plain(centre)) || !isPerson(name, BARE_PERSON)) return false;
+  const credited = new RegExp(`\\bNASA\\s*/\\s*${escapeRe(name).replace(/ /g, "\\s+")}(?![A-Za-z'’-])`, "i");
+  return texts.some((t) => credited.test(plain(t)));
+}
+
+// A credit statement inside free text: "Photo credit: Boeing", "Image Credit: (NASA/Keegan Barber)",
+// "Photo: Boeing", "Photo by SpaceX.", "Images by Northrop Grumman", "courtesy of SpaceX", "© ESA".
+// A bare "credit" needs a colon, so prose ("The team credits the success") is never read as one.
+const CREDIT_TAIL = String.raw`\s*\(?([^)\n;]{1,120}?)\)?(?=$|[.;\n]\s|\s{2,}|\s*\/\s*Acknowledg|$)`;
+const CREDIT_LEAD = [
+  String.raw`\b(?:photo|image|video|illustration|animation)s?\s+credits?\s*:?`,
+  String.raw`\bcredits?\s*:`,
+  String.raw`\bcourtesy\s+of\b\s*:?|\bcourtesy\s*:`,
+  String.raw`\b(?:photo|image|video|illustration)s?(?:\s+by)?\s*:`,
+  String.raw`\b(?:photo|image|video|illustration)s?\s+by\b`,
+].join("|");
+const CREDIT_IN_TEXT = new RegExp(String.raw`(?:${CREDIT_LEAD})${CREDIT_TAIL}|©\s*([^.;\n]{1,80})`, "gi");
 
 /** Every credit a record states: the credit fields whole, and credit statements found in its text fields. */
 export function statedCredits(d) {
@@ -83,9 +115,11 @@ export function parseNasa(search, manifest, { ref, capturedAt }) {
   const secondary = plain(d.secondary_creator) || null;
   const description = [plain(d.description), plain(d.description_508)].filter(Boolean).join(" ");
   const credits = statedCredits(d);
-  const named = credits.filter(([, v]) => !isNasaOnlyCredit(v));
-  const licence = named.length ? null : "pd-us-federal";
   const centre = plain(d.center) || null;
+  const texts = [d.title, d.description, d.description_508];
+  const staffField = (k, v) => (k === "photographer" || k === "secondary_creator") && isNasaStaffName(v, { centre, texts });
+  const named = credits.filter(([k, v]) => !isNasaOnlyCredit(v) && !staffField(k, v));
+  const licence = named.length ? null : "pd-us-federal";
   const capturedText = [
     `Read from the NASA Image and Video Library API (${searchUrl(d.nasa_id)}).`,
     `nasa_id: ${d.nasa_id}`,

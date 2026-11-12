@@ -30,19 +30,49 @@ export function publishedCutoff(year) {
 }
 
 // LoC's standard link titles, which name copyright and restrictions on every item page without stating any.
-const LOC_BOILERPLATE = /Rights and Restrictions Information|More about Copyright and other Restrictions|Copyright and other Restrictions|No known restrictions( on publication)?\.?/gi;
-const CAUTION = /[^.]*\b(may be protected|copyright(ed)?|restricted|restrictions apply|not (been )?evaluated|permission (is )?required|rights status not evaluated)\b[^.]*\.?/i;
+// LoC's standard link titles, and its standard "not aware of any copyright" statement, which state no caution.
+const LOC_BOILERPLATE =
+  /The Library of Congress is not aware of any U\.S\. copyright protection(?:(?!\b(?:except|however|unless|but)\b)[^.(])*?(?:\([^)]*\)(?:(?!\b(?:except|however|unless|but)\b)[^.(])*?)*(?=\b(?:except|however|unless|but)\b|\.(?!\w)|$)\.?|Rights and Restrictions Information|More about Copyright and other Restrictions|Copyright and other Restrictions|No known restrictions( on publication)?\.?/gi;
+const CAUTION = /\b(may be protected|copyright(ed)?|restricted|restrictions apply|not (been )?evaluated|permission (is )?required|rights status not evaluated)\b/i;
+
+/**
+ * Rights text split into sentences. A full stop after a lone capital letter
+ * ("U.S.", "U.S.C.", "Dorothea M. Lange") does not end a sentence.
+ */
+export function sentencesOf(text) {
+  return String(text ?? "")
+    .split(/(?<!(?:^|[^A-Za-z])[A-Z]\.)(?<=\.)\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
 
 /** The first cautionary sentence in rights text once LoC's boilerplate is removed, or null. */
 export function cautionIn(text) {
-  const m = String(text ?? "").replace(LOC_BOILERPLATE, " ").match(CAUTION);
-  return m ? m[0].trim() : null;
+  return sentencesOf(String(text ?? "").replace(LOC_BOILERPLATE, " ")).find((s) => CAUTION.test(s)) ?? null;
 }
 
-/** The sentence that states public domain and names a federal source together, or null. */
+// A statement about a class of works ("Works created by U.S. government employees are in the public
+// domain") says nothing about this item. It passes only when it names a collection known to be federal.
+const CLASS_LEVEL = /\b(works?|photographs?|images?|items?|materials?|records?)\s+(created|made|taken|produced|prepared|authored)\s+by\b|\bemployees?\b/i;
+const KNOWN_FEDERAL_COLLECTIONS = [/\bFarm Security Administration\/Office of War Information\b/i];
+
+/** Whether a sentence speaks of a class of works rather than a named collection. */
+export function isClassLevel(sentence) {
+  return CLASS_LEVEL.test(sentence) && !KNOWN_FEDERAL_COLLECTIONS.some((re) => re.test(sentence));
+}
+
+function federalPd(s) {
+  return /\bpublic domain\b/i.test(s) && FEDERAL.test(s) && !/\b(not|may|except|unless)\b/i.test(s);
+}
+
+/** The sentence that states public domain and names a federal source together, about this collection, or null. */
 export function federalPdSentence(text) {
-  const sentences = String(text ?? "").split(/(?<=\.)\s+/);
-  return sentences.find((s) => /\bpublic domain\b/i.test(s) && FEDERAL.test(s) && !/\b(not|may|except|unless)\b/i.test(s)) ?? null;
+  return sentencesOf(text).find((s) => federalPd(s) && !isClassLevel(s)) ?? null;
+}
+
+/** A federal public-domain sentence that speaks only of a class of works, or null. */
+export function classLevelSentence(text) {
+  return sentencesOf(text).find((s) => federalPd(s) && isClassLevel(s)) ?? null;
 }
 
 function largestImage(urls) {
@@ -84,6 +114,8 @@ export function parseLoc(json, { ref, capturedAt }) {
   } else if (year !== null && !named && year <= pdAgeCutoff(yearNow)) {
     licence = "pd-age";
     basis = `Created by ${year} per the Library of Congress record (latest year stated), author unknown: more than 120 years from creation, so public domain in the US whether or not it was published`;
+  } else if (classLevelSentence(rights)) {
+    note = `the rights text speaks of a class of works ("${clip(classLevelSentence(rights), 120)}"), not of this item or a known federal collection`;
   } else if (/\bpublic domain\b/i.test(rights)) {
     note = "the rights text says public domain but not in the same sentence as a federal source, and no age basis applies";
   } else {
