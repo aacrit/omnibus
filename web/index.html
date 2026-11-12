@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="build" content="__BUILD__" />
+    <meta name="description" content="void omnibus: the week, weighed. A weekly news programme built from void news's own record, every frame traceable to its source." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='currentColor' stroke-width='1.6'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="../design/tokens.css" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>void omnibus</title>
+  </head>
+  <body>
+    <main class="page">
+      <header class="masthead">
+        <p class="eyebrow">A void news programme</p>
+        <h1>void omnibus</h1>
+        <p class="tagline">The week, weighed.</p>
+        <p class="value-line">A weekly news programme built from void news's own record: the seven days as they were printed, the lead weighed against the headlines of outlets across the spectrum, one historical echo shown as it was then, and the stories almost nobody covered. Every frame traceable to its source.</p>
+      </header>
+
+      <section class="segment" aria-labelledby="guide">
+        <h2 id="guide" class="segment-word">Programme guide</h2>
+        <p class="next">First episode in preparation. Airs Mondays at <span data-numeral>21:00 UTC</span>.</p>
+        <ol class="listings">
+          <li>
+            <a class="listing" href="/e/32">
+              <span class="listing-week" data-numeral>Week 32</span>
+              <span class="listing-dates" data-numeral>26 Oct to 1 Nov 2026</span>
+              <span class="listing-title">Week 32, in sources</span>
+              <span class="listing-note">Dress rehearsal, not aired. The record the episode is built from.</span>
+            </a>
+          </li>
+        </ol>
+      </section>
+
+      <section class="segment" id="feedback-card" aria-labelledby="feedback-title">
+        <h2 id="feedback-title" class="segment-word">Tell us what is missing</h2>
+        <p class="muted">A sentence is enough. It goes straight to the people building this.</p>
+        <form id="feedback-form" novalidate>
+          <label for="feedback-text">Feedback</label>
+          <textarea id="feedback-text" name="text" maxlength="2000" rows="3" required></textarea>
+          <button type="submit">Send</button>
+          <p id="feedback-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <footer class="page-footer">
+        <a href="./privacy.html">Privacy</a> · <span>CC BY-SA 4.0</span>
+      </footer>
+    </main>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

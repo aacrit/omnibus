@@ -1,0 +1,879 @@
+{
+  "issue": 32,
+  "week_start": "2026-10-26",
+  "week_end": "2026-11-01",
+  "as_of": "2026-11-04T08:34:51.508758+00:00",
+  "edition": "world",
+  "cover_headline": "Borders Fail to Contain the Spread of Disease",
+  "cover_numbers": [
+    {
+      "stat": "10,000",
+      "context": "cases"
+    },
+    {
+      "stat": "22",
+      "context": "sources on the first day"
+    },
+    {
+      "stat": "24",
+      "context": "sources on the second day"
+    },
+    {
+      "stat": "21",
+      "context": "sources on the third day"
+    },
+    {
+      "stat": "55",
+      "context": "points of lean"
+    }
+  ],
+  "normalised_from": {
+    "repo": "https://github.com/aacrit/void--news",
+    "origin_main": "dcffaaf8bf5e979808cd195de80e2403af074c64",
+    "weekly": "https://github.com/aacrit/void--news/blob/808964be884d933b66c351fdf9212ea3a30d266e/frontend/build-data/weekly-issues.json",
+    "sources": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/data/sources.json"
+  },
+  "days": [
+    {
+      "date": "2026-10-26",
+      "available": true,
+      "printed_at": "2026-10-26T17:57:32.322972Z",
+      "printed_count": 35,
+      "snapshot": "https://github.com/aacrit/void--news/blob/5f85341db2372d6a7e6b2b51cbf13e153daf9fb3/frontend/build-data/feed.json",
+      "lead": {
+        "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+        "category": "conflict",
+        "source_count": 58,
+        "buckets": [
+          0,
+          0,
+          9,
+          24,
+          7,
+          0,
+          0
+        ]
+      },
+      "next": [
+        {
+          "title": "US: Nicki Minaj endorses Trump at Michigan Republican rally",
+          "source_count": 28
+        },
+        {
+          "title": "France’s Burning Warning: Macron Must Restore Order, and Public Trust",
+          "source_count": 16
+        },
+        {
+          "title": "LIVE NOW: Michigan Senate Candidate Abdul El-Sayed Holds Press Conference in Detroit",
+          "source_count": 16
+        },
+        {
+          "title": "Judge rules Maurene Comey, daughter of ex-FBI director, was unlawfully fired by Trump administration",
+          "source_count": 23
+        }
+      ]
+    },
+    {
+      "date": "2026-10-27",
+      "available": true,
+      "printed_at": "2026-10-27T17:28:27.751961Z",
+      "printed_count": 35,
+      "snapshot": "https://github.com/aacrit/void--news/blob/f8772343372da1dcb4fde76f97be162b63e6e937/frontend/build-data/feed.json",
+      "lead": {
+        "title": "Ex-FBI chief James Comey faces federal charges for third time",
+        "category": "politics",
+        "source_count": 55,
+        "buckets": [
+          0,
+          3,
+          13,
+          19,
+          4,
+          9,
+          4
+        ]
+      },
+      "next": [
+        {
+          "title": "Norway, Finland leaders hold ‘frank’ talk with Putin on ending Ukraine war",
+          "source_count": 29
+        },
+        {
+          "title": "Israelis are voting on whether to oust Netanyahu in first election since Oct. 7 attack",
+          "source_count": 77
+        },
+        {
+          "title": "Israeli forces kill 14 in Gaza as UN commission says genocide continues",
+          "source_count": 15
+        },
+        {
+          "title": "UK charges 2 men in suspected Iran-linked incident at RAF Fairford after US bombers pulled",
+          "source_count": 25
+        }
+      ]
+    },
+    {
+      "date": "2026-10-28",
+      "available": true,
+      "printed_at": "2026-10-28T18:14:22.730481Z",
+      "printed_count": 35,
+      "snapshot": "https://github.com/aacrit/void--news/blob/e41dc1249fb8400f6151411922e1f96ab50d18b3/frontend/build-data/feed.json",
+      "lead": {
+        "title": "Spain train crash: at least 64 dead after collision in Toledo province",
+        "category": "general",
+        "source_count": 107,
+        "buckets": [
+          0,
+          2,
+          21,
+          25,
+          10,
+          6,
+          1
+        ]
+      },
+      "next": [
+        {
+          "title": "Flavio Bolsonaro lands in Miami after fleeing Brazil for US",
+          "source_count": 64
+        },
+        {
+          "title": "What is likely to be in UK finance minister John Healey’s budget?",
+          "source_count": 24
+        },
+        {
+          "title": "Serbian police say assailant killed after attacking officer outside the Israeli Embassy in Belgrade",
+          "source_count": 21
+        },
+        {
+          "title": "What we know about Ukraine-Russia truce in Oleshky, brokered by Melania Trump",
+          "source_count": 35
+        }
+      ]
+    },
+    {
+      "date": "2026-10-29",
+      "available": true,
+      "printed_at": "2026-10-29T18:27:44.905821Z",
+      "printed_count": 45,
+      "snapshot": "https://github.com/aacrit/void--news/blob/e86e277af21d165c119d0c1205b8221feb26a779/frontend/build-data/feed.json",
+      "lead": {
+        "title": "Ukraine: 14 killed in Russian drone strike on crowded Dnipro train station",
+        "category": "conflict",
+        "source_count": 36,
+        "buckets": [
+          0,
+          1,
+          3,
+          7,
+          5,
+          1,
+          0
+        ]
+      },
+      "next": [
+        {
+          "title": "Hegseth fires the Pentagon’s top military planner even as Trump considers new Iran strikes",
+          "source_count": 31
+        },
+        {
+          "title": "Spain train crash: at least 64 dead after collision in Toledo province",
+          "source_count": 30
+        },
+        {
+          "title": "European Central Bank President Christine Lagarde to step down",
+          "source_count": 43
+        },
+        {
+          "title": "Fairy chimney rockfall kills two at Turkey's Cappadocia tourist attraction after heavy rain",
+          "source_count": 15
+        }
+      ]
+    },
+    {
+      "date": "2026-10-30",
+      "available": true,
+      "printed_at": "2026-10-30T17:55:19.404241Z",
+      "printed_count": 45,
+      "snapshot": "https://github.com/aacrit/void--news/blob/6945ab697f5b767fe1465c55ca5f5f848b2986e1/frontend/build-data/feed.json",
+      "lead": {
+        "title": "Two Australians caught up in Spanish train disaster, government says",
+        "category": "politics",
+        "source_count": 51,
+        "buckets": [
+          0,
+          0,
+          11,
+          10,
+          4,
+          2,
+          0
+        ]
+      },
+      "next": [
+        {
+          "title": "Ukraine: 14 killed in Russian drone strike on crowded Dnipro train station",
+          "source_count": 35
+        },
+        {
+          "title": "Top Republican Admits Trump’s Failed Promise Is Hurting GOP",
+          "source_count": 17
+        },
+        {
+          "title": "Christa Pike speaks out for first time after botched execution: 'I woke up confused'",
+          "source_count": 33
+        },
+        {
+          "title": "In Ukraine, humanitarian mission in occupied Oleshky hides growing fear of Russian military operation",
+          "source_count": 35
+        }
+      ]
+    },
+    {
+      "date": "2026-10-31",
+      "available": true,
+      "printed_at": "2026-10-31T17:07:48.148835Z",
+      "printed_count": 45,
+      "snapshot": "https://github.com/aacrit/void--news/blob/7344e4fe913eeebba823849ffcac391267a1b83c/frontend/build-data/feed.json",
+      "lead": {
+        "title": "Thousands take to streets of France, Germany, Italy and Spain as police brace for violence on third weekend of protests",
+        "category": "conflict",
+        "source_count": 26,
+        "buckets": [
+          0,
+          0,
+          9,
+          4,
+          1,
+          3,
+          1
+        ]
+      },
+      "next": [
+        {
+          "title": "Poland’s Constitutional Tribunal crisis explained: a decade-long dispute over legitimacy of the justice",
+          "source_count": 19
+        },
+        {
+          "title": "Holy Smokes - Looks Like Poland Might Be in the Middle of a Tusk-Orchestrated Coup UPDATE and MORE",
+          "source_count": 13
+        },
+        {
+          "title": "UK PM Burnham says he is ‘open’ to formal apology for slavery, but rules out reparations",
+          "source_count": 22
+        },
+        {
+          "title": "Ukraine-Russia war latest: Hundreds of Ukrainians arrive home from Russian-occupied territory under ceasefire",
+          "source_count": 43
+        }
+      ]
+    },
+    {
+      "date": "2026-11-01",
+      "available": true,
+      "printed_at": "2026-11-01T18:01:40.112525Z",
+      "printed_count": 45,
+      "snapshot": "https://github.com/aacrit/void--news/blob/3824d8b7e740da421d20f5deeb3021d0b350c064/frontend/build-data/feed.json",
+      "lead": {
+        "title": "UK's Burnham says he is 'open' to formal apology for slavery, but rules out reparations",
+        "category": "general",
+        "source_count": 32,
+        "buckets": [
+          0,
+          0,
+          5,
+          4,
+          3,
+          6,
+          1
+        ]
+      },
+      "next": [
+        {
+          "title": "Trump White House maps path to govern without Congress if Democrats win",
+          "source_count": 19
+        },
+        {
+          "title": "Over 300 arrested at US Embassy in London during Palestine Action protests",
+          "source_count": 16
+        },
+        {
+          "title": "Gen Z-led protests in Germany turn violent as rioters loot stores in Frankfurt",
+          "source_count": 45
+        },
+        {
+          "title": "Ukrainians return home from Russian-occupied Oleshky",
+          "source_count": 36
+        }
+      ]
+    }
+  ],
+  "lead": {
+    "records": [
+      {
+        "date": "2026-10-26",
+        "title": "Africa Ebola outbreak passes 10,000 cases, DR Congo health authorities",
+        "source_count": 22,
+        "deepdive": "https://github.com/aacrit/void--news/blob/f8772343372da1dcb4fde76f97be162b63e6e937/frontend/public/data/deepdive/b560ce31-9675-4f67-8f97-6d54f4886613.json"
+      },
+      {
+        "date": "2026-10-27",
+        "title": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
+        "source_count": 24,
+        "deepdive": "https://github.com/aacrit/void--news/blob/e41dc1249fb8400f6151411922e1f96ab50d18b3/frontend/public/data/deepdive/9ca387ef-1af0-4e77-b668-de8aaa45e7a2.json"
+      },
+      {
+        "date": "2026-10-28",
+        "title": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
+        "source_count": 21,
+        "deepdive": "https://github.com/aacrit/void--news/blob/e86e277af21d165c119d0c1205b8221feb26a779/frontend/public/data/deepdive/925c7301-56bf-47df-828a-8769b62f7a3a.json"
+      }
+    ],
+    "outlets": 39,
+    "articles": 62,
+    "rung_counts": [
+      0,
+      0,
+      5,
+      14,
+      1,
+      0,
+      1
+    ],
+    "unplaced": 18,
+    "board": [
+      {
+        "rung": "center-left",
+        "outlet": "NPR",
+        "headline": "Israel's election too close to call. And, the Ebola outbreak reaches grim milestone",
+        "url": "https://www.npr.org/2026/10/28/g-s1-150313/up-first-newsletter-midterm-campaign-trump-israel-elections-federal-reserve-ebola-outbreak",
+        "published_at": "2026-10-28T11:28:55+00:00",
+        "sha256": "94532c54b934f09d84af689b292c0470c528cc8f81e60d994cca6d7874195943"
+      },
+      {
+        "rung": "center",
+        "outlet": "Associated Press",
+        "headline": "Congo’s Ebola outbreak tops 10,000 cases as authorities race to slow the spread in African countries - AP News",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPZlBHRG5jakZCMG5CbnJSZ1ZfdUZnRlRsMU9BYTRER2h4VEN3ZVJPdGxyTGRfaXQ2VTNrSmp1WmhpQnBFOTIzR0RjSXN4ejUzZ2Z3MTBwVnp3V3JZUy10ZFJkWUM4SGhaNVRWdWxXLVB1WE1UU25DY1FFMmxHN3FNUy1zWHBncDROX2k2NFBqdFlabWdkdGc5RnR4bmdDcWtQSU40?oc=5",
+        "published_at": "2026-10-27T09:39:00+00:00",
+        "sha256": "4917dc830be2da8e3907b07644b7b8e55d8fe01f4bb301861b1208ea7f8fb7ed"
+      },
+      {
+        "rung": "center-right",
+        "outlet": "The Telegraph",
+        "headline": "Risk of Ebola spread in UK is low, experts stress",
+        "url": "https://www.telegraph.co.uk/global-health/science-and-disease/risk-of-ebola-spread-in-uk-is-low-experts-stress/",
+        "published_at": "2026-10-29T12:59:21+00:00",
+        "sha256": "fb02ffa4ae2dfad5c1a66cf02307aeeef76b0770d1738be78927615ad84c94cd"
+      },
+      {
+        "rung": "far-right",
+        "outlet": "CGTN (China Global Television Network)",
+        "headline": "UN officials condemn killing of nurse in DR Congo - CGTN",
+        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOelVFOGl6R3BhMEt2OXpXc0YzeXlUb3Qxb2hya2w3YkM1TDV5LVU5eTk5dDByZmF3MkFFbVNWUFdlbF9Zb0JrOTNMS2FmcU5peEFaamFISmtLMTF0eWloeDB5T3RMQlBtM1ZMY29WdVVLaVFVTzVqSVVpcm1QZ3dBVjV3MXowRHVtMk9nWUFVa2JPVEkyc25KdVVxMXczMGNBQkhaWWZqR2o4bTJq?oc=5",
+        "published_at": "2026-10-27T08:45:30+00:00",
+        "sha256": "2285b83952e0ab831ab8ad86420634d290299dc372f6d3d58e127d708090d634"
+      }
+    ],
+    "ledger": [
+      {
+        "outlet": "Daily Maverick",
+        "rung": "center-left",
+        "headline": "Uganda imposes 21-day quarantine on citizens returning from Congo",
+        "url": "https://www.dailymaverick.co.za/article/2026-10-26-uganda-imposes-21-day-quarantine-on-citizens-returning-from-congo/",
+        "published_at": "2026-10-26T04:37:55+00:00"
+      },
+      {
+        "outlet": "Africanews",
+        "rung": null,
+        "headline": "Ebola: Uganda introduces 21-day quarantine for people entering from DRC",
+        "url": "https://www.africanews.com/2026/10/26/ebola-uganda-introduces-21-day-quarantine-for-people-entering-from-drc/",
+        "published_at": "2026-10-26T06:10:31+00:00"
+      },
+      {
+        "outlet": "OnlineKhabar (English)",
+        "rung": null,
+        "headline": "Ebola vaccine trial begins in DR Congo",
+        "url": "https://english.onlinekhabar.com/ebola-vaccine-trial-begins-in-dr-congo.html",
+        "published_at": "2026-10-26T10:52:44+00:00"
+      },
+      {
+        "outlet": "The Star (Kenya)",
+        "rung": null,
+        "headline": "Uganda imposes 21-day quarantine on citizens returning from DR Congo - The Star, Kenya",
+        "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQN1kweUhlNWNMdXFzUDAwa25OLWRLZWFfdC1keDByNW15cmRxeHk2VVlWYjRrV3BwSENPNDNWSzNhUUxmS3RqaUFHQXpDRXhkRHFUYkN4UThHRnEtbzM0S25acmZaQVRxMUdDSXF0N05JZUpiNG83SjBULUJFUkdNUGZkaDJkR2tnakgxRHY3ZjBFaEFJdjB3WGdsV01PbnNkQlkwRHZLZ1pkQmRLUURlWkRNS09BbVZtOHc?oc=5",
+        "published_at": "2026-10-26T11:06:00+00:00"
+      },
+      {
+        "outlet": "UN News (Health)",
+        "rung": "center",
+        "headline": "Ebola: UN officials condemn killing of nurse in DR Congo",
+        "url": "https://news.un.org/feed/view/en/story/2026/10/1168667",
+        "published_at": "2026-10-26T12:00:00+00:00"
+      },
+      {
+        "outlet": "The East African",
+        "rung": null,
+        "headline": "Uganda imposes 21-day quarantine on citizens returning from Congo",
+        "url": "https://www.theeastafrican.co.ke/tea/sustainability/health/uganda-21-day-quarantine-on-citizens-returning-from-congo-5646248",
+        "published_at": "2026-10-26T12:00:00+00:00"
+      },
+      {
+        "outlet": "AllAfrica",
+        "rung": null,
+        "headline": "Congo-Kinshasa: Ebola - UN Officials Condemn Killing of Nurse in DR Congo",
+        "url": "https://allafrica.com/stories/202610260403.html",
+        "published_at": "2026-10-26T12:00:52+00:00"
+      },
+      {
+        "outlet": "Nation Africa",
+        "rung": null,
+        "headline": "Ebola: 20 discharged from quarantine in Kenya, 98 remain - Daily Nation",
+        "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPSkdQWlgyMWdYR2oxd3E0V0t1bU52ZDJYQkYwVERvVFBubklfYzhKd1l1Q09GcE9CMWNKQk5YYlF6UldwcUVscW9PRUM2cnYzRG5zcklIcDc0OFlETUhCQVkyRG5Db0VUa2ZmeFZBZ3NRZkFmWUJzVHRTWlJKcXhaNEZmMEtpbF9Xc1VYWmxvSVdfdm9wYnZyeHBGYVljUQ?oc=5",
+        "published_at": "2026-10-26T13:36:05+00:00"
+      },
+      {
+        "outlet": "The Straits Times",
+        "rung": null,
+        "headline": "Kenya releases first Ebola contacts from quarantine, milestone in containment efforts",
+        "url": "https://www.straitstimes.com/world/kenya-releases-first-ebola-contacts-from-quarantine-milestone-in-containment-efforts",
+        "published_at": "2026-10-26T14:45:51+00:00"
+      },
+      {
+        "outlet": "SABC News",
+        "rung": "center",
+        "headline": "Kenya releases first Ebola contacts from quarantine",
+        "url": "https://www.sabcnews.com/sabcnews/kenya-releases-first-ebola-contacts-from-quarantine/",
+        "published_at": "2026-10-26T15:00:07+00:00"
+      },
+      {
+        "outlet": "Africanews",
+        "rung": null,
+        "headline": "Nurse killed, health worker injured in DR Congo Ebola attack",
+        "url": "https://www.africanews.com/2026/10/26/nurse-killed-health-worker-injured-in-dr-congo-ebola-attack/",
+        "published_at": "2026-10-26T15:01:56+00:00"
+      },
+      {
+        "outlet": "Africanews",
+        "rung": null,
+        "headline": "Fear and misinformation hamper Ebola response efforts in DR Congo",
+        "url": "https://www.africanews.com/2026/10/26/fear-and-misinformation-hamper-ebola-response-efforts-in-dr-congo/",
+        "published_at": "2026-10-26T15:56:58+00:00"
+      },
+      {
+        "outlet": "CTV News",
+        "rung": "center",
+        "headline": "Attackers kill nurse, severely injure health worker responding to Ebola case in eastern Congo",
+        "url": "https://www.ctvnews.ca/world/article/attackers-kill-nurse-severely-injure-health-worker-responding-to-ebola-case-in-eastern-congo/",
+        "published_at": "2026-10-26T16:08:47+00:00"
+      },
+      {
+        "outlet": "The Straits Times",
+        "rung": null,
+        "headline": "Protesters kill longtime nurse treating Ebola patients in Congo",
+        "url": "https://www.straitstimes.com/world/protesters-kill-longtime-nurse-treating-ebola-patients-in-congo",
+        "published_at": "2026-10-26T16:40:34+00:00"
+      },
+      {
+        "outlet": "Sky News",
+        "rung": "center",
+        "headline": "Ebola cases in DRC surpass 10,000 as nurse treating patients is killed by machete-wielding mob",
+        "url": "https://news.sky.com/story/ebola-cases-in-democratic-republic-of-congo-surpass-10000-as-nurse-treating-patients-is-killed-by-machete-wielding-mob-13604219",
+        "published_at": "2026-10-27T02:56:00+00:00"
+      },
+      {
+        "outlet": "TheCable",
+        "rung": null,
+        "headline": "Ebola and the geopolitics of blame - TheCable",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE40WkI1T2ZBTG4tNXhLd0ZCc1VXUWNZblZIZW9nRnlzV3pZQTRNdGxERTFvYUJINGU2aVFfazJtSlJwWnlmejFnVUxOZnh3T1BEUTJvNXhXQnU3Mm8tNldGcm5KZ3ptcGpZQllj?oc=5",
+        "published_at": "2026-10-27T07:00:00+00:00"
+      },
+      {
+        "outlet": "Africanews",
+        "rung": null,
+        "headline": "Fear and misinformation hamper Ebola response in DR Congo",
+        "url": "https://www.africanews.com/2026/10/26/fear-and-misinformation-hamper-ebola-response-in-dr-congo/",
+        "published_at": "2026-10-27T08:20:19+00:00"
+      },
+      {
+        "outlet": "Asharq Al-Awsat",
+        "rung": "center",
+        "headline": "Congo's Ebola Infections Surpass 10,000",
+        "url": "https://english.aawsat.com/world/5334105-congos-ebola-infections-surpass-10000",
+        "published_at": "2026-10-27T08:36:09+00:00"
+      },
+      {
+        "outlet": "AllAfrica",
+        "rung": null,
+        "headline": "Uganda: Ebola - Uganda Orders 21-Day Quarantine for Citizens Returning From DR Congo",
+        "url": "https://allafrica.com/stories/202610270166.html",
+        "published_at": "2026-10-27T08:41:54+00:00"
+      },
+      {
+        "outlet": "CGTN (China Global Television Network)",
+        "rung": "far-right",
+        "headline": "UN officials condemn killing of nurse in DR Congo - CGTN",
+        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOelVFOGl6R3BhMEt2OXpXc0YzeXlUb3Qxb2hya2w3YkM1TDV5LVU5eTk5dDByZmF3MkFFbVNWUFdlbF9Zb0JrOTNMS2FmcU5peEFaamFISmtLMTF0eWloeDB5T3RMQlBtM1ZMY29WdVVLaVFVTzVqSVVpcm1QZ3dBVjV3MXowRHVtMk9nWUFVa2JPVEkyc25KdVVxMXczMGNBQkhaWWZqR2o4bTJq?oc=5",
+        "published_at": "2026-10-27T08:45:30+00:00"
+      },
+      {
+        "outlet": "Medical Xpress",
+        "rung": "center",
+        "headline": "Congo's Ebola outbreak tops 10,000 cases as authorities race to slow the spread in African countries",
+        "url": "https://medicalxpress.com/news/2026-10-congo-ebola-outbreak-tops-cases.html",
+        "published_at": "2026-10-27T09:18:07+00:00"
+      },
+      {
+        "outlet": "Nation Africa",
+        "rung": null,
+        "headline": "How Uganda beat Ebola and what Kenya can learn - Daily Nation",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcmhUWGd0dC1DeUVuSkpOamdRbE1PU3IzbkREOFZobjMtWGkwT3Z3Yl9RVFZ3eGcyWnA3M2ZLZTh3X2tZUDBQMFU2VXlFT3NPOEZiRHNYdjNVN1lXdmIzT2ZwbGU5a3g5RksyTzhqY2RSZmVzd3UyQ3lkTzZkVXZ4Ri1rUWJoOXJKZktrZG04QWQ2TXYt?oc=5",
+        "published_at": "2026-10-27T09:24:33+00:00"
+      },
+      {
+        "outlet": "AllAfrica",
+        "rung": null,
+        "headline": "Kenya: Kenya - 20 Ebola Contacts Released From Quarantine",
+        "url": "https://allafrica.com/stories/202610270202.html",
+        "published_at": "2026-10-27T09:26:53+00:00"
+      },
+      {
+        "outlet": "The Independent Uganda",
+        "rung": null,
+        "headline": "Uganda’s Ebola puzzle crosses borders",
+        "url": "https://www.independent.co.ug/ugandas-ebola-puzzle-crosses-borders/",
+        "published_at": "2026-10-27T09:30:29+00:00"
+      },
+      {
+        "outlet": "Associated Press",
+        "rung": "center",
+        "headline": "Congo’s Ebola outbreak tops 10,000 cases as authorities race to slow the spread in African countries - AP News",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPZlBHRG5jakZCMG5CbnJSZ1ZfdUZnRlRsMU9BYTRER2h4VEN3ZVJPdGxyTGRfaXQ2VTNrSmp1WmhpQnBFOTIzR0RjSXN4ejUzZ2Z3MTBwVnp3V3JZUy10ZFJkWUM4SGhaNVRWdWxXLVB1WE1UU25DY1FFMmxHN3FNUy1zWHBncDROX2k2NFBqdFlabWdkdGc5RnR4bmdDcWtQSU40?oc=5",
+        "published_at": "2026-10-27T09:39:00+00:00"
+      },
+      {
+        "outlet": "Xinhua (English)",
+        "rung": "center",
+        "headline": "Xinhua News | Ebola cases top 10,000 in DR Congo - Xinhua",
+        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1qMW5VN24zMEU5VFRjczhEdmVTQ3hHOTVoMEVSMUwzbmtkWUMtZWVsakxyOXN2Mk1pdDRhaVVBcVhnU1Mwbm9iRnBSTlVqb01kVEIwVzJlNTBpZG1VTTJIREZWVXNreXVlQWZHOUVZV2M0WEl0cE9jZlljaXA?oc=5",
+        "published_at": "2026-10-27T10:06:16+00:00"
+      },
+      {
+        "outlet": "Deutsche Welle",
+        "rung": "center",
+        "headline": "DR Congo reports over 10,000 Ebola cases as the outbreak spreads abroad, with no approved vaccine or specific treatment for the Bundibugyo virus",
+        "url": "https://www.dw.com/en/dr-congo-reports-over-10000-ebola-cases-as-the-outbreak-spreads-abroad-with-no-approved-vaccine-or-specific-treatment-for-the-bundibugyo-virus/a-79773667?maca=en-rss-en-all-1573-rdf",
+        "published_at": "2026-10-27T11:15:00+00:00"
+      },
+      {
+        "outlet": "Daily Maverick",
+        "rung": "center-left",
+        "headline": "Congo’s Ebola cases surpass 10,000 as fears grow of wider African spread",
+        "url": "https://www.dailymaverick.co.za/article/2026-10-27-congos-ebola-cases-surpass-10000-as-fears-grow-of-wider-african-spread/",
+        "published_at": "2026-10-27T11:31:08+00:00"
+      },
+      {
+        "outlet": "UN News (Health)",
+        "rung": "center",
+        "headline": "Kenya: 20 Ebola contacts released from quarantine",
+        "url": "https://news.un.org/en/story/2026/10/1168676",
+        "published_at": "2026-10-27T12:00:00+00:00"
+      },
+      {
+        "outlet": "Al Jazeera",
+        "rung": "center-left",
+        "headline": "Ebola cases in DR Congo surpass 10,000 in fastest-growing outbreak",
+        "url": "https://www.aljazeera.com/news/2026/10/27/ebola-cases-in-dr-congo-surpass-10000-in-fastest-growing-outbreak?traffic_source=rss",
+        "published_at": "2026-10-27T12:31:19+00:00"
+      },
+      {
+        "outlet": "The Independent Uganda",
+        "rung": null,
+        "headline": "DRC Ebola cases top 10,000 as outbreak spreads across Africa",
+        "url": "https://www.independent.co.ug/drc-ebola-cases-top-10000-as-outbreak-spreads-across-africa/",
+        "published_at": "2026-10-27T13:00:12+00:00"
+      },
+      {
+        "outlet": "Jamaica Observer",
+        "rung": null,
+        "headline": "Africa Ebola outbreak passes 10,000 cases — DR Congo health authorities",
+        "url": "https://www.jamaicaobserver.com/2026/10/27/africa-ebola-outbreak-passes-10000-cases-dr-congo-health-authorities/",
+        "published_at": "2026-10-27T14:21:35+00:00"
+      },
+      {
+        "outlet": "France 24",
+        "rung": "center",
+        "headline": "Africa's Ebola outbreak tops 10,000 cases, mainly in DR Congo",
+        "url": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo",
+        "published_at": "2026-10-27T15:45:18+00:00"
+      },
+      {
+        "outlet": "The Standard",
+        "rung": null,
+        "headline": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo - The Standard",
+        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQZTNXQjlPZFBtdTdKWXBYZl91WmpuUmRnbk1meFNsYTB0cGpCYkJWeEUtTDJKZXpuaVRabDZrQ3E3NWlDYTRKd25JbjRIc1NBeXpNWnNIVWgtVFpmMVpEVWpEQVFxa0ItOUhBdjZzUExnc1RPZXh5cE1WM0JhXzJuQVh6YTRJZkdocXZUSWJJODRQY0VUOUtJa29MVTRqVUw1RzRJWUVaTlZpaTR4dW9WaUV6a05UZmtD?oc=5",
+        "published_at": "2026-10-27T19:49:33+00:00"
+      },
+      {
+        "outlet": "CGTN (China Global Television Network)",
+        "rung": "far-right",
+        "headline": "DRC's Ebola outbreak surpasses 10,000 confirmed cases - CGTN",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQNGlzejU0NUsxVmNKbWR0dlFBZDBINk96cFlkaG5pZ0MzdWxRb2VqMF94cFUwSFVwWkh5eHpYVXhIbjc0QVZULVVyVHJoLThQRHkxODZ1UFdRNU1TempoZThCWWwxRWwwR0VJTl96VmFwLVRRQ0NmQ3RGQkEzd21kWC1WMzBQMU42T0M3ZTBqS2lERTl3MEViSnZydjlpQXdUZ3RiU3dkVmpORjVvQlVV?oc=5",
+        "published_at": "2026-10-28T03:43:23+00:00"
+      },
+      {
+        "outlet": "The Copenhagen Post",
+        "rung": null,
+        "headline": "Ebola outbreak in DR Congo surpasses 10,000 cases - The Copenhagen Post",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVFM2OUswOXRha0M3YlJuZ0RPcjVLLThuTzg1R0tPQmVlTmFDQVo3MGZmdVpYdkdNN0gyS2t3YWQxU3dXYmlJY05WdnJsWmdQRUF5Z0pHUnV4RjVKTmI2b1VPamx4R01abU92aUJsMTZPci1lbGJuQ0dqMUZCQ09fNUtWZkRsc2VYMmIybWt3VGU?oc=5",
+        "published_at": "2026-10-28T05:31:03+00:00"
+      },
+      {
+        "outlet": "AllAfrica",
+        "rung": null,
+        "headline": "Congo-Kinshasa: Cases Top 10,000 in DR Congo Ebola Outbreak",
+        "url": "https://allafrica.com/stories/202610280156.html",
+        "published_at": "2026-10-28T06:21:48+00:00"
+      },
+      {
+        "outlet": "AllAfrica",
+        "rung": null,
+        "headline": "Africa: All of Africa Today - October 28, 2026",
+        "url": "https://allafrica.com/stories/202610280178.html",
+        "published_at": "2026-10-28T07:38:00+00:00"
+      },
+      {
+        "outlet": "The Guardian",
+        "rung": "center-left",
+        "headline": "Africa’s ‘unprecedented’ Ebola outbreak could reach UK, says top health official",
+        "url": "https://www.theguardian.com/global-development/2026/oct/28/africa-ebola-outbreak-could-reach-uk-says-top-health-official",
+        "published_at": "2026-10-28T09:37:49+00:00"
+      },
+      {
+        "outlet": "APA News (Pan-African)",
+        "rung": "center",
+        "headline": "DRC Ebola tops 10,000 cases amid warning of inadequate response - APAnews - Agence de Presse Africaine",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQY3JmOU02TVRtVS1WcFFlajkzRTI4TUNFb0lOUmRQQjlHS2VHX1dMRmVSS2hQdGw2T3hJWmdKLWx2cVo1bzF2TTFkZUFIRUlzdHlXcHMwY21vUk9EYzFqTVBMRkpDSGdaSDItYjZwbzY4Nm13Q1BiaWtCVDI0N1dWY3FINUJfVFpJMDlF?oc=5",
+        "published_at": "2026-10-28T10:35:11+00:00"
+      },
+      {
+        "outlet": "African Business",
+        "rung": "center",
+        "headline": "DRC needs urgent help as Ebola spreads",
+        "url": "https://african.business/2026/10/politics/drc-needs-urgent-help-as-ebola-spreads",
+        "published_at": "2026-10-28T10:53:23+00:00"
+      },
+      {
+        "outlet": "The Standard",
+        "rung": null,
+        "headline": "Ebola fight faces fresh hurdle as lab technicians threaten strike - The Standard Media Group",
+        "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQTTNKcDBSRnhQOHdNZnBUTHZ0ZExsNlVzSHpuMk5mRldvWmdnUjMteVhOellwSldOaHFuZm5CRUszNUIzWTZZQUNkUVhrbWhhRWRpb2RaOUEtTFNLUE50dHhfbmpMTEZoa1VZNFJnLWZXVWZqTUJiSFpxT3RFbjBmQms1VkJwUF9sT0F3aDR6SWEtR3VJQVZUeHgwbXlIemthMFBwNGpFRVBNM2drc2NqVEdxWHpZYm1BZFFLY2xmaWc2emNsSDdTM01aX1I0QnFFUm43d9IB2gFBVV95cUxNbVdoUEMtZjBpVE1kU2Y4WF9SM3JaaThNX3d1LWpxX0NURHllZlJPSkdTSXdTMnQ3WWJiZDllVWdHUGdQaC1YQVVqM3gwMGJZS0dYcTE5Y1h3aTg1WkMtTnFaMFZWVTIyLTNnYWtwWHZvQ09uVVJwVjdVZkRqN3h6Rm1qeG9YaEhGdlNPMkFSQ3RtODlRSmdoeUhwUlIxUk9DLUpzZUExWW52S3B2YnB3Z2pEQktJcUZZTF8zYlpJR3BCaEphU1JzcE1QQjZJanlrZ1ZWRVg5S1NHdw?oc=5",
+        "published_at": "2026-10-28T11:00:55+00:00"
+      },
+      {
+        "outlet": "NPR",
+        "rung": "center-left",
+        "headline": "Israel's election too close to call. And, the Ebola outbreak reaches grim milestone",
+        "url": "https://www.npr.org/2026/10/28/g-s1-150313/up-first-newsletter-midterm-campaign-trump-israel-elections-federal-reserve-ebola-outbreak",
+        "published_at": "2026-10-28T11:28:55+00:00"
+      },
+      {
+        "outlet": "UN News (Health)",
+        "rung": "center",
+        "headline": "DR Congo: WHO urges sustained efforts as Ebola cases top 10,000",
+        "url": "https://news.un.org/en/story/2026/10/1168689",
+        "published_at": "2026-10-28T12:00:00+00:00"
+      },
+      {
+        "outlet": "Citi Newsroom",
+        "rung": null,
+        "headline": "No need to panic over Ebola, Ghana is prepared – Akandoh - CitiNewsroom.com",
+        "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNNXFCbU5WVFR3WHItcHozY3lqRHQ3ZU1vQXJIaGRGNjRrN0kwNGtWdE5ZejFsV1ZmQS1US2djSWhZVEIzeEk3eHp3LWZVZnlQSjZxU3RqbzhUNUFrNHExUDVTTUJhY3VZdWFuX0FXOXlrX0w1cFZTSjhwVG9YR2dHVV83Sll0WjlQMkRxdmZqTkJEZFNSaWc?oc=5",
+        "published_at": "2026-10-28T12:37:06+00:00"
+      },
+      {
+        "outlet": "Nation Africa",
+        "rung": null,
+        "headline": "10 cleared of Ebola at Eldoret’s MTRH after testing negative - Daily Nation",
+        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPZ1ZBWkRnaVhOWG1LVElCemFZYWhLY2ltbUl6aXdIZTFNRTBUVFFZY0dlcGd4MnRaa3lBeFpGcW9EOGVBWm1sLXBNbWw4b3ZNVER2dnlCa1pwbjFtQXpINlVGaVZoWEtyOWZ2OEhDblgzSG9WS0hfNTZIQksxZjhuY3hTTnAyWHlRNXRGd0VIT3NBM2dtdlItRk44aUhTTnBmVHZyMVFtVFRiZkZsSFF3ZlREOTd0SVNK?oc=5",
+        "published_at": "2026-10-28T12:37:57+00:00"
+      },
+      {
+        "outlet": "AllAfrica",
+        "rung": null,
+        "headline": "Africa: Ebola - Survivors Can Transmit Virus Through Sex, but Not Sweat or Saliva - WHO",
+        "url": "https://allafrica.com/stories/202610280598.html",
+        "published_at": "2026-10-28T15:02:46+00:00"
+      },
+      {
+        "outlet": "The Standard",
+        "rung": null,
+        "headline": "What next after leaving Ebola quarantine centres? - The Standard",
+        "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOOVVBZGh5SDlIN01QZVlJRmVYYURTdmREMy1hSWdBd2xxSldYUXVJVDQ3Q0U0dWhwYjBsenNGSVNyLVY1Wm5UdUlrNUNkZGIzNXZKajlzc1lYa2d3RjB3TzdXSW1BSzRMbzIxOTFVTU94N0JqUGhVUVBpTmltRnJZT3J5OFFwMER4dlJJNTNfNVhNcUFUQWQ2a2NoNVc1SXlYQ2FhMU9rWHBDUXJo?oc=5",
+        "published_at": "2026-10-28T15:22:40+00:00"
+      },
+      {
+        "outlet": "The Mirror",
+        "rung": "center-left",
+        "headline": "Ebola outbreak kills nearly 5,000 as virus spreads beyond Congo and sparks global alarm",
+        "url": "https://www.mirror.co.uk/news/world-news/ebola-outbreak-congo-bundibugyo-strain-37819622",
+        "published_at": "2026-10-28T15:34:53+00:00"
+      },
+      {
+        "outlet": "Vanguard Nigeria",
+        "rung": null,
+        "headline": "Ebola: No gathering restrictions advised for Nigeria – WHO",
+        "url": "https://www.vanguardngr.com/2026/10/ebola-no-gathering-restrictions-advised-for-nigeria-who/",
+        "published_at": "2026-10-28T15:48:19+00:00"
+      },
+      {
+        "outlet": "Fortune",
+        "rung": "center",
+        "headline": "‘Every life saved is worth celebrating’: Congo suffers over 10,000 cases of the fastest-growing and farthest-reaching Ebola outbreak in history",
+        "url": "https://fortune.com/2026/10/28/congo-10-000-cases-ebola-outbreak-history/",
+        "published_at": "2026-10-28T15:50:00+00:00"
+      },
+      {
+        "outlet": "Africanews",
+        "rung": null,
+        "headline": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
+        "url": "https://www.africanews.com/2026/10/28/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/",
+        "published_at": "2026-10-28T17:24:34+00:00"
+      },
+      {
+        "outlet": "The Star (Kenya)",
+        "rung": null,
+        "headline": "Ebola threat grows as DRC cases surpass 10,000 - The Star, Kenya",
+        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQWjhyYk9xZkNfQ1pCdFRmNkp4enVtdXhLMTdibWNkMGVsMWhaRXFaTks2OUZSVFNZYkNLUG8wV0ZiampfMHFBNkRVOEF0b18tNGh2WE9uVkFaZWFadjlhMUtNSDdWOC1HSUxSN1FtcktybHJac25sT2Z1NEVOQVVkLWZsMXZQRVpUSTI2VjBnRzA1UQ?oc=5",
+        "published_at": "2026-10-28T17:30:00+00:00"
+      },
+      {
+        "outlet": "Togo First",
+        "rung": null,
+        "headline": "Togo Steps Up Ebola Screening at Borders Following Nigeria Case - Togo First",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxONWlVVV9BdTA4TkxZSV84UldwMnhiMzZLbTFGSGMxel9obTBaRllGWnZIemNWMHVIWE5WWVpxNGZTQ2RmLWM0ZzE1aXdZS21XUnRXZEoxZE9SbHVEdEREOC1RZl8xRlpnYkxkSkd4UkFONW9COGxjLUV5VkJ5cnpMUGJzbnpwNDNMdWdxZXpGTHBpbjJEbW9pd3dRWU5kMF9nelJfTWNmMGxBTllKRmJF?oc=5",
+        "published_at": "2026-10-29T06:10:48+00:00"
+      },
+      {
+        "outlet": "Eye Radio (South Sudan)",
+        "rung": null,
+        "headline": "Ibba reports 5,000 returnees fleeing Ebola fears in DRC",
+        "url": "https://eyeradio.org/ibba-reports-5000-returnees-fleeing-ebola-fears-in-drc/?utm_source=rss&utm_medium=rss&utm_campaign=ibba-reports-5000-returnees-fleeing-ebola-fears-in-drc",
+        "published_at": "2026-10-29T11:35:42+00:00"
+      },
+      {
+        "outlet": "The Telegraph",
+        "rung": "center-right",
+        "headline": "Risk of Ebola spread in UK is low, experts stress",
+        "url": "https://www.telegraph.co.uk/global-health/science-and-disease/risk-of-ebola-spread-in-uk-is-low-experts-stress/",
+        "published_at": "2026-10-29T12:59:21+00:00"
+      },
+      {
+        "outlet": "MyJoyOnline",
+        "rung": null,
+        "headline": "Africa CDC urges coordinated action as Ebola outbreak exceeds 10,000 cases",
+        "url": "https://www.myjoyonline.com/africa-cdc-urges-coordinated-action-as-ebola-outbreak-exceeds-10000-cases/",
+        "published_at": "2026-10-29T13:44:33+00:00"
+      },
+      {
+        "outlet": "TheCable",
+        "rung": null,
+        "headline": "There is no other Stella for Ebola - TheCable",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE11SzdLbnc4TWEwRnU1TUlhMHdHU3dDaFBISUtHdnYxWHVTLURMR0x0YWZYVWRUaXhHZ004amNpeS1ta1JkQjVYOEpXYkh2VHlSeGZ6S0N6aEFfTVo4eEJfcG44WE1TdXBFZVFF?oc=5",
+        "published_at": "2026-10-29T13:50:47+00:00"
+      },
+      {
+        "outlet": "The New Indian Express",
+        "rung": null,
+        "headline": "Experts warn of wider spread as Ebola outbreak reaches plateau",
+        "url": "https://www.newindianexpress.com/world/2026/Oct/29/experts-warn-of-wider-spread-as-ebola-outbreak-reaches-plateau",
+        "published_at": "2026-10-29T14:17:18+00:00"
+      },
+      {
+        "outlet": "Africanews",
+        "rung": null,
+        "headline": "DRC Ebola clinic celebrates departure of last confirmed cases",
+        "url": "https://www.africanews.com/2026/10/29/drc-ebola-clinic-celebrates-departure-of-last-confirmed-cases/",
+        "published_at": "2026-10-29T14:49:17+00:00"
+      },
+      {
+        "outlet": "Semafor",
+        "rung": "center",
+        "headline": "African nations mobilize against widening Ebola crisis",
+        "url": "https://www.semafor.com/article/10/29/2026/african-nations-mobilize-against-widening-ebola-crisis",
+        "published_at": "2026-10-29T16:25:26+00:00"
+      },
+      {
+        "outlet": "SABC News",
+        "rung": "center",
+        "headline": "Africa CDC calls for stronger coordination amid Ebola spread",
+        "url": "https://www.sabcnews.com/sabcnews/africa-cdc-calls-for-stronger-coordination-amid-ebola-spread/",
+        "published_at": "2026-10-29T16:39:46+00:00"
+      }
+    ]
+  },
+  "margins": {
+    "p70_importance": 58.96,
+    "pool": 285,
+    "stories": [
+      {
+        "title": "Can Democrats win the US Senate? 10 key midterm races to watch",
+        "category": "politics",
+        "source_count": 8,
+        "importance_score": 61.11,
+        "printed_on": "2026-10-31",
+        "buckets": [
+          0,
+          0,
+          4,
+          2,
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "title": "Estonian prime minister refuses to tone down rhetoric on Russia despite U.S. requests: ‘Putin is a dictator who kills women and children’",
+        "category": "politics",
+        "source_count": 9,
+        "importance_score": 60.96,
+        "printed_on": "2026-10-30",
+        "buckets": [
+          0,
+          1,
+          1,
+          4,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "title": "Neil Young sues Donald Trump's political committee for copyright infringement - again",
+        "category": "politics",
+        "source_count": 9,
+        "importance_score": 60.44,
+        "printed_on": "2026-10-27",
+        "buckets": [
+          0,
+          1,
+          3,
+          2,
+          1,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "echo": {
+    "slug": "spanish-flu-1918",
+    "title": "The 1918 Influenza Pandemic",
+    "date_display": "1918-1919",
+    "horizon": "1918-1919",
+    "status": "candidate",
+    "page": "https://news.voidvision.org/history/spanish-flu-1918/",
+    "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/data/history/events/spanish-flu-1918.yaml",
+    "alternate": "black-death"
+  }
+}

@@ -1,0 +1,216 @@
+# The served-page contract. scripts/contract.mjs runs every check in `checks`
+# against `url` (or the URL passed to `--url`) and exits non-zero if any fail.
+# A check tagged `requires: deployed` needs the Cloudflare runtime and is
+# reported as SKIP against a localhost URL; it must PASS on the preview.
+# `events.allowed` and `events.server_only` are the source of truth that
+# worker/src/config.ts mirrors; tests/contract-events.test.ts keeps them in
+# sync.
+url: https://omnibus.voidvision.org
+
+checks:
+  - name: homepage status 200
+    type: status
+    path: /
+    expect: 200
+
+  - name: homepage names the product
+    type: contains
+    path: /
+    text: "void omnibus"
+
+  - name: homepage carries a build marker
+    type: meta
+    path: /
+    meta_name: build
+
+  - name: privacy page responds
+    type: status
+    path: /privacy
+    expect: 200
+
+  - name: healthz responds
+    type: status
+    path: /healthz
+    expect: 200
+
+  - name: healthz reports ok
+    type: json
+    path: /healthz
+    field: ok
+    expect: true
+
+  - name: homepage has no leftover placeholders
+    type: forbidden
+    path: /
+    strings:
+      - "undefined"
+      - "NaN"
+      - "lorem"
+      - "TODO"
+      - "__"
+      - "core_success_event"
+
+  # The Spark unit: week 32, in sources, built from its normalised record.
+  - name: home links to week 32
+    type: contains
+    path: /
+    text: 'href="/e/32"'
+
+  - name: week 32 page status 200
+    type: status
+    path: /e/32
+    expect: 200
+
+  - name: week 32 page serves the week
+    type: contains
+    path: /e/32
+    text: "in sources"
+
+  - name: week 32 page shows all seven days
+    type: contains
+    path: /e/32
+    text: "Sunday <span data-numeral>1 Nov 2026</span>"
+
+  - name: week 32 page carries the framings board
+    type: contains
+    path: /e/32
+    text: 'class="board-row"'
+
+  - name: week 32 page carries the source ledger end marker
+    type: contains
+    path: /e/32
+    text: 'id="ledger-end"'
+
+  - name: week 32 page carries a build marker
+    type: meta
+    path: /e/32
+    meta_name: build
+
+  - name: week 32 page has no leftover placeholders
+    type: forbidden
+    path: /e/32
+    strings:
+      - "undefined"
+      - "NaN"
+      - "lorem"
+      - "TODO"
+      - "omnibus:week"
+      - "core_success_event"
+
+  - name: week 32 page loads nothing from a font CDN
+    type: forbidden
+    path: /e/32
+    strings:
+      - "fonts.googleapis.com"
+      - "fonts.gstatic.com"
+
+  - name: homepage carries no anonymous-id telemetry
+    type: forbidden
+    path: /
+    strings:
+      - "anon-id"
+      - "localStorage.setItem(\"anon"
+
+  - name: homepage loads nothing from a font CDN
+    type: forbidden
+    path: /
+    strings:
+      - "fonts.googleapis.com"
+      - "fonts.gstatic.com"
+
+  # Headers a <meta> tag cannot carry. Static pages get them from
+  # dist/_headers (scripts/build.mjs), Worker responses from
+  # worker/src/headers.ts.
+  - name: homepage cannot be framed (CSP)
+    type: header
+    path: /
+    header: content-security-policy
+    contains: "frame-ancestors 'none'"
+
+  - name: homepage cannot be framed (X-Frame-Options)
+    type: header
+    path: /
+    header: x-frame-options
+    expect: DENY
+
+  - name: homepage is not content-sniffed
+    type: header
+    path: /
+    header: x-content-type-options
+    expect: nosniff
+
+  - name: homepage sends no referrer
+    type: header
+    path: /
+    header: referrer-policy
+    expect: no-referrer
+
+  - name: homepage loads fonts from its own origin only
+    type: header
+    path: /
+    header: content-security-policy
+    contains: "font-src 'self'"
+
+  - name: healthz carries the API policy
+    type: header
+    path: /healthz
+    header: content-security-policy
+    expect: "default-src 'none'; frame-ancestors 'none'"
+
+  - name: healthz cannot be framed (X-Frame-Options)
+    type: header
+    path: /healthz
+    header: x-frame-options
+    expect: DENY
+
+  # The per-client rate limit actually bites. The Workers Rate Limiting
+  # binding only counts on Cloudflare, so this runs against the preview and
+  # production only. It must be the Worker's own refusal, not a WAF 1015
+  # page (also a 429), and it waits out the WAF's 10 s window first.
+  # The binding counts permissively, so the burst goes 20 at a time: 25
+  # sequential requests never tripped it (Dial's Spark release, 2026-09-26).
+  - name: rate limit bites on the Worker (deployed only)
+    type: burst
+    path: /healthz
+    count: 80
+    concurrency: 20
+    expect_status: 429
+    expect_error: rate_limited
+    pause_before_seconds: 11
+    requires: deployed
+
+# The zone's one free WAF rate-limiting rule, shared by every product on
+# voidvision.org. Not a check: the /release skill confirms the live rule
+# matches this before a release, and web/privacy.html discloses what it logs
+# (tests/privacy-page.test.ts pairs the two). Blocked requests are recorded
+# in Cloudflare's Security Events with IP, path and user agent.
+zone_waf_rule:
+  name: voidvision worker invocations
+  expression: '(not http.request.uri.path wildcard "/assets/*" and not cf.client.bot)'
+  characteristic: ip
+  requests: 30
+  period_seconds: 10
+  action: block
+  mitigation_timeout_seconds: 10
+  logs_blocked_requests: [ip, path, user_agent]
+
+events:
+  allowed:
+    - page_view
+    # The success event: a viewer reaches an episode's final 30 seconds.
+    - episode_completed
+    # The Spark unit: a week page read to its source ledger. Counted beside
+    # the success event, never in its place (docs/DECISIONS.md, 2026-11-11).
+    - week_opened
+    - feedback_received
+    - rate_limiter_error
+  # Counted only by the Worker code that does the thing being counted; /e
+  # rejects them, so a client cannot inflate them or exhaust their ceilings.
+  server_only:
+    - feedback_received
+    - rate_limiter_error
+
+# The one event the kill criteria in CHARTER.md count. It must be the
+# product's core action completing (an export, an order, a finished task),
+# never page views or feedback.
+success_event: episode_completed
