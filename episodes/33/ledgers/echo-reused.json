@@ -1,0 +1,18 @@
+{
+  "issue": 33,
+  "echo": "vietnam-war",
+  "written": "2026-11-12",
+  "document_ref": "document@b62c4fa",
+  "rules": [
+    "each reused item is named by its D: path, with sha256 recomputed at reuse and equal to the source ledger's",
+    "each entry is copied whole from its source ledger with transplanted_from: document@<sha>:films/<slug>/<ledger>#<id>",
+    "CC BY-SA 1.0 is refused, and so is anything not on omnibus's allowlist (scripts/lib/rights/licences.mjs)"
+  ],
+  "searched": [
+    "document@b62c4fa films/panama-canal/{stills,footage,pages,drawn,table,facts}-ledger.json",
+    "~/document-work/<film>/*-ledger.json for apollo13, black-sunday, endurance, episode, episode-v2, every-three-minutes, market-street, mountain-speaks, partition, sept11, smallpox, teaser, thirteen-days"
+  ],
+  "finding": "No void document ledger holds an item about the war or the American home front between 1964 and 31 March 1968, so nothing is reused. The Echo's items are new fetches (echo-pick.json items), to be ledgered by the fetcher in rights-ledger.json.",
+  "items": [],
+  "refused": []
+}
