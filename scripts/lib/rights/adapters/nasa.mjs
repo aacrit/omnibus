@@ -22,20 +22,23 @@ export function assetUrl(nasaId) {
 // NASA's own centres and offices. JPL is left out on purpose: it is run by
 // Caltech, and "NASA/JPL-Caltech" is a Caltech credit, not a federal work.
 const NASA_UNITS =
-  /^(HQ|JSC|KSC|GSFC|Goddard|MSFC|Marshall|ARC|Ames|LaRC|Langley|GRC|Glenn|AFRC|Armstrong|SSC|Stennis|WSTF|Johnson|Kennedy|NASA HQ|Headquarters|NASA Headquarters|Goddard Space Flight Center|Marshall Space Flight Center|Johnson Space Center|Kennedy Space Center|Stennis Space Center|Ames Research Center|Langley Research Center|Glenn Research Center|Armstrong Flight Research Center|White Sands Test Facility|Wallops Flight Facility|Wallops|Michoud Assembly Facility|Michoud|Scientific Visualization Studio|SVS|Conceptual Image Lab)$/i;
+  /^(HQ|JSC|KSC|GSFC|Goddard|MSFC|Marshall|ARC|Ames|LaRC|Langley|GRC|Glenn|AFRC|Armstrong|SSC|Stennis|WSTF|Johnson|Kennedy|NASA HQ|Headquarters|NASA Headquarters|Goddard Space Flight Center|Marshall Space Flight Center|Johnson Space Center|Kennedy Space Center|Stennis Space Center|Ames Research Center|Langley Research Center|Glenn Research Center|Armstrong Flight Research Center|White Sands Test Facility|Wallops Flight Facility|Wallops|Michoud Assembly Facility|Michoud|Scientific Visualization Studio|SVS|Conceptual Image Lab|(?:Goddard Space Flight Center|Goddard) (?:Conceptual Image Lab|Scientific Visualization Studio)|Earth Observatory|Worldview|EOSDIS)$/i;
+// T2c: a short list of NASA missions that stand after "NASA/" ("NASA/Explorer 1", "NASA/Apollo 11").
+const NASA_MISSIONS = /^(Mercury|Gemini|Apollo|Skylab|Explorer|Artemis|Space Shuttle|International Space Station|ISS)( [0-9]{1,3}| [IVX]{1,4})?$/;
 // Anything that names an organisation, so it cannot be a NASA staff photographer's name.
 // Whole words only: "Laura Rochon" is not AURA, "Ben Kaplan" is not APL, "Sierra Smith" is not Sierra Space.
 const ORG =
   /\b(Caltech|JPL|MSSS|Malin|SpaceX|Boeing|Lockheed|Northrop|Grumman|Blue Origin|Sierra Space|Sierra Nevada|Axiom|Orbital|Ball Aerospace|Maxar|Planet Labs?|ESA|JAXA|CSA|ISRO|CNES|DLR|Roscosmos|Hubble|Webb|STScI|AURA|APL|SwRI|Univ(ersity)?|College|Institut[eo]?|Observatory|Laborator(y|ies)|Labs?|Inc|LLC|Corp(oration)?|Ltd|GmbH|Getty|Reuters|AP|AFP|Agency|Company|Team|Sciences?|Aerospace|Space|Machines|Systems|Technolog(y|ies)|Industries|Dynamics|Robotics|Foundation|Museum|Society|Group|Studios?|Media|News|Press|Images|Photos|Photography)\b/i;
-const PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){0,3}$/;
-// A bare name standing alone in a credit field: a given name and a surname at least.
-const BARE_PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){1,3}$/;
+// T2c: a staff name is 2 to 4 words, each capitalised and none in capitals throughout
+// ("Bill Ingalls", "J. D. Smith"); "ULA", "CNSA", "ASI", "JHUAPL" and a lone "Bigelow" are not names.
+const PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){1,3}$/;
+const ALL_CAPS_WORD = /(^|\s)[A-Z]{2,}(?=\s|$)/;
 
-const isPerson = (p, re = PERSON) => re.test(p) && !ORG.test(p);
+const isPerson = (p) => PERSON.test(p) && !ALL_CAPS_WORD.test(p) && !ORG.test(p);
 
 /**
- * Whether one credit is NASA's alone: "NASA", "NASA/<centre>", or
- * "NASA/<staff photographer>". "NASA/JPL-Caltech", "SpaceX", "Boeing",
+ * Whether one credit is NASA's alone: "NASA", "NASA/<centre>", "NASA/<mission>",
+ * or "NASA/<staff photographer>" (T2c: 2 to 4 words, not in capitals). "NASA/JPL-Caltech", "SpaceX", "Boeing",
  * "ESA/Hubble & NASA" and anything joined with & , or "and" are not.
  */
 export function isNasaOnlyCredit(raw) {
@@ -44,7 +47,7 @@ export function isNasaOnlyCredit(raw) {
   if (/[&,;]|\band\b|\bwith\b/i.test(s)) return false;
   const parts = s.split(/\s*\/\s*/);
   if (!/^NASA$/i.test(parts[0])) return false;
-  return parts.slice(1).every((p) => NASA_UNITS.test(p) || isPerson(p));
+  return parts.slice(1).every((p) => NASA_UNITS.test(p) || NASA_MISSIONS.test(p) || isPerson(p));
 }
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -57,7 +60,7 @@ const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
  */
 export function isNasaStaffName(raw, { centre, texts = [] } = {}) {
   const name = plain(raw).trim();
-  if (!NASA_UNITS.test(plain(centre)) || !isPerson(name, BARE_PERSON)) return false;
+  if (!NASA_UNITS.test(plain(centre)) || !isPerson(name)) return false;
   const credited = new RegExp(`\\bNASA\\s*/\\s*${escapeRe(name).replace(/ /g, "\\s+")}(?![A-Za-z'’-])`, "i");
   return texts.some((t) => credited.test(plain(t)));
 }

@@ -418,6 +418,32 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
     }
   });
 
+  it("T2c: after NASA/, takes only NASA units, a short mission list or a 2 to 4 word name that is not all capitals", () => {
+    for (const no of ["NASA/ULA", "NASA/CNSA", "NASA/ASI", "NASA/Bigelow", "NASA/JHUAPL/CIW", "NASA/GSFC/ASU", "NASA/KARI", "NASA/Ingalls", "NASA/CIW", "NASA/JHU APL", "NASA/Sierra SNC"]) {
+      expect(nasa.isNasaOnlyCredit(no), no).toBe(false);
+    }
+    for (const ok of ["NASA/Explorer 1", "NASA/Apollo 11", "NASA/Artemis II", "NASA/Joel Kowsky", "NASA/Aubrey Gemignani", "NASA/J. D. Smith", "NASA/GSFC"]) {
+      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    }
+  });
+
+  it("T2c: reads Goddard's Conceptual Image Lab and Scientific Visualization Studio without the slash", () => {
+    for (const ok of [
+      "NASA Goddard Space Flight Center Conceptual Image Lab",
+      "NASA's Goddard Space Flight Center Conceptual Image Lab",
+      "NASA Goddard Space Flight Center Scientific Visualization Studio",
+      "NASA's Goddard Space Flight Center Scientific Visualization Studio",
+    ]) {
+      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    }
+    expect(nasa.isNasaOnlyCredit("NASA Goddard Space Flight Center Conceptual Image Lab/ASU")).toBe(false);
+  });
+
+  it("T2c: a bare all-capitals or one-word staff field is never read as a NASA photographer", () => {
+    expect(withData({ center: "KSC", photographer: "ULA", description: "Photo credit: NASA/ULA" }).licence).toBeNull();
+    expect(withData({ center: "KSC", photographer: "Bigelow", description: "Photo credit: NASA/Bigelow" }).licence).toBeNull();
+  });
+
   it("reads NASA's visualisation studios as NASA units", () => {
     for (const ok of ["NASA/Scientific Visualization Studio", "NASA/SVS", "NASA/Goddard/Conceptual Image Lab", "NASA's Scientific Visualization Studio"]) {
       expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
