@@ -1,0 +1,117 @@
+{
+  "title": "void omnibus: skeleton",
+  "slug": "skeleton",
+  "_note": "E2a (docs/TRANSPLANT-document-engine.md, episodes/skeleton/census.md): a 60 s omnibus-shaped skeleton built only from kinds the transplanted engine already knows (card, archive_still, archive_video, lower_third, ambience, narration), run through its house lints and a --draft render to find which refuse a news shape. Every voice and asset here is a test stand-in; no words are attributed to a real person.",
+  "languages": {"spoken": "en", "subtitles": ["en"]},
+  "runtime_target_s": 60,
+  "settings": {"master_fps": 24},
+  "as_of": "2026",
+  "ledgers": {
+    "stills": {"path": "stills-ledger.json", "media": "stills"},
+    "footage": {"path": "footage-ledger.json", "media": "footage"}
+  },
+  "cast": {
+    "speakers": [],
+    "voices": [
+      {"id": "v-narrator", "engine": "test-tone", "voice": "none", "credit": "Test tone in place of a narrator"}
+    ]
+  },
+  "parts": [
+    {
+      "id": "p-title", "kind": "title", "title": "void omnibus: skeleton",
+      "shots": [
+        {"id": "S1", "kind": "card", "start_s": 0.0, "dur_s": 2.5, "transition_in": {"type": "cut"},
+         "text": ["void omnibus", "skeleton"], "mark": "CARD", "why": "Series title card (E2a: a title_sequence item is net-new, not lifted here; see census A40)."}
+      ],
+      "lines": [], "cues": [], "text": []
+    },
+    {
+      "id": "ch-1", "kind": "chapter", "number": 1, "title": "The Week", "dates": "2 to 8 Nov",
+      "shots": [
+        {"id": "S2", "kind": "card", "start_s": 2.5, "dur_s": 2.0, "transition_in": {"type": "dip", "s": 0.5},
+         "text": ["1  The Week", "2 to 8 Nov"], "mark": "CARD", "why": "Chapter card."},
+        {"id": "S3", "kind": "archive_still", "start_s": 4.5, "asset": "FX-STILL-B", "preset": "HOLD", "dur_s": 5.0,
+         "fill_exception": "a small test scan: the fill would pass 1.6x at 360p",
+         "transition_in": {"type": "dip", "s": 0.5}, "mark": "DRAWN",
+         "why": "Cold open: held whole under a fill exception (A41), standing in for the week's opening frame."}
+      ],
+      "lines": [
+        {"id": "L1", "kind": "narration", "start_s": 5.0, "text": "A test tone stands in for the week's opening line.", "sources": []}
+      ],
+      "cues": [], "text": []
+    },
+    {
+      "id": "ch-2", "kind": "chapter", "number": 2, "title": "The Weight", "dates": "2026",
+      "shots": [
+        {"id": "S4", "kind": "card", "start_s": 9.5, "dur_s": 2.0, "transition_in": {"type": "dip", "s": 0.5},
+         "text": ["2  The Weight"], "mark": "CARD", "why": "Chapter card."},
+        {"id": "S5", "kind": "card", "start_s": 11.5, "dur_s": 3.0, "transition_in": {"type": "cut"},
+         "text": ["TEST CARD", "WEEK 33 · THE WEIGHT"], "mark": "CARD",
+         "why": "Standing in for a broadcast test card (E2a item 2)."},
+        {"id": "S6", "kind": "archive_still", "start_s": 14.5, "asset": "FX-STILL-A", "preset": "DRIFT", "dur_s": 6.0, "fill_ok": true,
+         "transition_in": {"type": "dip", "s": 0.5}, "mark": "DRAWN",
+         "why": "The still tour (E2a item 5): a DRIFT move inside the fill, never past fill_max_upscale (A41, A7)."}
+      ],
+      "lines": [], "cues": [
+        {"id": "C1", "kind": "ambience", "source": "amb-skeleton", "licence": "CC0", "start_s": 14.5, "end_s": 20.5, "gain_db": -20}
+      ], "text": []
+    },
+    {
+      "id": "ch-3", "kind": "chapter", "number": 3, "title": "The Echo", "dates": "2026",
+      "shots": [
+        {"id": "S7", "kind": "card", "start_s": 20.5, "dur_s": 2.0, "transition_in": {"type": "dip", "s": 0.5},
+         "text": ["3  The Echo"], "mark": "CARD", "why": "Chapter card."},
+        {"id": "S8", "kind": "card", "start_s": 22.5, "dur_s": 4.0, "transition_in": {"type": "cut"},
+         "text": ["BOARD", "7 sources this week"], "mark": "CARD",
+         "why": "Standing in for a board graphic (E2a item 3)."}
+      ],
+      "lines": [
+        {"id": "L2", "kind": "narration", "start_s": 23.0, "text": "A test tone stands in for the board's line.", "sources": []}
+      ],
+      "cues": [], "text": []
+    },
+    {
+      "id": "ch-4", "kind": "chapter", "number": 4, "title": "The Margins", "dates": "2026",
+      "shots": [
+        {"id": "S9", "kind": "card", "start_s": 26.5, "dur_s": 2.0, "transition_in": {"type": "dip", "s": 0.5},
+         "text": ["4  The Margins"], "mark": "CARD", "why": "Chapter card."},
+        {"id": "S10", "kind": "archive_video", "start_s": 28.5, "asset": "FX-TESTSRC", "in_s": 0.0, "out_s": 4.0,
+         "native_fps": "30000/1001", "sound": {"mode": "own"}, "dur_s": 4.0,
+         "transition_in": {"type": "dip", "s": 0.5}, "mark": "DRAWN",
+         "why": "Synthetic clip at 30000/1001, conformed to the master's 24 fps (A6, A44)."}
+      ],
+      "lines": [], "cues": [], "text": [
+        {"id": "T1", "kind": "lower_third", "start_s": 29.0, "end_s": 32.0,
+         "lines": ["The Margins", "Week 33 · skeleton"]}
+      ]
+    },
+    {
+      "id": "ch-5", "kind": "chapter", "number": 5, "title": "The Question", "dates": "2026",
+      "shots": [
+        {"id": "S11", "kind": "card", "start_s": 32.5, "dur_s": 2.0, "transition_in": {"type": "dip", "s": 0.5},
+         "text": ["5  The Question"], "mark": "CARD", "why": "Chapter card."},
+        {"id": "S12", "kind": "card", "start_s": 34.5, "dur_s": 6.0, "transition_in": {"type": "cut"},
+         "text": ["What, of this week, will still matter in ten years’ time?"], "mark": "CARD",
+         "why": "The closing question (E2a item 6): a card, never answered, never narrated with hindsight."}
+      ],
+      "lines": [
+        {"id": "L3", "kind": "narration", "start_s": 35.0, "text": "What, of this week, will still matter in ten years’ time?", "sources": []}
+      ],
+      "cues": [], "text": []
+    },
+    {
+      "id": "p-credits", "kind": "credits", "title": "Credits",
+      "shots": [
+        {"id": "S13", "kind": "card", "start_s": 40.5, "dur_s": 19.5, "transition_in": {"type": "cut"}, "mark": "CARD",
+         "why": "Credits, generated from the timeline."}
+      ],
+      "lines": [], "cues": [], "text": []
+    }
+  ],
+  "subtitle_source": [
+    {"ref": "L1", "start_s": 5.0, "end_s": 7.5, "en": "A test tone stands in for the week's opening line."},
+    {"ref": "L2", "start_s": 23.0, "end_s": 25.5, "en": "A test tone stands in for the board's line."},
+    {"ref": "T1", "start_s": 29.0, "end_s": 32.0, "en": "[The Margins, Week 33, skeleton.]"},
+    {"ref": "L3", "start_s": 35.0, "end_s": 37.5, "en": "What, of this week, will still matter in ten years’ time?"}
+  ]
+}

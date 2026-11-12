@@ -1,0 +1,1429 @@
+# Transplanted from document@b62c4fa:studio/tests/test_a40_title_sequence.py (lift)
+"""A40, the series titles (void document · As It Was): a pre-rendered master played as it is, right after the cold
+open and before Part 1, its own marks burned in and checked on its pixels, its provenance declared and free of AI,
+its format matched, its record beat this film's own record; the main-title theme's slot under it. Small synthetic
+masters (4 s of 1080p24 FFV1) stand in for the 57 s ones."""
+
+from __future__ import annotations
+
+import json
+import os
+import shutil
+import subprocess
+from pathlib import Path
+
+import numpy as np
+import pytest
+from PIL import Image, ImageDraw, ImageOps
+
+from conftest import make_film, tone
+from studio.engine import description as D
+from studio.engine import journal as J
+from studio.engine import motion as M
+from studio.engine import render as R
+from studio.engine import score as SC
+from studio.engine import titles as TS
+from studio.engine import viewxf as VX
+
+N = 96                                  # 4 s
+COLD_S = 2.0
+TITLE_S = N / TS.FPS
+SHIFT = COLD_S + TITLE_S
+TL = [{"frame": 0, "cls": "DRAWN", "label": "Drawn · from period records"},
+      {"frame": 36, "cls": "ARCHIVE", "label": "Archive · 1947"},
+      {"frame": 60, "cls": "CARD"}]
+DIP = {"centre_frame": 60, "s": 0.75}
+
+
+def _machine(W, H):
+    y, x = np.mgrid[0:H, 0:W]
+    a = np.stack([40 + 60 * x / W, 30 + 40 * y / H, 20 + 30 * (x + y) / (W + H)], axis=2)
+    return Image.fromarray(a.astype(np.uint8))
+
+
+def _lockup(W, H):
+    img = Image.new("RGB", (W, H), (0, 0, 0))
+    ImageDraw.Draw(img).text((W / 2, H / 2), TS.SERIES, font=M._font(M.Fonts().display, 60), fill=M.PALETTE["bone"], anchor="mm")
+    return img
+
+
+CLICK_FRAME = 36                        # the master's Foley click: on the cut to the record (its frame 36 at 24)
+FOLEY_DBFS = -24.0                      # the stand-in Foley's bed (the v5c masters: -24 dBFS RMS, -21.4 LUFS), and the
+                                        # room its last ROOM_TAIL_S hold (theirs about -70 dBFS)
+ROOM_DBFS = -70.0
+ROOM_TAIL_S = 1.0 + TS.ROOM_S
+
+
+def sound_wav(path, dur_s, *, fps=24.0, click_frame=CLICK_FRAME, sound="foley"):
+    """The master's own track, as the real ones carry it (Foley, then the room): stereo 48 kHz, ``dur_s`` long; a
+    noise bed at FOLEY_DBFS with one click on master frame ``click_frame`` (its time at ``fps``), then ROOM_TAIL_S
+    of room at ROOM_DBFS. ``sound="silent"``: digital zero throughout."""
+    import soundfile as sf
+    n = int(round(dur_s * 48000))
+    x = np.zeros((n, 2), np.float32)
+    if sound != "silent":
+        rng = np.random.default_rng(7)
+        bed = rng.standard_normal((n, 2)).astype(np.float32)
+        room0 = n - int(round(ROOM_TAIL_S * 48000))
+        x[:room0] = bed[:room0] * np.float32(10 ** (FOLEY_DBFS / 20))
+        x[room0:] = bed[room0:] * np.float32(10 ** (ROOM_DBFS / 20))
+        c = int(round(click_frame / fps * 48000))
+        x[c: c + 48] = 0.25                         # a 1 ms click, both channels, about 12 dB over the bed's loudness
+                                                    # (the v5c masters' oak hits: -0.94 dBTP over -21.4 LUFS)
+    sf.write(str(path), x, 48000, subtype="FLOAT")
+    return path
+
+
+def make_master(path, record_png, *, burned=True, glyph_on_hold=True, n=N, pose=None, rec_pic=None, sound="foley"):
+    """A short master in the real ones' shape: the machine (DRAWN), a cut to the record held whole (ARCHIVE), a dip
+    and the lockup (CARD), the marks burned in as assemble.py burns them (or none). ``pose`` (window, from_frame): the
+    record beat tours to that window of the scan filling the frame and rests there from from_frame (A7 under A41).
+    ``rec_pic``: the record beat's picture as given (a camera's view of the page) instead of the scan held whole.
+    ``sound``: its own track (sound_wav: "foley", or "silent"), or None for a master with no audio stream."""
+    W, H = TS.SIZE
+    fonts = M.Fonts()
+    machine, lock = _machine(W, H), _lockup(W, H)
+    rec = rec_pic if rec_pic is not None else TS.hold_fit(Image.open(record_png), W, H)
+    black = Image.new("RGB", (W, H), (0, 0, 0))
+    toured = TS.pose_fit(Image.open(record_png), pose[0], W, H) if pose is not None else None
+    item = {"marks": TL, "dip": DIP, "frames": n}
+    holds = TS.dip_hold_frames(item)
+    shots = [{"start": m["frame"] / 24, "cls": m["cls"], "label": m.get("label", "")} for m in TL]
+    t0 = DIP["centre_frame"] / 24 - DIP["s"] / 2
+    aud = [] if sound is None else ["-i", str(sound_wav(path.with_suffix(".sound.wav"), n / 24, sound=sound)),
+                                    "-map", "0:v:0", "-map", "1:a:0", "-c:a", "pcm_s16le"]
+    p = subprocess.Popen([R.ffmpeg(), "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", "24",
+                          "-i", "-", *aud, "-c:v", "ffv1", "-level", "3", "-g", "1", "-pix_fmt", "bgr0", str(path)],
+                         stdin=subprocess.PIPE)
+    for k in range(n):
+        t = k / 24
+        pic = machine if k < 36 else rec if k < 60 else lock
+        if pose is not None and pose[1] <= k < 60:
+            pic = toured
+        if t0 <= t < t0 + DIP["s"]:
+            pic = Image.blend(black, pic, M.dip_level(t - t0, DIP["s"]))
+        if burned and (glyph_on_hold or k not in holds):
+            pic = M.mark_frame(pic, t, shots, fonts).convert("RGB")
+        p.stdin.write(np.asarray(pic.convert("RGB")).tobytes())
+    p.stdin.close()
+    assert p.wait() == 0
+    return path
+
+
+@pytest.fixture(scope="session")
+def masters(tmp_path_factory, film):
+    d = tmp_path_factory.mktemp("masters")
+    rec = film / "stills" / "FX-STILL-B.png"
+    return {"dir": d,
+            "burned": make_master(d / "burned.mkv", rec),
+            "clean_dip": make_master(d / "clean-dip.mkv", rec, glyph_on_hold=False),
+            "bare": make_master(d / "bare.mkv", rec, burned=False)}
+
+
+def _sha(p):
+    import hashlib
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def titled_film(tmp_path, masters, *, master="burned", item=None, prov_items=None, prov_sound=None, records=None,
+                 shot=None, edit=None):
+    """The fixture film with a cold open and the series titles before its title card; everything after them moves
+    on by SHIFT. ``item``, ``prov_items``, ``prov_sound``, ``records`` and ``shot`` override the defaults;
+    ``edit(play)`` runs last."""
+    film = make_film(tmp_path / "film")
+    stills = json.loads((film / "stills-ledger.json").read_text(encoding="utf-8"))
+    items = stills if isinstance(stills, list) else stills["items"]
+    rec_file = film / "stills" / "FX-STILL-B.png"
+    items.append({"id": "FX-REC", "file": "FX-STILL-B.png", "title": "A stand-in record of 17 August 1947", "date": "1947-08-17",
+                  "archive": "fixture archive", "archive_short": "fixture", "licence": "Public domain", "basis": "test",
+                  "credit": "fixture", "sha256": _sha(rec_file), "shows_bodies": False, "graphic_medical": False,
+                  "named_patient": False, "shows_violence": False})
+    (film / "stills-ledger.json").write_text(json.dumps(stills), encoding="utf-8")
+    prov = {"ledger": "title-sequence assets", "rule": "no AI pixels",
+            "records": records if records is not None else {"FX-REC": {"sha256": _sha(rec_file), "cls": "ARCHIVE"}},
+            "items": prov_items if prov_items is not None else [
+                {"id": "T-01", "title": "A clay tablet", "licence": "CC0", "ai": False, "source_page": "https://example.org/t01",
+                 "licence_evidence": "read 2026-10-16", "sha256": "0" * 64, "holder": "A museum",
+                 "credit_kind": "period record"},
+                {"id": "T-13", "title": "A tabulator", "licence": "CC BY 2.0", "ai": False, "credit": "A photographer",
+                 "source_page": "https://example.org/t13", "basis": "CC BY 2.0 on the file page", "sha256": "1" * 64,
+                 "credit_kind": "museum-object scan"}],
+            "sound": prov_sound if prov_sound is not None else [
+                {"id": "FX-01", "title": "Paper flutter", "licence": "CC0", "ai": False, "source_page": "https://example.org/fx01",
+                 "licence_evidence": "read 2026-10-16", "sha256": "4" * 64}]}
+    (film / "title-assets.json").write_text(json.dumps(prov), encoding="utf-8")
+    src = masters[master]
+    it = {"id": "TS-test", "file": src.name, "title": f"{TS.SERIES}, series titles (test)", "version": "v1",
+          "creator": "void document studio", "archive_short": "void document studio", "source_short": "period records",
+          "date": "2026-10-17", "content_date": "1947-08-17", "content_basis": "the latest record shown, FX-REC",
+          "generator": "a test master", "licence": "CC BY 2.0", "basis": "the studio's own work from its provenance",
+          "credit": "void document studio", "ai": False, "provenance": "title-assets.json", "record": "FX-REC",
+          "fps": 24, "width": 1920, "height": 1080, "frames": N, "burned": master != "bare", "marks": TL,
+          "record_frames": [40, 50], "dip": DIP, "lockup_frame": 84,
+          "shows_bodies": False, "graphic_medical": False, "named_patient": False, "shows_violence": False}
+    it.update(item or {})
+    (film / "masters-ledger.json").write_text(json.dumps({"items": [it]}), encoding="utf-8")
+    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    play["ledgers"]["titles"] = {"path": "masters-ledger.json", "media": str(masters["dir"])}
+
+    def move(x):
+        for k in ("start_s", "end_s"):
+            if isinstance(x.get(k), (int, float)):
+                x[k] = round(x[k] + SHIFT, 4)
+
+    for part in play["parts"]:
+        for coll in ("shots", "lines", "cues", "text"):
+            for x in part.get(coll, []):
+                move(x)
+    for x in play.get("subtitle_source", []) + play.get("music", []) + play.get("moments", []):
+        move(x)
+    # A55 (voice-over-black): L2 shifted along with S8 (still inside it); move it onto S5 (an archive_still, never
+    # black) so a render here doesn't refuse for voice-over-black instead of whatever this helper's own tests check.
+    next(ln for part in play["parts"] for ln in part.get("lines", []) if ln["id"] == "L2")["start_s"] = round(12.5 + SHIFT, 4)
+    play["runtime_target_s"] = play["runtime_target_s"] + SHIFT
+    ts = {"id": "TS1", "kind": "title_sequence", "start_s": COLD_S, "dur_s": TITLE_S, "asset": "TS-test", "mark": "DRAWN",
+          "transition_in": {"type": "cut"}, "why": "The series titles, after the hook."}
+    ts.update(shot or {})
+    play["parts"][:0] = [
+        {"id": "cold", "kind": "cold_open", "title": "Cold open", "shots": [
+            {"id": "CO1", "kind": "black", "start_s": 0.0, "dur_s": COLD_S, "mark": "CARD", "transition_in": {"type": "cut"},
+             "silence": "intended", "why": "The hook, in this test a breath of black."}]},
+        {"id": "series", "kind": "series_title", "title": TS.SERIES, "shots": [ts]}]
+    if edit:
+        edit(play)
+    (film / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    return film
+
+
+def plan_of(film, W=640, H=360, draft=False):
+    j = J.Journal(film="a40")
+    try:
+        return R.build_plan(film, W=W, H=H, burn_subtitles=False, journal=j, draft=draft), j
+    except R.Refused as e:
+        return e, j
+
+
+def lints(j, rule):
+    return [e for e in J.read(j.path) if e.get("kind") == "lint" and e.get("rule") == rule]
+
+
+def passed(j, rule):
+    got = lints(j, rule)
+    return bool(got) and all(e.get("status") == "pass" for e in got)
+
+
+def failed(j, rule):
+    return any(e.get("status") == "fail" for e in lints(j, rule))
+
+
+RULES = ("title-sequence-once", "title-sequence-place", "title-sequence-transitions", "title-sequence-clear",
+         "title-audio-slot", "title-provenance", "title-licence", "title-no-ai", "title-format", "title-record",
+         "title-record-pixels", "title-marks", "title-lockup")
+
+
+# --------------------------------------------------------------------------
+# The good case
+# --------------------------------------------------------------------------
+
+
+def test_a40_a_burned_master_after_the_cold_open_passes_every_lint(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters))
+    assert not isinstance(plan, Exception), plan
+    for rule in RULES:
+        assert passed(j, rule), (rule, lints(j, rule))
+    s = next(x for x in plan["shots"] if x["id"] == "TS1")
+    assert s["f1"] - s["f0"] == N and s["_title"]["burned"] is True
+    # the master's own dip shows the glyph on its black hold, as the real masters do: a warning and a reviewer item
+    assert any(e["status"] == "fail" and e["severity"] == "warn" for e in lints(j, "title-dip-hold"))
+    assert lints(j, "title-dip-hold-review")
+    # A40 standalone audio: the title plays its own sound, so its span is no declared silence and nothing is pending
+    assert passed(j, "title-audio") and passed(j, "title-audio-sync")
+    assert (COLD_S, COLD_S + TITLE_S) not in plan["silences"] and not lints(j, "title-theme-pending")
+    (ta,) = plan["title_audio"]
+    assert ta["shot"] == "TS1" and ta["gain_declared"] is False and ta["silent"] is False and ta["tail"] is None
+    assert ta["end_s"] == pytest.approx(SHIFT) and ta["sync_max_offset_ms"] == 0.0     # 1:1, the lockup in the master
+
+
+def test_a40_a_clean_dip_needs_no_warning(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, master="clean_dip"))
+    assert not isinstance(plan, Exception), plan
+    assert passed(j, "title-dip-hold") and not lints(j, "title-dip-hold-review")
+
+
+def test_a40_the_titles_hold_no_ai_and_the_plan_draws_no_key(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters))
+    assert "key_classes" not in plan                         # A56: the mark key card is retired from films
+    assert lints(j, "title-no-ai")[0]["status"] == "pass"
+
+
+def test_a40_the_plan_marks_hand_the_next_shot_the_class_the_master_ends_on(tmp_path, masters):
+    plan, _ = plan_of(titled_film(tmp_path, masters))
+    i = [s["id"] for s in plan["shots"]].index("TS1")
+    assert plan["marks"][i]["cls"] == "CARD" and plan["marks"][i]["label"] == ""
+    # its lockup is a CARD span: the film's watermark is off there
+    assert any(abs(a - (COLD_S + 60 / 24)) < 1e-6 and abs(b - SHIFT) < 1e-6 for a, b in plan["card_spans"])
+
+
+# --------------------------------------------------------------------------
+# Each lint, the other way
+# --------------------------------------------------------------------------
+
+
+def test_a40_the_titles_go_right_after_the_cold_open(tmp_path, masters):
+    def late(play):                         # the title part moved after the film's title card
+        series = play["parts"].pop(1)
+        play["parts"].insert(2, series)
+        title_part = play["parts"][1]
+        for s in title_part["shots"]:
+            s["start_s"] = round(s["start_s"] - TITLE_S, 4)
+        series["shots"][0]["start_s"] = round(title_part["shots"][-1]["start_s"] + title_part["shots"][-1]["dur_s"], 4)
+    plan, j = plan_of(titled_film(tmp_path, masters, edit=late))
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-place")
+
+
+def test_a40_nothing_dissolves_into_the_titles(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, shot={"transition_in": {"type": "dip", "s": 0.5}}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-transitions")
+
+
+def test_a40_no_voice_or_lower_third_over_the_titles(tmp_path, masters):
+    def voice(play):
+        play["parts"][1]["lines"] = [{"id": "LX", "kind": "narration", "start_s": COLD_S + 1.0, "text": "Over the titles."}]
+        play["parts"][1]["text"] = [{"id": "TX", "kind": "lower_third", "start_s": COLD_S, "end_s": COLD_S + 2,
+                                     "lines": ["A place", "1947"]}]
+    film = titled_film(tmp_path, masters, edit=voice)
+    tone(film / "audio" / "LX.wav", 1.0)
+    plan, j = plan_of(film)
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-clear")
+    assert {"LX", "TX"} <= set(next(e for e in lints(j, "title-sequence-clear") if e["status"] == "fail")["evidence"]["over"])
+
+
+def test_a40_no_film_cue_sounds_under_the_titles_not_even_the_theme_or_the_motif(tmp_path, masters):
+    """A40 standalone audio (founder 2026-10-26): the title carries its own sound and the film's score starts after
+    it; no main-title cue in films. So nothing a film places sounds under the title: a bed, the house motif, the theme,
+    an ambience; a cue that ends at the title's first frame or starts at its last passes."""
+    cases = {"bed": {"id": "B1", "kind": "music", "start_s": 0.5, "end_s": COLD_S + 2.0, "wav": "score/b1.wav"},
+             "motif": {"id": "M1", "kind": "music", "role": "house_motif", "start_s": COLD_S, "end_s": SHIFT, "wav": "m.wav"},
+             "room": {"id": "A1", "kind": "ambience", "start_s": COLD_S + 1, "end_s": SHIFT, "wav": "a.wav"}}
+    for name, cue in cases.items():
+        plan, j = plan_of(titled_film(tmp_path / name, masters, edit=lambda play, c=cue: play.update(music=[c])))
+        assert isinstance(plan, R.Refused) and failed(j, "title-audio-slot"), name
+        assert not lints(j, "title-theme-pending")
+    theme = {"id": "MT", "kind": "music", "role": "main_title", "start_s": COLD_S, "end_s": SHIFT, "wav": "mt.wav"}
+    plan, j = plan_of(titled_film(tmp_path / "theme", masters, edit=lambda play: play.update(music=[theme])))
+    assert isinstance(plan, R.Refused) and failed(j, "title-audio-slot") and failed(j, "title-theme")
+    assert "no main-title cue in a film" in next(e for e in lints(j, "title-theme") if e["status"] == "fail")["evidence"]["fix"]
+    plan, j = plan_of(titled_film(tmp_path / "elsewhere", masters,
+                                  edit=lambda play: play.update(music=[dict(theme, start_s=SHIFT + 5, end_s=SHIFT + 8)])))
+    assert isinstance(plan, R.Refused) and failed(j, "title-theme")
+    edges = [{"id": "B0", "kind": "music", "start_s": 0.0, "end_s": COLD_S, "wav": "b0.wav"},
+             {"id": "B2", "kind": "music", "start_s": SHIFT, "end_s": SHIFT + 3, "wav": "b2.wav"}]
+    plan, j = plan_of(titled_film(tmp_path / "edges", masters, edit=lambda play: play.update(music=edges)))
+    assert not isinstance(plan, Exception), plan
+    assert passed(j, "title-audio-slot")
+
+
+def test_a40_the_main_title_role_is_featured_and_recurs_by_design():
+    c = {"kind": "music", "role": "main_title"}
+    assert SC.cue_role(c) == "main_title" and SC.role_problem(c) is None
+    assert "main_title" in SC.FEATURED and "main_title" in SC.BRAND and "main_title" not in SC.UNDERSCORE
+    assert SC.role_problem({"kind": "music", "role": "main_title", "score_role": "bed"}) is not None
+
+
+def test_a40_provenance_must_be_declared_open_and_sourced(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path / "a", masters, item={"provenance": "missing.json"}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-provenance")
+    bad = [{"id": "T-99", "title": "x", "licence": "CC BY-NC 4.0", "ai": False, "source_page": "https://e.org", "basis": "b",
+            "sha256": "2" * 64}]
+    plan, j = plan_of(titled_film(tmp_path / "b", masters, prov_items=bad))
+    assert isinstance(plan, R.Refused) and failed(j, "title-provenance")
+    unsourced = [{"id": "T-98", "title": "x", "licence": "CC0", "ai": False}]
+    plan, j = plan_of(titled_film(tmp_path / "c", masters, prov_items=unsourced))
+    ev = next(e for e in lints(j, "title-provenance") if e["status"] == "fail")["evidence"]
+    assert any("source page" in p for p in ev["problems"]) and any("sha256" in p for p in ev["problems"])
+
+
+def test_a40_mit_is_allowed_for_a_sound_input_but_refused_for_a_picture_input(tmp_path, masters):
+    """Founder ruling 2026-11-07: MIT (the RWTH Aachen room impulse response, used in the title Foley mix) is
+    allowed only in the ledger's ``sound`` section; an MIT picture item (in ``items``) is still refused."""
+    plan, j = plan_of(titled_film(tmp_path / "sound-ok", masters, prov_sound=[AIR_SOUND]))
+    assert not isinstance(plan, R.Refused), plan
+    assert passed(j, "title-provenance")
+    mit_picture = [{"id": "T-99", "title": "a texture", "licence": "MIT", "ai": False, "source_page": "https://e.org",
+                    "basis": "b", "sha256": "6" * 64}]
+    plan, j = plan_of(titled_film(tmp_path / "picture-refused", masters, prov_items=mit_picture))
+    assert isinstance(plan, R.Refused) and failed(j, "title-provenance")
+    ev = next(e for e in lints(j, "title-provenance") if e["status"] == "fail")["evidence"]
+    assert any("not allowed" in p for p in ev["problems"])
+    # an MIT image filed under sound is not sound: refused
+    png = [dict(AIR_SOUND, id="TEX-01", file="D:/media/texture.png")]
+    plan, j = plan_of(titled_film(tmp_path / "png-under-sound", masters, prov_sound=png))
+    assert isinstance(plan, R.Refused) and failed(j, "title-provenance")
+    ev = next(e for e in lints(j, "title-provenance") if e["status"] == "fail")["evidence"]
+    assert any("TEX-01" in p and "only for sound" in p for p in ev["problems"])
+
+
+# Shaped like the real v11 ledger's sound entries (D:/document-media/title-sequence/v11/provenance-v11.json): the
+# house IR names its holder and no creator; the studio's own theme stems are CC BY 4.0 with no holder.
+AIR_SOUND = {"id": "AIR-1.4-lecture", "holder": "Institute of Communication Systems and Data Processing (IND), RWTH Aachen University",
+             "title": "Aachen Impulse Response Database, lecture room",
+             "file": "D:/document-media/house-room/AIR_1_4/air_binaural_lecture_1_1_2.mat", "sha256": "5" * 64,
+             "source_page": "https://www.iks.rwth-aachen.de/en/research/tools-downloads/databases/aachen-impulse-response-database/",
+             "licence": "MIT", "licence_evidence": "D:/document-media/house-room/AIR_1_4/license.txt", "ai": False}
+THEME_SOUND = {"id": "THEME-v11-RW", "title": "the Fall theme conformed notes-only to the RW title's events",
+               "file": "D:/document-media/title-sequence/theme-v11/the-fall-theme-v11-RW.wav", "sha256": "7" * 64,
+               "licence": "CC BY 4.0", "ai": False, "basis": "composed by the studio's music director",
+               "source_page": "compose_v8.py"}
+
+
+def test_a40_the_mit_sound_credit_reaches_sources_json_the_credits_and_the_description(tmp_path, masters):
+    """The house IR's MIT credit reaches sources.json (title_sequence.sound), the credits' Series titles block and
+    description.txt, by its holder; the studio's own theme stems (CC BY 4.0, shared ledger) print in none of them."""
+    themes = [THEME_SOUND, dict(THEME_SOUND, id="THEME-v11-NFA"), dict(THEME_SOUND, id="THEME-v11-NV")]
+    plan, j = plan_of(titled_film(tmp_path, masters, prov_sound=[AIR_SOUND, *themes]))
+    assert not isinstance(plan, R.Refused), plan
+    doc = R.sources_doc(plan, j, {})
+    s = next(x for x in doc["shots"] if x["id"] == "TS1")
+    assert [x["id"] for x in s["title_sequence"]["sound"]] == ["AIR-1.4-lecture"]
+    assert s["title_sequence"]["sound"][0]["holder"] == AIR_SOUND["holder"]
+    assert "file" not in s["title_sequence"]["sound"][0] and "licence_evidence" not in s["title_sequence"]["sound"][0]
+    series = dict(plan["credits"])["Series titles"]
+    assert any("Aachen Impulse Response" in ln for ln in series)
+    assert any("MIT licence" in ln for ln in series)
+    assert not any("Fall theme" in ln for ln in series)
+    t = D.description_text(doc, {"slug": "fixture", "title": "Fixture film"})
+    assert ("Aachen Impulse Response Database, lecture room. By " + AIR_SOUND["holder"] + ". MIT licence. "
+            + AIR_SOUND["source_page"]) in t
+    assert "Fall theme" not in t
+
+
+def test_a40_the_masters_licence_is_as_demanding_as_its_inputs(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, item={"licence": "CC0"}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-licence")
+    assert TS.licence_rank("Public domain") < TS.licence_rank("CC0") < TS.licence_rank("CC BY 2.0") < TS.licence_rank("CC BY-SA 4.0")
+
+
+def test_a40_no_ai_anywhere_in_the_titles(tmp_path, masters):
+    ai = [{"id": "T-50", "title": "a texture", "licence": "CC0", "ai": True, "source_page": "local", "basis": "b",
+           "sha256": "3" * 64}]
+    plan, j = plan_of(titled_film(tmp_path / "a", masters, prov_items=ai))
+    assert isinstance(plan, R.Refused) and failed(j, "title-no-ai")
+    plan, j = plan_of(titled_film(tmp_path / "b", masters, item={"ai": None}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-no-ai")
+    plan, j = plan_of(titled_film(tmp_path / "c", masters, shot={"mark": "AI-GENERATED"}))
+    assert isinstance(plan, R.Refused) and failed(j, "mark-class-valid")
+
+
+@pytest.mark.parametrize("over", [{"frames": N - 1}, {"fps": 25}, {"width": 1280}])
+def test_a40_size_rate_and_length_must_match_the_ledger(tmp_path, masters, over):
+    plan, j = plan_of(titled_film(tmp_path, masters, item=over))
+    assert isinstance(plan, R.Refused) and failed(j, "title-format")
+
+
+def test_a40_the_shot_runs_the_masters_length(tmp_path, masters):
+    def longer(play):
+        play["parts"][1]["shots"][0]["dur_s"] = TITLE_S + 1.0
+        for part in play["parts"][2:]:
+            for s in part["shots"]:
+                s["start_s"] = round(s["start_s"] + 1.0, 4)
+    plan, j = plan_of(titled_film(tmp_path, masters, edit=longer))
+    assert isinstance(plan, R.Refused) and failed(j, "title-format")
+
+
+def test_a40_the_record_is_this_films_own(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path / "a", masters, item={"record": "S-999"}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-record")
+    plan, j = plan_of(titled_film(tmp_path / "b", masters, records={}))           # not in the title's own records
+    assert isinstance(plan, R.Refused) and failed(j, "title-record")
+    plan, j = plan_of(titled_film(tmp_path / "c", masters, records={"FX-REC": {"sha256": "f" * 64}}))   # another file
+    assert isinstance(plan, R.Refused) and failed(j, "title-record")
+    marks = [dict(m) for m in TL]
+    marks[1]["label"] = "Archive · 1946"                                           # the label's year is not the record's
+    plan, j = plan_of(titled_film(tmp_path / "d", masters, item={"marks": marks}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-record")
+
+
+def test_a40_the_record_beats_pixels_are_the_films_scan(tmp_path, masters):
+    # the record names another still of the film (drawn, as the fixture's stills are): its pixels do not match
+    marks = [TL[0], dict(TL[1], cls="DRAWN", label="Drawn · 2026"), TL[2]]
+    film = titled_film(tmp_path, masters, item={"record": "FX-STILL-A", "marks": marks}, records={"FX-STILL-A": {}})
+    plan, j = plan_of(film)
+    assert passed(j, "title-record"), lints(j, "title-record")
+    assert isinstance(plan, R.Refused) and failed(j, "title-record-pixels")
+
+
+def test_a40_burned_marks_must_match_the_declared_timeline(tmp_path, masters):
+    wrong = [dict(TL[0], cls="ARCHIVE", label="Archive · 1947"), TL[1], TL[2]]
+    plan, j = plan_of(titled_film(tmp_path, masters, item={"marks": wrong}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-marks")
+
+
+def test_a40_a_burned_master_is_never_marked_again(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, item={"burned": False}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-marks")
+    assert next(e for e in lints(j, "title-marks") if e["status"] == "fail")["evidence"]["already_marked"]
+
+
+def test_a40_a_master_without_its_lockup_is_refused(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, item={"lockup_frame": 20}))     # a machine frame: no lockup there
+    assert isinstance(plan, R.Refused) and failed(j, "title-lockup")
+
+
+def test_a40_the_master_is_dated_by_its_content_for_a0(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, item={"content_date": "2030"}))
+    assert isinstance(plan, R.Refused)
+    assert any(e["status"] == "fail" and e.get("unit") == "TS1" for e in lints(j, "as-of"))
+
+
+# --------------------------------------------------------------------------
+# Frames: played as they are; ours only where the master has none
+# --------------------------------------------------------------------------
+
+
+def test_a40_a_burned_master_plays_as_it_is(tmp_path, masters):
+    plan, _ = plan_of(titled_film(tmp_path, masters), W=1920, H=1080)
+    s = next(x for x in plan["shots"] if x["id"] == "TS1")
+    ff = R.ffmpeg()
+    pics = R.Pictures(plan)
+    try:
+        for k in (0, 20, 45, 84):
+            got = R.render_frame(plan, s["f0"] + k, pics)
+            want = TS.read_frame(ff, str(masters["burned"]), k)
+            assert np.array_equal(got, want), k                       # not a pixel drawn over it: no double mark
+            assert TS.check_frame(pics.title_native, s["_item"], k) in ("burned", "fade")
+    finally:
+        pics.close()
+
+
+def test_a40_a_bare_master_gets_our_marks_from_its_timeline(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters, master="bare"))
+    assert not isinstance(plan, Exception), plan
+    assert passed(j, "title-marks")
+    s = next(x for x in plan["shots"] if x["id"] == "TS1")
+    pics = R.Pictures(plan)
+    try:
+        for k, cls in ((10, "DRAWN"), (45, "ARCHIVE"), (84, "CARD")):
+            arr = R.render_frame(plan, s["f0"] + k, pics)
+            assert TS.check_frame(arr, s["_item"], k) == "burned" and TS.glyph_shows(arr, cls), k
+        hold = TS.dip_hold_frames(s["_item"])[0]
+        assert not R.render_frame(plan, s["f0"] + hold, pics).any()   # its own dip's black hold stays black
+    finally:
+        pics.close()
+
+
+def test_a40_the_frame_check_tells_a_square_from_a_diamond_and_finds_a_missing_glyph(masters):
+    item = {"marks": TL, "dip": DIP, "frames": N}
+    a = TS.read_frame(R.ffmpeg(), str(masters["burned"]), 10)
+    assert TS.check_frame(a, item, 10) == "burned"
+    assert TS.check_frame(a, dict(item, marks=[dict(TL[0], cls="AI-GENERATED")] + TL[1:]), 10) == "fail"
+    bare = TS.read_frame(R.ffmpeg(), str(masters["bare"]), 10)
+    assert TS.check_frame(bare, item, 10) == "fail" and TS.any_glyph(bare) is None
+
+
+def test_a40_sources_and_credits_show_the_titles(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path, masters))
+    doc = R.sources_doc(plan, j, {})
+    s = next(x for x in doc["shots"] if x["id"] == "TS1")
+    assert s["kind"] == "title_sequence" and s["title_sequence"]["record"] == "FX-REC"
+    assert [p["id"] for p in s["title_sequence"]["provenance"]] == ["T-01", "T-13"]
+    a, b = COLD_S, SHIFT
+    pieces = [(round(m["from_s"], 3), m["class"]) for m in doc["marks"] if a - 1e-6 <= m["from_s"] < b - 1e-6]
+    assert [c for _, c in pieces][:3] == ["DRAWN", "ARCHIVE", "CARD"]
+    assert abs(sum(doc["share"].values()) - 1.0) < 1e-3
+    series = dict(plan["credits"])["Series titles"]
+    assert series[0].startswith(TS.SERIES) and any("CC BY 2.0" in ln and "A tabulator" in ln for ln in series)
+
+
+def test_a40_a_render_with_the_titles_passes_mark_coverage(tmp_path, masters):
+    def longer_credits(play):              # the Series titles block lengthens the roll (credits-roll)
+        play["parts"][-1]["shots"][-1]["dur_s"] += 6.0
+        play["runtime_target_s"] += 6.0
+    film = titled_film(tmp_path, masters, edit=longer_credits)
+    out = tmp_path / "out"
+    summary = R.render(film, out, height=360, workers=2, min_free_gb=1, encode_preset="veryfast")
+    ev = next(e for e in J.read(summary["journal"]) if e.get("kind") == "lint" and e.get("rule") == "mark-coverage")
+    assert ev["status"] == "pass", ev["evidence"]
+    assert ev["evidence"]["title_burned"] > 0
+    doc = json.loads((out / "sources.json").read_text(encoding="utf-8"))
+    assert any(sh["kind"] == "title_sequence" for sh in doc["shots"])
+
+
+def test_a40_the_titles_record_is_a_showing_for_a35():
+    shots = [{"id": "TS1", "kind": "title_sequence", "asset": "TS-test", "_item": {"record": "R"}, "_part": "series"},
+             {"id": "A", "kind": "archive_still", "asset": "R", "_part": "p1", "transition_in": {"type": "cut"}},
+             {"id": "B", "kind": "archive_still", "asset": "X", "_part": "p2", "transition_in": {"type": "cut"}},
+             {"id": "C", "kind": "archive_still", "asset": "R", "_part": "p2", "transition_in": {"type": "dip", "s": 0.5}}]
+    aps = {ap["shots"][0]: ap for ap in R.image_appearances(shots)}
+    assert aps["TS1"]["n_film"] == 1 and not aps["A"]["needs_reason"]          # the film's own showing is its second
+    assert aps["C"]["n_film"] == 3 and aps["C"]["needs_reason"]                # a third needs its repeat_reason
+    assert not any(ap["needs_reason"] for ap in R.image_appearances([s for s in shots if s["id"] != "TS1"]))
+
+
+def test_a40_marks_alone_on_the_dip_hold_warn_and_a_picture_there_does_not_pass():
+    item = {"marks": TL, "dip": DIP, "frames": N}
+    k = TS.dip_hold_frames(item)[0]
+    black = np.zeros((1080, 1920, 3), np.uint8)
+    assert TS.check_frame(black, item, k) == "dip"
+    wm = np.asarray(M.watermark(Image.fromarray(black), 10.0, start=0.0).convert("RGB"))     # the watermark's last frames
+    assert wm.any() and TS.check_frame(wm, item, k) == "dip_glyph"
+    pic = black.copy()
+    pic[500:520, 900:960] = 200                                                             # picture on the hold
+    assert TS.check_frame(pic, item, k) == "fail"
+
+
+# --------------------------------------------------------------------------
+# A7 under A41 (founder, 2026-10-17): the record beat may tour the scan; its resting pose is the scan's declared 16:9
+# window filling the frame, and A7 compares those frames with that crop, nothing but the scan in the frame
+# --------------------------------------------------------------------------
+
+def _scan(tmp_path, w=1600, h=1200):
+    y, x = np.mgrid[0:h, 0:w]
+    a = np.stack([(x * 255 // w), (y * 255 // h), ((x // 40 + y // 40) % 2) * 200], axis=2).astype(np.uint8)
+    p = tmp_path / "scan.png"
+    Image.fromarray(a).save(p)
+    return p
+
+
+def test_a7_under_a41_the_resting_pose_matches_its_window(tmp_path):
+    p = _scan(tmp_path)
+    W, H = TS.SIZE
+    win = (0.1, 0.2, 0.9, 0.2 + 0.8 * 1600 / 1200 * 9 / 16)            # 16:9 in the scan's pixels
+    assert TS.pose_problem(win, (1600, 1200), W, H) is None
+    with Image.open(p) as im:
+        frame = np.asarray(TS.pose_fit(im, win, W, H))
+        whole = np.asarray(TS.hold_fit(im, W, H))
+    assert TS.record_difference(frame, str(p), win) < 1.0                # the toured pose is the scan's crop
+    assert TS.record_difference(whole, str(p), win) > TS.RECORD_LIMIT    # a pillarboxed hold is not that pose
+    assert TS.record_difference(whole, str(p)) < 1.0                     # without a pose, A7 as written still holds
+
+
+def test_a7_under_a41_the_pose_is_the_scan_alone_and_unstretched():
+    W, H = TS.SIZE
+    assert "leaves the scan" in TS.pose_problem((-0.05, 0.0, 0.9, 0.6), (1600, 1200), W, H)
+    assert "aspect" in TS.pose_problem((0.0, 0.0, 1.0, 1.0), (1600, 1200), W, H)
+    assert "four numbers" in TS.pose_problem(None, (1600, 1200), W, H)
+
+
+WIN_B = [0.0, 0.0, 1.0, round(395 / 316 * 9 / 16, 6)]     # a 16:9 window of FX-STILL-B (395 x 316 px)
+
+
+def _pose_problem(j):
+    return lints(j, "title-record-pose")[-1]["evidence"]["problem"]
+
+
+def test_a7_under_a41_a_declared_pose_is_checked_in_the_plan(tmp_path, masters):
+    # the fixture's record is not 16:9, so its whole sheet as a window would be stretched to fill the frame
+    plan, j = plan_of(titled_film(tmp_path / "a", masters, item={"record_pose": {"window": [0.0, 0.0, 1.0, 1.0],
+                                                                                "from_frame": 40}}))
+    assert isinstance(plan, R.Refused) and "aspect" in _pose_problem(j)
+    for k, (ff_, says) in enumerate(((5, "outside the record beat"), (51, "outside the record beat"),
+                                     (50, "holds at least"), (40.5, "whole frame"), (None, "whole frame"))):
+        plan, j = plan_of(titled_film(tmp_path / f"b{k}", masters, item={"record_pose": {"window": WIN_B, "from_frame": ff_}}))
+        assert isinstance(plan, R.Refused) and says in _pose_problem(j), (ff_, _pose_problem(j))
+    plan, j = plan_of(titled_film(tmp_path / "c", masters, item={"record_pose": [0, 0, 1, 1]}))      # malformed: no crash
+    assert isinstance(plan, R.Refused) and "object" in _pose_problem(j)
+
+
+def test_a7_under_a41_a_toured_master_resting_on_its_window_passes(tmp_path, masters, film):
+    rec = film / "stills" / "FX-STILL-B.png"
+    toured = dict(masters, toured=make_master(masters["dir"] / "toured.mkv", rec, pose=(WIN_B, 38)))
+    # the pose rests from f38 so it holds its 0.5 s (POSE_HOLD_S) before the dip begins (f51)
+    plan, j = plan_of(titled_film(tmp_path / "a", toured, master="toured",
+                                  item={"record_frames": [38, 50], "record_pose": {"window": WIN_B, "from_frame": 38}}))
+    assert passed(j, "title-record-pose"), [x["evidence"] for x in lints(j, "title-record-pose")]
+    assert passed(j, "title-record-pixels"), [x["evidence"] for x in lints(j, "title-record-pixels")]
+    ev = lints(j, "title-record-pixels")[-1]["evidence"]
+    assert "resting pose" in ev["measure"] and max(ev["edge_difference"].values()) <= TS.POSE_EDGE_LIMIT
+    # the same master declared as held whole (no pose) fails A7 as written
+    plan, j = plan_of(titled_film(tmp_path / "b", toured, master="toured", item={"record_frames": [38, 50]}))
+    assert isinstance(plan, R.Refused) and failed(j, "title-record-pixels")
+
+
+def test_a7_under_a41_an_alternate_rate_master_never_inherits_the_pose():
+    item = {"file": "a.mkv", "fps": 24, "record_frames": [40, 50], "record_pose": {"window": WIN_B, "from_frame": 40},
+            "masters": {"30000/1001": {"file": "b.mkv", "frames": 120, "record_frames": [50, 62]}}}
+    alt, how = TS.select_master(item, 30000 / 1001)
+    assert how == "alternate" and "record_pose" not in alt
+    item["masters"]["30000/1001"]["record_pose"] = {"window": WIN_B, "from_frame": 50}
+    assert TS.select_master(item, 30000 / 1001)[0]["record_pose"]["from_frame"] == 50
+
+
+def test_a7_under_a41_an_overshoot_onto_black_fails_the_edge_check(tmp_path):
+    p = _scan(tmp_path)
+    W, H = TS.SIZE
+    win = (0.1, 0.2, 0.9, 0.2 + 0.8 * 1600 / 1200 * 9 / 16)
+    with Image.open(p) as im:
+        frame = np.asarray(TS.pose_fit(im, win, W, H)).copy()
+    assert TS.pose_edge_difference(frame, str(p), win) < 1.0
+    frame[:, :40] = 0                                                  # 40 px of black at the left: past the scan
+    assert TS.pose_edge_difference(frame, str(p), win) > TS.POSE_EDGE_LIMIT
+
+
+def test_a40_a_shots_span_across_the_titles_is_the_full_render_byte_for_byte(tmp_path, masters):
+    """render --shots (#61's review): a span that ends inside the series titles (the cold open's last shot through
+    TS1) and one that starts there (TS1 through the first shot after it) render the same segments as the full
+    film, byte for byte: the titles' own frames (a master played as it is) and their edges included."""
+    def longer_credits(play):              # the Series titles block lengthens the roll (credits-roll)
+        play["parts"][-1]["shots"][-1]["dur_s"] += 6.0
+        play["runtime_target_s"] += 6.0
+    film = titled_film(tmp_path, masters, edit=longer_credits)
+    out = tmp_path / "out"
+    R.render(film, out, height=360, workers=2, min_free_gb=1, encode_preset="veryfast")
+    full = {p.name.split(".")[0]: J.sha256_file(p) for p in (out / "segments").glob("*.mp4")}
+    ids = [s["id"] for s in R.build_plan(film, W=640, H=360, burn_subtitles=False,
+                                         journal=J.Journal(film="a40-shots", directory=tmp_path / "j"),
+                                         write_overlays=False)["shots"]]
+    after = ids[ids.index("TS1") + 1]
+    for a, b in (("CO1", "TS1"), ("TS1", after)):
+        s = R.render(film, out, height=360, workers=2, min_free_gb=1, encode_preset="veryfast", shots=f"{a}..{b}")
+        assert s["partial"] is True and s["rendered"] == ids[ids.index(a):ids.index(b) + 1]
+        mine = {p.name.split(".")[0]: J.sha256_file(p) for p in (out / f"shots-{a}-{b}" / "segments").glob("*.mp4")}
+        assert set(mine) == set(s["rendered"]), (a, b, sorted(mine))
+        assert all(mine[k] == full[k] for k in mine), (a, b)
+
+
+# --------------------------------------------------------------------------
+# A40 like for like (coordinator, founder-delegated, 2026-10-26): a master rendered through a view transform (The Run:
+# Cycles through AgX) declares it, and A7 passes the SCAN through that same transform before comparing. AgX lifts
+# black ink to grey once white paper sits at the scan's white, so a perfect page through AgX fails A7 as written.
+# The tests force the published curve (no Blender here, as on CI): the ocio backend is the exact one where Blender
+# 4.4.3's pinned config is found.
+# --------------------------------------------------------------------------
+
+
+@pytest.fixture
+def no_blender(tmp_path, monkeypatch):
+    """No Blender here, as on CI; the published curve stands in under the test-only switch."""
+    monkeypatch.setenv("DOCUMENT_BLENDER_DIR", str(tmp_path / "no-blender"))
+    monkeypatch.setenv(VX.TEST_SWITCH, "1")
+    assert VX.blender_ocio() is None
+
+
+def _page(w, h, shift=0.0):
+    """A page as linear albedo, drawn at any size from the same geometry: paper 0.86, eight lines of ink at 0.012."""
+    y, x = np.mgrid[0:h, 0:w] / np.array([h, w], dtype=float)[:, None, None]
+    a = np.full((h, w), 0.86)
+    for r in range(8):
+        y0 = 0.12 + r * 0.1
+        a[(y >= y0) & (y < y0 + 0.035) & (x > 0.1 + shift) & (x < 0.62 + 0.15 * (r * 7 % 3) + shift)] = 0.012
+    return np.repeat(a[..., None], 3, axis=2)
+
+
+def _scan_of(page, path):
+    Image.fromarray(np.round(VX.linear_to_srgb(page) * 255).astype(np.uint8)).save(path)
+    return str(path)
+
+
+AGX = {"name": "AgX", "look": "None", "exposure": 2.5}     # puts the page's paper (241) at its scan's white (239)
+
+
+def _camera(page, view=AGX):
+    """The renderer's view of the page: its linear albedo at the frame's own size, exposed, through AgX. Drawn from
+    the page itself, not from the scan the engine reads."""
+    return np.round(VX.agx_published(page * 2 ** view["exposure"]) * 255).astype(np.uint8)
+
+
+def test_a7_like_for_like_a_page_through_agx_passes_against_its_scan_once_declared(tmp_path, no_blender):
+    W, H = TS.SIZE
+    scan = _scan_of(_page(1600, 900), tmp_path / "scan.png")
+    frame = _camera(_page(W, H))
+    assert TS.record_difference(frame, scan) > TS.RECORD_LIMIT              # A7 as written: AgX's lift reads as a fault
+    assert TS.record_difference(frame, scan, None, AGX) < 1.0               # like for like: the scan through AgX
+    assert TS.reference_frame(scan, W, H, None, AGX)[1] == "published"
+
+
+def test_a7_like_for_like_still_fails_when_the_record_differs(tmp_path, no_blender):
+    W, H = TS.SIZE
+    frame = _camera(_page(W, H))
+    moved = _scan_of(_page(1600, 900, shift=0.08), tmp_path / "moved.png")          # the same page, its text altered
+    assert TS.record_difference(frame, moved, None, AGX) > TS.RECORD_LIMIT
+    other = str(_scan(tmp_path))                                                     # another scan altogether
+    assert TS.record_difference(frame, other, None, AGX) > TS.RECORD_LIMIT
+
+
+def test_a7_like_for_like_keeps_the_edge_strip_check(tmp_path, no_blender):
+    W, H = TS.SIZE
+    page = _page(1600, 1200)
+    scan = _scan_of(page, tmp_path / "scan.png")
+    win = (0.0, 0.0, 1.0, 1600 / 1200 * 9 / 16)
+    with Image.open(scan) as im:
+        lin = VX.to_linear_frame(im, win, W, H)
+    frame = np.round(VX.agx_published(lin * 2 ** AGX["exposure"]) * 255).astype(np.uint8)
+    assert TS.pose_edge_difference(frame, scan, win, AGX) < 1.0
+    assert TS.record_difference(frame, scan, win, AGX) < 1.0
+    frame[:, :40] = 0                                                                # 40 px past the scan onto black
+    assert TS.pose_edge_difference(frame, scan, win, AGX) > TS.POSE_EDGE_LIMIT
+
+
+def test_a7_like_for_like_an_undeclared_item_is_a7_as_before(tmp_path):
+    p = _scan(tmp_path)
+    W, H = TS.SIZE
+    win = (0.1, 0.2, 0.9, 0.2 + 0.8 * 1600 / 1200 * 9 / 16)
+    with Image.open(p) as im:
+        held, posed = np.asarray(TS.hold_fit(im, W, H)), np.asarray(TS.pose_fit(im, win, W, H))
+    assert VX.parse(None) == (None, None)
+    for w, want in ((None, held), (win, posed)):
+        ref, backend = TS.reference_frame(str(p), W, H, w)
+        assert backend is None and np.array_equal(ref, want)                         # the scan as it always was
+
+
+def test_a7_like_for_like_a_declaration_is_checked():
+    ok = {"name": "AgX", "sidecar": "m.view.json"}
+    assert VX.parse(ok) == ({"name": "AgX", "look": "None", "sidecar": "m.view.json", "exposure": None}, None)
+    assert VX.parse(dict(ok, exposure=3.75))[0]["exposure"] == 3.75
+    for bad, says in (("AgX", "an object"), ({"name": "AgX"}, "sidecar"), (dict(ok, name="Filmic"), "not one of"),
+                      (dict(ok, exposure="3"), "stops"), (dict(ok, exposure=float("nan")), "stops"),
+                      (dict(ok, exposure=6.5), "within 6"), (dict(ok, look=""), "look")):
+        spec, why = VX.parse(bad)
+        assert spec is None and says in why, (bad, why)
+    with pytest.raises(ValueError, match="Blender's own config"):
+        VX.published(np.zeros((1, 1, 3)), {"name": "AgX", "look": "Punchy", "exposure": 0.0})
+
+
+def test_a7_like_for_like_the_published_curves(no_blender):
+    v = np.array([0.0, 0.002, 0.02, 0.18, 1.0, 4.0, 16.0])
+    lin = np.repeat(v[None, :, None], 3, axis=2)
+    agx = VX.display(lin, {"name": "AgX", "look": "None", "exposure": 0.0})[0][0, :, 0]
+    std = VX.display(lin, {"name": "Standard", "look": "None", "exposure": 0.0})[0][0, :, 0]
+    assert np.all(np.diff(agx.astype(int)) > 0) and agx[0] <= 1 and agx[-1] >= 250  # monotone, black to near white
+    assert agx[3] == 127                                                              # mid grey, Wrensch's fit
+    assert std.tolist() == [0, 7, 39, 118, 255, 255, 255]                             # the sRGB curve, clipped
+
+
+def test_a7_like_for_like_the_exact_backend_is_pinned(tmp_path, monkeypatch):
+    root = tmp_path / "blender"
+    cm = root / VX.BLENDER_VERSION / "datafiles" / "colormanagement"
+    (cm / "luts").mkdir(parents=True)
+    (root / VX.BLENDER_VERSION / "python" / "bin").mkdir(parents=True)
+    (root / VX.BLENDER_VERSION / "python" / "bin" / ("python.exe" if os.name == "nt" else "python3.11")).write_text("")
+    for k in VX.PINS:
+        (cm / k).write_text("not Blender 4.4.3's colour management", encoding="utf-8")
+    monkeypatch.setenv("DOCUMENT_BLENDER_DIR", str(root))
+    assert VX.blender_ocio() is None                    # a config that is not the pinned one is never used
+    assert VX.self_check() == 2                         # the local self-check says the exact backend is unavailable
+
+
+def _agx_master(masters, film, name, ev):
+    rec = film / "stills" / "FX-STILL-B.png"
+    with Image.open(rec) as im:
+        W, H = TS.SIZE
+        pic = Image.fromarray(np.round(VX.agx_published(VX.to_linear_frame(im, None, W, H) * 2 ** ev)
+                                       * 255).astype(np.uint8))
+    return make_master(masters["dir"] / name, rec, rec_pic=pic)
+
+
+def _sidecar(master, ev, tag="", **kw):
+    """The render's view sidecar (viewxf.SIDECAR_SCHEMA) beside the master, as tail_v5c.py writes it."""
+    sc = {"schema": VX.SIDECAR_SCHEMA, "renderer": "a test master", "master": master.name, "master_sha256": _sha(master),
+          "display_device": "sRGB", "view_transform": "AgX", "look": "None", "gamma": 1.0, "use_curve_mapping": False,
+          "exposure": [ev] * N}
+    sc.update(kw)
+    p = master.with_name(master.stem + tag + ".view.json")
+    p.write_text(json.dumps(sc), encoding="utf-8")
+    return p.name
+
+
+def _px_ev(j):
+    return lints(j, "title-record-pixels")[-1]["evidence"]
+
+
+def test_a7_like_for_like_in_the_plan(tmp_path, masters, film, no_blender):
+    m = dict(masters, agx=_agx_master(masters, film, "agx.mkv", AGX["exposure"]))
+    decl = {"name": "AgX", "look": "None", "sidecar": _sidecar(m["agx"], AGX["exposure"])}
+    plan, j = plan_of(titled_film(tmp_path / "a", m, master="agx", item={"view_transform": decl}))
+    assert passed(j, "title-record-pixels"), _px_ev(j)
+    ev = _px_ev(j)
+    assert ev["view_backend"] == "published" and set(ev["view_exposure"].values()) == {AGX["exposure"]}
+    assert "through the master's own view transform" in ev["measure"]
+    plan, j = plan_of(titled_film(tmp_path / "b", m, master="agx"))                  # undeclared: A7 as written
+    assert isinstance(plan, R.Refused) and failed(j, "title-record-pixels") and "view_transform" not in _px_ev(j)
+    plan, j = plan_of(titled_film(tmp_path / "c", m, master="agx", item={"view_transform": dict(decl, name="Filmic")}))
+    assert isinstance(plan, R.Refused) and "not one of" in _px_ev(j)["difference"]["error"]
+    plan, j = plan_of(titled_film(tmp_path / "d", masters, item={"view_transform": decl}))  # another master's sidecar
+    assert isinstance(plan, R.Refused) and "not the played" in _px_ev(j)["difference"]["error"]
+
+
+def test_a7_like_for_like_the_declaration_is_bound_to_the_render(tmp_path, masters, film, no_blender):
+    m = dict(masters, agx=_agx_master(masters, film, "agx-bound.mkv", AGX["exposure"]))
+    base = {"name": "AgX", "look": "None"}
+    for k, (decl, says) in enumerate((
+            (dict(base, sidecar=_sidecar(m["agx"], 2.5, "-0", master_sha256="0" * 64)), "master_sha256"),
+            (dict(base, sidecar=_sidecar(m["agx"], 2.5), exposure=3.0), "not the render's own"),     # a gamed exposure
+            (dict(base, sidecar=_sidecar(m["agx"], 2.5, "-1", look="Punchy")), "look"),
+            (dict(base, sidecar=_sidecar(m["agx"], 2.5, "-2", use_curve_mapping=True)), "curve mapping"),
+            (dict(base, sidecar=_sidecar(m["agx"], 2.5, "-3", exposure=[2.5] * 10)), "frames"),
+            (dict(base, sidecar="missing.view.json"), "unreadable"))):
+        plan, j = plan_of(titled_film(tmp_path / f"a{k}", m, master="agx", item={"view_transform": decl}))
+        assert isinstance(plan, R.Refused) and says in _px_ev(j)["difference"]["error"], (says, _px_ev(j))
+
+
+def test_a7_like_for_like_a_washed_out_scan_never_passes(tmp_path, masters, film, no_blender):
+    # a render exposed so far that the record goes to white: the transformed scan keeps no structure, so it is refused
+    m = dict(masters, agx=_agx_master(masters, film, "agx-washed.mkv", 6.0))
+    decl = {"name": "AgX", "look": "None", "sidecar": _sidecar(m["agx"], 6.0)}
+    plan, j = plan_of(titled_film(tmp_path, m, master="agx", item={"view_transform": decl}))
+    assert isinstance(plan, R.Refused) and "washed out" in _px_ev(j)["difference"]["error"], _px_ev(j)
+
+
+def test_a7_like_for_like_fails_closed_without_the_exact_backend(tmp_path, masters, film, monkeypatch):
+    monkeypatch.setenv("DOCUMENT_BLENDER_DIR", str(tmp_path / "no-blender"))
+    monkeypatch.delenv(VX.TEST_SWITCH, raising=False)
+    m = dict(masters, agx=_agx_master(masters, film, "agx-closed.mkv", AGX["exposure"]))
+    decl = {"name": "AgX", "look": "None", "sidecar": _sidecar(m["agx"], AGX["exposure"])}
+    plan, j = plan_of(titled_film(tmp_path, m, master="agx", item={"view_transform": decl}))
+    assert isinstance(plan, R.Refused) and "exact backend unavailable" in _px_ev(j)["difference"]["error"]
+
+
+def test_a7_like_for_like_the_test_switch_is_for_tests_only(monkeypatch):
+    monkeypatch.setenv(VX.TEST_SWITCH, "1")
+    assert VX.exact_required() is False                         # inside pytest
+    monkeypatch.delenv("PYTEST_CURRENT_TEST")
+    assert VX.exact_required() is True                          # a real plan never takes the published curve
+
+
+def test_a7_like_for_like_display_gamma_and_curves_are_recorded_or_declared_defaults(tmp_path, masters, film, no_blender):
+    m = dict(masters, agx=_agx_master(masters, film, "agx-defaults.mkv", AGX["exposure"]))
+    base = {"name": "AgX", "look": "None"}
+    unrecorded = {"display_device": None, "gamma": None, "use_curve_mapping": None}
+
+    def sidecar(tag, **kw):
+        name = _sidecar(m["agx"], AGX["exposure"], tag, **kw)
+        p = m["agx"].parent / name
+        sc = json.loads(p.read_text(encoding="utf-8"))
+        for k, v in list(sc.items()):
+            if v is None:
+                del sc[k]                                        # the render never recorded it
+        p.write_text(json.dumps(sc), encoding="utf-8")
+        return name
+    plan, j = plan_of(titled_film(tmp_path / "a", m, master="agx",
+                                  item={"view_transform": dict(base, sidecar=sidecar("-a", **unrecorded))}))
+    assert isinstance(plan, R.Refused) and "did not record its display, gamma or curve mapping" in _px_ev(j)["difference"]["error"]
+    keys = list(VX.DISPLAY_DEFAULTS)
+    plan, j = plan_of(titled_film(tmp_path / "b", m, master="agx", item={"view_transform": dict(
+        base, sidecar=sidecar("-b", **unrecorded, defaults_assumed=keys))}))           # assumed without a basis
+    assert isinstance(plan, R.Refused) and "defaults_basis" in _px_ev(j)["difference"]["error"]
+    why = "Blender 4.4.3 factory default, not set by the scene script"
+    plan, j = plan_of(titled_film(tmp_path / "c", m, master="agx", item={"view_transform": dict(
+        base, sidecar=sidecar("-c", **unrecorded, defaults_assumed=keys, defaults_basis=why))}))
+    assert passed(j, "title-record-pixels"), _px_ev(j)
+    assert _px_ev(j)["view_defaults_assumed"] == keys and _px_ev(j)["view_defaults_basis"] == why
+    plan, j = plan_of(titled_film(tmp_path / "d", m, master="agx", item={"view_transform": dict(
+        base, sidecar=sidecar("-d", gamma=2.2))}))                                     # recorded, and not reproduced
+    assert isinstance(plan, R.Refused) and "not one this check reproduces" in _px_ev(j)["difference"]["error"]
+
+
+def test_a7_like_for_like_has_an_absolute_structure_floor(tmp_path, masters, film, no_blender, monkeypatch):
+    m = dict(masters, agx=_agx_master(masters, film, "agx-floor.mkv", AGX["exposure"]))
+    decl = {"name": "AgX", "look": "None", "sidecar": _sidecar(m["agx"], AGX["exposure"], "-floor")}
+    monkeypatch.setattr(VX, "STRUCTURE_MIN", 1000.0)            # no record keeps 1000 levels: the floor binds alone
+    plan, j = plan_of(titled_film(tmp_path, m, master="agx", item={"view_transform": decl}))
+    assert isinstance(plan, R.Refused) and "levels" in _px_ev(j)["difference"]["error"], _px_ev(j)
+
+
+# --------------------------------------------------------------------------
+# A40 lockup card (coordinator, founder-delegated, 2026-10-26, implementing the 2026-10-18 ruling: The Run is one
+# physics-only shot with no fades; the series lockup is a separate CARD shot after it, on a hard cut). title-lockup
+# is met by the master's own lockup or by the series-title part ending on the house lockup card, {card: lockup}.
+# --------------------------------------------------------------------------
+
+NO_LOCKUP = {"lockup_frame": 20}               # a machine frame: this master carries no lockup of its own
+HOLD = {"id": "TS1r", "kind": "archive_still", "asset": "FX-REC", "preset": "DRIFT", "fill_ok": False,
+        "fill_exception": "a small test scan: the fill would pass 1.6x at 360p", "dur_s": 1.0, "mark": "ARCHIVE",
+        "transition_in": {"type": "cut"}, "why": "The title's record held whole after its resting pose.",
+        "repeat_reason": "The title's own record, held whole again so it can be read before the slot ends."}
+CARD = {"id": "TS1b", "kind": "card", "card": "lockup", "dur_s": 5.0, "mark": "CARD",
+        "transition_in": {"type": "cut"}, "why": "The series lockup, on a hard cut after the title."}
+
+
+def with_shots(after=(), next_part=()):
+    """An edit for titled_film: shots appended to the series-title part after TS1 (``after``) or put first in the next
+    part (``next_part``), everything after them moved on by their length."""
+    def edit(play):
+        add = [dict(s) for s in list(after) + list(next_part)]
+        t = COLD_S + TITLE_S
+        extra = sum(s["dur_s"] for s in add)
+
+        def move(x):
+            for k in ("start_s", "end_s"):
+                if isinstance(x.get(k), (int, float)) and x[k] >= t - 1e-6:
+                    x[k] = round(x[k] + extra, 4)
+        for part in play["parts"][2:]:
+            for coll in ("shots", "lines", "cues", "text"):
+                for x in part.get(coll, []):
+                    move(x)
+        for x in play.get("subtitle_source", []) + play.get("music", []) + play.get("moments", []):
+            move(x)
+        play["runtime_target_s"] += extra
+        for s in add:
+            s["start_s"] = round(t, 4)
+            t += s["dur_s"]
+        play["parts"][1]["shots"] += add[:len(after)]
+        play["parts"][2]["shots"][:0] = add[len(after):]
+    return edit
+
+
+def _lockup_lint(j):
+    got = lints(j, "title-lockup")
+    assert got, [(e.get("rule"), e.get("unit")) for e in J.read(j.path) if e.get("kind") == "lint" and e.get("status") == "fail"]
+    return got[-1]
+
+
+def test_a40_lockup_card_after_the_title_and_its_record_hold_meets_the_lockup(tmp_path, masters):
+    for k, after in enumerate(((HOLD, CARD), (CARD,), (HOLD, dict(CARD, text=[TS.SERIES])))):
+        plan, j = plan_of(titled_film(tmp_path / f"a{k}", masters, item=NO_LOCKUP, edit=with_shots(after)))
+        ev = _lockup_lint(j)
+        assert ev["status"] == "pass" and ev["evidence"]["lockup_card"] == "TS1b", ev
+        assert ev["evidence"]["in_master"] is False and ev["evidence"]["card_problem"] is None
+        assert ev["evidence"]["card_bright_px"] >= TS.LOCKUP_MIN_PX
+
+
+def test_a40_lockup_missing_or_misplaced_is_refused(tmp_path, masters):
+    plan, j = plan_of(titled_film(tmp_path / "a", masters, item=NO_LOCKUP, edit=with_shots((HOLD,))))
+    assert isinstance(plan, R.Refused) and failed(j, "title-lockup")
+    assert "a archive_still" in _lockup_lint(j)["evidence"]["card_problem"]               # the part ends on the hold
+    plan, j = plan_of(titled_film(tmp_path / "b", masters, item=NO_LOCKUP))
+    assert isinstance(plan, R.Refused) and "no lockup card" in _lockup_lint(j)["evidence"]["card_problem"]
+    plan, j = plan_of(titled_film(tmp_path / "c", masters, item=NO_LOCKUP, edit=with_shots(next_part=(CARD,))))
+    assert isinstance(plan, R.Refused) and "outside the series-title part" in _lockup_lint(j)["evidence"]["card_problem"]
+
+
+def test_a40_lockup_card_must_be_the_house_lockup(tmp_path, masters):
+    for k, (card, says) in enumerate(((dict(CARD, card="title", text=[TS.SERIES]), "not a lockup card"),
+                                      (dict(CARD, transition_in={"type": "dip", "s": 0.5}), "not a cut"))):
+        plan, j = plan_of(titled_film(tmp_path / f"a{k}", masters, item=NO_LOCKUP, edit=with_shots((HOLD, card))))
+        assert isinstance(plan, R.Refused) and failed(j, "title-lockup"), card
+        assert says in _lockup_lint(j)["evidence"]["card_problem"], (card, _lockup_lint(j)["evidence"])
+
+
+def _S(id_, kind, f0, f1, **kw):
+    return dict({"id": id_, "kind": kind, "_part": "series", "_part_kind": "series_title", "_first_in_part": False,
+                 "f0": f0, "f1": f1, "transition_in": {"type": "cut"}}, **kw)
+
+
+def _part(*middle, card=None, after=None):
+    shots = [_S("TS1", "title_sequence", 0, 96)] + list(middle)
+    end = shots[-1]["f1"]
+    # 150 frames (6.25 s): item={"record": "R"} declares no dip, so lockup_card_min_s falls back to the house
+    # default (founder ruling 2026-11-08: 144 frames at 24 fps, 6.0 s), with margin over it.
+    shots.append(card or _S("TS1b", "card", end, end + 150, card="lockup"))
+    shots.append(after or dict(_S("P1", "card", shots[-1]["f1"], shots[-1]["f1"] + 24, card="title"), _part="title"))
+    return shots
+
+
+def test_a40_lockup_card_rules_on_the_part(tmp_path, masters):
+    hold = _S("TS1r", "archive_still", 96, 120, asset="R")
+    lock = lambda shots: TS.lockup_card(shots, 0, {"record": "R"}, R.card_kind, 24)  # noqa: E731
+    assert lock(_part(hold))[:2] == ("TS1b", None)
+    assert lock(_part(dict(hold, kind="drawn")))[1] is None                          # a drawn record, held as drawn
+    for shots, says in (
+            (_part(dict(hold, transition_in={"type": "dip", "s": 0.5})), "not a cut"),
+            (_part(dict(hold, transition_in={"type": "dissolve", "s": 0.75})), "not a cut"),
+            (_part(hold, after=dict(_S("P1", "card", 240, 264, card="title"), _part="title",
+                                    transition_in={"type": "dissolve", "s": 0.5})), "out of the card"),
+            (_part(dict(hold, kind="map")), "only holds"), (_part(dict(hold, kind="archive_video")), "only holds"),
+            (_part(dict(hold, kind="card")), "only holds"), (_part(dict(hold, asset="OTHER")), "only holds"),
+            (_part(hold, card=_S("TS1b", "card", 120, 240, card="lockup", text=["void document"])), "not the series lockup"),
+            (_part(hold, card=_S("TS1b", "card", 120, 121, card="lockup")), "dwells at least"),       # a 0.04 s card
+            (_part(hold, card=_S("TS1b", "card", 120, 240, card="title", text=[TS.SERIES])), "not a lockup card")):
+        why = lock(shots)[1]
+        assert why is not None and says in why, (says, why)
+    plan, j = plan_of(titled_film(tmp_path, masters))                                     # the fixture's own lockup
+    assert _lockup_lint(j)["status"] == "pass" and _lockup_lint(j)["evidence"]["in_master"] is True
+
+
+def test_a40_lockup_card_draws_brand_kit_15(tmp_path):
+    """The lockup card's frames: black on the cut in (no ARRIVE, no fade: the words whole from the first frame), the
+    logomark's corners closing on drift, no second wordmark, and the same lockup on its last frame (a hard cut out).
+    The sheet is written for review."""
+    fonts = M.Fonts()
+    W, H = TS.SIZE
+    lay = M.lockup_layout(M.Layout(W, H), fonts)
+    assert lay["text"] == TS.SERIES and lay["px"] == M.Layout(W, H).px(5.6)
+    frames = [np.asarray(M.lockup_card_frame(Image.new("RGB", (W, H)), t, start=0.0, end=5.0, fonts=fonts).convert("RGB"))
+              for t in (0.0, 0.5, 1.5, 4.95)]
+    band = slice(H // 3, 2 * H // 3)
+    words = slice(int(lay["x0"] + lay["px"] + lay["ring_d"]), W)
+    assert all(np.array_equal(f[band, words], frames[0][band, words]) for f in frames)  # the words never move or fade
+    assert all(TS.lockup_pixels(f) >= TS.LOCKUP_MIN_PX for f in frames)
+    assert not np.array_equal(frames[0], frames[-1])                                     # the logomark moves
+    assert not frames[-1][: H // 3].any() and not frames[-1][2 * H // 3:].any()           # one line: no second wordmark
+    sheet = Image.new("RGB", (W // 2 * 2, H // 2 * 2))
+    for k, f in enumerate(frames):
+        sheet.paste(Image.fromarray(f).resize((W // 2, H // 2)), ((k % 2) * W // 2, (k // 2) * H // 2))
+    sheet.save(tmp_path / "lockup_card_sheet.png")
+
+
+# --------------------------------------------------------------------------
+# A40 lockup on the record's paper (founder ruling 2026-11-08, Record + lockup): from title v12 the lockup sits on the
+# photographed paper the push ends on, in ink; the black card stays valid as the v11 form
+# --------------------------------------------------------------------------
+
+
+def _paper(W, H, ground=(196, 182, 156), seed=11):
+    """A stand-in for a record's photographed paper: a warm ground with grain and a soft fall of light."""
+    rng = np.random.default_rng(seed)
+    y, x = np.mgrid[0:H, 0:W]
+    light = 1.0 - 0.12 * ((x / W - 0.45) ** 2 + (y / H - 0.4) ** 2)
+    a = np.asarray(ground, float)[None, None, :] * light[..., None] + rng.normal(0, 6, (H, W, 1))
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
+def _lockup_card_v11(img, t, *, start, end, fonts):
+    """lockup_card_frame as it was before the paper form, verbatim: the reference the black form must still match."""
+    base = M._black(img.size)
+    if t < start or t >= end:
+        return base
+    L = M.Layout(*base.size)
+    lay = M.lockup_layout(L, fonts)
+    px, x0, baseline = lay["px"], lay["x0"], lay["baseline"]
+    p = M.clamp01(M.DRIFT.progress(t - start))
+    box = round(px * 24 / 17)
+    mark = M.draw_logomark(box, spread=0.08 * (1 - p), ember_alpha=M.clamp01((p - 0.9) / 0.1))
+    base = base.convert("RGBA")
+    base.alpha_composite(mark, (round(x0 - (box - px) / 2), round(baseline - M.LOCKUP["baseline"] * px - box / 2)))
+    d = ImageDraw.Draw(base)
+    x = x0 + px + lay["ring_d"]
+    for (s, f), w in zip(lay["words"], lay["widths"]):
+        d.text((x, baseline), s, font=f, fill=M._rgba(M.PALETTE["bone"], 1.0), anchor="ls")
+        x += w + lay["space"]
+    return base
+
+
+def _old_lockup_pixels(arr):
+    H, W = arr.shape[:2]
+    band = arr[H // 3: 2 * H // 3, W // 10: 9 * W // 10]
+    return round(int((band.max(axis=2) >= 150).sum()) * (1080 / H) ** 2)
+
+
+def test_a40_lockup_card_without_paper_is_the_v11_card_byte_for_byte():
+    fonts = M.Fonts()
+    for size in (TS.SIZE, (1280, 720)):
+        for t in (-0.1, 0.0, 0.5, 1.5, 4.95, 5.0):
+            want = _lockup_card_v11(Image.new("RGB", size), t, start=0.0, end=5.0, fonts=fonts)
+            for got in (M.lockup_card_frame(Image.new("RGB", size), t, start=0.0, end=5.0, fonts=fonts),
+                        M.lockup_card_frame(Image.new("RGB", size), t, start=0.0, end=5.0, fonts=fonts, paper=None)):
+                assert got.mode == want.mode and got.size == want.size and got.tobytes() == want.tobytes(), (size, t)
+
+
+def test_a40_the_lockup_ink_is_the_house_ink_token():
+    css = Path(M.__file__).resolve().parents[2] / "design" / "tokens.css"
+    hexv = css.read_text(encoding="utf-8").split("--doc-ink:")[1].split(";")[0].strip()
+    assert M.PALETTE["ink"] == tuple(int(hexv[i:i + 2], 16) for i in (1, 3, 5))
+
+
+def test_a40_lockup_card_on_paper_is_ink_on_the_records_own_paper():
+    """The paper form: the base is the given paper (cover-fit to the frame), the words and the logomark's ring and
+    corners in ink where the v11 card has them in bone, the ember still the ember, the layout and timing the same;
+    outside the card's span the frame is the paper (never black)."""
+    fonts = M.Fonts()
+    W, H = TS.SIZE
+    paper = _paper(1500, 1100)                                     # another size and aspect: resized and cropped, cover
+    ground = np.asarray(ImageOps.fit(paper, (W, H), Image.LANCZOS).convert("RGB")).astype(int)
+    for t in (-0.1, 5.0):
+        out = np.asarray(M.lockup_card_frame(Image.new("RGB", (W, H)), t, start=0.0, end=5.0, fonts=fonts,
+                                             paper=paper).convert("RGB")).astype(int)
+        assert out.shape == (H, W, 3) and np.array_equal(out, ground), t
+    ink, bone, ember = (np.array(M.PALETTE[k]) for k in ("ink", "bone", "safelight"))
+    for t in (0.0, 0.5, 4.95):
+        blk = np.asarray(M.lockup_card_frame(Image.new("RGB", (W, H)), t, start=0.0, end=5.0, fonts=fonts).convert("RGB")).astype(int)
+        pap = np.asarray(M.lockup_card_frame(Image.new("RGB", (W, H)), t, start=0.0, end=5.0, fonts=fonts,
+                                             paper=paper).convert("RGB")).astype(int)
+        off = blk.max(axis=2) == 0                                 # nothing drawn there on the black card
+        assert np.array_equal(pap[off], ground[off]), t            # ... so the paper shows, untouched
+        solid = np.abs(blk - bone).max(axis=2) == 0                # full-coverage bone type and mark strokes
+        assert solid.sum() > 2000 and np.abs(pap[solid] - ink).max() <= 1, t
+        lit = blk.max(axis=2) >= 150                               # where the v11 card is bright, the paper card is dark
+        assert np.mean(pap[lit].max(axis=1) < 110) > 0.95, t
+        assert TS.lockup_pixels(pap) >= TS.LOCKUP_MIN_PX, t
+    at = np.abs(blk - ember).max(axis=2) <= 2                      # the ember in the last tenth, on paper too
+    assert at.sum() >= 10 and np.abs(pap[at] - ember).max() <= 2
+
+
+def test_a40_lockup_pixels_counts_ink_on_paper_and_type_on_black_but_not_blank_paper():
+    fonts = M.Fonts()
+    W, H = TS.SIZE
+    black = np.asarray(M.lockup_card_frame(Image.new("RGB", (W, H)), 4.95, start=0.0, end=5.0, fonts=fonts).convert("RGB"))
+    assert TS.lockup_pixels(black) == _old_lockup_pixels(black) >= TS.LOCKUP_MIN_PX     # the black form: as before
+    assert TS.lockup_pixels(np.zeros((H, W, 3), np.uint8)) == 0
+    for ground in ((196, 182, 156), (150, 136, 112), (232, 224, 206)):                  # light, darker, pale papers
+        paper = _paper(W, H, ground)
+        card = np.asarray(M.lockup_card_frame(Image.new("RGB", (W, H)), 4.95, start=0.0, end=5.0, fonts=fonts,
+                                              paper=paper).convert("RGB"))
+        assert TS.lockup_pixels(card) >= TS.LOCKUP_MIN_PX, ground
+        assert TS.lockup_pixels(np.asarray(paper)) < TS.LOCKUP_MIN_PX // 10, ground    # blank paper is no lockup
+    small = np.asarray(M.lockup_card_frame(Image.new("RGB", (1280, 720)), 4.95, start=0.0, end=5.0, fonts=fonts,
+                                           paper=_paper(1280, 720)).convert("RGB"))
+    assert TS.lockup_pixels(small) >= TS.LOCKUP_MIN_PX                                  # normalised to 1080p
+
+
+def _with_glyph(base: Image.Image, cls: str) -> np.ndarray:
+    W, H = base.size
+    return np.asarray(Image.alpha_composite(base.convert("RGBA"), M._glyph_layer(W, H, cls)).convert("RGB"))
+
+
+def test_a40_the_card_ring_reads_on_black_and_on_paper_and_paper_alone_fails():
+    W, H = TS.SIZE
+    black = Image.new("RGB", (W, H))
+    item = {"marks": TL, "dip": DIP, "frames": N}
+    k = N - 4                                                       # the lockup, after the dip's hold
+    assert k not in TS.dip_hold_frames(item) and TS.expected_class(item, k)[0] == "CARD"
+    assert TS.glyph_shows(_with_glyph(black, "CARD"), "CARD")
+    assert TS.check_frame(_with_glyph(black, "CARD"), item, k) == "burned"
+    fonts = M.Fonts()
+    for ground in ((196, 182, 156), (150, 136, 112), (232, 224, 206)):
+        paper = _paper(W, H, ground)
+        v12 = M.lockup_card_frame(black, 4.95, start=0.0, end=5.0, fonts=fonts, paper=paper)
+        for base in (paper, v12):
+            ringed = _with_glyph(base, "CARD")
+            assert TS.glyph_shows(ringed, "CARD"), ground
+            assert TS.check_frame(ringed, item, k) == "burned", ground
+            bare = np.asarray(base.convert("RGB"))
+            assert not TS.glyph_shows(bare, "CARD"), ground
+            assert TS.check_frame(bare, item, k) == "fail", ground
+            assert TS.any_glyph(bare) is None
+            assert not TS.glyph_shows(_with_glyph(base, "RECONSTRUCTED"), "CARD")    # the same hue, the wrong shape
+
+
+def test_a40_other_glyphs_are_unaffected_by_the_paper_ring_check():
+    W, H = TS.SIZE
+    for base in (Image.new("RGB", (W, H)), _machine(W, H), _paper(W, H)):
+        for cls in ("DRAWN", "AI-GENERATED", "ARCHIVE", "RECONSTRUCTED"):
+            arr = _with_glyph(base, cls)
+            assert TS.glyph_shows(arr, cls), cls
+            assert TS.any_glyph(arr) == cls, cls
+        assert not TS.glyph_shows(_with_glyph(base, "DRAWN"), "AI-GENERATED")
+        assert not TS.glyph_shows(_with_glyph(base, "AI-GENERATED"), "DRAWN")
+        assert not TS.glyph_shows(_with_glyph(base, "CARD"), "RECONSTRUCTED")
+
+
+# --------------------------------------------------------------------------
+# A40 title slot: a placeholder (title_slot: true) holds the slot until the series title is spliced in
+# (founder ruling 2026-10-18: "the title is standalone, spliced via render --shots; a film never waits for
+# its title"). title-theme accepts the main_title cue over a contiguous run of these shots exactly as over
+# a title_sequence; none of A40's other per-shot checks run for a placeholder (it has no asset, no A7 pose).
+# --------------------------------------------------------------------------
+
+
+def slot_film(tmp_path, *, ids=("TS1", "TS1b"), title_slot=True, extra_before=0.0, edit=None):
+    """The fixture film with the cold open followed by placeholder shot(s) standing in for the series
+    titles, instead of a real title_sequence. Together the placeholders span exactly ``TITLE_S``, so the
+    rest of the film shifts by the total (``COLD_S + extra_before + TITLE_S``) regardless of how many
+    placeholder shots make up the run. ``extra_before`` inserts one ordinary card between the cold open and
+    the slot run (a misplaced-run fixture: the slot then sits one shot late). ``edit(play)`` runs last, as
+    in ``titled_film``."""
+    film = make_film(tmp_path / "film")
+    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    total_shift = round(COLD_S + extra_before + TITLE_S, 4)
+
+    def move(x):
+        for k in ("start_s", "end_s"):
+            if isinstance(x.get(k), (int, float)):
+                x[k] = round(x[k] + total_shift, 4)
+    for part in play["parts"]:
+        for coll in ("shots", "lines", "cues", "text"):
+            for x in part.get(coll, []):
+                move(x)
+    for x in play.get("subtitle_source", []) + play.get("music", []) + play.get("moments", []):
+        move(x)
+    play["runtime_target_s"] = play["runtime_target_s"] + total_shift
+    slot_start = round(COLD_S + extra_before, 4)
+    slot_dur = TITLE_S / len(ids)
+    slots = []
+    for k, sid in enumerate(ids):
+        s = {"id": sid, "kind": "card", "start_s": round(slot_start + k * slot_dur, 4), "dur_s": slot_dur, "mark": "CARD",
+             "text": ["The Run"], "transition_in": {"type": "cut"},
+             "why": "The series titles' slot, held by a placeholder until the title is spliced in."}
+        if title_slot:
+            s["title_slot"] = True
+        slots.append(s)
+    series_shots = slots
+    if extra_before:
+        series_shots = [{"id": "X1", "kind": "card", "start_s": COLD_S, "dur_s": extra_before, "mark": "CARD",
+                          "text": ["Not the slot"], "transition_in": {"type": "cut"},
+                          "why": "An ordinary card before the slot (a misplaced-run fixture)."}] + slots
+    play["parts"][:0] = [
+        {"id": "cold", "kind": "cold_open", "title": "Cold open", "shots": [
+            {"id": "CO1", "kind": "black", "start_s": 0.0, "dur_s": COLD_S, "mark": "CARD", "transition_in": {"type": "cut"},
+             "silence": "intended", "why": "The hook, in this test a breath of black."}]},
+        {"id": "series", "kind": "series_title", "title": TS.SERIES, "shots": series_shots}]
+    if edit:
+        edit(play)
+    (film / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    return film
+
+
+def test_a40_title_slot_a_contiguous_run_of_placeholders_takes_the_main_title_theme(tmp_path):
+    def theme(play):
+        play["music"] = [{"id": "MT", "kind": "music", "role": "main_title", "start_s": COLD_S, "end_s": SHIFT, "wav": "mt.wav"}]
+    film = slot_film(tmp_path, edit=theme)
+    plan, j = plan_of(film)
+    assert not isinstance(plan, Exception), plan
+    # the slot run is accepted (no title-theme refusal); there is no title_sequence shot to emit a pass entry for
+    assert not failed(j, "title-theme")
+    # the run counts once, in the right place, each shot an allowed kind: all three now fire real pass entries
+    assert passed(j, "title-sequence-once") and passed(j, "title-sequence-place") and passed(j, "title-slot-kind")
+    # title-sequence-clear runs over the run too, but only ever as a warning for a placeholder
+    assert lints(j, "title-sequence-clear") and all(e["severity"] == "warn" for e in lints(j, "title-sequence-clear"))
+    # none of A40's other per-shot checks (transitions, provenance, format, A7 pose, and so on) are raised for
+    # a placeholder: there is no title_sequence shot, so none of these ever run (once/place/kind/clear do, and
+    # are checked above instead)
+    for rule in RULES:
+        if rule in ("title-sequence-once", "title-sequence-place", "title-sequence-clear"):
+            continue
+        assert not lints(j, rule), (rule, lints(j, rule))
+
+
+def test_a40_title_slot_a_single_placeholder_also_takes_the_theme(tmp_path):
+    def theme(play):
+        play["music"] = [{"id": "MT", "kind": "music", "role": "main_title", "start_s": COLD_S, "end_s": SHIFT, "wav": "mt.wav"}]
+    film = slot_film(tmp_path, ids=("TS1",), edit=theme)
+    plan, j = plan_of(film)
+    assert not isinstance(plan, Exception), plan
+    assert not failed(j, "title-theme")
+    assert passed(j, "title-sequence-once") and passed(j, "title-sequence-place") and passed(j, "title-slot-kind")
+
+
+def test_a40_title_theme_over_a_non_slot_still_still_refuses(tmp_path):
+    """The same shots, the same cue, but without ``title_slot: true``: a plain still is not the slot, so the
+    theme over it refuses exactly as it would over any other non-title shot."""
+    def theme(play):
+        play["music"] = [{"id": "MT", "kind": "music", "role": "main_title", "start_s": COLD_S, "end_s": SHIFT, "wav": "mt.wav"}]
+    film = slot_film(tmp_path, title_slot=False, edit=theme)
+    plan, j = plan_of(film)
+    assert isinstance(plan, R.Refused) and failed(j, "title-theme")
+
+
+def test_a40_title_theme_over_a_slot_run_must_start_on_its_first_frame(tmp_path):
+    """The cue is contained in the run but starts a second late: title-theme holds a slot run to the same
+    bound as a title_sequence shot (the per-shot check at titles.py:565), not mere containment."""
+    def theme_late(play):
+        play["music"] = [{"id": "MT", "kind": "music", "role": "main_title", "start_s": COLD_S + 1.0, "end_s": SHIFT, "wav": "mt.wav"}]
+    plan, j = plan_of(slot_film(tmp_path, edit=theme_late))
+    assert isinstance(plan, R.Refused) and failed(j, "title-theme")
+
+
+def test_a40_title_slot_run_not_right_after_the_cold_open_is_misplaced(tmp_path):
+    """An ordinary card sits between the cold open and the slot: one run, correctly formed, in the wrong
+    place. title-sequence-once still passes (there is only one run); title-sequence-place refuses it."""
+    plan, j = plan_of(slot_film(tmp_path, extra_before=1.0))
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-place")
+    assert passed(j, "title-sequence-once")
+
+
+def test_a40_title_slot_two_separate_runs_refuses_once(tmp_path):
+    """TS1 and TS1b are split by an ordinary card: two runs, not one, even though each is otherwise fine."""
+    def split(play):
+        series = next(p for p in play["parts"] if p["id"] == "series")
+        ts1, ts1b = series["shots"]
+        mid_dur = 1.0
+        ts1["dur_s"] = round(ts1["dur_s"] - mid_dur, 4)
+        mid = {"id": "MID", "kind": "card", "start_s": round(ts1["start_s"] + ts1["dur_s"], 4), "dur_s": mid_dur,
+               "mark": "CARD", "text": ["Not the slot"], "transition_in": {"type": "cut"}, "why": "Splits the run."}
+        ts1b["start_s"] = round(mid["start_s"] + mid_dur, 4)
+        series["shots"] = [ts1, mid, ts1b]
+    plan, j = plan_of(slot_film(tmp_path, edit=split))
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-once")
+    ev = next(e for e in lints(j, "title-sequence-once") if e["status"] == "fail")
+    assert len(ev["evidence"]["slot_runs"]) == 2
+
+
+def test_a40_title_slot_a_real_title_plus_a_slot_both_refuses_once(tmp_path, masters):
+    """A real title_sequence and a title_slot placeholder never coexist, wherever the placeholder sits."""
+    def add_slot(play):
+        s1 = next(sh for part in play["parts"] for sh in part.get("shots", []) if sh["id"] == "S1")
+        s1["title_slot"] = True
+    plan, j = plan_of(titled_film(tmp_path, masters, edit=add_slot))
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-once")
+    ev = next(e for e in lints(j, "title-sequence-once") if e["status"] == "fail")
+    assert ev["evidence"]["title_shots"] == ["TS1"] and ev["evidence"]["slot_runs"] == [["S1"]]
+
+
+def test_a40_title_slot_on_a_chapter_black_shot_is_misplaced(tmp_path):
+    """A title_slot flag on an ordinary chapter shot (S8, a black shot deep in the fixture film, not right
+    after any cold open): black is an allowed kind, so only its place is wrong."""
+    film = make_film(tmp_path / "film")
+    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    s8 = next(sh for part in play["parts"] for sh in part.get("shots", []) if sh["id"] == "S8")
+    assert s8["kind"] == "black"
+    s8["title_slot"] = True
+    (film / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    plan, j = plan_of(film)
+    assert isinstance(plan, R.Refused) and failed(j, "title-sequence-place")
+    assert passed(j, "title-slot-kind") and passed(j, "title-sequence-once")
+
+
+def test_a40_title_slot_kind_refuses_a_clip_or_a_video():
+    """Only a still, a card or black may wear the slot: title-slot-kind refuses a video shot flagged
+    title_slot. Called directly against plan_lints with a synthetic shot, independent of the rest of a
+    plan (an archive_video shot needs more setup than this check cares about)."""
+    calls = []
+
+    def lint(rule, ok, **kw):
+        calls.append((rule, ok, kw))
+
+    class StubJournal:
+        def lint(self, *a, **k):
+            pass
+
+        def decision(self, *a, **k):
+            pass
+    shots = [{"id": "V1", "kind": "archive_video", "title_slot": True, "f0": 0, "f1": 48, "_part_kind": "series_title"}]
+    TS.plan_lints(lint, StubJournal(), {"parts": []}, shots, {}, lines=[], texts=[], cues=[], vl=[], silences=[], fps=24.0)
+    assert any(rule == "title-slot-kind" and not ok for rule, ok, kw in calls)
+
+
+def test_a40_title_slot_placeholder_still_obeys_every_other_lint(tmp_path):
+    """A placeholder is an ordinary shot otherwise: voice over it still fails A55 voice-over-black, which is
+    checked at render time (voice_over_black_lints runs after build_plan, inside render()), not at plan time."""
+    def voice(play):
+        play["parts"][1]["lines"] = [{"id": "LX", "kind": "narration", "start_s": COLD_S + 0.2, "text": "Over the slot."}]
+    film = slot_film(tmp_path, edit=voice)
+    tone(film / "audio" / "LX.wav", 1.0)
+    j = J.Journal(film="a40-slot-voice")
+    with pytest.raises(R.Refused, match="voice-over-black"):
+        R.render(film, tmp_path / "out", height=360, workers=1, min_free_gb=1, encode_preset="veryfast", journal=j)
+
+
+def test_a40_title_slot_is_title_slot_and_contiguous_runs_helpers():
+    assert TS.is_title_slot({"title_slot": True}) and not TS.is_title_slot({"title_slot": "true"})
+    assert not TS.is_title_slot({})
+    assert TS._contiguous_runs([2, 3, 4, 7, 8, 11]) == [[2, 3, 4], [7, 8], [11]]
+    assert TS._contiguous_runs([]) == []
+
+
+def test_ruling_18_title_provenance_refuses_a_missing_or_misspelt_credit_kind(tmp_path, masters):
+    """Ruling 18 (2026-11-07): the credit counts every picture input by its kind, so each states one of CREDIT_KINDS;
+    title-provenance refuses a misspelt kind and a missing one, naming the item (no default to period record)."""
+    base = {"title": "A globe", "licence": "CC0", "ai": False, "source_page": "https://example.org/g",
+            "licence_evidence": "read 2026-11-07", "sha256": "5" * 64}
+    items = [dict(base, id="SCAN-1", credit_kind="museum object scan"), dict(base, id="TEX-1")]
+    plan, j = plan_of(titled_film(tmp_path, masters, prov_items=items))
+    assert isinstance(plan, R.Refused) and failed(j, "title-provenance")
+    probs = next(e for e in lints(j, "title-provenance") if e["status"] == "fail")["evidence"]["problems"]
+    assert any(p.startswith("SCAN-1: credit_kind 'museum object scan' is not one of") for p in probs)
+    assert any(p.startswith("TEX-1: no credit_kind") for p in probs)
+
+
+def test_a40_the_crossfade_into_the_card_ring_on_paper_reads_as_a_fade():
+    """Panama v12 (24 fps): ARCHIVE's dot crossfading into CARD's ring over the lockup's paper. mark_frame blends the
+    two tiles and composites the blend, so the centre leaves the straight line from dot to paper; the check models
+    the drawn blend (a solid-into-hollow fade on film black is unchanged), and paper alone mid-fade still fails."""
+    W, H = TS.SIZE
+    fonts = M.Fonts()
+    fps = 24.0
+    marks = [{"frame": 0, "cls": "DRAWN", "label": "Drawn"}, {"frame": 509, "cls": "ARCHIVE", "label": "Archive · 1914"},
+             {"frame": 539, "cls": "CARD", "label": ""}]
+    item = {"marks": marks, "frames": 683, "fps": 24}
+    paper = _paper(W, H, (196, 182, 156))
+    fades = 0
+    for k in range(539, 545):
+        t = k / fps
+        cls, prev, mix = TS.expected_class(item, k, t)
+        frame = np.asarray(M.mark_frame(paper, t, [{"start": m["frame"] / fps, "cls": m["cls"], "label": m["label"]}
+                                                   for m in marks], fonts).convert("RGB"))
+        got = TS.check_frame(frame, item, k, t)
+        assert got in ("fade", "burned"), (k, got, prev, mix)
+        if prev is not None and mix < 1.0:
+            fades += 1
+            assert TS.check_frame(np.asarray(paper.convert("RGB")), item, k, t) == "fail", k
+    assert fades >= 1
