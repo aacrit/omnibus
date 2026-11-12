@@ -33,4 +33,4 @@ Reading the counts: every count is capped by its daily ceiling, and a browser-se
 - Resolve finishing on the weekly path (per-episode opt-in only); a founder voice-recording workflow; PeerTube; a US edition; a mobile app.
 - Any product-side LLM call.
 
-## Workflows: 3 (gate, verify-production, branch-prune)
+## Workflows: 4 (gate, verify-production, branch-prune, snapshot)

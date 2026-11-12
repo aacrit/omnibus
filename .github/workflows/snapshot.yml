@@ -1,0 +1,69 @@
+# Daily snapshot of void news's printed day (show bible, section h, stage 1):
+# scripts/snapshot.mjs captures it, scripts/snapshot-r2.mjs stores it in the
+# R2 bucket `omnibus` under snapshots/<printed date>/. void news keeps a
+# cluster's deep dive only while the cluster is printed, so a day not
+# captured is lost for good; that is why this runs every day.
+#
+# Rule 10 (Agentique CLAUDE.md) declaration:
+#   owner: Studio (omnibus)
+#   kill_after_idle_days: 21
+#   heartbeat_url: https://omnibus.voidvision.org/api/snapshots/heartbeat
+#
+# 12:00 UTC is the bible's capture time. void news has printed as late as
+# 21:12 UTC, so 23:40 catches a late edition the same day; snapshots are keyed
+# by the edition's printed date, and a run that finds the same edition again
+# writes nothing but the heartbeat.
+#
+# Needs the repo secret CLOUDFLARE_API_TOKEN (an R2 Edit token for this
+# account). Without it the capture still runs and is kept as a workflow
+# artifact for 90 days, as is any capture R2 refused (backfill:
+# `node scripts/snapshot-r2.mjs --root <downloaded artifact>`); the R2 step
+# is skipped with a warning, and the heartbeat goes stale.
+name: snapshot
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+    - cron: "40 23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --no-audit --no-fund
+      - name: Capture the printed day
+        id: capture
+        run: node scripts/snapshot.mjs --out snapshots-out
+      - name: Store it in R2
+        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
+        run: node scripts/snapshot-r2.mjs --dir "snapshots-out/${{ steps.capture.outputs.date }}"
+      - name: R2 is not configured
+        if: ${{ env.CLOUDFLARE_API_TOKEN == '' }}
+        run: |
+          echo "::warning title=Snapshot not stored in R2::The repo secret CLOUDFLARE_API_TOKEN is not set, so ${{ steps.capture.outputs.date }} was kept only as this run's artifact (90 days). Add the secret, then backfill with node scripts/snapshot-r2.mjs --root <downloaded artifacts>."
+      # The capture is kept whenever it did not reach R2, so no printed day
+      # is lost while the secret is missing or R2 is down.
+      - name: Keep the capture as a workflow artifact
+        if: ${{ always() && steps.capture.outcome == 'success' && (env.CLOUDFLARE_API_TOKEN == '' || failure()) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-${{ steps.capture.outputs.date }}-${{ github.run_id }}
+          path: snapshots-out/
+          retention-days: 90
+          if-no-files-found: error
