@@ -1,0 +1,33 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/asset/as11-40-5903",
+  "at": "2026-11-12T09:02:44Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/asset/as11-40-5903",
+   "items": [
+    {
+     "href": "http://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~orig.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~large.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~medium.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~small.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/as11-40-5903/as11-40-5903~thumb.jpg"
+    },
+    {
+     "href": "http://images-assets.nasa.gov/image/as11-40-5903/metadata.json"
+    }
+   ]
+  }
+ }
+}

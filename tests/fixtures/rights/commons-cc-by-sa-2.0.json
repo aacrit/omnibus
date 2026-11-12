@@ -1,0 +1,127 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3ASpain-36+-+Toledo+%282218865210%29.jpg",
+  "at": "2026-11-12T09:02:42Z",
+  "by": "T2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 66953897,
+     "ns": 6,
+     "title": "File:Spain-36 - Toledo (2218865210).jpg",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2018-03-02T00:34:11Z",
+       "user": "Artix Kreiger 2",
+       "size": 13595600,
+       "width": 6624,
+       "height": 4448,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Spain-36_-_Toledo_%282218865210%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Spain-36_-_Toledo_(2218865210).jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=66953897",
+       "sha1": "0b7976cba0b14ed14b85c84838144cc9d6ecba20",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Spain-36 - Toledo (2218865210)",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Toledo, Spain in the 2010s|Photographs of Spain by Dennis G. Jarvis|Spain photographs taken on 2016-04-21|Files uploaded by Artix Kreiger|Flickr images reviewed by FlickreviewR 2|Cityscapes of Toledo, Spain",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Toledo is a world heritage site.  It is a medieval city of narrow winding streets that sits on a small hill and the river Tajo on three sides. From earliest times it had magnificent fortified defences, the Tajo River  as a natural moat, and a wall built by the Romans, Visigoths, and Moors.  Toledo, Spain\nNo other city can compare to Toledo in culture, artistic and historic richness. The fame of the ancient capital of Spain spread abroad making the city important in the universal art.  Here the three ethnic groups Arabs, Jews and Christians worked together in consensus, coexisted peacefully, each contributing to the rich diversity of Toledo. In 1561 Felipe II moved the capital of Spain to Madrid.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2016-04-21 17:09",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/archer10/2218865210/\">Spain-36 - Toledo</a>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<bdi><a href=\"https://www.wikidata.org/wiki/Q122977591\" class=\"extiw\" title=\"d:Q122977591\"><span title=\"photographer\">Dennis G. Jarvis</span></a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY-SA 2.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution-Share Alike 2.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by-sa/2.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-sa-2.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:CC-BY-SA-2.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Cityscapes of Toledo, Spain"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Files uploaded by Artix Kreiger"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Flickr images reviewed by FlickreviewR 2"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Photographs of Spain by Dennis G. Jarvis"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Spain photographs taken on 2016-04-21"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Toledo, Spain in the 2010s"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}
