@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Framings board, week 32</title>
+<link rel="stylesheet" href="../../tokens.css">
+<link rel="stylesheet" href="frame.css">
+</head>
+<body>
+<div class="frame">
+<div class="field">
+  <div class="board-head"><span class="bc-caps eyebrow-bc">The weight</span><span class="bc-mono eyebrow-bc">WEEK 32</span></div>
+  <div class="rows"><div class="brow">
+  <div class="flap" style="margin-left:0px"><span class="flap-block bc-board" style="animation-delay:0ms">Israel's election too close to call. And, the Ebola outbreak reaches grim milestone</span></div>
+  <div class="outlet-line"><span class="outlet bc-caps r-center-left" data-x="411.4" style="left:411.4px">NPR</span></div>
+</div><div class="brow">
+  <div class="flap" style="margin-left:76px"><span class="flap-block bc-board" style="animation-delay:400ms">Congo’s Ebola outbreak tops 10,000 cases as authorities race to slow the spread in African countries - AP News</span></div>
+  <div class="outlet-line"><span class="outlet bc-caps r-center" data-x="576.0" style="left:576.0px">Associated Press</span></div>
+</div><div class="brow">
+  <div class="flap" style="margin-left:152px"><span class="flap-block bc-board" style="animation-delay:800ms">Risk of Ebola spread in UK is low, experts stress</span></div>
+  <div class="outlet-line"><span class="outlet bc-caps r-center-right" data-x="740.6" style="left:740.6px">The Telegraph</span></div>
+</div><div class="brow">
+  <div class="flap" style="margin-left:152px"><span class="flap-block bc-board" style="animation-delay:1200ms">UN officials condemn killing of nurse in DR Congo - CGTN</span></div>
+  <div class="outlet-line"><span class="outlet bc-caps r-far-right" data-x="1069.7" style="left:1069.7px">CGTN (China Global Television Network)</span></div>
+</div></div>
+  <svg class="ladder-base" viewBox="0 0 1152 16" aria-hidden="true"><line x1="0.0" y1="2" x2="0.0" y2="14"/><line x1="82.3" y1="2" x2="82.3" y2="14"/><line x1="164.6" y1="2" x2="164.6" y2="14"/><line x1="246.9" y1="2" x2="246.9" y2="14"/><line x1="329.1" y1="2" x2="329.1" y2="14"/><line x1="411.4" y1="2" x2="411.4" y2="14"/><line x1="493.7" y1="2" x2="493.7" y2="14"/><line x1="576.0" y1="2" x2="576.0" y2="14"/><line x1="658.3" y1="2" x2="658.3" y2="14"/><line x1="740.6" y1="2" x2="740.6" y2="14"/><line x1="822.9" y1="2" x2="822.9" y2="14"/><line x1="905.1" y1="2" x2="905.1" y2="14"/><line x1="987.4" y1="2" x2="987.4" y2="14"/><line x1="1069.7" y1="2" x2="1069.7" y2="14"/><line x1="1152.0" y1="2" x2="1152.0" y2="14"/><rect class="b-center-left" x="397.4" y="0" width="28" height="16"/><rect class="b-center" x="562.0" y="0" width="28" height="16"/><rect class="b-center-right" x="726.6" y="0" width="28" height="16"/><rect class="b-far-right" x="1055.7" y="0" width="28" height="16"/></svg>
+  <div class="ladder-labels" aria-hidden="true"><span class="bc-caps" style="left:82.3px">Far Left</span><span class="bc-caps" style="left:246.9px">Left</span><span class="bc-caps" style="left:411.4px">Center-Left</span><span class="bc-caps" style="left:576.0px">Center</span><span class="bc-caps" style="left:740.6px">Center-Right</span><span class="bc-caps" style="left:905.1px">Right</span><span class="bc-caps" style="left:1069.7px">Far Right</span></div>
+</div>
+<script>
+  // The engine's rule, mirrored: an outlet name centres on its rung, then is
+  // clamped inside title-safe (field x 144 to 1296) by measuring its width.
+  document.fonts.ready.then(function () {
+    document.querySelectorAll(".outlet").forEach(function (o) {
+      var x = parseFloat(o.dataset.x), half = o.offsetWidth / 2;
+      if (x + half > 1152) o.classList.add("clamp-r"), o.style.left = "1152px";
+      else if (x - half < 0) o.classList.add("clamp-l"), o.style.left = "0px";
+    });
+  });
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="What void omnibus counts, and what it never records.">
+<title>Privacy · void omnibus</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body data-default-state="success">
+<header class="site-header"><div class="wrap"><a class="lockup" href="home.html" aria-label="void omnibus, the programme guide"><span>V</span><svg class="sigil-o" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.70" stroke-width="2.6"/></svg><span>ID</span><span class="word2">OMNIBUS</span></a><nav class="nav" aria-label="Site"><a href="home.html">Guide</a><a href="privacy.html" aria-current="page">Privacy</a></nav></div></header>
+<main>
+
+<div class="wrap wrap--read">
+  <p class="crumb"><a href="home.html">void omnibus</a> / Privacy</p>
+  <h1 class="h1">Privacy</h1>
+  <p class="lede">void omnibus counts a few named events as daily totals. It does not record who you are, keeps no cookie or local storage, and loads nothing from another company.</p>
+
+  <section class="section" aria-labelledby="pc"><div class="stair" aria-hidden="true"></div>
+    <div class="section-head"><h2 id="pc">What is counted</h2><span class="muted">Totals per day, nothing per person</span></div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th scope="col">Event</th><th scope="col">Counted when</th></tr></thead><tbody>
+      <tr><td class="mono">page_view</td><td data-k="Counted when">A page was opened.</td></tr><tr><td class="mono">week_opened</td><td data-k="Counted when">A week's record was read to its last line.</td></tr><tr><td class="mono">episode_started</td><td data-k="Counted when">An episode began playing.</td></tr><tr><td class="mono">episode_completed</td><td data-k="Counted when">An episode reached its final 30 seconds.</td></tr><tr><td class="mono">source_opened</td><td data-k="Counted when">A link on a sources page was followed.</td></tr><tr><td class="mono">correction_submitted</td><td data-k="Counted when">A correction was sent.</td></tr>
+    </tbody></table></div>
+    <p class="small ink-2">Each count has a daily ceiling, and anyone can send one, so a sudden spike is read as suspect rather than as an audience.</p>
+  </section>
+
+  <section class="section" aria-labelledby="pf"><div class="stair" aria-hidden="true"></div>
+    <div class="section-head"><h2 id="pf">The forms</h2></div>
+    <p>The feedback form and the correction form send the text you type and the page you sent it from. The server stores them with the time they arrived and nothing else. Please leave out your name, email and other personal details.</p>
+  </section>
+
+  <section class="section" aria-labelledby="pn"><div class="stair" aria-hidden="true"></div>
+    <div class="section-head"><h2 id="pn">Your connection</h2></div>
+    <p>Every page, script, style, font and video comes from this site. To stop abuse, the server limits how many requests one network can make in a short time. For that it uses your IP address (for IPv6, only its network part) while answering: Cloudflare keeps a short-lived count in memory, and void omnibus never stores or logs the address. Cloudflare, which hosts the site, still handles your IP address to deliver it, as any host does.</p>
+    <p>One exception: if one IP address sends more than <span class="num" data-numeral>30</span> requests to voidvision.org sites in <span class="num" data-numeral>10</span> seconds, Cloudflare's firewall blocks it for <span class="num" data-numeral>10</span> seconds and records each blocked request (the address, the page asked for and the browser's user agent) in a security log that Cloudflare keeps for a limited time. That log is used only to see and stop abuse.</p>
+  </section>
+
+  <section class="section" aria-labelledby="pr"><div class="stair" aria-hidden="true"></div>
+    <div class="section-head"><h2 id="pr">Retention and deletion</h2></div>
+    <p>Daily totals are kept indefinitely; a total identifies no one. Feedback and correction text is kept for <span class="num" data-numeral>90</span> days, then deleted automatically. The database can restore itself to any moment in the last <span class="num" data-numeral>7</span> days, so deleted text can remain in that window for up to <span class="num" data-numeral>7</span> more days.</p>
+    <p>To have something you sent deleted sooner, describe it well enough to find (the page and roughly when) through the feedback form on the home page.</p>
+  </section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap"><span>A void news programme</span><a href="privacy.html">Privacy</a><a href="home.html">Feed (RSS)</a><span>Episodes and pages: CC BY-SA 4.0</span></div></footer>
+<script>
+  // Mock-only switches: ?state=<name> shows that state, ?theme=light|dark pins the theme.
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var t = q.get("theme"); if (t) document.documentElement.setAttribute("data-theme", t);
+    var s = q.get("state") || document.body.getAttribute("data-default-state");
+    document.querySelectorAll("[data-state]").forEach(function (el) {
+      el.hidden = el.getAttribute("data-state").split(" ").indexOf(s) < 0;
+    });
+  })();
+</script>
+
+</body>
+</html>
