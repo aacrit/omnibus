@@ -12,6 +12,8 @@ const MAX_FILE_BYTES = 5 * 1024 * 1024;
 const FORBIDDEN_PATTERNS = [
   /^dist\//,
   /^\.wrangler\//,
+  // Snapshots of void news go to R2 (scripts/snapshot-r2.mjs), never git.
+  /^(\.cache|snapshots|snapshots-out)\//,
   /(^|\/)node_modules\//,
   /\.tsbuildinfo$/,
   /(^|\/)cloudflare-env\.d\.ts$/,
