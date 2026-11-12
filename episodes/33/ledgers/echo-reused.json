@@ -1,6 +1,6 @@
 {
   "issue": 33,
-  "echo": "vietnam-war",
+  "echo": "korean-war",
   "written": "2026-11-12",
   "document_ref": "document@b62c4fa",
   "rules": [
@@ -12,7 +12,7 @@
     "document@b62c4fa films/panama-canal/{stills,footage,pages,drawn,table,facts}-ledger.json",
     "~/document-work/<film>/*-ledger.json for apollo13, black-sunday, endurance, episode, episode-v2, every-three-minutes, market-street, mountain-speaks, partition, sept11, smallpox, teaser, thirteen-days"
   ],
-  "finding": "No void document ledger holds an item about the war or the American home front between 1964 and 31 March 1968, so nothing is reused. The Echo's items are new fetches (echo-pick.json items), to be ledgered by the fetcher in rights-ledger.json.",
+  "finding": "No void document ledger holds an item about the war in Korea or the American home front between 1950 and 1952, so nothing is reused. The Echo's items are new fetches (echo-pick.json items), to be ledgered by the fetcher in rights-ledger.json.",
   "items": [],
   "refused": []
 }

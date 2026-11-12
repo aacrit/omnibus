@@ -56,6 +56,26 @@ const DEFAULT_ECHO = { slug: "spanish-flu-1918", alternate: "black-death" };
 const DEFAULT_ECHO_ISSUE = 32;
 const ECHO_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ECHO_DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+/** A YYYY-MM-DD string naming a day that exists (no 31 April, no 29 February 1951). */
+export function isRealDate(text) {
+  if (typeof text !== "string" || !ECHO_DATE.test(text)) return false;
+  const [y, m, d] = text.split("-").map(Number);
+  const t = new Date(Date.UTC(y, m - 1, d));
+  return t.getUTCFullYear() === y && t.getUTCMonth() === m - 1 && t.getUTCDate() === d;
+}
+
+/**
+ * Whether an echo's horizon falls inside its history record's span: the
+ * years its date_display names ("1950-1953"), first to last. A record that
+ * names no year cannot be checked, so it refuses any horizon.
+ */
+export function horizonInSpan(horizon, dateDisplay) {
+  const years = [...String(dateDisplay ?? "").matchAll(/\b(\d{4})\b/g)].map((m) => Number(m[1]));
+  if (!years.length) return false;
+  const y = Number(horizon.slice(0, 4));
+  return y >= Math.min(...years) && y <= Math.max(...years);
+}
 const echoPath = (slug) => `data/history/events/${slug}.yaml`;
 const SCHEMAS = new Set([1, 2]);
 export const NO_PRINT = "absent from archive.json printed_on and from the weekly's week_days";
@@ -142,7 +162,7 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
   if (echoChoice !== undefined && echoChoice !== "pending" && !(typeof echoChoice === "string" && echoChoice.length <= 80 && ECHO_SLUG.test(echoChoice))) {
     throw new Error(`echo must be "pending" or a history bank slug (a-z, 0-9, hyphens), not ${JSON.stringify(echoChoice)}`);
   }
-  if (echoHorizon !== undefined && (echoChoice === undefined || echoChoice === "pending" || !ECHO_DATE.test(String(echoHorizon)))) {
+  if (echoHorizon !== undefined && (echoChoice === undefined || echoChoice === "pending" || !isRealDate(echoHorizon))) {
     throw new Error(`--echo-horizon needs an echo slug and a YYYY-MM-DD date, not ${JSON.stringify(echoHorizon)}`);
   }
   if (echoApprovedBy !== undefined && (echoHorizon === undefined || typeof echoApprovedBy !== "string" || !echoApprovedBy.trim() || echoApprovedBy.length > 120)) {
@@ -380,6 +400,9 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
     const echo = await source.echo(echoPath(slug));
     const field = (k) => new RegExp(`^${k}: (.*)$`, "m").exec(echo.text)?.[1]?.replace(/^'|'$/g, "") ?? null;
     if (field("slug") !== slug) throw new Error(`echo record ${echoPath(slug)} names slug ${field("slug")}, not ${slug}`);
+    if (echoHorizon !== undefined && !horizonInSpan(echoHorizon, field("date_display"))) {
+      throw new Error(`--echo-horizon ${echoHorizon} is outside ${slug}'s span (${field("date_display")})`);
+    }
     echoOut = {
       slug,
       title: field("title"),

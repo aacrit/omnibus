@@ -29,7 +29,7 @@
 // pools their members into the lead, and strips a provable Google News
 // publisher suffix from board headlines (scripts/lib/normalise.mjs); it needs
 // the git source. The default, 1, is week 32's rules. Week 33:
-//   node scripts/normalise-week.mjs --issue 33 --at dcffaaf8bf5e979808cd195de80e2403af074c64 --schema 2 --echo vietnam-war --echo-horizon 1968-03-31 --echo-approved-by "founder, chat 2026-11-12"
+//   node scripts/normalise-week.mjs --issue 33 --at dcffaaf8bf5e979808cd195de80e2403af074c64 --schema 2 --echo korean-war --echo-horizon 1952-11-05 --echo-approved-by "founder, chat 2026-11-12"
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";

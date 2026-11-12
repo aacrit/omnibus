@@ -1,42 +1,86 @@
 {
   "issue": 33,
-  "ticket": "E1",
+  "ticket": "E1 (redone after review)",
   "written": "2026-11-12",
   "by": "Opus analyst (E1 of the void omnibus engine plan)",
   "approved_by": "founder, chat 2026-11-12",
-  "approval": "The founder approved vietnam-war with the horizon 1968-03-31 (chat 2026-11-12). data/week-33.json records it as echo.status \"approved\" with the same slug, horizon and approver.",
+  "approval": "The founder chose korean-war (1952) in chat on 2026-11-12, after the reviewer blocked the first pick (vietnam-war) on false and unshown facts. data/week-33.json records the same slug, horizon and approver as echo.status \"approved\".",
+  "supersedes": "the vietnam-war pick of the same day (commits b7d11dd and 660f6ac); its analysis is kept below only as a rejected candidate, with the corrected facts",
   "week": {
-    "record": "data/week-33.json at main (E0 merged as 1877580, regenerated in this branch with --echo vietnam-war --echo-horizon 1968-03-31 --echo-approved-by \"founder, chat 2026-11-12\"). Nothing here depends on day leads or outlet counts.",
+    "record": "data/week-33.json at main 1877580, regenerated here with --echo korean-war --echo-horizon 1952-11-05 --echo-approved-by \"founder, chat 2026-11-12\". Nothing here depends on day leads or outlet counts.",
     "cover_headline": "The Cost of the Strait",
     "lead": "JD Vance blames the Iran war for the Republican midterm defeat (cluster 2ec1fcb8)",
     "mechanism": "A war fought abroad comes home as higher prices and a closed sea lane, the governing party loses a national election, and a leader inside that party names the war as the reason."
   },
   "method": {
-    "order": "Mechanism fit first (0 to 5). Asset availability (0 to 5) only breaks ties between equal fits, and among equal fits media already in a void document ledger wins. no-bridge is applied before scoring.",
-    "no_bridge": "A candidate is excluded when its own story cannot be told without naming an entity from the week's stories (the lead, the day leads, the margins).",
-    "asset_inputs": "void history evidence ledgers at voidnews@cd8a126 (entries, rights: public, recordings); void document ledgers at document@b62c4fa (films/panama-canal) and on the render machine (~/document-work/<film>/*-ledger.json); Wikimedia Commons imageinfo read on 2026-11-12 for the chosen echo only."
+    "order": "Mechanism fit first (0 to 5); asset availability (0 to 5) breaks ties, and among equal fits media already in a void document ledger wins. no-bridge is applied before scoring, on the founder's narrow reading (no_bridge below).",
+    "sources_rule": "Every count and quotation below was read from a primary source opened on 2026-11-12 and hashed (sources). A quotation is used only for what its speaker linked himself."
   },
+  "sources": [
+    {
+      "id": "src-nh-manual-1953",
+      "what": "Manual for the General Court, No. 33 (1953), New Hampshire Department of State, Concord: 'Democrat Presidential Primary Vote', Vote on Preference for President of U. S., summary by counties, printed page 426",
+      "url": "https://archive.org/download/manualforgeneral33newh/manualforgeneral33newh.pdf",
+      "sha256": "ef239ba943b940d9ba14ea904969f631fcd3b74af3a3a5b1a5991ce4330ef621",
+      "locator": "PDF page 452 (printed page 426); the primary's date, 11 March 1952, is on printed page 305 ('elected at the Presidential Primary as of March 11, 1952')",
+      "read": "Totals row read from the page image: Kefauver 19800, Truman 15927, Farley 77, MacArthur 151, Stevenson 40, Scattering 257",
+      "printed": "1953, after the horizon: shown as a later-printed record of a count made in March 1952"
+    },
+    {
+      "id": "src-truman-19520329",
+      "what": "Harry S. Truman, Address at the Jefferson-Jackson Day Dinner, 29 March 1952 (Public Papers of the Presidents, Harry S. Truman, 1952-53, item 69), the Truman Library's text; its note: 'The President spoke at 10:30 p.m. at the National Guard Armory in Washington.'",
+      "url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+      "sha256": "0ab64abac915d13cae4a5470df67b393c2b33f47622c0d1f154601202290a5f4",
+      "printed": "the Public Papers volume was printed after the horizon: a later-typeset page"
+    },
+    {
+      "id": "src-truman-19510614",
+      "what": "Harry S. Truman, Radio and Television Report to the American People on the Need for Extending Inflation Controls, 14 June 1951 ('[Broadcast from the White House at 10:30 p.m.]'), The American Presidency Project, from the Public Papers",
+      "url": "https://www.presidency.ucsb.edu/documents/radio-and-television-report-the-american-people-the-need-for-extending-inflation-controls",
+      "sha256": "5e4529bcce689eefaf58da37ecc8952f9abf61d1e1f1d44d50666b2f2f358ab7"
+    },
+    {
+      "id": "src-eisenhower-19521024",
+      "what": "Text of the address by Dwight D. Eisenhower, Republican nominee for President, delivered at Detroit, Michigan, 24 October 1952 (Eisenhower campaign train press release, for the morning papers of 25 October 1952), Eisenhower Presidential Library, 6 pages, scan without a text layer",
+      "url": "https://www.eisenhowerlibrary.gov/sites/default/files/research/online-documents/korean-war/i-shall-go-to-korea-1952-10-24.pdf",
+      "sha256": "e11195ce35f5291b06e30ae6e2e02a5546b821dbb6765fc205e0ad74d76550ab",
+      "transcription": "the quotations below were transcribed by the analyst from the page images (page 1 and page 5) on 2026-11-12; the reader line must be checked against the scan before E5"
+    },
+    {
+      "id": "src-fr-19510130",
+      "what": "Federal Register, vol. 16, no. 20, Tuesday 30 January 1951: Office of Price Stabilization, Economic Stabilization Agency, General Ceiling Price Regulation (issued 26 January 1951) with its statement of considerations ('This regulation, freezing prices at the highest levels charged in the period December 19, 1950-January 25, 1951'), pages 808 to 817",
+      "url": "https://www.govinfo.gov/content/pkg/FR-1951-01-30/pdf/FR-1951-01-30.pdf",
+      "sha256": "84213c6ee2f40a62229b22aa702d7858dc31fc93d4acac24131b295638d9cb31",
+      "printed": "30 January 1951, inside the horizon; a federal publication ('There are no restrictions on the republication of material appearing in the Federal Register', page 794)"
+    },
+    {
+      "id": "src-nara-ofr-1952",
+      "what": "National Archives, Office of the Federal Register, 1952 Electoral College Results (Eisenhower 442, Stevenson 89)",
+      "url": "https://www.archives.gov/electoral-college/1952",
+      "sha256": "52fdaa24f09ece7dab3160c4f9f7106cdeafb1008db2b42269fe124bd498b67a",
+      "printed": "the electors voted in December 1952, after the horizon: cited as the later record of the 4 November vote, never shown as known at the horizon"
+    }
+  ],
   "candidates": [
     {
-      "slug": "vietnam-war",
-      "source": "void history event + evidence ledger",
-      "horizon": "1968-03-31",
+      "slug": "korean-war",
+      "source": "void history event + evidence ledger; primary sources above",
+      "horizon": "1952-11-05",
       "fit": 4,
-      "mechanism": "A war fought far away comes home as rising prices and a strained dollar, the governing party's own voters turn on it in its first primary, and its leader, naming the war, says he will not run again.",
-      "fit_reason": "War abroad, cost at home through prices, a vote inside the governing party, and its own leader naming the war, all in one period document (the 31 March 1968 address). No sea lane closes.",
+      "mechanism": "A war fought abroad brings price and wage controls at home; on 11 March 1952 the sitting President loses his own party's New Hampshire primary to Senator Estes Kefauver, 19,800 votes to 15,927; on 29 March he says he will not run again; on 4 November 1952 his party loses the presidency.",
+      "fit_reason": "A war abroad, its cost at home as price and wage controls, the sitting President beaten in his own party's first primary, his withdrawal, and his party's loss of the presidency, all inside one horizon and all on primary record.",
       "assets": 3,
       "asset_counts": {
         "document_ledger_items": 0,
-        "history_ledger_entries": 54,
-        "history_ledger_public": 23,
-        "history_recordings": 3,
-        "history_recordings_passing": 2,
-        "commons_pd_or_allowlisted_found": 9,
-        "footage_seconds": 1753.2,
+        "history_ledger_entries": 34,
+        "history_ledger_public": 19,
+        "history_recordings": 0,
+        "allowlisted_items_found": 7,
+        "footage_seconds": 0,
         "period_documents": 3,
         "period_perspectives": 2
       },
-      "bridge": "clear: the story needs none of the week's named actors (see no_bridge_watch for the home-frame words)"
+      "bridge": "clear on the founder's reading; the parties are named as 1952 institutions (no_bridge)"
     },
     {
       "slug": "world-war-i",
@@ -44,7 +88,7 @@
       "horizon": "1918-11-05",
       "fit": 4,
       "mechanism": "Submarines close the sea lanes, food and fuel prices climb at home, and the governing party loses both houses at a midterm its President had asked voters to make a vote on the war.",
-      "fit_reason": "Sea lane, prices and a lost midterm; no held document of a party figure naming the war as the cause.",
+      "fit_reason": "Sea lane, prices and a lost midterm; not checked against primary sources in this session, and no held document of a party figure naming the war.",
       "assets": 1,
       "asset_counts": {
         "document_ledger_items": 0,
@@ -54,25 +98,23 @@
         "period_documents": 0,
         "period_perspectives": 0
       },
-      "bridge": "risk: the story names Britain and France, both in the week's record (the 5 Nov day beat is British)"
+      "bridge": "risk: the story names Britain and France, both in the week's record"
     },
     {
-      "slug": "korean-war",
+      "slug": "vietnam-war",
       "source": "void history event + evidence ledger",
-      "horizon": "1952-11-04",
-      "fit": 3,
-      "mechanism": "A stalemated war abroad brings price controls and a wage freeze at home, and the governing party loses the presidency after twenty years.",
-      "fit_reason": "War and prices fit; no sea lane, and the held ledger has no price or home-front material and no party figure naming the war.",
-      "assets": 2,
-      "asset_counts": {
-        "document_ledger_items": 0,
-        "history_ledger_entries": 34,
-        "history_ledger_public": 19,
-        "history_recordings": 0,
-        "footage_seconds": 0,
-        "period_documents": 2,
-        "period_perspectives": 2
-      },
+      "horizon": "1968-03-31",
+      "fit": 2,
+      "status": "rejected (reviewer, 2026-11-12)",
+      "mechanism": "A war abroad, a President who tells the nation that prices and interest rates have risen because Congress has not passed his tax bill, and who on 31 March 1968 says he will not seek his party's nomination.",
+      "corrected_facts": [
+        "Johnson won the 12 March 1968 New Hampshire primary as a write-in candidate; McCarthy was second (the reviewer gives about 49.6% to 41.9%; not re-read from an official count in this session). The first pick's sentence said the reverse and was false.",
+        "No national election was lost inside the 31 March 1968 horizon.",
+        "The 'prices' sentence of 31 March 1968 blames congressional inaction on the tax bill, not the war; it cannot carry the mechanism.",
+        "Guevara is not a home-front perspective.",
+        "e33-echo-02 of the first pick (the address film) is the LBJ Library's YouTube post with an unknown camera, so 'federal work' was not shown; e33-echo-08 had neither a basis nor a date."
+      ],
+      "assets": 3,
       "bridge": "clear"
     },
     {
@@ -81,7 +123,7 @@
       "horizon": "405 BC (Aegospotami)",
       "fit": 3,
       "mechanism": "A city's grain route through a strait is cut during a long war abroad, and its assembly votes under the cost.",
-      "fit_reason": "Strait and cost at home fit; no election turns out a governing party.",
+      "fit_reason": "Strait and cost at home; no election turns out a governing party.",
       "assets": 1,
       "asset_counts": {
         "document_ledger_items": 0,
@@ -99,18 +141,15 @@
       "horizon": "1962-10-28",
       "fit": 2,
       "mechanism": "A government closes a sea lane by naval quarantine two weeks before a midterm election.",
-      "fit_reason": "Sea lane and an election, but no war, no cost at home through prices, and no party punished.",
+      "fit_reason": "Sea lane and an election; no war, no cost at home through prices, no party punished.",
       "assets": 5,
       "asset_counts": {
         "document_ledger_items": 44,
         "history_ledger_entries": 61,
         "history_ledger_public": 23,
-        "history_recordings": 3,
-        "footage_seconds": 0,
-        "period_documents": 5,
-        "period_perspectives": 3
+        "history_recordings": 3
       },
-      "bridge": "watch: the Soviet Union (the week names Russia)"
+      "bridge": "clear on the founder's reading (the Soviet Union is not the week's Russia as an actor)"
     },
     {
       "slug": "berlin-airlift (void document film every-three-minutes; not in the history bank)",
@@ -124,7 +163,7 @@
         "document_ledger_items": 34,
         "footage_seconds": 11098
       },
-      "bridge": "risk: the Soviet Union and Germany"
+      "bridge": "watch: Germany"
     },
     {
       "slug": "panama-canal (void document film)",
@@ -146,413 +185,399 @@
       "slug": "iran-iraq-war",
       "names": [
         "Iran"
-      ],
-      "note": "the tanker war would fit the strait best; it is the week's own state"
+      ]
     },
     {
       "slug": "suez-crisis",
       "names": [
-        "Israel",
-        "Britain",
-        "France"
-      ],
-      "note": "a closed canal and petrol rationing at home would fit; the story cannot be told without the week's actors"
+        "Israel"
+      ]
     },
     {
       "slug": "six-day-war",
       "names": [
         "Israel"
-      ],
-      "note": "the closure of the Straits of Tiran"
+      ]
     },
     {
       "slug": "oil-embargo-1973 (not in the history bank)",
       "names": [
         "Israel",
         "Saudi Arabia"
-      ],
-      "note": "the week prints damage to an Aramco building on 8 Nov"
+      ]
     }
   ],
   "top_three": [
-    "vietnam-war (fit 4, assets 3)",
+    "korean-war (fit 4, assets 3)",
     "world-war-i (fit 4, assets 1)",
-    "korean-war (fit 3, assets 2)"
+    "peloponnesian-war (fit 3, assets 1)"
   ],
   "chosen": {
-    "slug": "vietnam-war",
-    "reason": "Highest mechanism fit, tied with world-war-i; the tie goes to assets (3 against 1), and world-war-i also risks bridging through Britain. No candidate with existing document media fits at 4 or more, so the document-media preference does not decide this pick.",
-    "mechanism": "A war fought far away comes home as rising prices and a strained dollar, the governing party's own voters turn on it in its first primary, and its leader, naming the war, says he will not run again.",
-    "fit_gap": "No sea lane closes in this echo. The Echo shows the cost at home and the leader's own words; it does not reach for a sea parallel (the 1964 Gulf of Tonkin incident lies outside the told story and is not used as a hook).",
-    "as_of": "1968-03-31T23:59:59-05:00",
-    "as_of_basis": "the evening of Sunday 31 March 1968 in Washington, when the President's address was broadcast live (the Daily Diary entry for the date, e33-echo-04). Nothing dated or made public after it enters the Echo.",
-    "outside_horizon": [
-      "the killings at My Lai of 16 March 1968, not public until November 1969",
-      "the Pentagon Papers (completed 1969, published 1971), although public domain and in the history ledger",
-      "the assassinations of 4 April and 5 June 1968",
-      "the passage of the tax surcharge in June 1968",
-      "the November 1968 result"
+    "slug": "korean-war",
+    "reason": "The founder's choice (chat 2026-11-12), and the highest fit on primary record: every link of the mechanism except the sea lane is held in a source opened and hashed here. It ties world-war-i on fit and leads it on assets and on sourcing.",
+    "mechanism": "A war fought abroad brings price and wage controls at home; on 11 March 1952 the sitting President loses his own party's New Hampshire primary to Senator Estes Kefauver, 19,800 votes to 15,927; on 29 March he says he will not run again; on 4 November 1952 his party loses the presidency.",
+    "mechanism_sources": {
+      "price and wage controls": "src-fr-19510130; src-truman-19510614",
+      "19,800 votes to 15,927": "src-nh-manual-1953",
+      "29 March": "src-truman-19520329",
+      "4 November 1952": "src-nara-ofr-1952 (the later record of the vote)"
+    },
+    "fit_gap": [
+      "No sea lane closes.",
+      "Truman gave no reason tied to Korea when he withdrew; his 29 March words are used only for the withdrawal.",
+      "The New Hampshire vote is a preference poll inside one party in one state, not a national election.",
+      "Congress is not in the mechanism sentence: the 1952 House and Senate majorities were not read from a primary source in this session, and they were settled in the days after the vote.",
+      "No leader of the governing party names the war as the reason for the loss inside the horizon (the week's lead has one); none is held."
     ],
-    "told_story": "Tet (30 January 1968) and its pictures; the cost at home as the President stated it (prices, interest rates, the dollar, the deficit); his own party's first primary; the address of 31 March, on the desk as a draft page and heard in its own sound.",
-    "as_of_record": "data/week-33.json echo.horizon \"1968-03-31\" (the date part of as_of); the history record's date_display \"1955-1975\" is kept beside it as the event's span, not its horizon."
+    "as_of": "1952-11-05T12:00:00-05:00",
+    "as_of_basis": "The vote was cast on Tuesday 4 November 1952; the horizon is noon in Washington the next day, so the Echo may say who won the presidency and nothing more. The official counts (electors' votes in December 1952, the Clerk's statistics in 1953) are later records and are never shown as known at the horizon. Before the writer uses the result, a period source for it dated 5 November (for example Truman's own message on the result in the Public Papers) is to be fetched and hashed; this session did not find one.",
+    "outside_horizon": [
+      "the electors' votes of 15 December 1952 and the Clerk's printed counts",
+      "the December 1952 trip to Korea",
+      "the armistice of 27 July 1953",
+      "the 1953 congressional session"
+    ],
+    "told_story": "the war abroad (1951 pictures from the front); the price freeze of January 1951 on the desk; Truman's own words on prices and controls (June 1951); the New Hampshire count of 11 March 1952; the dinner of 29 March 1952 and the line he spoke there; Eisenhower's Detroit speech of 24 October 1952; the vote of 4 November."
   },
   "period_perspectives": [
     {
-      "who": "Lyndon B. Johnson, President",
-      "where": "Washington, broadcast address to the nation",
-      "date": "1968-03-31",
-      "quote": "In the past 8 months, prices and interest rates have risen because of our inaction.",
-      "quote_sha256": "bdb55201173925d4b27ddf7e4aca41a2f8048d2c96d05ce9dbed8b620bf25978",
-      "source": "The President's Address to the Nation Announcing Steps To Limit the War in Vietnam and Reporting His Decision Not To Seek Reelection, Public Papers of the Presidents, via The American Presidency Project, https://www.presidency.ucsb.edu/node/238065 (page fetched 2026-11-12, sha256 fdfdd10827c3d9a17282f83946dbbd1537a464fe4b64ef61317654c0712119c2)",
+      "who": "Harry S. Truman, President (the governing party)",
+      "where": "broadcast from the White House, Washington",
+      "date": "1951-06-14",
+      "quote": "This is the problem of inflation and high prices.",
+      "quote_sha256": "7759abd732b7f21c3723494eae12afeb1e3bd9cbdbacfdad67389d2b53f1a4b8",
+      "also": {
+        "quote": "We would need controls even if the fighting in Korea stopped tomorrow.",
+        "quote_sha256": "434c59d5d6a689f0c4fd758912f31f3947107b1b3b57a8809d971166e1b36b27"
+      },
+      "linked_by_speaker": "Truman links the controls to Korea and the defence mobilisation himself in this address.",
+      "source": "src-truman-19510614",
       "rights": "public (a presidential address, a federal work)"
     },
     {
-      "who": "Lyndon B. Johnson, President",
-      "where": "the same address",
-      "date": "1968-03-31",
-      "quote": "Accordingly, I shall not seek, and I will not accept, the nomination of my party for another term as your President.",
-      "quote_sha256": "898673df4e1006cd78a53d0e22f252d8a1f63a6ef61c60136adadcc355206dea",
-      "source": "voidnews@cd8a126 data/history/evidence/vietnam-war/extracts/src-app-lbj-19680331.secwithdraw.txt (verbatim substring)",
-      "rights": "public"
+      "who": "Harry S. Truman, President",
+      "where": "Jefferson-Jackson Day Dinner, National Guard Armory, Washington, 10:30 p.m.",
+      "date": "1952-03-29",
+      "quote": "I shall not be a candidate for reelection.",
+      "quote_sha256": "84ad550844ada9eb11b35440cd216465be50c1a8dccbec2c53986dd44f243588",
+      "linked_by_speaker": "the withdrawal only; he did not tie it to Korea, and the Echo does not",
+      "source": "src-truman-19520329",
+      "rights": "public",
+      "avoid": "the same address names Iran ('in Italy and Iran') in another passage; that passage is never quoted"
     },
     {
-      "who": "Ernesto Che Guevara",
-      "where": "Message to the Tricontinental, published in Havana by OSPAAAL",
-      "date": "1967-04-16",
-      "quote": "How close we could look into a bright future should two, three or many Vietnams flourish throughout the world with their share of deaths and their immense tragedies, their everyday heroism and their repeated blows against imperialism, impelled to disperse its forces under the sudden attack and the increasing hatred of all peoples of the world!",
-      "quote_sha256": "32020eccc910b206cecb3ac4124189db688732949a5d2f5e90af7148beffc14d",
-      "source": "voidnews@cd8a126 data/history/evidence/vietnam-war/extracts/src-che-tricontinental-1967-en.secvietnams.txt (Marxists Internet Archive English, no translator named; the Spanish original is held as src-che-tricontinental-1967-es)",
-      "rights": "copyright; quoted, never shown as a page"
-    }
-  ],
-  "more_period_words": [
-    {
-      "who": "Lyndon B. Johnson",
-      "quote": "I have lived---daily and nightly--with the cost of this war.",
-      "quote_sha256": "7abe7ab7f72d4a875b17e502935f863ebc9190a04092d89a375abb6bf38d702f",
-      "source": "the same address (APP text; the dashes are the web text's)"
-    },
-    {
-      "who": "Lyndon B. Johnson",
-      "quote": "I don’t know what in the hell, it looks like to me that we’re getting into another Korea. It just worries the hell out of me.",
-      "source": "voidnews@cd8a126 vietnam-war ledger, recording clip-johnson-another-korea-19640527 (LBJ Library, 'RIGHTS Public domain'; transcript gate PASS)",
-      "known_by": "a private White House recording, not public by the horizon; use it only if the as-of lint admits a period record that was not then public"
+      "who": "Dwight D. Eisenhower, Republican nominee for President (the opposition)",
+      "where": "Detroit, Michigan",
+      "date": "1952-10-24",
+      "quote": "In this anxious autumn for America, one fact looms above all others in our people's mind.",
+      "quote_sha256": "188d6129582b928d16e194134ed45a61ae773ae23b7bd8d879ca70c659cdcbfa",
+      "also": [
+        {
+          "quote": "This fact, this tragedy, this word is: Korea.",
+          "quote_sha256": "48e66695bc0ede391f12972f8f5f7c8ecccac96298e2fe52372d7d00288959f4"
+        },
+        {
+          "quote": "I shall go to Korea.",
+          "quote_sha256": "530845bafd8e587e3919608e93701c64b1226051214687feecc4c8bcbd0d9936"
+        }
+      ],
+      "linked_by_speaker": "Eisenhower makes Korea the issue of the election himself in this address.",
+      "source": "src-eisenhower-19521024 (transcribed from the scan)",
+      "rights": "a campaign text, quoted only"
     }
   ],
   "period_documents": [
     {
-      "id": "e33-echo-03",
-      "what": "a draft page of the 31 March 1968 address (LBJ Library via DPLA)",
-      "licence": "pd-us-federal"
+      "id": "src-fr-19510130",
+      "what": "the General Ceiling Price Regulation in the Federal Register of 30 January 1951, printed then",
+      "licence": "pd-us-federal",
+      "show": "toured as the printed page"
     },
     {
-      "id": "e33-echo-04",
-      "what": "the President's Daily Diary for 31 March 1968",
-      "licence": "pd-us-federal"
+      "id": "src-eisenhower-19521024",
+      "what": "the Detroit speech as the campaign train released it, 24 October 1952",
+      "licence": "none: quoted, not shown",
+      "show": "read by the reader voice only"
     },
     {
-      "id": "src-app-lbj-19680331",
-      "what": "the address as printed in the Public Papers, typeset verbatim as a page (tier 5)",
-      "licence": "pd-us-federal"
+      "id": "src-truman-19520329",
+      "what": "the 29 March 1952 address",
+      "licence": "pd-us-federal",
+      "show": "typeset verbatim as a page and labelled as printed later (Public Papers)"
+    }
+  ],
+  "counts_on_screen": [
+    {
+      "what": "New Hampshire Democratic preference for President, 11 March 1952",
+      "values": {
+        "Kefauver": 19800,
+        "Truman": 15927
+      },
+      "source": "src-nh-manual-1953",
+      "show": "a count card from the record; the Manual's page is printed later and is not shown as of March 1952"
     }
   ],
   "items": [
     {
       "id": "e33-echo-01",
       "kind": "still",
-      "title": "Lyndon B. Johnson addresses the Nation March 31, 1968 - LBJ Museum C9284-35.jpg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:Lyndon_B._Johnson_addresses_the_Nation_March_31,_1968_-_LBJ_Museum_C9284-35.jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Lyndon_B._Johnson_addresses_the_Nation_March_31%2C_1968_-_LBJ_Museum_C9284-35.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "Yoichi Okamoto",
-      "credit_as_stated": "LBJ Museum &amp; Library, White House Photo Office collection, Serial number: C9284-35",
-      "date": "1968-03-31",
-      "date_basis": "Commons DateTimeOriginal and the LBJ Library serial C9284-35",
+      "title": "Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President_announced..._-_NARA_-_200382.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200382, NLT-AVC-PHT-(73)3881, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, carried on the Commons page by the National Archives bot",
       "licence": "pd-us-federal",
-      "basis": "White House Photo Office photograph by Yoichi Okamoto, a federal employee acting in his official duties",
-      "licence_as_stated": "Public domain",
+      "basis": "a work of a federal employee in his official duties (17 U.S.C. 105); Commons PD-USGov and NARA-Author: Rowe, Abbie",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov",
+        "Creator:Abbie Rowe"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Lyndon_B._Johnson_addresses_the_Nation_March_31,_1968_-_LBJ_Museum_C9284-35.jpg",
-        "captured_text": "LicenseShortName: Public domain; Artist: Yoichi Okamoto; Credit: LBJ Museum &amp; Library, White House Photo Office collection, Serial number: C9284-35",
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "acc2b062da8d46f2a2b604a87d057c9ba114725f",
-      "file_bytes": 2278402,
-      "width": 4910,
-      "height": 3299,
-      "uploader": "Martin H.",
-      "uploaded": "2010-07-24T20:41:29Z",
+      "commons_sha1": "7f294cce9043253b7853bbacfbd5f9249e638ee5",
+      "file_bytes": 1668786,
+      "width": 3000,
+      "height": 2399,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:10:59Z",
       "inside_horizon": true,
-      "note": "The address itself. Cropped copies exist; fetch the uncropped original."
+      "note": "The President and Mrs. Truman at the Jefferson-Jackson Day Dinner, the night he said he would not run. The 2026 catalogue search did not return this older identifier; the fetcher re-reads the NARA record before ledgering."
     },
     {
       "id": "e33-echo-02",
-      "kind": "footage",
-      "title": "President Johnson Addresses the Nation on his Decision not to Seek Reelection - March 31, 1968.webm",
-      "item_url": "https://commons.wikimedia.org/wiki/File:President_Johnson_Addresses_the_Nation_on_his_Decision_not_to_Seek_Reelection_-_March_31,_1968.webm",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/2/25/President_Johnson_Addresses_the_Nation_on_his_Decision_not_to_Seek_Reelection_-_March_31%2C_1968.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "Lyndon B. Johnson Presidential Library",
-      "credit_as_stated": "YouTube: President Johnson addresses the nation on his decision not to seek reelection – View/save archived versions on archive.org",
-      "date": "1968-03-31",
-      "date_basis": "Commons DateTimeOriginal; the LBJ Library's own title",
+      "kind": "still",
+      "title": "Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200380, NLT-AVC-PHT-(73)3872, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, as above",
       "licence": "pd-us-federal",
-      "basis": "film of the President's broadcast address held by the LBJ Presidential Library (NARA); a federal work",
-      "licence_as_stated": "Public domain",
+      "basis": "as e33-echo-01",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov",
+        "Creator:Abbie Rowe"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:President_Johnson_Addresses_the_Nation_on_his_Decision_not_to_Seek_Reelection_-_March_31,_1968.webm",
-        "captured_text": "LicenseShortName: Public domain; Artist: Lyndon B. Johnson Presidential Library; Credit: YouTube: President Johnson addresses the nation on his decision not to seek reelection – View/save archived versions on archive.org",
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "470992ffd0a268a2daf407dc8dc0fd137d6a50d2",
-      "file_bytes": 3596050,
-      "duration_s": 38.17,
-      "width": 1920,
-      "height": 1080,
-      "uploader": "PublicDomainFan08",
-      "uploaded": "2026-02-28T19:27:09Z",
+      "commons_sha1": "ecf5ee701f4e227ffd277381411e8dfc1a0ee515",
+      "file_bytes": 1844911,
+      "width": 3000,
+      "height": 2404,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:10:17Z",
       "inside_horizon": true,
-      "note": "38.2 s of the address with its own sound. The uploader copied the Library's YouTube post; the fetcher's uploader check must match it to the Library's original before use."
+      "note": "The President receiving applause at the dinner, National Guard Armory, Washington."
     },
     {
       "id": "e33-echo-03",
-      "kind": "page",
-      "title": "Draft Page Three of the Last Section of the March 31, 1968 Speech by Lyndon Johnson - DPLA - 175aae94c1ffd07a45f3245c0f9def85.pdf",
-      "item_url": "https://commons.wikimedia.org/wiki/File:Draft_Page_Three_of_the_Last_Section_of_the_March_31,_1968_Speech_by_Lyndon_Johnson_-_DPLA_-_175aae94c1ffd07a45f3245c0f9def85.pdf",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Draft_Page_Three_of_the_Last_Section_of_the_March_31%2C_1968_Speech_by_Lyndon_Johnson_-_DPLA_-_175aae94c1ffd07a45f3245c0f9def85.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "Johnson, Lyndon B. (Lyndon Baines), 1908-1973",
-      "credit_as_stated": "File URL Catalog record",
-      "date": "1968-03-31",
-      "date_basis": "the DPLA / LBJ Library catalogue date",
+      "kind": "still",
+      "title": "Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President..._-_NARA_-_200383.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200383, NLT-AVC-PHT-(73)3883, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, as above",
       "licence": "pd-us-federal",
-      "basis": "a draft of the President's address, a presidential record in the LBJ Library (NARA), served through DPLA",
-      "licence_as_stated": "Public domain",
+      "basis": "as e33-echo-01",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Draft_Page_Three_of_the_Last_Section_of_the_March_31,_1968_Speech_by_Lyndon_Johnson_-_DPLA_-_175aae94c1ffd07a45f3245c0f9def85.pdf",
-        "captured_text": "LicenseShortName: Public domain; Artist: Johnson, Lyndon B. (Lyndon Baines), 1908-1973; Credit: File URL Catalog record",
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "a868868f9e834397a1c3630e81efded3e801be70",
-      "file_bytes": 476413,
-      "width": 1275,
-      "height": 1650,
-      "uploader": "DPLA bot",
-      "uploaded": "2026-05-15T23:02:44Z",
+      "commons_sha1": "c08bcef79e84ba7945644b83b6fef3aa286978d5",
+      "file_bytes": 1779036,
+      "width": 3000,
+      "height": 2399,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:11:25Z",
       "inside_horizon": true,
-      "note": "Period document for the desk. Read its own words from the scan before any reader line quotes it."
+      "note": "A third frame at the dinner. The .tif master of the same record is on Commons too; fetch one, not both."
     },
     {
       "id": "e33-echo-04",
-      "kind": "page",
-      "title": "President's Daily Diary Entry, March 31, 1968 - DPLA - 40628e7cd058f6fed38ee36cd9c20a2b (page 9).gif",
-      "item_url": "https://commons.wikimedia.org/wiki/File:President%27s_Daily_Diary_Entry,_March_31,_1968_-_DPLA_-_40628e7cd058f6fed38ee36cd9c20a2b_(page_9).gif",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/President%27s_Daily_Diary_Entry%2C_March_31%2C_1968_-_DPLA_-_40628e7cd058f6fed38ee36cd9c20a2b_%28page_9%29.gif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "President (1963-1969 : Johnson). Office of the President. (11/22/1963 - 01/20/1969)",
-      "credit_as_stated": "File URL Catalog record",
-      "date": "1968-03-31",
-      "date_basis": "the catalogue gives 1968-03-31/1968-04-01: the diary runs past midnight",
+      "kind": "still",
+      "title": "Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 200379, NLT-AVC-PHT-(73)3866, Truman Library audiovisual collection",
+      "author": "Abbie Rowe (1905-1967), National Park Service photographer, a federal employee photographing the President in the course of his duties",
+      "date": "1952-03-29",
+      "date_basis": "the NARA record's date, as above",
       "licence": "pd-us-federal",
-      "basis": "the President's Daily Diary, kept by the White House staff, a presidential record in the LBJ Library (NARA)",
-      "licence_as_stated": "Public domain",
+      "basis": "as e33-echo-01",
+      "commons_templates": [
+        "Template:NARA-Author",
+        "Template:PD-USGov",
+        "Creator:Abbie Rowe"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:President%27s_Daily_Diary_Entry,_March_31,_1968_-_DPLA_-_40628e7cd058f6fed38ee36cd9c20a2b_(page_9).gif",
-        "captured_text": "LicenseShortName: Public domain; Artist: President (1963-1969 : Johnson). Office of the President. (11/22/1963 - 01/20/1969); Credit: File URL Catalog record",
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: Abbie Rowe; licence template: {{PD-USGov",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "bfbade77456c6ec70aca2a303c559bb14014ea5a",
-      "file_bytes": 123214,
-      "width": 792,
-      "height": 609,
-      "uploader": "DPLA bot",
-      "uploaded": "2026-05-16T01:08:41Z",
+      "commons_sha1": "0923e10465e6230e11edbaa4c70c8e453ba029e6",
+      "file_bytes": 1565735,
+      "width": 3000,
+      "height": 2406,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-10-21T10:10:04Z",
       "inside_horizon": true,
-      "note": "Period document. Page 9 is the page the search returned; any page or line timed after 23:59 on 31 March is outside the horizon and is not shown."
+      "note": "Arrival at the National Guard Armory before the address."
     },
     {
       "id": "e33-echo-05",
       "kind": "still",
-      "title": "Meeting LBJ, Rusk and Clifford.jpg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:Meeting_LBJ,_Rusk_and_Clifford.jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Meeting_LBJ%2C_Rusk_and_Clifford.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "Yoichi Okamoto",
-      "credit_as_stated": "LBJ Library",
-      "date": "1968-03-26",
-      "date_basis": "Commons DateTimeOriginal",
+      "title": "Long trek southward, Seemingly endless file of Korean refugees slogs through snow outside of Kangnung, blocking... - NARA - 531397.tif",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Long_trek_southward%2C_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung%2C_blocking..._-_NARA_-_531397.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 531397, 111-SC-356475, Records of the Office of the Chief Signal Officer (RG 111), Photographs of American Military Activities; use and access unrestricted (catalogue read 2026-11-12)",
+      "author": "a US Army Signal Corps photographer (RG 111-SC; the record names no individual)",
+      "date": "1951-01-08",
+      "date_basis": "the NARA record's production date, 8 January 1951",
       "licence": "pd-us-federal",
-      "basis": "White House Photo Office photograph by Yoichi Okamoto",
-      "licence_as_stated": "Public domain",
+      "basis": "a work of the US Army made in the course of duty (17 U.S.C. 105); Commons PD-USGov",
+      "commons_templates": [
+        "Template:PD-USGov"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Meeting_LBJ,_Rusk_and_Clifford.jpg",
-        "captured_text": "LicenseShortName: Public domain; Artist: Yoichi Okamoto; Credit: LBJ Library",
+        "url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+        "captured_text": "LicenseShortName: Public domain; Artist: Unknown authorUnknown author or not provided; licence template: {{PD-USGov",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "c7ff8d66f1b6843aa9b2680f07da590bf401723e",
-      "file_bytes": 1150301,
-      "width": 2000,
-      "height": 1343,
-      "uploader": "Governor Jerchel",
-      "uploaded": "2013-09-17T19:20:34Z",
+      "commons_sha1": "51a5231d90394b736df2f543c9a65e8fe05a36ea",
+      "file_bytes": 7557282,
+      "width": 3000,
+      "height": 2519,
+      "uploader": "US National Archives bot",
+      "uploaded": "2011-09-12T20:25:27Z",
       "inside_horizon": true,
-      "note": "Prefer the NARA master (e33-echo-06) if it is the same frame; keep one, not both."
+      "note": "Refugees in snow outside Kangnung: the war abroad, inside the horizon. The NARA title names no week entity."
     },
     {
       "id": "e33-echo-06",
       "kind": "still",
-      "title": "Advisors, Secretary of Defense Clark Clifford, Secretary of State Dean Rusk, President Lyndon B. Johnson in Oval Office - NARA - 192577.tif",
-      "item_url": "https://commons.wikimedia.org/wiki/File:Advisors,_Secretary_of_Defense_Clark_Clifford,_Secretary_of_State_Dean_Rusk,_President_Lyndon_B._Johnson_in_Oval_Office_-_NARA_-_192577.tif",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Advisors%2C_Secretary_of_Defense_Clark_Clifford%2C_Secretary_of_State_Dean_Rusk%2C_President_Lyndon_B._Johnson_in_Oval_Office_-_NARA_-_192577.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "Yoichi Okamoto",
-      "credit_as_stated": "U.S. National Archives and Records Administration",
-      "date": "1968-03-26",
-      "date_basis": "NARA catalogue 192577 (Oval Office)",
+      "title": "Missouri infantrymen with the 19th Infantry Regiment along the Kumsong front wish Happy New Year to the stateside folks. - NARA - 531422.tif",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 531422, 111-SC-387519, RG 111 as above; unrestricted",
+      "author": "a US Army Signal Corps photographer (RG 111-SC; no individual named)",
+      "date": "1951-12-14",
+      "date_basis": "the NARA record's production date, 14 December 1951",
       "licence": "pd-us-federal",
-      "basis": "White House Photo Office photograph by Yoichi Okamoto; uploaded by the US National Archives bot",
-      "licence_as_stated": "Public domain",
+      "basis": "a work of the US Army made in the course of duty; Commons PD-USGov",
+      "commons_templates": [
+        "Template:PD-USGov"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Advisors,_Secretary_of_Defense_Clark_Clifford,_Secretary_of_State_Dean_Rusk,_President_Lyndon_B._Johnson_in_Oval_Office_-_NARA_-_192577.tif",
-        "captured_text": "LicenseShortName: Public domain; Artist: Yoichi Okamoto; Credit: U.S. National Archives and Records Administration",
+        "url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+        "captured_text": "LicenseShortName: Public domain; Artist: Unknown authorUnknown author or not provided; licence template: {{PD-USGov",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "8815ba955bc1fc85c2486ba9a28d7ed3867c37d7",
-      "file_bytes": 5952282,
+      "commons_sha1": "05feb794feb538176a8015710cfd014ab569901b",
+      "file_bytes": 7587282,
       "width": 3000,
-      "height": 1984,
+      "height": 2529,
       "uploader": "US National Archives bot",
-      "uploaded": "2011-09-27T23:24:23Z",
+      "uploaded": "2011-09-12T20:12:24Z",
       "inside_horizon": true,
-      "note": "Possibly the same frame as e33-echo-05; counted once."
+      "note": "Infantrymen on the Kumsong front sending New Year greetings home: the front and the home front in one frame."
     },
     {
       "id": "e33-echo-07",
       "kind": "still",
-      "title": "A deserted street in Saigon during the Tet fighting.jpg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:A_deserted_street_in_Saigon_during_the_Tet_fighting.jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/A_deserted_street_in_Saigon_during_the_Tet_fighting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "SP5 James Newlin",
-      "credit_as_stated": "https://www.fold3.com/image/246006770/cc45843-page-1-us-photos-vietnam-war-army-1963-1973",
-      "date": "1968-02-01",
-      "date_basis": "Commons DateTimeOriginal; NARA 111-CCV-529-CC45843",
+      "title": "Bell H-13 and Curtiss C-46 in Korea 1952.jpg",
+      "item_url": "https://commons.wikimedia.org/wiki/File:Bell_H-13_and_Curtiss_C-46_in_Korea_1952.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Bell_H-13_and_Curtiss_C-46_in_Korea_1952.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "archive": "Wikimedia Commons (copy of a National Archives record)",
+      "original": "National Archives identifier 542283, 342-AF-86335AC, Records of U.S. Air Force Commands, Activities, and Organizations (RG 342); unrestricted",
+      "author": "a US Air Force photographer (RG 342-AF; no individual named)",
+      "date": "1952-06",
+      "date_basis": "the NARA record dates it June 1952; the Commons page says 1952-01. NARA's date is used",
       "licence": "pd-us-federal",
-      "basis": "US Army photograph by SP5 James Newlin, Signal Corps (NARA RG 111)",
-      "licence_as_stated": "Public domain",
+      "basis": "a work of the US Air Force made in the course of duty; Commons PD-USGov-Military-Air Force",
+      "commons_templates": [
+        "Template:PD-USGov-Military-Air Force"
+      ],
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:A_deserted_street_in_Saigon_during_the_Tet_fighting.jpg",
-        "captured_text": "LicenseShortName: Public domain; Artist: SP5 James Newlin; Credit: https://www.fold3.com/image/246006770/cc45843-page-1-us-photos-vietnam-war-army-1963-1973",
+        "url": "https://commons.wikimedia.org/wiki/File:Bell_H-13_and_Curtiss_C-46_in_Korea_1952.jpg",
+        "captured_text": "LicenseShortName: Public domain; Artist: USAF (photo 342-AF-86335AC); licence template: {{PD-USGov-Military-Air Force",
         "captured_at": "2026-11-12"
       },
-      "commons_sha1": "d78511f3e1a3e4bb0964dcd9c04010e75323ea0c",
-      "file_bytes": 211130,
-      "width": 1339,
-      "height": 1036,
-      "uploader": "Mztourist",
-      "uploaded": "2025-08-30T08:28:28Z",
+      "commons_sha1": "a0a630cdb35e6207d48b3e3f41ab53d3d40b8ea1",
+      "file_bytes": 2286201,
+      "width": 2829,
+      "height": 1988,
+      "uploader": "Cobatfor",
+      "uploaded": "2011-08-24T06:20:32Z",
       "inside_horizon": true,
-      "note": "The war abroad, two months before the horizon."
-    },
-    {
-      "id": "e33-echo-08",
-      "kind": "still",
-      "title": "US Embassy, Saigon, January 1968.jpg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:US_Embassy,_Saigon,_January_1968.jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/US_Embassy%2C_Saigon%2C_January_1968.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "US Army Military History Institute",
-      "credit_as_stated": "US Army images",
-      "date": "1968-01",
-      "date_basis": "the file's title only; Commons carries no DateTimeOriginal. The fetcher must find the Army original's own date or the item fails the as-of lint",
-      "licence": "pd-us-federal",
-      "basis": "US Army photograph (US Army Military History Institute)",
-      "licence_as_stated": "Public domain",
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:US_Embassy,_Saigon,_January_1968.jpg",
-        "captured_text": "LicenseShortName: Public domain; Artist: US Army Military History Institute; Credit: US Army images",
-        "captured_at": "2026-11-12"
-      },
-      "commons_sha1": "c2e4537f45722590e47dd912f3637ea9beee7099",
-      "file_bytes": 1680156,
-      "width": 1910,
-      "height": 1517,
-      "uploader": "Predator capitalism",
-      "uploaded": "2008-01-29T20:53:39Z",
-      "inside_horizon": true,
-      "note": "Uploaded in 2008 by a third party; the uploader check applies."
-    },
-    {
-      "id": "e33-echo-09",
-      "kind": "footage",
-      "title": "The President- March 1968. MP894..webm",
-      "item_url": "https://commons.wikimedia.org/wiki/File:The_President-_March_1968._MP894..webm",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/The_President-_March_1968._MP894..webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-      "archive": "Wikimedia Commons",
-      "creator_as_stated": "TheLBJLibrary",
-      "credit_as_stated": "YouTube: The President: March 1968. MP894. – View/save archived versions on archive.org",
-      "date": "1968-03",
-      "date_basis": "LBJ Library film MP894 covers March 1968 and was assembled after the month it shows: a picture dated outside its moment, so each shot is dated by its own content",
-      "licence": "cc-by-3.0",
-      "basis": "Commons states CC BY 3.0 (the LBJ Library's YouTube post); its description states the film is public domain, made by the White House Naval Photographic Center, a federal unit",
-      "licence_as_stated": "CC BY 3.0",
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:The_President-_March_1968._MP894..webm",
-        "captured_text": "LicenseShortName: CC BY 3.0; Artist: TheLBJLibrary; Credit: YouTube: The President: March 1968. MP894. – View/save archived versions on archive.org",
-        "captured_at": "2026-11-12"
-      },
-      "commons_sha1": "de84d18554d57c5e561405845307918f8eb60024",
-      "file_bytes": 87387612,
-      "duration_s": 1715.04,
-      "width": 638,
-      "height": 360,
-      "uploader": "SecretName101",
-      "uploaded": "2019-02-24T01:06:46Z",
-      "inside_horizon": "per shot",
-      "note": "1,715 s of footage. Only shots whose content is dated on or before 31 March 1968 may be used; the dot labels the class change."
+      "note": "A helicopter carrying two wounded soldiers to a front-line airstrip. Uploaded in 2011 by a Commons user, not the NARA bot; the fetcher's uploader check applies, and the NARA copy is the one to fetch."
     }
   ],
   "items_counted": {
-    "distinct_pd_or_allowlisted": 8,
-    "note": "e33-echo-05 and e33-echo-06 may be one frame and are counted once. Footage: 38.2 s (the address) + 1,715.0 s (MP894, dated per shot)."
+    "distinct_allowlisted": 7,
+    "bases": "7 pd-us-federal: 4 by Abbie Rowe (National Park Service), 2 by US Army Signal Corps photographers (RG 111), 1 by a US Air Force photographer (RG 342); none from an agency, wire service or network; all dated on or before the horizon",
+    "footage_seconds": 0
   },
   "held_back": [
     {
-      "title": "Address to the Nation Excerpt.ogg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:Address_to_the_Nation_Excerpt.ogg",
-      "licence_as_stated": "Public domain",
-      "reason": "sourced from an archive.org compilation ('Greatest Speeches of the 20th Century'), not from the Library: a laundering suspicion under bible section f. Fetch the LBJ Library's own audio of the address instead."
+      "title": "Terror-stricken Koreans flee the advancing Chinese Communists (SC 355573), National Museum of Health and Medicine (3298815186).jpg",
+      "licence_as_stated": "CC BY 2.0 (the museum's Flickr post)",
+      "reason": "a Signal Corps photograph reached through a museum's Flickr licence, with no capture date on the Commons page; fetch the NARA original of SC 355573 with its date, or leave it"
     },
     {
-      "title": "President Lyndon B. Johnson addresses the Nation, announcing a bombing halt in Vietnam and his intention not to run for re-election.jpg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:President_Lyndon_B._Johnson_addresses_the_Nation,_announcing_a_bombing_halt_in_Vietnam_and_his_intention_not_to_run_for_re-election.jpg",
-      "licence_as_stated": "Public domain",
-      "reason": "probably the same Okamoto negative as e33-echo-01 (4963x3314 against 4910x3299); an alternate, not counted"
+      "title": "Text of the address by Dwight D. Eisenhower, Detroit, 24 October 1952 (Eisenhower campaign train press release)",
+      "item_url": "https://www.eisenhowerlibrary.gov/sites/default/files/research/online-documents/korean-war/i-shall-go-to-korea-1952-10-24.pdf",
+      "licence_as_stated": "none stated",
+      "reason": "a campaign document, not a federal work, and no licence on the Library's page: quoted only (reader voice), never shown as a picture"
     },
     {
-      "title": "1968 New Hampshire Democratic Presidential Primary.svg",
-      "item_url": "https://commons.wikimedia.org/wiki/File:1968_New_Hampshire_Democratic_Presidential_Primary.svg",
-      "licence_as_stated": "CC BY 4.0",
-      "reason": "a 2024 map drawn by a Commons user, not a period item; the engine draws its own map from the official count instead (tier 4)"
+      "title": "The .tif masters of NARA 200380, 200382 and 200383",
+      "licence_as_stated": "Public domain",
+      "reason": "duplicates of e33-echo-01 to -03; one file per record"
     }
   ],
-  "sha_note": "Commons gives sha1 only. sha256 is computed when the fetcher downloads each item into D:/omnibus-media/33/ and is written to rights-ledger.json then. Nothing was downloaded for this pick.",
+  "sha_note": "Commons gives sha1 only; sha256 is computed when the fetcher downloads each item into D:/omnibus-media/33/ and is written to rights-ledger.json then. Source documents were downloaded to the analyst's scratch folder only, and their sha256 is above.",
   "reused_from_document": {
     "items": 0,
     "ledger": "ledgers/echo-reused.json",
-    "reason": "No void document film covers 1964 to 1968. The document-media preference applies only among equally fitting candidates, and no candidate with document media fits at 4."
+    "reason": "No void document film covers 1950 to 1952."
   },
-  "no_bridge_watch": {
+  "no_bridge": {
+    "ruling": "Founder, chat 2026-11-12: no-bridge flags only the week's named actors, places and parties (Vance, Iran, Hormuz, the parties as actors in this week's news), not shared institutions (United States, Congress, Washington).",
+    "parties": "The Korea 1952 story names the Democratic and Republican parties. Read with the ruling, a party as an institution is shared like Congress, so 'Democratic' and 'Republican' are allowed in the Echo as the parties of 1952. What stays flagged is this week's party actors: the persons and bodies named in the week's stories (Vance, Trump, Hegseth, Miller and the rest). Recorded in docs/DECISIONS.md for the founder to see.",
     "must_not_appear_in_echo_lines": [
       "Iran",
       "Israel",
+      "Hormuz",
       "Vance",
       "Trump",
       "Hegseth",
       "Miller",
       "Qeshm",
       "Gulf of Oman",
-      "Hormuz",
       "Saudi",
       "Aramco",
       "Russia",
@@ -560,18 +585,10 @@
       "Kyiv",
       "Britain",
       "British",
-      "United Kingdom",
       "Congo",
       "Ebola",
-      "Antigua",
-      "Democrats",
-      "Republicans",
-      "GOP",
-      "Supreme Court"
-    ],
-    "in_the_period_text": "The 31 March address names the United Kingdom and the Soviet Union (as the Geneva co-chairmen); those passages are not quoted. The chosen quotes say 'my party', not its name.",
-    "ruling": "Founder, chat 2026-11-12: no-bridge flags only the week's named actors, places and parties (Vance, Iran, Hormuz, the parties as actors in this week's news), not shared institutions (United States, Congress, Washington).",
-    "parties_note": "Democrats, Republicans and GOP stay on the list as this week's actors; the chosen quotes say \"my party\", not its name."
+      "Antigua"
+    ]
   },
   "picked_after_week_known": true,
   "picked_after_week_known_statement": "This Echo was picked on 2026-11-12, after week 33's lead was known, because the pre-registered echo bank (24 echoes tagged by mechanism before any week's news, bible section k) has not yet been built."

@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { ARCHIVE_MISSING, NO_PRINT, normaliseWeek, publisherSuffix } from "../scripts/lib/normalise.mjs";
+import { ARCHIVE_MISSING, NO_PRINT, horizonInSpan, isRealDate, normaliseWeek, publisherSuffix } from "../scripts/lib/normalise.mjs";
 
 const H = (t: string) => createHash("sha256").update(t, "utf8").digest("hex");
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -278,6 +278,20 @@ describe("normaliseWeek echo option", () => {
     await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "pending", echoHorizon: "1952-11-04" })).rejects.toThrow(/echo-horizon/);
     await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "korean-war", echoHorizon: "1952" })).rejects.toThrow(/echo-horizon/);
     await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "korean-war", echoApprovedBy: "x" })).rejects.toThrow(/echo-approved-by/);
+  });
+
+  it("refuses a horizon that names no real day, or falls outside the record's span", async () => {
+    for (const bad of ["1952-02-30", "1951-02-29", "1952-04-31", "1952-13-01", "1952-11-5"]) {
+      await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "korean-war", echoHorizon: bad })).rejects.toThrow(/echo-horizon/);
+    }
+    expect(isRealDate("1952-02-29")).toBe(true);
+    expect(isRealDate("1951-02-29")).toBe(false);
+    for (const outside of ["1949-12-31", "1954-01-01"]) {
+      const src = fakeSource({ "data/history/events/korean-war.yaml": KOREA });
+      await expect(normaliseWeek(src, 99, { schema: 2, echo: "korean-war", echoHorizon: outside })).rejects.toThrow(/outside korean-war's span/);
+    }
+    expect(horizonInSpan("1953-07-27", "1950-1953")).toBe(true);
+    expect(horizonInSpan("1952-11-05", "the early fifties")).toBe(false);
   });
 
   it("refuses an echo slug that could leave the history folder, or a record naming another slug", async () => {
