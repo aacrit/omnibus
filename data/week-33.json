@@ -11,16 +11,19 @@
     "repo": "https://github.com/aacrit/void--news",
     "origin_main": "dcffaaf8bf5e979808cd195de80e2403af074c64",
     "weekly": "https://github.com/aacrit/void--news/blob/808964be884d933b66c351fdf9212ea3a30d266e/frontend/build-data/weekly-issues.json",
-    "sources": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/data/sources.json"
+    "sources": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/data/sources.json",
+    "archive": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json"
   },
   "days": [
     {
       "date": "2026-11-02",
       "available": true,
-      "printed_at": "2026-11-02T01:16:17.833893Z",
-      "printed_count": 45,
-      "snapshot": "https://github.com/aacrit/void--news/blob/fd44da84eca56d90f6d9661f9bc8f818b2773db9/frontend/build-data/feed.json",
+      "printed_at": "2026-11-02T00:59:28.821707+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
       "lead": {
+        "cluster_id": "8e67ac5c-5bc9-429b-8218-568b484b7aff",
+        "edition_position": 1,
         "title": "Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit",
         "category": "politics",
         "source_count": 24,
@@ -56,10 +59,12 @@
     {
       "date": "2026-11-03",
       "available": true,
-      "printed_at": "2026-11-03T19:42:08.803452Z",
-      "printed_count": 45,
-      "snapshot": "https://github.com/aacrit/void--news/blob/b78793a9227a53d39b985d42712bcb2c230dae64/frontend/build-data/feed.json",
+      "printed_at": "2026-11-03T19:39:27.128203+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
       "lead": {
+        "cluster_id": "520585bc-680c-482c-9e31-c6118c0cc2a6",
+        "edition_position": 1,
         "title": "Russian Missile and Bomb Strikes Kill Dozens at Ukrainian Aid Facility",
         "category": "conflict",
         "source_count": 30,
@@ -94,16 +99,54 @@
     },
     {
       "date": "2026-11-04",
-      "available": false,
-      "no_print": "no printed edition of that date in the source"
+      "available": true,
+      "printed_at": "2026-11-04T19:39:06.061256+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+      "lead": {
+        "cluster_id": "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
+        "edition_position": 1,
+        "title": "JD Vance Blames Iran War for Republican Midterm Defeat",
+        "category": "politics",
+        "source_count": 53,
+        "buckets": [
+          0,
+          2,
+          11,
+          12,
+          6,
+          9,
+          3
+        ]
+      },
+      "next": [
+        {
+          "title": "Democrats Capture Control of Both Chambers of Congress in Midterms",
+          "source_count": 32
+        },
+        {
+          "title": "World Health Organization Approves Clinical Trials for Two New Ebola Vaccines",
+          "source_count": 17
+        },
+        {
+          "title": "Donald Trump Announces Plan to End Military Aid to Israel",
+          "source_count": 65
+        },
+        {
+          "title": "High Court Hears Arguments Over Australia Ban on Teen Social Media",
+          "source_count": 15
+        }
+      ]
     },
     {
       "date": "2026-11-05",
       "available": true,
-      "printed_at": "2026-11-05T21:12:20.910097Z",
-      "printed_count": 45,
-      "snapshot": "https://github.com/aacrit/void--news/blob/93e0e539213b52342f7df56b0bbbfad0d0acf0d6/frontend/build-data/feed.json",
+      "printed_at": "2026-11-05T20:55:22.285232+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
       "lead": {
+        "cluster_id": "7a6a4b62-e818-4c13-801b-31d0aa47b717",
+        "edition_position": 1,
         "title": "British Healthcare Worker Infected With Ebola Is Evacuated From Congo",
         "category": "health",
         "source_count": 15,
@@ -139,28 +182,26 @@
     {
       "date": "2026-11-06",
       "available": true,
-      "printed_at": "2026-11-06T19:31:29.796647Z",
-      "printed_count": 45,
-      "snapshot": "https://github.com/aacrit/void--news/blob/0589ebad00665664f1cac41f89ef7894172678b1/frontend/build-data/feed.json",
+      "printed_at": "2026-11-06T19:18:18.407444+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
       "lead": {
-        "title": "Meghan Markle's father Thomas Markle Sr. arrested by FBI in Florida",
+        "cluster_id": "23f4f16d-8d64-4f83-86a5-a8573b78a75c",
+        "edition_position": 1,
+        "title": "Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout",
         "category": "politics",
-        "source_count": 29,
+        "source_count": 34,
         "buckets": [
-          0,
-          0,
+          3,
+          1,
           7,
-          5,
+          10,
           2,
-          6,
-          2
+          7,
+          3
         ]
       },
       "next": [
-        {
-          "title": "Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout",
-          "source_count": 34
-        },
         {
           "title": "Kenyan Cult Leader Sentenced to 200 Years for Child Murders",
           "source_count": 33
@@ -170,18 +211,24 @@
           "source_count": 22
         },
         {
-          "title": "Gavin Newsom Commutes Death Sentences of All 548 People on California Death Row",
-          "source_count": 46
+          "title": "Prime Minister Office Welcomes Plan to End United States Aid",
+          "source_count": 26
+        },
+        {
+          "title": "Trump Considers Resuming War on Iran Following Midterm Losses",
+          "source_count": 22
         }
       ]
     },
     {
       "date": "2026-11-07",
       "available": true,
-      "printed_at": "2026-11-07T17:44:40.376502Z",
-      "printed_count": 45,
-      "snapshot": "https://github.com/aacrit/void--news/blob/1db8348f2603dbb576e298966806af62c05dffc4/frontend/build-data/feed.json",
+      "printed_at": "2026-11-07T17:30:11.094818+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
       "lead": {
+        "cluster_id": "225f5760-42f1-4c4e-954f-fad95ea7d6e4",
+        "edition_position": 1,
         "title": "Trump Names Stephen Miller White House Chief of Staff Replacing Susie Wiles",
         "category": "politics",
         "source_count": 68,
@@ -217,10 +264,12 @@
     {
       "date": "2026-11-08",
       "available": true,
-      "printed_at": "2026-11-08T11:57:33.441356Z",
-      "printed_count": 45,
-      "snapshot": "https://github.com/aacrit/void--news/blob/bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c/frontend/build-data/feed.json",
+      "printed_at": "2026-11-08T11:51:04.026416+00:00",
+      "printed_count": 30,
+      "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
       "lead": {
+        "cluster_id": "45f0df91-df59-4c10-a43a-7e66450ca27c",
+        "edition_position": 1,
         "title": "US Military Forms New Task Force to Target Iranian Land Routes",
         "category": "conflict",
         "source_count": 31,
@@ -258,88 +307,130 @@
     "records": [
       {
         "date": "2026-11-02",
+        "cluster_id": "2e2978da-dac0-4642-8259-ea0c6ae9fd97",
         "title": "JD Vance Rallies Conservative Voters in Rome Ahead of Midterms",
         "source_count": 18,
-        "deepdive": "https://github.com/aacrit/void--news/blob/b78793a9227a53d39b985d42712bcb2c230dae64/frontend/public/data/deepdive/2e2978da-dac0-4642-8259-ea0c6ae9fd97.json"
+        "deepdive": "https://github.com/aacrit/void--news/blob/b78793a9227a53d39b985d42712bcb2c230dae64/frontend/public/data/deepdive/2e2978da-dac0-4642-8259-ea0c6ae9fd97.json",
+        "archive": {
+          "printed_on": "2026-11-03",
+          "members": 25,
+          "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json"
+        }
       },
       {
         "date": "2026-11-03",
+        "cluster_id": "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
         "title": "JD Vance Blames Iran War for Republican Midterm Defeat",
         "source_count": 53,
-        "deepdive": null
+        "deepdive": null,
+        "archive": {
+          "printed_on": "2026-11-04",
+          "members": 58,
+          "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json"
+        }
       },
       {
         "date": "2026-11-04",
+        "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
         "title": "JD Vance Blames Midterm Losses on Iran War in Social Media Post",
         "source_count": 45,
-        "deepdive": "https://github.com/aacrit/void--news/blob/93e0e539213b52342f7df56b0bbbfad0d0acf0d6/frontend/public/data/deepdive/b395447b-fb0e-4855-851f-5690ebcb43f6.json"
+        "deepdive": "https://github.com/aacrit/void--news/blob/93e0e539213b52342f7df56b0bbbfad0d0acf0d6/frontend/public/data/deepdive/b395447b-fb0e-4855-851f-5690ebcb43f6.json",
+        "archive": {
+          "printed_on": "2026-11-05",
+          "members": 46,
+          "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json"
+        }
       }
     ],
-    "outlets": 62,
-    "articles": 71,
+    "coverage_complete": true,
+    "outlets": 86,
+    "articles": 114,
+    "untitled_articles": 57,
+    "after_horizon": 0,
     "rung_counts": [
-      0,
+      1,
       3,
-      10,
-      21,
-      7,
-      9,
-      3
+      16,
+      26,
+      12,
+      13,
+      4
     ],
-    "unplaced": 9,
+    "unplaced": 11,
     "board": [
       {
         "rung": "left",
         "outlet": "HuffPost",
+        "cluster_id": "2e2978da-dac0-4642-8259-ea0c6ae9fd97",
+        "record_date": "2026-11-02",
         "headline": "Zohran Mamdani Trolls JD Vance’s New York Boast With A ‘Brutal’ 9-Second Video",
         "headline_raw": "Zohran Mamdani Trolls JD Vance’s New York Boast With A ‘Brutal’ 9-Second Video - HuffPost",
         "stripped_suffix": " - HuffPost",
         "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPeUdqM25IOVJZaThVblkxeXFJdUlYSkt3R0JuRzFWcDBBQXFaNDZVaGNuYlU0SXFmNEhOUWV3MVJiV1p5T3RVVGhleGtUVnhfZ2g3R2wzckhhSWNEeDFGSTQ3WkVjODRka21HOTdaZ1FYU08tWnZUYTM4RFJvWm8wQU5hbi1ycHViUnQtdExnUjNWMUFTb2ZGNk92M2rSAaIBQVVfeXFMTno4ZU1YQTZYbi1IbFBBNXJVVTllbnNseXF3d3JOcGYyb3ZBNEN6TkpjUjFzYS1TU2pGeVl4aVN3X1BSVEw5TmU2ZkJjUnI0NDZvdmV2RTBaLWZDU0djcFN0VnYzSE5tNnYxTDQtaERyQXhRa1IzcWliY2t6Ql80UklUV3k1SXlzdVNYeUxFend5Tk9MSTRxaVZTcnEybGM5R2VR?oc=5",
         "published_at": "2026-11-03T08:20:05+00:00",
-        "sha256": "3758e9f4665f04aaa22ec7dcb60f60d84fcc8f4fe155a683159a16fa8acfc68d"
+        "sha256": "3758e9f4665f04aaa22ec7dcb60f60d84fcc8f4fe155a683159a16fa8acfc68d",
+        "headline_sha256": "5981153a08bd092c70049b21e8c5c99004a59fe2394df0ef4698ef4b4e114fe9"
       },
       {
         "rung": "center-left",
         "outlet": "NPR",
+        "cluster_id": "2e2978da-dac0-4642-8259-ea0c6ae9fd97",
+        "record_date": "2026-11-02",
         "headline": "What Vance's midterm push reveals about his potential 2028 bid",
         "url": "https://www.npr.org/2026/11/02/nx-s1-6023159/what-vances-midterm-push-reveals-about-his-potential-2028-bid",
         "published_at": "2026-11-02T10:00:00+00:00",
-        "sha256": "cdb0a6ec8227fbd71232334de548ba8c5a532863ae71152722f0086ca7c42f61"
+        "sha256": "cdb0a6ec8227fbd71232334de548ba8c5a532863ae71152722f0086ca7c42f61",
+        "headline_sha256": "cdb0a6ec8227fbd71232334de548ba8c5a532863ae71152722f0086ca7c42f61"
       },
       {
         "rung": "center",
-        "outlet": "PBS NewsHour",
-        "headline": "Vance blames Iran war for GOP midterm losses",
-        "url": "https://www.pbs.org/newshour/politics/vance-blames-iran-war-for-gop-midterm-losses",
-        "published_at": "2026-11-04T16:56:43+00:00",
-        "sha256": "6cf400d2e04a51ef6825f5fc396fcde7decde44cac910bb188b72b4201a90a23"
+        "outlet": "The Hill",
+        "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+        "record_date": "2026-11-04",
+        "headline": "Slotkin: Vance should stop trying to ‘cover’ himself over Iran war",
+        "url": "https://thehill.com/homenews/campaign/6200571-elissa-slotkin-jd-vance-donald-trump-iran-war-midterms/",
+        "published_at": "2026-11-05T15:18:18+00:00",
+        "sha256": "5d6545ec9dd1c4bdfa6f02d5d1b2bcdc97c04327465ff3f2f3b1aa60b8ffa130",
+        "headline_sha256": "5d6545ec9dd1c4bdfa6f02d5d1b2bcdc97c04327465ff3f2f3b1aa60b8ffa130"
       },
       {
         "rung": "center-right",
         "outlet": "Chicago Tribune",
+        "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+        "record_date": "2026-11-04",
         "headline": "Vice President JD Vance tries to distance himself from Iran war after GOP’s midterm losses",
         "headline_raw": "Vice President JD Vance tries to distance himself from Iran war after GOP’s midterm losses - Chicago Tribune",
         "stripped_suffix": " - Chicago Tribune",
         "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNNnRMa0lwOHJ2MDRqYWtBUV93Sjh1NDJVSUg3a1lhYWVObXY5Rk9nZTdtZjNIbnIyREc5b3RrTEhpYlg0ajBNdUY3V2VFVDZick9ZeEZaRFVIeWhVNG5qNlJUTnhMRlZoZkU3cTJCVmg0OGh6eUduNTVEU3FYYnpaaw?oc=5",
         "published_at": "2026-11-04T22:17:57+00:00",
-        "sha256": "22caee725959eae3fb07fad852459de47b1cb97dd082f329f0d089cb1763c805"
+        "sha256": "22caee725959eae3fb07fad852459de47b1cb97dd082f329f0d089cb1763c805",
+        "headline_sha256": "3111c9d759c5b2a410d572ff25dc2c7a11fef845c0a8547c87412a1d952b3baf"
       },
       {
         "rung": "right",
         "outlet": "Fox News",
+        "cluster_id": "2e2978da-dac0-4642-8259-ea0c6ae9fd97",
+        "record_date": "2026-11-02",
         "headline": "Vance's midterm rally blitz draws attention from GOP insiders weighing 2028 predictions",
         "url": "https://www.foxnews.com/politics/vance-midterm-rally-blitz-draws-attention-gop-insiders-weighing-2028-predictions",
         "published_at": "2026-11-02T18:23:00+00:00",
-        "sha256": "084ee32ca03d8541a1d6d6954b5d9fa1292b5f5afadd2b83e08b85f59a19b5ff"
+        "sha256": "084ee32ca03d8541a1d6d6954b5d9fa1292b5f5afadd2b83e08b85f59a19b5ff",
+        "headline_sha256": "084ee32ca03d8541a1d6d6954b5d9fa1292b5f5afadd2b83e08b85f59a19b5ff"
       },
       {
         "rung": "far-right",
         "outlet": "Breitbart News",
+        "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+        "record_date": "2026-11-04",
         "headline": "JD Vance Warns Establishment Will Blame Migration Curbs for 2026 Wipeout",
         "url": "https://www.breitbart.com/economy/2026/11/04/jd-vance-warns-establishment-will-blame-migration-curbs-for-2026-wipeout/",
         "published_at": "2026-11-04T18:30:52+00:00",
-        "sha256": "4c12f67c5dc0c6580b2b2c9cdf1fb4a4cd7875b916a95c01cec94c68b6e24b4b"
+        "sha256": "4c12f67c5dc0c6580b2b2c9cdf1fb4a4cd7875b916a95c01cec94c68b6e24b4b",
+        "headline_sha256": "4c12f67c5dc0c6580b2b2c9cdf1fb4a4cd7875b916a95c01cec94c68b6e24b4b"
       }
+    ],
+    "board_untitled_rungs": [
+      "far-left"
     ],
     "ledger": [
       {
@@ -504,6 +595,20 @@
         "published_at": "2026-11-03T12:57:10+00:00"
       },
       {
+        "outlet": "The National",
+        "rung": "center",
+        "headline": null,
+        "url": "https://www.thenationalnews.com/news/us/2026/11/03/us-midterms-live-polling-stations-open-iran-war/",
+        "published_at": "2026-11-03T13:46:15+00:00"
+      },
+      {
+        "outlet": "Raw Story",
+        "rung": "left",
+        "headline": null,
+        "url": "https://www.rawstory.com/vance-2678198843/",
+        "published_at": "2026-11-03T15:26:38+00:00"
+      },
+      {
         "outlet": "Newsweek",
         "rung": "center-right",
         "headline": "JD Vance's Post About New York Wins Hit With Community Note",
@@ -518,11 +623,74 @@
         "published_at": "2026-11-03T16:59:27+00:00"
       },
       {
+        "outlet": "RTE News",
+        "rung": "center",
+        "headline": null,
+        "url": "https://www.rte.ie/news/2026/1104/1597902-midterms-us/",
+        "published_at": "2026-11-04T06:53:30+00:00"
+      },
+      {
         "outlet": "Capital Brief",
         "rung": "center",
         "headline": "JD Vance blames Iran war for Republican midterm defeat",
         "url": "https://www.capitalbrief.com/briefing/democrats-flip-senate-and-house-as-voters-rebuke-republicans-6f30479c-4cc2-4ac9-a97e-2320837949ff/",
         "published_at": "2026-11-04T10:38:00+00:00"
+      },
+      {
+        "outlet": "The Daily Wire",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.dailywire.com/news/jd-vance-pins-republican-midterm-losses-on-iran-war",
+        "published_at": "2026-11-04T11:05:13+00:00"
+      },
+      {
+        "outlet": "The National",
+        "rung": "center",
+        "headline": null,
+        "url": "https://www.thenationalnews.com/news/us/2026/11/04/live-us-midterms-election-results/",
+        "published_at": "2026-11-04T11:41:16+00:00"
+      },
+      {
+        "outlet": "Deutsche Welle",
+        "rung": "center",
+        "headline": null,
+        "url": "https://www.dw.com/en/us-midterms-democrats-win-house-and-senate-from-republicans/live-79829440?maca=en-rss-en-all-1573-rdf",
+        "published_at": "2026-11-04T12:45:00+00:00"
+      },
+      {
+        "outlet": "PinkNews",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.thepinknews.com/2026/11/04/jd-vance-gay-wizard-dumbledore-costume/",
+        "published_at": "2026-11-04T14:33:24+00:00"
+      },
+      {
+        "outlet": "Australian Financial Review",
+        "rung": "center-right",
+        "headline": null,
+        "url": "https://www.afr.com/politics/federal/australia-news-live-update-us-ushers-in-new-political-era-french-blood-banks-hit-by-hackers-20261105-p61bih?ref=rss&utm_medium=rss&utm_source=rss_feed",
+        "published_at": "2026-11-04T15:25:11+00:00"
+      },
+      {
+        "outlet": "Fox News",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.foxnews.com/politics/vances-scathing-iran-war-postmortem-puts-potential-2028-gop-showdown-focus-everyone-knows-why",
+        "published_at": "2026-11-04T15:34:25+00:00"
+      },
+      {
+        "outlet": "India Today",
+        "rung": "center-right",
+        "headline": null,
+        "url": "https://www.indiatoday.in/world/story/the-reason-we-lost-is-the-war-vance-blames-iran-conflict-for-midterm-defeat-says-trump-voters-switched-sides-3032452-2026-11-04?utm_source=rss",
+        "published_at": "2026-11-04T15:59:23+00:00"
+      },
+      {
+        "outlet": "Haaretz",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.haaretz.com/us-news/2026-11-04/ty-article/.premium/vance-republicans-lost-midterms-because-of-iran-war-trump-said-so-himself/000001a1-a749-d5c5-ade1-bf7f5c340000",
+        "published_at": "2026-11-04T16:03:15+00:00"
       },
       {
         "outlet": "IJR (Independent Journal Review)",
@@ -532,46 +700,172 @@
         "published_at": "2026-11-04T16:04:59+00:00"
       },
       {
+        "outlet": "Middle East Eye",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.middleeasteye.net/live-blog/live-blog-update/vance-blames-iran-war-republican-midterm-defeat",
+        "published_at": "2026-11-04T16:06:30+00:00"
+      },
+      {
         "outlet": "Arab News Pakistan",
         "rung": null,
-        "headline": "US VP Vance says Iran war is ‘the reason we lost’ midterms",
+        "headline": null,
         "url": "https://www.arabnews.pk/middle-east/us-vp-vance-says-iran-war-is-the-reason-we-lost-midterms-3006100",
         "published_at": "2026-11-04T16:14:26+00:00"
       },
       {
+        "outlet": "The Independent",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.independent.co.uk/news/world/americas/us-politics/midterm-elections-results-2026-live-updates-trump-map-b3078712.html",
+        "published_at": "2026-11-04T16:19:22+00:00"
+      },
+      {
+        "outlet": "The Daily Caller",
+        "rung": "far-right",
+        "headline": null,
+        "url": "https://dailycaller.com/2026/11/04/jd-vance-iran-war-trump-midterms/",
+        "published_at": "2026-11-04T16:19:33+00:00"
+      },
+      {
+        "outlet": "The Patriot-News",
+        "rung": "center",
+        "headline": null,
+        "url": "https://www.pennlive.com/politics/2026/11/jd-vance-reveals-the-1-obvious-reason-behind-brutal-gop-midterm-losses.html",
+        "published_at": "2026-11-04T16:21:49+00:00"
+      },
+      {
+        "outlet": "The Hill",
+        "rung": "center",
+        "headline": null,
+        "url": "https://thehill.com/homenews/campaign/6197976-vance-midterms-iran-war-trump/",
+        "published_at": "2026-11-04T16:22:03+00:00"
+      },
+      {
         "outlet": "Asharq Al-Awsat",
         "rung": "center",
-        "headline": "US VP Vance Says Iran War Is ‘the Reason We Lost’ Midterms",
+        "headline": null,
         "url": "https://english.aawsat.com/world/5337610-us-vp-vance-says-iran-war-%E2%80%98-reason-we-lost%E2%80%99-midterms",
         "published_at": "2026-11-04T16:22:23+00:00"
       },
       {
         "outlet": "Gulf News",
         "rung": "center",
-        "headline": "US VP Vance says Iran war is the 'real reason we lost' midterms",
+        "headline": null,
         "url": "https://gulfnews.com/world/americas/us-vp-vance-says-iran-war-is-the-reason-we-lost-midterms-1.500736169",
         "published_at": "2026-11-04T16:25:29+00:00"
       },
       {
+        "outlet": "The Times of India",
+        "rung": null,
+        "headline": null,
+        "url": "https://timesofindia.indiatimes.com/world/us/republican-voters-showed-up-but-voted-democrats-jd-vance-blames-iran-war-for-republican-midterm-rout/articleshow/135544697.cms",
+        "published_at": "2026-11-04T16:26:40+00:00"
+      },
+      {
         "outlet": "Financial Times",
         "rung": "center",
-        "headline": "Vance blames Iran war for crushing Republican midterms defeat",
+        "headline": null,
         "url": "https://www.ft.com/content/6bc8be51-5bd8-468c-bd3c-82bbc2866ba1?syn-25a6b1a6=1",
         "published_at": "2026-11-04T16:27:31+00:00"
       },
       {
+        "outlet": "India TV News (English)",
+        "rung": "center-right",
+        "headline": null,
+        "url": "https://www.indiatvnews.com/news/world/jd-vance-blames-iran-war-for-republicans-loss-in-us-midterm-polls-says-2024-supporters-turned-against-us-2026-11-04-1058698",
+        "published_at": "2026-11-04T16:27:37+00:00"
+      },
+      {
+        "outlet": "Daily Sabah",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.dailysabah.com/world/americas/us-vp-vance-blames-iran-war-for-republican-midterm-election-losses",
+        "published_at": "2026-11-04T16:28:00+00:00"
+      },
+      {
+        "outlet": "The Washington Post",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNd3E0VE1taXhqR3N5QmZyRkdnYlNJQkkwdWtvd1dkLUFyVEZtOExDOGdmZkFmaVVtSmI2SWZWMFFtSklXUDFvdXEyNnNMVUV4ZUZONGljazlTa2oxNDhxQTVpWjBfSDhBUDBfTmZpWUwzOTYwMlhDbF81cy1YdnZRNUU4SWp1eGN6bWk2WmFPcWs0Si1EcnJ5RHhxSUVKN2RtREE0dklseWVIa2FEV0M3aDd3?oc=5",
+        "published_at": "2026-11-04T16:28:19+00:00"
+      },
+      {
+        "outlet": "Mediaite",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.mediaite.com/media/news/jd-vance-makes-his-disdain-for-trumps-iran-war-crystal-clear-in-stunning-screed-about-gops-implosion-trump-vance-2024-voters-are-pissed/",
+        "published_at": "2026-11-04T16:33:44+00:00"
+      },
+      {
+        "outlet": "Irish Independent",
+        "rung": "center-right",
+        "headline": null,
+        "url": "https://www.independent.ie/world-news/jd-vance-blames-disastrous-midterm-results-on-iran-saying-the-reason-we-lost-is-the-war/a/164097367.html",
+        "published_at": "2026-11-04T16:34:10+00:00"
+      },
+      {
+        "outlet": "HuffPost",
+        "rung": "left",
+        "headline": null,
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOWmxDM1RmYkctWlhkX0RaMGZoY0YtZ1o2ejMzSmlnbHl0d0FNa0NUUGNvV2F1RHJibEVzb0J3T1lZSV9vcmJjcnFLcXZDWmdTWUlPVk5NN1lpa3hScE5XUmxuZWxhV1hld0JLbkNIZTJsWVI1bGVJTFZrYklmMk1YU3YzejNUM1A4ZUNtaW52WHJGTGVEQTItaDJPbmJ5a1JUalHSAacBQVVfeXFMUDAtVlBWd25mQUUyZFM1QkpHNWJZQjYySmhQNnRYWU9DNGlrWHNGRGJMM3VwWGdXa0JwY2JaYURwM0M2TUNMZHgyRjVoUFJ1SlpxcVctbWNydnRXbUg1bEdobk9lSTZYRHdkQlV1ckRPSEF5MktacFFzVzlURk1fNkpKTUpSVU5mMG1aUmw2Wko5SmRNYlVSYlZ2UWVadGxlWXpGbjhzLWM?oc=5",
+        "published_at": "2026-11-04T16:34:34+00:00"
+      },
+      {
+        "outlet": "Axios",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.axios.com/2026/11/04/jd-vance-iran-war-trump-election",
+        "published_at": "2026-11-04T16:38:14+00:00"
+      },
+      {
         "outlet": "The New Indian Express",
         "rung": null,
-        "headline": "VP Vance blames Iran war for Republican loss in US midterms; says Trump himself said so",
+        "headline": null,
         "url": "https://www.newindianexpress.com/world/2026/Nov/04/vp-vance-blames-iran-war-for-republican-loss-in-us-midterms-says-trump-himself-said-so",
         "published_at": "2026-11-04T16:41:34+00:00"
       },
       {
+        "outlet": "CBS News",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.cbsnews.com/news/jd-vance-2026-midterms-iran/",
+        "published_at": "2026-11-04T16:41:41+00:00"
+      },
+      {
+        "outlet": "Townhall",
+        "rung": "right",
+        "headline": null,
+        "url": "https://townhall.com/news/cameron-arcand/2026/11/04/jd-vance-reveals-why-he-thinks-republicans-lost-n2685917",
+        "published_at": "2026-11-04T16:42:19+00:00"
+      },
+      {
+        "outlet": "NBC News",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.nbcnews.com/politics/2026-election/vance-says-ranger-iran-war-caused-gop-midterm-losses-rcna607446",
+        "published_at": "2026-11-04T16:42:23+00:00"
+      },
+      {
         "outlet": "ARY News (English)",
         "rung": "center-right",
-        "headline": "JD Vance blames Iran war, inflation and Israel ties for Republican midterm defeat",
+        "headline": null,
         "url": "https://arynews.tv/jd-vance-blames-iran-war-inflation-and-israel-ties-for-republican-midterm-defeat",
         "published_at": "2026-11-04T16:48:05+00:00"
+      },
+      {
+        "outlet": "Premium Times Nigeria",
+        "rung": null,
+        "headline": null,
+        "url": "https://www.premiumtimesng.com/news/top-news/922725-us-midterms-why-we-lost-woefully-jd-vance.html",
+        "published_at": "2026-11-04T16:48:47+00:00"
+      },
+      {
+        "outlet": "GB News",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.gbnews.com/politics/us/jd-vance-us-midterm-elections-donald-trump-war-iran",
+        "published_at": "2026-11-04T16:50:31+00:00"
       },
       {
         "outlet": "Raw Story",
@@ -583,21 +877,35 @@
       {
         "outlet": "PBS NewsHour",
         "rung": "center",
-        "headline": "Vance blames Iran war for GOP midterm losses",
+        "headline": null,
         "url": "https://www.pbs.org/newshour/politics/vance-blames-iran-war-for-gop-midterm-losses",
         "published_at": "2026-11-04T16:56:43+00:00"
       },
       {
+        "outlet": "The Mirror",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.mirror.co.uk/news/us-news/jd-vance-trump-midterms-iran-37843910",
+        "published_at": "2026-11-04T17:03:18+00:00"
+      },
+      {
         "outlet": "Stuff (NZ)",
         "rung": "center",
-        "headline": "‘Everyone knows why we lost’: JD Vance blames Trump's Iran war for election wipeout",
+        "headline": null,
         "url": "https://www.stuff.co.nz/world-news/361054772/us-midterm-elections-deliver-verdict-donald-trump",
         "published_at": "2026-11-04T17:08:45+00:00"
       },
       {
+        "outlet": "LifeSiteNews",
+        "rung": "far-right",
+        "headline": null,
+        "url": "https://www.lifesitenews.com/news/jd-vance-says-iran-war-cost-republicans-the-midterms/",
+        "published_at": "2026-11-04T17:09:47+00:00"
+      },
+      {
         "outlet": "The Straits Times",
         "rung": null,
-        "headline": "US V-P Vance says Iran war is ‘the reason we lost’ midterms",
+        "headline": null,
         "url": "https://www.straitstimes.com/world/united-states/us-v-p-vance-says-iran-war-is-the-reason-we-lost-midterms",
         "published_at": "2026-11-04T17:09:48+00:00"
       },
@@ -611,37 +919,114 @@
       {
         "outlet": "The Blaze",
         "rung": "right",
-        "headline": "Straight talk: JD Vance blames midterm loss on Iran conflict and US' relationship with Israel",
+        "headline": null,
         "url": "https://www.theblaze.com/news/politics-jd-vance-iran-israel",
         "published_at": "2026-11-04T17:17:19+00:00"
       },
       {
+        "outlet": "Al Jazeera",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.aljazeera.com/news/2026/11/4/presidential-hopeful-vance-appears-to-question-iran-war-after-polls-debacle?traffic_source=rss",
+        "published_at": "2026-11-04T17:18:50+00:00"
+      },
+      {
+        "outlet": "Cyprus Mail",
+        "rung": null,
+        "headline": null,
+        "url": "https://cyprus-mail.com/2026/11/04/vance-blames-iran-war-for-us-electoral-defeat",
+        "published_at": "2026-11-04T17:27:31+00:00"
+      },
+      {
+        "outlet": "The Straits Times",
+        "rung": null,
+        "headline": null,
+        "url": "https://www.straitstimes.com/world/middle-east/vance-repudiates-iran-war-after-us-electoral-defeat",
+        "published_at": "2026-11-04T17:27:45+00:00"
+      },
+      {
+        "outlet": "The American Conservative",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.theamericanconservative.com/iran-war-day-250-vance-says-iran-war-cost-gop-midterms/",
+        "published_at": "2026-11-04T17:31:27+00:00"
+      },
+      {
         "outlet": "Business Recorder",
         "rung": null,
-        "headline": "US VP Vance says Iran war is 'the reason we lost' midterms",
+        "headline": null,
         "url": "https://www.brecorder.com/news/40447415/us-vp-vance-says-iran-war-is-the-reason-we-lost-midterms",
         "published_at": "2026-11-04T17:32:05+00:00"
       },
       {
+        "outlet": "Daily Mail",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.dailymail.com/news/article-16265577/jd-vance-donald-trump-war.html?ns_mchannel=rss&ito=1490&ns_campaign=1490",
+        "published_at": "2026-11-04T17:32:09+00:00"
+      },
+      {
         "outlet": "The Daily Signal",
         "rung": "right",
-        "headline": "‘Everyone Knows Why We Lost’: Vance Blames Iran War for Blue Wave",
+        "headline": null,
         "url": "https://www.dailysignal.com/2026/11/04/everyone-knows-why-we-lost-vance-blames-iran-war-for-blue-wave/",
         "published_at": "2026-11-04T17:33:29+00:00"
       },
       {
         "outlet": "Anchorage Daily News",
         "rung": "center",
-        "headline": "Vance breaks sharply with Trump, blames midterm losses on handling of Iran war",
+        "headline": null,
         "url": "https://www.adn.com/nation-world/2026/11/04/vance-breaks-sharply-with-trump-blames-midterm-losses-on-handling-of-iran-war/",
         "published_at": "2026-11-04T17:34:34+00:00"
       },
       {
+        "outlet": "NTD News",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.ntd.com/jd-vance-reacts-to-midterm-defeat-the-reason-we-lost-is-the-war_1183337.html",
+        "published_at": "2026-11-04T17:36:51+00:00"
+      },
+      {
+        "outlet": "Al-Monitor",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.al-monitor.com/originals/2026/11/vance-repudiates-iran-war-after-us-electoral-defeat",
+        "published_at": "2026-11-04T17:46:52+00:00"
+      },
+      {
         "outlet": "Dawn",
         "rung": null,
-        "headline": "US Vice President JD Vance says Iran war is 'the reason we lost' midterms",
+        "headline": null,
         "url": "https://www.dawn.com/news/2042118/us-vice-president-jd-vance-says-iran-war-is-the-reason-we-lost-midterms",
         "published_at": "2026-11-04T17:47:30+00:00"
+      },
+      {
+        "outlet": "Mediaite",
+        "rung": "center-left",
+        "headline": null,
+        "url": "https://www.mediaite.com/media/news/don-jr-co-signs-jd-vances-pointed-attack-on-trumps-iran-war/",
+        "published_at": "2026-11-04T17:47:54+00:00"
+      },
+      {
+        "outlet": "Daily Mail",
+        "rung": "right",
+        "headline": null,
+        "url": "https://www.dailymail.com/news/article-16265743/Donald-Trump-Junior-JD-Vance-Iran-War-Midterms.html?ns_mchannel=rss&ito=1490&ns_campaign=1490",
+        "published_at": "2026-11-04T17:49:05+00:00"
+      },
+      {
+        "outlet": "Jewish Telegraphic Agency",
+        "rung": "center",
+        "headline": null,
+        "url": "https://www.jta.org/2026/11/04/politics/jd-vance-blames-israel-and-iran-war-for-gops-crushing-defeats",
+        "published_at": "2026-11-04T17:50:17+00:00"
+      },
+      {
+        "outlet": "Tehran Times",
+        "rung": "far-left",
+        "headline": null,
+        "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQaUxoOHlSeVlNZ3ZvWGJ4NmxHVXltRlhHd1BtNUpSbTkzeHY5Ujh5b3FETTBZRmlLa25uUkRTMjcwVnFUX2xIUVI4OUdsblRZTlh0OUJUcTBic1RKcTk0X1FJQlRVZk41SHRXNnN5dlVGTmhnM2M4QTd4NmdKdU1QTFhleWVQbUNKU1BPQmpaYnNnOE5pQXY2TUQwZVhXWEYxZGRzNg?oc=5",
+        "published_at": "2026-11-04T17:50:28+00:00"
       },
       {
         "outlet": "Breitbart News",
@@ -649,6 +1034,13 @@
         "headline": "JD Vance Warns Establishment Will Blame Migration Curbs for 2026 Wipeout",
         "url": "https://www.breitbart.com/economy/2026/11/04/jd-vance-warns-establishment-will-blame-migration-curbs-for-2026-wipeout/",
         "published_at": "2026-11-04T18:30:52+00:00"
+      },
+      {
+        "outlet": "The Jerusalem Post",
+        "rung": "center-right",
+        "headline": null,
+        "url": "https://www.jpost.com/american-politics/article-913846",
+        "published_at": "2026-11-04T18:31:50+00:00"
       },
       {
         "outlet": "The Express Tribune",
@@ -842,30 +1234,15 @@
     ]
   },
   "margins": {
-    "p70_importance": 58.53,
-    "pool": 269,
+    "p70_headline_rank": 61.64,
+    "pool": 209,
     "stories": [
       {
-        "title": "Top House Democrat Backs Impeachment While Trump Vows Preemptive Pardons",
-        "category": "politics",
-        "source_count": 9,
-        "importance_score": 61.17,
-        "printed_on": "2026-11-03",
-        "buckets": [
-          1,
-          1,
-          2,
-          3,
-          0,
-          1,
-          1
-        ]
-      },
-      {
+        "cluster_id": "9b5982e1-374a-48cc-a885-5c1f452ac105",
         "title": "Troy Jackson Defeats Susan Collins in Maine Senate Race",
         "category": "politics",
         "source_count": 10,
-        "importance_score": 62.04,
+        "headline_rank": 62.04,
         "printed_on": "2026-11-05",
         "buckets": [
           0,
@@ -878,19 +1255,37 @@
         ]
       },
       {
-        "title": "DOJ Urges Sanctions Over Analysis Critical of California Voter List",
-        "category": "general",
-        "source_count": 10,
-        "importance_score": 58.7,
+        "cluster_id": "c5593898-2b91-495c-811f-6818e84276a7",
+        "title": "Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+        "category": "politics",
+        "source_count": 12,
+        "headline_rank": 64.77,
         "printed_on": "2026-11-02",
         "buckets": [
-          2,
           1,
-          2,
           2,
           1,
           1,
-          0
+          2,
+          0,
+          3
+        ]
+      },
+      {
+        "cluster_id": "5fd7f4d1-2f4c-41e5-9f2b-d69ee048d158",
+        "title": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+        "category": "politics",
+        "source_count": 12,
+        "headline_rank": 61.84,
+        "printed_on": "2026-11-02",
+        "buckets": [
+          0,
+          1,
+          3,
+          5,
+          1,
+          0,
+          2
         ]
       }
     ]
