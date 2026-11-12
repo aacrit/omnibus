@@ -23,3 +23,6 @@ void's four faces replace the template's: Playfair Display, Inter, Barlow Conden
 
 ## 2026-11-11: rate-limit namespace 7601
 Other products use 7201-7203 (rollbook), 7301-7303 and 7311-7313 (dial), 7401 (ratio), 7501 (document). omnibus takes 7601.
+
+## 2026-11-11: custom domain, and Dial's contract runner
+The zone's WAF rate-limit rule is live (added by the founder for Dial, docs of record in aacrit/dial DECISIONS 2026-09-26). So the first release attaches omnibus.voidvision.org (`routes`, custom domain) and keeps workers_dev on, with preview_urls off. On the custom domain the WAF answers a burst before the Worker's own limiter, so the contract sends its burst to `burst_host` (omnibus.aacrit.workers.dev) after matching builds. The template's runner predates `burst_zone`/`burst_host`, so `scripts/contract.mjs` is lifted from Dial with a provenance header; folding it back into the template is an Agentique follow-up.

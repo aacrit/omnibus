@@ -3,6 +3,15 @@
   "name": "omnibus",
   "main": "worker/src/index.ts",
   "compatibility_date": "2026-09-01",
+  // Production serves omnibus.voidvision.org. workers_dev stays on: the
+  // contract's burst_host (omnibus.aacrit.workers.dev) measures the Worker's
+  // own rate limit outside the zone's WAF rule. preview_urls stays off, so no
+  // uploaded version is public with production's bindings.
+  "routes": [
+    { "pattern": "omnibus.voidvision.org", "custom_domain": true }
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
   // Worker logs are kept (errors, and anything the Worker itself writes,
   // which is never a request body, IP or key), but invocation logs, one
   // record per request with its URL, headers and client details, are off,
