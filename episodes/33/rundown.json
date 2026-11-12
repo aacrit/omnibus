@@ -1,0 +1,3643 @@
+{
+  "schema": "omnibus.rundown/1",
+  "issue": 33,
+  "ticket": "E4 part 1 (the rundown), reworked after review of PR #11",
+  "written": "2026-11-12",
+  "by": "writer/producer, Opus (E4 of the void omnibus engine plan)",
+  "inputs": {
+    "week": "data/week-33.json",
+    "week_pin": "dcffaaf8bf5e979808cd195de80e2403af074c64",
+    "echo": "episodes/33/echo-pick.json",
+    "bible": "show bible sections d, e, f, g, j",
+    "grammar": "void document films/GRAMMAR.md section 12 (screenplay v2), consumed later by E3/E4 part 2"
+  },
+  "as_of": "2026-11-08T22:16:50.309638+00:00",
+  "cover_headline": "The Cost of the Strait",
+  "lead": {
+    "cluster": "2ec1fcb8",
+    "title": "JD Vance Blames Iran War for Republican Midterm Defeat",
+    "claim_clusters": [
+      "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
+      "b395447b-fb0e-4855-851f-5690ebcb43f6"
+    ]
+  },
+  "voices": {
+    "narrator": {
+      "engine": "kokoro",
+      "voice": "af_aoede",
+      "speed": 0.88,
+      "echo_speed": 0.84,
+      "wpm": 150,
+      "wpm_echo": 143
+    },
+    "reader": {
+      "engine": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.86,
+      "for": "every quotation and period document"
+    }
+  },
+  "runtime": {
+    "target_s": 1207.9,
+    "target": "20:08",
+    "range": "20:00 to 25:00 (guidance)",
+    "voiced_s": 502.5,
+    "voiced_share": 0.42,
+    "ceiling": 0.55,
+    "short_run": {
+      "runtime": "20:02",
+      "trigger": "E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)"
+    }
+  },
+  "rules_applied": [
+    "show, never tell; the narrator never judges or draws a moral",
+    "no voice over black: every voiced second has a picture or a graphic",
+    "stills fill 16:9 with rostrum tours; graphics sit in the 4:3 field",
+    "arrive late, leave early (guidance)",
+    "zero AI pixels",
+    "void news ratings shown as printed and disclosed",
+    "no music under news; the echo bed only in The Echo, never under violence",
+    "no-bridge per the founder's narrow reading (echo-pick no_bridge)",
+    "no reason for the vote is named before The Weight's board"
+  ],
+  "card_rules": {
+    "consensus": "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.",
+    "divergence": "Pool: the claim's titled headlines from placed outlets. For each fixed question, a headline is asked only if it names the people the question is about; words the headline attributes to someone else (a modal plus 'blame' and what follows, up to 'for' or punctuation) are set aside; its answers are the patterns the rest matches (case-insensitive, whole words; synonyms of one answer count as one). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.",
+    "for": "the sources page, verbatim"
+  },
+  "parts": [
+    {
+      "id": "clock",
+      "kind": "clock",
+      "title": "Clock",
+      "dur_s": 6,
+      "as_of": "the release time, computed after QC (clock-true)",
+      "device": "none",
+      "plan": "The analogue clock sweeps the last six seconds to the airtime (Monday 21:00 UTC by default, or the next top of the hour after QC). Sting at zero, cut to the cold open.",
+      "graphics": [
+        "clock (spec 3.9)"
+      ],
+      "asset_requests": [],
+      "budget": {
+        "voiced_s": 0,
+        "voiced_share": 0,
+        "narrator_words_max": 0,
+        "reader_s": 0,
+        "rate_wpm": 150
+      },
+      "intent": "no voice",
+      "start_s": 0,
+      "end_s": 6,
+      "start": "0:00.0",
+      "end": "0:06.0"
+    },
+    {
+      "id": "cold-open",
+      "kind": "cold_open",
+      "title": "Cold open",
+      "dur_s": 40,
+      "as_of": "2026-11-08T22:16:50.309638+00:00",
+      "known": {
+        "text": "The vote's date, Tuesday 3 November 2026, the picture's place as its record names it, and one count: 32 outlets carried the result story void news printed on 4 November.",
+        "fields": [
+          "days[2].date (the day after the vote)",
+          "days[2].next[0].title",
+          "days[2].next[0].source_count"
+        ],
+        "names_no_reason": true
+      },
+      "picture": {
+        "choice": "Election day itself: a polling place or a count on Tuesday 3 Nov 2026, with its own sound, entered late (the first moment a ballot or a hand moves).",
+        "why": "The lead is a reason given for a vote. Opening on the vote shows the event every outlet agrees happened and names no reason for it before the board.",
+        "alternate_rejected": "Navy footage in the Strait (the cover's 'The Cost of the Strait') or the Vice President: either would open on one of the reasons offered and so take a side before the board.",
+        "request": "e33-cold-01",
+        "fallback": "the 4 Nov printed front page toured to the result story 'Democrats Capture Control of Both Chambers of Congress in Midterms' (32 sources), with room tone; never the lead headline"
+      },
+      "device": "none (one picture, no claim weighed)",
+      "first_words": "a date and a place: the picture's own date and place, read from its record (for example 'Tuesday, the third of November.' then the town)",
+      "plan": "6 s of the picture's own sound before any voice; two short lines: the date and the place, then the count. No music. No reason for the vote is named before The Weight's board. Leave on a moving frame.",
+      "asset_requests": [
+        "e33-cold-01"
+      ],
+      "budget": {
+        "voiced_s": 10,
+        "voiced_share": 0.25,
+        "narrator_words_max": 25,
+        "reader_s": 0,
+        "rate_wpm": 150
+      },
+      "intent": "date and place, then '32 outlets' as the count of the printed result story; nothing else",
+      "start_s": 6,
+      "end_s": 46,
+      "start": "0:06.0",
+      "end": "0:46.0"
+    },
+    {
+      "id": "title",
+      "kind": "graphic",
+      "subtype": "title_sequence",
+      "title": "Title",
+      "dur_s": 18,
+      "as_of": "2026-11-08T22:16:50.309638+00:00",
+      "ruling": "founder, chat 2026-11-12: the 1958 Explorer 1 public-domain teleprinter clip, untouched, then a cut to a code-drawn full-HD typed-paper macro printing the week's lines, marked DRAWN. This replaces the bible's Blender master and the warp composite for this episode.",
+      "shots_outline": [
+        {
+          "id": "T1",
+          "dur_s": 3,
+          "kind": "archive_video",
+          "asset": "e33-title-01",
+          "mark": "ARCHIVE",
+          "label": "PICTURE FROM 1958",
+          "why": "a real teleprinter printing, as filmed; nothing composited on it"
+        },
+        {
+          "id": "T2",
+          "dur_s": 11.4,
+          "kind": "drawn",
+          "mark": "DRAWN",
+          "why": "the typed-paper macro, drawn by code at 1920 x 1080, prints the seven day lines verbatim then the week line; the bell and the tear on its last frames"
+        },
+        {
+          "id": "T3",
+          "dur_s": 3.6,
+          "kind": "graphic",
+          "subtype": "lockup",
+          "mark": "CARD",
+          "why": "the ident card with the week line"
+        }
+      ],
+      "plan": "Cut in on the 1958 clip with its own (or the recorded strike) sound; cut to the DRAWN macro; seven lines, one per day, verbatim, then the week line; lockup 'Week 33 · 2 Nov to 8 Nov 2026'.",
+      "title_lines": [
+        "MON 02 NOV   24 SRC  ANTIGUA PRIME MINISTER DEMANDS SLAVERY REPARATIONS DURING KING CHARLES ROYAL VISIT",
+        "TUE 03 NOV   30 SRC  RUSSIAN MISSILE AND BOMB STRIKES KILL DOZENS AT UKRAINIAN AID FACILITY",
+        "WED 04 NOV   53 SRC  JD VANCE BLAMES IRAN WAR FOR REPUBLICAN MIDTERM DEFEAT",
+        "THU 05 NOV   15 SRC  BRITISH HEALTHCARE WORKER INFECTED WITH EBOLA IS EVACUATED FROM CONGO",
+        "FRI 06 NOV   34 SRC  DEFENSE SECRETARY PETE HEGSETH FACES IMPEACHMENT THREAT AMID POST ELECTION POLITICAL FALLOUT",
+        "SAT 07 NOV   68 SRC  TRUMP NAMES STEPHEN MILLER WHITE HOUSE CHIEF OF STAFF REPLACING SUSIE WILES",
+        "SUN 08 NOV   31 SRC  US MILITARY FORMS NEW TASK FORCE TO TARGET IRANIAN LAND ROUTES"
+      ],
+      "week_line": "WEEK 33  CLOSED SUN 08 NOV 22:16 UTC",
+      "lockup_line": "Week 33 · 2 Nov to 8 Nov 2026",
+      "strike": {
+        "characters": 651,
+        "rows_at_69_columns": 14,
+        "print_window_s": 11.4,
+        "rate_cps": 74.3,
+        "rule": "rate = characters / (macro time minus 1.8 s for the week line, bell and tear, minus 60 ms per row), capped at 100 cps (G2 ruling); declared on the sources page",
+        "within_cap": true
+      },
+      "asset_requests": [
+        "e33-title-01",
+        "e33-snd-01",
+        "e33-snd-02",
+        "e33-snd-03"
+      ],
+      "budget": {
+        "voiced_s": 0,
+        "voiced_share": 0,
+        "narrator_words_max": 0,
+        "reader_s": 0,
+        "rate_wpm": 150
+      },
+      "intent": "no voice",
+      "device": "none",
+      "start_s": 46,
+      "end_s": 64,
+      "start": "0:46.0",
+      "end": "1:04.0"
+    },
+    {
+      "id": "the-week",
+      "kind": "segment",
+      "title": "The Week",
+      "dur_s": 283.3,
+      "as_of": "per beat (days[i].printed_at)",
+      "testcard": {
+        "word": "THE WEEK",
+        "bars": [
+          3,
+          8,
+          59,
+          64,
+          20,
+          36,
+          9
+        ],
+        "placed": 199,
+        "of_sources": 255,
+        "caption": "OUTLETS CARRYING EACH DAY'S LEAD · 199 PLACED",
+        "week_line": "WEEK 33 · 2 NOV TO 8 NOV 2026",
+        "hold_s": 1.8,
+        "field": "sum over days[i].lead.buckets"
+      },
+      "sizing_rule": "beat_s = 20 + 50 x (source_count - 15) / (68 - 15), rounded to 0.5 s (bible d: 20 to 70 s scaling with source volume)",
+      "beats": [
+        {
+          "id": "week-day-1",
+          "day": "Monday 2 Nov",
+          "dur_s": 28.5,
+          "as_of": "2026-11-02T00:59:28.821707+00:00",
+          "as_of_field": "days[0].printed_at",
+          "known": {
+            "headline": "Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit",
+            "headline_field": "days[0].lead.title",
+            "source_count": 24,
+            "source_count_field": "days[0].lead.source_count",
+            "cluster_id": "8e67ac5c-5bc9-429b-8218-568b484b7aff",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              0,
+              0,
+              2,
+              6,
+              3,
+              5,
+              0
+            ],
+            "bars_field": "days[0].lead.buckets",
+            "placed": 16,
+            "unplaced": 8,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 16 PLACED"
+          },
+          "slate": "MON 02 NOV 2026",
+          "desk": [
+            "e33-day1-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day1-page)",
+            "the day's lead picture (e33-day1-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day1-page",
+            "e33-day1-pic",
+            "e33-day1-doc"
+          ],
+          "budget": {
+            "voiced_s": 12.8,
+            "voiced_share": 0.45,
+            "narrator_words_max": 32,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Monday's date; the visit and what the Prime Minister asked for, as printed and as the statement words it; the count of outlets."
+        },
+        {
+          "id": "week-day-2",
+          "day": "Tuesday 3 Nov",
+          "dur_s": 34,
+          "as_of": "2026-11-03T19:39:27.128203+00:00",
+          "as_of_field": "days[1].printed_at",
+          "known": {
+            "headline": "Russian Missile and Bomb Strikes Kill Dozens at Ukrainian Aid Facility",
+            "headline_field": "days[1].lead.title",
+            "source_count": 30,
+            "source_count_field": "days[1].lead.source_count",
+            "cluster_id": "520585bc-680c-482c-9e31-c6118c0cc2a6",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              0,
+              1,
+              8,
+              7,
+              0,
+              2,
+              0
+            ],
+            "bars_field": "days[1].lead.buckets",
+            "placed": 18,
+            "unplaced": 12,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 18 PLACED"
+          },
+          "slate": "TUE 03 NOV 2026",
+          "desk": [
+            "e33-day2-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day2-page)",
+            "the day's lead picture (e33-day2-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day2-page",
+            "e33-day2-pic",
+            "e33-day2-doc"
+          ],
+          "budget": {
+            "voiced_s": 15.3,
+            "voiced_share": 0.45,
+            "narrator_words_max": 38,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Tuesday's date and the place the State Emergency Service names; what was struck and the toll as printed that evening; the count."
+        },
+        {
+          "id": "week-day-3",
+          "day": "Wednesday 4 Nov",
+          "dur_s": 56,
+          "as_of": "2026-11-04T19:39:06.061256+00:00",
+          "as_of_field": "days[2].printed_at",
+          "known": {
+            "headline": "JD Vance Blames Iran War for Republican Midterm Defeat",
+            "headline_field": "days[2].lead.title",
+            "source_count": 53,
+            "source_count_field": "days[2].lead.source_count",
+            "cluster_id": "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              0,
+              2,
+              11,
+              12,
+              6,
+              9,
+              3
+            ],
+            "bars_field": "days[2].lead.buckets",
+            "placed": 43,
+            "unplaced": 10,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 43 PLACED"
+          },
+          "lead_day": true,
+          "note": "the week's lead: only its as-of-that-day beat here (bible d); the board is in The Weight",
+          "condition": "if e33-day3-doc has no dated capture before 2026-11-04T19:39Z, the beat carries the date, the printed headline and the count only",
+          "slate": "WED 04 NOV 2026",
+          "desk": [
+            "e33-day3-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day3-page)",
+            "the day's lead picture (e33-day3-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day3-page",
+            "e33-day3-pic",
+            "e33-day3-doc"
+          ],
+          "budget": {
+            "voiced_s": 16.8,
+            "voiced_share": 0.3,
+            "narrator_words_max": 42,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Wednesday's date, the headline as void news printed it, and the count; nothing more unless a dated capture of the post from before 19:39 UTC exists, in which case the post's time may be said. The weighing waits for The Weight."
+        },
+        {
+          "id": "week-day-4",
+          "day": "Thursday 5 Nov",
+          "dur_s": 20,
+          "as_of": "2026-11-05T20:55:22.285232+00:00",
+          "as_of_field": "days[3].printed_at",
+          "known": {
+            "headline": "British Healthcare Worker Infected With Ebola Is Evacuated From Congo",
+            "headline_field": "days[3].lead.title",
+            "source_count": 15,
+            "source_count_field": "days[3].lead.source_count",
+            "cluster_id": "7a6a4b62-e818-4c13-801b-31d0aa47b717",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              0,
+              0,
+              2,
+              5,
+              0,
+              2,
+              1
+            ],
+            "bars_field": "days[3].lead.buckets",
+            "placed": 10,
+            "unplaced": 5,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 10 PLACED"
+          },
+          "slate": "THU 05 NOV 2026",
+          "desk": [
+            "e33-day4-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day4-page)",
+            "the day's lead picture (e33-day4-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day4-page",
+            "e33-day4-pic",
+            "e33-day4-doc"
+          ],
+          "budget": {
+            "voiced_s": 9,
+            "voiced_share": 0.45,
+            "narrator_words_max": 22,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Thursday's date; the evacuation as printed; the count. One line: a quiet day in the record is a short beat."
+        },
+        {
+          "id": "week-day-5",
+          "day": "Friday 6 Nov",
+          "dur_s": 38,
+          "as_of": "2026-11-06T19:18:18.407444+00:00",
+          "as_of_field": "days[4].printed_at",
+          "known": {
+            "headline": "Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout",
+            "headline_field": "days[4].lead.title",
+            "source_count": 34,
+            "source_count_field": "days[4].lead.source_count",
+            "cluster_id": "23f4f16d-8d64-4f83-86a5-a8573b78a75c",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              3,
+              1,
+              7,
+              10,
+              2,
+              7,
+              3
+            ],
+            "bars_field": "days[4].lead.buckets",
+            "placed": 33,
+            "unplaced": 1,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 33 PLACED"
+          },
+          "slate": "FRI 06 NOV 2026",
+          "desk": [
+            "e33-day5-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day5-page)",
+            "the day's lead picture (e33-day5-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day5-page",
+            "e33-day5-pic",
+            "e33-day5-doc"
+          ],
+          "budget": {
+            "voiced_s": 17.1,
+            "voiced_share": 0.45,
+            "narrator_words_max": 42,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Friday's date; the impeachment threat as printed, and the resolution's number if one was introduced by the horizon; the count."
+        },
+        {
+          "id": "week-day-6",
+          "day": "Saturday 7 Nov",
+          "dur_s": 70,
+          "as_of": "2026-11-07T17:30:11.094818+00:00",
+          "as_of_field": "days[5].printed_at",
+          "known": {
+            "headline": "Trump Names Stephen Miller White House Chief of Staff Replacing Susie Wiles",
+            "headline_field": "days[5].lead.title",
+            "source_count": 68,
+            "source_count_field": "days[5].lead.source_count",
+            "cluster_id": "225f5760-42f1-4c4e-954f-fad95ea7d6e4",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              0,
+              4,
+              20,
+              20,
+              7,
+              8,
+              1
+            ],
+            "bars_field": "days[5].lead.buckets",
+            "placed": 60,
+            "unplaced": 8,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 60 PLACED"
+          },
+          "slate": "SAT 07 NOV 2026",
+          "desk": [
+            "e33-day6-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day6-page)",
+            "the day's lead picture (e33-day6-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day6-page",
+            "e33-day6-pic",
+            "e33-day6-doc"
+          ],
+          "budget": {
+            "voiced_s": 31.5,
+            "voiced_share": 0.45,
+            "narrator_words_max": 78,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Saturday's date; the appointment and whom it replaces, as printed and as the announcement words it; the count, the week's largest."
+        },
+        {
+          "id": "week-day-7",
+          "day": "Sunday 8 Nov",
+          "dur_s": 35,
+          "as_of": "2026-11-08T11:51:04.026416+00:00",
+          "as_of_field": "days[6].printed_at",
+          "known": {
+            "headline": "US Military Forms New Task Force to Target Iranian Land Routes",
+            "headline_field": "days[6].lead.title",
+            "source_count": 31,
+            "source_count_field": "days[6].lead.source_count",
+            "cluster_id": "45f0df91-df59-4c10-a43a-7e66450ca27c",
+            "printed_count": 30,
+            "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/frontend/build-data/archive.json",
+            "deep_dive_rule": "facts beyond the headline come only from this cluster's deep dive at the last void news commit on or before printed_at; nothing printed later"
+          },
+          "device": {
+            "kind": "day-bars",
+            "reason": "The Week's device by bible d: the day's seven lean bars with counts in Mono. source_count >= 6, so the count rule does not apply; boards are kept for The Weight.",
+            "bars": [
+              0,
+              0,
+              9,
+              4,
+              2,
+              3,
+              1
+            ],
+            "bars_field": "days[6].lead.buckets",
+            "placed": 19,
+            "unplaced": 12,
+            "caption": "OUTLETS CARRYING THE DAY'S LEAD · 19 PLACED"
+          },
+          "slate": "SUN 08 NOV 2026",
+          "desk": [
+            "e33-day7-doc"
+          ],
+          "shots_outline": [
+            "printed front page tour (e33-day7-page)",
+            "the day's lead picture (e33-day7-pic) with slate",
+            "day bars graphic"
+          ],
+          "asset_requests": [
+            "e33-day7-page",
+            "e33-day7-pic",
+            "e33-day7-doc"
+          ],
+          "budget": {
+            "voiced_s": 15.8,
+            "voiced_share": 0.45,
+            "narrator_words_max": 39,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "Sunday morning's date; the task force as the CENTCOM release names it; the count."
+        }
+      ],
+      "device": "day-bars per beat",
+      "start_s": 64,
+      "end_s": 347.3,
+      "start": "1:04.0",
+      "end": "5:47.3",
+      "budget": {
+        "voiced_s": 118.3,
+        "voiced_share": 0.42,
+        "narrator_words_max": 293,
+        "reader_s": 0,
+        "from": "sum of the beats"
+      }
+    },
+    {
+      "id": "the-weight",
+      "kind": "segment",
+      "title": "The Weight",
+      "dur_s": 294.8,
+      "as_of": "2026-11-08T22:16:50.309638+00:00",
+      "lead": {
+        "cluster": "2ec1fcb8",
+        "title": "JD Vance Blames Iran War for Republican Midterm Defeat",
+        "outlets": 86,
+        "articles": 114,
+        "after_horizon": 0,
+        "claim": {
+          "clusters": [
+            "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
+            "b395447b-fb0e-4855-851f-5690ebcb43f6"
+          ],
+          "outlets": 76,
+          "titled": 46
+        }
+      },
+      "device": {
+        "order": "board first, desk second",
+        "reason": "Bible e. Desk-first needs two or more primary documents in the ledger: the lead's ledger holds 0 (outlet articles only; the post, the President's reply and the Senator's words are requests, not held items). The mandatory-board test (divergence_score >= 40 and lean_spread >= 15) cannot be evaluated: week-33.json carries neither field; the board is used because the claim has 53 sources (>= 6) and six titled rungs (>= 3). If E5 captures two primary texts before the screenplay, the order flips to desk first.",
+        "primary_documents_held": 0
+      },
+      "short_run": {
+        "trigger": "E5 captures none of e33-weight-02, -03, -04 (no primary text for the desk)",
+        "rule": "the desk is removed; every Week beat is multiplied by one factor, each capped at 70 s and rounded to 0.5 s; nothing else changes and nothing new is claimed",
+        "factor": 1.64,
+        "changes": [
+          {
+            "beat": "weight-desk",
+            "from_s": 120,
+            "to_s": 0,
+            "note": "removed; nothing paraphrased in its place"
+          },
+          {
+            "beat": "week-day-1",
+            "from_s": 28.5,
+            "to_s": 46.5
+          },
+          {
+            "beat": "week-day-2",
+            "from_s": 34,
+            "to_s": 56
+          },
+          {
+            "beat": "week-day-3",
+            "from_s": 56,
+            "to_s": 70
+          },
+          {
+            "beat": "week-day-4",
+            "from_s": 20,
+            "to_s": 33
+          },
+          {
+            "beat": "week-day-5",
+            "from_s": 38,
+            "to_s": 62.5
+          },
+          {
+            "beat": "week-day-6",
+            "from_s": 70,
+            "to_s": 70
+          },
+          {
+            "beat": "week-day-7",
+            "from_s": 35,
+            "to_s": 57.5
+          }
+        ],
+        "runtime_s": 1201.9,
+        "runtime": "20:02",
+        "in_range": true
+      },
+      "beats": [
+        {
+          "id": "weight-card",
+          "dur_s": 1.8,
+          "plan": "Test card, the lead's bars.",
+          "testcard": {
+            "word": "THE WEIGHT",
+            "bars": [
+              1,
+              3,
+              13,
+              23,
+              10,
+              12,
+              3
+            ],
+            "placed": 65,
+            "unplaced": 11,
+            "outlets": 76,
+            "caption": "OUTLETS CARRYING THE CLAIM · 65 PLACED · 11 UNPLACED",
+            "field": "lead.claim.rung_counts, lead.claim.unplaced, lead.claim.outlets"
+          },
+          "budget": {
+            "voiced_s": 0,
+            "voiced_share": 0,
+            "narrator_words_max": 0,
+            "reader_s": 0,
+            "rate_wpm": 150
+          }
+        },
+        {
+          "id": "weight-known",
+          "dur_s": 45,
+          "plan": "What was known by the horizon, in record order. Context first: the 2 Nov election-eve record (2e2978da), the Vice President campaigning, which is the story before the claim and supplies no board row. Then the claim: its two records, each slated with the date void news printed it (archive.printed_on), not the timeline date. Count cards from the claim only: its outlets, then its titled headlines of its articles. The pooled lead counts (86 outlets, 71 titled of 114) stay on the sources page as context.",
+          "known": [
+            {
+              "role": "context",
+              "title": "JD Vance Rallies Conservative Voters in Rome Ahead of Midterms",
+              "source_count": 18,
+              "slate_date": "2026-11-03",
+              "slate": "PRINTED TUE 03 NOV 2026",
+              "timeline_date": "2026-11-02",
+              "field": "lead.records[0]"
+            },
+            {
+              "role": "claim",
+              "title": "JD Vance Blames Iran War for Republican Midterm Defeat",
+              "source_count": 53,
+              "slate_date": "2026-11-04",
+              "slate": "PRINTED WED 04 NOV 2026",
+              "timeline_date": "2026-11-03",
+              "field": "lead.records[1]"
+            },
+            {
+              "role": "claim",
+              "title": "JD Vance Blames Midterm Losses on Iran War in Social Media Post",
+              "source_count": 45,
+              "slate_date": "2026-11-05",
+              "slate": "PRINTED THU 05 NOV 2026",
+              "timeline_date": "2026-11-04",
+              "field": "lead.records[2]"
+            }
+          ],
+          "count_cards": [
+            {
+              "hero": 76,
+              "context": "outlets carried the claim",
+              "field": "lead.claim.outlets"
+            },
+            {
+              "hero": 46,
+              "of": 89,
+              "context": "titled headlines of 89 articles",
+              "field": "lead.claim.titled, lead.claim.articles"
+            }
+          ],
+          "asset_requests": [
+            "e33-weight-01"
+          ],
+          "budget": {
+            "voiced_s": 24.8,
+            "voiced_share": 0.55,
+            "narrator_words_max": 62,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "who, when, where; the counts; no reason weighed yet"
+        },
+        {
+          "id": "weight-board",
+          "dur_s": 40,
+          "plan": "Narrator says the count before the board, then is silent. Rows only from the claim's records (normaliser rule, schema 2). Six rows on two pages (spec 3.6: four a page): page 1 left, center-left, center, center-right; page 2 right, far-right. The far-left rung is occupied by the claim but holds no headline: board-rule exception, recorded in DECISIONS 2026-11-12; the rung mark is drawn with the outlet's name and no row.",
+          "rows": [
+            {
+              "rung": "left",
+              "outlet": "Mother Jones",
+              "headline": "Warmongers Blame War For Election Loss",
+              "record_date": "2026-11-04",
+              "printed_on": "2026-11-05",
+              "published_at": "2026-11-04T23:24:58+00:00",
+              "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+              "headline_sha256": "8a2d7e87f85496057ccf8c915a93dc3ba12b30ea031d82e03ad928a3605a22ee"
+            },
+            {
+              "rung": "center-left",
+              "outlet": "Al Jazeera",
+              "headline": "Vance eyes 2028 reset, as Republicans mull pivot after US midterms drubbing",
+              "record_date": "2026-11-04",
+              "printed_on": "2026-11-05",
+              "published_at": "2026-11-05T16:12:35+00:00",
+              "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+              "headline_sha256": "a862b59b3baaff02a7445816f250507251dd888fe15c210da83b2c49e79dcd2b"
+            },
+            {
+              "rung": "center",
+              "outlet": "The Hill",
+              "headline": "Slotkin: Vance should stop trying to ‘cover’ himself over Iran war",
+              "record_date": "2026-11-04",
+              "printed_on": "2026-11-05",
+              "published_at": "2026-11-05T15:18:18+00:00",
+              "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+              "headline_sha256": "5d6545ec9dd1c4bdfa6f02d5d1b2bcdc97c04327465ff3f2f3b1aa60b8ffa130"
+            },
+            {
+              "rung": "center-right",
+              "outlet": "Chicago Tribune",
+              "headline": "Vice President JD Vance tries to distance himself from Iran war after GOP’s midterm losses",
+              "headline_raw": "Vice President JD Vance tries to distance himself from Iran war after GOP’s midterm losses - Chicago Tribune",
+              "stripped_suffix": " - Chicago Tribune",
+              "record_date": "2026-11-04",
+              "printed_on": "2026-11-05",
+              "published_at": "2026-11-04T22:17:57+00:00",
+              "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+              "headline_sha256": "3111c9d759c5b2a410d572ff25dc2c7a11fef845c0a8547c87412a1d952b3baf"
+            },
+            {
+              "rung": "right",
+              "outlet": "Daily Sabah",
+              "headline": "Trump admits Iran war fueled Republican midterm election losses",
+              "record_date": "2026-11-04",
+              "printed_on": "2026-11-05",
+              "published_at": "2026-11-04T18:37:00+00:00",
+              "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+              "headline_sha256": "795613b423ab1b5cd57c4b6cbba1e63772e7770d3c9672d92afcd453fdbde19e"
+            },
+            {
+              "rung": "far-right",
+              "outlet": "Breitbart News",
+              "headline": "JD Vance Warns Establishment Will Blame Migration Curbs for 2026 Wipeout",
+              "record_date": "2026-11-04",
+              "printed_on": "2026-11-05",
+              "published_at": "2026-11-04T18:30:52+00:00",
+              "cluster_id": "b395447b-fb0e-4855-851f-5690ebcb43f6",
+              "headline_sha256": "4c12f67c5dc0c6580b2b2c9cdf1fb4a4cd7875b916a95c01cec94c68b6e24b4b"
+            }
+          ],
+          "untitled_rungs": [
+            {
+              "rung": "far-left",
+              "outlets": [
+                "Tehran Times"
+              ],
+              "shown_as": "the rung mark with TEHRAN TIMES beneath it in the rung's ink, and no headline row"
+            }
+          ],
+          "pick_rule": "claim records only; then tier, then the outlet's article count in the claim, then name (DECISIONS 2026-11-12); claims no reach",
+          "asset_requests": [
+            "e33-snd-04"
+          ],
+          "budget": {
+            "voiced_s": 4,
+            "voiced_share": 0.1,
+            "narrator_words_max": 10,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "the count only, before the first flap; silence during the rows"
+        },
+        {
+          "id": "weight-desk",
+          "dur_s": 120,
+          "plan": "The primary sources, in time order: the Vice President's post (reader, verbatim, typeset page, from the dated capture); the President's reply (reader, from the White House transcript); Senator Slotkin's words (reader, from her release or floor video). Each read only from a captured primary text; a missing one is left out, never paraphrased.",
+          "desk": [
+            "e33-weight-02",
+            "e33-weight-04",
+            "e33-weight-03"
+          ],
+          "asset_requests": [
+            "e33-weight-02",
+            "e33-weight-03",
+            "e33-weight-04"
+          ],
+          "budget": {
+            "voiced_s": 72,
+            "voiced_share": 0.6,
+            "narrator_words_max": 80,
+            "reader_s": 40,
+            "rate_wpm": 150
+          },
+          "intent": "who said it, where, when; then the reader speaks it; the narrator adds nothing about what it means"
+        },
+        {
+          "id": "weight-consensus",
+          "dur_s": 50,
+          "plan": "Consensus cards by the written rule (consensus_rule).",
+          "rule": "Pool as above, unplaced outlets included in counts and shown beside the bars. (1) The claim term: lead.claim.terms (the normaliser's whole-word count of the claim's titled headlines), a count card with the rung bars and the unplaced beside them. (2) Quoted phrases: every span inside quotation marks in a pool headline, three words or more, compared lowercased with curly quotes straightened; a span carried by placed outlets on three or more rungs is a consensus card showing, per rung, the earliest headline that carries it. Nothing else becomes a consensus card.",
+          "cards": [
+            {
+              "id": "cw-1",
+              "kind": "count",
+              "of": 46,
+              "context": "of the claim's 46 titled headlines name each reason",
+              "terms": [
+                {
+                  "term": "Iran",
+                  "hero": 39,
+                  "by_rung": [
+                    0,
+                    1,
+                    2,
+                    18,
+                    5,
+                    4,
+                    1
+                  ],
+                  "unplaced": 8,
+                  "field": "lead.claim.terms[0]"
+                },
+                {
+                  "term": "Israel",
+                  "hero": 4,
+                  "by_rung": [
+                    0,
+                    0,
+                    0,
+                    1,
+                    2,
+                    1,
+                    0
+                  ],
+                  "unplaced": 0,
+                  "field": "lead.claim.terms[1]"
+                },
+                {
+                  "term": "inflation",
+                  "hero": 1,
+                  "by_rung": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ],
+                  "unplaced": 0,
+                  "field": "lead.claim.terms[2]"
+                }
+              ],
+              "term_list": "an editorial input (--claim-terms), the reasons the Vice President gave as the claim's own headlines name them: the Iran war, Israel ties, inflation (ARY News, ledger; the post itself when captured)",
+              "field": "lead.claim.terms and lead.claim.titled"
+            },
+            {
+              "id": "cw-2",
+              "kind": "quoted-phrase",
+              "phrase": "everyone knows why we lost",
+              "rungs": 3,
+              "rows": [
+                {
+                  "outlet": "Raw Story",
+                  "rung": "left",
+                  "headline": "'Everyone knows why we lost': JD Vance rebukes Iran war after 'Democrat blowout'",
+                  "published_at": "2026-11-04T16:53:43+00:00",
+                  "field": "lead.ledger[62]"
+                },
+                {
+                  "outlet": "Stuff (NZ)",
+                  "rung": "center",
+                  "headline": "‘Everyone knows why we lost’: JD Vance blames Trump's Iran war for election wipeout",
+                  "published_at": "2026-11-04T17:08:45+00:00",
+                  "field": "lead.ledger[65]"
+                },
+                {
+                  "outlet": "The Daily Signal",
+                  "rung": "right",
+                  "headline": "‘Everyone Knows Why We Lost’: Vance Blames Iran War for Blue Wave",
+                  "published_at": "2026-11-04T17:33:29+00:00",
+                  "field": "lead.ledger[76]"
+                }
+              ]
+            }
+          ],
+          "budget": {
+            "voiced_s": 17.5,
+            "voiced_share": 0.35,
+            "narrator_words_max": 43,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "the counts, said once each; cards are read by the viewer; the reader does not voice outlet headlines"
+        },
+        {
+          "id": "weight-divergence",
+          "dur_s": 30,
+          "plan": "Divergence pairs by the written rule (divergence_rule): paired verbatim headlines with outlet and rung, one pair per question that has one. The narrator says only which question each pair answers, as a plain who/what line.",
+          "rule": "Pool: the claim's titled headlines from placed outlets. For each fixed question, a headline is asked only if it names the people the question is about; words the headline attributes to someone else (a modal plus 'blame' and what follows, up to 'for' or punctuation) are set aside; its answers are the patterns the rest matches (case-insensitive, whole words; synonyms of one answer count as one). A pair qualifies when its two answer sets share nothing. Of the qualifying pairs, take the one whose rungs are farthest apart; then the pair whose earlier headline was published first; then the later; then ledger order. Show the pair left rung first. A question with no qualifying pair has no card.",
+          "pairs": [
+            {
+              "id": "dw-3",
+              "question": "the President's reply",
+              "rung_distance": 2,
+              "a": {
+                "outlet": "The Media Line",
+                "rung": "center",
+                "headline": "Vance Blames Iran War, Israel Ties for Midterm Losses; President Trump Defends Strikes",
+                "published_at": "2026-11-04T23:14:13+00:00",
+                "field": "lead.ledger[99]",
+                "answers": [
+                  "defends"
+                ]
+              },
+              "b": {
+                "outlet": "Daily Sabah",
+                "rung": "right",
+                "headline": "Trump admits Iran war fueled Republican midterm election losses",
+                "published_at": "2026-11-04T18:37:00+00:00",
+                "field": "lead.ledger[88]",
+                "answers": [
+                  "admits"
+                ]
+              }
+            }
+          ],
+          "dropped": [
+            {
+              "id": "dw-1",
+              "reason": "no qualifying pair under the rule"
+            },
+            {
+              "id": "dw-2",
+              "reason": "no qualifying pair under the rule"
+            }
+          ],
+          "dur_note": "30 s a pair",
+          "budget": {
+            "voiced_s": 6,
+            "voiced_share": 0.2,
+            "narrator_words_max": 15,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "one neutral line per pair naming its question; no adjective, no paraphrase of a headline on screen"
+        },
+        {
+          "id": "weight-end",
+          "dur_s": 8,
+          "plan": "Ends on a frame, not a line: a second election-day picture (e33-weight-05), own sound, no voice.",
+          "asset_requests": [
+            "e33-weight-05"
+          ],
+          "budget": {
+            "voiced_s": 0,
+            "voiced_share": 0,
+            "narrator_words_max": 0,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "no voice"
+        }
+      ],
+      "start_s": 347.3,
+      "end_s": 642.1,
+      "start": "5:47.3",
+      "end": "10:42.1",
+      "budget": {
+        "voiced_s": 124.3,
+        "voiced_share": 0.42,
+        "narrator_words_max": 210,
+        "reader_s": 40,
+        "from": "sum of the beats"
+      }
+    },
+    {
+      "id": "the-echo",
+      "kind": "segment",
+      "title": "The Echo",
+      "dur_s": 330,
+      "as_of": "1952-11-05T12:00:00-05:00",
+      "as_of_basis": "The vote was cast on Tuesday 4 November 1952; the horizon is noon in Washington the next day. The result is known inside it from Stevenson's concession as the New York Times printed it that morning (src-stevenson-19521105), so the Echo may say who won the presidency and nothing more. Official counts (the electors' votes of December 1952, the Clerk's 1953 statistics) are later records and are never shown as known at the horizon. Truman's own statement of 5 November is not used: its hour is not shown.",
+      "slug": "korean-war",
+      "picked_after_week_known": "This Echo was picked on 2026-11-12, after week 33's lead was known, because the pre-registered echo bank (24 echoes tagged by mechanism before any week's news, bible section k) has not yet been built.",
+      "device": {
+        "kind": "desk",
+        "reason": "The past has no outlet measurement (grey bars only, bible c); balance is carried by period perspectives from both parties in their own words (Truman and Stevenson for the governing party, Eisenhower for the opposition), Truman's own counter-view included, and three period documents (E1)."
+      },
+      "fit_gap": [
+        "No sea lane closes.",
+        "Truman gave no reason tied to Korea when he withdrew; his 29 March words are used only for the withdrawal.",
+        "The New Hampshire vote is a preference poll inside one party in one state, not a national election.",
+        "Congress is not in the mechanism sentence: the 1952 House and Senate majorities were not read from a primary source in this session, and they were settled in the days after the vote.",
+        "No leader of the governing party names the war as the reason for the loss inside the horizon (the week's lead has one); none is held.",
+        "Truman's own address of 14 June 1951 says controls would be needed even if the fighting in Korea stopped tomorrow: the war is not, in his words, the only cause of the controls. The Echo reads that line (period_perspectives[0].counter)."
+      ],
+      "outside_horizon": [
+        "the electors' votes of 15 December 1952 and the Clerk's printed counts",
+        "the December 1952 trip to Korea",
+        "the armistice of 27 July 1953",
+        "the 1953 congressional session"
+      ],
+      "windows": "every Echo search and item window ends on or before 1952-11-05T12:00:00-05:00",
+      "no_bridge": {
+        "must_not_appear": [
+          "Iran",
+          "Israel",
+          "Hormuz",
+          "Vance",
+          "Trump",
+          "Hegseth",
+          "Miller",
+          "Qeshm",
+          "Gulf of Oman",
+          "Saudi",
+          "Aramco",
+          "Russia",
+          "Ukraine",
+          "Kyiv",
+          "Britain",
+          "British",
+          "Congo",
+          "Ebola",
+          "Antigua",
+          "GOP",
+          "JD Vance",
+          "Donald Trump",
+          "Pete Hegseth",
+          "Stephen Miller",
+          "Susie Wiles",
+          "Wiles",
+          "Elissa Slotkin",
+          "Slotkin",
+          "Zohran Mamdani",
+          "Mamdani",
+          "Susan Collins",
+          "Troy Jackson",
+          "King Charles",
+          "Charles III",
+          "Gadi Eisenkot",
+          "Eisenkot",
+          "Antonio Tajani",
+          "Tajani",
+          "Tehran",
+          "Krakow",
+          "Frankfurt",
+          "Riyadh",
+          "St Kitts"
+        ],
+        "word_rule": "Bare surnames that are also 1952 words or names are flagged only in full: 'Troy Jackson' (the Jefferson-Jackson Day Dinner is the 1952 event's own name), 'Susan Collins'; 'Miller', 'Wiles', 'Slotkin', 'Mamdani', 'Eisenkot' and 'Tajani' are flagged bare.",
+        "ruling": "Founder's ruling (chat 2026-11-12, asked directly): the 1952 party names 'Democratic' and 'Republican' are allowed in the Echo as institutions; no person or event from this week's news may appear. 'GOP' and this week's persons and places stay flagged.",
+        "also": "no 'like today', 'just as', or any sentence pointing at the week, in either direction (bible e)"
+      },
+      "narrator_speed": 0.84,
+      "music": {
+        "bed": "one echo bed (E8), the 150 s version",
+        "under": [
+          "echo-x3",
+          "echo-x4",
+          "echo-x5",
+          "echo-x6"
+        ],
+        "span_s": 150,
+        "within_150": true,
+        "never_under": [
+          "echo-x1 (refugees)",
+          "echo-x7 (the wounded)",
+          "the part card"
+        ],
+        "rule": "bible g: never under an account of violence, never across a part card"
+      },
+      "beats": [
+        {
+          "id": "echo-x0",
+          "dur_s": 3,
+          "plan": "Grey test card, '1952' in the circle, hold 1.8 s with the sting; 1.5 s echo-dissolve into the first picture (overlap 0.3 s). Field warms; chrome turns umber.",
+          "testcard": {
+            "word": "THE ECHO",
+            "year": "1952",
+            "line": "WEEK 33 · HORIZON 5 NOV 1952"
+          },
+          "music": "none",
+          "budget": {
+            "voiced_s": 0,
+            "voiced_share": 0,
+            "narrator_words_max": 0,
+            "reader_s": 0,
+            "rate_wpm": 150
+          }
+        },
+        {
+          "id": "echo-x1",
+          "dur_s": 30,
+          "date": "1951-01-08",
+          "slate": "OUTSIDE KANGNUNG, KOREA · 8 JAN 1951",
+          "items": [
+            "e33-echo-05"
+          ],
+          "plan": "The war abroad: refugees in snow outside Kangnung. Rostrum along the file.",
+          "music": "none",
+          "asset_requests": [
+            "e33-echo-05",
+            "e33-echo-req-12"
+          ],
+          "intent": "date, place, what the Signal Corps photographed; no count not in the ledger",
+          "budget": {
+            "voiced_s": 15,
+            "voiced_share": 0.5,
+            "narrator_words_max": 35,
+            "reader_s": 0,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x2",
+          "dur_s": 40,
+          "date": "1951-01-30",
+          "slate": "WASHINGTON · 30 JAN 1951",
+          "plan": "The desk: the General Ceiling Price Regulation in the Federal Register, toured as the printed page; the reader speaks the statement-of-considerations line.",
+          "music": "none",
+          "reader": [
+            {
+              "text": "Since the outbreak in Korea, basic commodity prices have risen almost 50 percent, farm prices about 16 percent, wholesale food prices 12 percent, and industrial prices about 14 percent.",
+              "source": "src-fr-19510130",
+              "quote_sha256": "adee056ba1e6025c01425a5aa770796b972b0aad262014bd38607486e009491a"
+            }
+          ],
+          "asset_requests": [
+            "e33-echo-req-13"
+          ],
+          "intent": "what was decided (a price freeze), by whom, when; then the reader",
+          "budget": {
+            "voiced_s": 20,
+            "voiced_share": 0.5,
+            "narrator_words_max": 19,
+            "reader_s": 11.8,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x3",
+          "dur_s": 55,
+          "date": "1951-06-14",
+          "slate": "THE WHITE HOUSE · 14 JUN 1951",
+          "plan": "Truman's broadcast on extending inflation controls: the reader speaks his two lines, then, in the same beat, his own counter-view from the same address (controls needed even if the fighting stopped). The counter-view stays in.",
+          "music": "echo bed enters",
+          "reader": [
+            {
+              "text": "This is the problem of inflation and high prices.",
+              "quote_sha256": "7759abd732b7f21c3723494eae12afeb1e3bd9cbdbacfdad67389d2b53f1a4b8",
+              "source": "src-truman-19510614"
+            },
+            {
+              "text": "Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea.",
+              "quote_sha256": "c0ef2611a00aee866621a50276193995f1da72bf7b173658f196badb2e86366a",
+              "source": "src-truman-19510614"
+            },
+            {
+              "text": "Some people have the idea that if the fighting stopped in Korea we could cut down our defense effort enough to do away with the danger of inflation. That is not true. We would need controls even if the fighting in Korea stopped tomorrow. The threat of Communist aggression is worldwide, and must be met with worldwide defenses.",
+              "quote_sha256": "ee63c06f3dd13fc5b0194e62c19ce26e44dcf21fe92e0547a80d730bbf9c2127",
+              "role": "the speaker's own counter-view (review of PR #11)",
+              "source": "src-truman-19510614"
+            }
+          ],
+          "cut": {
+            "passages": 3,
+            "contiguous": false,
+            "order": "quote, then also, then counter: the address's own order",
+            "shown_as": "the reader pauses between passages; any typeset or subtitle form marks each gap '[…]'"
+          },
+          "asset_requests": [
+            "e33-echo-req-08"
+          ],
+          "intent": "who spoke, from where, when; then the reader, all three passages in the address's order, with a pause at each cut",
+          "budget": {
+            "voiced_s": 45.1,
+            "voiced_share": 0.82,
+            "narrator_words_max": 19,
+            "reader_s": 37.1,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x4",
+          "dur_s": 20,
+          "date": "1951-12-14",
+          "slate": "KUMSONG FRONT, KOREA · 14 DEC 1951",
+          "items": [
+            "e33-echo-06"
+          ],
+          "plan": "Infantrymen send New Year greetings home: front and home front in one frame.",
+          "music": "echo bed",
+          "asset_requests": [
+            "e33-echo-06"
+          ],
+          "intent": "place, date, who; a short beat",
+          "budget": {
+            "voiced_s": 10,
+            "voiced_share": 0.5,
+            "narrator_words_max": 23,
+            "reader_s": 0,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x5",
+          "dur_s": 30,
+          "date": "1952-03-11",
+          "slate": "NEW HAMPSHIRE · 11 MAR 1952",
+          "plan": "Count card: the Democratic preference vote. Its date line discloses the basis: the State's canvass as printed in the 1953 Manual (no March 1952 printing is held).",
+          "music": "echo bed",
+          "count_cards": [
+            {
+              "what": "New Hampshire Democratic preference for President, 11 March 1952",
+              "values": {
+                "Kefauver": 19800,
+                "Truman": 15927
+              },
+              "source": "src-nh-manual-1953",
+              "show": "a count card from the record, its date line disclosing the 1953 printing; the Manual's page itself is not shown",
+              "basis": "The count is the State's canvass as printed in the Manual for the General Court, No. 33 (1953), p. 426; no March 1952 printing of it is held. The count card says so on its date line ('11 MAR 1952 · STATE CANVASS, PRINTED 1953') and the sources page repeats it.",
+              "date_line": "11 MAR 1952 · STATE CANVASS, PRINTED 1953"
+            }
+          ],
+          "asset_requests": [
+            "e33-echo-req-09"
+          ],
+          "intent": "what was counted, where, when; the two numbers; no word on why",
+          "budget": {
+            "voiced_s": 15,
+            "voiced_share": 0.5,
+            "narrator_words_max": 35,
+            "reader_s": 0,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x6",
+          "dur_s": 45,
+          "date": "1952-03-29",
+          "slate": "NATIONAL GUARD ARMORY, WASHINGTON · 29 MAR 1952",
+          "items": [
+            "e33-echo-04",
+            "e33-echo-02",
+            "e33-echo-01",
+            "e33-echo-03"
+          ],
+          "plan": "The Jefferson-Jackson Day dinner: arrival, applause, the President and Mrs. Truman; the reader speaks the withdrawal line; the address typeset as a page labelled printed later. The echo bed's written ending lands on the last still.",
+          "music": "echo bed, written ending",
+          "reader": [
+            {
+              "text": "I shall not be a candidate for reelection.",
+              "quote_sha256": "84ad550844ada9eb11b35440cd216465be50c1a8dccbec2c53986dd44f243588",
+              "source": "src-truman-19520329"
+            }
+          ],
+          "avoid": "the same address names Iran ('in Italy and Iran') in another passage; that passage is never quoted",
+          "asset_requests": [
+            "e33-echo-04",
+            "e33-echo-02",
+            "e33-echo-01",
+            "e33-echo-03",
+            "e33-echo-req-14"
+          ],
+          "intent": "where, when, at what hour (10:30 p.m.); then the reader. Never tie the withdrawal to Korea (fit_gap)",
+          "budget": {
+            "voiced_s": 22.5,
+            "voiced_share": 0.5,
+            "narrator_words_max": 45,
+            "reader_s": 3.3,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x7",
+          "dur_s": 20,
+          "date": "1952-06",
+          "slate": "KOREA · JUNE 1952",
+          "items": [
+            "e33-echo-07"
+          ],
+          "plan": "A helicopter carries two wounded soldiers to a front-line airstrip (fetch the NARA copy, not the Commons upload). No music: an account of violence.",
+          "music": "none (bible g)",
+          "asset_requests": [
+            "e33-echo-07"
+          ],
+          "intent": "place, month, what is in the frame",
+          "budget": {
+            "voiced_s": 10,
+            "voiced_share": 0.5,
+            "narrator_words_max": 23,
+            "reader_s": 0,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x8",
+          "dur_s": 45,
+          "date": "1952-10-24",
+          "slate": "DETROIT, MICHIGAN · 24 OCT 1952",
+          "plan": "The opposition's nominee makes Korea the issue: the reader speaks three separate passages of the Detroit text, with audible pauses at the two cuts. Quoted only, never shown. The lines are transcribed from a scan without a text layer: verification against the page images is required before E5 (echo-pick period_perspectives[2].verify).",
+          "music": "none",
+          "cut": {
+            "passages": 3,
+            "contiguous": false,
+            "locators": "page 1 (the first two lines) and page 5 ('I shall go to Korea.'), per the analyst's transcription",
+            "shown_as": "the reader pauses between passages; any typeset or subtitle form marks each gap '[…]'"
+          },
+          "verify": {
+            "status": "required before E5",
+            "how": "read each line against the page images of the scan (no text layer) and record page and line; a mismatch replaces the line, never the scan"
+          },
+          "reader": [
+            {
+              "text": "In this anxious autumn for America, one fact looms above all others in our people's mind.",
+              "quote_sha256": "188d6129582b928d16e194134ed45a61ae773ae23b7bd8d879ca70c659cdcbfa",
+              "source": "src-eisenhower-19521024"
+            },
+            {
+              "text": "This fact, this tragedy, this word is: Korea.",
+              "quote_sha256": "48e66695bc0ede391f12972f8f5f7c8ecccac96298e2fe52372d7d00288959f4",
+              "source": "src-eisenhower-19521024"
+            },
+            {
+              "text": "I shall go to Korea.",
+              "quote_sha256": "530845bafd8e587e3919608e93701c64b1226051214687feecc4c8bcbd0d9936",
+              "source": "src-eisenhower-19521024"
+            }
+          ],
+          "asset_requests": [
+            "e33-echo-req-10"
+          ],
+          "intent": "who, the Republican nominee, where, when; then the reader",
+          "budget": {
+            "voiced_s": 22.5,
+            "voiced_share": 0.5,
+            "narrator_words_max": 25,
+            "reader_s": 11.8,
+            "rate_wpm": 143
+          }
+        },
+        {
+          "id": "echo-x9",
+          "dur_s": 42,
+          "date": "1952-11-05",
+          "slate": "SPRINGFIELD, ILLINOIS · 5 NOV 1952",
+          "plan": "The result, only through src-stevenson-19521105 (result_rule): the reader speaks the concession line as the New York Times printed it that morning. Ends on a frame; hard cut to The Margins' test card.",
+          "music": "none",
+          "reader": [
+            {
+              "text": "My fellow citizens have made their choice and have selected General Eisenhower and the Republican Party as the instruments of their will for the next four years.",
+              "quote_sha256": "b35c274bd2e5b94d8be1d8c5196690394a91a9089d2f24fc7f14826c9d1b1dea",
+              "source": "src-stevenson-19521105"
+            }
+          ],
+          "result_rule": "The result enters a spoken or printed line only through src-stevenson-19521105, which is ledgered here; no other source for it is used.",
+          "asset_requests": [
+            "e33-echo-req-11"
+          ],
+          "intent": "the vote's date; who conceded, where, as printed when; nothing about Congress, the electors or anything after noon on 5 November",
+          "budget": {
+            "voiced_s": 21,
+            "voiced_share": 0.5,
+            "narrator_words_max": 23,
+            "reader_s": 11,
+            "rate_wpm": 143
+          }
+        }
+      ],
+      "start_s": 642.1,
+      "end_s": 972.1,
+      "start": "10:42.1",
+      "end": "16:12.1",
+      "budget": {
+        "voiced_s": 181.1,
+        "voiced_share": 0.55,
+        "narrator_words_max": 247,
+        "reader_s": 75,
+        "from": "sum of the beats"
+      }
+    },
+    {
+      "id": "the-margins",
+      "kind": "segment",
+      "title": "The Margins",
+      "dur_s": 145.8,
+      "as_of": "2026-11-08T22:16:50.309638+00:00",
+      "device": "count",
+      "correction_card": "none: no correction to week 32 is on record (no corrections file, no DECISIONS entry); the 10 s card is omitted",
+      "selection": {
+        "rule": "bible e: importance at or above the week's 70th percentile, lowest source_count first, excluding the lead and the day leads",
+        "p70": 61.64,
+        "pool": 209
+      },
+      "testcard": {
+        "word": "THE MARGINS",
+        "bars": [
+          1,
+          5,
+          9,
+          6,
+          3,
+          1,
+          6
+        ],
+        "placed": 31,
+        "of_sources": 34,
+        "caption": "OUTLETS CARRYING THE THREE STORIES · 31 PLACED",
+        "hold_s": 1.8,
+        "field": "sum over margins.stories[i].buckets"
+      },
+      "beats": [
+        {
+          "id": "margins-card",
+          "dur_s": 1.8,
+          "budget": {
+            "voiced_s": 0,
+            "voiced_share": 0,
+            "narrator_words_max": 0,
+            "reader_s": 0,
+            "rate_wpm": 150
+          }
+        },
+        {
+          "id": "margins-1",
+          "dur_s": 48,
+          "as_of": "2026-11-08T22:16:50.309638+00:00",
+          "printed_on": "2026-11-05",
+          "known": {
+            "headline": "Troy Jackson Defeats Susan Collins in Maine Senate Race",
+            "field": "margins.stories[0]",
+            "source_count": 10,
+            "headline_rank": 62.04,
+            "cluster_id": "9b5982e1-374a-48cc-a885-5c1f452ac105"
+          },
+          "device": {
+            "kind": "count",
+            "reason": "Bible d: The Margins show the count ('Ten outlets.'). source_count 10 is not under 6, so a board is not barred, but the part's form is picture, what was known, count; no board.",
+            "count": 10,
+            "bars": [
+              0,
+              2,
+              5,
+              0,
+              0,
+              1,
+              1
+            ],
+            "placed": 9
+          },
+          "asset_requests": [
+            "e33-margin1-pic",
+            "e33-margin1-doc"
+          ],
+          "budget": {
+            "voiced_s": 21.6,
+            "voiced_share": 0.45,
+            "narrator_words_max": 54,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "the race and the result as printed on 5 Nov; the state; the count"
+        },
+        {
+          "id": "margins-2",
+          "dur_s": 48,
+          "as_of": "2026-11-08T22:16:50.309638+00:00",
+          "printed_on": "2026-11-02",
+          "known": {
+            "headline": "Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+            "field": "margins.stories[1]",
+            "source_count": 12,
+            "headline_rank": 64.77,
+            "cluster_id": "c5593898-2b91-495c-811f-6818e84276a7"
+          },
+          "device": {
+            "kind": "count",
+            "reason": "Bible d: The Margins show the count ('Twelve outlets.'). source_count 12 is not under 6, so a board is not barred, but the part's form is picture, what was known, count; no board.",
+            "count": 12,
+            "bars": [
+              1,
+              2,
+              1,
+              1,
+              2,
+              0,
+              3
+            ],
+            "placed": 10
+          },
+          "asset_requests": [
+            "e33-margin2-pic",
+            "e33-margin2-doc"
+          ],
+          "budget": {
+            "voiced_s": 21.6,
+            "voiced_share": 0.45,
+            "narrator_words_max": 54,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "the court's order as printed on 2 Nov, in the order's own words if read; the count"
+        },
+        {
+          "id": "margins-3",
+          "dur_s": 48,
+          "as_of": "2026-11-08T22:16:50.309638+00:00",
+          "printed_on": "2026-11-02",
+          "known": {
+            "headline": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+            "field": "margins.stories[2]",
+            "source_count": 12,
+            "headline_rank": 61.84,
+            "cluster_id": "5fd7f4d1-2f4c-41e5-9f2b-d69ee048d158"
+          },
+          "device": {
+            "kind": "count",
+            "reason": "Bible d: The Margins show the count ('Twelve outlets.'). source_count 12 is not under 6, so a board is not barred, but the part's form is picture, what was known, count; no board.",
+            "count": 12,
+            "bars": [
+              0,
+              1,
+              3,
+              5,
+              1,
+              0,
+              2
+            ],
+            "placed": 12
+          },
+          "asset_requests": [
+            "e33-margin3-pic",
+            "e33-margin3-doc"
+          ],
+          "budget": {
+            "voiced_s": 21.6,
+            "voiced_share": 0.45,
+            "narrator_words_max": 54,
+            "reader_s": 0,
+            "rate_wpm": 150
+          },
+          "intent": "the place, the toll as printed on 2 Nov (one dead, eight wounded); the count; no music, no adjective"
+        }
+      ],
+      "start_s": 972.1,
+      "end_s": 1117.9,
+      "start": "16:12.1",
+      "end": "18:37.9",
+      "budget": {
+        "voiced_s": 64.8,
+        "voiced_share": 0.44,
+        "narrator_words_max": 162,
+        "reader_s": 0,
+        "from": "sum of the beats"
+      }
+    },
+    {
+      "id": "the-question",
+      "kind": "question",
+      "title": "The Question",
+      "dur_s": 45,
+      "as_of": "2026-11-08T22:16:50.309638+00:00",
+      "device": "none",
+      "ruling": "founder, chat 2026-11-12",
+      "return_to": "the lead's last frame (weight-end, e33-weight-05), not the Echo's: returning to 1952 would make the question a bridge",
+      "question": "What did the voters of 3 November vote on?",
+      "question_checks": {
+        "ends_in_question_mark": true,
+        "posed_from": "inside the week: on Sunday 8 Nov the vote is counted and its meaning is what the board shows divided",
+        "no_moral": true,
+        "no_bridge": "names no 1952 person or event"
+      },
+      "plan": "Return to the frame; 8 s of its own sound; the line, once; at least 6 s with no voice after it; cut to credits.",
+      "budget": {
+        "voiced_s": 4,
+        "voiced_share": 0.09,
+        "narrator_words_max": 9,
+        "reader_s": 0,
+        "rate_wpm": 150
+      },
+      "start_s": 1117.9,
+      "end_s": 1162.9,
+      "start": "18:37.9",
+      "end": "19:22.9"
+    },
+    {
+      "id": "credits",
+      "kind": "credits",
+      "title": "Credits and end board",
+      "dur_s": 45,
+      "as_of": "2026-11-08T22:16:50.309638+00:00",
+      "device": "none",
+      "plan": "The theme returns under the roll: every asset credit from the rights ledger, the voice line for the stand-in ('Narrated by a computer voice, Kokoro af_aoede; quotations read by Kokoro am_michael'), void news ratings as printed with their disclosure line; end board 'WEEK 33 · MMXXVI · CC BY-SA 4.0 · omnibus.voidvision.org' holds 4 s.",
+      "disclosures": [
+        "void news ratings are shown as printed: each outlet's rung on void news's seven-rung ladder (since 2026-11-04), read from data/sources.json at the pin; void news placed them, this programme did not",
+        "board rows come only from the claim's own records; the 2 Nov election-eve record is context",
+        "the claim's counts include 2ec1fcb8's untitled printed members published on 3 Nov, before the 4 Nov print (ledger [23] The National, ledger [24] Raw Story): void news printed them in the claim's cluster; they carry no headline, so they count as outlets and never as board rows",
+        "the Weight's test card and count cards measure the claim (76 outlets, 11 unplaced); the pooled lead record, context included, is 86 outlets and 71 titled headlines of 114 articles",
+        "board pick rule: tier, then article count, then name; no reach figure is claimed",
+        "untitled occupied rung: far-left (Tehran Times)",
+        "consensus and divergence cards follow the written rules on the sources page",
+        "the reason words counted on the consensus card (Iran, Israel, inflation) are an editorial input to the normaliser (--claim-terms), taken from the claim's own headlines and, once captured, the Vice President's post; each count is read from the record (lead.claim.terms)",
+        "the New Hampshire count is the State's canvass printed in 1953",
+        "the Echo was picked after the week was known (echo-pick.json)"
+      ],
+      "budget": {
+        "voiced_s": 0,
+        "voiced_share": 0,
+        "narrator_words_max": 0,
+        "reader_s": 0,
+        "rate_wpm": 150
+      },
+      "intent": "no voice",
+      "start_s": 1162.9,
+      "end_s": 1207.9,
+      "start": "19:22.9",
+      "end": "20:07.9"
+    }
+  ],
+  "asset_requests": [
+    {
+      "id": "e33-cold-01",
+      "for": "cold-open",
+      "kind": "footage",
+      "purpose": "Election day, Tuesday 3 Nov 2026: a polling place or a count in progress, with its own sound; the lead's event, the vote itself, neutral between the reasons later given for it.",
+      "must_show": "voters or election workers at work; no candidate signage filling the frame; the place and date readable from the item's record",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "adapter": "dvids",
+          "query": "q=\"election day\" OR \"absentee ballot\" voting; type=video",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-03"
+          },
+          "note": "DVIDS needs DVIDS_API_KEY; without it this step is skipped with a reason"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"2026 United States elections\" filetype:video polling OR ballots OR count",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-04"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"2026 United States elections\" filetype:bitmap \"polling place\" OR \"polling station\" OR ballots",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-03"
+          },
+          "note": "capture date from EXIF or {{Information|date}}; uploader check applies"
+        },
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "the printed edition of 2026-11-04 rendered from archive.json at the pin, toured to its result story, days[2].next[0] 'Democrats Capture Control of Both Chambers of Congress in Midterms' (32 sources), never to the lead headline",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "note": "our own property, always satisfiable"
+        }
+      ],
+      "fallback": "tier 4: the 4 Nov printed front page, toured to the result story 'Democrats Capture Control of Both Chambers of Congress in Midterms' with room tone (no voice for its first 6 s); the lead headline, which names a reason, stays out of frame until The Week"
+    },
+    {
+      "id": "e33-title-01",
+      "for": "title",
+      "kind": "footage",
+      "purpose": "The founder's title ruling (chat 2026-11-12): the 1958 Explorer 1 public-domain teleprinter clip, used untouched (no warp, no composite, no grade), then a cut to the code-drawn typed-paper macro",
+      "must_show": "the teleprinter printing, as filmed; its own date carried by the dot label (PICTURE FROM 1958)",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "images-api.nasa.gov",
+          "adapter": "nasa",
+          "query": "q=\"Explorer 1\" teletype OR teleprinter; media_type=video; year_start=1958; year_end=1958",
+          "window": {
+            "from": "1958-01-01",
+            "to": "1958-12-31"
+          },
+          "note": "credit must be NASA alone (T2 rule); JPL-Caltech credit fails"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "filetype:video \"Explorer 1\" 1958 teletype OR teleprinter OR tracking",
+          "window": {
+            "from": "1958-01-01",
+            "to": "1958-12-31"
+          }
+        }
+      ],
+      "fallback": "the DRAWN typed-paper macro runs the whole 18.0 s"
+    },
+    {
+      "id": "e33-snd-01",
+      "for": "title",
+      "kind": "sound",
+      "purpose": "teleprinter strikes, 48 kHz, CC0",
+      "must_show": "48 kHz or better; never a preview MP3 (the v12 lesson); licence CC0 by founder ruling 3",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "filetype:audio teleprinter OR teletype OR telex",
+          "window": {
+            "from": "1900-01-01",
+            "to": "2026-11-08"
+          },
+          "note": "Freesound is not an allowed host"
+        }
+      ],
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)"
+    },
+    {
+      "id": "e33-snd-02",
+      "for": "title",
+      "kind": "sound",
+      "purpose": "wire-service bulletin bell, 48 kHz, CC0",
+      "must_show": "48 kHz or better; never a preview MP3 (the v12 lesson); licence CC0 by founder ruling 3",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "filetype:audio teleprinter bell OR \"typewriter bell\"",
+          "window": {
+            "from": "1900-01-01",
+            "to": "2026-11-08"
+          },
+          "note": "Freesound is not an allowed host"
+        }
+      ],
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)"
+    },
+    {
+      "id": "e33-snd-03",
+      "for": "title",
+      "kind": "sound",
+      "purpose": "paper tear, 48 kHz, CC0",
+      "must_show": "48 kHz or better; never a preview MP3 (the v12 lesson); licence CC0 by founder ruling 3",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "filetype:audio \"paper tear\" OR \"tearing paper\"",
+          "window": {
+            "from": "1900-01-01",
+            "to": "2026-11-08"
+          },
+          "note": "Freesound is not an allowed host"
+        }
+      ],
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)"
+    },
+    {
+      "id": "e33-snd-04",
+      "for": "weight-board",
+      "kind": "sound",
+      "purpose": "one split-flap flap, 48 kHz, CC0 (board rows)",
+      "must_show": "48 kHz or better; never a preview MP3 (the v12 lesson); licence CC0 by founder ruling 3",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "filetype:audio \"split-flap\" OR \"flap display\" OR solari",
+          "window": {
+            "from": "1900-01-01",
+            "to": "2026-11-08"
+          },
+          "note": "Freesound is not an allowed host"
+        }
+      ],
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)"
+    },
+    {
+      "id": "e33-snd-05",
+      "for": "all-parts",
+      "kind": "sound",
+      "purpose": "room tone, CC0, at or below -72 dBFS after gain",
+      "must_show": "48 kHz or better; never a preview MP3 (the v12 lesson); licence CC0 by founder ruling 3",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "filetype:audio \"room tone\" OR \"room ambience\" OR \"office ambience\"",
+          "window": {
+            "from": "1900-01-01",
+            "to": "2026-11-08"
+          },
+          "note": "Freesound is not an allowed host"
+        }
+      ],
+      "fallback": "true silence (allowed up to 6 s); a long room tone gap is a defect to report, not to fill"
+    },
+    {
+      "id": "e33-day1-page",
+      "for": "week-day-1",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-02, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-02 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day1-pic",
+      "for": "week-day-1",
+      "kind": "still",
+      "purpose": "the day's lead picture: Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "\"Charles III\" Antigua 2026 OR \"royal visit\" Antigua",
+          "window": {
+            "from": "2026-10-28",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "Antigua Prime Minister reparations 2026 filetype:bitmap",
+          "window": {
+            "from": "2026-10-28",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          }
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: St. John's, Antigua and Barbuda (Natural Earth 1:10m + GeoNames name search country=AG)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          },
+          "note": "drawn by E6; always satisfiable"
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-day1-doc",
+      "for": "week-day-1",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "ab.gov.ag",
+          "adapter": null,
+          "query": "Office of the Prime Minister statement or speech text on reparations during the royal visit",
+          "window": {
+            "from": "2026-10-28",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          },
+          "note": "quoted by the reader only if read from the primary text; a state work, quoted not shown"
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-day2-page",
+      "for": "week-day-2",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-03, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-03 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day2-pic",
+      "for": "week-day-2",
+      "kind": "footage",
+      "purpose": "the day's lead picture: Russian Missile and Bomb Strikes Kill Dozens at Ukrainian Aid Facility",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "adapter": "dvids",
+          "query": "q=Ukraine humanitarian aid facility strike; type=image",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          },
+          "note": "needs DVIDS_API_KEY"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Images from dsns.gov.ua\" November 2026",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          },
+          "note": "drawn by E6; always satisfiable"
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-day2-doc",
+      "for": "week-day-2",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "dsns.gov.ua",
+          "adapter": null,
+          "query": "State Emergency Service report of the strike on the aid facility",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          },
+          "note": "licence evidence (captured 2026-11-12): Commons Template:Dsns.gov.ua tags files from the State Emergency Service's website or social media as CC BY 4.0, 'you are free to distribute and modify the file as long as you attribute dsns.gov.ua'; dsns.gov.ua itself answered 403 to a scripted read, so E5 captures the site's own licence line before ledgering; outside the fetcher"
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-day3-page",
+      "for": "week-day-3",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-04, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-04 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day3-pic",
+      "for": "week-day-3",
+      "kind": "footage",
+      "purpose": "the day's lead picture: JD Vance Blames Iran War for Republican Midterm Defeat",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "adapter": "dvids",
+          "query": "q=\"Vice President Vance\"; type=image OR video",
+          "window": {
+            "from": "2026-10-26",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "note": "needs DVIDS_API_KEY"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"JD Vance in 2026\" filetype:bitmap OR filetype:video",
+          "window": {
+            "from": "2026-10-26",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+          "window": {
+            "from": "2026-03-01",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "note": "the weekly edition's own cover image (weekly-issues.json cover_image_url, attributed 'Emily J. Higgins, Public domain'); dated March 2026, outside its moment: PICTURE FROM MAR 2026"
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "\"JD Vance\" official portrait Vice President filetype:bitmap",
+          "window": {
+            "from": "2021-01-01",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "note": "an official portrait dated before the week carries PICTURE FROM {DATE}"
+        }
+      ],
+      "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources"
+    },
+    {
+      "id": "e33-day3-doc",
+      "for": "week-day-3",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "web.archive.org (capture of x.com/JDVance)",
+          "adapter": "wayback-date-witness (E5)",
+          "query": "the Vice President's post of 3 or 4 Nov 2026 on the midterm result: a dated Wayback capture whose time is on or before the horizon, as a date witness for the post's text, sha256 recorded",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "note": "shared with the Weight desk (e33-weight-02); the reader speaks it only from this capture"
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-day4-page",
+      "for": "week-day-4",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-05, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-05 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day4-pic",
+      "for": "week-day-4",
+      "kind": "still",
+      "purpose": "the day's lead picture: British Healthcare Worker Infected With Ebola Is Evacuated From Congo",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "phil.cdc.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "Ebola response OR Ebola treatment unit (CDC PHIL, PD federal)",
+          "window": {
+            "from": "2014-01-01",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          },
+          "note": "PD federal; a CDC picture dated before the week (for example 2014) is dated outside its moment: the provenance dot labels it PICTURE FROM {DATE} (spec 3.5)"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "Ebola 2026 Congo OR \"Democratic Republic of the Congo\" filetype:bitmap",
+          "window": {
+            "from": "2026-10-01",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          }
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: the Democratic Republic of the Congo, with the province named in the primary statement (Natural Earth, country=CD)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          },
+          "note": "drawn by E6; always satisfiable"
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-day4-doc",
+      "for": "week-day-4",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.gov.uk (UK Health Security Agency)",
+          "adapter": null,
+          "query": "statement on the evacuated healthcare worker",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          },
+          "note": "OGL is not on the allowlist: quoted by the reader only, never shown"
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-day5-page",
+      "for": "week-day-5",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-06, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-06 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day5-pic",
+      "for": "week-day-5",
+      "kind": "footage",
+      "purpose": "the day's lead picture: Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "adapter": "dvids",
+          "query": "q=Hegseth; type=image OR video",
+          "window": {
+            "from": "2026-10-30",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          },
+          "note": "needs DVIDS_API_KEY"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Pete Hegseth in 2026\" OR \"Pete Hegseth\" November 2026",
+          "window": {
+            "from": "2026-10-30",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "\"Pete Hegseth\" official portrait filetype:bitmap",
+          "window": {
+            "from": "2021-01-01",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          },
+          "note": "an official portrait dated before the week carries PICTURE FROM {DATE}"
+        }
+      ],
+      "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources"
+    },
+    {
+      "id": "e33-day5-doc",
+      "for": "week-day-5",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.congress.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "H.Res. impeaching Peter B. Hegseth, introduced on or before the horizon (search: impeaching Hegseth, 119th Congress)",
+          "window": {
+            "from": "2026-10-30",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          },
+          "note": "PD federal; if no resolution was introduced by the horizon there is no desk item and the beat says only what was printed"
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-day6-page",
+      "for": "week-day-6",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-07, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-07 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-07",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day6-pic",
+      "for": "week-day-6",
+      "kind": "footage",
+      "purpose": "the day's lead picture: Trump Names Stephen Miller White House Chief of Staff Replacing Susie Wiles",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "www.whitehouse.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "video or photo of the chief-of-staff announcement, 6 to 7 Nov 2026",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "note": "embedded third-party content is flagged by the vision pass"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "\"Stephen Miller\" 2026 White House filetype:bitmap",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "\"Stephen Miller\" official portrait White House filetype:bitmap",
+          "window": {
+            "from": "2021-01-01",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "note": "an official portrait dated before the week carries PICTURE FROM {DATE}"
+        }
+      ],
+      "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources"
+    },
+    {
+      "id": "e33-day6-doc",
+      "for": "week-day-6",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.whitehouse.gov/briefings-statements",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "the President's announcement naming the chief of staff (or the President's own post, captured with its time)",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          }
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-day7-page",
+      "for": "week-day-7",
+      "kind": "still",
+      "purpose": "void news's printed edition of 2026-11-08, toured to its first story (the as-was record)",
+      "must_show": "the first story's headline at full legibility",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "github.com/aacrit/void--news",
+          "adapter": "e6-graphics",
+          "query": "printed edition 2026-11-08 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout",
+          "window": {
+            "from": "2026-11-08",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          },
+          "note": "our own property; always satisfiable"
+        }
+      ],
+      "fallback": "none needed (tier 4 is always satisfiable)"
+    },
+    {
+      "id": "e33-day7-pic",
+      "for": "week-day-7",
+      "kind": "footage",
+      "purpose": "the day's lead picture: US Military Forms New Task Force to Target Iranian Land Routes",
+      "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "adapter": "dvids",
+          "query": "q=\"U.S. Central Command\" OR CENTCOM task force; type=video",
+          "window": {
+            "from": "2026-11-01",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          },
+          "note": "needs DVIDS_API_KEY"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Videos by DVIDS\" CENTCOM November 2026",
+          "window": {
+            "from": "2026-11-01",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "CENTCOM \"task force\" 2026 filetype:bitmap",
+          "window": {
+            "from": "2026-11-01",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          }
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: Iran and its land borders, with the region named in the CENTCOM release (Natural Earth 1:10m, no relief)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          },
+          "note": "drawn by E6; always satisfiable"
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-day7-doc",
+      "for": "week-day-7",
+      "kind": "document",
+      "purpose": "the primary text behind the day's lead, for the desk",
+      "must_show": "the quoted span, verbatim",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.centcom.mil",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "press release announcing the task force",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          },
+          "note": "PD federal"
+        }
+      ],
+      "fallback": "no desk item; the narrator says only what was printed and counted"
+    },
+    {
+      "id": "e33-weight-01",
+      "for": "weight-known",
+      "kind": "still",
+      "purpose": "the Vice President campaigning on election eve, 2 Nov 2026 (ledger: Columbus Dispatch, NTD News, New York Post headlines name Ohio and New York rallies)",
+      "must_show": "the Vice President at the event; place and date from the item's record",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "\"JD Vance\" rally November 2026 filetype:video OR filetype:bitmap",
+          "window": {
+            "from": "2026-10-30",
+            "to": "2026-11-02"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"JD Vance in 2026\" filetype:bitmap",
+          "window": {
+            "from": "2026-10-01",
+            "to": "2026-11-04"
+          }
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: Ohio and New York State, the rally places as the ledger names them",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-weight-02",
+      "for": "weight-desk",
+      "kind": "document",
+      "purpose": "the post itself: the words outlets quote as 'Everyone knows why we lost' and 'the reason we lost'",
+      "must_show": "the full post, typeset verbatim as a page with its time on the last line",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "web.archive.org (capture of x.com/JDVance)",
+          "adapter": "wayback-date-witness (E5)",
+          "query": "same capture as e33-day3-doc",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "note": "reuses e33-day3-doc; no second fetch"
+        }
+      ],
+      "fallback": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
+    },
+    {
+      "id": "e33-weight-03",
+      "for": "weight-desk",
+      "kind": "footage",
+      "purpose": "Senator Slotkin's words on the Vice President and the war (The Hill row, 5 Nov 15:18 UTC)",
+      "must_show": "the Senator speaking",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "www.senate.gov (floor video)",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "Senate floor proceedings with Sen. Slotkin, 4 to 5 Nov 2026",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-05"
+          },
+          "note": "the Senate may not have sat that week"
+        },
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Elissa Slotkin\" official portrait filetype:bitmap",
+          "window": {
+            "from": "2021-01-01",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "note": "PD federal; PICTURE FROM {DATE}"
+        },
+        {
+          "tier": 5,
+          "host": "www.slotkin.senate.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "press release or statement on the Vice President and the Iran war, 4 to 5 Nov 2026",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "note": "a Senator's official release, quoted by the reader"
+        }
+      ],
+      "fallback": "tier 5 page typeset verbatim; without a primary text the Slotkin row stays a board headline only"
+    },
+    {
+      "id": "e33-weight-04",
+      "for": "weight-desk",
+      "kind": "footage",
+      "purpose": "the President's reply as Middle East Eye and Daily Sabah headline it ('we had to do it')",
+      "must_show": "the President speaking, or the transcript's line",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "www.whitehouse.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "video or transcript of the President's remarks on the midterm result, 4 Nov 2026",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "note": "PD federal"
+        },
+        {
+          "tier": 5,
+          "host": "www.whitehouse.gov/briefings-statements",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "transcript of the same remarks",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "consensus card from the two headlines only (cw-3), no reader line"
+    },
+    {
+      "id": "e33-weight-05",
+      "for": "weight-end",
+      "kind": "still",
+      "purpose": "the end frame: a second election-day picture from the same search as e33-cold-01 (not the same frame)",
+      "must_show": "the count or the ballots",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"2026 United States elections\" filetype:bitmap ballots OR count OR \"election night\"",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-04"
+          }
+        }
+      ],
+      "fallback": "the board's last page held as the end frame"
+    },
+    {
+      "id": "e33-margin1-pic",
+      "for": "margins-1",
+      "kind": "still",
+      "purpose": "Troy Jackson Defeats Susan Collins in Maine Senate Race",
+      "must_show": "the place",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Susan Collins\" official portrait OR \"Troy Jackson\" Maine filetype:bitmap",
+          "window": {
+            "from": "2015-01-01",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "note": "portraits dated before the week carry PICTURE FROM {DATE}"
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: Maine (Natural Earth, US states)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-margin1-doc",
+      "for": "margins-1",
+      "kind": "document",
+      "purpose": "primary text for: Troy Jackson Defeats Susan Collins in Maine Senate Race",
+      "must_show": "the quoted span",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.maine.gov/sos",
+          "adapter": null,
+          "query": "Secretary of State, unofficial results, US Senate 2026",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "note": "a state work: no numbers from it go on screen unless the record holds them"
+        }
+      ],
+      "fallback": "no desk item; picture, what was printed, the count"
+    },
+    {
+      "id": "e33-margin2-pic",
+      "for": "margins-2",
+      "kind": "still",
+      "purpose": "Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+      "must_show": "the place",
+      "ladder": [
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: the federal district the order names (US district courts layer drawn from Natural Earth states)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-margin2-doc",
+      "for": "margins-2",
+      "kind": "document",
+      "purpose": "primary text for: Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+      "must_show": "the quoted span",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.courtlistener.com (RECAP)",
+          "adapter": null,
+          "query": "the order directing the administration to stop threatening state officials, filed on or before 2 Nov 2026",
+          "window": {
+            "from": "2026-10-26",
+            "to": "2026-11-02"
+          },
+          "note": "court orders are government edicts: typeset the operative sentence verbatim"
+        }
+      ],
+      "fallback": "no desk item; picture, what was printed, the count"
+    },
+    {
+      "id": "e33-margin3-pic",
+      "for": "margins-3",
+      "kind": "still",
+      "purpose": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+      "must_show": "the place",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "the stadium named in the police statement, filetype:bitmap",
+          "window": {
+            "from": "2000-01-01",
+            "to": "2026-11-02"
+          },
+          "note": "PICTURE FROM {DATE}; never a picture of the scene from an outlet"
+        },
+        {
+          "tier": 4,
+          "host": "naturalearthdata.com + geonames.org",
+          "adapter": "e6-graphics",
+          "query": "locator map: Alabama, with the city named in the police statement (GeoNames, admin1=AL)",
+          "window": {
+            "from": "n/a",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4 locator map"
+    },
+    {
+      "id": "e33-margin3-doc",
+      "for": "margins-3",
+      "kind": "document",
+      "purpose": "primary text for: Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+      "must_show": "the quoted span",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "the city police department's site or official account",
+          "adapter": null,
+          "query": "statement on the shooting outside the football game",
+          "window": {
+            "from": "2026-10-31",
+            "to": "2026-11-02"
+          },
+          "note": "quoted only"
+        }
+      ],
+      "fallback": "no desk item; picture, what was printed, the count"
+    },
+    {
+      "id": "e33-echo-01",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "The President and Mrs. Truman at the Jefferson-Jackson Day Dinner, the night he said he would not run. The 2026 catalogue search did not return this older identifier; the fetcher re-reads the NARA record before ledgering.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
+          "window": {
+            "from": "1952-03-29",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "ledgered by E1 (pd-us-federal); concrete ref, not a search"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-02",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "The President receiving applause at the dinner, National Guard Armory, Washington.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
+          "window": {
+            "from": "1952-03-29",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "ledgered by E1 (pd-us-federal); concrete ref, not a search"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-03",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "A third frame at the dinner. The .tif master of the same record is on Commons too; fetch one, not both.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
+          "window": {
+            "from": "1952-03-29",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "ledgered by E1 (pd-us-federal); concrete ref, not a search"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-04",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "Arrival at the National Guard Armory before the address.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
+          "window": {
+            "from": "1952-03-29",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "ledgered by E1 (pd-us-federal); concrete ref, not a search"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-05",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "Refugees in snow outside Kangnung: the war abroad, inside the horizon. The NARA title names no week entity.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:Long trek southward, Seemingly endless file of Korean refugees slogs through snow outside of Kangnung, blocking... - NARA - 531397.tif",
+          "window": {
+            "from": "1951-01-08",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "ledgered by E1 (pd-us-federal); concrete ref, not a search"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-06",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "Infantrymen on the Kumsong front sending New Year greetings home: the front and the home front in one frame.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "ref": "File:Missouri infantrymen with the 19th Infantry Regiment along the Kumsong front wish Happy New Year to the stateside folks. - NARA - 531422.tif",
+          "window": {
+            "from": "1951-12-14",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "ledgered by E1 (pd-us-federal); concrete ref, not a search"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-07",
+      "for": "echo",
+      "kind": "still",
+      "purpose": "A helicopter carrying two wounded soldiers to a front-line airstrip. Uploaded in 2011 by a Commons user, not the NARA bot; the fetcher's uploader check applies, and the NARA copy is the one to fetch. Fetch NARA 542283's own file.",
+      "must_show": "the whole frame at some stop; NARA's date used",
+      "ladder": [
+        {
+          "tier": 3,
+          "host": "catalog.archives.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "ref": "National Archives identifier 542283, 342-AF-86335AC, Records of U.S. Air Force Commands, Activities, and Organizations (RG 342); unrestricted",
+          "window": {
+            "from": "1952-06",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "the National Archives copy of record 542283 (342-AF-86335AC), not the Commons upload"
+        }
+      ],
+      "fallback": "another E1 item of the same scene"
+    },
+    {
+      "id": "e33-echo-req-08",
+      "for": "echo-x3",
+      "kind": "still",
+      "purpose": "Truman's broadcast from the White House, 14 June 1951",
+      "must_show": "the President at the microphones or camera",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Harry S. Truman in 1951\" radio OR television OR broadcast",
+          "window": {
+            "from": "1951-06-14",
+            "to": "1951-06-15"
+          },
+          "note": "NARA bot uploads (Abbie Rowe) first"
+        },
+        {
+          "tier": 3,
+          "host": "www.loc.gov",
+          "adapter": "loc",
+          "query": "q=Truman radio television address 1951; dates=1951/1951; fo=json",
+          "window": {
+            "from": "1951-06-14",
+            "to": "1951-06-15"
+          }
+        }
+      ],
+      "fallback": "tier 5: src-truman-19510614 typeset verbatim as a page, labelled printed later"
+    },
+    {
+      "id": "e33-echo-req-09",
+      "for": "echo-x5",
+      "kind": "still",
+      "purpose": "Senator Kefauver campaigning in New Hampshire, winter 1952",
+      "must_show": "the Senator",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Estes Kefauver\" 1952 filetype:bitmap",
+          "window": {
+            "from": "1952-01-01",
+            "to": "1952-03-11T23:59:59-05:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "www.loc.gov",
+          "adapter": "loc",
+          "query": "q=Kefauver New Hampshire; dates=1952/1952; fo=json",
+          "window": {
+            "from": "1952-01-01",
+            "to": "1952-03-11"
+          },
+          "note": "LoC needs a stated PD basis in one sentence (T2 rule); NYWT&S items may fail it"
+        }
+      ],
+      "fallback": "tier 4: locator map of New Hampshire (1952 county names) under the count card"
+    },
+    {
+      "id": "e33-echo-req-10",
+      "for": "echo-x8",
+      "kind": "still",
+      "purpose": "Eisenhower at Detroit, 24 October 1952",
+      "must_show": "the nominee speaking",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Dwight D. Eisenhower 1952 presidential campaign\" Detroit",
+          "window": {
+            "from": "1952-10-24",
+            "to": "1952-10-25T23:59:59-05:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "www.loc.gov",
+          "adapter": "loc",
+          "query": "q=Eisenhower Detroit campaign; dates=1952/1952; fo=json",
+          "window": {
+            "from": "1952-10-24",
+            "to": "1952-10-25T23:59:59-05:00"
+          }
+        }
+      ],
+      "fallback": "tier 4: locator map of Detroit with the period slate; the Detroit text is quoted, never shown (E1 held_back)"
+    },
+    {
+      "id": "e33-echo-req-11",
+      "for": "echo-x9",
+      "kind": "still",
+      "purpose": "Governor Stevenson, Springfield, 4 or 5 November 1952",
+      "must_show": "the nominee",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Adlai Stevenson II 1952 presidential campaign\" filetype:bitmap",
+          "window": {
+            "from": "1952-11-04",
+            "to": "1952-11-05T12:00:00-05:00"
+          }
+        },
+        {
+          "tier": 3,
+          "host": "www.loc.gov",
+          "adapter": "loc",
+          "query": "q=Adlai Stevenson Springfield 1952; dates=1952/1952; fo=json",
+          "window": {
+            "from": "1952-10-01",
+            "to": "1952-11-05T12:00:00-05:00"
+          }
+        }
+      ],
+      "fallback": "tier 5: our own typeset page of the concession line with 'as printed in the New York Times, 5 November 1952, p. 14' (the newspaper is never shown)"
+    },
+    {
+      "id": "e33-echo-req-12",
+      "for": "echo-x1",
+      "kind": "footage",
+      "purpose": "moving pictures of the war or the home front, 1951 to 1952 (E1 holds 0 s of footage)",
+      "must_show": "dated on or before the horizon",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"The Big Picture (TV series)\" Korea filetype:video",
+          "window": {
+            "from": "1951-01-01",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "US Army production, PD federal"
+        },
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "incategory:\"Universal Newsreel\" 1951 OR 1952 Korea OR \"price controls\" OR election filetype:video",
+          "window": {
+            "from": "1951-01-01",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "note": "basis must be stated on the file; a bare 'Public domain' fails"
+        }
+      ],
+      "fallback": "stills with rostrum tours (E1's 7 items); the Echo runs without footage. Any film of the fighting goes only where no music plays (x1, x7)"
+    },
+    {
+      "id": "e33-echo-req-13",
+      "for": "echo-x2",
+      "kind": "document",
+      "purpose": "the Federal Register of 30 January 1951, page 808 (src-fr-19510130)",
+      "must_show": "the statement-of-considerations sentence at full legibility",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.govinfo.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "FR-1951-01-30.pdf, PDF page 16; sha256 must equal echo-pick sources[src-fr-19510130]",
+          "window": {
+            "from": "1951-01-30",
+            "to": "1951-01-30"
+          },
+          "note": "the sha256 check against echo-pick applies"
+        }
+      ],
+      "fallback": "typeset page of the same sentence, labelled TRANSCRIBED PAGE"
+    },
+    {
+      "id": "e33-echo-req-14",
+      "for": "echo-x6",
+      "kind": "document",
+      "purpose": "the 29 March 1952 address text (src-truman-19520329), typeset as a page labelled printed later (Public Papers)",
+      "must_show": "the withdrawal sentence only; the passage naming 'Iran' is never shown or read",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "www.trumanlibrary.gov",
+          "adapter": "gov-federal (allowlist extension, E5)",
+          "query": "public-papers/69, sha256 must equal echo-pick",
+          "window": {
+            "from": "1952-03-29",
+            "to": "1952-03-29"
+          }
+        }
+      ],
+      "fallback": "the reader line over e33-echo-01 alone"
+    }
+  ],
+  "asset_request_tally": {
+    "requests": 53,
+    "by_first_tier": {
+      "1": 11,
+      "2": 11,
+      "3": 10,
+      "4": 8,
+      "5": 13
+    },
+    "searches_by_tier": {
+      "1": 11,
+      "2": 20,
+      "3": 24,
+      "4": 16,
+      "5": 15
+    },
+    "on_federal_gov_or_wayback_pending_E5": 12,
+    "outside_the_fetcher_and_its_extension": 6,
+    "note": "DVIDS steps are skipped without DVIDS_API_KEY; adapter 'gov-federal' hosts (White House, Senate, House, congress.gov, govinfo, CDC, CENTCOM, DoD, NARA and presidential libraries) and Wayback date witnesses wait on E5's allowlist extension (founder ruling, chat 2026-11-12); adapter e6-graphics marks scenes E6 draws from data; adapter null hosts (state and foreign governments, CourtListener, police) are outside both, so E5 fetches the text directly with a sha256 or leaves the item"
+  },
+  "counts_on_screen": [
+    {
+      "where": "title line 1; week-day-1 slate",
+      "value": 24,
+      "field": "days[0].lead.source_count"
+    },
+    {
+      "where": "title line 2; week-day-2 slate",
+      "value": 30,
+      "field": "days[1].lead.source_count"
+    },
+    {
+      "where": "title line 3; week-day-3 slate",
+      "value": 53,
+      "field": "days[2].lead.source_count"
+    },
+    {
+      "where": "title line 4; week-day-4 slate",
+      "value": 15,
+      "field": "days[3].lead.source_count"
+    },
+    {
+      "where": "title line 5; week-day-5 slate",
+      "value": 34,
+      "field": "days[4].lead.source_count"
+    },
+    {
+      "where": "title line 6; week-day-6 slate",
+      "value": 68,
+      "field": "days[5].lead.source_count"
+    },
+    {
+      "where": "title line 7; week-day-7 slate",
+      "value": 31,
+      "field": "days[6].lead.source_count"
+    },
+    {
+      "where": "week-day-1 day bars",
+      "value": [
+        0,
+        0,
+        2,
+        6,
+        3,
+        5,
+        0
+      ],
+      "field": "days[0].lead.buckets"
+    },
+    {
+      "where": "week-day-2 day bars",
+      "value": [
+        0,
+        1,
+        8,
+        7,
+        0,
+        2,
+        0
+      ],
+      "field": "days[1].lead.buckets"
+    },
+    {
+      "where": "week-day-3 day bars",
+      "value": [
+        0,
+        2,
+        11,
+        12,
+        6,
+        9,
+        3
+      ],
+      "field": "days[2].lead.buckets"
+    },
+    {
+      "where": "week-day-4 day bars",
+      "value": [
+        0,
+        0,
+        2,
+        5,
+        0,
+        2,
+        1
+      ],
+      "field": "days[3].lead.buckets"
+    },
+    {
+      "where": "week-day-5 day bars",
+      "value": [
+        3,
+        1,
+        7,
+        10,
+        2,
+        7,
+        3
+      ],
+      "field": "days[4].lead.buckets"
+    },
+    {
+      "where": "week-day-6 day bars",
+      "value": [
+        0,
+        4,
+        20,
+        20,
+        7,
+        8,
+        1
+      ],
+      "field": "days[5].lead.buckets"
+    },
+    {
+      "where": "week-day-7 day bars",
+      "value": [
+        0,
+        0,
+        9,
+        4,
+        2,
+        3,
+        1
+      ],
+      "field": "days[6].lead.buckets"
+    },
+    {
+      "where": "week-day-1 bars caption (N PLACED)",
+      "value": 16,
+      "field": "sum of days[0].lead.buckets"
+    },
+    {
+      "where": "week-day-2 bars caption (N PLACED)",
+      "value": 18,
+      "field": "sum of days[1].lead.buckets"
+    },
+    {
+      "where": "week-day-3 bars caption (N PLACED)",
+      "value": 43,
+      "field": "sum of days[2].lead.buckets"
+    },
+    {
+      "where": "week-day-4 bars caption (N PLACED)",
+      "value": 10,
+      "field": "sum of days[3].lead.buckets"
+    },
+    {
+      "where": "week-day-5 bars caption (N PLACED)",
+      "value": 33,
+      "field": "sum of days[4].lead.buckets"
+    },
+    {
+      "where": "week-day-6 bars caption (N PLACED)",
+      "value": 60,
+      "field": "sum of days[5].lead.buckets"
+    },
+    {
+      "where": "week-day-7 bars caption (N PLACED)",
+      "value": 19,
+      "field": "sum of days[6].lead.buckets"
+    },
+    {
+      "where": "cold open count",
+      "value": 32,
+      "field": "days[2].next[0].source_count"
+    },
+    {
+      "where": "title week line",
+      "value": "WEEK 33  CLOSED SUN 08 NOV 22:16 UTC",
+      "field": "as_of"
+    },
+    {
+      "where": "The Week test card bars",
+      "value": [
+        3,
+        8,
+        59,
+        64,
+        20,
+        36,
+        9
+      ],
+      "total": 199,
+      "field": "sum of days[i].lead.buckets"
+    },
+    {
+      "where": "The Weight test card bars",
+      "value": [
+        1,
+        3,
+        13,
+        23,
+        10,
+        12,
+        3
+      ],
+      "total": 65,
+      "unplaced": 11,
+      "field": "lead.claim.rung_counts, lead.claim.unplaced"
+    },
+    {
+      "where": "weight-known count card",
+      "value": 76,
+      "field": "lead.claim.outlets"
+    },
+    {
+      "where": "weight-known count card",
+      "value": 46,
+      "of": 89,
+      "field": "lead.claim.titled, lead.claim.articles"
+    },
+    {
+      "where": "weight-known slates",
+      "value": 18,
+      "field": "lead.records[0].source_count"
+    },
+    {
+      "where": "weight-known slates",
+      "value": 53,
+      "field": "lead.records[1].source_count"
+    },
+    {
+      "where": "weight-known slates",
+      "value": 45,
+      "field": "lead.records[2].source_count"
+    },
+    {
+      "where": "weight-consensus cw-1 (Iran)",
+      "value": 39,
+      "of": 46,
+      "by_rung": [
+        0,
+        1,
+        2,
+        18,
+        5,
+        4,
+        1
+      ],
+      "unplaced": 8,
+      "field": "lead.claim.terms[0] (by_rung, unplaced) and lead.claim.titled"
+    },
+    {
+      "where": "weight-consensus cw-1 (Israel)",
+      "value": 4,
+      "of": 46,
+      "by_rung": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "unplaced": 0,
+      "field": "lead.claim.terms[1] (by_rung, unplaced) and lead.claim.titled"
+    },
+    {
+      "where": "weight-consensus cw-1 (inflation)",
+      "value": 1,
+      "of": 46,
+      "by_rung": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "unplaced": 0,
+      "field": "lead.claim.terms[2] (by_rung, unplaced) and lead.claim.titled"
+    },
+    {
+      "where": "The Margins test card bars",
+      "value": [
+        1,
+        5,
+        9,
+        6,
+        3,
+        1,
+        6
+      ],
+      "total": 31,
+      "field": "sum of margins.stories[i].buckets"
+    },
+    {
+      "where": "margins-1 count",
+      "value": 10,
+      "field": "margins.stories[0].source_count"
+    },
+    {
+      "where": "margins-2 count",
+      "value": 12,
+      "field": "margins.stories[1].source_count"
+    },
+    {
+      "where": "margins-3 count",
+      "value": 12,
+      "field": "margins.stories[2].source_count"
+    },
+    {
+      "where": "margins-1 bars",
+      "value": [
+        0,
+        2,
+        5,
+        0,
+        0,
+        1,
+        1
+      ],
+      "field": "margins.stories[0].buckets"
+    },
+    {
+      "where": "margins-2 bars",
+      "value": [
+        1,
+        2,
+        1,
+        1,
+        2,
+        0,
+        3
+      ],
+      "field": "margins.stories[1].buckets"
+    },
+    {
+      "where": "margins-3 bars",
+      "value": [
+        0,
+        1,
+        3,
+        5,
+        1,
+        0,
+        2
+      ],
+      "field": "margins.stories[2].buckets"
+    },
+    {
+      "where": "margins-3 headline numerals",
+      "value": "One Dead And Eight Wounded",
+      "field": "margins.stories[2].title (spoken as printed)"
+    },
+    {
+      "where": "echo-x5 count card",
+      "value": {
+        "Kefauver": 19800,
+        "Truman": 15927
+      },
+      "field": "echo-pick counts_on_screen[0] (src-nh-manual-1953; basis disclosed on the card)"
+    },
+    {
+      "where": "echo-x2 reader line (spoken, page shown)",
+      "value": [
+        "50",
+        "16",
+        "12",
+        "14"
+      ],
+      "field": "echo-pick document_lines[0] (src-fr-19510130)"
+    },
+    {
+      "where": "echo-x3 reader line (spoken)",
+      "value": [
+        "20"
+      ],
+      "field": "echo-pick period_perspectives[0].also (src-truman-19510614)"
+    },
+    {
+      "where": "echo test card",
+      "value": "1952 · HORIZON 5 NOV 1952",
+      "field": "echo.horizon"
+    },
+    {
+      "where": "lockup and end board",
+      "value": "Week 33 · 2 Nov to 8 Nov 2026; MMXXVI",
+      "field": "issue, week_start, week_end"
+    },
+    {
+      "where": "clock",
+      "value": "release time",
+      "field": "computed at release (clock-true)"
+    }
+  ],
+  "gaps": [
+    {
+      "gap": "thin moving pictures in the news parts",
+      "detail": "no DVIDS key; White House, Senate and CENTCOM video wait on the allowlist extension; Commons holds few 2026 videos",
+      "fallback": "tiers 3 to 5: stills with rostrum, the printed front pages (always satisfiable), locator maps, count cards and typeset primary pages; the cold open degrades to the 4 Nov front page's result story"
+    },
+    {
+      "gap": "the post's verbatim text",
+      "detail": "x.com is not fetchable; outlets' quotes are not a primary source",
+      "fallback": "a dated Wayback capture before the horizon as the date witness, hashed; otherwise the post is never voiced and the board carries it"
+    },
+    {
+      "gap": "no primary documents held for the lead",
+      "detail": "desk-first rule not met (0 of 2)",
+      "fallback": "board first; the short-run plan (20:02) if the desk stays empty"
+    },
+    {
+      "gap": "divergence_score and lean_spread absent from the record",
+      "detail": "the mandatory-board test is not evaluable",
+      "fallback": "board chosen on source_count and titled rungs"
+    },
+    {
+      "gap": "Echo footage 0 s",
+      "detail": "E1 found none",
+      "fallback": "Big Picture or Universal Newsreel searches (e33-echo-req-12), else the 7 stills with rostrum"
+    },
+    {
+      "gap": "Eisenhower lines unverified",
+      "detail": "transcribed from a scan without a text layer",
+      "fallback": "verify against the page images before E5; a line that does not match is dropped"
+    },
+    {
+      "gap": "CC0 period sounds on Commons at 48 kHz",
+      "detail": "Freesound is not allowed; Commons audio for teleprinters may be thin",
+      "fallback": "omit the missing cue and say so on the sources page; no synthesised substitute"
+    }
+  ]
+}

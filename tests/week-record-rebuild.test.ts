@@ -42,7 +42,7 @@ function voidnewsAt(sha: string): string {
 
 // Each committed record is rebuilt with the options it records: its schema
 // (absent means 1, week 32's rules) and, from schema 2, its echo as picked
-// (a slug, or "pending" before one is picked).
+// (a slug, or "pending" before one is picked), and its claim terms.
 for (const issue of [32, 33]) {
   describe(`data/week-${issue}.json`, () => {
     it("is rebuilt byte for byte by the git source at its own commit", async () => {
@@ -55,6 +55,7 @@ for (const issue of [32, 33]) {
             schema: rec.schema,
             echo: rec.echo.status === "pending" ? "pending" : rec.echo.slug,
             ...(rec.echo.status === "approved" ? { echoHorizon: rec.echo.horizon, echoApprovedBy: rec.echo.approved_by } : {}),
+            ...(rec.lead.claim?.terms ? { claimTerms: rec.lead.claim.terms.map((x: { term: string }) => x.term) } : {}),
           }
         : {};
       const out = await normaliseWeek(gitSource(voidnewsAt(at), { at }), issue, options);

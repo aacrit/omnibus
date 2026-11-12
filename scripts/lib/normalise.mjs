@@ -40,6 +40,23 @@
 //     (publisherSuffix), keeping headline_raw and stripped_suffix; each board
 //     row names its cluster and record date, and hashes both the raw and the
 //     shown headline.
+//   - schema 2, the claim: the lead's timeline can open with context (a story
+//     about the same person before the claim the week is about). The claim
+//     starts at the first timeline entry void news printed as a day lead
+//     (edition_position 1 on one of the week's days); entries before it are
+//     context (role "context") and every entry from it on is the claim (role
+//     "claim"). If no entry was a day lead, every entry is the claim. Board
+//     rows come only from the claim's articles: a link belongs to the record
+//     it is first read in, in timeline order (origins), so a link a context
+//     record already holds stays context even if a claim cluster also lists it. An occupied claim
+//     rung whose outlets have no headline is recorded with those outlets'
+//     names (board_untitled_outlets). lead.claim counts the claim's outlets,
+//     articles and titled headlines by rung, with the unplaced beside them,
+//     and, for each claimTerms word, the titled headlines containing it as a
+//     whole word (case-sensitive), so a count shown on screen traces here.
+//     Each schema 2 ledger row names the record it was first read in
+//     (cluster_id). A ledger row whose Google News publisher suffix is provable also carries
+//     headline_shown (the headline field itself is never stripped).
 
 import { createHash } from "node:crypto";
 import { LEAN_BASELINES, leanToBucket } from "../../web/src/lib/ladder.mjs";
@@ -154,8 +171,12 @@ function percentile(values, p) {
  * date range as the horizon. options.echoApprovedBy (needs echoHorizon):
  * who approved the pick, and where; the echo's status becomes "approved".
  */
-export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoChoice, echoHorizon, echoApprovedBy } = {}) {
+export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoChoice, echoHorizon, echoApprovedBy, claimTerms = [] } = {}) {
   if (!SCHEMAS.has(schema)) throw new Error(`unknown record schema ${schema}; known: ${[...SCHEMAS].join(", ")}`);
+  if (!Array.isArray(claimTerms) || claimTerms.some((w) => typeof w !== "string" || !/^[A-Za-z][A-Za-z'-]{0,39}$/.test(w))) {
+    throw new Error("claimTerms must be a list of single words (letters, hyphen, apostrophe)");
+  }
+  if (claimTerms.length > 0 && schema < 2) throw new Error("claimTerms needs schema 2");
   if (echoChoice === undefined && (issueNo !== DEFAULT_ECHO_ISSUE || schema >= 2)) {
     throw new Error(`--echo is required for issue ${issueNo} at schema ${schema}: a history bank slug, or "pending"`);
   }
@@ -253,9 +274,12 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
   const articles = new Map(); // url -> article, pooled across the lead's clusters
   const origins = new Map(); // url -> { cluster_id, record_date } where it was first read
   const leadRecords = [];
+  const claimStartAt = timeline.findIndex((e) => dayLeadIds.has(e.cluster_id));
+  const claimStart = claimStartAt < 0 ? 0 : claimStartAt;
+  const claimIds = new Set(timeline.slice(claimStart).map((e) => e.cluster_id));
   const excluded = [];
   let afterHorizon = 0;
-  for (const e of timeline) {
+  for (const [ti, e] of timeline.entries()) {
     const dd = await source.deepdive(e.cluster_id);
     if (!v2) {
       if (!dd) {
@@ -296,6 +320,7 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
     }
     leadRecords.push({
       date: e.date_iso,
+      role: ti >= claimStart ? "claim" : "context",
       cluster_id: e.cluster_id,
       title: e.title,
       source_count: e.source_count,
@@ -324,15 +349,49 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
     arr.push({ name, list, tier: outlet.get(name)?.tier });
     rungOutlets.set(rung, arr);
   }
+  // Schema 2: the claim's own outlets, by rung (see the header).
+  const titledA = (a) => typeof a.title === "string" && a.title.length > 0;
+  const inClaim = (a) => claimIds.has(origins.get(a.url)?.cluster_id);
+  const claimRungOutlets = new Map();
+  const claim = { rung_counts: LEAN_BASELINES.map(() => 0), unplaced: 0, outlets: 0, articles: 0, titled_by_rung: LEAN_BASELINES.map(() => 0), titled_unplaced: 0 };
+  const claimTitled = [];
+  if (v2) {
+    for (const [name, list] of byOutlet) {
+      const own = list.filter(inClaim);
+      if (own.length === 0) continue;
+      claim.outlets++;
+      claim.articles += own.length;
+      const rung = placement(name);
+      const k = LEAN_BASELINES.findIndex(([r]) => r === rung);
+      for (const a of own.filter(titledA)) {
+        claimTitled.push({ a, k });
+        if (k < 0) claim.titled_unplaced++;
+        else claim.titled_by_rung[k]++;
+      }
+      if (!rung) {
+        claim.unplaced++;
+        continue;
+      }
+      claim.rung_counts[k]++;
+      const arr = claimRungOutlets.get(rung) ?? [];
+      arr.push({ name, list: own, tier: outlet.get(name)?.tier });
+      claimRungOutlets.set(rung, arr);
+    }
+  }
   const maxSources = Math.max(0, ...leadRecords.map((r) => r.source_count ?? 0));
   const board = [];
   const untitledRungs = [];
+  const untitledOutlets = {};
   if (maxSources >= BOARD_MIN_SOURCES) {
     for (const [rung] of LEAN_BASELINES) {
-      let arr = rungOutlets.get(rung);
+      let arr = (v2 ? claimRungOutlets : rungOutlets).get(rung);
       if (!arr) continue;
       // Schema 2: a candidate needs a headline (archive members carry none).
-      if (v2) arr = arr.filter((o) => o.list.some((a) => typeof a.title === "string" && a.title.length > 0));
+      if (v2) {
+        const all = arr;
+        arr = arr.filter((o) => o.list.some(titledA));
+        if (arr.length === 0) untitledOutlets[rung] = all.map((o) => o.name).sort((x, y) => x.localeCompare(y));
+      }
       if (arr.length === 0) {
         untitledRungs.push(rung);
         continue;
@@ -418,7 +477,11 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
 
   const ledger = [...articles.values()]
     .sort((x, y) => String(x.published_at).localeCompare(String(y.published_at)) || x.url.localeCompare(y.url))
-    .map((a) => ({ outlet: a.source.name, rung: placement(a.source.name), headline: a.title, url: a.url, published_at: a.published_at }));
+    .map((a) => {
+      const row = { outlet: a.source.name, rung: placement(a.source.name), headline: a.title, url: a.url, published_at: a.published_at, ...(v2 ? { cluster_id: origins.get(a.url).cluster_id } : {}) };
+      const strip = v2 && titledA(a) ? publisherSuffix(a, outlet.get(a.source.name)) : null;
+      return strip ? { ...row, headline_shown: strip.headline } : row;
+    });
   const out = {
     issue: issueNo,
     ...(v2 ? { schema } : {}),
@@ -447,8 +510,34 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
           after_horizon: afterHorizon,
           rung_counts: rungCounts,
           unplaced,
+          claim: {
+            from_record: claimStart,
+            clusters: [...claimIds],
+            outlets: claim.outlets,
+            articles: claim.articles,
+            rung_counts: claim.rung_counts,
+            unplaced: claim.unplaced,
+            titled: claimTitled.length,
+            titled_by_rung: claim.titled_by_rung,
+            titled_unplaced: claim.titled_unplaced,
+            ...(claimTerms.length
+              ? {
+                  terms: claimTerms.map((term) => {
+                    const re = new RegExp(`(^|[^A-Za-z])${term}($|[^A-Za-z])`);
+                    const hits = claimTitled.filter(({ a }) => re.test(a.title));
+                    return {
+                      term,
+                      titled: hits.length,
+                      by_rung: LEAN_BASELINES.map((_, k) => hits.filter((h) => h.k === k).length),
+                      unplaced: hits.filter((h) => h.k < 0).length,
+                    };
+                  }),
+                }
+              : {}),
+          },
           board,
           ...(untitledRungs.length ? { board_untitled_rungs: untitledRungs } : {}),
+          ...(Object.keys(untitledOutlets).length ? { board_untitled_outlets: untitledOutlets } : {}),
           ledger,
         }
       : { records: leadRecords, outlets: byOutlet.size, articles: articles.size, rung_counts: rungCounts, unplaced, board, ledger },
