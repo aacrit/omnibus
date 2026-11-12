@@ -271,6 +271,15 @@ describe("normaliseWeek echo option", () => {
     });
   });
 
+  it("--echo-horizon and --echo-approved-by record the pick's own horizon and its approval", async () => {
+    const src = fakeSource({ "data/history/events/korean-war.yaml": KOREA });
+    const out = await normaliseWeek(src, 99, { schema: 2, echo: "korean-war", echoHorizon: "1952-11-04", echoApprovedBy: "founder, chat" });
+    expect(out.echo).toMatchObject({ date_display: "1950-1953", horizon: "1952-11-04", status: "approved", approved_by: "founder, chat", pick: "episodes/99/echo-pick.json" });
+    await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "pending", echoHorizon: "1952-11-04" })).rejects.toThrow(/echo-horizon/);
+    await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "korean-war", echoHorizon: "1952" })).rejects.toThrow(/echo-horizon/);
+    await expect(normaliseWeek(fakeSource({}), 99, { schema: 2, echo: "korean-war", echoApprovedBy: "x" })).rejects.toThrow(/echo-approved-by/);
+  });
+
   it("refuses an echo slug that could leave the history folder, or a record naming another slug", async () => {
     for (const bad of ["../sources", "korean-war/../x", "Korean War", "", "a".repeat(81)]) {
       await expect(normaliseWeek(fakeSource({}), 99, { echo: bad })).rejects.toThrow(/echo/);

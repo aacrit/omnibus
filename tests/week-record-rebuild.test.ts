@@ -50,7 +50,13 @@ for (const issue of [32, 33]) {
       const rec = JSON.parse(text);
       const at = rec.normalised_from.origin_main as string;
       expect(at).toMatch(/^[0-9a-f]{40}$/);
-      const options = rec.schema ? { schema: rec.schema, echo: rec.echo.status === "pending" ? "pending" : rec.echo.slug } : {};
+      const options = rec.schema
+        ? {
+            schema: rec.schema,
+            echo: rec.echo.status === "pending" ? "pending" : rec.echo.slug,
+            ...(rec.echo.status === "approved" ? { echoHorizon: rec.echo.horizon, echoApprovedBy: rec.echo.approved_by } : {}),
+          }
+        : {};
       const out = await normaliseWeek(gitSource(voidnewsAt(at), { at }), issue, options);
       expect(JSON.stringify(out, null, 2) + "\n").toBe(text);
     }, 240_000);

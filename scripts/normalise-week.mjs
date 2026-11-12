@@ -23,11 +23,13 @@
 // (data/history/events/<slug>.yaml); --echo pending records it as not yet
 // picked. It is required except for week 32 at schema 1, which keeps its
 // recorded candidate (spanish-flu-1918, alternate black-death).
+// --echo-horizon <YYYY-MM-DD> sets the echo's own as_of from the episode's
+// echo pick, and --echo-approved-by "<who, where>" records its approval.
 // --schema 2 reads the days from void news's printed editions (archive.json),
 // pools their members into the lead, and strips a provable Google News
 // publisher suffix from board headlines (scripts/lib/normalise.mjs); it needs
 // the git source. The default, 1, is week 32's rules. Week 33:
-//   node scripts/normalise-week.mjs --issue 33 --at dcffaaf8bf5e979808cd195de80e2403af074c64 --schema 2 --echo pending
+//   node scripts/normalise-week.mjs --issue 33 --at dcffaaf8bf5e979808cd195de80e2403af074c64 --schema 2 --echo vietnam-war --echo-horizon 1968-03-31 --echo-approved-by "founder, chat 2026-11-12"
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -60,6 +62,8 @@ const schemaArg = arg("schema");
 const out = await normaliseWeek(source, issueNo, {
   schema: schemaArg === undefined ? 1 : Number(schemaArg),
   echo: arg("echo"),
+  echoHorizon: arg("echo-horizon"),
+  echoApprovedBy: arg("echo-approved-by"),
 });
 mkdirSync(path.join(repoRoot, "data"), { recursive: true });
 const file = path.join(repoRoot, "data", `week-${issueNo}.json`);

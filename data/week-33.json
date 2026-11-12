@@ -1291,7 +1291,14 @@
     ]
   },
   "echo": {
-    "slug": null,
-    "status": "pending"
+    "slug": "vietnam-war",
+    "title": "The Vietnam War",
+    "date_display": "1955-1975",
+    "horizon": "1968-03-31",
+    "status": "approved",
+    "approved_by": "founder, chat 2026-11-12",
+    "pick": "episodes/33/echo-pick.json",
+    "page": "https://news.voidvision.org/history/vietnam-war/",
+    "record": "https://github.com/aacrit/void--news/blob/dcffaaf8bf5e979808cd195de80e2403af074c64/data/history/events/vietnam-war.yaml"
   }
 }

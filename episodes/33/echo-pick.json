@@ -3,8 +3,10 @@
   "ticket": "E1",
   "written": "2026-11-12",
   "by": "Opus analyst (E1 of the void omnibus engine plan)",
+  "approved_by": "founder, chat 2026-11-12",
+  "approval": "The founder approved vietnam-war with the horizon 1968-03-31 (chat 2026-11-12). data/week-33.json records it as echo.status \"approved\" with the same slug, horizon and approver.",
   "week": {
-    "record": "data/week-33.json at origin/e0/week-33 e370be9 (PR #8). That record is being corrected for day leads and outlet counts; nothing here depends on either.",
+    "record": "data/week-33.json at main (E0 merged as 1877580, regenerated in this branch with --echo vietnam-war --echo-horizon 1968-03-31 --echo-approved-by \"founder, chat 2026-11-12\"). Nothing here depends on day leads or outlet counts.",
     "cover_headline": "The Cost of the Strait",
     "lead": "JD Vance blames the Iran war for the Republican midterm defeat (cluster 2ec1fcb8)",
     "mechanism": "A war fought abroad comes home as higher prices and a closed sea lane, the governing party loses a national election, and a leader inside that party names the war as the reason."
@@ -191,7 +193,8 @@
       "the passage of the tax surcharge in June 1968",
       "the November 1968 result"
     ],
-    "told_story": "Tet (30 January 1968) and its pictures; the cost at home as the President stated it (prices, interest rates, the dollar, the deficit); his own party's first primary; the address of 31 March, on the desk as a draft page and heard in its own sound."
+    "told_story": "Tet (30 January 1968) and its pictures; the cost at home as the President stated it (prices, interest rates, the dollar, the deficit); his own party's first primary; the address of 31 March, on the desk as a draft page and heard in its own sound.",
+    "as_of_record": "data/week-33.json echo.horizon \"1968-03-31\" (the date part of as_of); the history record's date_display \"1955-1975\" is kept beside it as the event's span, not its horizon."
   },
   "period_perspectives": [
     {
@@ -549,6 +552,7 @@
       "Miller",
       "Qeshm",
       "Gulf of Oman",
+      "Hormuz",
       "Saudi",
       "Aramco",
       "Russia",
@@ -566,7 +570,8 @@
       "Supreme Court"
     ],
     "in_the_period_text": "The 31 March address names the United Kingdom and the Soviet Union (as the Geneva co-chairmen); those passages are not quoted. The chosen quotes say 'my party', not its name.",
-    "needs_a_ruling": "Home-frame words that both stories share: United States, America, President, Washington, Congress, Senate, White House, primary. The no-bridge lint as the bible words it would flag them, and every candidate on the plan's shortlist shares them. This pick reads the lint's week-side list as the week's named actors, places and parties, and flags that reading for the lint's author."
+    "ruling": "Founder, chat 2026-11-12: no-bridge flags only the week's named actors, places and parties (Vance, Iran, Hormuz, the parties as actors in this week's news), not shared institutions (United States, Congress, Washington).",
+    "parties_note": "Democrats, Republicans and GOP stay on the list as this week's actors; the chosen quotes say \"my party\", not its name."
   },
   "picked_after_week_known": true,
   "picked_after_week_known_statement": "This Echo was picked on 2026-11-12, after week 33's lead was known, because the pre-registered echo bank (24 echoes tagged by mechanism before any week's news, bible section k) has not yet been built."

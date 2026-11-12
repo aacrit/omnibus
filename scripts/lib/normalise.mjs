@@ -55,6 +55,7 @@ const MARGINS = 3;
 const DEFAULT_ECHO = { slug: "spanish-flu-1918", alternate: "black-death" };
 const DEFAULT_ECHO_ISSUE = 32;
 const ECHO_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const ECHO_DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 const echoPath = (slug) => `data/history/events/${slug}.yaml`;
 const SCHEMAS = new Set([1, 2]);
 export const NO_PRINT = "absent from archive.json printed_on and from the weekly's week_days";
@@ -128,14 +129,24 @@ function percentile(values, p) {
  * options.echo: "pending", or a history bank slug, read from
  * data/history/events/<slug>.yaml. Required except for week 32 under
  * schema 1, which keeps its recorded candidate and alternate.
+ * options.echoHorizon (with a slug): the echo's own as_of date (YYYY-MM-DD),
+ * as the episode's echo pick declares it; it replaces the history record's
+ * date range as the horizon. options.echoApprovedBy (needs echoHorizon):
+ * who approved the pick, and where; the echo's status becomes "approved".
  */
-export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoChoice } = {}) {
+export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoChoice, echoHorizon, echoApprovedBy } = {}) {
   if (!SCHEMAS.has(schema)) throw new Error(`unknown record schema ${schema}; known: ${[...SCHEMAS].join(", ")}`);
   if (echoChoice === undefined && (issueNo !== DEFAULT_ECHO_ISSUE || schema >= 2)) {
     throw new Error(`--echo is required for issue ${issueNo} at schema ${schema}: a history bank slug, or "pending"`);
   }
   if (echoChoice !== undefined && echoChoice !== "pending" && !(typeof echoChoice === "string" && echoChoice.length <= 80 && ECHO_SLUG.test(echoChoice))) {
     throw new Error(`echo must be "pending" or a history bank slug (a-z, 0-9, hyphens), not ${JSON.stringify(echoChoice)}`);
+  }
+  if (echoHorizon !== undefined && (echoChoice === undefined || echoChoice === "pending" || !ECHO_DATE.test(String(echoHorizon)))) {
+    throw new Error(`--echo-horizon needs an echo slug and a YYYY-MM-DD date, not ${JSON.stringify(echoHorizon)}`);
+  }
+  if (echoApprovedBy !== undefined && (echoHorizon === undefined || typeof echoApprovedBy !== "string" || !echoApprovedBy.trim() || echoApprovedBy.length > 120)) {
+    throw new Error("--echo-approved-by needs --echo-horizon and a short non-empty text");
   }
   const v2 = schema >= 2;
   const { issue, link: weeklyLink } = await source.weekly(issueNo);
@@ -373,8 +384,9 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
       slug,
       title: field("title"),
       date_display: field("date_display"),
-      horizon: field("date_display"),
-      status: "candidate",
+      horizon: echoHorizon ?? field("date_display"),
+      status: echoApprovedBy ? "approved" : "candidate",
+      ...(echoApprovedBy ? { approved_by: echoApprovedBy, pick: `episodes/${issueNo}/echo-pick.json` } : {}),
       page: `https://news.voidvision.org/history/${slug}/`,
       record: echo.link,
       ...(echoChoice === undefined ? { alternate: DEFAULT_ECHO.alternate } : {}),
