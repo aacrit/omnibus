@@ -28,6 +28,11 @@
 //     sources.
 //   - lean is the outlet's placement on void news's seven-rung ladder
 //     (data/sources.json political_lean_baseline), never the article's words.
+//   - schema 2 (week 33 on; absent means 1, week 32's rules): a board
+//     headline loses the " - <publisher>" Google News appends only when that
+//     is provable (publisherSuffix), and keeps headline_raw and
+//     stripped_suffix so the sources page can disclose it; a day with no
+//     printed edition says no_print in words.
 
 import { createHash } from "node:crypto";
 import { LEAN_BASELINES, leanToBucket } from "../../web/src/lib/ladder.mjs";
@@ -38,9 +43,48 @@ const TIER_RANK = { us_major: 0, international: 1, independent: 2 };
 const BOARD_MIN_SOURCES = 6;
 const BOARD_MAX_ROWS = 6;
 const MARGINS = 3;
-const ECHO = "data/history/events/spanish-flu-1918.yaml";
+// Week 32's echo candidate, the default when no --echo is given, so week 32
+// rebuilds unchanged. Any other week names its own (or "pending").
+const DEFAULT_ECHO = { slug: "spanish-flu-1918", alternate: "black-death" };
+const ECHO_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const echoPath = (slug) => `data/history/events/${slug}.yaml`;
+// Schema 1: week 32's rules. Schema 2: the board strips a provable Google
+// News publisher suffix (publisherSuffix) and keeps headline_raw beside it.
+const SCHEMAS = new Set([1, 2]);
 
 const sha256 = (s) => createHash("sha256").update(s, "utf8").digest("hex");
+
+const squash = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+function hostOf(u) {
+  try {
+    return new URL(u).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+const isGoogleNews = (u) => hostOf(u) === "news.google.com";
+
+/**
+ * Google News RSS appends " - <publisher>" to the title of every item it
+ * syndicates. Returns { headline, suffix } when the article's title ends in
+ * that suffix provably: the outlet is read through a Google News feed
+ * (data/sources.json rss_url), the article's link is a Google News link, and
+ * the suffix names the outlet (its name, a word run inside its name, or its
+ * domain's first label: "AP News" for apnews.com). Otherwise null, and the
+ * headline stays whole.
+ */
+export function publisherSuffix(article, outletRecord) {
+  if (!outletRecord || !isGoogleNews(outletRecord.rss_url) || !isGoogleNews(article?.url)) return null;
+  const m = /^(.*\S) - ([^-]+)$/.exec(String(article.title ?? ""));
+  if (!m) return null;
+  const [, headline, publisher] = m;
+  const p = squash(publisher);
+  if (p.length < 2) return null;
+  const name = squash(outletRecord.name);
+  const label = hostOf(outletRecord.url).replace(/^www\./, "").split(".")[0];
+  const names = p === name || (p.length >= 3 && name.includes(p)) || p === squash(label);
+  return names ? { headline, suffix: ` - ${publisher}` } : null;
+}
 
 export function addDays(iso, n) {
   const d = new Date(`${iso}T00:00:00Z`);
@@ -62,8 +106,17 @@ function percentile(values, p) {
   return s[lo] + (s[hi] - s[lo]) * (idx - lo);
 }
 
-/** The week record for one weekly issue, read through `source`. */
-export async function normaliseWeek(source, issueNo) {
+/**
+ * The week record for one weekly issue, read through `source`.
+ * options.schema: 1 (default, week 32's rules) or 2 (see SCHEMAS).
+ * options.echo: undefined (week 32's candidate and alternate), "pending", or
+ * a history bank slug, read from data/history/events/<slug>.yaml.
+ */
+export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoChoice } = {}) {
+  if (!SCHEMAS.has(schema)) throw new Error(`unknown record schema ${schema}; known: ${[...SCHEMAS].join(", ")}`);
+  if (echoChoice !== undefined && echoChoice !== "pending" && !(typeof echoChoice === "string" && echoChoice.length <= 80 && ECHO_SLUG.test(echoChoice))) {
+    throw new Error(`echo must be "pending" or a history bank slug (a-z, 0-9, hyphens), not ${JSON.stringify(echoChoice)}`);
+  }
   const { issue, link: weeklyLink } = await source.weekly(issueNo);
   const origin = await source.origin();
   const { list: sources, link: sourcesLink } = await source.outlets();
@@ -82,7 +135,8 @@ export async function normaliseWeek(source, issueNo) {
     const date = addDays(issue.week_start, i);
     const snap = await source.day(date);
     if (!snap) {
-      days.push({ date, available: false });
+      // Schema 2 says so in words: the source held no printed edition that day.
+      days.push(schema >= 2 ? { date, available: false, no_print: "no printed edition of that date in the source" } : { date, available: false });
       continue;
     }
     const printed = snap.feed.clusters;
@@ -152,7 +206,17 @@ export async function normaliseWeek(source, issueNo) {
       );
       const pick = arr[0];
       const a = [...pick.list].sort((x, y) => x.published_at.localeCompare(y.published_at))[0];
-      board.push({ rung, outlet: pick.name, headline: a.title, url: a.url, published_at: a.published_at, sha256: sha256(a.title) });
+      // sha256 is always of the title as void news recorded it.
+      const strip = schema >= 2 ? publisherSuffix(a, outlet.get(pick.name)) : null;
+      board.push({
+        rung,
+        outlet: pick.name,
+        headline: strip ? strip.headline : a.title,
+        ...(strip ? { headline_raw: a.title, stripped_suffix: strip.suffix } : {}),
+        url: a.url,
+        published_at: a.published_at,
+        sha256: sha256(a.title),
+      });
     }
   }
   board.splice(BOARD_MAX_ROWS);
@@ -181,12 +245,28 @@ export async function normaliseWeek(source, issueNo) {
     }));
 
   // ---- Echo candidate (bible section k: pre-registered in the history bank) ---
-  const echo = await source.echo(ECHO);
-  const echoYaml = echo.text;
-  const field = (k) => new RegExp(`^${k}: (.*)$`, "m").exec(echoYaml)?.[1]?.replace(/^'|'$/g, "") ?? null;
+  // "pending": not picked yet (the Echo pick follows the week); nothing is read.
+  let echoOut = { slug: null, status: "pending" };
+  if (echoChoice !== "pending") {
+    const slug = echoChoice ?? DEFAULT_ECHO.slug;
+    const echo = await source.echo(echoPath(slug));
+    const field = (k) => new RegExp(`^${k}: (.*)$`, "m").exec(echo.text)?.[1]?.replace(/^'|'$/g, "") ?? null;
+    if (field("slug") !== slug) throw new Error(`echo record ${echoPath(slug)} names slug ${field("slug")}, not ${slug}`);
+    echoOut = {
+      slug,
+      title: field("title"),
+      date_display: field("date_display"),
+      horizon: field("date_display"),
+      status: "candidate",
+      page: `https://news.voidvision.org/history/${slug}/`,
+      record: echo.link,
+      ...(echoChoice === undefined ? { alternate: DEFAULT_ECHO.alternate } : {}),
+    };
+  }
 
   const out = {
     issue: issueNo,
+    ...(schema >= 2 ? { schema } : {}),
     week_start: issue.week_start,
     week_end: issue.week_end,
     as_of: issue.created_at,
@@ -207,16 +287,7 @@ export async function normaliseWeek(source, issueNo) {
         .map((a) => ({ outlet: a.source.name, rung: placement(a.source.name), headline: a.title, url: a.url, published_at: a.published_at })),
     },
     margins: { p70_importance: Math.round(p70 * 100) / 100, pool: all.length, stories: margins },
-    echo: {
-      slug: field("slug"),
-      title: field("title"),
-      date_display: field("date_display"),
-      horizon: field("date_display"),
-      status: "candidate",
-      page: `https://news.voidvision.org/history/${field("slug")}/`,
-      record: echo.link,
-      alternate: "black-death",
-    },
+    echo: echoOut,
   };
   if (source.provenance) out.normalised_from.snapshots = await source.provenance();
   return out;

@@ -18,6 +18,15 @@
 //   node scripts/normalise-week.mjs --snapshots r2 --issue 33
 // The history bank's echo record is read at the snapshot's commit, from
 // --voidnews when given, else from void news's public raw file.
+//
+// --echo <slug> names the week's echo from the history bank
+// (data/history/events/<slug>.yaml); --echo pending records it as not yet
+// picked. Without it, week 32's candidate (spanish-flu-1918, alternate
+// black-death) is used, so week 32 rebuilds unchanged.
+// --schema 2 strips a provable Google News publisher suffix from board
+// headlines, keeping headline_raw (scripts/lib/normalise.mjs publisherSuffix);
+// the default, 1, is week 32's rules. Week 33:
+//   node scripts/normalise-week.mjs --issue 33 --at dcffaaf8bf5e979808cd195de80e2403af074c64 --schema 2 --echo pending
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -46,7 +55,11 @@ if (snapshots === "r2") {
   source = gitSource(path.resolve(voidnews ?? path.join(repoRoot, "..", "voidnews")), { at: arg("at", "origin/main") });
 }
 
-const out = await normaliseWeek(source, issueNo);
+const schemaArg = arg("schema");
+const out = await normaliseWeek(source, issueNo, {
+  schema: schemaArg === undefined ? 1 : Number(schemaArg),
+  echo: arg("echo"),
+});
 mkdirSync(path.join(repoRoot, "data"), { recursive: true });
 const file = path.join(repoRoot, "data", `week-${issueNo}.json`);
 writeFileSync(file, JSON.stringify(out, null, 2) + "\n");

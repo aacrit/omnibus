@@ -671,7 +671,7 @@ describe("normalise-week from snapshots", () => {
     const { normaliseWeek } = await import("../scripts/lib/normalise.mjs");
     const { r2Reader, snapshotSource } = await import("../scripts/lib/week-sources.mjs");
     const source = snapshotSource(r2Reader(store, tmp()));
-    source.echo = async (p: string) => ({ text: "slug: s\ntitle: t\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
+    source.echo = async (p: string) => ({ text: "slug: spanish-flu-1918\ntitle: t\ndate_display: '1918'\n", link: `https://github.com/aacrit/void--news/blob/${COMMIT2}/${p}` });
     const w = await normaliseWeek(source, 33);
     expect(w.days.filter((d: { available: boolean }) => d.available)).toHaveLength(7);
     expect(w.lead.ledger.map((a: { headline: string }) => a.headline)).toEqual(["Headline 100"]);
