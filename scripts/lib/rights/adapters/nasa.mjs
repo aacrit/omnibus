@@ -22,7 +22,7 @@ export function assetUrl(nasaId) {
 // NASA's own centres and offices. JPL is left out on purpose: it is run by
 // Caltech, and "NASA/JPL-Caltech" is a Caltech credit, not a federal work.
 const NASA_UNITS =
-  /^(HQ|JSC|KSC|GSFC|Goddard|MSFC|Marshall|ARC|Ames|LaRC|Langley|GRC|Glenn|AFRC|Armstrong|SSC|Stennis|WSTF|Johnson|Kennedy|NASA HQ|Headquarters|NASA Headquarters|Goddard Space Flight Center|Marshall Space Flight Center|Johnson Space Center|Kennedy Space Center|Stennis Space Center|Ames Research Center|Langley Research Center|Glenn Research Center|Armstrong Flight Research Center|White Sands Test Facility|Wallops Flight Facility|Wallops|Michoud Assembly Facility|Michoud)$/i;
+  /^(HQ|JSC|KSC|GSFC|Goddard|MSFC|Marshall|ARC|Ames|LaRC|Langley|GRC|Glenn|AFRC|Armstrong|SSC|Stennis|WSTF|Johnson|Kennedy|NASA HQ|Headquarters|NASA Headquarters|Goddard Space Flight Center|Marshall Space Flight Center|Johnson Space Center|Kennedy Space Center|Stennis Space Center|Ames Research Center|Langley Research Center|Glenn Research Center|Armstrong Flight Research Center|White Sands Test Facility|Wallops Flight Facility|Wallops|Michoud Assembly Facility|Michoud|Scientific Visualization Studio|SVS|Conceptual Image Lab)$/i;
 // Anything that names an organisation, so it cannot be a NASA staff photographer's name.
 // Whole words only: "Laura Rochon" is not AURA, "Ben Kaplan" is not APL, "Sierra Smith" is not Sierra Space.
 const ORG =
@@ -47,9 +47,19 @@ export function isNasaOnlyCredit(raw) {
   return parts.slice(1).every((p) => NASA_UNITS.test(p) || isPerson(p));
 }
 
-/** A bare staff name ("Bill Ingalls") in a credit field of a record a NASA centre holds. JPL is not a NASA centre here. */
-export function isNasaStaffName(raw, centre) {
-  return NASA_UNITS.test(plain(centre)) && isPerson(plain(raw).trim(), BARE_PERSON);
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * A bare staff name ("Bill Ingalls") in a credit field, accepted only when the
+ * record is held by a NASA centre (JPL is not one here) and its own title or
+ * description credits "NASA/<the same name>". A name shape alone cannot tell a
+ * photographer from a contractor ("United Launch Alliance", "Virgin Galactic").
+ */
+export function isNasaStaffName(raw, { centre, texts = [] } = {}) {
+  const name = plain(raw).trim();
+  if (!NASA_UNITS.test(plain(centre)) || !isPerson(name, BARE_PERSON)) return false;
+  const credited = new RegExp(`\\bNASA\\s*/\\s*${escapeRe(name).replace(/ /g, "\\s+")}(?![A-Za-z'’-])`, "i");
+  return texts.some((t) => credited.test(plain(t)));
 }
 
 // A credit statement inside free text: "Photo credit: Boeing", "Image Credit: (NASA/Keegan Barber)",
@@ -106,7 +116,8 @@ export function parseNasa(search, manifest, { ref, capturedAt }) {
   const description = [plain(d.description), plain(d.description_508)].filter(Boolean).join(" ");
   const credits = statedCredits(d);
   const centre = plain(d.center) || null;
-  const staffField = (k, v) => (k === "photographer" || k === "secondary_creator") && isNasaStaffName(v, centre);
+  const texts = [d.title, d.description, d.description_508];
+  const staffField = (k, v) => (k === "photographer" || k === "secondary_creator") && isNasaStaffName(v, { centre, texts });
   const named = credits.filter(([k, v]) => !isNasaOnlyCredit(v) && !staffField(k, v));
   const licence = named.length ? null : "pd-us-federal";
   const capturedText = [

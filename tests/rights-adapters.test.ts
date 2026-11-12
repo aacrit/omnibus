@@ -399,15 +399,29 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
     }
   });
 
-  it("accepts a bare staff name in photographer or secondary_creator only when the centre is NASA's", () => {
-    expect(withData({ center: "HQ", photographer: "Bill Ingalls" })).toMatchObject({ licence: "pd-us-federal", credit: "Bill Ingalls, NASA" });
-    expect(withData({ center: "KSC", secondary_creator: "Kim Shiflett" }).licence).toBe("pd-us-federal");
-    expect(withData({ center: "JPL", photographer: "Bill Ingalls" }).licence).toBeNull();
-    expect(withData({ center: undefined, photographer: "Bill Ingalls" }).licence).toBeNull();
-    // a firm is not a person, and a single word is not taken for one
-    expect(withData({ center: "KSC", photographer: "Firefly Aerospace" }).licence).toBeNull();
-    expect(withData({ center: "KSC", photographer: "SpaceX" }).licence).toBeNull();
-    expect(withData({ center: "KSC", photographer: "Firefly" }).licence).toBeNull();
+  it("accepts a bare name in photographer or secondary_creator only when the record's own text credits NASA/<that name>", () => {
+    const ingalls = "Crew portrait. Photo credit: NASA/Bill Ingalls";
+    expect(withData({ center: "HQ", photographer: "Bill Ingalls", description: ingalls })).toMatchObject({ licence: "pd-us-federal", credit: "Bill Ingalls, NASA" });
+    expect(withData({ center: "KSC", secondary_creator: "Kim Shiflett", title: "Pad 39A (NASA/Kim Shiflett)" }).licence).toBe("pd-us-federal");
+    // no matching NASA/<name> credit in the text: refused, whatever the centre
+    expect(withData({ center: "HQ", photographer: "Bill Ingalls" }).licence).toBeNull();
+    expect(withData({ center: "KSC", photographer: "Bill Ingalls", description: "Photo credit: NASA/Kim Shiflett" }).licence).toBeNull();
+    expect(withData({ center: "JPL", photographer: "Bill Ingalls", description: ingalls }).licence).toBeNull();
+  });
+
+  it("refuses contractors in a bare credit field, even beside a NASA staff credit (hand-edited ULA and Virgin Galactic records)", () => {
+    for (const who of ["United Launch Alliance", "Virgin Galactic", "Airbus Defence", "Thales Alenia", "General Electric", "Jacobs Engineering", "Firefly Aerospace", "SpaceX", "Firefly"]) {
+      const c = withData({ center: "KSC", photographer: who, description: "Atlas V on the pad. Photo credit: NASA/Kim Shiflett" });
+      expect(c.licence, who).toBeNull();
+      expect(c.licence_raw, who).toContain(who);
+      expect(checkCandidate({ ...c, kind: "still" }).ok, who).toBe(false);
+    }
+  });
+
+  it("reads NASA's visualisation studios as NASA units", () => {
+    for (const ok of ["NASA/Scientific Visualization Studio", "NASA/SVS", "NASA/Goddard/Conceptual Image Lab", "NASA's Scientific Visualization Studio"]) {
+      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    }
   });
 
   it("refuses an outlet named in a Commons Credit field before download, as the lint does", () => {
@@ -448,5 +462,10 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
     expect(loc.federalPdSentence("Made by the U.S. Army. Some prints are in the public domain.")).toBeNull();
     // a real caution beside it is still read
     expect(loc.cautionIn(`${aware} Some items may be protected by copyright.`)).toMatch(/may be protected/);
+    // the boilerplate stops at "except", "however", "unless" or "but": a restriction in the same sentence is caught
+    for (const turn of ["except", "however", "unless", "but"]) {
+      const s = `The Library of Congress is not aware of any U.S. copyright protection on these photographs ${turn} the donor's restrictions apply to publication.`;
+      expect(loc.cautionIn(s), turn).toMatch(/restrictions apply/);
+    }
   });
 });

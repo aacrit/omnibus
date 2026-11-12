@@ -32,7 +32,7 @@ export function publishedCutoff(year) {
 // LoC's standard link titles, which name copyright and restrictions on every item page without stating any.
 // LoC's standard link titles, and its standard "not aware of any copyright" statement, which state no caution.
 const LOC_BOILERPLATE =
-  /The Library of Congress is not aware of any U\.S\. copyright protection[^.]*?(?:\([^)]*\)[^.]*?)*(?:\.(?!\w)|$)|Rights and Restrictions Information|More about Copyright and other Restrictions|Copyright and other Restrictions|No known restrictions( on publication)?\.?/gi;
+  /The Library of Congress is not aware of any U\.S\. copyright protection(?:(?!\b(?:except|however|unless|but)\b)[^.(])*?(?:\([^)]*\)(?:(?!\b(?:except|however|unless|but)\b)[^.(])*?)*(?=\b(?:except|however|unless|but)\b|\.(?!\w)|$)\.?|Rights and Restrictions Information|More about Copyright and other Restrictions|Copyright and other Restrictions|No known restrictions( on publication)?\.?/gi;
 const CAUTION = /\b(may be protected|copyright(ed)?|restricted|restrictions apply|not (been )?evaluated|permission (is )?required|rights status not evaluated)\b/i;
 
 /**
