@@ -155,6 +155,8 @@ export function parseInfo(json, { ref, user = null, capturedAt }) {
       licence_note: licenceNote,
       basis,
       credit: artist ? `${artist}, via Wikimedia Commons` : creditRaw ? `${creditRaw}, via Wikimedia Commons` : null,
+      // The raw Artist and Credit text, so an outlet named only in Credit is refused before download, as the lint does.
+      credit_fields: [artist, creditRaw].filter(Boolean),
       evidence: { url: ii.descriptionurl, captured_text: capturedText, captured_at: capturedAt },
       date: firstDate(em.DateTimeOriginal),
       published_at: isoSecond(first.timestamp),
