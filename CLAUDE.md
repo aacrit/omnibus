@@ -70,6 +70,15 @@ See `CHARTER.md` for its surfaces and kill dates, and `contract.yaml` for what
 - Faces: Playfair Display, Inter, Barlow Condensed, IBM Plex Mono, and no
   fifth (`design/fonts.css`).
 
+## Rights
+
+- Every picture or sound enters an episode only through its rights ledger,
+  written by `scripts/rights.mjs` (never by hand) and held to the bible's
+  licence allowlist and denylist in `scripts/lib/rights/licences.mjs`.
+  Widening the allowlist or the fetcher's hosts needs a DECISIONS entry.
+- disputes.json is generated from the ledger; the gate fails on a hand edit.
+- Media live outside the repo; the ledger records a bare file name only.
+
 ## Non-negotiables
 
 1. No merge to `main` without a green `gate` job (`.github/workflows/gate.yml`).
@@ -83,7 +92,7 @@ See `CHARTER.md` for its surfaces and kill dates, and `contract.yaml` for what
 - `npm run dev`: Vite dev server plus `wrangler dev`.
 - `npm run build`: production build to dist/, build tag injected.
 - `npm run gate`: the full gate (typecheck, build, tests, lint-size, lint-workflows,
-  lint-design, lint-docs, lint-events, gate-selftest). Must pass before any merge.
+  lint-design, lint-docs, lint-events, lint-rights, gate-selftest). Must pass before any merge.
 - `npm run contract -- --url <url>`: run `contract.yaml` against a live URL.
   Checks marked `requires: deployed` show SKIP on localhost and must PASS
   on the preview.
