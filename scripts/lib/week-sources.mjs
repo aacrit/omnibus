@@ -30,7 +30,7 @@ const DEEPDIVE = (id) => `frontend/public/data/deepdive/${id}.json`;
 const blob = (sha, p) => `${REPO_URL}/blob/${sha}/${p}`;
 
 export function gitSource(vn, { at = "origin/main" } = {}) {
-  const git = (...a) => execFileSync("git", ["-C", vn, ...a], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const git = (...a) => execFileSync("git", ["-C", vn, ...a], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 }); // archive.json is about 44 MB
   const head = git("rev-parse", "--verify", `${at}^{commit}`).trim();
   const show = (sha, p) => JSON.parse(git("show", `${sha}:${p}`));
   // Commits on origin/main touching a path, oldest first, with their UTC dates.

@@ -236,7 +236,14 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
       continue;
     }
     const take = (a) => {
-      if (!a.url || articles.has(a.url)) return;
+      if (!a.url) return;
+      const had = articles.get(a.url);
+      if (had) {
+        // An untitled printed member gains its headline from a later deep dive
+        // row for the same link; where it was first read stays as it was.
+        if (had.title == null && typeof a.title === "string" && a.title.length > 0) articles.set(a.url, { ...had, title: a.title });
+        return;
+      }
       if (a.published_at && a.published_at > issue.created_at) {
         afterHorizon++;
         return;
@@ -252,6 +259,10 @@ export async function normaliseWeek(source, issueNo, { schema = 1, echo: echoCho
     const members = Array.isArray(printedRow?.members) ? printedRow.members : [];
     for (const m of members) take({ title: null, url: m.url, published_at: m.published_at ?? null, source: { name: m.source_name } });
     if (!dd && members.length === 0) excluded.push({ cluster_id: e.cluster_id, source_count: e.source_count });
+    // archive.json lists at most 60 members; fewer than member_count is a gap.
+    else if (printedRow && Number.isFinite(printedRow.member_count) && members.length < printedRow.member_count) {
+      excluded.push({ cluster_id: e.cluster_id, source_count: e.source_count, member_count: printedRow.member_count, members_read: members.length });
+    }
     leadRecords.push({
       date: e.date_iso,
       cluster_id: e.cluster_id,

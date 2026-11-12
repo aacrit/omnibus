@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ARCHIVE_MISSING, NO_PRINT, normaliseWeek, publisherSuffix } from "../scripts/lib/normalise.mjs";
 
+const H = (t: string) => createHash("sha256").update(t, "utf8").digest("hex");
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 // Google News RSS appends " - <publisher>" to every title it syndicates. The
@@ -213,6 +215,32 @@ describe("normaliseWeek, schema 2 (printed editions)", () => {
     expect(out.lead.excluded_clusters).toEqual([{ cluster_id: CID, source_count: 9 }]);
   });
 
+  it("an untitled printed member read first takes its headline from a later cluster's deep dive, keeping its first origin", async () => {
+    const src = fakeSource({}, { deepdive: false });
+    const base = src.weekly();
+    base.issue.cover_timelines[0].entries.push({ date_iso: "2026-11-03", title: "Second", source_count: 3, cluster_id: CID2 });
+    src.weekly = () => base;
+    src.deepdive = ((id: string) =>
+      id === CID2
+        ? { rows: [{ article: { title: "Fox headline", url: "https://www.foxnews.com/a", published_at: "2026-11-02T08:00:00Z", source: { name: "Fox News" } } }], link: "dd2" }
+        : null) as typeof src.deepdive;
+    const out = await normaliseWeek(src, 99, V2);
+    const fox = out.lead.ledger.find((a: { url: string }) => a.url === "https://www.foxnews.com/a");
+    expect(fox.headline).toBe("Fox headline");
+    expect(out.lead.untitled_articles).toBe(1); // the Tribune member only
+    const row = out.lead.board.find((b: { rung: string }) => b.rung === "right");
+    expect(row).toMatchObject({ outlet: "Fox News", headline: "Fox headline", cluster_id: CID, record_date: "2026-11-02" });
+  });
+
+  it("counts fewer members read than archive.json's member_count as a coverage gap", async () => {
+    const src = fakeSource({});
+    const rows = src.archive().rows.map((r) => (r.source_cluster_id === CID ? { ...r, member_count: 75 } : r));
+    src.archive = () => ({ rows, link: "archive" });
+    const out = await normaliseWeek(src, 99, V2);
+    expect(out.lead.coverage_complete).toBe(false);
+    expect(out.lead.excluded_clusters).toEqual([{ cluster_id: CID, source_count: 9, member_count: 75, members_read: 3 }]);
+  });
+
   it("refuses a source without archive.json", async () => {
     const src: Record<string, unknown> = fakeSource({});
     delete src.archive;
@@ -290,8 +318,8 @@ describe("schema 2 week records", () => {
         const raw = b.headline_raw ?? b.headline;
         expect(w.lead.ledger.some((a: { url: string; headline: string }) => a.url === b.url && a.headline === raw), b.url).toBe(true);
         if (b.headline_raw) expect(b.headline + b.stripped_suffix).toBe(b.headline_raw);
-        expect(b.sha256).toMatch(/^[0-9a-f]{64}$/);
-        expect(b.headline_sha256).toMatch(/^[0-9a-f]{64}$/);
+        expect(b.sha256, b.url).toBe(H(b.headline_raw ?? b.headline));
+        expect(b.headline_sha256, b.url).toBe(H(b.headline));
         expect(b.cluster_id).toMatch(/^[0-9a-f-]{36}$/);
         expect(b.record_date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
         if (new URL(b.url).hostname === "news.google.com" && !b.headline_raw) {

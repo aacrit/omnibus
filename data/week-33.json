@@ -345,7 +345,7 @@
     "coverage_complete": true,
     "outlets": 86,
     "articles": 114,
-    "untitled_articles": 57,
+    "untitled_articles": 43,
     "after_horizon": 0,
     "rung_counts": [
       1,
@@ -709,7 +709,7 @@
       {
         "outlet": "Arab News Pakistan",
         "rung": null,
-        "headline": null,
+        "headline": "US VP Vance says Iran war is ‘the reason we lost’ midterms",
         "url": "https://www.arabnews.pk/middle-east/us-vp-vance-says-iran-war-is-the-reason-we-lost-midterms-3006100",
         "published_at": "2026-11-04T16:14:26+00:00"
       },
@@ -744,14 +744,14 @@
       {
         "outlet": "Asharq Al-Awsat",
         "rung": "center",
-        "headline": null,
+        "headline": "US VP Vance Says Iran War Is ‘the Reason We Lost’ Midterms",
         "url": "https://english.aawsat.com/world/5337610-us-vp-vance-says-iran-war-%E2%80%98-reason-we-lost%E2%80%99-midterms",
         "published_at": "2026-11-04T16:22:23+00:00"
       },
       {
         "outlet": "Gulf News",
         "rung": "center",
-        "headline": null,
+        "headline": "US VP Vance says Iran war is the 'real reason we lost' midterms",
         "url": "https://gulfnews.com/world/americas/us-vp-vance-says-iran-war-is-the-reason-we-lost-midterms-1.500736169",
         "published_at": "2026-11-04T16:25:29+00:00"
       },
@@ -765,7 +765,7 @@
       {
         "outlet": "Financial Times",
         "rung": "center",
-        "headline": null,
+        "headline": "Vance blames Iran war for crushing Republican midterms defeat",
         "url": "https://www.ft.com/content/6bc8be51-5bd8-468c-bd3c-82bbc2866ba1?syn-25a6b1a6=1",
         "published_at": "2026-11-04T16:27:31+00:00"
       },
@@ -821,7 +821,7 @@
       {
         "outlet": "The New Indian Express",
         "rung": null,
-        "headline": null,
+        "headline": "VP Vance blames Iran war for Republican loss in US midterms; says Trump himself said so",
         "url": "https://www.newindianexpress.com/world/2026/Nov/04/vp-vance-blames-iran-war-for-republican-loss-in-us-midterms-says-trump-himself-said-so",
         "published_at": "2026-11-04T16:41:34+00:00"
       },
@@ -849,7 +849,7 @@
       {
         "outlet": "ARY News (English)",
         "rung": "center-right",
-        "headline": null,
+        "headline": "JD Vance blames Iran war, inflation and Israel ties for Republican midterm defeat",
         "url": "https://arynews.tv/jd-vance-blames-iran-war-inflation-and-israel-ties-for-republican-midterm-defeat",
         "published_at": "2026-11-04T16:48:05+00:00"
       },
@@ -877,7 +877,7 @@
       {
         "outlet": "PBS NewsHour",
         "rung": "center",
-        "headline": null,
+        "headline": "Vance blames Iran war for GOP midterm losses",
         "url": "https://www.pbs.org/newshour/politics/vance-blames-iran-war-for-gop-midterm-losses",
         "published_at": "2026-11-04T16:56:43+00:00"
       },
@@ -891,7 +891,7 @@
       {
         "outlet": "Stuff (NZ)",
         "rung": "center",
-        "headline": null,
+        "headline": "‘Everyone knows why we lost’: JD Vance blames Trump's Iran war for election wipeout",
         "url": "https://www.stuff.co.nz/world-news/361054772/us-midterm-elections-deliver-verdict-donald-trump",
         "published_at": "2026-11-04T17:08:45+00:00"
       },
@@ -905,7 +905,7 @@
       {
         "outlet": "The Straits Times",
         "rung": null,
-        "headline": null,
+        "headline": "US V-P Vance says Iran war is ‘the reason we lost’ midterms",
         "url": "https://www.straitstimes.com/world/united-states/us-v-p-vance-says-iran-war-is-the-reason-we-lost-midterms",
         "published_at": "2026-11-04T17:09:48+00:00"
       },
@@ -919,7 +919,7 @@
       {
         "outlet": "The Blaze",
         "rung": "right",
-        "headline": null,
+        "headline": "Straight talk: JD Vance blames midterm loss on Iran conflict and US' relationship with Israel",
         "url": "https://www.theblaze.com/news/politics-jd-vance-iran-israel",
         "published_at": "2026-11-04T17:17:19+00:00"
       },
@@ -954,7 +954,7 @@
       {
         "outlet": "Business Recorder",
         "rung": null,
-        "headline": null,
+        "headline": "US VP Vance says Iran war is 'the reason we lost' midterms",
         "url": "https://www.brecorder.com/news/40447415/us-vp-vance-says-iran-war-is-the-reason-we-lost-midterms",
         "published_at": "2026-11-04T17:32:05+00:00"
       },
@@ -968,14 +968,14 @@
       {
         "outlet": "The Daily Signal",
         "rung": "right",
-        "headline": null,
+        "headline": "‘Everyone Knows Why We Lost’: Vance Blames Iran War for Blue Wave",
         "url": "https://www.dailysignal.com/2026/11/04/everyone-knows-why-we-lost-vance-blames-iran-war-for-blue-wave/",
         "published_at": "2026-11-04T17:33:29+00:00"
       },
       {
         "outlet": "Anchorage Daily News",
         "rung": "center",
-        "headline": null,
+        "headline": "Vance breaks sharply with Trump, blames midterm losses on handling of Iran war",
         "url": "https://www.adn.com/nation-world/2026/11/04/vance-breaks-sharply-with-trump-blames-midterm-losses-on-handling-of-iran-war/",
         "published_at": "2026-11-04T17:34:34+00:00"
       },
@@ -996,7 +996,7 @@
       {
         "outlet": "Dawn",
         "rung": null,
-        "headline": null,
+        "headline": "US Vice President JD Vance says Iran war is 'the reason we lost' midterms",
         "url": "https://www.dawn.com/news/2042118/us-vice-president-jd-vance-says-iran-war-is-the-reason-we-lost-midterms",
         "published_at": "2026-11-04T17:47:30+00:00"
       },

@@ -55,6 +55,19 @@ for (const issue of [32, 33]) {
       expect(JSON.stringify(out, null, 2) + "\n").toBe(text);
     }, 240_000);
 
+    it("gives every ledger link found in a lead deep dive that deep dive's headline", () => {
+      const rec = JSON.parse(readFileSync(path.join(root, "data", `week-${issue}.json`), "utf8"));
+      const at = rec.normalised_from.origin_main as string;
+      const src = gitSource(voidnewsAt(at), { at });
+      const ids: string[] = rec.lead.records.map((r: { cluster_id?: string; deepdive: string | null }) => r.cluster_id ?? r.deepdive?.match(/deepdive\/([0-9a-f-]{36})\.json$/)?.[1]).filter(Boolean);
+      const titles = new Map<string, string>();
+      for (const id of ids) {
+        for (const { article: a } of src.deepdive(id)?.rows ?? []) if (a.title && !titles.has(a.url)) titles.set(a.url, a.title);
+      }
+      expect(titles.size).toBeGreaterThan(0);
+      for (const a of rec.lead.ledger) if (titles.has(a.url)) expect(a.headline, a.url).toBe(titles.get(a.url));
+    }, 240_000);
+
     it("records no day as NO PRINT that void news's archive or the weekly's week_days holds", () => {
       const rec = JSON.parse(readFileSync(path.join(root, "data", `week-${issue}.json`), "utf8"));
       if ((rec.schema ?? 1) < 2) return; // schema 1 (week 32) has every day printed
