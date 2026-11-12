@@ -50,9 +50,10 @@ export function userUrl(name) {
 }
 
 // Commons categories that state a public-domain basis.
-const PD_FEDERAL = /^PD[ -](USGov|US[ -]?Gov(ernment)?|NASA|NOAA|USGS|FEMA|CDC|USAID|NPS|NIH|USDA|USFWS|US[ -]?Army|US[ -]?Navy|US[ -]?Air[ -]?Force|USMC|US[ -]?Marine|US[ -]?Coast[ -]?Guard|DVIDS|White[ -]House|EOP)\b/i;
+const PD_FEDERAL = /^PD[ -](USGov|US[ -]?Gov(ernment)?|NASA|NOAA|USGS|FEMA|CDC|USAID|NPS|NIH|USDA|USFWS|US[ -]?Army|US[ -]?Navy|US[ -]?Air[ -]?Force|USMC|US[ -]?Marines?|US[ -]?Military|US[ -]?Coast[ -]?Guard|DVIDS|White[ -]House|EOP)\b/i;
 // A US basis by age: published before the US cutoff, or expired under US rules.
-const PD_AGE_US = /^PD[ -](1923|1926|1929|US|US[ -](expired|no[ -]notice|not[ -]renewed|unpublished|1923|1926|1929))\b/i;
+// "PD US" alone, or with an age term; "PD US Marines" and the like are federal (above), never an age basis.
+const PD_AGE_US = /^PD[ -](1923|1926|1929|US(?:[ -](?:expired|no[ -]notice|not[ -]renewed|unpublished|1923|1926|1929))?)(?:[ -]abroad)?$/i;
 // PD-old, PD-old-70, PD-old-assumed, PD-Art (PD-old...): a life-plus term, which is not a US basis on its own.
 const PD_OLD = /^PD[ -](old|Art \(PD[ -]old)/i;
 const PD_DEDICATION = /^PD[ -](self|author|user|release)\b/i;

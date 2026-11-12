@@ -418,6 +418,16 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
     }
   });
 
+  it("E5: a federal category in the plural ('PD US Marines') is a federal basis, never pd-age", () => {
+    expect(commons.pdBasis(["PD US Marines"])).toMatchObject({ id: "pd-us-federal" });
+    expect(commons.pdBasis(["PD US Military"])).toMatchObject({ id: "pd-us-federal" });
+    expect(commons.pdBasis(["PD US Army"])).toMatchObject({ id: "pd-us-federal" });
+    // "PD US" followed by anything but an age term is not an age basis
+    expect(commons.pdBasis(["PD US Something"])).toBeNull();
+    expect(commons.pdBasis(["PD US expired"])).toMatchObject({ id: "pd-age" });
+    expect(commons.pdBasis(["PD-US"])).toMatchObject({ id: "pd-age" });
+  });
+
   it("T2c: after NASA/, takes only NASA units, a short mission list or a 2 to 4 word name that is not all capitals", () => {
     for (const no of ["NASA/ULA", "NASA/CNSA", "NASA/ASI", "NASA/Bigelow", "NASA/JHUAPL/CIW", "NASA/GSFC/ASU", "NASA/KARI", "NASA/Ingalls", "NASA/CIW", "NASA/JHU APL", "NASA/Sierra SNC"]) {
       expect(nasa.isNasaOnlyCredit(no), no).toBe(false);

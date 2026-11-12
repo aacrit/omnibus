@@ -2,12 +2,19 @@
 // Studio stage 8, fetch and rights (bible section h): the asset fetcher, the
 // rights ledger and the dispute packet, per episode.
 //
+//   node scripts/rights.mjs resolve <issue>
+//       resolves rundown.json's asset ladders (searches) into concrete
+//       candidates in episodes/<issue>/assets.json; federal .gov and Wayback
+//       steps are read through episodes/<issue>/asset-pins.json.
 //   node scripts/rights.mjs fetch <issue> --media <dir> [--dry-run]
 //       reads episodes/<issue>/assets.json (the rundown's ranked asset
 //       requests), fills each from the first candidate that passes every
 //       check, writes media to <dir>/<issue>/ (outside the repo; also
 //       OMNIBUS_MEDIA), then episodes/<issue>/rights-ledger.json and
 //       disputes.json. --dry-run reads metadata only and writes nothing.
+//   node scripts/rights.mjs coverage <issue> --media <dir>
+//       writes episodes/<issue>/ASSETS.md (request to item or fallback, tier,
+//       licence, seconds measured by ffprobe, file path) from the ledger.
 //   node scripts/rights.mjs packet <issue>
 //       regenerates episodes/<issue>/disputes.json from the ledger.
 //   node scripts/rights.mjs lint
@@ -18,21 +25,27 @@
 // Media never goes in git (rule 8): the media directory must lie outside
 // the repo, and the ledger records only a bare file name.
 
+import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as commons from "./lib/rights/adapters/commons.mjs";
 import * as dvids from "./lib/rights/adapters/dvids.mjs";
+import * as gov from "./lib/rights/adapters/gov.mjs";
 import * as loc from "./lib/rights/adapters/loc.mjs";
+import * as nara from "./lib/rights/adapters/nara.mjs";
 import * as nasa from "./lib/rights/adapters/nasa.mjs";
+import * as wayback from "./lib/rights/adapters/wayback.mjs";
+import { buildCoverage } from "./lib/rights/coverage.mjs";
 import { buildDisputePacket, serialisePacket } from "./lib/rights/disputes.mjs";
 import { fetchRequests } from "./lib/rights/fetcher.mjs";
-import { getJson, getMedia } from "./lib/rights/http.mjs";
+import { getJson, getMedia, getText } from "./lib/rights/http.mjs";
 import { emptyLedger, serialiseLedger, validateLedger, validateRequests } from "./lib/rights/ledger.mjs";
+import { pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
 import { lintAll } from "./lint-rights.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const ADAPTERS = { commons, nasa, loc, dvids };
+export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback };
 export const CHECKED_BY = "void omnibus fetcher, metadata checks (scripts/rights.mjs)";
 
 export function episodeDir(root, issue) {
@@ -66,7 +79,7 @@ export function writePacket(root, issue) {
   return out;
 }
 
-export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = false, env = process.env, http = { getJson, getMedia }, now, log = console.log }) {
+export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = false, env = process.env, http = { getJson, getMedia, getText }, now, log = console.log }) {
   const dir = episodeDir(root, issue);
   const reqPath = path.join(dir, "assets.json");
   if (!existsSync(reqPath)) throw new Error(`${path.relative(root, reqPath)} not found: the rundown writes the asset requests`);
@@ -100,6 +113,51 @@ export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = fals
   return result;
 }
 
+/** Resolves the rundown's asset requests into episodes/<issue>/assets.json (resolve.mjs). */
+export async function runResolve({ root = repoRoot, issue, http = { getJson, getText }, log = console.log }) {
+  const dir = episodeDir(root, issue);
+  const rundown = JSON.parse(readFileSync(path.join(dir, "rundown.json"), "utf8"));
+  if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
+  const pinsPath = path.join(dir, "asset-pins.json");
+  const pinsDoc = existsSync(pinsPath) ? JSON.parse(readFileSync(pinsPath, "utf8")) : { pins: {} };
+  const bad = pinProblems(pinsDoc.pins);
+  if (bad.length) throw new Error(`asset-pins.json names addresses the fetcher may not reach:\n  ${bad.join("\n  ")}`);
+  const echoPath = path.join(dir, "echo-pick.json");
+  const echoPick = existsSync(echoPath) ? JSON.parse(readFileSync(echoPath, "utf8")) : null;
+  const doc = await resolveRequests(rundown, { pins: pinsDoc.pins, echoPick, http, log });
+  const problems = validateRequests(doc);
+  if (problems.length) throw new Error(`refusing to write invalid assets.json:\n  ${problems.join("\n  ")}`);
+  const out = path.join(dir, "assets.json");
+  writeFileSync(out, `${JSON.stringify(doc, null, 2)}\n`);
+  return out;
+}
+
+/** Length in seconds of a footage or sound file, read by ffprobe; null when it cannot be read. */
+export function probeSeconds(file) {
+  try {
+    const s = execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", file], { encoding: "utf8", timeout: 60_000 });
+    const n = Number(s.trim());
+    return Number.isFinite(n) ? n : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Writes episodes/<issue>/ASSETS.md from assets.json and the ledger, measuring footage and sound on the media drive. */
+export function runCoverage({ root = repoRoot, issue, mediaDir, probe = probeSeconds }) {
+  const dir = episodeDir(root, issue);
+  const assets = JSON.parse(readFileSync(path.join(dir, "assets.json"), "utf8"));
+  const ledger = JSON.parse(readFileSync(path.join(dir, "rights-ledger.json"), "utf8"));
+  const issueMedia = path.join(mediaDir, String(issue));
+  const durations = {};
+  for (const it of ledger.items) {
+    if (it.kind === "footage" || it.kind === "sound") durations[it.file] = probe(path.join(issueMedia, it.file));
+  }
+  const out = path.join(dir, "ASSETS.md");
+  writeFileSync(out, buildCoverage({ assets, ledger, durations, mediaDir: issueMedia.replace(/\\/g, "/") }));
+  return out;
+}
+
 async function main(argv) {
   const [cmd, issueArg] = argv;
   const flag = (name) => {
@@ -116,13 +174,25 @@ async function main(argv) {
     if (!process.env.DVIDS_API_KEY) console.log("rights: DVIDS_API_KEY is not set, so DVIDS candidates were skipped (optional)");
     return 0;
   }
+  if (cmd === "resolve") {
+    const out = await runResolve({ issue: parseIssue(issueArg) });
+    console.log(`rights: wrote ${path.relative(repoRoot, out)}`);
+    return 0;
+  }
+  if (cmd === "coverage") {
+    const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
+    assertMediaOutsideRepo(mediaDir);
+    const out = runCoverage({ issue: parseIssue(issueArg), mediaDir });
+    console.log(`rights: wrote ${path.relative(repoRoot, out)}`);
+    return 0;
+  }
   if (cmd === "packet") {
     const out = writePacket(repoRoot, parseIssue(issueArg));
     console.log(`rights: wrote ${path.relative(repoRoot, out)}`);
     return 0;
   }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs fetch <issue> --media <dir> [--dry-run] | packet <issue> | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] | coverage <issue> --media <dir> | packet <issue> | lint");
   return 2;
 }
 
