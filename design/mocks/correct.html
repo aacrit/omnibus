@@ -22,13 +22,14 @@
     <div data-state="limited"><div class="status status--error" role="alert"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M8.2 3.5h7.6l4.7 4.7v7.6l-4.7 4.7H8.2l-4.7-4.7V8.2z M12 7.5v5.5 M12 16.4v.1"/></svg><p><strong>Not sent.</strong> Your network has sent several messages in a short time. Wait a minute, then send again.</p></div></div>
     <div data-state="sent"><div class="status status--sent" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M4 12.5l5 5L20 6.5"/></svg><p><strong>Correction received.</strong> It is checked against the record. If it is accepted, it is listed below and read on air, without a name.</p></div></div>
 
-    <fieldset class="choices"><legend>Where is it?</legend>
-      <label class="chip"><input type="radio" name="where" value="0"><span>The week</span></label><label class="chip"><input type="radio" name="where" value="1" checked><span>The weight</span></label><label class="chip"><input type="radio" name="where" value="2"><span>The echo</span></label><label class="chip"><input type="radio" name="where" value="3"><span>The margins</span></label><label class="chip"><input type="radio" name="where" value="4"><span>The sources page</span></label><label class="chip"><input type="radio" name="where" value="5"><span>Somewhere else</span></label>
+    <fieldset class="choices" aria-describedby="where-err"><legend>Where is it?</legend>
+      <label class="chip"><input type="radio" name="where" value="0"><span>The week</span></label><label class="chip"><input type="radio" name="where" value="1"><span>The weight</span></label><label class="chip"><input type="radio" name="where" value="2"><span>The echo</span></label><label class="chip"><input type="radio" name="where" value="3"><span>The margins</span></label><label class="chip"><input type="radio" name="where" value="4"><span>The sources page</span></label><label class="chip"><input type="radio" name="where" value="5"><span>Somewhere else</span></label>
     </fieldset>
+    <p class="field-error" id="where-err" data-state="invalid" style="margin:-14px 0 18px"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M8.2 3.5h7.6l4.7 4.7v7.6l-4.7 4.7H8.2l-4.7-4.7V8.2z M12 7.5v5.5 M12 16.4v.1"/></svg>Choose where it is before sending.</p>
     <div class="field">
       <label for="what">What is wrong?</label>
       <p class="hint">The claim as it appears, and what the record says instead.</p>
-      <textarea id="what" rows="5" maxlength="2000" aria-describedby="what-err">The count card says 10,000 cases. The lead coverage record for 26 Oct gives that figure as passed, not reached; the card could say more than 10,000.</textarea>
+      <textarea id="what" rows="5" maxlength="2000" aria-describedby="what-err" placeholder="For example: the count card says 64 dead; the court record of 30 Oct gives 61."></textarea>
       <p class="field-error" id="what-err" data-state="invalid"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="glyph" d="M8.2 3.5h7.6l4.7 4.7v7.6l-4.7 4.7H8.2l-4.7-4.7V8.2z M12 7.5v5.5 M12 16.4v.1"/></svg>Write what is wrong before sending.</p>
     </div>
     <div class="field">
@@ -36,7 +37,7 @@
       <input id="src" type="url" inputmode="url" placeholder="https://" value="">
     </div>
     <p class="hint">Send only the error and its source. No name or contact details: there are no accounts here, and we cannot reply.</p>
-    <div class="actions"><button class="btn" type="button" data-state="idle invalid error limited">Send correction</button><button class="btn" type="button" aria-busy="true" data-state="sending">Sending</button><button class="btn btn--quiet" type="button" data-state="sent">Send another correction</button></div>
+    <div class="actions"><button class="btn" type="button" data-state="idle invalid error limited" data-send>Send correction</button><button class="btn" type="button" aria-busy="true" data-state="sending">Sending</button><button class="btn btn--quiet" type="button" data-state="sent">Send another correction</button></div>
   </form>
 
   <section class="section" aria-labelledby="acc"><div class="stair" aria-hidden="true"></div>
@@ -58,6 +59,23 @@
     });
   })();
 </script>
-
+<script>
+  // Mock only: Send validates, shows Sending, then the sent state. Nothing leaves the page.
+  (function () {
+    function show(s) { document.querySelectorAll("form [data-state]").forEach(function (el) { el.hidden = el.getAttribute("data-state").split(" ").indexOf(s) < 0; }); }
+    var btn = document.querySelector("[data-send]"); if (!btn) return;
+    btn.addEventListener("click", function () {
+      var text = document.getElementById("what"), where = document.querySelector("input[name=where]:checked");
+      if (!where || !text.value.trim()) {
+        show("invalid");
+        document.getElementById("where-err").hidden = !!where;
+        document.getElementById("what-err").hidden = !!text.value.trim();
+        return;
+      }
+      show("sending");
+      setTimeout(function () { text.value = ""; where.checked = false; document.getElementById("src").value = ""; show("sent"); }, 600);
+    });
+  })();
+</script>
 </body>
 </html>
