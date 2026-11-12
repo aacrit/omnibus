@@ -342,3 +342,111 @@ describe("text helpers", () => {
     expect(firstDate("")).toBeNull();
   });
 });
+
+describe("T2b precision: no federal claim for a third party, no refusal of ordinary NASA, LoC and archive titles", () => {
+  const withData = (patch: Record<string, unknown>) => {
+    const s = structuredClone(fx("nasa-search-as11-40-5903.json").response);
+    Object.assign(s.collection.items[0].data[0], patch);
+    return nasa.parseNasa(s, fx("nasa-asset-as11-40-5903.json").response, { ref: "as11-40-5903", capturedAt: AT }).candidate;
+  };
+
+  it("refuses a photo, image, video or illustration credit to a contractor, with or without 'by' or 'credit'", () => {
+    for (const d of [
+      "Starliner on the pad. Photo: Boeing",
+      "Falcon 9 lifts off. Photo by SpaceX.",
+      "Dragon docks. Image: SpaceX",
+      "Launch replay. Video by Blue Origin.",
+      "Lander concept. Illustration: Intuitive Machines",
+      "Cygnus berthing. Images by Northrop Grumman.",
+      "Rover tracks. Image by: Malin Space Science Systems",
+    ]) {
+      const c = withData({ description: d });
+      expect(c.licence, d).toBeNull();
+      expect(checkCandidate({ ...c, kind: "still" }).ok, d).toBe(false);
+    }
+  });
+
+  it("does not read prose as a credit: 'credits' with no colon, 'photographed', 'courtesy' with no 'of'", () => {
+    for (const d of [
+      "The team credits the success of the mission to years of testing.",
+      "The capsule was photographed at an angle from the gantry.",
+      "As a courtesy to the crew, the hatch photos were held.",
+    ]) {
+      expect(withData({ description: d }).licence, d).toBe("pd-us-federal");
+    }
+    // a credit with a colon still counts, and so do "photo credit" and "courtesy of" with none
+    expect(withData({ description: "Pad view. Credit: SpaceX" }).licence).toBeNull();
+    expect(withData({ description: "Pad view. Photo credit SpaceX" }).licence).toBeNull();
+    expect(withData({ description: "Pad view. Courtesy of SpaceX" }).licence).toBeNull();
+    expect(withData({ description: "Pad view. Photo credit: NASA/Kim Shiflett" }).licence).toBe("pd-us-federal");
+  });
+
+  it("matches organisation names as whole words, so staff names that contain them pass", () => {
+    for (const ok of [
+      "NASA/Laura Rochon",
+      "NASA/Ben Kaplan",
+      "NASA/Sierra Smith",
+      "NASA/Lucas Ball",
+      "NASA/Goddard Space Flight Center",
+      "NASA's Goddard Space Flight Center",
+      "NASA/Kennedy Space Center",
+      "NASA/Johnson Space Center/Josh Valcarcel",
+    ]) {
+      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    }
+    for (const no of ["NASA/Sierra Space", "NASA/Ball Aerospace", "NASA/AURA", "NASA/Johns Hopkins APL", "NASA/Firefly Aerospace"]) {
+      expect(nasa.isNasaOnlyCredit(no), no).toBe(false);
+    }
+  });
+
+  it("accepts a bare staff name in photographer or secondary_creator only when the centre is NASA's", () => {
+    expect(withData({ center: "HQ", photographer: "Bill Ingalls" })).toMatchObject({ licence: "pd-us-federal", credit: "Bill Ingalls, NASA" });
+    expect(withData({ center: "KSC", secondary_creator: "Kim Shiflett" }).licence).toBe("pd-us-federal");
+    expect(withData({ center: "JPL", photographer: "Bill Ingalls" }).licence).toBeNull();
+    expect(withData({ center: undefined, photographer: "Bill Ingalls" }).licence).toBeNull();
+    // a firm is not a person, and a single word is not taken for one
+    expect(withData({ center: "KSC", photographer: "Firefly Aerospace" }).licence).toBeNull();
+    expect(withData({ center: "KSC", photographer: "SpaceX" }).licence).toBeNull();
+    expect(withData({ center: "KSC", photographer: "Firefly" }).licence).toBeNull();
+  });
+
+  it("refuses an outlet named in a Commons Credit field before download, as the lint does", () => {
+    const json = structuredClone(fx("commons-cc-by-2.0.json").response);
+    json.query.pages[0].imageinfo[0].extmetadata.Credit = { value: "BBC News", source: "commons-desc-page" };
+    const c = commons.parseInfo(json, { ref: "File:HollerithMachine.CHM.jpg", capturedAt: AT }).candidate;
+    expect(c.credit).toMatch(/Adam Schuster/);
+    expect(c.credit_fields).toContain("BBC News");
+    expect(checkCandidate({ ...c, kind: "still" }).reasons.join(" ")).toMatch(/news network or outlet/);
+  });
+
+  const locRights = (rights: string[]) => {
+    const json = structuredClone(fx("loc-item-2017762891.json").response);
+    json.item.rights = rights;
+    return loc.parseLoc(json, { ref: "2017762891", capturedAt: AT }).candidate;
+  };
+
+  it("refuses a class-level LoC statement about works or employees, unless it is a known collection statement", () => {
+    for (const s of [
+      "Works created by U.S. government employees are in the public domain.",
+      "Photographs taken by federal government employees as part of their duties are in the public domain.",
+    ]) {
+      const c = locRights([s]);
+      expect(c.licence, s).toBeNull();
+      expect(c.licence_note, s).toMatch(/class of works/);
+    }
+    expect(
+      locRights(["The contents of the Library of Congress Farm Security Administration/Office of War Information Black-and-White Negatives are in the public domain and are free to use and reuse."]).licence,
+    ).toBe("pd-us-federal");
+    expect(locRights(["Photographs created by Farm Security Administration/Office of War Information employees are in the public domain."]).licence).toBe("pd-us-federal");
+  });
+
+  it("reads LoC's 'not aware of any U.S. copyright protection' as boilerplate, and keeps U.S. and U.S.C. inside one sentence", () => {
+    const aware = "The Library of Congress is not aware of any U.S. copyright protection (see Title 17, U.S.C.) or any other restrictions in the materials in the collection.";
+    expect(loc.cautionIn(aware)).toBeNull();
+    expect(locRights([`${aware} The negatives of the U.S. Farm Security Administration are in the public domain.`]).licence).toBe("pd-us-federal");
+    expect(loc.federalPdSentence("This U.S. Army photograph is in the public domain under 17 U.S.C. 105.")).toBe("This U.S. Army photograph is in the public domain under 17 U.S.C. 105.");
+    expect(loc.federalPdSentence("Made by the U.S. Army. Some prints are in the public domain.")).toBeNull();
+    // a real caution beside it is still read
+    expect(loc.cautionIn(`${aware} Some items may be protected by copyright.`)).toMatch(/may be protected/);
+  });
+});

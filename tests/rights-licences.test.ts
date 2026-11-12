@@ -176,4 +176,25 @@ describe("denylist", () => {
     expect(aiSignals(["Omega Speedmaster in Apollo, Gemini and other space programs", "Firefly squid", "Magnetic flux ropes", "Said told reporters"])).toEqual([]);
     expect(aiSignals([], { categories: ["Maine coons", "Aircraft"] })).toEqual([]);
   });
+
+  it("reads tool names and AI as whole words, so place names and ordinary words pass (T2b)", () => {
+    for (const t of [
+      "The Dalles, Oregon",
+      "Reminiscences of a pioneer",
+      "Recrafted furniture at the fair",
+      "Pottery made in Aiken, South Carolina",
+      "Murals produced with aid from the WPA",
+      "Restored with aid from the county",
+      "Prints made in Aix-en-Provence",
+      "Gemini image of the Earth limb, 1966",
+    ]) {
+      expect(aiSignals([t]), t).toEqual([]);
+    }
+    expect(aiSignals([], { categories: ["Air India Flight AI171", "The Dalles, Oregon", "Aix-en-Provence"] })).toEqual([]);
+    // the real marks still land
+    for (const t of ["Made with DALL-E 3", "Created by AI", "Generated using Recraft", "Enhanced with Remini", "restored using AI", "made with Gemini Nano Banana"]) {
+      expect(aiSignals([t]), t).toHaveLength(1);
+    }
+    expect(aiSignals([], { categories: ["AI images", "Upscaled by AI"] })).toHaveLength(2);
+  });
 });
