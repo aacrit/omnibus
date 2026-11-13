@@ -74,6 +74,8 @@ const CREDIT_PATTERNS = [
   // "Photo: Reuters/Kevin Lamarque", "Image: Getty Images", "Photo credit: X", "Image credit X"
   new RegExp(`\\b(?:photo|image|video|footage)s?(?:\\s+credits?)?\\s*:\\s*${TAIL}`, "gi"),
   new RegExp(`\\b(?:photo|image|video|footage)s?\\s+credits?\\s+${TAIL}`, "gi"),
+  // a bare "Credit: X" or "Credits: X"
+  new RegExp(`\\bcredits?\\s*:\\s*${TAIL}`, "gi"),
   // "Official White House Photo by X", "Photo by Reuters"
   new RegExp(`(?:\\b(?:Official\\s+)?(?:White House|U\\.S\\. (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Senate)|DoD|Senate)\\s+)?\\b(?:photo|image|video|footage)s?\\s+by\\s+${TAIL}`, "gi"),
   // "Andrew Harnik/Getty Images", "Name/AFP"
@@ -93,6 +95,45 @@ export function pageCredits(html) {
     }
   }
   return [...new Set(out.filter(Boolean))];
+}
+
+// In a picture's own caption, "<Name>/<Outlet>" and "<Name> for <Outlet>" are credits too.
+const CAPTION_CREDITS = [
+  /\b[A-Z][\w.'’-]+(?:\s+[A-Z][\w.'’-]+){0,3}\s*\/\s*(?:The\s+)?[A-Z][\w.&'’-]*(?:\s+[A-Z][\w.&'’-]*){0,4}/g,
+  /\b[A-Z][\w.'’-]+(?:\s+[A-Z][\w.'’-]+){1,3}\s+for\s+(?:The\s+)?[A-Z][\w.&'’-]*(?:\s+[A-Z][\w.&'’-]*){0,4}/g,
+];
+
+/**
+ * The HTML of the figure that holds the picture: the <figure> whose <img> src
+ * is the given address (same path). Null when the page holds no such figure,
+ * so a credit elsewhere on the page can never vouch for the picture.
+ */
+export function pictureBlock(html, imageUrl) {
+  let target;
+  try {
+    target = new URL(imageUrl).pathname;
+  } catch {
+    return null;
+  }
+  for (const m of String(html ?? "").matchAll(/<figure\b[\s\S]*?<\/figure>/gi)) {
+    for (const img of m[0].matchAll(/<img\b[^>]*\bsrc=["']([^"']+)["']/gi)) {
+      try {
+        if (new URL(decodeEntities(img[1]), imageUrl).pathname === target) return m[0];
+      } catch {
+        // not a URL
+      }
+    }
+  }
+  return null;
+}
+
+/** Every credit in a picture's own figure: the page patterns plus "<Name>/<Outlet>" and "<Name> for <Outlet>". */
+export function captionCredits(blockHtml) {
+  const out = [...pageCredits(blockHtml)];
+  for (const block of textBlocks(blockHtml)) {
+    for (const re of CAPTION_CREDITS) for (const m of block.matchAll(re)) out.push(m[0].trim());
+  }
+  return [...new Set(out)];
 }
 
 /** Whether one credit is the federal body's own: it names the body or a federal photographer, and no agency, stock or pool. */
@@ -171,8 +212,16 @@ export function parseFederalPage(html, { pageUrl, kind, media = null, capturedAt
     if (!og) reasons.push("the page carries no picture of its own");
     else if (SHARE_CARD.test(og)) reasons.push(`the page's only picture is its share card or site artwork (${clip(og, 160)}), not a picture of the event`);
     else if (agencyFor(hostOf(og))?.host !== body.host) reasons.push(`the page's picture is on ${hostOf(og)}, not ${body.host}: a third party's file`);
-    else if (!credits.some((c) => isFederalCredit(c, body))) reasons.push(`the page's picture states no federal credit (such as "Official White House Photo by"), so its author is not shown to be federal`);
-    else mediaUrl = og;
+    else {
+      // Only the picture's own figure speaks for it: a federal credit elsewhere on the page proves nothing.
+      const fig = pictureBlock(html, og);
+      const own = fig ? captionCredits(fig) : [];
+      const foreign = own.filter((c) => !isFederalCredit(c, body));
+      if (!fig) reasons.push("the page's picture sits in no captioned figure of its own, so no credit on the page can be read as its credit");
+      else if (foreign.length) reasons.push(`the picture's own caption credits a party outside ${body.agency}: ${foreign.map((c) => clip(c, 80)).join("; ")}`);
+      else if (!own.some((c) => isFederalCredit(c, body))) reasons.push(`the picture's own caption states no federal credit (such as "Official White House Photo by"), so its author is not shown to be federal`);
+      else mediaUrl = og;
+    }
   } else if (kind === "footage") {
     const v = pageVideo(html, pageUrl);
     if (v && agencyFor(hostOf(v))?.host === body.host) mediaUrl = v;

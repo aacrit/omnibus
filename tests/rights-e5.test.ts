@@ -83,9 +83,27 @@ describe("federal page adapter", () => {
   it("review: takes a still only with a positive federal credit", () => {
     const og = '<meta property="og:image" content="https://www.whitehouse.gov/wp-content/uploads/2026/11/P20261106.jpg" />';
     const bare = gov.parseFederalPage(whPage("<p>Text.</p>", og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
-    expect(bare.licence_note).toMatch(/states no federal credit/);
-    const credited = gov.parseFederalPage(whPage("<figure><figcaption>Official White House Photo by Daniel Torok</figcaption></figure>", og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
+    expect(bare.licence_note).toMatch(/no captioned figure of its own/);
+    const uncredited = gov.parseFederalPage(whPage(`<figure><img src="/wp-content/uploads/2026/11/P20261106.jpg" /><figcaption>The President.</figcaption></figure>`, og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
+    expect(uncredited.licence_note).toMatch(/own caption states no federal credit/);
+    const img = '<img src="/wp-content/uploads/2026/11/P20261106.jpg" />';
+    const credited = gov.parseFederalPage(whPage(`<figure>${img}<figcaption>Official White House Photo by Daniel Torok</figcaption></figure>`, og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
     expect(credited).toMatchObject({ licence: "pd-us-federal", media_url: "https://www.whitehouse.gov/wp-content/uploads/2026/11/P20261106.jpg" });
+  });
+
+  it("re-review: only the picture's own figure speaks for it; a federal credit elsewhere on the page does not", () => {
+    const og = '<meta property="og:image" content="https://www.whitehouse.gov/wp-content/uploads/2026/11/P20261106.jpg" />';
+    const fed = '<figure><img src="/wp-content/uploads/2026/11/other.jpg" /><figcaption>(Official White House Photo by Daniel Torok)</figcaption></figure>';
+    for (const caption of ["Credit: Jane Doe/The New York Times", "Doug Mills/The New York Times", "Jane Doe for The Washington Post"]) {
+      const html = whPage(`${fed}<figure><img src="https://www.whitehouse.gov/wp-content/uploads/2026/11/P20261106.jpg" /><figcaption>The President at the lectern. ${caption}</figcaption></figure>`, og);
+      const c = gov.parseFederalPage(html, { pageUrl, kind: "still", capturedAt: AT }).candidate;
+      expect(c.licence, caption).toBeNull();
+      expect(c.licence_note, caption).toMatch(/own caption credits a party outside The White House/);
+    }
+    // the picture in no figure at all, with a federal caption elsewhere: refused
+    const loose = gov.parseFederalPage(whPage(`${fed}<img src="/wp-content/uploads/2026/11/P20261106.jpg" />`, og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
+    expect(loose.licence_note).toMatch(/no captioned figure of its own/);
+    expect(gov.pageCredits("<p>Credit: Jane Doe</p>")).toContain("Credit: Jane Doe");
   });
 
   it("refuses a third-party video embed and a social share card", () => {
