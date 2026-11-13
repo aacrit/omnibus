@@ -294,18 +294,22 @@ describe("review follow-ups: bytes, reconcile, retries, labels", () => {
     const { reconcile, OVERHEAD_RESERVE_BYTES, fitPool } = await import("../scripts/capture/run.mjs");
     const { emptyIndex, mediaKey } = await import("../scripts/lib/capture-store.mjs");
     const idx = { ...emptyIndex(), media: { [hex("keep")]: { bytes: 4, ext: "webm" } } };
+    const old = "2026-11-07T19:00:00Z";
     const objects = [
-      { key: mediaKey(hex("keep"), "webm"), size: 4 },
-      { key: mediaKey(hex("orphan"), "webm"), size: 9 },
-      { key: `capture/evidence/${hex("e")}.gz`, size: 3 },
-      { key: "capture/index.json", size: 100 },
-      { key: "capture/weekly/33/pool.json", size: 50 },
+      { key: mediaKey(hex("keep"), "webm"), size: 4, last_modified: old },
+      { key: mediaKey(hex("orphan"), "webm"), size: 9, last_modified: old },
+      { key: `capture/evidence/${hex("e")}.gz`, size: 3, last_modified: old },
+      // Younger than an hour, or with no time: maybe a put whose index write is still to come, so kept.
+      { key: mediaKey(hex("young"), "webm"), size: 7, last_modified: "2026-11-07T21:10:00Z" },
+      { key: `capture/evidence/${hex("untimed")}.gz`, size: 1 },
+      { key: "capture/index.json", size: 100, last_modified: old },
+      { key: "capture/weekly/33/pool.json", size: 50, last_modified: old },
     ];
     const deleted: string[] = [];
     const out = reconcile({ list: () => objects, delete: (k: string) => deleted.push(k) }, idx, { now: new Date(AT) });
     expect(deleted.sort()).toEqual([mediaKey(hex("orphan"), "webm"), `capture/evidence/${hex("e")}.gz`].sort());
     expect(out.overhead_bytes).toBe(150 + OVERHEAD_RESERVE_BYTES);
-    expect(out.reconcile).toMatchObject({ objects: 5, listed_bytes: 166, orphans_deleted: 2, orphan_bytes: 12 });
+    expect(out.reconcile).toMatchObject({ objects: 7, listed_bytes: 174, orphans_deleted: 2, orphan_bytes: 12 });
     // The pool is trimmed to its cap, and refused when even three items a story do not fit.
     const build = (n: number) => ({ items: "x".repeat(n * 100) });
     expect(fitPool(build, 700)?.maxItems).toBe(5);

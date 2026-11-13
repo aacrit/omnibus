@@ -173,11 +173,16 @@ export function planPut({ index: indexIn, item, evidence, media = null, now, cap
 }
 
 /** Pins an item's media to an episode: kept until `airs_on` plus 30 days (until it airs, when no date is set yet). */
-export function pin(indexIn, sid, { issue, airs_on = null }) {
+export const PIN_DEFAULT_DAYS = 60;
+export const isDay = (s) => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s) && new Date(`${s}T00:00:00Z`).toISOString().slice(0, 10) === s;
+
+export function pin(indexIn, sid, { issue, airs_on = null, expires_on = null }) {
+  if (airs_on !== null && !isDay(airs_on)) throw new Error(`airs_on must be YYYY-MM-DD, got ${airs_on}`);
+  if (expires_on !== null && !isDay(expires_on)) throw new Error(`expires_on must be YYYY-MM-DD, got ${expires_on}`);
   const index = structuredClone(indexIn);
   const e = index.items[sid];
   if (!e) throw new Error(`no captured item ${sid}`);
-  e.pinned = { issue, airs_on };
+  e.pinned = { issue, airs_on, ...(expires_on ? { expires_on } : {}) };
   return index;
 }
 
@@ -187,12 +192,18 @@ export function unpin(indexIn, sid) {
   return index;
 }
 
+/** The last moment (ms) a pin keeps media: its air date plus 30 days, else its expiry (60 days after it was made); Infinity for an old pin with neither. */
+export function pinUntil(pinned, retention = RETENTION) {
+  if (pinned?.airs_on) return Date.parse(`${pinned.airs_on}T23:59:59Z`) + retention.pinnedAfterAirsDays * DAY_MS;
+  if (pinned?.expires_on) return Date.parse(`${pinned.expires_on}T23:59:59Z`);
+  return Infinity;
+}
+
 /** Whether an entry's media is still kept at `t` (ms). */
 export function mediaKept(entry, t, retention = RETENTION) {
   if (!entry.media) return false;
   if (entry.pinned) {
-    if (!entry.pinned.airs_on) return true;
-    return t <= Date.parse(`${entry.pinned.airs_on}T23:59:59Z`) + retention.pinnedAfterAirsDays * DAY_MS;
+    return t <= pinUntil(entry.pinned, retention);
   }
   return t <= Date.parse(entry.media.stored_at) + retention.unpinnedMediaDays * DAY_MS;
 }
@@ -267,13 +278,13 @@ export function sweep({ index: indexIn, now, retention = RETENTION, caps = CAPS 
  * puts are read by `mediaBody(sha256)`): the puts first, then the index, then
  * the deletes, so a reader that finds the index finds every object it names.
  */
-export function commit(store, { puts = [], deletes = [], index }, { mediaBody = null } = {}) {
+export function commit(store, { puts = [], deletes = [], index }, { mediaBody = null, skipIndex = false } = {}) {
   for (const p of puts) {
     if (p.media) {
       if (!mediaBody) throw new Error(`no media body for ${p.key}`);
       store.put(p.key, mediaBody(p.media));
     } else store.put(p.key, p.body);
   }
-  store.put(INDEX_KEY, serialiseIndex(index));
+  if (!skipIndex) store.put(INDEX_KEY, serialiseIndex(index));
   for (const k of deletes) store.delete(k);
 }

@@ -299,7 +299,9 @@ async function main(argv) {
     // Keep the pinned items' proxies past the 14-day sweep (until the episode airs plus 30 days).
     if (!argv.includes("--no-pin")) {
       const { captureStore, pinCaptured } = await import("./capture-r2.mjs");
-      const p = pinCaptured({ store: captureStore(), issue, sids: capturedSids(doc), airsOn: flag("airs-on") ?? null });
+      const airsOn = flag("airs-on") ?? null;
+      if (airsOn !== null && !/^\d{4}-\d{2}-\d{2}$/.test(airsOn)) throw new Error(`--airs-on must be a date, YYYY-MM-DD; got ${airsOn}`);
+      const p = pinCaptured({ store: captureStore(), issue, sids: capturedSids(doc), airsOn });
       console.log(`rights: pinned ${p.request.sids.length} captured item(s) for issue ${issue} (${p.pinned_now ? "in the index now" : "at the next capture run"})${p.missing.length ? `; ${p.missing.length} no longer in the index` : ""}`);
     }
     return 0;

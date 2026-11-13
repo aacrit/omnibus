@@ -67,6 +67,7 @@ export function parseList(xml) {
   const items = [...String(xml).matchAll(/<Contents>([\s\S]*?)<\/Contents>/g)].map((m) => ({
     key: decodeXml(/<Key>([\s\S]*?)<\/Key>/.exec(m[1])?.[1] ?? ""),
     size: Number(/<Size>(\d+)<\/Size>/.exec(m[1])?.[1] ?? 0),
+    last_modified: /<LastModified>([\s\S]*?)<\/LastModified>/.exec(m[1])?.[1] ?? null,
   }));
   const truncated = /<IsTruncated>true<\/IsTruncated>/.test(xml);
   const next = /<NextContinuationToken>([\s\S]*?)<\/NextContinuationToken>/.exec(xml)?.[1] ?? null;
@@ -91,12 +92,16 @@ export function s3Client(cfg, { fetchImpl = fetch, now = () => new Date(), timeo
         }
         return res;
       } catch (err) {
-        if (attempt >= 2) throw new Error(`R2 ${method} ${new URL(url).pathname}: ${String(err?.message ?? err).split(cfg.secretAccessKey).join("[REDACTED]")}`);
+        if (attempt >= 2) throw new Error(`R2 ${method} ${new URL(url).pathname}: ${[cfg.secretAccessKey, cfg.accessKeyId].reduce((t, s) => (s ? t.split(s).join("[REDACTED]") : t), String(err?.message ?? err))}`);
         await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
       }
     }
   };
-  const fail = async (res, what) => new Error(`R2 ${what} answered ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  // Only the status and S3's own error code: the body can echo the request, and a report may be public.
+  const fail = async (res, what) => {
+    const code = /<Code>([A-Za-z0-9.]{1,64})<\/Code>/.exec(await res.text().catch(() => ""))?.[1];
+    return new Error(`R2 ${what} answered ${res.status}${code ? ` (${code})` : ""}`);
+  };
   return {
     async get(bucket, key) {
       const res = await call("GET", objectUrl(cfg.accountId, bucket, key, "", cfg.endpoint));
