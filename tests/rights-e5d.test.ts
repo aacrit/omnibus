@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import * as voa from "../scripts/lib/rights/adapters/voa.mjs";
 import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
 import { isAllowedUrl } from "../scripts/lib/rights/http.mjs";
-import { ALLOWED_IDS, EDITORIAL_USE, FAIR_USE, deniedBy, editorialTermsProblems, licenceProblems, licenceTerms } from "../scripts/lib/rights/licences.mjs";
+import { ALLOWED_IDS, EDITORIAL_USE, FAIR_USE, deniedBy, editorialTermsProblems, licenceProblems, licenceTerms, termsTextSha } from "../scripts/lib/rights/licences.mjs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import { fetchRequests, ledgerEntry, refineDate, windowProblem } from "../scripts/lib/rights/fetcher.mjs";
 import { emptyLedger, validateLedger } from "../scripts/lib/rights/ledger.mjs";
@@ -116,24 +116,21 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
   });
 });
 
-describe("editorial-use (founder ruling 2026-11-13)", () => {
-  it("is on the allowlist and passes with captured terms, the required credit and its restrictions", () => {
-    expect(ALLOWED_IDS.has(EDITORIAL_USE)).toBe(true);
-    expect(editorialTermsProblems(TERMS_OK, "EC - Audiovisual Service")).toEqual([]);
+describe("editorial-use (founder ruling 2026-11-13; closed by the S4 review)", () => {
+  const REVIEWED = [{ url: TERMS_OK.url, text_sha256: termsTextSha(TERMS_OK.captured_text), institution: "European Commission", reviewed: { by: "test", at: AT } }];
+  it("is off the allowlist until an adapter fetches the terms page: every editorial-use item is refused", () => {
+    expect(ALLOWED_IDS.has(EDITORIAL_USE)).toBe(false);
     const it1 = entry({ licence: EDITORIAL_USE, credit: "EC - Audiovisual Service", basis: "free for news use under the publisher's terms", terms: TERMS_OK, evidence: { url: TERMS_OK.url, captured_text: TERMS_OK.captured_text, captured_at: AT } });
-    expect(validateLedger(ledgerOf([it1]))).toEqual([]);
-    expect(lintLicenceAllowlist(ledgerOf([it1])).filter((x) => x.rule === "licence-allowlist" && /terms|credit/.test(x.message))).toEqual([]);
-    expect(lintLicenceEvidence(ledgerOf([it1]), { now: new Date("2026-11-14") })).toEqual([]);
+    expect(lintLicenceAllowlist(ledgerOf([it1])).map((x) => x.message).join()).toMatch(/closed/);
     expect(licenceTerms(EDITORIAL_USE, it1).terms).toMatch(/not for resale/);
   });
 
-  it("refuses terms that charge, need permission, bar news use, omit the credit or the restriction list", () => {
-    const fee = { ...TERMS_OK, captured_text: "Free for news use; for high-resolution video there will be service and licensing fees." };
-    expect(editorialTermsProblems(fee, "EC - Audiovisual Service").join()).toMatch(/fee/);
-    expect(editorialTermsProblems({ ...TERMS_OK, captured_text: "For news use with prior written permission." }, "EC - Audiovisual Service").join()).toMatch(/permission/);
-    expect(editorialTermsProblems({ ...TERMS_OK, captured_text: "Personal use only." }, "EC - Audiovisual Service").join()).toMatch(/news|bar/);
-    expect(editorialTermsProblems(TERMS_OK, "Someone else").join()).toMatch(/required credit/);
-    expect(editorialTermsProblems({ ...TERMS_OK, restrictions: undefined }, "EC - Audiovisual Service").join()).toMatch(/restrictions/);
+  it("passes the terms check only for a reviewed terms page with its reviewed text, the required credit and its restrictions", () => {
+    expect(editorialTermsProblems(TERMS_OK, "EC - Audiovisual Service", { reviewed: REVIEWED })).toEqual([]);
+    expect(editorialTermsProblems(TERMS_OK, "EC - Audiovisual Service").join()).toMatch(/not on the reviewed list/);
+    expect(editorialTermsProblems({ ...TERMS_OK, captured_text: "Free for news use." }, "EC - Audiovisual Service", { reviewed: REVIEWED }).join()).toMatch(/differs from the reviewed text/);
+    expect(editorialTermsProblems(TERMS_OK, "Someone else", { reviewed: REVIEWED }).join()).toMatch(/required credit/);
+    expect(editorialTermsProblems({ ...TERMS_OK, restrictions: undefined }, "EC - Audiovisual Service", { reviewed: REVIEWED }).join()).toMatch(/restrictions/);
     expect(licenceProblems({ licence: EDITORIAL_USE, basis: "x", credit: "x" }).join()).toMatch(/terms record/);
   });
 });

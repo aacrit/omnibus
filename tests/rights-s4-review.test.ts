@@ -1,7 +1,7 @@
 // S4 review fixes (reviewer BLOCK, 2026-11-13): the reviewer's probe cases,
 // each a failing test before its fix. One describe block per finding.
 import { describe, expect, it } from "vitest";
-import { deniedBy } from "../scripts/lib/rights/licences.mjs";
+import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTermsProblems, licenceProblems } from "../scripts/lib/rights/licences.mjs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import { foreignCreditParts, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
@@ -42,5 +42,26 @@ describe("S4 review 2: the denylist names feeds, pools and agencies", () => {
       expect(checkCandidate({ ...r.candidate, kind: "footage" }).ok, c).toBe(false);
     }
     expect(voa("VOA").candidate.licence).toBe("pd-us-federal");
+  });
+});
+
+describe("S4 review 3: editorial-use is closed; a terms page must be on the reviewed list", () => {
+  const base = { url: "https://x.org/terms", captured_at: AT, credit_required: "X", restrictions: [] };
+  const WORDINGS = [
+    "Editorial use is prohibited.",
+    "Free for news use. Fees may apply.",
+    "News use requires a licence from us.",
+    "News outlets: permission is required before use.",
+    "For news use; a royalty is payable.",
+    "Not for use online. News use welcome.",
+    "Free for editorial use. Contact us for permission before broadcast.",
+  ];
+  it("refuses each of the reviewer's seven wordings", () => {
+    for (const t of WORDINGS) expect(editorialTermsProblems({ ...base, captured_text: t }, "X").length, t).toBeGreaterThan(0);
+  });
+  it("is not on the allowlist, and licenceProblems refuses it whatever its terms", () => {
+    expect(ALLOWED_IDS.has(EDITORIAL_USE)).toBe(false);
+    expect(REVIEWED_TERMS_PAGES).toEqual([]);
+    for (const t of WORDINGS) expect(licenceProblems({ licence: EDITORIAL_USE, basis: "b", credit: "X", terms: { ...base, captured_text: t } }).join(), t).toMatch(/closed/);
   });
 });

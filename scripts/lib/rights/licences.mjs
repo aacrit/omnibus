@@ -9,6 +9,8 @@
 // "EU free reuse with mandatory credit" is added, and MIT (document's sound
 // exception) is left behind. Pure: no I/O.
 
+import { createHash } from "node:crypto";
+
 /** CC licence versions that exist (1.0 to 4.0; 2.1 only as Japanese ports). */
 export const CC_VERSIONS = ["1.0", "2.0", "2.1", "2.5", "3.0", "4.0"];
 
@@ -35,7 +37,13 @@ export const OWN_ADAPTER = "voidnews";
  * institution publishes free for news or editorial use, under terms whose
  * page is captured as the evidence, with the credit those terms require.
  * The item keeps its own terms (it is not relicensed under the episode's
- * CC BY-SA 4.0); terms that exclude our use refuse it (editorialTermsProblems).
+ * CC BY-SA 4.0).
+ *
+ * Closed (S4 review, 2026-11-13): no adapter fetches a terms page yet, so the
+ * class is off ALLOWED_IDS and every editorial-use item is refused. It reopens
+ * only with an adapter that fetches the terms page itself (its url on the
+ * fetcher's FETCH_HOSTS, the captured text hashed with a witness), and only for
+ * a terms page on REVIEWED_TERMS_PAGES (editorialTermsProblems).
  */
 export const EDITORIAL_USE = "editorial-use";
 
@@ -56,7 +64,6 @@ export const ALLOWED_IDS = new Set([
   ...SA_VERSIONS.map((v) => `cc-by-sa-${v}`),
   "eu-reuse-credit",
   OWN_PROPERTY,
-  EDITORIAL_USE,
   FAIR_USE,
 ]);
 
@@ -408,6 +415,11 @@ export function aiSignals(fields, { categories = [] } = {}) {
 export function licenceProblems(item) {
   const out = [];
   const id = item?.licence;
+  if (id === EDITORIAL_USE) {
+    out.push(`licence "${id}" is closed: no adapter fetches the terms page yet, and only a terms page on the reviewed list (REVIEWED_TERMS_PAGES) may admit it`);
+    out.push(...editorialTermsProblems(item.terms, String(item.credit ?? "").trim()));
+    return [...new Set(out)];
+  }
   if (!ALLOWED_IDS.has(id)) {
     const read = readLicence(id);
     out.push(
@@ -424,10 +436,6 @@ export function licenceProblems(item) {
     // Only a capture of void news's own page may claim it; the adapter is always known by the ledger and the fetcher.
     if (item.adapter !== OWN_ADAPTER) out.push(`licence "${id}" is claimed only by void news's own pages (adapter ${OWN_ADAPTER}), not by ${item.adapter ?? "an unnamed adapter"}`);
   }
-  if (id === EDITORIAL_USE) {
-    if (!String(item.basis ?? "").trim()) out.push(`licence "${id}" has no basis`);
-    out.push(...editorialTermsProblems(item.terms, credit));
-  }
   if (id === FAIR_USE && !item.fair_use) out.push(`licence "${id}" needs its fair_use record (rationale, excerpt bounds, outlet, rung)`);
   if (/^cc-by/.test(id) && !credit) out.push(`licence "${id}" requires a credit, and the item has none`);
   if (id === "eu-reuse-credit" && !EU_CREDIT.test(credit)) {
@@ -437,31 +445,35 @@ export function licenceProblems(item) {
 }
 
 /**
- * Terms wording that excludes our use (a free, online news episode): fees,
- * a licence or prior permission to obtain, or a bar on news, online or
- * broadcast use. A restriction we can honour (credit, no commercial resale,
- * no alteration of meaning) is recorded, never a refusal.
+ * The reviewed allowlist of institutional terms pages (S4 review, 2026-11-13): an
+ * editorial-use item's terms page must be on it, with the exact text that was
+ * reviewed (its sha256, whitespace-normalised). A keyword reading of terms is
+ * never enough ("Editorial use is prohibited" names editorial use). Each entry:
+ * { url, text_sha256, institution, reviewed: { by, at } }. Empty: none reviewed yet.
  */
-export const TERMS_EXCLUDE = [
-  { why: "the terms charge a fee", re: /\b(?:licen[cs]ing|service) fees?\b|\bfor a fee\b|\bfees? (?:apply|will be charged)|\bthere will be (?:service and )?licensing fees\b/i },
-  { why: "the terms require prior permission or a licence", re: /\b(?:prior|express|written) (?:written )?(?:permission|authori[sz]ation|consent)\b|\bmust (?:first )?(?:obtain|request) (?:a )?(?:licen[cs]e|permission)\b/i },
-  { why: "the terms bar news, online or broadcast use", re: /\bnot (?:be )?(?:used|permitted|available) for (?:news|editorial|online|internet|broadcast)\b|\bpersonal use only\b|\bno (?:online|internet|broadcast) use\b/i },
-];
+export const REVIEWED_TERMS_PAGES = Object.freeze([]);
+
+/** The sha256 of a terms page's text, whitespace-normalised, as the reviewed list records it. */
+export function termsTextSha(text) {
+  return createHash("sha256").update(String(text ?? "").replace(/\s+/g, " ").trim(), "utf8").digest("hex");
+}
 
 /**
  * Why an editorial-use item's terms record does not let it in: the terms page
- * must be captured (https url, quoted text), must allow news or editorial use,
- * must name the credit the item carries, must list its restrictions (an empty
- * list states there are none), and must not exclude our use.
+ * must be captured (https url, quoted text), must be a reviewed institutional
+ * terms page with exactly the reviewed text, must name the credit the item
+ * carries, and must list its restrictions (an empty list states there are none).
  */
-export function editorialTermsProblems(terms, credit = "") {
+export function editorialTermsProblems(terms, credit = "", { reviewed = REVIEWED_TERMS_PAGES } = {}) {
   const out = [];
   if (!terms || typeof terms !== "object") return ["editorial-use needs its terms record (the terms page, its text, the required credit, the restrictions)"];
   if (!/^https:\/\//.test(String(terms.url ?? ""))) out.push("the terms page address must be https");
   const text = String(terms.captured_text ?? "");
   if (!text.trim()) out.push("the terms page text is not captured");
-  else if (!/\b(?:news|editorial|current affairs|information(?:al)? purposes)\b/i.test(text)) out.push("the captured terms do not allow news or editorial use");
-  for (const { why, re } of TERMS_EXCLUDE) if (re.test(text)) out.push(`${why}: "${(text.match(re) ?? [""])[0]}"`);
+  const page = reviewed.find((r) => r.url === terms.url);
+  if (!page) out.push(`the terms page ${String(terms.url ?? "(none)").slice(0, 200)} is not on the reviewed list of institutional terms pages`);
+  else if (!page.reviewed?.by || !page.reviewed?.at) out.push(`the reviewed terms page ${page.url} names no review (by, at)`);
+  else if (text.trim() && termsTextSha(text) !== page.text_sha256) out.push(`the captured terms text differs from the reviewed text of ${page.url} (sha256 ${termsTextSha(text).slice(0, 12)}, reviewed ${String(page.text_sha256).slice(0, 12)})`);
   const req = String(terms.credit_required ?? "").trim();
   if (!req) out.push("the terms record names no required credit");
   else if (!String(credit).includes(req)) out.push(`the item's credit "${credit}" does not carry the required credit "${req}"`);
