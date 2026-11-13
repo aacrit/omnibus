@@ -64,8 +64,10 @@ export function youtubeSource(categories = [], wikitext = "", credits = []) {
   const cat = categories.find((c) => /^(?:Videos from YouTube|Uploaded with video2commons)$/i.test(String(c)));
   if (cat) return `category "${cat}"`;
   // The templates, and a YouTube address in the file page's |source= (S4 review, round 2).
-  const t = String(wikitext).match(/\{\{\s*(?:From YouTube|YouTube CC-BY)\b[^}]*\}\}|video2commons|\|\s*source\s*=[^\n|]*?(?:youtube\.com|youtu\.be)\/\S*/i);
+  const t = String(wikitext).match(/\{\{\s*(?:From YouTube|YouTube CC-BY)\b[^}]*\}\}|video2commons/i);
   if (t) return `wikitext ${t[0].slice(0, 120)}`;
+  const src = String(wikitext).match(/\|\s*source\s*=[^\n|]*?((?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com|youtu\.be)\/[^\s\]|}]*)/i);
+  if (src) return `wikitext |source= ${src[1].slice(0, 120)}`;
   const credit = youtubeInText(credits);
   return credit ? `credit ${credit}` : null;
 }
