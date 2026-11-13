@@ -14,7 +14,7 @@
  "share_alike": {
   "decision": "docs/DECISIONS.md 2026-11-11: G1 greenlight approved (the episode is CC BY-SA 4.0 by founder ruling, show bible f)"
  },
- "runtime_target_s": 998.5,
+ "runtime_target_s": 985.7,
  "settings": {
   "master_fps": 30
  },
@@ -125,50 +125,50 @@
   },
   {
    "id": "M-BOARD",
-   "start_s": 439.8,
-   "end_s": 461.8,
+   "start_s": 427.0,
+   "end_s": 449.0,
    "silence": "intended",
    "reason": "No voice and no music while the board's rows flap in: the viewer reads the outlets' own words (bible c, e). The split-flap sound is not held (e33-snd-04)."
   },
   {
    "id": "M-WEND",
-   "start_s": 504.2,
-   "end_s": 512.2,
+   "start_s": 491.4,
+   "end_s": 499.4,
    "silence": "intended",
    "reason": "The Weight ends on a frame with no voice and no music under the news."
   },
   {
    "id": "M-GATE-1",
-   "start_s": 596.85,
-   "end_s": 637.1,
+   "start_s": 584.05,
+   "end_s": 624.3,
    "silence": "intended",
    "reason": "The echo bed goes silent under the reader (founder ruling 2026-11-12: no music under any period quote); the gate window is first word minus 0.25 s to last word plus 0.5 s."
   },
   {
    "id": "M-GATE-2",
-   "start_s": 706.05,
-   "end_s": 710.4,
+   "start_s": 693.25,
+   "end_s": 697.6,
    "silence": "intended",
    "reason": "The echo bed goes silent under the reader (founder ruling 2026-11-12: no music under any period quote); the gate window is first word minus 0.25 s to last word plus 0.5 s."
   },
   {
    "id": "M-ECHO-NOBED",
-   "start_s": 512.2,
-   "end_s": 585.2,
+   "start_s": 499.4,
+   "end_s": 572.4,
    "silence": "intended",
    "reason": "No bed across the part card, the refugees (an account of violence) or the Federal Register's reading; the bed's budget starts at x3."
   },
   {
    "id": "M-ECHO-NOBED-2",
-   "start_s": 735.2,
-   "end_s": 842.2,
+   "start_s": 722.4,
+   "end_s": 829.4,
    "silence": "intended",
    "reason": "No bed under the wounded (x7, an account of violence) or under the nominees' words (x8, x9)."
   },
   {
    "id": "M-Q",
-   "start_s": 908.5,
-   "end_s": 953.5,
+   "start_s": 895.7,
+   "end_s": 940.7,
    "silence": "intended",
    "reason": "The question is posed once from inside the week; the silence after it is the device, and music would answer it."
   }
@@ -966,7 +966,7 @@
      "id": "S-D5-PAGE",
      "kind": "archive_still",
      "start_s": 234.1,
-     "dur_s": 21.0,
+     "dur_s": 21.9,
      "transition_in": {
       "type": "cut"
      },
@@ -981,40 +981,38 @@
        "z": 1.142
       },
       {
-       "t": 21.0,
+       "t": 21.9,
        "x": 0.5,
        "y": 0.39344,
        "z": 1.177
       }
      ],
-     "why": "Friday's printed edition, aimed at the lead's own box and tilted into its deck: the record as printed that day."
+     "why": "Friday's printed edition, aimed at the lead's own box and tilted into its deck: the record as printed that day, the Secretary's reply included."
     },
     {
      "id": "S-D5-PIC",
      "kind": "archive_video",
-     "start_s": 255.1,
-     "dur_s": 18.0,
+     "start_s": 256.0,
+     "dur_s": 4.3,
      "transition_in": {
       "type": "cut"
      },
      "asset": "e33-day5-pic",
      "in_s": 40.0,
-     "out_s": 58.0,
+     "out_s": 44.3,
      "native_fps": 24,
      "mark": "ARCHIVE",
      "sound": {
       "mode": "mute",
-      "reason": "the narrator reads the printed deck over him; his own words are not put under another voice"
+      "reason": "the count is read over him; his own words are not put under another voice"
      },
      "asset_pin": {
-      "branch": "e5c/dvids",
-      "commit": "067dbc0",
       "pr": 17,
       "file": "e33-day5-pic.mp4",
       "sha256": "4da02779ce63ea8ad03632e6442c6a293fe462f45ec76d6ee444e8efa1c5ac12",
       "note": "merged to main in #17; main's rights ledger holds this item"
      },
-     "why": "The Secretary speaking outside the Pentagon on 5 Nov, a message DVIDS published that day (VIRIN 261105-A-LE512-1001); muted, so none of his words sit under the narration, which reads his reply as the 6 Nov edition printed it."
+     "why": "The Secretary outside the Pentagon on 5 Nov, a message DVIDS published that day (VIRIN 261105-A-LE512-1001), muted and under the count only: the picture does not say it is the statement the deck reports."
     }
    ],
    "lines": [
@@ -1045,7 +1043,7 @@
     {
      "id": "L-D5-3",
      "kind": "narration",
-     "start_s": 256.1,
+     "start_s": 248.5,
      "dur_s": 6.7,
      "read_by": "v-narrator",
      "text": "Hegseth releases a video statement defending his tenure, and dismisses the impeachment push as political retaliation."
@@ -1053,7 +1051,7 @@
     {
      "id": "L-D5-C",
      "kind": "narration",
-     "start_s": 265.1,
+     "start_s": 256.5,
      "dur_s": 2.3,
      "read_by": "v-narrator",
      "text": "Thirty-four outlets carried it."
@@ -1072,7 +1070,7 @@
     {
      "id": "G-DAY6",
      "kind": "graphic",
-     "start_s": 273.1,
+     "start_s": 260.3,
      "dur_s": 3.0,
      "transition_in": {
       "type": "cut"
@@ -1110,7 +1108,7 @@
     {
      "id": "S-D6-PAGE",
      "kind": "archive_still",
-     "start_s": 276.1,
+     "start_s": 263.3,
      "dur_s": 67.0,
      "transition_in": {
       "type": "cut"
@@ -1144,7 +1142,7 @@
     {
      "id": "L-D6-0",
      "kind": "narration",
-     "start_s": 273.5,
+     "start_s": 260.7,
      "dur_s": 2.3,
      "read_by": "v-narrator",
      "text": "Saturday, the seventh of November."
@@ -1152,7 +1150,7 @@
     {
      "id": "L-D6-1",
      "kind": "narration",
-     "start_s": 276.7,
+     "start_s": 263.9,
      "dur_s": 11.1,
      "read_by": "v-narrator",
      "text": "President Trump names Stephen Miller, his deputy chief of staff, as White House chief of staff. Miller replaces Susie Wiles, who submitted her resignation on Thursday night."
@@ -1160,7 +1158,7 @@
     {
      "id": "L-D6-2",
      "kind": "narration",
-     "start_s": 288.6,
+     "start_s": 275.8,
      "dur_s": 5.9,
      "read_by": "v-narrator",
      "text": "A White House release, dated Friday, calls him the thirty-third chief of staff."
@@ -1168,7 +1166,7 @@
     {
      "id": "L-D6-C",
      "kind": "narration",
-     "start_s": 298.3,
+     "start_s": 285.5,
      "dur_s": 6.3,
      "read_by": "v-narrator",
      "text": "Sixty-eight outlets carried it, the most for any day's lead so far this week."
@@ -1187,7 +1185,7 @@
     {
      "id": "G-DAY7",
      "kind": "graphic",
-     "start_s": 343.1,
+     "start_s": 330.3,
      "dur_s": 3.0,
      "transition_in": {
       "type": "cut"
@@ -1225,7 +1223,7 @@
     {
      "id": "S-D7-PAGE",
      "kind": "archive_still",
-     "start_s": 346.1,
+     "start_s": 333.3,
      "dur_s": 54.5,
      "transition_in": {
       "type": "cut"
@@ -1259,7 +1257,7 @@
     {
      "id": "L-D7-0",
      "kind": "narration",
-     "start_s": 343.5,
+     "start_s": 330.7,
      "dur_s": 2.3,
      "read_by": "v-narrator",
      "text": "Sunday, the eighth of November."
@@ -1267,7 +1265,7 @@
     {
      "id": "L-D7-1",
      "kind": "narration",
-     "start_s": 346.7,
+     "start_s": 333.9,
      "dur_s": 12.3,
      "read_by": "v-narrator",
      "text": "The United States military sets up a new unit of twenty members, Task Force Iron Gate, to restrict trade and supply lines across Iran's land borders and the Caspian Sea."
@@ -1275,7 +1273,7 @@
     {
      "id": "L-D7-2",
      "kind": "narration",
-     "start_s": 359.8,
+     "start_s": 347.0,
      "dur_s": 2.7,
      "read_by": "v-narrator",
      "text": "It is based in Tampa, Florida."
@@ -1283,7 +1281,7 @@
     {
      "id": "L-D7-C",
      "kind": "narration",
-     "start_s": 366.3,
+     "start_s": 353.5,
      "dur_s": 2.3,
      "read_by": "v-narrator",
      "text": "Thirty-one outlets carried it."
@@ -1302,7 +1300,7 @@
     {
      "id": "G-TC-WEIGHT",
      "kind": "graphic",
-     "start_s": 400.6,
+     "start_s": 387.8,
      "dur_s": 1.8,
      "transition_in": {
       "type": "cut"
@@ -1349,7 +1347,7 @@
     {
      "id": "S-WK-1",
      "kind": "archive_still",
-     "start_s": 402.4,
+     "start_s": 389.6,
      "dur_s": 13.0,
      "transition_in": {
       "type": "cut"
@@ -1381,7 +1379,7 @@
     {
      "id": "S-WK-2",
      "kind": "archive_still",
-     "start_s": 415.4,
+     "start_s": 402.6,
      "dur_s": 9.3,
      "transition_in": {
       "type": "cut"
@@ -1408,7 +1406,7 @@
     {
      "id": "C-WK-76",
      "kind": "card",
-     "start_s": 424.7,
+     "start_s": 411.9,
      "dur_s": 5.7,
      "transition_in": {
       "type": "cut"
@@ -1435,7 +1433,7 @@
     {
      "id": "G-CW-3",
      "kind": "graphic",
-     "start_s": 430.4,
+     "start_s": 417.6,
      "dur_s": 9.4,
      "transition_in": {
       "type": "cut"
@@ -1472,7 +1470,7 @@
     {
      "id": "G-BOARD",
      "kind": "graphic",
-     "start_s": 439.8,
+     "start_s": 427.0,
      "dur_s": 22.0,
      "transition_in": {
       "type": "cut"
@@ -1526,7 +1524,7 @@
     {
      "id": "C-CW-1",
      "kind": "card",
-     "start_s": 461.8,
+     "start_s": 449.0,
      "dur_s": 8.9,
      "transition_in": {
       "type": "cut"
@@ -1537,7 +1535,7 @@
       "Iran 39",
       "Israel 4",
       "inflation 1",
-      "Migration 1",
+      "migration 1",
       "of the claim's 46 titled headlines"
      ],
      "figures": [
@@ -1572,7 +1570,7 @@
     {
      "id": "C-CP-1",
      "kind": "card",
-     "start_s": 470.7,
+     "start_s": 457.9,
      "dur_s": 6.8,
      "transition_in": {
       "type": "cut"
@@ -1596,7 +1594,7 @@
     {
      "id": "C-CP-2",
      "kind": "card",
-     "start_s": 477.5,
+     "start_s": 464.7,
      "dur_s": 7.2,
      "transition_in": {
       "type": "cut"
@@ -1620,7 +1618,7 @@
     {
      "id": "C-CP-3",
      "kind": "card",
-     "start_s": 484.7,
+     "start_s": 471.9,
      "dur_s": 6.8,
      "transition_in": {
       "type": "cut"
@@ -1644,7 +1642,7 @@
     {
      "id": "C-DV-A",
      "kind": "card",
-     "start_s": 491.5,
+     "start_s": 478.7,
      "dur_s": 7.2,
      "transition_in": {
       "type": "cut"
@@ -1668,7 +1666,7 @@
     {
      "id": "C-DV-B",
      "kind": "card",
-     "start_s": 498.7,
+     "start_s": 485.9,
      "dur_s": 5.5,
      "transition_in": {
       "type": "cut"
@@ -1692,7 +1690,7 @@
     {
      "id": "S-WEND",
      "kind": "archive_still",
-     "start_s": 504.2,
+     "start_s": 491.4,
      "dur_s": 8.0,
      "transition_in": {
       "type": "cut"
@@ -1727,7 +1725,7 @@
     {
      "id": "L-WK-1",
      "kind": "narration",
-     "start_s": 403.6,
+     "start_s": 390.8,
      "dur_s": 10.3,
      "read_by": "v-narrator",
      "text": "Monday, the second of November, the day before the vote. Vice President JD Vance campaigns in Rome, New York, for the Republican candidate Anthony Constantino."
@@ -1735,7 +1733,7 @@
     {
      "id": "L-WK-2",
      "kind": "narration",
-     "start_s": 416.4,
+     "start_s": 403.6,
      "dur_s": 2.3,
      "read_by": "v-narrator",
      "text": "Wednesday, the Vice President's post."
@@ -1743,7 +1741,7 @@
     {
      "id": "L-WK-3",
      "kind": "narration",
-     "start_s": 425.1,
+     "start_s": 412.3,
      "dur_s": 4.7,
      "read_by": "v-narrator",
      "text": "Seventy-six outlets are in the two records of the post."
@@ -1751,7 +1749,7 @@
     {
      "id": "L-WK-4",
      "kind": "narration",
-     "start_s": 430.8,
+     "start_s": 418.0,
      "dur_s": 4.3,
      "read_by": "v-narrator",
      "text": "Eighty-nine articles. The record holds headlines for forty-six."
@@ -1759,7 +1757,7 @@
     {
      "id": "L-WB-0",
      "kind": "narration",
-     "start_s": 435.6,
+     "start_s": 422.8,
      "dur_s": 3.9,
      "read_by": "v-narrator",
      "text": "Six of the headlines, as the outlets printed them."
@@ -1767,7 +1765,7 @@
     {
      "id": "L-WC-1",
      "kind": "narration",
-     "start_s": 462.4,
+     "start_s": 449.6,
      "dur_s": 7.5,
      "read_by": "v-narrator",
      "text": "Of the forty-six headlines, thirty-nine name Iran. Four name Israel. One names inflation. One names migration."
@@ -1775,7 +1773,7 @@
     {
      "id": "L-WC-2",
      "kind": "narration",
-     "start_s": 471.3,
+     "start_s": 458.5,
      "dur_s": 4.3,
      "read_by": "v-narrator",
      "text": "Three outlets, on three rungs, printed the same quoted words."
@@ -1783,7 +1781,7 @@
     {
      "id": "L-WD-1",
      "kind": "narration",
-     "start_s": 492.1,
+     "start_s": 479.3,
      "dur_s": 2.7,
      "read_by": "v-narrator",
      "text": "On the President's reply, two headlines."
@@ -1794,8 +1792,8 @@
     {
      "id": "T-WK-1",
      "kind": "lower_third",
-     "start_s": 402.9,
-     "end_s": 406.9,
+     "start_s": 390.1,
+     "end_s": 394.1,
      "lines": [
       "PRINTED TUE 03 NOV 2026",
       "18 SOURCES"
@@ -1810,8 +1808,8 @@
     {
      "id": "T-WK-2",
      "kind": "lower_third",
-     "start_s": 415.9,
-     "end_s": 419.9,
+     "start_s": 403.1,
+     "end_s": 407.1,
      "lines": [
       "PRINTED THU 05 NOV 2026",
       "45 SOURCES"
@@ -1835,7 +1833,7 @@
     {
      "id": "G-TC-ECHO",
      "kind": "graphic",
-     "start_s": 512.2,
+     "start_s": 499.4,
      "dur_s": 3.0,
      "transition_in": {
       "type": "cut"
@@ -1861,7 +1859,7 @@
     {
      "id": "S-X1",
      "kind": "archive_still",
-     "start_s": 515.2,
+     "start_s": 502.4,
      "dur_s": 30.0,
      "transition_in": {
       "type": "cut"
@@ -1888,7 +1886,7 @@
     {
      "id": "S-X2",
      "kind": "archive_still",
-     "start_s": 545.2,
+     "start_s": 532.4,
      "dur_s": 40.0,
      "transition_in": {
       "type": "cut"
@@ -1921,7 +1919,7 @@
     {
      "id": "S-X3",
      "kind": "archive_still",
-     "start_s": 585.2,
+     "start_s": 572.4,
      "dur_s": 55.0,
      "transition_in": {
       "type": "cut"
@@ -1960,7 +1958,7 @@
     {
      "id": "S-X4",
      "kind": "archive_still",
-     "start_s": 640.2,
+     "start_s": 627.4,
      "dur_s": 20.0,
      "transition_in": {
       "type": "cut"
@@ -1987,7 +1985,7 @@
     {
      "id": "S-X5",
      "kind": "archive_still",
-     "start_s": 660.2,
+     "start_s": 647.4,
      "dur_s": 30.0,
      "transition_in": {
       "type": "cut"
@@ -2020,7 +2018,7 @@
     {
      "id": "S-X6",
      "kind": "archive_still",
-     "start_s": 690.2,
+     "start_s": 677.4,
      "dur_s": 45.0,
      "transition_in": {
       "type": "cut"
@@ -2059,7 +2057,7 @@
     {
      "id": "S-X7",
      "kind": "archive_still",
-     "start_s": 735.2,
+     "start_s": 722.4,
      "dur_s": 20.0,
      "transition_in": {
       "type": "cut"
@@ -2086,7 +2084,7 @@
     {
      "id": "C-X8",
      "kind": "card",
-     "start_s": 755.2,
+     "start_s": 742.4,
      "dur_s": 45.0,
      "transition_in": {
       "type": "cut"
@@ -2108,7 +2106,7 @@
     {
      "id": "C-X9",
      "kind": "card",
-     "start_s": 800.2,
+     "start_s": 787.4,
      "dur_s": 42.0,
      "transition_in": {
       "type": "cut"
@@ -2132,7 +2130,7 @@
     {
      "id": "L-X1",
      "kind": "narration",
-     "start_s": 517.2,
+     "start_s": 504.4,
      "dur_s": 7.9,
      "read_by": "v-narrator-echo",
      "text": "The eighth of January, 1951. Outside Kangnung, in Korea, a file of refugees walks south through the snow."
@@ -2140,7 +2138,7 @@
     {
      "id": "L-X2",
      "kind": "narration",
-     "start_s": 546.7,
+     "start_s": 533.9,
      "dur_s": 8.3,
      "read_by": "v-narrator-echo",
      "text": "Washington, the thirtieth of January, 1951. The Federal Register prints the Office of Price Stabilization's general freeze on prices."
@@ -2152,7 +2150,7 @@
      "year": 1951,
      "date": "1951-01-30",
      "source": "src-fr-19510130",
-     "start_s": 558.2,
+     "start_s": 545.4,
      "dur_s": 12.1,
      "read_by": "v-reader-ops",
      "text": "Since the outbreak in Korea, basic commodity prices have risen almost 50 percent, farm prices about 16 percent, wholesale food prices 12 percent, and industrial prices about 14 percent.",
@@ -2162,7 +2160,7 @@
     {
      "id": "L-X3",
      "kind": "narration",
-     "start_s": 586.4,
+     "start_s": 573.6,
      "dur_s": 9.5,
      "read_by": "v-narrator-echo",
      "text": "The fourteenth of June, 1951. From the White House, President Truman speaks to the country on radio and television about inflation controls."
@@ -2174,7 +2172,7 @@
      "year": 1951,
      "date": "1951-06-14",
      "source": "src-truman-19510614",
-     "start_s": 597.1,
+     "start_s": 584.3,
      "dur_s": 4.0,
      "read_by": "v-reader-truman",
      "text": "This is the problem of inflation and high prices.",
@@ -2187,7 +2185,7 @@
      "year": 1951,
      "date": "1951-06-14",
      "source": "src-truman-19510614",
-     "start_s": 601.8,
+     "start_s": 589.0,
      "dur_s": 10.1,
      "read_by": "v-reader-truman",
      "text": "Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea.",
@@ -2200,7 +2198,7 @@
      "year": 1951,
      "date": "1951-06-14",
      "source": "src-truman-19510614",
-     "start_s": 612.6,
+     "start_s": 599.8,
      "dur_s": 24.0,
      "read_by": "v-reader-truman",
      "text": "Some people have the idea that if the fighting stopped in Korea we could cut down our defense effort enough to do away with the danger of inflation. That is not true. We would need controls even if the fighting in Korea stopped tomorrow. The threat of Communist aggression is worldwide, and must be met with worldwide defenses.",
@@ -2209,7 +2207,7 @@
     {
      "id": "L-X4",
      "kind": "narration",
-     "start_s": 641.2,
+     "start_s": 628.4,
      "dur_s": 10.8,
      "read_by": "v-narrator-echo",
      "text": "The fourteenth of December, 1951, on the Kumsong front. Missouri infantrymen of the 19th Infantry Regiment wish the folks at home a happy New Year."
@@ -2217,7 +2215,7 @@
     {
      "id": "L-X5",
      "kind": "narration",
-     "start_s": 661.7,
+     "start_s": 648.9,
      "dur_s": 13.3,
      "read_by": "v-narrator-echo",
      "text": "The eleventh of March, 1952. In New Hampshire's Democratic primary, the preference vote for President. Senator Estes Kefauver, nineteen thousand eight hundred. President Truman, fifteen thousand nine hundred and twenty-seven."
@@ -2225,7 +2223,7 @@
     {
      "id": "L-X6",
      "kind": "narration",
-     "start_s": 691.7,
+     "start_s": 678.9,
      "dur_s": 11.6,
      "read_by": "v-narrator-echo",
      "text": "The twenty-ninth of March, 1952. The Jefferson-Jackson Day Dinner, at the National Guard Armory in Washington. President Truman speaks at half past ten that night."
@@ -2237,7 +2235,7 @@
      "year": 1952,
      "date": "1952-03-29",
      "source": "src-truman-19520329",
-     "start_s": 706.3,
+     "start_s": 693.5,
      "dur_s": 3.6,
      "read_by": "v-reader-truman",
      "text": "I shall not be a candidate for reelection.",
@@ -2246,7 +2244,7 @@
     {
      "id": "L-X7",
      "kind": "narration",
-     "start_s": 736.2,
+     "start_s": 723.4,
      "dur_s": 10.4,
      "read_by": "v-narrator-echo",
      "text": "June 1952, in Korea. A helicopter carrying two wounded soldiers of the United Nations forces comes in to land at a front-line airstrip."
@@ -2254,7 +2252,7 @@
     {
      "id": "L-X8",
      "kind": "narration",
-     "start_s": 756.7,
+     "start_s": 743.9,
      "dur_s": 7.9,
      "read_by": "v-narrator-echo",
      "text": "Detroit, the twenty-fourth of October, 1952. Dwight D. Eisenhower, the Republican nominee for President, speaks on Korea."
@@ -2266,7 +2264,7 @@
      "year": 1952,
      "date": "1952-10-24",
      "source": "src-eisenhower-19521024",
-     "start_s": 766.1,
+     "start_s": 753.3,
      "dur_s": 6.8,
      "read_by": "v-reader-eisenhower",
      "text": "In this anxious autumn for America, one fact looms above all others in our people's mind.",
@@ -2280,7 +2278,7 @@
      "year": 1952,
      "date": "1952-10-24",
      "source": "src-eisenhower-19521024",
-     "start_s": 774.1,
+     "start_s": 761.3,
      "dur_s": 3.6,
      "read_by": "v-reader-eisenhower",
      "text": "This fact, this tragedy, this word is: Korea.",
@@ -2294,7 +2292,7 @@
      "year": 1952,
      "date": "1952-10-24",
      "source": "src-eisenhower-19521024",
-     "start_s": 778.9,
+     "start_s": 766.1,
      "dur_s": 2.3,
      "read_by": "v-reader-eisenhower",
      "text": "I shall go to Korea.",
@@ -2304,7 +2302,7 @@
     {
      "id": "L-X9",
      "kind": "narration",
-     "start_s": 801.7,
+     "start_s": 788.9,
      "dur_s": 12.0,
      "read_by": "v-narrator-echo",
      "text": "Tuesday, the fourth of November, 1952, the country votes. The next morning, the New York Times prints the words of Adlai Stevenson, the Democratic nominee, from Springfield, Illinois."
@@ -2316,7 +2314,7 @@
      "year": 1952,
      "date": "1952-11-05",
      "source": "src-stevenson-19521105",
-     "start_s": 815.2,
+     "start_s": 802.4,
      "dur_s": 11.3,
      "read_by": "v-reader-stevenson",
      "text": "My fellow citizens have made their choice and have selected General Eisenhower and the Republican Party as the instruments of their will for the next four years.",
@@ -2333,8 +2331,8 @@
      "source": "omnibus-33 echo bed, 150 s (E8)",
      "wav": "D:/omnibus-media/33/studio/score/echo-bed-150.1.wav",
      "licence": "CC BY-SA 4.0",
-     "start_s": 585.2,
-     "end_s": 596.85,
+     "start_s": 572.4,
+     "end_s": 584.05,
      "gain_db": 0,
      "bed_in_s": 0.0,
      "fade_in_s": 0,
@@ -2348,8 +2346,8 @@
      "source": "omnibus-33 echo bed, 150 s (E8)",
      "wav": "D:/omnibus-media/33/studio/score/echo-bed-150.2.wav",
      "licence": "CC BY-SA 4.0",
-     "start_s": 637.1,
-     "end_s": 706.05,
+     "start_s": 624.3,
+     "end_s": 693.25,
      "gain_db": 0,
      "bed_in_s": 51.9,
      "fade_in_s": 1.5,
@@ -2363,8 +2361,8 @@
      "source": "omnibus-33 echo bed, 150 s (E8)",
      "wav": "D:/omnibus-media/33/studio/score/echo-bed-150.3.wav",
      "licence": "CC BY-SA 4.0",
-     "start_s": 710.4,
-     "end_s": 735.2,
+     "start_s": 697.6,
+     "end_s": 722.4,
      "gain_db": 0,
      "bed_in_s": 125.2,
      "fade_in_s": 1.5,
@@ -2375,8 +2373,8 @@
     {
      "id": "T-X1",
      "kind": "lower_third",
-     "start_s": 516.7,
-     "end_s": 520.7,
+     "start_s": 503.9,
+     "end_s": 507.9,
      "lines": [
       "OUTSIDE KANGNUNG, KOREA",
       "8 JAN 1951"
@@ -2387,22 +2385,22 @@
      "kind": "graphic",
      "subtype": "lower_third",
      "asset": "lt-echo-x2",
-     "start_s": 558.2,
-     "end_s": 561.93
+     "start_s": 545.4,
+     "end_s": 549.13
     },
     {
      "id": "G-LT-X3",
      "kind": "graphic",
      "subtype": "lower_third",
      "asset": "lt-echo-x3",
-     "start_s": 597.1,
-     "end_s": 600.83
+     "start_s": 584.3,
+     "end_s": 588.03
     },
     {
      "id": "T-X4",
      "kind": "lower_third",
-     "start_s": 641.0,
-     "end_s": 645.0,
+     "start_s": 628.2,
+     "end_s": 632.2,
      "lines": [
       "KUMSONG FRONT, KOREA",
       "14 DEC 1951"
@@ -2413,14 +2411,14 @@
      "kind": "graphic",
      "subtype": "lower_third",
      "asset": "lt-echo-x6",
-     "start_s": 706.3,
-     "end_s": 710.03
+     "start_s": 693.5,
+     "end_s": 697.23
     },
     {
      "id": "T-X7",
      "kind": "lower_third",
-     "start_s": 736.0,
-     "end_s": 740.0,
+     "start_s": 723.2,
+     "end_s": 727.2,
      "lines": [
       "KOREA",
       "JUNE 1952"
@@ -2431,16 +2429,16 @@
      "kind": "graphic",
      "subtype": "lower_third",
      "asset": "lt-echo-x8",
-     "start_s": 766.1,
-     "end_s": 769.83
+     "start_s": 753.3,
+     "end_s": 757.03
     },
     {
      "id": "G-LT-X9",
      "kind": "graphic",
      "subtype": "lower_third",
      "asset": "lt-echo-x9",
-     "start_s": 815.2,
-     "end_s": 818.93
+     "start_s": 802.4,
+     "end_s": 806.13
     }
    ]
   },
@@ -2454,7 +2452,7 @@
     {
      "id": "G-TC-MARGINS",
      "kind": "graphic",
-     "start_s": 842.2,
+     "start_s": 829.4,
      "dur_s": 1.8,
      "transition_in": {
       "type": "cut"
@@ -2497,7 +2495,7 @@
     {
      "id": "S-M1",
      "kind": "archive_still",
-     "start_s": 844.0,
+     "start_s": 831.2,
      "dur_s": 15.8,
      "transition_in": {
       "type": "cut"
@@ -2529,7 +2527,7 @@
     {
      "id": "C-M1",
      "kind": "card",
-     "start_s": 859.8,
+     "start_s": 847.0,
      "dur_s": 2.8,
      "transition_in": {
       "type": "cut"
@@ -2551,7 +2549,7 @@
     {
      "id": "S-M2",
      "kind": "archive_still",
-     "start_s": 862.6,
+     "start_s": 849.8,
      "dur_s": 22.9,
      "transition_in": {
       "type": "cut"
@@ -2583,7 +2581,7 @@
     {
      "id": "C-M2",
      "kind": "card",
-     "start_s": 885.5,
+     "start_s": 872.7,
      "dur_s": 2.8,
      "transition_in": {
       "type": "cut"
@@ -2605,7 +2603,7 @@
     {
      "id": "S-M3",
      "kind": "archive_still",
-     "start_s": 888.3,
+     "start_s": 875.5,
      "dur_s": 17.4,
      "transition_in": {
       "type": "cut"
@@ -2637,7 +2635,7 @@
     {
      "id": "C-M3",
      "kind": "card",
-     "start_s": 905.7,
+     "start_s": 892.9,
      "dur_s": 2.8,
      "transition_in": {
       "type": "cut"
@@ -2661,7 +2659,7 @@
     {
      "id": "L-M1-0",
      "kind": "narration",
-     "start_s": 845.0,
+     "start_s": 832.2,
      "dur_s": 3.1,
      "read_by": "v-narrator",
      "text": "Maine. Printed Thursday, the fifth of November."
@@ -2669,7 +2667,7 @@
     {
      "id": "L-M1-1",
      "kind": "narration",
-     "start_s": 848.9,
+     "start_s": 836.1,
      "dur_s": 7.1,
      "read_by": "v-narrator",
      "text": "Democratic challenger Troy Jackson defeats the Republican incumbent, Senator Susan Collins, in the race for her seat."
@@ -2677,7 +2675,7 @@
     {
      "id": "L-M1-C",
      "kind": "narration",
-     "start_s": 860.3,
+     "start_s": 847.5,
      "dur_s": 1.1,
      "read_by": "v-narrator",
      "text": "Ten outlets."
@@ -2685,7 +2683,7 @@
     {
      "id": "L-M2-0",
      "kind": "narration",
-     "start_s": 863.6,
+     "start_s": 850.8,
      "dur_s": 3.5,
      "read_by": "v-narrator",
      "text": "Oakland, California. Printed Monday, the second of November."
@@ -2693,7 +2691,7 @@
     {
      "id": "L-M2-1",
      "kind": "narration",
-     "start_s": 867.9,
+     "start_s": 855.1,
      "dur_s": 9.5,
      "read_by": "v-narrator",
      "text": "District Judge Trina Thompson issues a temporary restraining order that bars the Trump administration from threatening or intimidating state and local election officials."
@@ -2701,7 +2699,7 @@
     {
      "id": "L-M2-2",
      "kind": "narration",
-     "start_s": 878.2,
+     "start_s": 865.4,
      "dur_s": 3.5,
      "read_by": "v-narrator",
      "text": "The order runs through the sixteenth of November."
@@ -2709,7 +2707,7 @@
     {
      "id": "L-M2-C",
      "kind": "narration",
-     "start_s": 886.0,
+     "start_s": 873.2,
      "dur_s": 1.1,
      "read_by": "v-narrator",
      "text": "Twelve outlets."
@@ -2717,7 +2715,7 @@
     {
      "id": "L-M3-0",
      "kind": "narration",
-     "start_s": 889.3,
+     "start_s": 876.5,
      "dur_s": 3.5,
      "read_by": "v-narrator",
      "text": "Birmingham, Alabama. Printed Monday, the second of November."
@@ -2725,7 +2723,7 @@
     {
      "id": "L-M3-1",
      "kind": "narration",
-     "start_s": 893.6,
+     "start_s": 880.8,
      "dur_s": 8.3,
      "read_by": "v-narrator",
      "text": "Gunfire outside Legion Field, after the Magic City Classic football game on Saturday night, kills one person and wounds eight."
@@ -2733,7 +2731,7 @@
     {
      "id": "L-M3-C",
      "kind": "narration",
-     "start_s": 906.2,
+     "start_s": 893.4,
      "dur_s": 1.1,
      "read_by": "v-narrator",
      "text": "Twelve outlets."
@@ -2744,8 +2742,8 @@
     {
      "id": "T-M1",
      "kind": "lower_third",
-     "start_s": 844.5,
-     "end_s": 848.5,
+     "start_s": 831.7,
+     "end_s": 835.7,
      "lines": [
       "MAINE",
       "PRINTED THU 05 NOV 2026"
@@ -2754,8 +2752,8 @@
     {
      "id": "T-M2",
      "kind": "lower_third",
-     "start_s": 863.1,
-     "end_s": 867.1,
+     "start_s": 850.3,
+     "end_s": 854.3,
      "lines": [
       "OAKLAND, CALIFORNIA",
       "PRINTED MON 02 NOV 2026"
@@ -2764,8 +2762,8 @@
     {
      "id": "T-M3",
      "kind": "lower_third",
-     "start_s": 888.8,
-     "end_s": 892.8,
+     "start_s": 876.0,
+     "end_s": 880.0,
      "lines": [
       "BIRMINGHAM, ALABAMA",
       "PRINTED MON 02 NOV 2026"
@@ -2783,7 +2781,7 @@
     {
      "id": "S-Q",
      "kind": "archive_still",
-     "start_s": 908.5,
+     "start_s": 895.7,
      "dur_s": 45.0,
      "transition_in": {
       "type": "cut"
@@ -2813,7 +2811,7 @@
     {
      "id": "L-Q",
      "kind": "narration",
-     "start_s": 916.5,
+     "start_s": 903.7,
      "dur_s": 3.9,
      "read_by": "v-narrator",
      "text": "What did the voters of 3 November vote on?"
@@ -2831,7 +2829,7 @@
     {
      "id": "G-CREDITS",
      "kind": "graphic",
-     "start_s": 953.5,
+     "start_s": 940.7,
      "dur_s": 41.0,
      "transition_in": {
       "type": "cut"
@@ -2844,7 +2842,7 @@
     {
      "id": "G-END",
      "kind": "graphic",
-     "start_s": 994.5,
+     "start_s": 981.7,
      "dur_s": 4.0,
      "transition_in": {
       "type": "cut"
@@ -2865,8 +2863,8 @@
      "source": "omnibus-33 credits theme (E8)",
      "wav": "D:/omnibus-media/33/score/credits.wav",
      "licence": "CC BY-SA 4.0",
-     "start_s": 953.5,
-     "end_s": 998.5,
+     "start_s": 940.7,
+     "end_s": 985.7,
      "gain_db": 0
     }
    ]
@@ -3001,332 +2999,332 @@
   },
   {
    "ref": "L-D5-3",
-   "start_s": 256.1,
-   "end_s": 262.8,
+   "start_s": 248.5,
+   "end_s": 255.2,
    "en": "Hegseth releases a video statement defending his tenure, and dismisses the impeachment push as political retaliation."
   },
   {
    "ref": "L-D5-C",
-   "start_s": 265.1,
-   "end_s": 267.4,
+   "start_s": 256.5,
+   "end_s": 258.8,
    "en": "Thirty-four outlets carried it."
   },
   {
    "ref": "L-D6-0",
-   "start_s": 273.5,
-   "end_s": 275.8,
+   "start_s": 260.7,
+   "end_s": 263.0,
    "en": "Saturday, the seventh of November."
   },
   {
    "ref": "L-D6-1",
-   "start_s": 276.7,
-   "end_s": 287.8,
+   "start_s": 263.9,
+   "end_s": 275.0,
    "en": "President Trump names Stephen Miller, his deputy chief of staff, as White House chief of staff. Miller replaces Susie Wiles, who submitted her resignation on Thursday night."
   },
   {
    "ref": "L-D6-2",
-   "start_s": 288.6,
-   "end_s": 294.5,
+   "start_s": 275.8,
+   "end_s": 281.7,
    "en": "A White House release, dated Friday, calls him the thirty-third chief of staff."
   },
   {
    "ref": "L-D6-C",
-   "start_s": 298.3,
-   "end_s": 304.6,
+   "start_s": 285.5,
+   "end_s": 291.8,
    "en": "Sixty-eight outlets carried it, the most for any day's lead so far this week."
   },
   {
    "ref": "L-D7-0",
-   "start_s": 343.5,
-   "end_s": 345.8,
+   "start_s": 330.7,
+   "end_s": 333.0,
    "en": "Sunday, the eighth of November."
   },
   {
    "ref": "L-D7-1",
-   "start_s": 346.7,
-   "end_s": 359.0,
+   "start_s": 333.9,
+   "end_s": 346.2,
    "en": "The United States military sets up a new unit of twenty members, Task Force Iron Gate, to restrict trade and supply lines across Iran's land borders and the Caspian Sea."
   },
   {
    "ref": "L-D7-2",
-   "start_s": 359.8,
-   "end_s": 362.5,
+   "start_s": 347.0,
+   "end_s": 349.7,
    "en": "It is based in Tampa, Florida."
   },
   {
    "ref": "L-D7-C",
-   "start_s": 366.3,
-   "end_s": 368.6,
+   "start_s": 353.5,
+   "end_s": 355.8,
    "en": "Thirty-one outlets carried it."
   },
   {
    "ref": "T-WK-1",
-   "start_s": 402.9,
-   "end_s": 406.9,
+   "start_s": 390.1,
+   "end_s": 394.1,
    "en": "[PRINTED TUE 03 NOV 2026, 18 SOURCES]"
   },
   {
    "ref": "L-WK-1",
-   "start_s": 403.6,
-   "end_s": 413.9,
+   "start_s": 390.8,
+   "end_s": 401.1,
    "en": "Monday, the second of November, the day before the vote. Vice President JD Vance campaigns in Rome, New York, for the Republican candidate Anthony Constantino."
   },
   {
    "ref": "T-WK-2",
-   "start_s": 415.9,
-   "end_s": 419.9,
+   "start_s": 403.1,
+   "end_s": 407.1,
    "en": "[PRINTED THU 05 NOV 2026, 45 SOURCES]"
   },
   {
    "ref": "L-WK-2",
-   "start_s": 416.4,
-   "end_s": 418.7,
+   "start_s": 403.6,
+   "end_s": 405.9,
    "en": "Wednesday, the Vice President's post."
   },
   {
    "ref": "L-WK-3",
-   "start_s": 425.1,
-   "end_s": 429.8,
+   "start_s": 412.3,
+   "end_s": 417.0,
    "en": "Seventy-six outlets are in the two records of the post."
   },
   {
    "ref": "L-WK-4",
-   "start_s": 430.8,
-   "end_s": 435.1,
+   "start_s": 418.0,
+   "end_s": 422.3,
    "en": "Eighty-nine articles. The record holds headlines for forty-six."
   },
   {
    "ref": "L-WB-0",
-   "start_s": 435.6,
-   "end_s": 439.5,
+   "start_s": 422.8,
+   "end_s": 426.7,
    "en": "Six of the headlines, as the outlets printed them."
   },
   {
    "ref": "L-WC-1",
-   "start_s": 462.4,
-   "end_s": 469.9,
+   "start_s": 449.6,
+   "end_s": 457.1,
    "en": "Of the forty-six headlines, thirty-nine name Iran. Four name Israel. One names inflation. One names migration."
   },
   {
    "ref": "L-WC-2",
-   "start_s": 471.3,
-   "end_s": 475.6,
+   "start_s": 458.5,
+   "end_s": 462.8,
    "en": "Three outlets, on three rungs, printed the same quoted words."
   },
   {
    "ref": "L-WD-1",
-   "start_s": 492.1,
-   "end_s": 494.8,
+   "start_s": 479.3,
+   "end_s": 482.0,
    "en": "On the President's reply, two headlines."
   },
   {
    "ref": "T-X1",
-   "start_s": 516.7,
-   "end_s": 520.7,
+   "start_s": 503.9,
+   "end_s": 507.9,
    "en": "[OUTSIDE KANGNUNG, KOREA, 8 JAN 1951]"
   },
   {
    "ref": "L-X1",
-   "start_s": 517.2,
-   "end_s": 525.1,
+   "start_s": 504.4,
+   "end_s": 512.3,
    "en": "The eighth of January, 1951. Outside Kangnung, in Korea, a file of refugees walks south through the snow."
   },
   {
    "ref": "L-X2",
-   "start_s": 546.7,
-   "end_s": 555.0,
+   "start_s": 533.9,
+   "end_s": 542.2,
    "en": "Washington, the thirtieth of January, 1951. The Federal Register prints the Office of Price Stabilization's general freeze on prices."
   },
   {
    "ref": "R-X2",
-   "start_s": 558.2,
-   "end_s": 570.3,
+   "start_s": 545.4,
+   "end_s": 557.5,
    "en": "Since the outbreak in Korea, basic commodity prices have risen almost 50 percent, farm prices about 16 percent, wholesale food prices 12 percent, and industrial prices about 14 percent."
   },
   {
    "ref": "L-X3",
-   "start_s": 586.4,
-   "end_s": 595.9,
+   "start_s": 573.6,
+   "end_s": 583.1,
    "en": "The fourteenth of June, 1951. From the White House, President Truman speaks to the country on radio and television about inflation controls."
   },
   {
    "ref": "R-X3A",
-   "start_s": 597.1,
-   "end_s": 601.1,
+   "start_s": 584.3,
+   "end_s": 588.3,
    "en": "This is the problem of inflation and high prices. […]"
   },
   {
    "ref": "R-X3B",
-   "start_s": 601.8,
-   "end_s": 611.9,
+   "start_s": 589.0,
+   "end_s": 599.1,
    "en": "[…] Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea. […]"
   },
   {
    "ref": "R-X3C",
-   "start_s": 612.6,
-   "end_s": 636.6,
+   "start_s": 599.8,
+   "end_s": 623.8,
    "en": "[…] Some people have the idea that if the fighting stopped in Korea we could cut down our defense effort enough to do away with the danger of inflation. That is not true. We would need controls even if the fighting in Korea stopped tomorrow. The threat of Communist aggression is worldwide, and must be met with worldwide defenses."
   },
   {
    "ref": "T-X4",
-   "start_s": 641.0,
-   "end_s": 645.0,
+   "start_s": 628.2,
+   "end_s": 632.2,
    "en": "[KUMSONG FRONT, KOREA, 14 DEC 1951]"
   },
   {
    "ref": "L-X4",
-   "start_s": 641.2,
-   "end_s": 652.0,
+   "start_s": 628.4,
+   "end_s": 639.2,
    "en": "The fourteenth of December, 1951, on the Kumsong front. Missouri infantrymen of the 19th Infantry Regiment wish the folks at home a happy New Year."
   },
   {
    "ref": "L-X5",
-   "start_s": 661.7,
-   "end_s": 675.0,
+   "start_s": 648.9,
+   "end_s": 662.2,
    "en": "The eleventh of March, 1952. In New Hampshire's Democratic primary, the preference vote for President. Senator Estes Kefauver, nineteen thousand eight hundred. President Truman, fifteen thousand nine hundred and twenty-seven."
   },
   {
    "ref": "L-X6",
-   "start_s": 691.7,
-   "end_s": 703.3,
+   "start_s": 678.9,
+   "end_s": 690.5,
    "en": "The twenty-ninth of March, 1952. The Jefferson-Jackson Day Dinner, at the National Guard Armory in Washington. President Truman speaks at half past ten that night."
   },
   {
    "ref": "R-X6",
-   "start_s": 706.3,
-   "end_s": 709.9,
+   "start_s": 693.5,
+   "end_s": 697.1,
    "en": "I shall not be a candidate for reelection."
   },
   {
    "ref": "T-X7",
-   "start_s": 736.0,
-   "end_s": 740.0,
+   "start_s": 723.2,
+   "end_s": 727.2,
    "en": "[KOREA, JUNE 1952]"
   },
   {
    "ref": "L-X7",
-   "start_s": 736.2,
-   "end_s": 746.6,
+   "start_s": 723.4,
+   "end_s": 733.8,
    "en": "June 1952, in Korea. A helicopter carrying two wounded soldiers of the United Nations forces comes in to land at a front-line airstrip."
   },
   {
    "ref": "L-X8",
-   "start_s": 756.7,
-   "end_s": 764.6,
+   "start_s": 743.9,
+   "end_s": 751.8,
    "en": "Detroit, the twenty-fourth of October, 1952. Dwight D. Eisenhower, the Republican nominee for President, speaks on Korea."
   },
   {
    "ref": "R-X8A",
-   "start_s": 766.1,
-   "end_s": 772.9,
+   "start_s": 753.3,
+   "end_s": 760.1,
    "en": "In this anxious autumn for America, one fact looms above all others in our people's mind. […]"
   },
   {
    "ref": "R-X8B",
-   "start_s": 774.1,
-   "end_s": 777.7,
+   "start_s": 761.3,
+   "end_s": 764.9,
    "en": "[…] This fact, this tragedy, this word is: Korea. […]"
   },
   {
    "ref": "R-X8C",
-   "start_s": 778.9,
-   "end_s": 781.2,
+   "start_s": 766.1,
+   "end_s": 768.4,
    "en": "[…] I shall go to Korea."
   },
   {
    "ref": "L-X9",
-   "start_s": 801.7,
-   "end_s": 813.7,
+   "start_s": 788.9,
+   "end_s": 800.9,
    "en": "Tuesday, the fourth of November, 1952, the country votes. The next morning, the New York Times prints the words of Adlai Stevenson, the Democratic nominee, from Springfield, Illinois."
   },
   {
    "ref": "R-X9",
-   "start_s": 815.2,
-   "end_s": 826.5,
+   "start_s": 802.4,
+   "end_s": 813.7,
    "en": "My fellow citizens have made their choice and have selected General Eisenhower and the Republican Party as the instruments of their will for the next four years."
   },
   {
    "ref": "T-M1",
-   "start_s": 844.5,
-   "end_s": 848.5,
+   "start_s": 831.7,
+   "end_s": 835.7,
    "en": "[MAINE, PRINTED THU 05 NOV 2026]"
   },
   {
    "ref": "L-M1-0",
-   "start_s": 845.0,
-   "end_s": 848.1,
+   "start_s": 832.2,
+   "end_s": 835.3,
    "en": "Maine. Printed Thursday, the fifth of November."
   },
   {
    "ref": "L-M1-1",
-   "start_s": 848.9,
-   "end_s": 856.0,
+   "start_s": 836.1,
+   "end_s": 843.2,
    "en": "Democratic challenger Troy Jackson defeats the Republican incumbent, Senator Susan Collins, in the race for her seat."
   },
   {
    "ref": "L-M1-C",
-   "start_s": 860.3,
-   "end_s": 861.4,
+   "start_s": 847.5,
+   "end_s": 848.6,
    "en": "Ten outlets."
   },
   {
    "ref": "T-M2",
-   "start_s": 863.1,
-   "end_s": 867.1,
+   "start_s": 850.3,
+   "end_s": 854.3,
    "en": "[OAKLAND, CALIFORNIA, PRINTED MON 02 NOV 2026]"
   },
   {
    "ref": "L-M2-0",
-   "start_s": 863.6,
-   "end_s": 867.1,
+   "start_s": 850.8,
+   "end_s": 854.3,
    "en": "Oakland, California. Printed Monday, the second of November."
   },
   {
    "ref": "L-M2-1",
-   "start_s": 867.9,
-   "end_s": 877.4,
+   "start_s": 855.1,
+   "end_s": 864.6,
    "en": "District Judge Trina Thompson issues a temporary restraining order that bars the Trump administration from threatening or intimidating state and local election officials."
   },
   {
    "ref": "L-M2-2",
-   "start_s": 878.2,
-   "end_s": 881.7,
+   "start_s": 865.4,
+   "end_s": 868.9,
    "en": "The order runs through the sixteenth of November."
   },
   {
    "ref": "L-M2-C",
-   "start_s": 886.0,
-   "end_s": 887.1,
+   "start_s": 873.2,
+   "end_s": 874.3,
    "en": "Twelve outlets."
   },
   {
    "ref": "T-M3",
-   "start_s": 888.8,
-   "end_s": 892.8,
+   "start_s": 876.0,
+   "end_s": 880.0,
    "en": "[BIRMINGHAM, ALABAMA, PRINTED MON 02 NOV 2026]"
   },
   {
    "ref": "L-M3-0",
-   "start_s": 889.3,
-   "end_s": 892.8,
+   "start_s": 876.5,
+   "end_s": 880.0,
    "en": "Birmingham, Alabama. Printed Monday, the second of November."
   },
   {
    "ref": "L-M3-1",
-   "start_s": 893.6,
-   "end_s": 901.9,
+   "start_s": 880.8,
+   "end_s": 889.1,
    "en": "Gunfire outside Legion Field, after the Magic City Classic football game on Saturday night, kills one person and wounds eight."
   },
   {
    "ref": "L-M3-C",
-   "start_s": 906.2,
-   "end_s": 907.3,
+   "start_s": 893.4,
+   "end_s": 894.5,
    "en": "Twelve outlets."
   },
   {
    "ref": "L-Q",
-   "start_s": 916.5,
-   "end_s": 920.4,
+   "start_s": 903.7,
+   "end_s": 907.6,
    "en": "What did the voters of 3 November vote on?"
   }
  ]

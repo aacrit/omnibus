@@ -95,6 +95,10 @@
    "credit": "typeset by void omnibus from the Manual for the General Court, No. 33 (1953)",
    "content_date": "1952-03-11",
    "content_basis": "src-nh-manual-1953, the totals row of the Democratic preference vote",
+   "basis": "typeset facts: the State canvass figures and the table's title, facts not copyrightable, from a New Hampshire state publication of 1953 (Manual for the General Court, No. 33, p. 426)",
+   "source_url": "https://archive.org/download/manualforgeneral33newh/manualforgeneral33newh.pdf",
+   "source_sha256": "ef239ba943b940d9ba14ea904969f631fcd3b74af3a3a5b1a5991ce4330ef621",
+   "typeset_facts": true,
    "known_by": {
     "date": "1952-03-11",
     "basis": "the State's canvass of the 11 March 1952 primary; the printing held is the 1953 Manual (p. 426), a later-printed document, and the page's source line says so"

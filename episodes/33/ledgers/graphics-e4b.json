@@ -194,7 +194,7 @@
    "kind": "graphic",
    "subtype": "count",
    "fps": "30",
-   "frames": 145,
+   "frames": 155,
    "alpha": "straight",
    "generator": "studio/graphics (E6)",
    "content_date": "2026-11-08T22:16:50.309638+00:00",
@@ -202,7 +202,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "f7d99ba2ad2a647fb915791a6dc55a1b7bbc9e5e9db3420db3bc02c02b7ebd75",
+   "sha256": "1bf3e8a8f1be4ffbf95b1c9137960ea7e22c3e869d9c03ef76f8fb4f18056295",
    "derived_from": "e6/graphics@446dd6a:episodes/33/graphics-ledger.json#cw-2 (file read on D:)"
   },
   {
