@@ -252,6 +252,7 @@
      "dur_s": 6.0,
      "date": "1951-01-30",
      "read_by": "v-reader",
+     "wav": "D:/omnibus-media/33-slice/audio/R1.wav",
      "text": "Since the outbreak in Korea, basic commodity prices have risen almost 50 percent, farm prices about 16 percent, wholesale food prices 12 percent, and industrial prices about 14 percent.",
      "quote_sha256": "adee056ba1e6025c01425a5aa770796b972b0aad262014bd38607486e009491a"
     },
@@ -261,6 +262,7 @@
      "start_s": 30.0,
      "dur_s": 3.0,
      "read_by": "v-narrator",
+     "wav": "D:/omnibus-media/33-slice/audio/L-Q.wav",
      "text": "What, of this week, will still matter in ten years' time?"
     }
    ],
