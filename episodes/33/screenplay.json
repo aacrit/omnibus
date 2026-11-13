@@ -29,8 +29,9 @@
    "media": "D:/omnibus-media/33/media/33"
   },
   "graphics": {
-   "path": "ledgers/graphics-e4b.json",
-   "media": "D:/omnibus-media/33/graphics"
+   "path": "graphics-ledger.json",
+   "media": "D:/omnibus-media/33/graphics",
+   "format": "e6-graphics"
   },
   "studio": {
    "path": "ledgers/studio-e4b.json",
@@ -384,7 +385,7 @@
       "type": "cut"
      },
      "subtype": "testcard",
-     "asset": "tc-week",
+     "asset": "testcard-week",
      "mark": "DRAWN",
      "data_ref": "days",
      "shows": {
@@ -1306,7 +1307,7 @@
       "type": "cut"
      },
      "subtype": "testcard",
-     "asset": "tc-weight",
+     "asset": "testcard-weight",
      "mark": "DRAWN",
      "data_ref": "lead.claim",
      "shows": {
@@ -1839,7 +1840,7 @@
       "type": "cut"
      },
      "subtype": "testcard",
-     "asset": "tc-echo",
+     "asset": "testcard-echo",
      "mark": "DRAWN",
      "data_ref": "echo:chosen",
      "shows": {
@@ -2458,7 +2459,7 @@
       "type": "cut"
      },
      "subtype": "testcard",
-     "asset": "tc-margins",
+     "asset": "testcard-margins",
      "mark": "DRAWN",
      "data_ref": "margins",
      "shows": {

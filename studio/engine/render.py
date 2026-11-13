@@ -769,12 +769,23 @@ def credits_graphic_missing(plan: dict, rundown: dict | None) -> tuple[list[str]
     """E9i: (the credits graphics that air, the plan's credit disclosures they do not carry). E6 typesets the credits
     roll from the rundown's credits part ``disclosures`` (studio/graphics/data.py credits_spec), so a disclosure the
     rights ledger asks for is carried only when that list holds it verbatim. (None, []) when no credits graphic airs
-    (the engine's own credits block carries them)."""
+    (the engine's own credits block carries them). E9j: a roll whose E6 row's ``data_ref`` names
+    ``rights-ledger:items[].disclosure`` (E6's credits_spec since its review fixes) also carries every rights-ledger
+    item's own ``disclosure``; each roll is judged on what it reads, and a line is unshown if any airing roll lacks it."""
     rolls = [s.get("asset") for s in plan.get("shots") or [] if NG.is_graphic(s) and s.get("subtype") == "credits"]
     if not rolls:
         return None, []
+    assets = plan.get("assets") or {}
     part = next((p for p in (rundown or {}).get("parts") or [] if isinstance(p, dict) and p.get("id") == "credits"), {})
-    shown = {str(x).strip() for x in part.get("disclosures") or []}
+    hand_kept = {str(x).strip() for x in part.get("disclosures") or []}
+    ledgered = {str(it["disclosure"]).strip() for it in assets.values()
+                if isinstance(it, dict) and it.get("_rights_ledger") and it.get("disclosure")}
+    shown = None
+    for r in dict.fromkeys(rolls):
+        ref = str((assets.get(r) or {}).get("data_ref") or "")
+        reads = bool(re.search(r"rights-ledger:[^;]*items\[\]\.disclosure", ref))
+        mine = hand_kept | (ledgered if reads else set())
+        shown = mine if shown is None else shown & mine
     return rolls, [d["text"] for d in plan.get("credit_disclosures") or [] if d["text"] not in shown]
 
 
@@ -10440,19 +10451,28 @@ def place_voices(film: Path, play: dict, journal: Journal, out: Path, *, fit: bo
     return play
 
 
-def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, journal: Journal | None = None) -> dict:
+def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, journal: Journal | None = None,
+               fit: bool = False) -> dict:
     """E9i ``--check``: every pre-flight source check and plan-time lint, no frame rendered and nothing written. On a
     news show whose voicing manifest is missing or refused, a voice WAV's absence is that manifest's refusal
-    (voicing-manifest), not a second one. Returns {ok, refusals, shots}."""
+    (voicing-manifest), not a second one. E9j: with ``fit`` (``--check --fit-voices``) it plans the lines where the
+    render with --fit-voices would place them (place_voices' order: the takes, the fit, then the words), in memory
+    only, so a check judges the plan the render will run. Returns {ok, refusals, shots}."""
     film = Path(film).resolve()
     W, H = frame_size(height)
     journal = journal or Journal(film=film.name)
     play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
     refusals: list[str] = []
     news = SHOW.is_news(play)
-    voicing = news_voicing(film, play) if news else None
+    voicing = news_voicing(film, play, words=not fit) if news else None
     if voicing is not None:
         play = voicing["play"]
+    if fit:
+        journal.human("scout", "--fit-voices: voice lines may move later and their shots grow", override="--fit-voices")
+        play = fit_voices(play, film, journal)
+        if voicing is not None:
+            voicing = news_voicing(film, play)
+            play = voicing["play"]
     bad = preflight_sources(film, play, journal, draft=draft)
     if voicing is not None and voicing["problems"] and NVO.judged(play):
         bad = [b for b in bad if b.get("why") != "voice WAV missing"]
@@ -10503,7 +10523,7 @@ def main(argv=None) -> int:
                     help="plan only: every pre-flight and plan-time lint, final unless --draft; no frame rendered")
     a = ap.parse_args(argv)
     if a.check:
-        r = check_plan(a.film, draft=a.draft, height=a.res)
+        r = check_plan(a.film, draft=a.draft, height=a.res, fit=a.fit_voices)
         for why in r["refusals"]:
             print(f"render: refused: {why}", file=sys.stderr)
         if r["ok"]:
