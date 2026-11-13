@@ -438,15 +438,43 @@ def voice_credit_line(voices: dict) -> str:
     return f"Narrated by a computer voice, {ENGINE_NAMES[narrator['engine']]} {narrator['voice']}; {reader_part}"
 
 
-def credits_spec(rundown: dict, rights_ledger: dict, *, max_credits: int = 40) -> CreditsSpec:
+_REASON_WORDS_PREFIX = "the reason words counted on the consensus card"
+
+
+def _claim_terms_disclosure(week: dict) -> str:
+    """The 'reason words' disclosure (spec 3.11), built from the record
+    (`lead.claim.terms`) rather than hand-kept in the rundown, so a new
+    term is never a hand-edit away from going stale (it already did once:
+    the rundown's own copy still read "(Iran, Israel, inflation)" after
+    migration became the claim's fourth term). The parenthetical lists
+    each term the way the consensus card shows it (country names
+    capitalised, other reason words lower-case, `_claim_term_label`); a
+    trailing clause then names any term whose on-screen label differs
+    from the record's own casing, so the card's lower-case "migration"
+    is never mistaken for the record's term, which stays "Migration"."""
+    terms = [t["term"] for t in week["lead"]["claim"]["terms"]]
+    shown = ", ".join(_claim_term_label(t) for t in terms)
+    line = (f"{_REASON_WORDS_PREFIX} ({shown}) are an editorial input to the normaliser (--claim-terms), "
+            "taken from the claim's own headlines and, once captured, the Vice President's post; each "
+            "count is read from the record (lead.claim.terms)")
+    for t in terms:
+        label = _claim_term_label(t)
+        if label != t:
+            line += f"; the card lower-cases {label} while the record keeps {t!r}"
+    return line
+
+
+def credits_spec(rundown: dict, rights_ledger: dict, week: dict, *, max_credits: int = 40) -> CreditsSpec:
     """Spec 3.11: every asset's credit (each item's `credit`, in ledger
     order; a credit several assets share is listed once), then the voice
     disclosure, then every rights-ledger item's own `disclosure` (the DoW
     non-endorsement line whenever a DVIDS item airs - read from the
     ledger itself, in ledger order, deduplicated, never from a hand-kept
     copy that could fall out of date), then the rundown's own
-    disclosures. More distinct credits than the roll holds raises:
-    nothing is silently cut."""
+    disclosures - except the reason-words one, which is rebuilt from
+    `week` (`_claim_terms_disclosure`) rather than used verbatim, so it
+    always names every current claim term. More distinct credits than
+    the roll holds raises: nothing is silently cut."""
     credits: list[str] = []
     for item in rights_ledger.get("items", []):
         credit = item.get("credit")
@@ -461,7 +489,10 @@ def credits_spec(rundown: dict, rights_ledger: dict, *, max_credits: int = 40) -
         disclosure = item.get("disclosure")
         if disclosure and disclosure not in lines:
             lines.append(disclosure)
+    claim_line = _claim_terms_disclosure(week)
     for disclosure in _part(rundown, "credits").get("disclosures", []):
+        if disclosure.startswith(_REASON_WORDS_PREFIX):
+            disclosure = claim_line
         if disclosure not in lines:
             lines.append(disclosure)
     return CreditsSpec(lines=tuple(lines))
