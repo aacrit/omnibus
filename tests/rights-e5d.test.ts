@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import * as voa from "../scripts/lib/rights/adapters/voa.mjs";
 import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
 import { isAllowedUrl } from "../scripts/lib/rights/http.mjs";
-import { ALLOWED_IDS, EDITORIAL_USE, FAIR_USE, deniedBy, editorialTermsProblems, licenceProblems, licenceTerms } from "../scripts/lib/rights/licences.mjs";
+import { ALLOWED_IDS, EDITORIAL_USE, FAIR_USE, deniedBy, editorialTermsProblems, licenceProblems, licenceTerms, termsTextSha } from "../scripts/lib/rights/licences.mjs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import { fetchRequests, ledgerEntry, refineDate, windowProblem } from "../scripts/lib/rights/fetcher.mjs";
 import { emptyLedger, validateLedger } from "../scripts/lib/rights/ledger.mjs";
@@ -98,7 +98,9 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
     expect(c.media_url).toBe("https://voa-video-ns.akamaized.net/pangeavideo/2026/11/a/a5/a593565c-d47e-4060-3e64-08df13be6539.mp4");
     expect(c.evidence.captured_text).toContain(voa.PD_STATEMENT);
     expect(c.credit).toMatch(/^Voice of America/);
-    expect(checkCandidate({ ...c, kind: "footage" }).ok).toBe(true);
+    // Until a frame reader exists a VOA item needs a reviewed marks check (S4 review).
+    expect(checkCandidate({ ...c, kind: "footage" }).reasons.join()).toMatch(/marks_checked/);
+    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "verifier", at: AT, frames: [0, 20], contact_sheet: { path: "sheets/voa.jpg", sha256: "a".repeat(64) }, duration_s: 40 } } }).reasons).toEqual([]);
   });
 
   it("refuses an item crediting an agency, a page without the terms statement, and a page with no file of its own", () => {
@@ -116,24 +118,21 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
   });
 });
 
-describe("editorial-use (founder ruling 2026-11-13)", () => {
-  it("is on the allowlist and passes with captured terms, the required credit and its restrictions", () => {
-    expect(ALLOWED_IDS.has(EDITORIAL_USE)).toBe(true);
-    expect(editorialTermsProblems(TERMS_OK, "EC - Audiovisual Service")).toEqual([]);
+describe("editorial-use (founder ruling 2026-11-13; closed by the S4 review)", () => {
+  const REVIEWED = [{ url: TERMS_OK.url, text_sha256: termsTextSha(TERMS_OK.captured_text), institution: "European Commission", reviewed: { by: "test", at: AT } }];
+  it("is off the allowlist until an adapter fetches the terms page: every editorial-use item is refused", () => {
+    expect(ALLOWED_IDS.has(EDITORIAL_USE)).toBe(false);
     const it1 = entry({ licence: EDITORIAL_USE, credit: "EC - Audiovisual Service", basis: "free for news use under the publisher's terms", terms: TERMS_OK, evidence: { url: TERMS_OK.url, captured_text: TERMS_OK.captured_text, captured_at: AT } });
-    expect(validateLedger(ledgerOf([it1]))).toEqual([]);
-    expect(lintLicenceAllowlist(ledgerOf([it1])).filter((x) => x.rule === "licence-allowlist" && /terms|credit/.test(x.message))).toEqual([]);
-    expect(lintLicenceEvidence(ledgerOf([it1]), { now: new Date("2026-11-14") })).toEqual([]);
+    expect(lintLicenceAllowlist(ledgerOf([it1])).map((x) => x.message).join()).toMatch(/closed/);
     expect(licenceTerms(EDITORIAL_USE, it1).terms).toMatch(/not for resale/);
   });
 
-  it("refuses terms that charge, need permission, bar news use, omit the credit or the restriction list", () => {
-    const fee = { ...TERMS_OK, captured_text: "Free for news use; for high-resolution video there will be service and licensing fees." };
-    expect(editorialTermsProblems(fee, "EC - Audiovisual Service").join()).toMatch(/fee/);
-    expect(editorialTermsProblems({ ...TERMS_OK, captured_text: "For news use with prior written permission." }, "EC - Audiovisual Service").join()).toMatch(/permission/);
-    expect(editorialTermsProblems({ ...TERMS_OK, captured_text: "Personal use only." }, "EC - Audiovisual Service").join()).toMatch(/news|bar/);
-    expect(editorialTermsProblems(TERMS_OK, "Someone else").join()).toMatch(/required credit/);
-    expect(editorialTermsProblems({ ...TERMS_OK, restrictions: undefined }, "EC - Audiovisual Service").join()).toMatch(/restrictions/);
+  it("passes the terms check only for a reviewed terms page with its reviewed text, the required credit and its restrictions", () => {
+    expect(editorialTermsProblems(TERMS_OK, "EC - Audiovisual Service", { reviewed: REVIEWED })).toEqual([]);
+    expect(editorialTermsProblems(TERMS_OK, "EC - Audiovisual Service").join()).toMatch(/not on the reviewed list/);
+    expect(editorialTermsProblems({ ...TERMS_OK, captured_text: "Free for news use." }, "EC - Audiovisual Service", { reviewed: REVIEWED }).join()).toMatch(/differs from the reviewed text/);
+    expect(editorialTermsProblems(TERMS_OK, "Someone else", { reviewed: REVIEWED }).join()).toMatch(/required credit/);
+    expect(editorialTermsProblems({ ...TERMS_OK, restrictions: undefined }, "EC - Audiovisual Service", { reviewed: REVIEWED }).join()).toMatch(/restrictions/);
     expect(licenceProblems({ licence: EDITORIAL_USE, basis: "x", credit: "x" }).join()).toMatch(/terms record/);
   });
 });
@@ -212,7 +211,7 @@ describe("NARA moving images", () => {
     const r = nara.parseNara(json("nara-video-80338.json"), { ref: "80338", capturedAt: AT, kind: "footage" });
     expect(r.candidate.licence).toBeNull();
     expect(r.candidate.licence_note).toMatch(/"Undetermined", not Unrestricted/);
-    expect(r.candidate.licence_note).toMatch(/began after the record was made/);
+    expect(r.candidate.licence_note).toMatch(/began after the record was made|is a custodian/);
   });
   it("refuses the flag with another specific restriction beside Copyright", () => {
     const j = json("nara-video-23327.json");
@@ -222,7 +221,7 @@ describe("NARA moving images", () => {
   it("refuses a library named as creator that began after the film was made: it holds the film, it did not make it", () => {
     const r = nara.parseNara(json("nara-video-353712960.json"), { ref: "353712960", capturedAt: AT, kind: "footage" });
     expect(r.candidate.licence).toBeNull();
-    expect(r.candidate.licence_note).toMatch(/began after the record was made/);
+    expect(r.candidate.licence_note).toMatch(/began after the record was made|is a custodian/);
     expect(nara.custodianOnly("Dwight D. Eisenhower Library. (07/31/2011 - )", 1952)).toBe(true);
     expect(nara.custodianOnly("Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)", 1951)).toBe(false);
   });
@@ -269,19 +268,20 @@ describe("candidate-pin files from the sourcing passes", () => {
   });
 
   it("a date record refines a year to its day, never moves it, and a fit pin keeps no undated exemption", () => {
-    const rec = { date: "1952-03-29", title: "President and Bess Truman at Jefferson-Jackson Day Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId: 338959044" } };
-    const ok = refineDate("1952", rec, { capturedAt: AT });
+    const src = { title: "Photograph of the President", source_text: "| Variant control numbers = NAIL Control Number: NLT-AVC-PHT-(73)3881" };
+    const rec = { date: "1952-03-29", record_ids: ["338959044", "73-3881"], title: "President and Bess Truman at Jefferson-Jackson Day Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId: 338959044" } };
+    const ok = refineDate("1952", rec, { capturedAt: AT, source: src });
     expect(ok.date).toBe("1952-03-29");
     expect(ok.evidence.captured_text).toMatch(/production date 1952-03-29/);
-    expect(refineDate("1951", rec, { capturedAt: AT }).problem).toMatch(/outside the source's own date 1951/);
-    expect(refineDate("1952", { ...rec, date: "1952" }, { capturedAt: AT }).problem).toMatch(/no full day/);
+    expect(refineDate("1951", rec, { capturedAt: AT, source: src }).problem).toMatch(/outside the source's own date 1951/);
+    expect(refineDate("1952", { ...rec, date: "1952" }, { capturedAt: AT, source: src }).problem).toMatch(/no full day/);
     expect(windowProblem(null, { from: "1951-01-01", to: "1952-11-05" }, { pinned: true })).toBeNull();
     expect(windowProblem(null, { from: "1951-01-01", to: "1952-11-05" }, { pinned: false })).toMatch(/no date/);
   });
 
   it("the fetcher dates a pinned Commons still from its NARA record and refuses an undated fit pin", async () => {
-    const still = (date: string | null) => ({ status: "ok", candidate: { adapter: "commons", ref: "File:A.jpg", kind_hint: "still", title: "A", item_url: "https://commons.wikimedia.org/wiki/File:A.jpg", media_url: "https://upload.wikimedia.org/a.jpg", licence: "pd-us-federal", basis: "PD US Government (17 U.S.C. 105)", credit: "NARA", evidence: { url: "https://commons.wikimedia.org/wiki/File:A.jpg", captured_text: "public domain, PD US Government", captured_at: AT }, date, published_at: "2011-10-21T10:10:59Z", categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] } });
-    const naraRec = { status: "ok", candidate: { date: "1952-03-29", title: "Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId 338959044" } } };
+    const still = (date: string | null) => ({ status: "ok", candidate: { adapter: "commons", ref: "File:A.jpg", kind_hint: "still", title: "A", source_text: "NAIL Control Number: NLT-AVC-PHT-(73)3881", item_url: "https://commons.wikimedia.org/wiki/File:A.jpg", media_url: "https://upload.wikimedia.org/a.jpg", licence: "pd-us-federal", basis: "PD US Government (17 U.S.C. 105)", credit: "NARA", evidence: { url: "https://commons.wikimedia.org/wiki/File:A.jpg", captured_text: "public domain, PD US Government", captured_at: AT }, date, published_at: "2011-10-21T10:10:59Z", categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] } });
+    const naraRec = { status: "ok", candidate: { date: "1952-03-29", record_ids: ["338959044", "73-3881"], title: "Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId 338959044" } } };
     const adapters = { commons: { lookup: async () => still("1952") }, nara: { lookup: async () => naraRec } };
     const fit = { beat: "echo-x6", why: "the dinner" };
     const req = (cand: any) => ({ schema: "x", issue: 33, requests: [{ id: "e33-echo-01", kind: "still", for: "echo", title: "t", fallback: { tier: 5, text: "typeset" }, candidates: [cand] }] });

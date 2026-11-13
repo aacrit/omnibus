@@ -55,7 +55,7 @@ export function lintAll({ root = repoRoot, log = console.log, error = console.er
     return 1;
   }
   if (ledgers === 0) log("lint-rights: no episode has a rights ledger yet, so there was nothing to check");
-  else log(`lint-rights: ${ledgers} ledger(s), ${items} item(s): licence-allowlist, licence-evidence, ai-generated-share-zero and disputes-generated pass`);
+  else log(`lint-rights: ${ledgers} ledger(s), ${items} item(s): rights-ledger-schema, licence-allowlist (with on-screen marks), licence-evidence, ai-generated-share-zero, fair-use-excerpt, published-by-edition and disputes-generated pass`);
   return 0;
 }
 
