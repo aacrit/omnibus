@@ -31,8 +31,10 @@ See `CHARTER.md` for its surfaces and kill dates, and `contract.yaml` for what
 - **Data:** D1 for counts and feedback, schema in `migrations/0001_events.sql`.
   R2 bucket `omnibus` holds the daily snapshots of void news's printed day
   (the Studio row: `scripts/snapshot.mjs`, `scripts/snapshot-r2.mjs`), every
-  size capped in code because R2 bills past its free tier. No KV writes, and
-  no other R2 use, unless a charter surface needs it.
+  size capped in code because R2 bills past its free tier. The private R2
+  bucket `omnibus-capture` holds the footage capture's <=480p proxies and
+  evidence (`scripts/capture/run.mjs`, caps in `scripts/lib/capture-store.mjs`).
+  No KV writes, and no other R2 use, unless a charter surface needs it.
 - **Telemetry is aggregate counts only.** `/e` bumps a same-day, same-name
   counter in `event_counts`; there is no per-visit row, no anonymous id, and
   no cookie or local storage. No third-party analytics script (including

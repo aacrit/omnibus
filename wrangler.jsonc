@@ -59,8 +59,14 @@
   // only reads snapshots/heartbeat.json (GET /api/snapshots/heartbeat). R2
   // bills past its free tier, so the uploader caps every size in code
   // (scripts/lib/snapshot.mjs LIMITS, scripts/lib/snapshot-store.mjs).
+  //
+  // The footage capture (.github/workflows/capture.yml, scripts/capture/run.mjs)
+  // keeps <=480p proxies and their evidence in the private bucket
+  // `omnibus-capture`, every size capped in code (scripts/lib/capture-store.mjs
+  // CAPS). The Worker only reads capture/heartbeat.json (GET /api/capture/heartbeat).
   "r2_buckets": [
-    { "binding": "SNAPSHOTS", "bucket_name": "omnibus" }
+    { "binding": "SNAPSHOTS", "bucket_name": "omnibus" },
+    { "binding": "CAPTURE", "bucket_name": "omnibus-capture" }
   ],
   "vars": {
     "BUILD_TAG": "dev",

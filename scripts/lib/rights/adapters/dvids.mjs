@@ -191,6 +191,9 @@ export function parseDvids(json, { ref, capturedAt }) {
   const atMost = files.filter((f) => (f.height ?? 0) <= 1080).sort(bySize);
   const video = (atMost[0] ?? [...files].sort((a, b) => (a.height ?? 0) - (b.height ?? 0))[0])?.src ?? null;
   const media = parsed.type === "video" ? video : typeof r.image === "string" ? r.image : null;
+  // The capture's proxy (scripts/capture/proxy.mjs): the largest mp4 at or under 480 px, never used by the fetcher.
+  const small = files.filter((f) => Number(f.height) > 0 && f.height <= 480).sort(bySize)[0]?.src ?? null;
+  const proxy = parsed.type === "video" ? small : parsed.type === "image" && typeof r.image === "string" ? r.image : null;
   return {
     status: "ok",
     candidate: {
@@ -201,6 +204,7 @@ export function parseDvids(json, { ref, capturedAt }) {
       description: clip(plain(r.description), 1000),
       item_url: page,
       media_url: media ? String(media).replace(/^http:\/\//, "https://") : null,
+      proxy_url: proxy ? String(proxy).replace(/^http:\/\//, "https://") : null,
       mime: null,
       bytes_expected: null,
       sha1: null,

@@ -2,7 +2,7 @@
 // adapter's verdict), the lint that refuses media without it, and the DVIDS key never reaching stored evidence.
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { captureEvidence, lintIndex, lintMedia, readBlob, sha256, SOURCES, verdictOf } from "../scripts/capture/evidence.mjs";
+import { captureEvidence, lintIndex, lintMedia, NASA_TERMS, readBlob, sha256, SOURCES, verdictOf } from "../scripts/capture/evidence.mjs";
 import { isAllowedUrl } from "../scripts/lib/rights/http.mjs";
 
 const text = (n: string) => readFileSync(new URL(`./fixtures/rights/${n}`, import.meta.url), "utf8");
@@ -111,9 +111,12 @@ describe("capture evidence", () => {
     );
     expect(record.verdict.status).toBe("locator");
     expect(record.page.sha256).toMatch(/^[0-9a-f]{64}$/);
-    const nasa = await captureEvidence({ source: "nasa", id: "art002e000192", url: "https://images.nasa.gov/details/art002e000192", published_at: "2026-11-04T00:00:00Z" }, { http: fakeHttp({}), env: {}, now: NOW });
-    expect(nasa.record.terms.sha256).toBeNull();
-    expect(nasa.record.terms.missing).toMatch(/allowlist/);
+    // NASA's media usage guidelines (www.nasa.gov, allowlisted in C6) are its governing terms page.
+    const nasaItem = { source: "nasa", id: "art002e000192", url: "https://images.nasa.gov/details/art002e000192", published_at: "2026-11-04T00:00:00Z" };
+    const nasa = await captureEvidence(nasaItem, { http: fakeHttp({ [NASA_TERMS]: () => ({ status: "ok", text: "<html>NASA content is generally not subject to copyright</html>" }) }), env: {}, now: NOW });
+    expect(nasa.record.terms).toMatchObject({ url: NASA_TERMS, sha256: expect.stringMatching(/^[0-9a-f]{64}$/) });
+    const unread = await captureEvidence(nasaItem, { http: fakeHttp({}), env: {}, now: NOW });
+    expect(unread.record.terms.sha256).toBeNull();
   });
 
   it("verdictOf takes the adapter's candidate through checkCandidate, never its own rules", () => {
