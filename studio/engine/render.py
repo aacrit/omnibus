@@ -143,15 +143,17 @@ def apply_show(prof) -> None:
     """E3: the show's programme loudness (show bible g: omnibus -16 LUFS, document -18, both -1.5 dBTP) and the
     voice ceiling derived from it. build_plan applies the screenplay's show to every plan, so the mix and the master
     of one render read one show's targets; a document film's are the values above, unchanged."""
-    global TARGET_LUFS, TARGET_TP, VOICE_TP
+    global TARGET_LUFS, TARGET_TP, VOICE_TP, VOICE_TP_FLOOR
     TARGET_LUFS, TARGET_TP = float(prof["target_lufs"]), float(prof["target_tp"])
     VOICE_TP = DIALOGUE_LUFS + (TARGET_TP - TARGET_LUFS) - VOICE_TP_MARGIN
+    VOICE_TP_FLOOR = round(VOICE_TP - VOICE_TP_FLOOR_BELOW, 2)    # the floor keeps its distance under the ceiling
 # A15 refined (E14): when the pass-1 mix's master limiter would do more than catch peaks (limiter-peak-only), pass 2
 # peak-controls every synthetic line to the master limiter's own ceiling (TARGET_TP - LIMIT_MARGIN_DB) minus the measured
 # mix-to-master lift minus this safety margin, clamped between the floor (a near-silent film cannot crush its voices) and
 # VOICE_TP (a film that passes never changes). Pass 2's own lift re-estimates the ceiling at most once more (pass 3).
 VOICE_CEILING_SAFETY_DB = 0.3
-VOICE_TP_FLOOR = -7.0
+VOICE_TP_FLOOR_BELOW = 2.2          # E3: the floor sits this far under the show's VOICE_TP (document: -7.0 dBTP)
+VOICE_TP_FLOOR = round(VOICE_TP - VOICE_TP_FLOOR_BELOW, 2)
 VOICE_CEILING_PASSES = 3            # pass 1 at VOICE_TP, then at most two re-peak-controls; then the master's lint judges
 VOICE_CEILING_TOL_DB = 0.05         # a re-estimate this close to the ceiling used is not worth another pass
 LEVEL_MIN_S = 0.4                  # loudnorm's gating block: a shorter line is measured looped to this length
@@ -237,6 +239,7 @@ KIND_CLASSES = {
 ALTERATIONS = {"colourised", "upscaled", "stabilised", "interpolated", "re-timed", "inpainted", "motion added", "tinted",
                "audio synthesised", "colour cast removed",   # the last by GRAMMAR A14
                "text composited"}   # E3: type laid over an archival picture (the title's teleprinter): RECONSTRUCTED
+NEWS_ALTERATIONS = {"text composited"}   # E3: allowed only on a show whose profile lints news (omnibus)
 LICENCE_OK = re.compile(r"^(public domain|cc0( 1\.0)?|cc[- ]?by([- ][1-4]\.0)?)$", re.I)
 # CC BY-SA (founder ruling 2026-10-16, "Real World"): never on the house allowlist; allowed only in a film whose
 # screenplay declares ``share_alike: {decision: "<its docs/DECISIONS.md entry>"}``, so the licence is scoped per film,
@@ -906,6 +909,7 @@ def card_text_check(shot: dict, W: int, H: int, fonts: M.Fonts | None = None, sh
     JetBrains Mono, read from the spans the drawer draws) and, for a
     statement card, its ``scale`` and ``lines``. Never OCR: the layout
     records are what is drawn."""
+    show = news_show(show)                  # E3: a document film's cards are the lifted engine's, whatever it is passed
     fonts = fonts or M.Fonts()
     L = M.Layout(W, H)
     texts = [str(x) for x in (shot.get("text") or [])]
@@ -966,13 +970,21 @@ def card_numerals_evidence(card: str, numerals: list[dict]) -> dict:
                                              "layout must set its digit runs in the data face"}
 
 
+def news_show(show: dict | None) -> dict | None:
+    """E3: the show profile when it is a news show's (omnibus), else None: every show-specific draw is gated on the
+    news profile, so a document film draws exactly what the lifted engine drew."""
+    return show if show and show.get("news") else None
+
+
 def show_wordmark(show: dict | None) -> tuple[str, str]:
-    """E3: the wordmark a title card draws: the show's (studio/news/profile.py), else the house's."""
+    """E3: the wordmark a title card draws: a news show's (studio/news/profile.py), else the house's."""
+    show = news_show(show)
     return tuple(show["wordmark"]) if show else M.WORDMARK
 
 
 def show_lockup(show: dict | None):
-    """E3: the lockup card's (wordmark, tagline): the show's, else the house's."""
+    """E3: the lockup card's (wordmark, tagline): a news show's, else the house's."""
+    show = news_show(show)
     return (tuple(show["wordmark"]), show["tagline"]) if show else M.LOCKUP_BRAND
 
 
@@ -2673,7 +2685,7 @@ def credits_blocks(plan: dict) -> list:
     drawn = [w for ln in OV.credit_lines(plan["shots"]) for w in wrap(ln)]     # A32: every mark and its source
     if drawn:
         blocks.append(("Marks drawn", drawn))
-    studio = (plan.get("show") or {}).get("studio") or "void document studio"      # E3: the show's own name
+    studio = (news_show(plan.get("show")) or {}).get("studio") or "void document studio"   # E3: a news show's name
     blocks.append(("Studio", [f"{studio} engine {ENGINE_VERSION} ({ENGINE_HASH})"]))
     return [(h, [ln.replace(EM_DASH, ", ") for ln in lines]) for h, lines in blocks]
 
@@ -3078,6 +3090,11 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
         if kind == "drawn" and not s.get("asset"):
             lint("kind-supported", False, unit=s["id"], evidence="a drawn shot needs a pre-rendered image cited as its asset in T1")
             continue
+        if kind == NG.KIND and not prof["news"]:     # E3: the graphic kind is omnibus's; a document film is as before
+            lint("kind-supported", False, unit=s["id"], evidence={
+                "kind": kind, "show": prof["show"], "why": "the graphic kind binds only on a show whose profile "
+                "lints news (studio/news/profile.py); a document film draws with drawn, card or title_sequence"})
+            continue
         if kind in ("archive_video", "archive_still", "drawn", TS.KIND, NG.KIND):
             ok = item is not None
             lint("ledger-cited", ok, unit=s["id"], evidence={"asset": s.get("asset")}, grammar="11.1")
@@ -3121,7 +3138,8 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
              "allowed": sorted(allowed)}, grammar="4")
         if s.get("mark") == "RECONSTRUCTED":
             alts = s.get("alterations") or []
-            lint("alterations-closed", bool(alts) and set(alts) <= ALTERATIONS, unit=s["id"], evidence=alts, grammar="4.2, A14")
+            closed = ALTERATIONS if prof["news"] else ALTERATIONS - NEWS_ALTERATIONS   # E3: omnibus's only
+            lint("alterations-closed", bool(alts) and set(alts) <= closed, unit=s["id"], evidence=alts, grammar="4.2, A14")
         s["_neutralise"] = False                 # only the A14 check below may turn it on
         neutral = neutralise_cast(s, item)
         named = NEUTRALISE in (s.get("alterations") or [])
@@ -3519,11 +3537,38 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     lower_thirds, subs, overlays, graphic_overlays = [], [], [], []
     for t in texts:
         if NG.is_graphic(t):                # E3: a pre-rendered graphic over the picture (studio/news/graphic.py)
+            if not prof["news"]:
+                lint("kind-supported", False, unit=t.get("id"), evidence={
+                    "kind": t["kind"], "show": prof["show"], "why": "the graphic kind binds only on a show whose "
+                    "profile lints news (studio/news/profile.py)"})
+                continue
             g_item = assets.get(t.get("asset"))
-            if g_item is not None and g_item.get("_path"):
-                graphic_overlays.append(NG.overlay_entry(t, g_item))
-            else:
+            if g_item is None:
                 lint("ledger-cited", False, unit=t.get("id"), evidence={"asset": t.get("asset")}, grammar="11.1")
+                continue
+            # cited, licensed and flagged like any shot's item: what is drawn over a picture is on screen too
+            lint("ledger-cited", True, unit=t.get("id"), evidence={"asset": t.get("asset")}, grammar="11.1")
+            g_lic = str(g_item.get("licence") or "")
+            g_ok, g_sa = licence_allowed(g_lic, play)
+            lint("licence-allowlist", g_ok, unit=t.get("id"), grammar="1.2",
+                 evidence={"licence": g_lic, **({"share_alike": (play.get("share_alike") or {}).get("decision") if g_ok else
+                                                 "CC BY-SA needs the film's share_alike declaration (its DECISIONS entry)"}
+                                                if g_sa else {})})
+            if g_ok and g_sa:
+                journal.decision("scout", f"{t.get('id')}: {t.get('asset')} is {g_lic}", "CC BY-SA allowed for this film "
+                                 "only: " + str(play["share_alike"]["decision"]), unit=t.get("id"),
+                                 evidence={"asset": t.get("asset"), "licence": g_lic,
+                                           "attribution": "ShareAlike, on the sources page"})
+            for c in POL.asset_checks(g_item, rule):
+                lint(c["rule"], c["ok"], unit=t.get("id"), severity=c["severity"], evidence=c["evidence"],
+                     grammar="1.6" if c["rule"] == "no-bodies" and not rule["declared"] else "1.6, 11.1, A21")
+            g_np = notes_problem(g_item)
+            lint("ledger-notes", g_np is None, unit=t.get("id"), grammar="A56",
+                 evidence={"asset": t.get("asset"), "why": g_np} if g_np else None)
+            if not g_item.get("_path") or not Path(g_item["_path"]).exists():
+                lint("asset-file", False, unit=t.get("id"), evidence={"file": g_item.get("_path")})
+                continue
+            graphic_overlays.append(NG.overlay_entry(t, g_item))
         elif t["kind"] == "lower_third":
             ln = list(t.get("lines") or [])
             # A56: name and role, two lines; a speaker's (line 1 names a cast speaker) is drawn as a speaker's, any
@@ -7550,9 +7595,11 @@ def voice_ceiling_pass(mix: np.ndarray, parts: list[dict], clips: np.ndarray, mu
     return out
 
 
-def _archival_total(gain: float | None, m: dict, line_gain: float, ceiling: float = VOICE_TP) -> float:
+def _archival_total(gain: float | None, m: dict, line_gain: float, ceiling: float | None = None) -> float:
     """A26: an archival span's static gain plus its line's gain_db, held back so
-    its true peak stays under the voice ceiling (A15's, or pass 2's derived one)."""
+    its true peak stays under the voice ceiling (A15's, or pass 2's derived one).
+    None is the show's VOICE_TP, read at call time (E3: apply_show sets it per plan)."""
+    ceiling = VOICE_TP if ceiling is None else ceiling
     total = (gain or 0.0) + line_gain
     tp = m.get("input_tp")
     if tp is not None and math.isfinite(tp) and total > ceiling - tp:      # nothing limits it, so the gain is held back
