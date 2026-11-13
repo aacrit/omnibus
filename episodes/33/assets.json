@@ -12,18 +12,13 @@
         "tier": 4,
         "text": "tier 4: the 4 Nov printed front page, toured to the result story 'Democrats Capture Control of Both Chambers of Congress in Midterms' with room tone (no voice for its first 6 s); the lead headline, which names a reason, stays out of frame until The Week"
       },
-      "candidates": [
-        {
-          "adapter": "dvids",
-          "ref": "search: q=\"election day\" OR \"absentee ballot\" voting; type=video",
-          "tier": 1,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-03"
-          }
-        }
-      ],
+      "candidates": [],
       "not_fetched": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "reason": "the search found nothing: q=\"election day\" OR \"absentee ballot\" voting; type=video"
+        },
         {
           "tier": 2,
           "host": "commons.wikimedia.org",
@@ -395,15 +390,6 @@
       },
       "candidates": [
         {
-          "adapter": "dvids",
-          "ref": "search: q=Ukraine humanitarian aid facility strike; type=image",
-          "tier": 1,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
           "tier": 2,
@@ -415,6 +401,24 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -456,27 +460,14 @@
             "from": "2026-11-02",
             "to": "2026-11-03T19:39:27.128203+00:00"
           }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
         }
       ],
       "not_fetched": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "reason": "the search found nothing: q=Ukraine humanitarian aid facility strike; type=image"
+        },
         {
           "tier": 3,
           "host": "commons.wikimedia.org",
@@ -546,15 +537,6 @@
         "text": "tier 4: the printed page alone carries the beat; count card of the day's sources"
       },
       "candidates": [
-        {
-          "adapter": "dvids",
-          "ref": "search: q=\"Vice President Vance\"; type=image OR video",
-          "tier": 1,
-          "window": {
-            "from": "2026-10-26",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          }
-        },
         {
           "adapter": "commons",
           "ref": "File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
@@ -639,6 +621,11 @@
         }
       ],
       "not_fetched": [
+        {
+          "tier": 1,
+          "host": "api.dvidshub.net",
+          "reason": "the search found nothing: q=\"Vice President Vance\"; type=image OR video"
+        },
         {
           "tier": 2,
           "host": "commons.wikimedia.org",
@@ -863,8 +850,19 @@
       "candidates": [
         {
           "adapter": "dvids",
-          "ref": "search: q=Hegseth; type=image OR video",
+          "ref": "video:1028785",
           "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-10-30",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          }
+        },
+        {
+          "adapter": "dvids",
+          "ref": "video:1028891",
+          "tier": 1,
+          "pinned": true,
           "window": {
             "from": "2026-10-30",
             "to": "2026-11-06T19:18:18.407444+00:00"
@@ -1200,7 +1198,7 @@
       "candidates": [
         {
           "adapter": "dvids",
-          "ref": "search: q=\"U.S. Central Command\" OR CENTCOM task force; type=video",
+          "ref": "video:1029004",
           "tier": 1,
           "window": {
             "from": "2026-11-01",

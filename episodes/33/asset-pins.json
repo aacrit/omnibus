@@ -421,6 +421,25 @@
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 15"
       }
+    ],
+    "e33-day5-pic": [
+      {
+        "tier": 1,
+        "adapter": "dvids",
+        "ref": "video:1028785",
+        "why": "fits the beat by its actor: the Defense Secretary himself, speaking from the Pentagon on 5 Nov 2026 during the post-election fallout the headline names (DVIDS: \"SECWAR Hegseth delivers message from the Pentagon\", published 2026-11-05T20:09:54Z, before the day-5 print at 2026-11-06T19:18Z). It shows him, not the impeachment threat; the narrator says only what was printed"
+      },
+      {
+        "tier": 1,
+        "adapter": "dvids",
+        "ref": "video:1028891",
+        "why": "second choice, the same actor in the same week: the President and the Defense Secretary at the Pentagon on 2 Nov 2026 (published 2026-11-06T15:11:07Z, before the print). A recruitment production, so it stands behind the 5 Nov message"
+      },
+      {
+        "tier": 1,
+        "exclude": "*",
+        "why": "any other DVIDS hit for the step is file footage not of the week's events or of the beat's actor (the bible's no stock B-roll rule)"
+      }
     ]
   }
 }
