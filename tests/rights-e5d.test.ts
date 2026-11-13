@@ -12,7 +12,7 @@ import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
 import { isAllowedUrl } from "../scripts/lib/rights/http.mjs";
 import { ALLOWED_IDS, EDITORIAL_USE, FAIR_USE, deniedBy, editorialTermsProblems, licenceProblems, licenceTerms } from "../scripts/lib/rights/licences.mjs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
-import { ledgerEntry } from "../scripts/lib/rights/fetcher.mjs";
+import { fetchRequests, ledgerEntry, refineDate, windowProblem } from "../scripts/lib/rights/fetcher.mjs";
 import { emptyLedger, validateLedger } from "../scripts/lib/rights/ledger.mjs";
 import { lintEpisode, lintFairUse, lintLicenceAllowlist, lintLicenceEvidence, rungSide } from "../scripts/lib/rights/lints.mjs";
 import { CANDIDATES_SCHEMA_ID, mergeCandidatePins, resolveRequests } from "../scripts/lib/rights/resolve.mjs";
@@ -191,12 +191,33 @@ describe("fair-use excerpts: the blocking lints", () => {
 
 describe("NARA moving images", () => {
   const json = (n: string) => JSON.parse(text(n));
-  it("takes the MP4 for a footage request, and refuses a record NARA marks possibly restricted by copyright", () => {
+  it("takes the MP4 for a footage request; NARA's possibly-copyright flag on a Signal Corps film passes only on its proven federal maker", () => {
+    // S3 ruling (coordinator, 2026-11-13): the flag is a series caution; the record names the Office of the Chief Signal Officer (1947 to 1964) as maker.
     const r = nara.parseNara(json("nara-video-23327.json"), { ref: "23327", capturedAt: AT, kind: "footage" });
     expect(r.candidate.kind_hint).toBe("footage");
     expect(r.candidate.media_url).toMatch(/\.mp4$/);
+    expect(r.candidate.licence).toBe("pd-us-federal");
+    expect(r.candidate.basis).toMatch(/Restricted - Possibly \(Copyright\)/);
+    expect(r.candidate.evidence.captured_text).toMatch(/Office of the Chief Signal Officer/);
+    expect(nara.parseNara(json("nara-video-22399.json"), { ref: "22399", capturedAt: AT, kind: "footage" }).candidate.licence).toBe("pd-us-federal");
+  });
+  it("keeps the flag standing on a Universal Newsreel item: a donated collection, a commercial newsreel, no federal maker", () => {
+    const r = nara.parseNara(json("nara-video-503129862.json"), { ref: "503129862", capturedAt: AT, kind: "footage" });
     expect(r.candidate.licence).toBeNull();
-    expect(r.candidate.licence_note).toMatch(/Restricted - Possibly/);
+    expect(r.candidate.licence_note).toMatch(/collection, not a federal record group/);
+    expect(r.candidate.licence_note).toMatch(/commercial newsreel or studio/);
+    expect(r.candidate.licence_note).toMatch(/no federal maker is proven/);
+  });
+  it("never passes Undetermined, and a Navy film whose named maker began in 1959 is held, not made, by it", () => {
+    const r = nara.parseNara(json("nara-video-80338.json"), { ref: "80338", capturedAt: AT, kind: "footage" });
+    expect(r.candidate.licence).toBeNull();
+    expect(r.candidate.licence_note).toMatch(/"Undetermined", not Unrestricted/);
+    expect(r.candidate.licence_note).toMatch(/began after the record was made/);
+  });
+  it("refuses the flag with another specific restriction beside Copyright", () => {
+    const j = json("nara-video-23327.json");
+    j.body.hits.hits[0]._source.record.useRestriction.specificUseRestrictions = ["Copyright", "Trademark"];
+    expect(nara.parseNara(j, { ref: "23327", capturedAt: AT, kind: "footage" }).candidate.licence).toBeNull();
   });
   it("refuses a library named as creator that began after the film was made: it holds the film, it did not make it", () => {
     const r = nara.parseNara(json("nara-video-353712960.json"), { ref: "353712960", capturedAt: AT, kind: "footage" });
@@ -232,6 +253,47 @@ describe("candidate-pin files from the sourcing passes", () => {
     const e = entry({ fit: cand.fit }, { id: "e33-day6-pic", kind: "footage", for: "week-day-6" });
     expect(e.fit).toEqual({ beat: "week-day-6", why: pin.fit.why, in_s: 0, out_s: 33, horizon: "2026-11-07T17:30:11Z" });
     expect(validateLedger(ledgerOf([e]))).toEqual([]);
+  });
+
+  it("a pin on an adapter outside the ladder joins at its stated tier, before later tiers, and must state tier and window", async () => {
+    const rundown = { issue: 33, asset_requests: [{ id: "e33-echo-req-12", for: "echo-x1", kind: "footage", purpose: "p", ladder: [{ tier: 2, host: "commons.wikimedia.org", adapter: "commons", query: "File:A.webm", window: { from: "1951-01-01", to: "1952-11-05" } }], fallback: "stills" }] };
+    const http = { getJson: async () => ({ status: "not_found" }), getText: async () => ({ status: "not_found" }) };
+    const nPin = { adapter: "nara", ref: "22399", tier: 1, window: { from: "1951-01-01", to: "1952-11-05T12:00:00-05:00" }, fit: { beat: "echo-x1", why: "refugees, 2 Jan 1951" }, from_file: "echo-film.json" };
+    const d = await resolveRequests(rundown, { pins: { "e33-echo-req-12": [nPin] }, http, env: {} });
+    expect(d.requests[0].candidates.map((c: any) => `${c.adapter}:${c.tier}`)).toEqual(["nara:1", "commons:2"]);
+    expect(d.requests[0].candidates[0]).toMatchObject({ pinned: true, window: nPin.window, fit: nPin.fit });
+    await expect(resolveRequests(rundown, { pins: { "e33-echo-req-12": [{ ...nPin, window: undefined }] }, http, env: {} })).rejects.toThrow(/tier and window/);
+    // A hand pin (no from_file) on an adapter outside the ladder stays out, as before.
+    const hand = await resolveRequests(rundown, { pins: { "e33-echo-req-12": [{ ...nPin, from_file: undefined }] }, http, env: {} });
+    expect(hand.requests[0].candidates.map((c: any) => c.adapter)).toEqual(["commons"]);
+  });
+
+  it("a date record refines a year to its day, never moves it, and a fit pin keeps no undated exemption", () => {
+    const rec = { date: "1952-03-29", title: "President and Bess Truman at Jefferson-Jackson Day Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId: 338959044" } };
+    const ok = refineDate("1952", rec, { capturedAt: AT });
+    expect(ok.date).toBe("1952-03-29");
+    expect(ok.evidence.captured_text).toMatch(/production date 1952-03-29/);
+    expect(refineDate("1951", rec, { capturedAt: AT }).problem).toMatch(/outside the source's own date 1951/);
+    expect(refineDate("1952", { ...rec, date: "1952" }, { capturedAt: AT }).problem).toMatch(/no full day/);
+    expect(windowProblem(null, { from: "1951-01-01", to: "1952-11-05" }, { pinned: true })).toBeNull();
+    expect(windowProblem(null, { from: "1951-01-01", to: "1952-11-05" }, { pinned: false })).toMatch(/no date/);
+  });
+
+  it("the fetcher dates a pinned Commons still from its NARA record and refuses an undated fit pin", async () => {
+    const still = (date: string | null) => ({ status: "ok", candidate: { adapter: "commons", ref: "File:A.jpg", kind_hint: "still", title: "A", item_url: "https://commons.wikimedia.org/wiki/File:A.jpg", media_url: "https://upload.wikimedia.org/a.jpg", licence: "pd-us-federal", basis: "PD US Government (17 U.S.C. 105)", credit: "NARA", evidence: { url: "https://commons.wikimedia.org/wiki/File:A.jpg", captured_text: "public domain, PD US Government", captured_at: AT }, date, published_at: "2011-10-21T10:10:59Z", categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] } });
+    const naraRec = { status: "ok", candidate: { date: "1952-03-29", title: "Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId 338959044" } } };
+    const adapters = { commons: { lookup: async () => still("1952") }, nara: { lookup: async () => naraRec } };
+    const fit = { beat: "echo-x6", why: "the dinner" };
+    const req = (cand: any) => ({ schema: "x", issue: 33, requests: [{ id: "e33-echo-01", kind: "still", for: "echo", title: "t", fallback: { tier: 5, text: "typeset" }, candidates: [cand] }] });
+    const opts = { adapters, http: {}, mediaDir: null, checkedBy: "t", dryRun: true, now: () => new Date(AT) };
+    const window = { from: "1952-03-29", to: "1952-11-05T12:00:00-05:00" };
+    const dated = await fetchRequests(req({ adapter: "commons", ref: "File:A.jpg", tier: 3, pinned: true, window, fit, date_record: { adapter: "nara", ref: "338959044" } }), null, opts);
+    expect(dated.report[0].outcome).toBe("would take");
+    const coarse = await fetchRequests(req({ adapter: "commons", ref: "File:A.jpg", tier: 3, pinned: true, window, fit }), null, opts);
+    expect(JSON.stringify(coarse.ledger.rejected)).toMatch(/too coarse/);
+    adapters.commons.lookup = async () => still(null);
+    const undated = await fetchRequests(req({ adapter: "commons", ref: "File:A.jpg", tier: 3, pinned: true, window, fit }), null, opts);
+    expect(JSON.stringify(undated.ledger.rejected)).toMatch(/no date on the item/);
   });
 
   it("prints each item's fit on the coverage page, escaped", () => {

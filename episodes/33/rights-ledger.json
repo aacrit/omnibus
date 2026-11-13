@@ -107,7 +107,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:25Z"
+        "captured_at": "2026-11-13T16:39:06Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
@@ -121,7 +121,7 @@
       "sha256": "bd7ca7bd5215a41ff553cf688b5470e303afefdcf08ee25be9840f3a02ab7439",
       "bytes": 1668786,
       "credit": "Abbie Rowe, via Wikimedia Commons",
-      "date": "1952",
+      "date": "1952-03-29",
       "published_at": "2011-10-21T10:10:59Z",
       "content_date": null,
       "source_tier": 3,
@@ -143,6 +143,18 @@
       "laundering_check": {
         "status": "clear",
         "findings": []
+      },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959044",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"President and Bess Truman at Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959044), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959044).\nnaId: 338959044; local identifier: 73-3881\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:06Z"
+        }
+      ],
+      "fit": {
+        "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+        "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record of it (NAID 338959044, Truman Library accession 73-3881, the NLT-AVC-PHT-(73)3881 that echo-pick names for old NAID 200382) dates it 29 March 1952; Commons gives the year only.",
+        "horizon": "1952-11-05T12:00:00-05:00"
       }
     },
     {
@@ -155,7 +167,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:26Z"
+        "captured_at": "2026-11-13T16:39:07Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
@@ -169,7 +181,7 @@
       "sha256": "470e2e3adf9ba403e2ff723d29a6bcb90a16f239e7338ac063fc0f97f6ce7da6",
       "bytes": 1844911,
       "credit": "Abbie Rowe, via Wikimedia Commons",
-      "date": "1952",
+      "date": "1952-03-29",
       "published_at": "2011-10-21T10:10:17Z",
       "content_date": null,
       "source_tier": 3,
@@ -191,6 +203,18 @@
       "laundering_check": {
         "status": "clear",
         "findings": []
+      },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959024",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"President Truman at the Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959024), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959024).\nnaId: 338959024; local identifier: 73-3872\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:07Z"
+        }
+      ],
+      "fit": {
+        "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+        "why": "Abbie Rowe's photograph of the President receiving applause at the Armory. NARA's current record (NAID 338959024, Truman Library accession 73-3872, echo-pick's NLT-AVC-PHT-(73)3872 for old NAID 200380) dates it 29 March 1952; Commons gives the year only.",
+        "horizon": "1952-11-05T12:00:00-05:00"
       }
     },
     {
@@ -203,7 +227,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:26Z"
+        "captured_at": "2026-11-13T16:39:08Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
@@ -217,7 +241,7 @@
       "sha256": "b6d0750136f39b168b911b6455c0872ded719d61963f26ad7dd8c87e6be8355e",
       "bytes": 1779036,
       "credit": "Abbie Rowe, via Wikimedia Commons",
-      "date": "1952",
+      "date": "1952-03-29",
       "published_at": "2011-10-21T10:11:25Z",
       "content_date": null,
       "source_tier": 3,
@@ -239,6 +263,18 @@
       "laundering_check": {
         "status": "clear",
         "findings": []
+      },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959048",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"President and Bess Truman at Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959048), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959048).\nnaId: 338959048; local identifier: 73-3883\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:08Z"
+        }
+      ],
+      "fit": {
+        "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+        "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record (NAID 338959048, Truman Library accession 73-3883, echo-pick's NLT-AVC-PHT-(73)3883 for old NAID 200383) dates it 29 March 1952; Commons gives the year only.",
+        "horizon": "1952-11-05T12:00:00-05:00"
       }
     },
     {
@@ -251,7 +287,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:27Z"
+        "captured_at": "2026-11-13T16:39:09Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
@@ -265,7 +301,7 @@
       "sha256": "0fd470223a11942972ddc3e8a932795ce42ab4b29729fab46b024b37ebca89bf",
       "bytes": 1565735,
       "credit": "Abbie Rowe, via Wikimedia Commons",
-      "date": "1952",
+      "date": "1952-03-29",
       "published_at": "2011-10-21T10:10:04Z",
       "content_date": null,
       "source_tier": 3,
@@ -287,6 +323,18 @@
       "laundering_check": {
         "status": "clear",
         "findings": []
+      },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959010",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"Trumans Arriving at Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959010), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959010).\nnaId: 338959010; local identifier: 73-3866\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:09Z"
+        }
+      ],
+      "fit": {
+        "beat": "echo-x6: arrival at the Armory, 29 March 1952",
+        "why": "Abbie Rowe's photograph of the Trumans greeted on arrival at the National Guard Armory. NARA's current record (NAID 338959010, Truman Library accession 73-3866, echo-pick's NLT-AVC-PHT-(73)3866 for old NAID 200379) dates it 29 March 1952; Commons gives the year only.",
+        "horizon": "1952-11-05T12:00:00-05:00"
       }
     },
     {
@@ -1831,6 +1879,58 @@
         "status": "clear",
         "findings": []
       }
+    },
+    {
+      "id": "e33-echo-req-12",
+      "request_id": "e33-echo-req-12",
+      "kind": "footage",
+      "adapter": "nara",
+      "title": "KOREAN WAR, UIJONGBU; REFUGEES, PUSAN, KOREA; EVACUATION, HUNGNAM AREA, KOREA, BOKU-DO",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://catalog.archives.gov/id/22399",
+        "captured_text": "Read from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=22399).\nnaId: 22399; local identifier: 111-ADC-8634\nrecord group: 111 Records of the Office of the Chief Signal Officer\ncreators: Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)\nuse restriction: Restricted - Possibly; access restriction: Unrestricted\nNARA flags the record \"Restricted - Possibly\" (Copyright), a blanket caution on the series; its maker, Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964), is a US federal agency named on the record, so it is a work of the US government: public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T16:39:13Z"
+      },
+      "basis": "National Archives identifier 22399 (111-ADC-8634): a record created by Department of Defense. Department of the Army. Office of the Chief Signal Officer., a US federal agency (17 U.S.C. 105); use restriction Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://catalog.archives.gov/id/22399",
+      "media_url": "https://catalog.archives.gov/medialz/mopix/111/adc/111-adc-8634.mp4",
+      "file": "e33-echo-req-12.mp4",
+      "mime": "video/mp4",
+      "sha256": "6d073ffb0bb0c1332df736d763633588d116272ee303e3e415b81b273fa2ec87",
+      "bytes": 159546106,
+      "credit": "Department of Defense. Department of the Army. Office of the Chief Signal Officer., via the National Archives (NAID 22399, 111-ADC-8634)",
+      "date": "1951-01-02",
+      "published_at": null,
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "scopeAndContentNote",
+          "subjects",
+          "creators",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      },
+      "fit": {
+        "beat": "echo-x1: the January 1951 withdrawal, refugees in snow",
+        "why": "Signal Corps film 111-ADC-8634, Uijongbu, 2 Jan 1951 (shot card 1, 4th scene): a 24th Division squad checks a file of refugees passing south, then two soldiers walk the snow-covered ground. The same withdrawal six days before the line's date, near Seoul, not Kangnung: the cut takes the refugee scene only. No in/out yet: the 839 ft silent reel is not viewed (no transcode in this pass); the editor sets in_s/out_s from the shot card's 4th scene.",
+        "horizon": "1952-11-05T12:00:00-05:00"
+      }
     }
   ],
   "rejected": [
@@ -1853,22 +1953,6 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
       "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
       "reasons": [
         "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
@@ -1885,6 +1969,14 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
       "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
       "reasons": [
         "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
@@ -1896,6 +1988,14 @@
       "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
       "reasons": [
         "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
       ]
     },
     {
@@ -2153,7 +2253,7 @@
     {
       "request_id": "e33-day7-pic",
       "adapter": "commons",
-      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
       "reasons": [
         "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
       ]
@@ -2161,7 +2261,7 @@
     {
       "request_id": "e33-day7-pic",
       "adapter": "commons",
-      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
       "reasons": [
         "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
       ]
@@ -2315,15 +2415,6 @@
         "dated 1951, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00",
         "licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")"
       ]
-    },
-    {
-      "request_id": "e33-echo-req-12",
-      "adapter": "commons",
-      "ref": "File:William Knowland, Edmund Brown Newsreel.ogv",
-      "reasons": [
-        "no date on the item, so it cannot be placed inside 1951-01-01 to 1952-11-05T12:00:00-05:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
     }
   ],
   "dropped": [
@@ -2427,12 +2518,12 @@
       "reasons": [
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm: published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp: published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 1 api.dvidshub.net: the search found nothing: q=Ukraine humanitarian aid facility strike; type=image",
         "tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
         "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)"
@@ -2537,8 +2628,8 @@
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821002).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821000).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820997).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
-        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821004).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Videos by DVIDS\" CENTCOM November 2026",
         "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Iran and its land borders, with the region named in the CENTCOM release (Natural Earth 1:10m, no relief)"
@@ -2728,16 +2819,6 @@
       "reasons": [
         "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Adlai Stevenson II 1952 presidential campaign\" filetype:bitmap",
         "tier 3 www.loc.gov: the search found nothing: q=Adlai Stevenson Springfield 1952; dates=1952/1952; fo=json"
-      ]
-    },
-    {
-      "request_id": "e33-echo-req-12",
-      "kind": "footage",
-      "fallback_tier": null,
-      "fallback": "stills with rostrum tours (E1's 7 items); the Echo runs without footage. Any film of the fighting goes only where no music plays (x1, x7)",
-      "reasons": [
-        "tier 2 commons File:William Knowland, Edmund Brown Newsreel.ogv: no date on the item, so it cannot be placed inside 1951-01-01 to 1952-11-05T12:00:00-05:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 1 commons.wikimedia.org: the search found nothing: incategory:\"The Big Picture (TV series)\" Korea filetype:video"
       ]
     }
   ],

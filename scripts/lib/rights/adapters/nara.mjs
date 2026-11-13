@@ -24,6 +24,23 @@ export function itemUrl(naId) {
 const FEDERAL_CREATOR = /^(?:Department of|War Department|Navy Department|Executive Office|Office of|Bureau of|National |United States|U\.S\.|Federal |Central Intelligence|Army|Air Force|Marine Corps|Coast Guard)|\bDepartment of (?:Defense|the Air Force|the Army|the Navy|State|War|Agriculture|Commerce|Labor|the Interior|Justice)\b|\bArmy Air Forces\b/;
 const DONATED = /\bdonat(?:ed|ion)\b|\bgift of\b|\bcourtesy of\b|\bcopyright(?:ed)?\b|\bused with permission\b/i;
 
+// NARA's own boilerplate beside its "possibly copyright" flag: it is the flag, not a statement about the record.
+const FLAG_NOTE = /^Some or all of this material may be restricted by copyright or other intellectual property rights restrictions\.?$/i;
+// A commercial newsreel or studio named anywhere on the record keeps NARA's copyright flag standing.
+const COMMERCIAL_NEWSREEL = /\b(?:Universal|MCA|Paramount|Movietone|Fox|Path[eé]|Hearst|News of the Day|Telenews|March of Time|Warner|RKO|Metro-Goldwyn|MGM|Columbia Pictures|CBS|NBC|ABC)\b/i;
+
+/**
+ * NARA's conservative flag: use restriction "Restricted - Possibly" with Copyright as its only
+ * specific restriction. On a federal agency's own film series it is a blanket caution, so such a
+ * record may pass only with its federal maker proven on the record (founder ruling, relayed by the
+ * coordinator, 2026-11-13). "Undetermined" and every other restriction never pass.
+ */
+export function conservativeFlag(rec) {
+  const u = rec?.useRestriction ?? {};
+  const specific = u.specificUseRestrictions ?? [];
+  return plain(u.status) === "Restricted - Possibly" && specific.length === 1 && specific[0] === "Copyright";
+}
+
 const IMAGE_ORDER = ["Image (TIFF)", "Image (JPG)", "Image (JPEG)", "Image (PNG)"];
 
 const VIDEO_ORDER = ["Audio/Visual File (MP4)", "Video (MP4)"];
@@ -67,9 +84,14 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
   const federal = creators.filter((c) => FEDERAL_CREATOR.test(c) && !custodianOnly(c, year));
   const group = (hit.ancestors ?? []).find((a) => a.levelOfDescription === "recordGroup");
   const texts = [hit.title, hit.scopeAndContentNote, ...(hit.ancestors ?? []).map((a) => a.title), hit.useRestriction?.note, ...(hit.notes ?? [])].map(plain);
-  const donated = texts.find((t) => DONATED.test(t));
+  const flagged = conservativeFlag(hit);
+  const donated = texts.find((t) => DONATED.test(t) && !(flagged && FLAG_NOTE.test(t)));
   const reasons = [];
-  if (use !== "Unrestricted") reasons.push(`the catalogue's use restriction is "${use}", not Unrestricted`);
+  const commercial = flagged ? texts.concat(creators).find((t) => COMMERCIAL_NEWSREEL.test(t)) : null;
+  if (use !== "Unrestricted" && !flagged) reasons.push(`the catalogue's use restriction is "${use}", not Unrestricted`);
+  if (flagged && !group) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record sits in a collection, not a federal record group, so the flag stands`);
+  if (commercial) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record names a commercial newsreel or studio ("${clip(commercial, 120)}"), so the flag stands`);
+  if (flagged && !federal.length) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and no federal maker is proven on the record, so the flag stands`);
   if (!federal.length) reasons.push(custodians.length ? `the federal body named (${clip(custodians[0], 120)}) began after the record was made, so it holds the record and did not make it` : "no federal agency is named as the record's creator");
   if (donated) reasons.push(`the record speaks of donated or copyright material: "${clip(donated, 120)}"`);
   const obj = pickObject(hit.digitalObjects, kind);
@@ -81,7 +103,11 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
     `record group: ${group ? `${group.recordGroupNumber ?? ""} ${plain(group.title)}`.trim() : "(none)"}`,
     `creators: ${creators.join("; ") || "(none)"}`,
     `use restriction: ${use}; access restriction: ${plain(hit.accessRestriction?.status) || "(none)"}`,
-    ok ? "A record of a US federal agency, unrestricted: public domain (17 U.S.C. 105)." : `Refused: ${reasons.join("; ")}.`,
+    ok
+      ? flagged
+        ? `NARA flags the record "Restricted - Possibly" (Copyright), a blanket caution on the series; its maker, ${federal[0]}, is a US federal agency named on the record, so it is a work of the US government: public domain (17 U.S.C. 105).`
+        : "A record of a US federal agency, unrestricted: public domain (17 U.S.C. 105)."
+      : `Refused: ${reasons.join("; ")}.`,
   ].join("\n");
   const agency = federal[0]?.replace(/\s*\([^)]*\)\s*$/, "") ?? null;
   return {
@@ -98,10 +124,10 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
       // The catalogue's objectFileSize is not a real size for every object, so it is not checked.
       bytes_expected: null,
       sha1: null,
-      licence_raw: ok ? "National Archives record of a federal agency, unrestricted" : `National Archives record: ${reasons.join("; ")}`,
+      licence_raw: ok ? (flagged ? "National Archives record of a federal agency, flagged possibly restricted (Copyright) as a series caution" : "National Archives record of a federal agency, unrestricted") : `National Archives record: ${reasons.join("; ")}`,
       licence: ok ? "pd-us-federal" : null,
       licence_note: ok ? null : reasons.join("; "),
-      basis: ok ? `National Archives identifier ${hit.naId}${local ? ` (${local})` : ""}: a record created by ${agency}, a US federal agency (17 U.S.C. 105); use restriction Unrestricted` : null,
+      basis: ok ? `National Archives identifier ${hit.naId}${local ? ` (${local})` : ""}: a record created by ${agency}, a US federal agency (17 U.S.C. 105); use restriction ${flagged ? "Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names" : "Unrestricted"}` : null,
       credit: `${agency ?? "US federal government"}, via the National Archives (NAID ${hit.naId}${local ? `, ${local}` : ""})`,
       credit_fields: [],
       evidence: { url: itemUrl(hit.naId), captured_text: capturedText, captured_at: capturedAt },

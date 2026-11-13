@@ -77,6 +77,7 @@ export function validateRequests(doc) {
       if (c?.sha256 !== undefined && !/^[0-9a-f]{64}$/.test(String(c.sha256))) out.push(`${cat}.sha256 must be 64 hex digits`);
       if (c?.pinned !== undefined && typeof c.pinned !== "boolean") out.push(`${cat}.pinned must be true or false`);
       if (c?.audio !== undefined && !(c.audio?.mode === "muted" && typeof c.audio?.reason === "string" && c.audio.reason.trim())) out.push(`${cat}.audio must be { mode: "muted", reason }`);
+      if (c?.date_record !== undefined && !(ADAPTERS.includes(c.date_record?.adapter) && typeof c.date_record?.ref === "string" && c.date_record.ref.trim() && c.date_record.ref.length <= 400)) out.push(`${cat}.date_record must be { adapter, ref } naming an adapter the fetcher has`);
     });
     (r?.not_fetched ?? []).forEach((s, j) => {
       if (!Number.isInteger(s?.tier) || typeof s?.reason !== "string" || !s.reason.trim()) out.push(`${at}.not_fetched[${j}] must be { tier, host, reason }`);
