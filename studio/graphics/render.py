@@ -68,10 +68,10 @@ def render_week33(out_dir: Path) -> list[ledger.LedgerEntry]:
             clean.assert_clean(html, where=f"testcard-{tc.subtype}")
             png, shown, _ = shoot.shoot_html(browser, html, text_selectors=None)
             if tc.bars:
-                counts_sel = {f"rung{i}": f".tc-count:nth-of-type({i + 1})" for i in range(len(tc.bars))}
+                counts_sel = {rung: f'.tc-count[data-rung="{rung}"]' for rung in layout.RUNGS}
                 _, shown_counts, _ = shoot.shoot_html(browser, html, text_selectors=counts_sel)
-                expected = {f"rung{i}": v for i, v in enumerate(tc.bars) if v > 0}
-                countsmatch.assert_counts_match(expected, {k: v for k, v in shown_counts.items() if v})
+                expected = {rung: v for rung, v in zip(layout.RUNGS, tc.bars)}
+                countsmatch.assert_counts_match(expected, shown_counts)
             static = compose.load_rgba(png)
             frames = compose.step_frames(static, hold_frames=round(tc.hold_s * motion.FPS))
             out_path = out_dir / f"testcard-{tc.subtype}.mov"
@@ -115,9 +115,10 @@ def render_week33(out_dir: Path) -> list[ledger.LedgerEntry]:
         for cc in data.all_count_cards(rundown, week, issue=issue, date_line=issue_date_line):
             html = typeset.count_card_html(cc, **_css())
             clean.assert_clean(html, where=cc.id)
-            counts_sel = {f"row{i}": f".hero-num:nth-of-type({1})" for i in range(len(cc.rows))}
-            png, shown, _ = shoot.shoot_html(browser, html)
-            heroes_sel = {"all": ".field"}
+            counts_sel = {f"row{i}": f'.hero-num[data-row="{i}"]' for i in range(len(cc.rows))}
+            png, shown, _ = shoot.shoot_html(browser, html, text_selectors=counts_sel)
+            expected = {f"row{i}": row.hero for i, row in enumerate(cc.rows)}
+            countsmatch.assert_counts_match(expected, shown)
             static = compose.load_rgba(png)
             frames = compose.step_frames(static, hold_frames=round(3.0 * motion.FPS))
             out_path = out_dir / f"{cc.id}.mov"
@@ -220,8 +221,9 @@ def render_regression32(out_dir: Path) -> dict:
         for name, gen_html, mock_path in jobs:
             clean.assert_clean(gen_html, where=name)
             gen_png, _, _ = shoot.shoot_html(browser, gen_html, transparent=False)
-            mock_html = mock_path.read_text(encoding="utf-8")
-            mock_png, _, _ = shoot.shoot_html(browser, mock_html, transparent=False)
+            # Shot in place (not copied into a temp file): the mock's own
+            # stylesheet links are relative to design/mocks/broadcast/.
+            mock_png, _, _ = shoot.shoot_path(browser, mock_path, transparent=False)
             (out_dir / f"{name}-generated.png").write_bytes(gen_png)
             (out_dir / f"{name}-mock.png").write_bytes(mock_png)
             import numpy as np

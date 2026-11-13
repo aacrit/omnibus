@@ -83,7 +83,8 @@ def testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str) -> str
         key_parts.append(
             f'<rect class="b-{col.rung}" x="{col.center_x - 7}" y="610" width="14" height="14"/>'
             + label_svg
-            + f'<text class="tc-count" x="{col.center_x}" y="704" text-anchor="middle" font-size="30">{esc(count)}</text>'
+            + f'<text class="tc-count" data-rung="{col.rung}" x="{col.center_x}" y="704" '
+            f'text-anchor="middle" font-size="30">{esc(count)}</text>'
         )
 
     svg = (
@@ -216,22 +217,42 @@ def lower_third_html(spec: LowerThirdSpec, *, tokens_css: str, frame_css: str) -
 # ---- count card (3.7) -------------------------------------------------------
 
 def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str) -> str:
+    """One hero numeral (count-card.html's own 300/350/600/760 offsets,
+    reproduced exactly) for a single-row card; a multi-row card (e.g.
+    cw-1's three terms, cw-4's two-way comparison - net-new compositions,
+    no G2 mock covers more than one count at a time) distributes evenly
+    in a smaller face so rows never overlap: each gets its own
+    ``row_height`` band, sized to clear a hero numeral plus its context
+    line."""
     n = len(spec.rows)
-    gap = 540.0 / max(n, 1)
-    top = 300.0
     blocks = []
-    for i, row in enumerate(spec.rows):
-        y = top + i * gap
-        if row.qualifier:
+    if n <= 1:
+        row = spec.rows[0] if spec.rows else None
+        if row:
+            if row.qualifier:
+                blocks.append(
+                    f'<div class="count-block" style="top:300px"><div class="bc-caps eyebrow-bc" '
+                    f'style="font-size:30px; color:var(--o-grey-2)">{esc(row.qualifier)}</div></div>'
+                )
+            blocks.append('<div class="count-block" style="top:350px"><div class="hero-num bc-mono" data-row="0">'
+                           f'{esc(row.hero)}</div></div>')
+            blocks.append(f'<div class="count-block" style="top:600px"><p class="context">{esc(row.context)}</p></div>')
+    else:
+        available_top, available_bottom = 220.0, 860.0
+        row_height = (available_bottom - available_top) / n
+        hero_size = max(72, min(132, round(row_height * 0.42)))
+        for i, row in enumerate(spec.rows):
+            band_top = available_top + i * row_height
+            hero_top = band_top + row_height * 0.12
+            context_top = hero_top + hero_size * 1.05
             blocks.append(
-                f'<div class="count-block" style="top:{y:g}px"><div class="bc-caps eyebrow-bc" '
-                f'style="font-size:30px; color:var(--o-grey-2)">{esc(row.qualifier)}</div></div>'
+                f'<div class="count-block" style="top:{hero_top:g}px"><div class="hero-num bc-mono" '
+                f'data-row="{i}" style="font-size:{hero_size}px">{esc(row.hero)}</div></div>'
             )
-            y += 50
-        blocks.append(f'<div class="count-block" style="top:{y:g}px"><div class="hero-num bc-mono">{esc(row.hero)}</div></div>')
-        blocks.append(
-            f'<div class="count-block" style="top:{y + 110:g}px"><p class="context">{esc(row.context)}</p></div>'
-        )
+            blocks.append(
+                f'<div class="count-block" style="top:{context_top:g}px"><p class="context" '
+                f'style="font-size:26px">{esc(row.context)}</p></div>'
+            )
     date_html = (
         f'<div class="count-block" style="top:900px"><span class="bc-mono" '
         f'style="font-size:var(--bc-data); color:var(--o-grey-2)">{esc(spec.date_line)}</span></div>'
