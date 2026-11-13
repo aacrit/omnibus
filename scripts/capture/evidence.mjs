@@ -23,6 +23,7 @@ import { isAllowedUrl } from "../lib/rights/http.mjs";
 import { checkCandidate } from "../lib/rights/provenance.mjs";
 import { isoSecond } from "../lib/rights/text.mjs";
 
+export const NASA_TERMS = "https://www.nasa.gov/nasa-brand-center/images-and-media/";
 export const EVIDENCE_SCHEMA = "omnibus.capture-evidence/1";
 export const SECRET_ENV = ["DVIDS_API_KEY", "CLOUDFLARE_API_TOKEN"];
 const HEX64 = /^[0-9a-f]{64}$/;
@@ -36,10 +37,9 @@ export const SOURCES = {
   commons: { adapter: commons, ref: (it) => it.id, page: (it) => it.url, terms: "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia" },
   dvids: { adapter: dvids, ref: (it) => it.id, page: (it) => dvids.publicPageUrl(it.id), terms: dvids.RESTRICTIONS_PAGE },
   voa: { adapter: voa, ref: (it) => it.url, page: (it) => it.url, terms: voa.TERMS_URL },
-  // images.nasa.gov and www.nasa.gov are not on the fetcher's allowlist: the page kept is the
-  // images-api record the adapter reads, and NASA's media-usage page cannot be fetched until a
-  // DECISIONS entry widens the allowlist, so NASA media is kept as metadata only.
-  nasa: { adapter: nasa, ref: (it) => it.id, page: (it) => nasa.searchUrl(it.id), terms: null, terms_missing: "NASA's media usage guidelines (www.nasa.gov) are not on the fetcher's allowlist; widening it needs a DECISIONS entry" },
+  // images.nasa.gov is not on the fetcher's allowlist, so the page kept is the images-api record the
+  // adapter reads; the governing terms are NASA's media usage guidelines on www.nasa.gov (C6, DECISIONS 2026-11-13).
+  nasa: { adapter: nasa, ref: (it) => it.id, page: (it) => nasa.searchUrl(it.id), terms: NASA_TERMS },
   cdc: { adapter: gov, ref: (it) => it.url, page: (it) => it.url, terms: "https://www.cdc.gov/other/agencymaterials.html", kind: "still" },
   noaa: { adapter: gov, ref: (it) => it.url, page: (it) => it.url, terms: "https://www.noaa.gov/disclaimer", kind: "still" },
   // The White House is a locator: its videos are YouTube embeds, never downloaded; the matching Commons upload is the media.

@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+// C6: the stores the footage capture writes through (scripts/lib/capture-store.mjs
+// holds every key, cap and plan). Two stores, one interface
+// { get(key) -> text | null, put(key, body), delete(key) }:
+//   captureR2Store()  the private R2 bucket `omnibus-capture`, through wrangler
+//                     (CLOUDFLARE_API_TOKEN on Actions, `wrangler login` locally)
+//   dirStore(root)    a directory laid out by the same keys: the workflow
+//                     artifact a run keeps when R2 is not configured
+//
+// Backfill: every capture/index.json under <root> (downloaded workflow
+// artifacts, at any depth up to four), oldest first, merged into R2 item by
+// item through planPut, so the caps, dedupe and the evidence lint apply as
+// they do on a live run. A backfill never writes the heartbeat.
+//
+//   node scripts/capture-r2.mjs --root <downloaded artifacts>
+//
+// The bucket is created once, by hand, with the same token:
+//   npx wrangler r2 bucket create omnibus-capture
+
+import { spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { resolveBinPath } from "./lib/run-bin.mjs";
+import { BUCKET, INDEX_KEY, PREFIX, commit, planPut, readIndex } from "./lib/capture-store.mjs";
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+const TYPES = { json: "application/json", gz: "application/gzip", webm: "video/webm", mp4: "video/mp4", m4v: "video/mp4", mov: "video/quicktime", ogv: "video/ogg", jpg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif" };
+export const contentType = (key) => TYPES[String(key).split(".").pop().toLowerCase()] ?? "application/octet-stream";
+
+/** A key the capture may write: under capture/, no dot segments, no backslashes. */
+export function assertKey(key) {
+  const k = String(key);
+  if (!k.startsWith(`${PREFIX}/`) || k.includes("\\") || k.split("/").some((s) => s === "" || s === "." || s === "..")) throw new Error(`not a capture key: ${k}`);
+  return k;
+}
+
+/** The R2 bucket through wrangler. get() is null only for a key that does not exist. */
+export function captureR2Store(bucket = BUCKET) {
+  const bin = resolveBinPath("wrangler", "wrangler");
+  const once = (args) => {
+    const r = spawnSync(process.execPath, [bin, ...args], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, cwd: repoRoot, timeout: 300_000 });
+    if (r.error) throw r.error;
+    return r;
+  };
+  const missingKey = (r) => /specified key does not exist/i.test(r.stderr + r.stdout);
+  // wrangler sometimes exits non-zero with no output (a dropped connection): two retries, never for an absent key.
+  const run = (args) => {
+    let r;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      if (attempt > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2000 * attempt);
+      r = once(args);
+      if (r.status === 0 || missingKey(r)) return r;
+    }
+    return r;
+  };
+  const why = (r) => `exit ${r.status}${r.signal ? ` (${r.signal})` : ""}: ${(r.stderr || r.stdout || "no output").trim().split("\n").slice(-3).join(" ")}`;
+  const tmp = mkdtempSync(path.join(os.tmpdir(), "omnibus-capture-r2-"));
+  let n = 0;
+  return {
+    label: `r2://${bucket}`,
+    get(key) {
+      const r = run(["r2", "object", "get", `${bucket}/${assertKey(key)}`, "--remote", "--pipe"]);
+      if (r.status === 0) return r.stdout;
+      if (missingKey(r)) return null;
+      throw new Error(`wrangler r2 object get ${key} failed, ${why(r)}`);
+    },
+    put(key, body) {
+      const file = path.join(tmp, `${n++}.${String(key).split(".").pop()}`);
+      writeFileSync(file, body);
+      try {
+        const r = run(["r2", "object", "put", `${bucket}/${assertKey(key)}`, "--file", file, "--remote", "--content-type", contentType(key)]);
+        if (r.status !== 0) throw new Error(`wrangler r2 object put ${key} failed, ${why(r)}`);
+      } finally {
+        unlinkSync(file);
+      }
+    },
+    delete(key) {
+      const r = run(["r2", "object", "delete", `${bucket}/${assertKey(key)}`, "--remote"]);
+      if (r.status !== 0 && !missingKey(r)) throw new Error(`wrangler r2 object delete ${key} failed, ${why(r)}`);
+    },
+  };
+}
+
+/** A directory laid out by the capture's keys (the workflow artifact). */
+export function dirStore(root) {
+  const file = (key) => path.join(root, ...assertKey(key).split("/"));
+  return {
+    label: path.resolve(root),
+    get(key) {
+      const f = file(key);
+      return existsSync(f) ? readFileSync(f, "utf8") : null;
+    },
+    getBytes(key) {
+      const f = file(key);
+      return existsSync(f) ? readFileSync(f) : null;
+    },
+    put(key, body) {
+      const f = file(key);
+      mkdirSync(path.dirname(f), { recursive: true });
+      writeFileSync(f, body);
+    },
+    delete(key) {
+      rmSync(file(key), { force: true });
+    },
+  };
+}
+
+/** Every directory under root holding capture/index.json, at most `depth` levels down, oldest index first. */
+export function findCaptureRoots(root, depth = 4) {
+  const found = [];
+  const walk = (dir, left) => {
+    if (existsSync(path.join(dir, PREFIX, "index.json"))) found.push(dir);
+    if (left <= 0) return;
+    for (const name of readdirSync(dir)) {
+      const p = path.join(dir, name);
+      if (name !== PREFIX && statSync(p).isDirectory()) walk(p, left - 1);
+    }
+  };
+  walk(root, depth);
+  const newest = (dir) => {
+    const idx = readIndex(readFileSync(path.join(dir, PREFIX, "index.json"), "utf8"));
+    return Object.values(idx.items).map((e) => e.evidence?.captured_at ?? e.listed_at ?? "").sort().at(-1) ?? "";
+  };
+  return found.map((d) => ({ d, t: newest(d) })).sort((a, b) => a.t.localeCompare(b.t) || a.d.localeCompare(b.d)).map((x) => x.d);
+}
+
+/**
+ * Merges one local capture (a dirStore root) into `store`, item by item through
+ * planPut: what the remote already holds by source id is skipped, caps and the
+ * evidence lint apply, and the remote index is written after the puts.
+ * Returns counts by planPut action.
+ */
+export function backfillOne({ localRoot, store, now = () => new Date(), log = () => {} }) {
+  const local = dirStore(localRoot);
+  const localIndex = readIndex(local.get(INDEX_KEY));
+  let index = readIndex(store.get(INDEX_KEY));
+  const puts = [];
+  const mediaFiles = new Map();
+  const counts = {};
+  for (const e of Object.values(localIndex.items)) {
+    const blobs = [];
+    for (const sha of e.evidence_keys ?? []) {
+      const gz = local.getBytes(`${PREFIX}/evidence/${sha}.gz`);
+      const meta = localIndex.evidence[sha];
+      if (gz && meta) blobs.push({ sha256: sha, gz, kind: meta.kind, url: meta.url });
+    }
+    let media = null;
+    if (e.media) {
+      const key = `${PREFIX}/media/${e.media.sha256}.${e.media.ext}`;
+      if (existsSync(path.join(localRoot, ...key.split("/")))) {
+        media = { sha256: e.media.sha256, ext: e.media.ext, bytes: e.media.bytes };
+        mediaFiles.set(e.media.sha256, path.join(localRoot, ...key.split("/")));
+      }
+    }
+    const plan = planPut({ index, item: { source: e.source, id: e.id, url: e.url, title: e.title, description: e.description, captured_at: e.listed_at }, evidence: { record: e.evidence, blobs }, media, now: now() });
+    counts[plan.action] = (counts[plan.action] ?? 0) + 1;
+    index = plan.index;
+    puts.push(...plan.puts);
+  }
+  commit(store, { puts, deletes: [], index }, { mediaBody: (sha) => readFileSync(mediaFiles.get(sha)) });
+  log(`capture-r2: ${localRoot}: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(", ") || "nothing"}`);
+  return counts;
+}
+
+export function backfill({ root, store, now, log = console.log }) {
+  const roots = findCaptureRoots(root);
+  if (!roots.length) throw new Error(`no capture/index.json under ${root}`);
+  return roots.map((localRoot) => backfillOne({ localRoot, store, now, log }));
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const i = process.argv.indexOf("--root");
+  const root = i > 0 ? process.argv[i + 1] : null;
+  if (!root) {
+    console.error("usage: node scripts/capture-r2.mjs --root <downloaded capture artifacts>");
+    process.exit(2);
+  }
+  try {
+    backfill({ root: path.resolve(root), store: captureR2Store() });
+  } catch (err) {
+    console.error(`capture-r2: ${err.message}`);
+    process.exit(1);
+  }
+}

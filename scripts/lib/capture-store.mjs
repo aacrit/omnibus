@@ -107,6 +107,8 @@ export function planPut({ index: indexIn, item, evidence, media = null, now, cap
     id: String(item.id),
     url: item.url ?? null,
     title: item.title ?? null,
+    // The listing's description (clipped), so the weekly pool (scripts/capture/pool.mjs) scores what the capture scored.
+    description: item.description ? String(item.description).slice(0, 600) : null,
     listed_at: item.captured_at ?? null,
     evidence: record,
     evidence_keys: [],

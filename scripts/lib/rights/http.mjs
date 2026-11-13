@@ -39,6 +39,8 @@ export const FETCH_HOSTS = [
   "upload.wikimedia.org",
   "images-api.nasa.gov",
   "images-assets.nasa.gov",
+  // NASA's media usage guidelines, the governing terms page a captured NASA item keeps as evidence (C6, DECISIONS 2026-11-13).
+  "www.nasa.gov",
   "www.loc.gov",
   "tile.loc.gov",
   "api.dvidshub.net",

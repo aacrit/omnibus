@@ -18,9 +18,10 @@ import { readJsonWithCap } from "./http";
 import { isCrossSite, isJsonContentType, LIMITER_PERIOD_SECONDS, limiterFor, withinRateLimit, type GuardEnv } from "./guard";
 import { API_CSP, withSecurityHeaders } from "./headers";
 import { handleSnapshotHeartbeat, type SnapshotEnv } from "./snapshots";
+import { handleCaptureHeartbeat, type CaptureEnv } from "./capture";
 import { PAGE_CSP_HEADER } from "../../scripts/lib/csp.mjs";
 
-export interface Env extends GuardEnv, SnapshotEnv {
+export interface Env extends GuardEnv, SnapshotEnv, CaptureEnv {
   DB: D1Database;
   ASSETS: Fetcher;
   BUILD_TAG?: string;
@@ -205,6 +206,7 @@ async function route(request: Request, env: Env, url: URL): Promise<Response> {
   if (request.method === "POST" && url.pathname === "/feedback") return handleFeedback(request, env);
   if (request.method === "GET" && url.pathname === "/healthz") return handleHealthz(env);
   if (request.method === "GET" && url.pathname === "/api/snapshots/heartbeat") return handleSnapshotHeartbeat(env);
+  if (request.method === "GET" && url.pathname === "/api/capture/heartbeat") return handleCaptureHeartbeat(env);
 
   // Not a Worker route: whatever Workers Static Assets has at this path.
   // With run_worker_first limited to the Worker's own routes, this is
