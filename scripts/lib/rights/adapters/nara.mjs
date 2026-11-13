@@ -24,12 +24,31 @@ export function itemUrl(naId) {
 const FEDERAL_CREATOR = /^(?:Department of|War Department|Navy Department|Executive Office|Office of|Bureau of|National |United States|U\.S\.|Federal |Central Intelligence|Army|Air Force|Marine Corps|Coast Guard)|\bDepartment of (?:Defense|the Air Force|the Army|the Navy|State|War|Agriculture|Commerce|Labor|the Interior|Justice)\b|\bArmy Air Forces\b/;
 const DONATED = /\bdonat(?:ed|ion)\b|\bgift of\b|\bcourtesy of\b|\bcopyright(?:ed)?\b|\bused with permission\b/i;
 
+// NARA's own boilerplate beside its "possibly copyright" flag: it is the flag, not a statement about the record.
+const FLAG_NOTE = /^Some or all of this material may be restricted by copyright or other intellectual property rights restrictions\.?$/i;
+// A commercial newsreel or studio named anywhere on the record keeps NARA's copyright flag standing.
+const COMMERCIAL_NEWSREEL = /\b(?:Universal|MCA|Paramount|Movietone|Fox|Path[eé]|Hearst|News of the Day|Telenews|March of Time|Warner|RKO|Metro-Goldwyn|MGM|Columbia Pictures|CBS|NBC|ABC)\b/i;
+
+/**
+ * NARA's conservative flag: use restriction "Restricted - Possibly" with Copyright as its only
+ * specific restriction. On a federal agency's own film series it is a blanket caution, so such a
+ * record may pass only with its federal maker proven on the record (founder ruling, relayed by the
+ * coordinator, 2026-11-13). "Undetermined" and every other restriction never pass.
+ */
+export function conservativeFlag(rec) {
+  const u = rec?.useRestriction ?? {};
+  const specific = u.specificUseRestrictions ?? [];
+  return plain(u.status) === "Restricted - Possibly" && specific.length === 1 && specific[0] === "Copyright";
+}
+
 const IMAGE_ORDER = ["Image (TIFF)", "Image (JPG)", "Image (JPEG)", "Image (PNG)"];
 
-/** The best digital object: TIFF over JPEG over PNG, on the catalogue's own host. */
-export function pickObject(objects) {
+const VIDEO_ORDER = ["Audio/Visual File (MP4)", "Video (MP4)"];
+
+/** The best digital object on the catalogue's own host: for footage an MP4, otherwise TIFF over JPEG over PNG. */
+export function pickObject(objects, kind = "still") {
   const list = (objects ?? []).filter((o) => /^https:\/\/catalog\.archives\.gov\//.test(String(o.objectUrl ?? "")));
-  for (const t of IMAGE_ORDER) {
+  for (const t of kind === "footage" ? VIDEO_ORDER : IMAGE_ORDER) {
     const o = list.find((x) => x.objectType === t);
     if (o) return o;
   }
@@ -37,7 +56,7 @@ export function pickObject(objects) {
 }
 
 function productionDate(rec) {
-  const d = rec.productionDates?.[0] ?? rec.coverageDates?.[0] ?? null;
+  const d = rec.productionDates?.[0] ?? rec.coverageDates?.[0] ?? rec.coverageStartDate ?? null;
   if (!d?.year) return null;
   const mm = d.month ? `-${String(d.month).padStart(2, "0")}` : "";
   const dd = d.month && d.day ? `-${String(d.day).padStart(2, "0")}` : "";
@@ -45,20 +64,37 @@ function productionDate(rec) {
 }
 
 /** Pure: the candidate a recorded records-search response describes. */
-export function parseNara(json, { ref, capturedAt }) {
+/**
+ * A creator heading with its dates ("... Eisenhower Library. (07/31/2011 - )")
+ * that began after the record was made is the record's custodian, not its
+ * author: a library founded in 2011 did not film 1952.
+ */
+export function custodianOnly(heading, year) {
+  const m = String(heading).match(/\((\d{2})\/(\d{2})\/(\d{4})\s*-/);
+  return Boolean(m && year && Number(m[3]) > Number(year));
+}
+
+export function parseNara(json, { ref, capturedAt, kind = "still" }) {
   const hit = json?.body?.hits?.hits?.[0]?._source?.record;
   if (!hit || String(hit.naId) !== String(ref)) return { status: "not_found" };
   const use = plain(hit.useRestriction?.status) || "(none)";
   const creators = (hit.ancestors ?? []).flatMap((a) => (a.creators ?? []).map((c) => plain(c.heading))).concat((hit.creators ?? []).map((c) => plain(c.heading)));
-  const federal = creators.filter((c) => FEDERAL_CREATOR.test(c));
+  const year = (hit.productionDates?.[0] ?? hit.coverageStartDate ?? hit.coverageDates?.[0])?.year ?? null;
+  const custodians = creators.filter((c) => FEDERAL_CREATOR.test(c) && custodianOnly(c, year));
+  const federal = creators.filter((c) => FEDERAL_CREATOR.test(c) && !custodianOnly(c, year));
   const group = (hit.ancestors ?? []).find((a) => a.levelOfDescription === "recordGroup");
   const texts = [hit.title, hit.scopeAndContentNote, ...(hit.ancestors ?? []).map((a) => a.title), hit.useRestriction?.note, ...(hit.notes ?? [])].map(plain);
-  const donated = texts.find((t) => DONATED.test(t));
+  const flagged = conservativeFlag(hit);
+  const donated = texts.find((t) => DONATED.test(t) && !(flagged && FLAG_NOTE.test(t)));
   const reasons = [];
-  if (use !== "Unrestricted") reasons.push(`the catalogue's use restriction is "${use}", not Unrestricted`);
-  if (!federal.length) reasons.push("no federal agency is named as the record's creator");
+  const commercial = flagged ? texts.concat(creators).find((t) => COMMERCIAL_NEWSREEL.test(t)) : null;
+  if (use !== "Unrestricted" && !flagged) reasons.push(`the catalogue's use restriction is "${use}", not Unrestricted`);
+  if (flagged && !group) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record sits in a collection, not a federal record group, so the flag stands`);
+  if (commercial) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record names a commercial newsreel or studio ("${clip(commercial, 120)}"), so the flag stands`);
+  if (flagged && !federal.length) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and no federal maker is proven on the record, so the flag stands`);
+  if (!federal.length) reasons.push(custodians.length ? `the federal body named (${clip(custodians[0], 120)}) began after the record was made, so it holds the record and did not make it` : "no federal agency is named as the record's creator");
   if (donated) reasons.push(`the record speaks of donated or copyright material: "${clip(donated, 120)}"`);
-  const obj = pickObject(hit.digitalObjects);
+  const obj = pickObject(hit.digitalObjects, kind);
   const ok = reasons.length === 0;
   const local = plain(hit.localIdentifier) || null;
   const capturedText = [
@@ -67,7 +103,11 @@ export function parseNara(json, { ref, capturedAt }) {
     `record group: ${group ? `${group.recordGroupNumber ?? ""} ${plain(group.title)}`.trim() : "(none)"}`,
     `creators: ${creators.join("; ") || "(none)"}`,
     `use restriction: ${use}; access restriction: ${plain(hit.accessRestriction?.status) || "(none)"}`,
-    ok ? "A record of a US federal agency, unrestricted: public domain (17 U.S.C. 105)." : `Refused: ${reasons.join("; ")}.`,
+    ok
+      ? flagged
+        ? `NARA flags the record "Restricted - Possibly" (Copyright), a blanket caution on the series; its maker, ${federal[0]}, is a US federal agency named on the record, so it is a work of the US government: public domain (17 U.S.C. 105).`
+        : "A record of a US federal agency, unrestricted: public domain (17 U.S.C. 105)."
+      : `Refused: ${reasons.join("; ")}.`,
   ].join("\n");
   const agency = federal[0]?.replace(/\s*\([^)]*\)\s*$/, "") ?? null;
   return {
@@ -75,7 +115,7 @@ export function parseNara(json, { ref, capturedAt }) {
     candidate: {
       adapter: "nara",
       ref: String(hit.naId),
-      kind_hint: obj ? "still" : null,
+      kind_hint: obj ? (/^(?:Audio\/Visual|Video)/.test(obj.objectType) ? "footage" : "still") : null,
       title: clip(plain(hit.title), 400) || `NAID ${hit.naId}`,
       description: clip(plain(hit.scopeAndContentNote), 1000),
       item_url: itemUrl(hit.naId),
@@ -84,10 +124,10 @@ export function parseNara(json, { ref, capturedAt }) {
       // The catalogue's objectFileSize is not a real size for every object, so it is not checked.
       bytes_expected: null,
       sha1: null,
-      licence_raw: ok ? "National Archives record of a federal agency, unrestricted" : `National Archives record: ${reasons.join("; ")}`,
+      licence_raw: ok ? (flagged ? "National Archives record of a federal agency, flagged possibly restricted (Copyright) as a series caution" : "National Archives record of a federal agency, unrestricted") : `National Archives record: ${reasons.join("; ")}`,
       licence: ok ? "pd-us-federal" : null,
       licence_note: ok ? null : reasons.join("; "),
-      basis: ok ? `National Archives identifier ${hit.naId}${local ? ` (${local})` : ""}: a record created by ${agency}, a US federal agency (17 U.S.C. 105); use restriction Unrestricted` : null,
+      basis: ok ? `National Archives identifier ${hit.naId}${local ? ` (${local})` : ""}: a record created by ${agency}, a US federal agency (17 U.S.C. 105); use restriction ${flagged ? "Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names" : "Unrestricted"}` : null,
       credit: `${agency ?? "US federal government"}, via the National Archives (NAID ${hit.naId}${local ? `, ${local}` : ""})`,
       credit_fields: [],
       evidence: { url: itemUrl(hit.naId), captured_text: capturedText, captured_at: capturedAt },
@@ -102,9 +142,9 @@ export function parseNara(json, { ref, capturedAt }) {
   };
 }
 
-export async function lookup(ref, { http, now = () => new Date() }) {
+export async function lookup(ref, { http, now = () => new Date(), kind = "still" }) {
   if (!/^\d{1,12}$/.test(String(ref))) return { status: "not_found", reason: `"${clip(ref, 80)}" is not a National Archives identifier` };
   const r = await http.getJson(searchUrl(ref));
   if (r.status !== "ok") return { status: "not_found" };
-  return parseNara(r.json, { ref, capturedAt: isoSecond(now().toISOString()) });
+  return parseNara(r.json, { ref, capturedAt: isoSecond(now().toISOString()), kind });
 }

@@ -240,3 +240,63 @@ def test_hostile_text_is_data_not_markup():
     EP.line(play, "L-mon")["text"] = ATTACK
     res = run(play, assets, inputs)
     assert failing_rules(res) == set()
+
+
+# -- S4: founder ruling A (2026-11-13), picture_published_by_edition ----------------------------------------------
+
+
+def _week_pic(published_at, *, date="2026-03-02", label="item", shot_label="item"):
+    """The pass fixture with a picture of Monday's own event on Monday's part (horizon 2 Mar 12:00 UTC)."""
+    play, assets, inputs = EP.episode()
+    want = NL.edition_dot_label(date, published_at)
+    item = {"id": "st-mon", "date": date, "published_at": published_at, "licence": "public domain", "title": "Council"}
+    if label:
+        item["dot_label"] = {"text": want if label == "item" else label, "why": "ruling A"}
+    assets["st-mon"] = item
+    sh = {"id": "S-MON-PIC", "kind": "archive_video", "asset": "st-mon", "start_s": 25.0, "dur_s": 5.0}
+    if shot_label:
+        sh["dot_label"] = want if shot_label == "item" else shot_label
+    EP.part(play, "p-mon")["shots"].append(sh)
+    return NL.published_by_edition_checks(play, assets)
+
+
+def _bad(res):
+    return [c for c in res if not c["ok"] and c["severity"] == "block"]
+
+
+def test_the_dot_label_reads_filmed_and_published_days():
+    assert NL.edition_dot_label("2026-11-02", "2026-11-05T04:06:35Z") == "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026"
+
+
+def test_a_week_picture_published_by_the_edition_cutoff_passes_with_its_dot_label():
+    res = _week_pic("2026-03-05T09:00:00+00:00")
+    assert not _bad(res), res
+    assert any(c["rule"] == "picture_published_by_edition" and c["ok"] and c["evidence"]["checked"] == 1 for c in res)
+
+
+def test_a_week_picture_published_by_the_horizon_needs_no_label():
+    assert not _bad(_week_pic("2026-03-02T10:00:00+00:00", label=None, shot_label=None))
+
+
+def test_a_week_picture_after_the_edition_cutoff_fails():
+    bad = _bad(_week_pic("2026-03-09T09:00:00+00:00"))
+    assert bad and any("edition cutoff" in pr for pr in bad[0]["evidence"]["problems"])
+
+
+def test_a_week_picture_of_a_later_event_fails():
+    bad = _bad(_week_pic("2026-03-05T09:00:00+00:00", date="2026-03-04"))
+    assert bad and any("not dated to a day on or before" in pr for pr in bad[0]["evidence"]["problems"])
+
+
+def test_a_week_picture_without_its_dot_label_fails_on_the_item_and_the_shot():
+    probs = _bad(_week_pic("2026-03-05T09:00:00+00:00", label=None, shot_label=None))[0]["evidence"]["problems"]
+    assert any("ledger item" in pr for pr in probs) and any("the shot" in pr for pr in probs)
+    probs = _bad(_week_pic("2026-03-05T09:00:00+00:00", shot_label="FILMED 2 MAR 2026"))[0]["evidence"]["problems"]
+    assert probs == [next(pr for pr in probs if "the shot" in pr)]
+
+
+def test_an_own_printed_page_is_held_to_its_capture_not_its_publication():
+    play, assets, inputs = EP.episode()
+    assets["st-margin"]["published_at"] = "2026-03-09T08:00:00+00:00"
+    assets["st-margin"]["own_property"] = {"publication": "fixture"}
+    assert not _bad(NL.published_by_edition_checks(play, assets))

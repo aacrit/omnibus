@@ -47,6 +47,9 @@ export const FETCH_HOSTS = [
   "cdn.dvidshub.net",
   // DVIDS's media CDN, the host its documented Asset API names for image and video files (api.dvidshub.net/docs/asset_api).
   "d34w7g4gy10iej.cloudfront.net",
+  // Voice of America (founder ruling, 2026-11-13): its video pages and terms, and the host its pages name for their mp4 downloads.
+  "www.voanews.com",
+  "voa-video-ns.akamaized.net",
 ];
 
 /**
@@ -84,6 +87,9 @@ export const FEDERAL_HOSTS = [
   "cdc.gov",
   "centcom.mil",
   "defense.gov",
+  // The Pentagon's own host since the Department of War name (S4, DECISIONS 2026-11-13); State's own pages.
+  "war.gov",
+  "state.gov",
   "archives.gov",
   "trumanlibrary.gov",
   "eisenhowerlibrary.gov",

@@ -1,0 +1,36 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 33,
+  "source": "usgov",
+  "note": "Sourcing pass S1 (issue 33): US government footage for the news parts, read on 2026-11-13. VOA, DVIDS and Commons were searched; the pins here are the White House's own videos as Wikimedia Commons holds them (a federal work by the source page). VOA's two 2026 video pages carry AP, AFP and C-SPAN marks on every shot that shows a beat, and DVIDS's one fitting video (1029004, 7 Nov) is credited \"Courtesy\", so neither is pinned. Fit first: a pin names the beat, why the picture shows it, and the seconds that do; every item was public before the beat's horizon. Nothing here is a rights decision; the fetcher checks every candidate.",
+  "pins": {
+    "e33-day6-pic": [
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:White House Chief of Staff, Stephen Miller.webm",
+        "why": "the White House's own video naming Mr Miller its chief of staff, uploaded to Commons on 6 Nov 22:50 UTC",
+        "fit": {
+          "beat": "week-day-6",
+          "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
+          "in_s": 0,
+          "out_s": 33,
+          "horizon": "2026-11-07T17:30:11Z"
+        }
+      },
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm",
+        "why": "the White House's own video of the President's 6 Nov departure gaggle on the South Lawn, uploaded to Commons on 6 Nov 22:56 UTC",
+        "fit": {
+          "beat": "week-day-6",
+          "why": "the President at the White House on 6 Nov, the day the appointment was announced, walking out in the rain and taking questions under an umbrella; what he says is not checked against the appointment here, so it plays under the narrator; 0 to 28 s (the walk out and the first answers).",
+          "in_s": 0,
+          "out_s": 28,
+          "horizon": "2026-11-07T17:30:11Z"
+        }
+      }
+    ]
+  }
+}

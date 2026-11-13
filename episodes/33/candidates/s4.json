@@ -1,0 +1,75 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 33,
+  "source": "s4",
+  "note": "Sourcing pass S4 (issue 33), read on 2026-11-13 under the founder's ruling A of that day: in The Week a picture of the day's own event may be published by the edition cutoff (2026-11-08T22:16:50Z), not only by the day's print time; facts and narration stay at the day's horizon, and the shot carries a dot label FILMED {date} · PUBLISHED {date} that the fetcher writes on the ledger item. Fit first: a pin names the beat, why the picture shows it, and how it plays. Nothing here is a rights decision; the fetcher checks every candidate.",
+  "pins": {
+    "e33-day2-pic": [
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+        "fit": {
+          "beat": "week-day-2",
+          "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
+          "horizon": "2026-11-03T19:39:27Z"
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
+        }
+      },
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (002).webm",
+        "fit": {
+          "beat": "week-day-2",
+          "why": "the National Police of Ukraine's video of the same site after the 2 Nov strike, the second choice if the State Emergency Service's is refused. CC BY 4.0; uploaded 5 Nov 04:39 UTC (ruling A).",
+          "horizon": "2026-11-03T19:39:27Z"
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "the police's own sound is not checked against the day's printed lines; the picture plays under the narrator"
+        }
+      },
+      {
+        "adapter": "commons",
+        "exclude": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm",
+        "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence"
+      }
+    ],
+    "e33-day3-pic2": [
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
+        "fit": {
+          "beat": "week-day-3",
+          "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file is not viewed in this pass.",
+          "horizon": "2026-11-04T19:39:06Z"
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
+        }
+      }
+    ],
+    "e33-day5-pic2": [
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+        "fit": {
+          "beat": "week-day-5",
+          "why": "the White House's own video of the Secretary, published 6 Nov (uploaded 22:53 UTC) as the impeachment threat and his video statement were reported; after the 6 Nov print (19:18 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. CoS ruling (2026-11-13): it plays MUTED under the narration, never as the statement the deck reports.",
+          "horizon": "2026-11-06T19:18:18Z"
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "CoS ruling 2026-11-13: the Secretary's own video plays muted under the narration, never as the statement the deck reports"
+        }
+      }
+    ]
+  }
+}
