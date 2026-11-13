@@ -688,30 +688,27 @@
     },
     {
      "id": "S-D2-FTG",
-     "kind": "archive_still",
+     "kind": "archive_video",
      "start_s": 85.7,
-     "dur_s": 22.0,
+     "dur_s": 14.533,
      "transition_in": {
       "type": "cut"
      },
-     "asset": "e33-day2-page",
+     "asset": "e33-day2-pic",
+     "in_s": 0.0,
+     "out_s": 14.533,
      "mark": "ARCHIVE",
-     "fill_ok": true,
-     "camera": [
-      {
-       "t": 0.0,
-       "x": 0.5,
-       "y": 0.30706,
-       "z": 1.1453
-      },
-      {
-       "t": 22.0,
-       "x": 0.5,
-       "y": 0.31897,
-       "z": 1.1598
-      }
-     ],
-     "why": "The day's lead in pictures: the footage slot. Until it is filled, the printed page continues its tour (fallback).",
+     "sound": {
+      "mode": "mute",
+      "reason": "the rights ledger airs it muted: the rescuers' own sound is not checked against the day's printed lines"
+     },
+     "dot_label": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026",
+     "frame_check": {
+      "by": "E4d, 2026-11-13",
+      "frames": "every 3 s over 0-67 s, then every 1 s over 13-20 s and 38-45 s",
+      "result": "0-15 s: the site, smoke, rescuers and a search dog; no person harmed is visible. 17-27 s shows a white sheet or bag carried out (possibly a body): excluded. The only bug is the State Emergency Service of Ukraine's own Zaporizhzhia mark (the maker, credited under CC BY 4.0); no network or agency bug."
+     },
+     "why": "Komyshuvakha after the strike, the State Emergency Service of Ukraine's own video (CC BY 4.0), muted, its first 15 s: the site and the search. Published 5 Nov, after the day's print: ruling A, with its dot label.",
      "footage_slot": {
       "beat": "Tuesday 3 Nov: Komyshuvakha, Zaporizhzhia, the strike on the aid point",
       "request": "e33-day2-pic",
@@ -725,8 +722,34 @@
        "request": "e33-day2-pic",
        "awaits": "DVIDS (tier 1), else a Commons picture published by the horizon, else a locator map",
        "now": "the printed page carries the beat"
-      }
+      },
+      "filled": "E4d: e33-day2-pic 0-15 s here and 38-45 s in S-D2-FTG2 (22 s together, start and end unchanged)"
      }
+    },
+    {
+     "id": "S-D2-FTG2",
+     "kind": "archive_video",
+     "start_s": 100.233,
+     "dur_s": 7.467,
+     "transition_in": {
+      "type": "cut"
+     },
+     "asset": "e33-day2-pic",
+     "in_s": 38.3,
+     "out_s": 45.767,
+     "mark": "ARCHIVE",
+     "sound": {
+      "mode": "mute",
+      "reason": "the rights ledger airs it muted"
+     },
+     "dot_label": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026",
+     "frame_check": {
+      "by": "E4d, 2026-11-13",
+      "frames": "every 1 s over 38-45 s",
+      "result": "excavators at the crater and rescuers walking the site; no person harmed visible; no network or agency bug"
+     },
+     "why": "The same video, 38-45 s: the machines at the site under the count line. The seconds between (15-38 s) are left out: they include a white sheet or bag carried from the rubble.",
+     "cut_reason": "the day's beat ends here: the next part's slate follows"
     }
    ],
    "lines": [
@@ -1313,7 +1336,7 @@
      "id": "S-D6-PAGE",
      "kind": "archive_still",
      "start_s": 193.4,
-     "dur_s": 5.0,
+     "dur_s": 5.544,
      "transition_in": {
       "type": "cut"
      },
@@ -1328,7 +1351,7 @@
        "z": 1.142
       },
       {
-       "t": 5.0,
+       "t": 5.544,
        "x": 0.5,
        "y": 0.32273,
        "z": 1.1446
@@ -1338,30 +1361,26 @@
     },
     {
      "id": "S-D6-FTG",
-     "kind": "archive_still",
-     "start_s": 198.4,
-     "dur_s": 23.4,
+     "kind": "archive_video",
+     "start_s": 198.944,
+     "dur_s": 22.856,
      "transition_in": {
       "type": "cut"
      },
-     "asset": "e33-day6-page",
+     "asset": "e33-day6-pic",
+     "in_s": 1.293,
+     "out_s": 24.149,
      "mark": "ARCHIVE",
-     "fill_ok": true,
-     "camera": [
-      {
-       "t": 0.0,
-       "x": 0.5,
-       "y": 0.32273,
-       "z": 1.1446
-      },
-      {
-       "t": 23.4,
-       "x": 0.5,
-       "y": 0.33235,
-       "z": 1.1568
-      }
-     ],
-     "why": "The day's lead in pictures: the footage slot. Until it is filled, the printed page continues its tour (fallback).",
+     "sound": {
+      "mode": "mute",
+      "reason": "its own sound is the White House's edit (music likely) and is not checked; no music under news, so it plays muted under the narrator"
+     },
+     "frame_check": {
+      "by": "E4d, 2026-11-13",
+      "frames": "every 3 s over 0-33 s",
+      "result": "Miller with the President at a Golden Age podium, with reporters, at a table, to camera; no network or agency bug or lower third; the White House end card is at 34 s, outside the cut"
+     },
+     "why": "Stephen Miller in the White House's own video, published 6 Nov (before the day's horizon), 0 to 23.4 s, muted under the appointment, the release and the count.",
      "footage_slot": {
       "beat": "Saturday 7 Nov: the President names Stephen Miller chief of staff",
       "request": "e33-day6-pic",
@@ -1375,7 +1394,8 @@
        "request": "e33-day6-pic",
        "awaits": "a White House picture of the announcement (tier 1)",
        "now": "the printed page carries the beat"
-      }
+      },
+      "filled": "E4d: e33-day6-pic 0-23.4 s"
      }
     }
    ],
@@ -2196,30 +2216,27 @@
     },
     {
      "id": "S-X1",
-     "kind": "archive_still",
+     "kind": "archive_video",
      "start_s": 355.7,
      "dur_s": 15.7,
      "transition_in": {
       "type": "cut"
      },
-     "asset": "e33-echo-05",
+     "asset": "e33-echo-req-12",
+     "in_s": 137.783,
+     "out_s": 153.483,
      "mark": "ARCHIVE",
-     "fill_ok": true,
-     "camera": [
-      {
-       "t": 0.0,
-       "x": 0.3,
-       "y": 0.5,
-       "z": 1.3
-      },
-      {
-       "t": 15.7,
-       "x": 0.7,
-       "y": 0.5,
-       "z": 1.3
-      }
-     ],
-     "why": "The war abroad: refugees in snow outside Kangnung, toured along the file.",
+     "sound": {
+      "mode": "mute",
+      "reason": "a silent reel; the narrator and nothing under him"
+     },
+     "dot_label": "FILMED UIJONGBU · 2 JAN 1951",
+     "frame_check": {
+      "by": "E4d, 2026-11-13",
+      "frames": "every 4 s over 0-240 s, then every 1 s over 132-153 s",
+      "result": "138-148 s: a file of refugees walks along the railway in snow (after the WAR roll-2 slate, which ends near 137.5 s); 148 s a few overexposed frames; 149-153.7 s the file passes the squad close. NARA's card only at 0-4 s, outside the cut; no bug."
+     },
+     "why": "The January 1951 withdrawal on film: refugees in snow near Uijongbu, 2 Jan 1951 (Signal Corps 111-ADC-8634, roll 2), labelled FILMED UIJONGBU · 2 JAN 1951 because the line names Kangnung on 8 Jan.",
      "footage_slot": {
       "beat": "the Echo, x1: refugees outside Kangnung, January 1951",
       "request": "e33-echo-05",
@@ -2228,8 +2245,10 @@
       "voiced_s": 9.2,
       "sound": "its own sound under the narrator (at most -24 LUFS short-term, bible g); no music",
       "fallback": "this shot as written, until a ledgered clip fills the slot",
-      "swap": "set kind archive_video, asset, in_s and out_s (out_s - in_s = dur_s); start_s and dur_s stay, so nothing else moves"
-     }
+      "swap": "set kind archive_video, asset, in_s and out_s (out_s - in_s = dur_s); start_s and dur_s stay, so nothing else moves",
+      "filled": "E4d: e33-echo-req-12 138-153.7 s (S3/S4, frame-scanned) in place of the still"
+     },
+     "cut_reason": "the line's beat ends here: the Federal Register page follows"
     },
     {
      "id": "S-X2",
@@ -2449,29 +2468,28 @@
      "id": "S-X6A",
      "kind": "archive_still",
      "start_s": 510.1,
-     "dur_s": 14.6,
+     "dur_s": 9.8,
      "transition_in": {
       "type": "cut"
      },
-     "asset": "e33-echo-pg-truman-19520329",
-     "mark": "DRAWN",
-     "data_source": "src-truman-19520329",
+     "asset": "e33-echo-04",
+     "mark": "ARCHIVE",
      "fill_ok": true,
      "camera": [
       {
        "t": 0.0,
        "x": 0.5,
-       "y": 0.47619,
-       "z": 1.05
+       "y": 0.5,
+       "z": 1.0
       },
       {
-       "t": 14.6,
+       "t": 9.8,
        "x": 0.5,
-       "y": 0.54803,
-       "z": 1.3907
+       "y": 0.5,
+       "z": 1.08
       }
      ],
-     "why": "The Jefferson-Jackson Day Dinner, 29 March 1952: the footage slot. Until it is filled, the typeset address's head stands in (fallback).",
+     "why": "The President and Mrs. Truman greeted on arrival at the National Guard Armory, 29 March 1952 (Abbie Rowe, NARA 200379), under the date and the place.",
      "footage_slot": {
       "beat": "the Echo, x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
       "request": "e33-echo-req-12",
@@ -2481,8 +2499,36 @@
       "sound": "its own sound under the narrator, with the bed",
       "fallback": "this shot as written, until a ledgered clip fills the slot",
       "swap": "set kind archive_video, asset, in_s and out_s (out_s - in_s = dur_s); start_s and dur_s stay, so nothing else moves",
-      "note": "Stills ready once dated: e33-echo-01 to -04 (Abbie Rowe, NARA 200380 to 200383, 29 Mar 1952, PD) are in the rights ledger, but the Commons adapter dated them '1952' only, which the as-of lint refuses against a 5 Nov 1952 horizon. When the fetcher records content_date 1952-03-29 (echo-pick's NARA basis), cut: -04 (arrival) under L-X6, this page under R-X6, -02 (applause) under the bed's widening, -01 as the last still from bed time 137.4 s."
+      "note": "Stills ready once dated: e33-echo-01 to -04 (Abbie Rowe, NARA 200380 to 200383, 29 Mar 1952, PD) are in the rights ledger, but the Commons adapter dated them '1952' only, which the as-of lint refuses against a 5 Nov 1952 horizon. When the fetcher records content_date 1952-03-29 (echo-pick's NARA basis), cut: -04 (arrival) under L-X6, this page under R-X6, -02 (applause) under the bed's widening, -01 as the last still from bed time 137.4 s.",
+      "filled": "E4d: the Armory stills e33-echo-04 then -03 (dated 1952-03-29); no newsreel ledgered"
      }
+    },
+    {
+     "id": "S-X6B",
+     "kind": "archive_still",
+     "start_s": 519.9,
+     "dur_s": 4.8,
+     "transition_in": {
+      "type": "cut"
+     },
+     "asset": "e33-echo-03",
+     "mark": "ARCHIVE",
+     "fill_ok": true,
+     "camera": [
+      {
+       "t": 0.0,
+       "x": 0.5,
+       "y": 0.5,
+       "z": 1.0
+      },
+      {
+       "t": 4.8,
+       "x": 0.5,
+       "y": 0.5,
+       "z": 1.08
+      }
+     ],
+     "why": "The President and Mrs. Truman at the dinner, 29 March 1952 (Abbie Rowe, NARA 200383), under \"President Truman speaks\"."
     },
     {
      "id": "S-X6",
@@ -2528,34 +2574,28 @@
      "id": "S-X6C",
      "kind": "archive_still",
      "start_s": 529.5,
-     "dur_s": 25.6,
+     "dur_s": 13.0,
      "transition_in": {
       "type": "cut"
      },
-     "asset": "e33-echo-pg-truman-19520329",
-     "mark": "DRAWN",
-     "data_source": "src-truman-19520329",
+     "asset": "e33-echo-02",
+     "mark": "ARCHIVE",
      "fill_ok": true,
      "camera": [
       {
        "t": 0.0,
        "x": 0.5,
-       "y": 0.5544,
-       "z": 1.4147
+       "y": 0.5,
+       "z": 1.0
       },
       {
-       "t": 25.6,
+       "t": 13.0,
        "x": 0.5,
-       "y": 0.58,
-       "z": 1.5
+       "y": 0.5,
+       "z": 1.08
       }
      ],
-     "picture_slot": {
-      "request": "e33-echo-01..04",
-      "awaits": "day dates on the four Armory stills' ledger items (E5 follow-up: the ledger holds the year only, which the as-of rule reads as after the horizon)",
-      "now": "the typeset page"
-     },
-     "why": "The room after the words, under the bed's widening and its written ending: the footage slot. Until it is filled, the typeset address holds (fallback).",
+     "why": "The President receiving applause at the dinner, 29 March 1952 (Abbie Rowe, NARA 200380), under the bed's widening.",
      "footage_slot": {
       "beat": "the Echo, x6: the room after the withdrawal, 29 March 1952",
       "request": "e33-echo-req-12",
@@ -2564,8 +2604,36 @@
       "voiced_s": 0.0,
       "sound": "its own sound, low, under the bed's widening and written ending",
       "fallback": "this shot as written, until a ledgered clip fills the slot",
-      "swap": "set kind archive_video, asset, in_s and out_s (out_s - in_s = dur_s); start_s and dur_s stay, so nothing else moves"
+      "swap": "set kind archive_video, asset, in_s and out_s (out_s - in_s = dur_s); start_s and dur_s stay, so nothing else moves",
+      "filled": "E4d: e33-echo-02 then -01 from bed time 137.4 s (542.5 s), as S-X6A's note planned"
      }
+    },
+    {
+     "id": "S-X6D",
+     "kind": "archive_still",
+     "start_s": 542.5,
+     "dur_s": 12.6,
+     "transition_in": {
+      "type": "cut"
+     },
+     "asset": "e33-echo-01",
+     "mark": "ARCHIVE",
+     "fill_ok": true,
+     "camera": [
+      {
+       "t": 0.0,
+       "x": 0.5,
+       "y": 0.5,
+       "z": 1.0
+      },
+      {
+       "t": 12.6,
+       "x": 0.5,
+       "y": 0.5,
+       "z": 1.08
+      }
+     ],
+     "why": "The President and Mrs. Truman at the dinner, 29 March 1952 (Abbie Rowe, NARA 200382): the last still, from bed time 137.4 s to the written ending."
     },
     {
      "id": "S-X7",
