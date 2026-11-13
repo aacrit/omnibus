@@ -33,7 +33,10 @@ Reading the counts: every count is capped by its daily ceiling, and a browser-se
 - Resolve finishing on the weekly path (per-episode opt-in only); a founder voice-recording workflow; PeerTube; a US edition; a mobile app.
 - Any product-side LLM call.
 
-## Workflows: 5 (gate, verify-production, branch-prune, snapshot, studio-full)
+## Workflows: 6 (gate, verify-production, branch-prune, snapshot, studio-full, probe-hosts)
 
 `studio-full` (added 2026-11-12) runs the lifted engine's whole test suite (`studio/tests`, about 2,560
 cases); the per-commit `gate` runs only a fast subset (docs/DECISIONS.md).
+
+`probe-hosts` (added 2026-11-13, C0 of the footage capture) is manual dispatch only: it probes the capture
+job's hosts once with the fetcher's honest identity, no retries (docs/DECISIONS.md).
