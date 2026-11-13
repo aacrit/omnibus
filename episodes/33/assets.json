@@ -2,6 +2,7 @@
   "schema": "omnibus.asset-requests/1",
   "issue": 33,
   "source": "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve",
+  "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
   "requests": [
     {
       "id": "e33-cold-01",
@@ -409,15 +410,6 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
@@ -427,7 +419,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -446,6 +438,15 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -1016,6 +1017,40 @@
         },
         {
           "adapter": "commons",
+          "ref": "File:White House Chief of Staff, Stephen Miller.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "fit": {
+            "beat": "week-day-6",
+            "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
+            "in_s": 0,
+            "out_s": 33,
+            "horizon": "2026-11-07T17:30:11Z"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "fit": {
+            "beat": "week-day-6",
+            "why": "the President at the White House on 6 Nov, the day the appointment was announced, walking out in the rain and taking questions under an umbrella; what he says is not checked against the appointment here, so it plays under the narrator; 0 to 28 s (the walk out and the first answers).",
+            "in_s": 0,
+            "out_s": 28,
+            "horizon": "2026-11-07T17:30:11Z"
+          }
+        },
+        {
+          "adapter": "commons",
           "ref": "File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg",
           "tier": 2,
           "window": {
@@ -1251,7 +1286,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1260,7 +1295,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1345,59 +1380,14 @@
         "tier": null,
         "text": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
           "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
+          "host": "web.archive.org",
+          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=x.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261108221650&output=json&filter=statuscode%3A200&limit=200 answered 503"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-weight-03",
