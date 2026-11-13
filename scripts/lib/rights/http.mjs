@@ -37,6 +37,58 @@ export const FETCH_HOSTS = [
   "cdn.dvidshub.net",
 ];
 
+/**
+ * Federal publishers (founder ruling, chat 2026-11-12): the host itself or any
+ * subdomain of it (www.slotkin.senate.gov, wwwn.cdc.gov, catalog.archives.gov).
+ * A host here is only reachable; every item still has to prove a federal
+ * author from its own page (adapters/gov.mjs, adapters/nara.mjs).
+ */
+export const FEDERAL_HOSTS = [
+  "whitehouse.gov",
+  "senate.gov",
+  "house.gov",
+  "congress.gov",
+  "govinfo.gov",
+  "cdc.gov",
+  "centcom.mil",
+  "defense.gov",
+  "archives.gov",
+  "trumanlibrary.gov",
+  "eisenhowerlibrary.gov",
+];
+
+/**
+ * The Wayback Machine, as a date witness only: a dated capture
+ * (/web/<14-digit timestamp>[id_]/<original URL>) or the CDX index. Never a
+ * licence (adapters/wayback.mjs). Any other path on the host is refused.
+ */
+export const WAYBACK_HOST = "web.archive.org";
+export const WAYBACK_PATH = /^\/(?:web\/\d{14}(?:id_)?\/https?:\/\/\S+|cdx\/search\/cdx)$/;
+
+/** Why a URL may not be fetched, or null when it may. Exact hosts, the federal suffixes, and Wayback's two paths. */
+export function hostRefusal(url) {
+  let u;
+  try {
+    u = new URL(url);
+  } catch {
+    return `not a URL: ${url}`;
+  }
+  if (u.protocol !== "https:") return `refused ${u.protocol} URL ${url}: https only`;
+  const host = u.hostname.toLowerCase();
+  if (FETCH_HOSTS.includes(host)) return null;
+  if (FEDERAL_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) return null;
+  if (host === WAYBACK_HOST) {
+    return WAYBACK_PATH.test(u.pathname) ? null : `refused ${url}: on web.archive.org only dated captures and the CDX index are fetched`;
+  }
+  return `refused host ${u.hostname}: not on the fetcher's domain allowlist`;
+}
+
+/** Whether a host is one of the federal publishers. */
+export function isFederalHost(host) {
+  const h = String(host ?? "").toLowerCase();
+  return FEDERAL_HOSTS.some((f) => h === f || h.endsWith(`.${f}`));
+}
+
 export class RefusedHost extends Error {}
 
 /** How much of each file is scanned for embedded provenance (XMP sits near the start of JPEG, PNG and MP4 headers). */
@@ -62,23 +114,14 @@ export function sniffGeneratorTags(buf) {
 }
 
 export function assertAllowedUrl(url) {
-  let u;
-  try {
-    u = new URL(url);
-  } catch {
-    throw new RefusedHost(`not a URL: ${url}`);
-  }
-  if (u.protocol !== "https:") throw new RefusedHost(`refused ${u.protocol} URL ${url}: https only`);
-  if (!FETCH_HOSTS.includes(u.hostname.toLowerCase())) {
-    throw new RefusedHost(`refused host ${u.hostname}: not on the fetcher's domain allowlist`);
-  }
-  return u;
+  const refusal = hostRefusal(url);
+  if (refusal) throw new RefusedHost(refusal);
+  return new URL(url);
 }
 
-/** Whether a URL's host is one the fetcher may contact. */
+/** Whether a URL is one the fetcher may contact. */
 export function isAllowedUrl(url) {
-  const host = hostOf(url);
-  return Boolean(host) && FETCH_HOSTS.includes(host) && String(url).startsWith("https://");
+  return Boolean(hostOf(url)) && hostRefusal(url) === null;
 }
 
 const realSleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -170,6 +213,15 @@ export function getJson(url, { fetchImpl = fetch, sleep, retries, maxBytes = MAX
   return withRetries(url, { fetchImpl, sleep, retries, timeoutMs: TIMEOUT_MS, accept: "application/json" }, async (res, finalUrl) => {
     const text = await readText(res, maxBytes);
     return { status: "ok", json: JSON.parse(text), text, url: finalUrl };
+  });
+}
+
+/** GET an HTML or XML page as text. Resolves { status: "ok", text, url, contentType } or { status: "not_found" }. */
+export function getText(url, { fetchImpl = fetch, sleep, retries, maxBytes = MAX_JSON_BYTES } = {}) {
+  const accept = "text/html,application/xhtml+xml,application/xml;q=0.9,application/rss+xml;q=0.9,*/*;q=0.5";
+  return withRetries(url, { fetchImpl, sleep, retries, timeoutMs: TIMEOUT_MS, accept }, async (res, finalUrl) => {
+    const text = await readText(res, maxBytes);
+    return { status: "ok", text, url: finalUrl, contentType: res.headers.get("content-type") };
   });
 }
 

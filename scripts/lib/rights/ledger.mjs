@@ -11,7 +11,7 @@ export const LEDGER_SCHEMA = JSON.parse(readFileSync(new URL("./ledger.schema.js
 export const SCHEMA_ID = "omnibus.rights-ledger/1";
 export const REQUESTS_SCHEMA_ID = "omnibus.asset-requests/1";
 export const KINDS = ["still", "footage", "sound", "document"];
-export const ADAPTERS = ["commons", "nasa", "loc", "dvids"];
+export const ADAPTERS = ["commons", "nasa", "loc", "dvids", "gov", "nara", "wayback"];
 
 export function emptyLedger(issue) {
   return { schema: SCHEMA_ID, issue, items: [], rejected: [] };
@@ -40,10 +40,15 @@ export function serialiseLedger(ledger) {
   return `${JSON.stringify(ledger, null, 2)}\n`;
 }
 
+const DATEISH = /^\d{4}(-\d{2}(-\d{2}(T[\d:.]+(Z|[+-]\d{2}:\d{2})?)?)?)?$/;
+
 /**
  * Validates an asset request file (episodes/<issue>/assets.json), the
- * rundown's ranked asks: { schema, issue, requests: [{ id, kind, title?,
- * candidates: [{ adapter, ref, tier }] }] }, candidates in ladder order.
+ * rundown's ranked asks resolved to items (`node scripts/rights.mjs resolve`):
+ * { schema, issue, requests: [{ id, kind, title?, fallback?: { tier, text },
+ * not_fetched?: [{ tier, host, reason }], candidates: [{ adapter, ref, tier,
+ * window?: { from, to }, pinned?, media?, sha256? }] }] }, candidates in
+ * ladder order. A request with a fallback may have no candidate at all.
  */
 export function validateRequests(doc) {
   const out = [];
@@ -57,11 +62,23 @@ export function validateRequests(doc) {
     if (seen.has(r?.id)) out.push(`${at}.id ${r.id} is repeated`);
     seen.add(r?.id);
     if (!KINDS.includes(r?.kind)) out.push(`${at}.kind must be one of ${KINDS.join(", ")}`);
-    if (!Array.isArray(r?.candidates) || r.candidates.length === 0) out.push(`${at}.candidates must list at least one candidate`);
+    const hasFallback = typeof r?.fallback?.text === "string" && r.fallback.text.trim() !== "";
+    if (r?.fallback !== undefined && (!hasFallback || !(r.fallback.tier === null || r.fallback.tier === 4 || r.fallback.tier === 5))) {
+      out.push(`${at}.fallback must be { tier: 4, 5 or null, text }`);
+    }
+    if (!Array.isArray(r?.candidates) || (r.candidates.length === 0 && !hasFallback)) out.push(`${at}.candidates must list at least one candidate, or the request must name its fallback`);
     (r?.candidates ?? []).forEach((c, j) => {
-      if (!ADAPTERS.includes(c?.adapter)) out.push(`${at}.candidates[${j}].adapter must be one of ${ADAPTERS.join(", ")}`);
-      if (typeof c?.ref !== "string" || !c.ref.trim() || c.ref.length > 400) out.push(`${at}.candidates[${j}].ref must be a non-empty string`);
-      if (!Number.isInteger(c?.tier) || c.tier < 1 || c.tier > 5) out.push(`${at}.candidates[${j}].tier must be 1 to 5`);
+      const cat = `${at}.candidates[${j}]`;
+      if (!ADAPTERS.includes(c?.adapter)) out.push(`${cat}.adapter must be one of ${ADAPTERS.join(", ")}`);
+      if (typeof c?.ref !== "string" || !c.ref.trim() || c.ref.length > 400) out.push(`${cat}.ref must be a non-empty string`);
+      if (!Number.isInteger(c?.tier) || c.tier < 1 || c.tier > 5) out.push(`${cat}.tier must be 1 to 5`);
+      if (c?.window !== undefined && !(DATEISH.test(String(c.window?.from)) && DATEISH.test(String(c.window?.to)))) out.push(`${cat}.window must be { from, to } dates`);
+      if (c?.media !== undefined && !/^https:\/\/\S+$/.test(String(c.media))) out.push(`${cat}.media must be an https address`);
+      if (c?.sha256 !== undefined && !/^[0-9a-f]{64}$/.test(String(c.sha256))) out.push(`${cat}.sha256 must be 64 hex digits`);
+      if (c?.pinned !== undefined && typeof c.pinned !== "boolean") out.push(`${cat}.pinned must be true or false`);
+    });
+    (r?.not_fetched ?? []).forEach((s, j) => {
+      if (!Number.isInteger(s?.tier) || typeof s?.reason !== "string" || !s.reason.trim()) out.push(`${at}.not_fetched[${j}] must be { tier, host, reason }`);
     });
   });
   return out;

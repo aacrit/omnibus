@@ -1,0 +1,1689 @@
+{
+  "schema": "omnibus.rights-ledger/1",
+  "issue": 33,
+  "items": [
+    {
+      "id": "e33-title-01",
+      "request_id": "e33-title-01",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "Explorer 1 Teletype Reporting During Launch",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Army\nCredit: https://www.jpl.nasa.gov/video/details.php?id=1446 (rounded timestamps 1:51 seconds to 1:58)\nBasis category: PD US Army",
+        "captured_at": "2026-11-13T00:20:08Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "file": "e33-title-01.webm",
+      "mime": "video/webm",
+      "sha256": "b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef",
+      "bytes": 1508983,
+      "credit": "U.S. Army, via Wikimedia Commons",
+      "date": null,
+      "published_at": "2019-08-18T20:15:47Z",
+      "content_date": null,
+      "source_tier": 2,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-day3-pic",
+      "request_id": "e33-day3-pic",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T00:20:12Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
+      "file": "e33-day3-pic.jpg",
+      "mime": "image/jpeg",
+      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
+      "bytes": 2898969,
+      "credit": "Emily J. Higgins, via Wikimedia Commons",
+      "date": "2026-03-25",
+      "published_at": "2026-09-04T05:23:37Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-day5-pic",
+      "request_id": "e33-day5-pic",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "Pete Hegseth Official Portrait",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Department of Defense\nCredit: https://www.defense.gov/About/Biographies/Biography/Article/4040890/hon-pete-hegseth/\nBasis category: PD US Military",
+        "captured_at": "2026-11-13T00:20:16Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Pete_Hegseth_Official_Portrait.jpg",
+      "file": "e33-day5-pic.jpg",
+      "mime": "image/jpeg",
+      "sha256": "0334fdeff319cfafa7acb4cae3ccd080ac2e4ba3a6d2ce9c67b25b45be2384b5",
+      "bytes": 7802635,
+      "credit": "U.S. Department of Defense, via Wikimedia Commons",
+      "date": "2025-01-27",
+      "published_at": "2025-01-28T16:47:57Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-day6-doc",
+      "request_id": "e33-day6-doc",
+      "kind": "document",
+      "adapter": "gov",
+      "title": "President Trump Names Stephen Miller as 33rd White House Chief of Staff",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+        "captured_text": "Read from the page https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/.\nHost www.whitehouse.gov belongs to The White House, a body of the US federal government.\nThe page names it: \"The White House\"; og:site_name \"The White House\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside The White House: a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:20:19Z"
+      },
+      "basis": "Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "media_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "file": "e33-day6-doc.html",
+      "mime": "text/html; charset=UTF-8",
+      "sha256": "bb431fc30a200b03861788989e2b2bd8a28138f81d9bc2dbd3aac728b313e1cb",
+      "bytes": 323221,
+      "credit": "The White House",
+      "date": "2026-11-06",
+      "published_at": "2026-11-06T21:56:55Z",
+      "content_date": null,
+      "source_tier": 5,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "description",
+          "page-credits",
+          "embeds",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-01",
+      "request_id": "e33-echo-01",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:25Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "file": "e33-echo-01.jpg",
+      "mime": "image/jpeg",
+      "sha256": "bd7ca7bd5215a41ff553cf688b5470e303afefdcf08ee25be9840f3a02ab7439",
+      "bytes": 1668786,
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "date": "1952",
+      "published_at": "2011-10-21T10:10:59Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-02",
+      "request_id": "e33-echo-02",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard Armory in Washington.",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:26Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "file": "e33-echo-02.jpg",
+      "mime": "image/jpeg",
+      "sha256": "470e2e3adf9ba403e2ff723d29a6bcb90a16f239e7338ac063fc0f97f6ce7da6",
+      "bytes": 1844911,
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "date": "1952",
+      "published_at": "2011-10-21T10:10:17Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-03",
+      "request_id": "e33-echo-03",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:26Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President..._-_NARA_-_200383.jpg",
+      "file": "e33-echo-03.jpg",
+      "mime": "image/jpeg",
+      "sha256": "b6d0750136f39b168b911b6455c0872ded719d61963f26ad7dd8c87e6be8355e",
+      "bytes": 1779036,
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "date": "1952",
+      "published_at": "2011-10-21T10:11:25Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-04",
+      "request_id": "e33-echo-04",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in Washington for the annual Jefferson-Jackson Day Dinner.",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:27Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "file": "e33-echo-04.jpg",
+      "mime": "image/jpeg",
+      "sha256": "0fd470223a11942972ddc3e8a932795ce42ab4b29729fab46b024b37ebca89bf",
+      "bytes": 1565735,
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "date": "1952",
+      "published_at": "2011-10-21T10:10:04Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-05",
+      "request_id": "e33-echo-05",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "Long trek southward: Seemingly endless file of Korean refugees slogs through snow outside of Kangnung, blocking withdrawal of Republic of Korea I Corps.",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Unknown author or not provided\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:27Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Long_trek_southward%2C_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung%2C_blocking..._-_NARA_-_531397.tif",
+      "file": "e33-echo-05.tif",
+      "mime": "image/tiff",
+      "sha256": "46bba91fb42b8fa8fbf47e57cf4f671bb1ccd634ae74925024fe1677c2ec7114",
+      "bytes": 7557282,
+      "credit": "Unknown author or not provided, via Wikimedia Commons",
+      "date": "1951",
+      "published_at": "2011-09-12T20:25:27Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-06",
+      "request_id": "e33-echo-06",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "Missouri infantrymen with the 19th Infantry Regiment along the Kumsong front wish Happy New Year to the stateside folks.",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Unknown author or not provided\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:29Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "file": "e33-echo-06.tif",
+      "mime": "image/tiff",
+      "sha256": "7ebf39d3fe9e13754ef189322b179de46282975ef8c0195fcaa03d6d804d956b",
+      "bytes": 7587282,
+      "credit": "Unknown author or not provided, via Wikimedia Commons",
+      "date": "1951",
+      "published_at": "2011-09-12T20:12:24Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-07",
+      "request_id": "e33-echo-07",
+      "kind": "still",
+      "adapter": "nara",
+      "title": "COMBAT CARGO, KOREA -- A helicopter, carrying two seriously wounded UN soldiers, is about to land gently at a front line airstrip in Korea where the soldiers will soon be placed aboard a Combat Cargo C-54 transport for the flight to Japan",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://catalog.archives.gov/id/542283",
+        "captured_text": "Read from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=542283).\nnaId: 542283; local identifier: 342-AF-86335AC\nrecord group: 342 Records of U.S. Air Force Commands, Activities, and Organizations\ncreators: Department of Defense. Department of the Air Force. (09/26/1947 -); War Department. Army Air Forces. (06/20/1941 - 09/26/1947); War Department. Office of the Chief of Staff. General Headquarters Air Force. (11/19/1940 - 06/20/1941)\nuse restriction: Unrestricted; access restriction: Unrestricted\nA record of a US federal agency, unrestricted: public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:20:32Z"
+      },
+      "basis": "National Archives identifier 542283 (342-AF-86335AC): a record created by Department of Defense. Department of the Air Force., a US federal agency (17 U.S.C. 105); use restriction Unrestricted",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://catalog.archives.gov/id/542283",
+      "media_url": "https://catalog.archives.gov/medialz/stillpix/342-af/342-AF-086335AC_34-3853M.TIF",
+      "file": "e33-echo-07.tif",
+      "mime": "image/tiff",
+      "sha256": "aea082e8df76a5a7dfda721fd21779b9656489649172e804c77619a2d8338a7f",
+      "bytes": 7146282,
+      "credit": "Department of Defense. Department of the Air Force., via the National Archives (NAID 542283, 342-AF-86335AC)",
+      "date": "1952-06",
+      "published_at": null,
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "scopeAndContentNote",
+          "subjects",
+          "creators",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-req-13",
+      "request_id": "e33-echo-req-13",
+      "kind": "document",
+      "adapter": "gov",
+      "title": "Federal Register",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
+        "captured_text": "Read from the page https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml.\nHost www.govinfo.gov belongs to the US Government Publishing Office, a body of the US federal government.\nThe page names it: \"Government Publishing Office\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside the US Government Publishing Office: a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:20:35Z"
+      },
+      "basis": "Published on www.govinfo.gov by the US Government Publishing Office, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
+      "media_url": "https://www.govinfo.gov/content/pkg/FR-1951-01-30/pdf/FR-1951-01-30.pdf",
+      "file": "e33-echo-req-13.pdf",
+      "mime": "application/pdf",
+      "sha256": "84213c6ee2f40a62229b22aa702d7858dc31fc93d4acac24131b295638d9cb31",
+      "bytes": 31573856,
+      "credit": "US Government Publishing Office",
+      "date": "1951-01-30",
+      "published_at": "1951-01-30T00:00:00Z",
+      "content_date": null,
+      "source_tier": 5,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "description",
+          "page-credits",
+          "embeds",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      }
+    },
+    {
+      "id": "e33-echo-req-14",
+      "request_id": "e33-echo-req-14",
+      "kind": "document",
+      "adapter": "gov",
+      "title": "Address at the Jefferson-Jackson Day Dinner | Harry S. Truman",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+        "captured_text": "Read from the page https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner.\nHost www.trumanlibrary.gov belongs to the Harry S. Truman Library (National Archives), a body of the US federal government.\nThe page names it: \"Truman Library\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside the Harry S. Truman Library (National Archives): a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:21:07Z"
+      },
+      "basis": "Published on www.trumanlibrary.gov by the Harry S. Truman Library (National Archives), a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+      "media_url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+      "file": "e33-echo-req-14.html",
+      "mime": "text/html; charset=UTF-8",
+      "sha256": "0ab64abac915d13cae4a5470df67b393c2b33f47622c0d1f154601202290a5f4",
+      "bytes": 1061882,
+      "credit": "Harry S. Truman Library (National Archives)",
+      "date": null,
+      "published_at": null,
+      "content_date": null,
+      "source_tier": 5,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "description",
+          "page-credits",
+          "embeds",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "request_id": "e33-cold-01",
+      "adapter": "dvids",
+      "ref": "search: q=\"election day\" OR \"absentee ballot\" voting; type=video",
+      "reasons": [
+        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "dvids",
+      "ref": "search: q=Ukraine humanitarian aid facility strike; type=image",
+      "reasons": [
+        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+      "reasons": [
+        "published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp",
+      "reasons": [
+        "published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day3-pic",
+      "adapter": "dvids",
+      "ref": "search: q=\"Vice President Vance\"; type=image OR video",
+      "reasons": [
+        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+      ]
+    },
+    {
+      "request_id": "e33-day3-doc",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T17:07:07Z, https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835))"
+      ]
+    },
+    {
+      "request_id": "e33-day3-doc",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T15:50:39Z, https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835))"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:Nothilfe-einsatz-aerzte-ohne-grenzen-ebola-dr-kongo-uganda.png",
+      "reasons": [
+        "dated 2026-08-19, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:Map of the Ituri Province Ebola outbreak.png",
+      "reasons": [
+        "dated 2026-05-19, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:P056106-58554.jpg",
+      "reasons": [
+        "dated 2021-09-08, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:P056106-923308.jpg",
+      "reasons": [
+        "dated 2021-12-04, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:DR Congo - collage.jpg",
+      "reasons": [
+        "dated 2020-04-12, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:Petit séminaire Saint Jean Berchmans.jpg",
+      "reasons": [
+        "dated 2023-09-21, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:Parc de la Vallée de la Nsele.jpg",
+      "reasons": [
+        "dated 2021-10-16, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "adapter": "commons",
+      "ref": "File:Ruzizi Plain, South Kivu Province, DR Congo.jpg",
+      "reasons": [
+        "dated 2012-10-08, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day5-pic",
+      "adapter": "dvids",
+      "ref": "search: q=Hegseth; type=image OR video",
+      "reasons": [
+        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+      ]
+    },
+    {
+      "request_id": "e33-day5-pic",
+      "adapter": "commons",
+      "ref": "File:Donald Trump official portrait.jpg",
+      "reasons": [
+        "dated 2017-10-06, outside its window 2021-01-01 to 2026-11-06T19:18:18.407444+00:00",
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "gov",
+      "ref": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "reasons": [
+        "licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own)",
+        "no media address"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg",
+      "reasons": [
+        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:P20260109MR-1291 President Donald Trump attends a roundtable with energy officials and executives from the oil industry in the East Room of the White House.jpg",
+      "reasons": [
+        "dated 2026-01-09, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 4.jpg",
+      "reasons": [
+        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 2.jpg",
+      "reasons": [
+        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1.jpg",
+      "reasons": [
+        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:VP20261008AH-0002.jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:VP20261008AH-0503.jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:VP20261008AH-0160.jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:The White House - 54452387554.jpg",
+      "reasons": [
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:The White House - 54452444173.jpg",
+      "reasons": [
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:The White House - 54452194811.jpg",
+      "reasons": [
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:The White House - 54452195036.jpg",
+      "reasons": [
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "commons",
+      "ref": "File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg",
+      "reasons": [
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "dvids",
+      "ref": "search: q=\"U.S. Central Command\" OR CENTCOM task force; type=video",
+      "reasons": [
+        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821009).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821008).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821002).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821000).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820997).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "adapter": "commons",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821004).jpg",
+      "reasons": [
+        "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-weight-02",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-07T02:25:01Z, https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141))"
+      ]
+    },
+    {
+      "request_id": "e33-weight-02",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T12:37:03Z, https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email))"
+      ]
+    },
+    {
+      "request_id": "e33-weight-02",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T08:05:02Z, https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835))"
+      ]
+    },
+    {
+      "request_id": "e33-weight-02",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T18:48:58Z, https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624))"
+      ]
+    },
+    {
+      "request_id": "e33-weight-02",
+      "adapter": "wayback",
+      "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
+      "reasons": [
+        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T11:08:40Z, https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email))"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "commons",
+      "ref": "File:Photograph of Senator Estes Kefauver of Tennessee leaving the White House after a meeting with President Truman. - NARA - 200351.tif",
+      "reasons": [
+        "dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11T23:59:59-05:00"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "commons",
+      "ref": "File:Photograph of Senator Estes Kefauver of Tennessee leaving the White House after a meeting with President Truman. - NARA - 200351.jpg",
+      "reasons": [
+        "dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11T23:59:59-05:00"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "2007684131",
+      "reasons": [
+        "licence \"Publication may be restricted. For information see \"New York World-Telegram &...,\" https://www.loc.gov/rr/print/res/076_nyw.html\" is not on the allowlist (the rights text says \"Publication may be restricted.\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "2016683933",
+      "reasons": [
+        "licence \"The Library of Congress does not own rights to material in its collections. Therefore, it does not license or charge permission fees for use of such material and cannot grant or deny permission to ...\" is not on the allowlist (the rights text says \"Ultimately, it is the researcher's obligation to assess copyright or other use restrictions and obtain permission fro...\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "2016684349",
+      "reasons": [
+        "licence \"The Library of Congress does not own rights to material in its collections. Therefore, it does not license or charge permission fees for use of such material and cannot grant or deny permission to ...\" is not on the allowlist (the rights text says \"Ultimately, it is the researcher's obligation to assess copyright or other use restrictions and obtain permission fro...\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "usteledirec04361",
+      "reasons": [
+        "dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11",
+        "no licence stated"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "mss3413200853",
+      "reasons": [
+        "dated 1839, outside its window 1952-01-01 to 1952-03-11",
+        "licence \"The Library of Congress's digital scans of the Records of the National American Woman Suffrage Association are in the public domain and are free to use and reuse. Credit Line: Library of Congress, ...\" is not on the allowlist (the rights text says public domain but not in the same sentence as a federal source, and no age basis applies)"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "mss425490753",
+      "reasons": [
+        "dated 1854-01-01, outside its window 1952-01-01 to 1952-03-11",
+        "licence \"The Library of Congress believes that many of the papers in the Mary Church Terrell collection are in the public domain or have no known copyright restrictions. The Library presents additional mate...\" is not on the allowlist (the rights text says \"The Library of Congress believes that many of the papers in the Mary Church Terrell collection are in the public doma...\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "adapter": "loc",
+      "ref": "mss6557000501",
+      "reasons": [
+        "dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11",
+        "licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-10",
+      "adapter": "loc",
+      "ref": "mss6557000912",
+      "reasons": [
+        "dated 1929, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00",
+        "licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-10",
+      "adapter": "loc",
+      "ref": "mss6557000361",
+      "reasons": [
+        "dated 1951, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00",
+        "licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-12",
+      "adapter": "commons",
+      "ref": "File:William Knowland, Edmund Brown Newsreel.ogv",
+      "reasons": [
+        "no date on the item, so it cannot be placed inside 1951-01-01 to 1952-11-05T12:00:00-05:00",
+        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    }
+  ],
+  "dropped": [
+    {
+      "request_id": "e33-cold-01",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4: the 4 Nov printed front page, toured to the result story 'Democrats Capture Control of Both Chambers of Congress in Midterms' with room tone (no voice for its first 6 s); the lead headline, which names a reason, stays out of frame until The Week",
+      "reasons": [
+        "tier 1 dvids search: q=\"election day\" OR \"absentee ballot\" voting; type=video: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
+        "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"2026 United States elections\" filetype:video polling OR ballots OR count",
+        "tier 3 commons.wikimedia.org: the search found nothing: incategory:\"2026 United States elections\" filetype:bitmap \"polling place\" OR \"polling station\" OR ballots",
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: the printed edition of 2026-11-04 rendered from archive.json at the pin, toured to its result story, days[2].next[0] 'Democrats Capture Control of Both Chambers of Congress in Midterms' (32 sources), never to the lead headline"
+      ]
+    },
+    {
+      "request_id": "e33-snd-01",
+      "kind": "sound",
+      "fallback_tier": null,
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)",
+      "reasons": [
+        "tier 2 commons: excluded on review: File:MT63 sample.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:PSK31 sample.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:AMTOR sample.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:OLIVIA 500 16 sample.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:ROS.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:Maroc TUBSAT.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:PW-SAT recording PA3WEG 13-02-2012 1207UTC.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes",
+        "tier 2 commons: excluded on review: File:OLIVIA 1000 32 sample.ogg: the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes"
+      ]
+    },
+    {
+      "request_id": "e33-snd-02",
+      "kind": "sound",
+      "fallback_tier": null,
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)",
+      "reasons": [
+        "tier 2 commons.wikimedia.org: the search found nothing: filetype:audio teleprinter bell OR \"typewriter bell\""
+      ]
+    },
+    {
+      "request_id": "e33-snd-03",
+      "kind": "sound",
+      "fallback_tier": null,
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)",
+      "reasons": [
+        "tier 2 commons.wikimedia.org: the search found nothing: filetype:audio \"paper tear\" OR \"tearing paper\""
+      ]
+    },
+    {
+      "request_id": "e33-snd-04",
+      "kind": "sound",
+      "fallback_tier": null,
+      "fallback": "the cue is omitted and the sources page says which recorded sound is missing; no synthesised substitute (the sting is the only electronic sound)",
+      "reasons": [
+        "tier 2 commons: excluded on review: File:Nxxi-87-solaris.mp3: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:En-us-Luis Solari from Peru pronunciation (Voice of America).ogg: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:En-us-Luis Solari De La Fuente from Peru pronunciation (Voice of America).ogg: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:Solaris Urbino 18 10472, engine sounds, Szczecin, 2022.wav: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:Solaris Urbino 12 Hybrid 1848, engine sounds, Szczecin, 2022.mp3: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:De-Plexus solaris.ogg: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:LL-Q150 (fra)-Sartus85-solaris.wav: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display",
+        "tier 2 commons: excluded on review: File:LL-Q809 (pol)-Jest Spoczko-solaris.wav: the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display"
+      ]
+    },
+    {
+      "request_id": "e33-snd-05",
+      "kind": "sound",
+      "fallback_tier": null,
+      "fallback": "true silence (allowed up to 6 s); a long room tone gap is a defect to report, not to fill",
+      "reasons": [
+        "tier 2 commons: excluded on review: File:Alien machine room air ducts.ogg: the hits are a flanged sci-fi drone from a 44 kHz MP3 ('alien ship machine room ambience') and a ratchet, not room tone at 48 kHz",
+        "tier 2 commons: excluded on review: File:Tools Ratchet.ogg: the hits are a flanged sci-fi drone from a 44 kHz MP3 ('alien ship machine room ambience') and a ratchet, not room tone at 48 kHz"
+      ]
+    },
+    {
+      "request_id": "e33-day1-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-02 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day1-pic",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 2 commons.wikimedia.org: the search found nothing: \"Charles III\" Antigua 2026 OR \"royal visit\" Antigua",
+        "tier 3 commons.wikimedia.org: the search found nothing: Antigua Prime Minister reparations 2026 filetype:bitmap",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: St. John's, Antigua and Barbuda (Natural Earth 1:10m + GeoNames name search country=AG)"
+      ]
+    },
+    {
+      "request_id": "e33-day1-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; the narrator says only what was printed and counted",
+      "reasons": [
+        "tier 5 ab.gov.ag: ab.gov.ag is outside the fetcher's allowlist and its federal extension"
+      ]
+    },
+    {
+      "request_id": "e33-day2-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-03 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 1 dvids search: q=Ukraine humanitarian aid facility strike; type=image: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm: published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp: published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)"
+      ]
+    },
+    {
+      "request_id": "e33-day2-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; the narrator says only what was printed and counted",
+      "reasons": [
+        "tier 5 dsns.gov.ua: dsns.gov.ua is outside the fetcher's allowlist and its federal extension"
+      ]
+    },
+    {
+      "request_id": "e33-day3-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-04 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day3-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; the narrator says only what was printed and counted",
+      "reasons": [
+        "tier 5 wayback https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T17:07:07Z, https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835))",
+        "tier 5 wayback https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T15:50:39Z, https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835))"
+      ]
+    },
+    {
+      "request_id": "e33-day4-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-05 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day4-pic",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 2 commons File:Nothilfe-einsatz-aerzte-ohne-grenzen-ebola-dr-kongo-uganda.png: dated 2026-08-19, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:Map of the Ituri Province Ebola outbreak.png: dated 2026-05-19, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:P056106-58554.jpg: dated 2021-09-08, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:P056106-923308.jpg: dated 2021-12-04, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:DR Congo - collage.jpg: dated 2020-04-12, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:Petit séminaire Saint Jean Berchmans.jpg: dated 2023-09-21, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:Parc de la Vallée de la Nsele.jpg: dated 2021-10-16, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 2 commons File:Ruzizi Plain, South Kivu Province, DR Congo.jpg: dated 2012-10-08, outside its window 2026-10-01 to 2026-11-05T20:55:22.285232+00:00",
+        "tier 1 phil.cdc.gov: CDC PHIL answers, but its search results are drawn by script after the page loads, so the fetcher can read no item from it; not resolved",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the Democratic Republic of the Congo, with the province named in the primary statement (Natural Earth, country=CD)"
+      ]
+    },
+    {
+      "request_id": "e33-day4-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; the narrator says only what was printed and counted",
+      "reasons": [
+        "tier 5 www.gov.uk: www.gov.uk is outside the fetcher's allowlist and its federal extension"
+      ]
+    },
+    {
+      "request_id": "e33-day5-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-06 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day5-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; the narrator says only what was printed and counted",
+      "reasons": [
+        "tier 5 www.congress.gov: https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D: https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D answered 403; congress.gov's search answered, but no parser reads it; not resolved"
+      ]
+    },
+    {
+      "request_id": "e33-day6-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-07 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources",
+      "reasons": [
+        "tier 1 gov https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/: licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own); no media address",
+        "tier 2 commons File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "tier 2 commons File:P20260109MR-1291 President Donald Trump attends a roundtable with energy officials and executives from the oil industry in the East Room of the White House.jpg: dated 2026-01-09, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 4.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 2.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
+        "tier 2 commons File:VP20261008AH-0002.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 2 commons File:VP20261008AH-0503.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 2 commons File:VP20261008AH-0160.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 3 commons File:The White House - 54452387554.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 3 commons File:The White House - 54452444173.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 3 commons File:The White House - 54452194811.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 3 commons File:The White House - 54452195036.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 3 commons File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
+      ]
+    },
+    {
+      "request_id": "e33-day7-page",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "none needed (tier 4 is always satisfiable)",
+      "reasons": [
+        "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-08 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day7-pic",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 1 dvids search: q=\"U.S. Central Command\" OR CENTCOM task force; type=video: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821009).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821008).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821002).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821000).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820997).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821004).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Videos by DVIDS\" CENTCOM November 2026",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Iran and its land borders, with the region named in the CENTCOM release (Natural Earth 1:10m, no relief)"
+      ]
+    },
+    {
+      "request_id": "e33-day7-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; the narrator says only what was printed and counted",
+      "reasons": [
+        "tier 5 www.centcom.mil: https://www.centcom.mil/MEDIA/PRESS-RELEASES/: https://www.centcom.mil/MEDIA/PRESS-RELEASES/ answered 403; centcom.mil's press-release list answered, but no parser reads it; not resolved"
+      ]
+    },
+    {
+      "request_id": "e33-weight-01",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 2 commons.wikimedia.org: the search found nothing: \"JD Vance\" rally November 2026 filetype:video OR filetype:bitmap",
+        "tier 3 commons.wikimedia.org: the search found nothing: incategory:\"JD Vance in 2026\" filetype:bitmap",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Ohio and New York State, the rally places as the ledger names them"
+      ]
+    },
+    {
+      "request_id": "e33-weight-02",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted",
+      "reasons": [
+        "tier 5 wayback https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-07T02:25:01Z, https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141))",
+        "tier 5 wayback https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T12:37:03Z, https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email))",
+        "tier 5 wayback https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T08:05:02Z, https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835))",
+        "tier 5 wayback https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T18:48:58Z, https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624))",
+        "tier 5 wayback https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T11:08:40Z, https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email))"
+      ]
+    },
+    {
+      "request_id": "e33-weight-03",
+      "kind": "footage",
+      "fallback_tier": 5,
+      "fallback": "tier 5 page typeset verbatim; without a primary text the Slotkin row stays a board headline only",
+      "reasons": [
+        "tier 1 www.senate.gov: senate.gov answers, but its floor video plays only in the Senate's streaming player and the floor pages name no video file the fetcher can take; not resolved",
+        "tier 3 commons.wikimedia.org: the search found nothing: incategory:\"Elissa Slotkin\" official portrait filetype:bitmap",
+        "tier 5 www.slotkin.senate.gov: https://www.slotkin.senate.gov/feed/ lists no item matching /Vance/ between 2026-11-04 and 2026-11-08T22:16:50.309638+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-weight-04",
+      "kind": "footage",
+      "fallback_tier": null,
+      "fallback": "consensus card from the two headlines only (cw-3), no reader line",
+      "reasons": [
+        "tier 1 www.whitehouse.gov: https://www.whitehouse.gov/news/feed/ lists no item matching /\\bRemarks\\b/ between 2026-11-04 and 2026-11-08T22:16:50.309638+00:00",
+        "tier 5 www.whitehouse.gov/briefings-statements: https://www.whitehouse.gov/news/feed/ lists no item matching /\\bRemarks\\b/ between 2026-11-04 and 2026-11-08T22:16:50.309638+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-weight-05",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "the board's last page held as the end frame",
+      "reasons": [
+        "tier 3 commons.wikimedia.org: the search found nothing: incategory:\"2026 United States elections\" filetype:bitmap ballots OR count OR \"election night\""
+      ]
+    },
+    {
+      "request_id": "e33-margin1-pic",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 3 commons.wikimedia.org: the search found nothing: incategory:\"Susan Collins\" official portrait OR \"Troy Jackson\" Maine filetype:bitmap",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Maine (Natural Earth, US states)"
+      ]
+    },
+    {
+      "request_id": "e33-margin1-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; picture, what was printed, the count",
+      "reasons": [
+        "tier 5 www.maine.gov/sos: www.maine.gov/sos is outside the fetcher's allowlist and its federal extension"
+      ]
+    },
+    {
+      "request_id": "e33-margin2-pic",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the federal district the order names (US district courts layer drawn from Natural Earth states)"
+      ]
+    },
+    {
+      "request_id": "e33-margin2-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; picture, what was printed, the count",
+      "reasons": [
+        "tier 5 www.courtlistener.com: www.courtlistener.com is outside the fetcher's allowlist and its federal extension"
+      ]
+    },
+    {
+      "request_id": "e33-margin3-pic",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Alabama, with the city named in the police statement (GeoNames, admin1=AL)",
+        "tier 3 commons: excluded on review: File:Police horse transporter, Emirates Stadium - geograph.org.uk - 3798333.jpg: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:The Emirates Stadium - geograph.org.uk - 1615830.jpg: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:Cops 'n' Robbers at the DW Stadium, Wigan - geograph.org.uk - 2012487.jpg: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:Nizhny Novgorod Stadium 04-2019.jpg 06.jpg: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:AMISOM's acting-SRCC, Lydia Wanyoto Mutende, today attended the closing ceremony of the Formed Police Unit's induction training at Mogadishu stadium in Somalia on August 7. AMISOM Photo (14670...: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:The football ground and the police station, Elland Road, Leeds (7th June 2015) 001.JPG: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:The football ground and the police station, Elland Road, Leeds (7th June 2015) 002.JPG: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia",
+        "tier 3 commons: excluded on review: File:Fotbalový stadion Police nad Metují (únor 2020).jpg: the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia"
+      ]
+    },
+    {
+      "request_id": "e33-margin3-doc",
+      "kind": "document",
+      "fallback_tier": null,
+      "fallback": "no desk item; picture, what was printed, the count",
+      "reasons": [
+        "tier 5 the: the is outside the fetcher's allowlist and its federal extension"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-08",
+      "kind": "still",
+      "fallback_tier": 5,
+      "fallback": "tier 5: src-truman-19510614 typeset verbatim as a page, labelled printed later",
+      "reasons": [
+        "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Harry S. Truman in 1951\" radio OR television OR broadcast",
+        "tier 3 www.loc.gov: the search found nothing: q=Truman radio television address 1951; dates=1951/1951; fo=json"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-09",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4: locator map of New Hampshire (1952 county names) under the count card",
+      "reasons": [
+        "tier 2 commons File:Photograph of Senator Estes Kefauver of Tennessee leaving the White House after a meeting with President Truman. - NARA - 200351.tif: dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11T23:59:59-05:00",
+        "tier 2 commons File:Photograph of Senator Estes Kefauver of Tennessee leaving the White House after a meeting with President Truman. - NARA - 200351.jpg: dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11T23:59:59-05:00",
+        "tier 3 loc 2007684131: licence \"Publication may be restricted. For information see \"New York World-Telegram &...,\" https://www.loc.gov/rr/print/res/076_nyw.html\" is not on the allowlist (the rights text says \"Publication may be restricted.\")",
+        "tier 3 loc 2016683933: licence \"The Library of Congress does not own rights to material in its collections. Therefore, it does not license or charge permission fees for use of such material and cannot grant or deny permission to ...\" is not on the allowlist (the rights text says \"Ultimately, it is the researcher's obligation to assess copyright or other use restrictions and obtain permission fro...\")",
+        "tier 3 loc 2016684349: licence \"The Library of Congress does not own rights to material in its collections. Therefore, it does not license or charge permission fees for use of such material and cannot grant or deny permission to ...\" is not on the allowlist (the rights text says \"Ultimately, it is the researcher's obligation to assess copyright or other use restrictions and obtain permission fro...\")",
+        "tier 3 loc usteledirec04361: dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11; no licence stated",
+        "tier 3 loc mss3413200853: dated 1839, outside its window 1952-01-01 to 1952-03-11; licence \"The Library of Congress's digital scans of the Records of the National American Woman Suffrage Association are in the public domain and are free to use and reuse. Credit Line: Library of Congress, ...\" is not on the allowlist (the rights text says public domain but not in the same sentence as a federal source, and no age basis applies)",
+        "tier 3 loc mss425490753: dated 1854-01-01, outside its window 1952-01-01 to 1952-03-11; licence \"The Library of Congress believes that many of the papers in the Mary Church Terrell collection are in the public domain or have no known copyright restrictions. The Library presents additional mate...\" is not on the allowlist (the rights text says \"The Library of Congress believes that many of the papers in the Mary Church Terrell collection are in the public doma...\")",
+        "tier 3 loc mss6557000501: dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11; licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")",
+        "tier 2 commons: excluded on review: File:Jet 27 Mar 1952 pg PA33.jpg: policy call on review, not a licence finding: a magazine's printed page (Jet, 27 March 1952) is an outlet's page, which the show never shows",
+        "tier 2 commons: excluded on review: File:Nancy Kefauver.jpg: a portrait of Nancy Kefauver, not of the candidate",
+        "tier 2 commons: excluded on review: File:Confidential November 1955.jpg: a magazine cover from 1955, after the step's window and an outlet's page"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-10",
+      "kind": "still",
+      "fallback_tier": 4,
+      "fallback": "tier 4: locator map of Detroit with the period slate; the Detroit text is quoted, never shown (E1 held_back)",
+      "reasons": [
+        "tier 3 loc mss6557000912: dated 1929, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00; licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")",
+        "tier 3 loc mss6557000361: dated 1951, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00; licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")",
+        "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Dwight D. Eisenhower 1952 presidential campaign\" Detroit"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-11",
+      "kind": "still",
+      "fallback_tier": 5,
+      "fallback": "tier 5: our own typeset page of the concession line with 'as printed in the New York Times, 5 November 1952, p. 14' (the newspaper is never shown)",
+      "reasons": [
+        "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Adlai Stevenson II 1952 presidential campaign\" filetype:bitmap",
+        "tier 3 www.loc.gov: the search found nothing: q=Adlai Stevenson Springfield 1952; dates=1952/1952; fo=json"
+      ]
+    },
+    {
+      "request_id": "e33-echo-req-12",
+      "kind": "footage",
+      "fallback_tier": null,
+      "fallback": "stills with rostrum tours (E1's 7 items); the Echo runs without footage. Any film of the fighting goes only where no music plays (x1, x7)",
+      "reasons": [
+        "tier 2 commons File:William Knowland, Edmund Brown Newsreel.ogv: no date on the item, so it cannot be placed inside 1951-01-01 to 1952-11-05T12:00:00-05:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
+        "tier 1 commons.wikimedia.org: the search found nothing: incategory:\"The Big Picture (TV series)\" Korea filetype:video"
+      ]
+    }
+  ],
+  "witnesses": [
+    {
+      "request_id": "e33-day3-doc",
+      "capture_url": "https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835",
+      "captured_at": "2026-11-04T17:07:07Z",
+      "original_url": "https://x.com/JDVance/status/2118004988433641835",
+      "text": "One of the things the data analysts on our side obsessed over was \"composition\"—whether the electorate looked close enough to 2024 for Republicans to win. And despite polls that showed a Democrat blowout, the data kept on telling us the same story: in some states turnout was merely OK, in other sta…",
+      "file": "e33-day3-doc.20261104170707.witness.html",
+      "sha256": "be012759050fecec5400fba6ccc9c600763a361d214f5475378b00a3b8b56d3d",
+      "bytes": 169678,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T17:07:07Z, https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835))"
+    },
+    {
+      "request_id": "e33-day3-doc",
+      "capture_url": "https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835",
+      "captured_at": "2026-11-04T15:50:39Z",
+      "original_url": "https://x.com/JDVance/status/2118004988433641835",
+      "text": "One of the things the data analysts on our side obsessed over was \"composition\"—whether the electorate looked close enough to 2024 for Republicans to win. And despite polls that showed a Democrat blowout, the data kept on telling us the same story: in some states turnout was merely OK, in other sta…",
+      "file": "e33-day3-doc.20261104155039.witness.html",
+      "sha256": "a878098a4bde7a31ab1acecba00ca53213e5a82a2473d659a2a55c8f5f9040e0",
+      "bytes": 165594,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T15:50:39Z, https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835))"
+    },
+    {
+      "request_id": "e33-weight-02",
+      "capture_url": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
+      "captured_at": "2026-11-07T02:25:01Z",
+      "original_url": "https://x.com/JDVance/status/2118789426813821141",
+      "text": "Very grateful to Susie for her friendship and service to the president and our country. Stephen Miller is an amazing patriot and will do great things. Congrats to him on a well deserved promotion!",
+      "file": "e33-weight-02.20261107022501.witness.html",
+      "sha256": "efbeaa1c4d980cf27afffd22bcf82c4687bb05d7b8ad69251dcc2677ac9fbb4b",
+      "bytes": 149034,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-07T02:25:01Z, https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141))"
+    },
+    {
+      "request_id": "e33-weight-02",
+      "capture_url": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
+      "captured_at": "2026-11-06T12:37:03Z",
+      "original_url": "https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
+      "text": "One of the things the data analysts on our side obsessed over was \"composition\"—whether the electorate looked close enough to 2024 for Republicans to win. And despite polls that showed a Democrat blowout, the data kept on telling us the same story: in some states turnout was merely OK, in other sta…",
+      "file": "e33-weight-02.20261106123703.witness.html",
+      "sha256": "841ee1b299877e06283b81eb93e357cbf1fc5cd9095e40215d658e8a0c74d7bf",
+      "bytes": 168186,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T12:37:03Z, https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email))"
+    },
+    {
+      "request_id": "e33-weight-02",
+      "capture_url": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
+      "captured_at": "2026-11-06T08:05:02Z",
+      "original_url": "https://x.com/JDVance/status/2118004988433641835",
+      "text": "One of the things the data analysts on our side obsessed over was \"composition\"—whether the electorate looked close enough to 2024 for Republicans to win. And despite polls that showed a Democrat blowout, the data kept on telling us the same story: in some states turnout was merely OK, in other sta…",
+      "file": "e33-weight-02.20261106080502.witness.html",
+      "sha256": "c2a688d9d332954fa07267d9e0bf92f2212aa4f78f641bc422b6f2e56f88bd1b",
+      "bytes": 167652,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T08:05:02Z, https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835))"
+    },
+    {
+      "request_id": "e33-weight-02",
+      "capture_url": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
+      "captured_at": "2026-11-05T18:48:58Z",
+      "original_url": "https://x.com/JDVance/status/1966505862656094624",
+      "text": "I am grateful to Governor Spencer Cox, Utah law enforcement, Kash Patel, and the FBI for giving this case the time, resources, and hard work it deserved. This is a big breakthrough, and everyone who helped--from the law enforcement professionals to the people giving tips--deserves our credit and gr…",
+      "file": "e33-weight-02.20261105184858.witness.html",
+      "sha256": "add62913f8ec366509aa93e5d561882520db9de32ba057133f61f0215ebc1794",
+      "bytes": 140000,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T18:48:58Z, https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624))"
+    },
+    {
+      "request_id": "e33-weight-02",
+      "capture_url": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
+      "captured_at": "2026-11-05T11:08:40Z",
+      "original_url": "https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
+      "text": "One of the things the data analysts on our side obsessed over was \"composition\"—whether the electorate looked close enough to 2024 for Republicans to win. And despite polls that showed a Democrat blowout, the data kept on telling us the same story: in some states turnout was merely OK, in other sta…",
+      "file": "e33-weight-02.20261105110840.witness.html",
+      "sha256": "dd3db21db8ffedb8c5fca10f6f371a8de3bda2812be23cab530c188ffc6bed7b",
+      "bytes": 171127,
+      "used": false,
+      "note": "kept as a date witness only, not an episode asset: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T11:08:40Z, https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email))"
+    }
+  ]
+}
