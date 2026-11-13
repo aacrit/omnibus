@@ -21,6 +21,10 @@ body.overlay, body.overlay .frame, body.overlay .field, body.overlay .slot { bac
 /* Framings board: the base page the rows flap over, and the untitled
    occupied rung's outlet name, beneath its rung mark. */
 body.rows-hidden .rows { visibility: hidden; }
+/* A page with fewer than 4 rows (typically the board's last page) stacks
+   from the top instead of spreading with frame.css's space-between, which
+   on 1-2 rows left the page looking half-empty and unbalanced. */
+.rows.rows-top { justify-content: flex-start; gap: 64px; }
 .untitled-line { position: absolute; left: 144px; top: 948px; width: 1152px; height: 26px; }
 .untitled-line .outlet { top: 0; font-size: var(--bc-rung); }
 

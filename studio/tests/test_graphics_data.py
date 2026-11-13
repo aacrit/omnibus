@@ -107,9 +107,9 @@ def test_weight_known_card_whose_context_lacks_its_of_is_refused(rundown):
 
 def test_count_card_hold_is_words_over_three_plus_one_and_a_half(rundown, week, echo_pick):
     cards = {c.id: c for c in data.all_count_cards(rundown, week, echo_pick, issue=33)}
-    # cw-2: "76" (1) + "outlets carried the claim" (4) + "AS OF 08 NOV 2026" (5) = 10 words.
-    assert cards["cw-2"].words == 10
-    assert cards["cw-2"].hold_s == pytest.approx(10 / 3 + 1.5)
+    # cw-2: "76" (1) + "outlets in the claim's records" (5) + "AS OF 08 NOV 2026" (5) = 11 words.
+    assert cards["cw-2"].words == 11
+    assert cards["cw-2"].hold_s == pytest.approx(11 / 3 + 1.5)
     assert all(c.date_line == "AS OF 08 NOV 2026" for k, c in cards.items() if k != "cw-4")
 
 
@@ -118,6 +118,12 @@ def test_echo_card_takes_its_date_and_basis_from_echo_pick(rundown, echo_pick):
     assert card.id == "cw-4" and card.echo is True and card.eyebrow == "THE ECHO"
     assert [(r.context, r.hero) for r in card.rows] == [("Kefauver", "19,800"), ("Truman", "15,927")]
     assert card.date_line == "11 MAR 1952 · STATE CANVASS, PRINTED 1953"
+    # The card names what was counted (echo-pick's own `what`), not bare candidate names;
+    # it sits only on the first row, since typeset shows it once, not per row.
+    what = echo_pick["counts_on_screen"][0]["what"]
+    assert card.rows[0].qualifier == what
+    assert all(r.qualifier is None for r in card.rows[1:])
+    assert "New Hampshire Democratic" in what
 
 
 def test_echo_card_refuses_values_that_disagree_with_echo_pick(rundown, echo_pick):

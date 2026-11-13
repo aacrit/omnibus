@@ -120,6 +120,12 @@ def test_board_base_page_hides_rows_but_keeps_page_furniture():
     assert "ladder-base" in html and "Tehran Times" in html and "THE WEIGHT" in html
 
 
+def test_board_page_with_fewer_than_4_rows_stacks_from_the_top():
+    p1, p2 = typeset.board_pages_html(_week33_board(), **CSS)
+    assert 'class="rows"' in p1 and "rows-top" not in p1          # page 1: 4 rows, frame.css spacing stands
+    assert 'class="rows rows-top"' in p2                          # page 2: 2 rows, generator override applies
+
+
 # ---- lower third -----------------------------------------------------------
 
 def _lt(**kw):
@@ -190,6 +196,17 @@ def test_count_card_multiple_rows_and_echo_field():
     html = typeset.count_card_html(spec, **CSS)
     assert 'class="field field--echo"' in html
     assert re.findall(r'class="hero-num bc-mono" data-row="(\d)"', html) == ["0", "1"]
+    assert ">19,800<" in html and ">15,927<" in html
+
+
+def test_count_card_multi_row_qualifier_shows_once_not_per_row():
+    what = "New Hampshire Democratic preference for President, 11 March 1952"
+    spec = data.CountCardSpec(id="cw-4", eyebrow="THE ECHO", week_label="WEEK 33",
+                               rows=(data.CountRow(hero="19,800", context="Kefauver", qualifier=what),
+                                     data.CountRow(hero="15,927", context="Truman", qualifier=what)),
+                               date_line="11 MAR 1952 · STATE CANVASS, PRINTED 1953", echo=True)
+    html = typeset.count_card_html(spec, **CSS)
+    assert html.count(typeset.esc(what)) == 1
     assert ">19,800<" in html and ">15,927<" in html
 
 

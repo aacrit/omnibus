@@ -223,7 +223,12 @@ def echo_comparison_card(rundown: dict, echo_pick: dict, *, issue: int) -> Count
     Hampshire primary of 11 Mar 1952, the State canvass printed in 1953).
     The rundown's count card must name the same source and values, and its
     date line must be the one echo-pick's basis quotes; any disagreement
-    raises."""
+    raises. The first row carries echo-pick's own `what` as its qualifier
+    (typeset.py shows a multi-row card's qualifier once, above the rows,
+    since it is shared), so the card names these as New Hampshire
+    Democratic primary votes rather than bare candidate names; it is not
+    repeated on every row, which would double its word count and over-hold
+    the card."""
     part = _part(rundown, "the-echo")
     for beat in part.get("beats", []):
         for cc in beat.get("count_cards", []) or []:
@@ -237,7 +242,11 @@ def echo_comparison_card(rundown: dict, echo_pick: dict, *, issue: int) -> Count
             date_line = cc.get("date_line")
             if not date_line or f"'{date_line}'" not in pick.get("basis", ""):
                 raise ValueError(f"{beat['id']}: date line {date_line!r} is not the one echo-pick's basis quotes")
-            rows = tuple(CountRow(hero=f"{v:,}", context=name) for name, v in pick["values"].items())
+            qualifier = pick.get("what")
+            rows = tuple(
+                CountRow(hero=f"{v:,}", context=name, qualifier=qualifier if i == 0 else None)
+                for i, (name, v) in enumerate(pick["values"].items())
+            )
             return CountCardSpec(id="cw-4", eyebrow="THE ECHO", week_label=f"WEEK {issue}", rows=rows,
                                   date_line=date_line, echo=True)
     return None

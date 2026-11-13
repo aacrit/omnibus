@@ -57,6 +57,6 @@ def test_count_card_numbers(week, echo_pick):
 
 
 def test_numerals_in_strips_separators():
-    assert expected.numerals_in("OUTLETS CARRYING THE CLAIM · 65 PLACED · 11 UNPLACED") == ["65", "11"]
+    assert expected.numerals_in("OUTLETS IN THE CLAIM'S RECORDS · 65 PLACED · 11 UNPLACED") == ["65", "11"]
     assert expected.numerals_in("19,800") == ["19800"]
     assert expected.numerals_in("Kefauver") == []

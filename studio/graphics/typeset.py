@@ -185,7 +185,10 @@ def board_page_html(page: list[BoardRow], *, head_left: str, head_right: str, pa
                      frame_css: str, graphics_css: str = "", rows_hidden: bool = False) -> str:
     """One board page. `rows_hidden` typesets the same page with its rows
     invisible (the head, ladder, rung labels and any untitled rung stay):
-    the base the motion pass flaps each row onto."""
+    the base the motion pass flaps each row onto. A page with fewer than 4
+    rows gets graphics.css's `rows-top` class, scoped to the generator
+    (never frame.css, the G2 mock file), so it stacks from the top instead
+    of spreading with frame.css's `.rows` space-between."""
     for rung in layout.RUNGS:
         if not rung_labels.get(rung):
             raise ValueError(f"rung_labels lacks {rung!r} (read LEAN_LABEL_TEXT from ladder.mjs)")
@@ -219,7 +222,7 @@ def board_page_html(page: list[BoardRow], *, head_left: str, head_right: str, pa
         + '<div class="frame"><div class="field">'
         + f'<div class="board-head"><span class="bc-caps eyebrow-bc">{esc(head_left)}</span>'
         + f'<span class="bc-mono eyebrow-bc">{esc(head_right)}</span></div>'
-        + f'<div class="rows">{"".join(rows_html)}</div>'
+        + f'<div class="rows{" rows-top" if len(page) < 4 else ""}">{"".join(rows_html)}</div>'
         + f'<svg class="ladder-base" viewBox="0 0 1152 16" aria-hidden="true">{tick_svg}{mark_svg}</svg>'
         + f'<div class="ladder-labels" aria-hidden="true">{label_svg}</div>'
         + untitled_html
@@ -299,8 +302,11 @@ def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str, gra
     reproduced exactly) for a single-row card; a multi-row card (cw-1's
     three terms, cw-4's two-way comparison: net-new compositions, no G2
     mock covers more than one count at a time) distributes rows evenly in
-    a smaller face so rows never overlap. Every numeral carries
-    ``data-row`` so counts-match reads each one back."""
+    a smaller face so rows never overlap. When any row carries a
+    ``qualifier`` (cw-4's echo-pick ``what``, naming what was counted), it
+    is shown once above the rows rather than per row, since it is shared.
+    Every numeral carries ``data-row`` so counts-match reads each one
+    back."""
     n = len(spec.rows)
     blocks = []
     date_top = 760
@@ -319,6 +325,12 @@ def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str, gra
     else:
         date_top = 900
         available_top, available_bottom = 220.0, 860.0
+        shared_qualifier = next((row.qualifier for row in spec.rows if row.qualifier), None)
+        if shared_qualifier:
+            blocks.append(
+                f'<div class="count-block" style="top:168px"><div class="bc-caps eyebrow-bc" '
+                f'style="font-size:26px; color:var(--o-grey-2)">{esc(shared_qualifier)}</div></div>'
+            )
         row_height = (available_bottom - available_top) / n
         hero_size = max(72, min(132, round(row_height * 0.42)))
         for i, row in enumerate(spec.rows):
