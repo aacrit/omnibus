@@ -1,0 +1,578 @@
+{
+ "what": "void omnibus issue 33, E8: the score's manifest (theme, credits theme, Echo bed, sting)",
+ "issue": 33,
+ "rate": 48000,
+ "format": "WAV, mono, PCM 24-bit",
+ "media_dir": "D:/omnibus-media/33/score",
+ "outputs": {
+  "theme.wav": {
+   "sha256": "0d3e2fc34ef7fda923fc4eb723f7a8fc36d0ab9bbb2719637ac9848d2589f7c2",
+   "decoded_sha256": "c0cd31e5f66d4e66e76c06019d088fd78943bafbe65a3849fea099e4a57b4e3c",
+   "samples": 864000,
+   "seconds": 18.0,
+   "cue": "theme"
+  },
+  "credits.wav": {
+   "sha256": "717d6b3dd4236f27ec50b9f5839c550fa72ac94d8ec3e02f2310e6c95642cbaf",
+   "decoded_sha256": "bbaf1f94c09c47b822175995cd440c227fb0b4c27310331ed3e4828a8096a2b7",
+   "samples": 2160000,
+   "seconds": 45.0,
+   "cue": "credits"
+  },
+  "echo-bed-150.wav": {
+   "sha256": "4ef74371928efe39b1a02715c05cacd65edb6db840fdb3a1e086603e92bbcdfa",
+   "decoded_sha256": "6f91497038664f451797d2bdbe6b559350fdb4d6c7d59564e10cbb9747131d1b",
+   "samples": 7200000,
+   "seconds": 150.0,
+   "cue": "echo-bed-150"
+  },
+  "echo-bed-150.mix.wav": {
+   "sha256": "b82e2dfd80d3e6ab57c5a1603406b06de1eceabca02bdd16044c5f63aa38885a",
+   "decoded_sha256": "5b6035e27b013efe93dd66a709f9f9e3bc3aaecf46deb3459793369355a00984",
+   "samples": 7200000,
+   "seconds": 150.0,
+   "cue": "echo-bed-150"
+  },
+  "sting.wav": {
+   "sha256": "60b9cb15e70a42234a63b956d206805eff067f72ec7b0a151b083312d1c8cc34",
+   "decoded_sha256": "ff4238b274032d71a023d52843c9f6ef89911a30463511a6ec749171a45c8dd3",
+   "samples": 38400,
+   "seconds": 0.8,
+   "cue": "sting"
+  }
+ },
+ "cues": {
+  "theme": {
+   "role": "main_title",
+   "length_s": 18.0,
+   "room": "small",
+   "seed": 3311,
+   "notes": 14,
+   "sampler_loops": 0,
+   "looped_notes": [],
+   "max_shift_semitones": 3,
+   "shift_histogram": {
+    "0": 9,
+    "1": 1,
+    "2": 3,
+    "3": 1
+   },
+   "gain_db": 2.42,
+   "target_lufs": -26.0
+  },
+  "credits": {
+   "role": "main_title",
+   "length_s": 45.0,
+   "room": "small",
+   "seed": 3312,
+   "notes": 38,
+   "sampler_loops": 0,
+   "looped_notes": [],
+   "max_shift_semitones": 3,
+   "shift_histogram": {
+    "0": 23,
+    "1": 3,
+    "2": 8,
+    "3": 4
+   },
+   "gain_db": 5.72,
+   "target_lufs": -26.0
+  },
+  "echo-bed-150": {
+   "role": "bed",
+   "length_s": 150.0,
+   "room": "hall",
+   "seed": 3313,
+   "notes": 76,
+   "sampler_loops": 0,
+   "looped_notes": [],
+   "max_shift_semitones": 3,
+   "shift_histogram": {
+    "0": 14,
+    "1": 11,
+    "2": 49,
+    "3": 2
+   },
+   "gain_db": 9.78,
+   "target_lufs": -32.0,
+   "files": {
+    "echo-bed-150.wav": "unshaped: the engine's bed input (it band-shapes and levels at the mix)",
+    "echo-bed-150.mix.wav": "band-shaped with the engine's bed_shape at 400 Hz and levelled: as the mix places it before the duck (for a hand edit; do not shape it again)"
+   }
+  },
+  "sting": {
+   "role": "sting",
+   "synthesis": "two sine tones written by build.py (no sample)",
+   "tones_hz": [
+    659.2551,
+    988.88265
+   ],
+   "durs_s": [
+    0.3,
+    0.5
+   ],
+   "attack_s": 0.015,
+   "release_s": [
+    0.05,
+    0.11
+   ],
+   "target_lufs": -20.0,
+   "why": "E5 then the B a pure fifth above (3:2): the second tone sits in the broadcast line-up tone's register (988.9 Hz, by 1 kHz); the theme is centred on E, so the sting is its open fifth and never clashes",
+   "gain_db": -16.35
+  }
+ },
+ "pins": {
+  "whole.py": {
+   "path": "C:/Users/aacri/document-work/score-tools/whole.py",
+   "sha256": "db7ebd20d903288d5da5f4b5a8618433ce5615362218eaaa3a6abe5643809926",
+   "used": "humanise (seeded), ola_convolve"
+  },
+  "library.yaml": {
+   "path": "C:/Users/aacri/document-work/score-tools/library.yaml",
+   "sha256": "38f08cb4412208c2ab00e7364662c7e27ccdb45ca9ee9ebb9662cd0025aabc25",
+   "used": "instrument blocks by name"
+  },
+  "render.py": {
+   "sha256": "6f340ad53d3c02df2099c54ddfb6169985dff54fb7f81a44affe71ea37361b7e",
+   "used": "HEADROOM_DB, validate_instruments"
+  },
+  "wio.py": {
+   "sha256": "948551b3193e4b88636d02d469ab4eb7315d70ac4dbecbb9d16599044d5e0291",
+   "used": "WAV read and write"
+  },
+  "void-history score.py": {
+   "path": "C:/Users/aacri/claudeprojects/voidnews/pipeline/history/score.py",
+   "sha256": "e2414745c48ef4a4abccdd47da87155c748d882b84a5a6d3e2e182505c87f11e",
+   "used": "render_note, instrument_samples (the sampler)"
+  },
+  "engine score.py": {
+   "source": "document@b62c4fa42017d5f3432bb3317b0fc03465bda193:studio/engine/score.py",
+   "sha256": "476272aeb46191e47b95a5893ec79fe663cea4fb75dff1d8bb60131481cf941d",
+   "used": "bed_shape, integrated_lufs (levelling)"
+  },
+  "build.py": {
+   "sha256": "e33477a6f7ec6754b0d4ef6fb7c21dec2d2302d990a35c5c9e46f86c965ece2e"
+  },
+  "score.yaml": {
+   "sha256": "095bb5a7d08503e6b5f730ff79e4bd7ab7bfc120aeec835ea2bc6bda0bbce56d"
+  }
+ },
+ "samples": [
+  {
+   "instrument": "vibes",
+   "library_block": "vibes_bowed",
+   "file": "vcsl/Idiophones/Struck Idiophones/Vibraphone/Bowed/Vibes_bowed_E3_rr1_Main.wav",
+   "sounding_note": "E4",
+   "sha256": "bd41a203f16bf090677d8cc3ec0778c0f8865ae965cb0e5fe37c0a08ece8e09f",
+   "url": "https://raw.githubusercontent.com/sgossner/VCSL/master/Idiophones/Struck%20Idiophones/Vibraphone/Bowed/Vibes_bowed_E3_rr1_Main.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VCSL/blob/master/LICENSE",
+   "credit_line": "Versilian Studios, Versilian Community Sample Library"
+  },
+  {
+   "instrument": "vibes",
+   "library_block": "vibes_bowed",
+   "file": "vcsl/Idiophones/Struck Idiophones/Vibraphone/Bowed/Vibes_bowed_A4_rr1_Main.wav",
+   "sounding_note": "A5",
+   "sha256": "78be0c9d01f464cb76a46a398b3ae7ed412e9ae3d573f76c99a6821a1a04279f",
+   "url": "https://raw.githubusercontent.com/sgossner/VCSL/master/Idiophones/Struck%20Idiophones/Vibraphone/Bowed/Vibes_bowed_A4_rr1_Main.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VCSL/blob/master/LICENSE",
+   "credit_line": "Versilian Studios, Versilian Community Sample Library"
+  },
+  {
+   "instrument": "vibes",
+   "library_block": "vibes_bowed",
+   "file": "vcsl/Idiophones/Struck Idiophones/Vibraphone/Bowed/Vibes_bowed_G3_rr1_Main.wav",
+   "sounding_note": "G4",
+   "sha256": "4b566300ee58c75de89e97278607f710ba0a807622582118d9f2e451d8bf573c",
+   "url": "https://raw.githubusercontent.com/sgossner/VCSL/master/Idiophones/Struck%20Idiophones/Vibraphone/Bowed/Vibes_bowed_G3_rr1_Main.wav",
+   "pinned_in": "episodes/33/score/score.yaml (add_samples)",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VCSL/blob/master/LICENSE",
+   "credit_line": "Versilian Studios, Versilian Community Sample Library"
+  },
+  {
+   "instrument": "vibes",
+   "library_block": "vibes_bowed",
+   "file": "vcsl/Idiophones/Struck Idiophones/Vibraphone/Bowed/Vibes_bowed_D4_rr1_Main.wav",
+   "sounding_note": "D5",
+   "sha256": "b5a6ab0a6c51b446832bc3686e27a62489f3169182ad4c872698912536d1ece6",
+   "url": "https://raw.githubusercontent.com/sgossner/VCSL/master/Idiophones/Struck%20Idiophones/Vibraphone/Bowed/Vibes_bowed_D4_rr1_Main.wav",
+   "pinned_in": "episodes/33/score/score.yaml (add_samples)",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VCSL/blob/master/LICENSE",
+   "credit_line": "Versilian Studios, Versilian Community Sample Library"
+  },
+  {
+   "instrument": "bass",
+   "library_block": "bass",
+   "file": "vsco2ce/Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_E0_v1_rr1.wav",
+   "sounding_note": "E1",
+   "sha256": "b510c6c2eb4fb0acba5eaaaa703ebe19025cad3749f645c41f883e4217b338fa",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_E0_v1_rr1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "bass",
+   "library_block": "bass",
+   "file": "vsco2ce/Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_C1_v1_rr1.wav",
+   "sounding_note": "C2",
+   "sha256": "c930941735e707b109878f4734110412ebe26b983c2b3e300510175aedf5e61c",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_C1_v1_rr1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "bass",
+   "library_block": "bass",
+   "file": "vsco2ce/Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_E1_v1_rr1.wav",
+   "sounding_note": "E2",
+   "sha256": "90428ce30d89c2eab94187a2d2c589758bc7027b8f0c8d3e2cce165972f60e21",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_E1_v1_rr1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_E1_v1_1.wav",
+   "sounding_note": "E2",
+   "sha256": "de31a61b02d4e1d5a79b8bc432b0f35fe2e434290ad34402cc0f2dd7dc278cde",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_E1_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_G1_v1_1.wav",
+   "sounding_note": "G2",
+   "sha256": "9e5d24e8e28d6c7f650f9bb2b33d43c13e341a8bd33124c64e23881378b181ba",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_G1_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_C1_v1_1.wav",
+   "sounding_note": "C3",
+   "sha256": "abdcea431f384e135c469b0f3e4ac2a437f282f521dc5bcbe22abc221536e8de",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_C1_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_D2_v1_1.wav",
+   "sounding_note": "D3",
+   "sha256": "e8640dec9febc6e39fcf06b19d2c95a85d5ff8c38f13c9879e69f551eaf38ab8",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_D2_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_A2_v1_1.wav",
+   "sounding_note": "A3",
+   "sha256": "c97a003184fdcb153d6b6c0bae8d82a90592a1b04b06bd7caaeda8b9776d5284",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_A2_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_C3_v1_1.wav",
+   "sounding_note": "C4",
+   "sha256": "a614ee7ca821b44660236e47b89620cf914ec6ad27a99bc0d9764f47dbe512e1",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_C3_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_E3_v1_1.wav",
+   "sounding_note": "E4",
+   "sha256": "d2f961e30bf64021cf4acbd88e0e7a1fd1840943ae78c62a711bcce3d109216e",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_E3_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_G3_v1_1.wav",
+   "sounding_note": "G4",
+   "sha256": "8d658346b8d2054fd534b3222b5d7a23196d22a83a68c3a04ffb76b21853a3db",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_G3_v1_1.wav",
+   "pinned_in": "episodes/33/score/score.yaml (add_samples)",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_B3_v1_1.wav",
+   "sounding_note": "B4",
+   "sha256": "bd25d66c1c4e73f5827bf3b931244e51ec8388594d8004529a762be81258097f",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_B3_v1_1.wav",
+   "pinned_in": "episodes/33/score/score.yaml (add_samples)",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "cello",
+   "library_block": "cello",
+   "file": "vsco2ce/Strings/Cello Section/susvib/susvib_D4_v1_1.wav",
+   "sounding_note": "D5",
+   "sha256": "b4aa3a7fec1f0e783fa560f493868c17045feb271738e3d6834d1b00594b1c38",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_D4_v1_1.wav",
+   "pinned_in": "episodes/33/score/score.yaml (add_samples)",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "viola",
+   "library_block": "viola",
+   "file": "vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_E2_v1_1.wav",
+   "sounding_note": "E3",
+   "sha256": "5c4c636583ce43b694583e8cbf7a14d1f3efcb0e871fe7dedff8a6b354c432bf",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_E2_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "viola",
+   "library_block": "viola",
+   "file": "vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_B2_v1_1.wav",
+   "sounding_note": "B3",
+   "sha256": "ad96d747c5125adec8f069c49091ee3ba937efd4a5b909d3c4938f17e3c8513d",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_B2_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "viola",
+   "library_block": "viola",
+   "file": "vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_D3_v1_1.wav",
+   "sounding_note": "D4",
+   "sha256": "61ab4cfc0ea90c683433a7c50b3bb4fa86a81c9d4854589562707d54ed028349",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_D3_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "viola",
+   "library_block": "viola",
+   "file": "vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_F3_v1_1.wav",
+   "sounding_note": "F4",
+   "sha256": "7a37f00ecb58fcaa5c32427a5ffb30950787b40c247409a8e18cfe0880955fd8",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_F3_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "viola",
+   "library_block": "viola",
+   "file": "vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_A3_v1_1.wav",
+   "sounding_note": "A4",
+   "sha256": "7cea6482a8f67536e3108f01b688d54d198e5820ffcd0ac5a49652d38f6ec065",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_A3_v1_1.wav",
+   "pinned_in": "score-tools library.yaml",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  },
+  {
+   "instrument": "viola",
+   "library_block": "viola",
+   "file": "vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_C4_v1_1.wav",
+   "sounding_note": "C5",
+   "sha256": "144ec7666be1b3b4da50937db4b1fc3675ca34bc2e871264707d83b8a0d526e6",
+   "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_C4_v1_1.wav",
+   "pinned_in": "episodes/33/score/score.yaml (add_samples)",
+   "licence": "CC0 1.0 Universal",
+   "licence_source": "https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE",
+   "credit_line": "Versilian Studios and Sam Gossner, VSCO 2 Community Edition"
+  }
+ ],
+ "sample_files": 23,
+ "rooms": {
+  "small": {
+   "rt60_s": 1.15,
+   "hf_rt60_s": 0.55,
+   "predelay_ms": 14,
+   "wet_db": -7.0,
+   "seed": 3301,
+   "kind": "synthesised by build.py synth_room (no measured impulse response)"
+  },
+  "hall": {
+   "rt60_s": 1.6,
+   "hf_rt60_s": 0.7,
+   "predelay_ms": 18,
+   "wet_db": -6.0,
+   "seed": 3302,
+   "kind": "synthesised by build.py synth_room (no measured impulse response)"
+  }
+ },
+ "reader_gate": {
+  "ruling": "founder, chat 2026-11-12: no music under any period quote; the bed plays only between quotations and dips to silence under every reader line (Truman x3 and x6, Eisenhower x8, Stevenson x9 alike)",
+  "applies_to": "every Echo bed placement (echo-bed-150.wav and .mix.wav); never the theme, the credits or the sting",
+  "key": "each reader line (am_michael, the reader class) by its first and last word time from the narration's alignment (E7); the planned windows below are the rundown's budgets, for the audit and as the fallback only",
+  "gain_closed": "0 (silence, not a duck), multiplied after the 9 dB narrator duck",
+  "lead_s": 0.25,
+  "close_ramp_s": 0.6,
+  "tail_s": 0.5,
+  "open_ramp_s": 1.5,
+  "ramp_shape": "raised cosine",
+  "hold_closed_gap_s": 3.0,
+  "min_open_s": 4.0,
+  "rule": "closed from (first word - lead_s) to (last word + tail_s); the close ramp ends at the closed window's start, the open ramp (A29: an entry fade of at least 1.5 s) starts at its end; two reader lines less than hold_closed_gap_s apart (the passages of one quotation, read with a pause at each cut) share one closed window; an open stretch shorter than min_open_s between two closed windows stays closed (no flutter)",
+  "planned_voice_model": {
+   "slate_s": 1.2,
+   "breath_s": 0.7
+  },
+  "planned_reader_windows": [
+   {
+    "beat": "echo-x2",
+    "who": "reader",
+    "passage": 1,
+    "words": 29,
+    "start_s": 685.2,
+    "end_s": 697.0,
+    "bed_clock_start_s": -29.9,
+    "bed_clock_end_s": -18.1,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x3",
+    "who": "reader",
+    "passage": 1,
+    "words": 9,
+    "start_s": 725.0,
+    "end_s": 728.67,
+    "bed_clock_start_s": 9.9,
+    "bed_clock_end_s": 13.57,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x3",
+    "who": "reader",
+    "passage": 2,
+    "words": 24,
+    "start_s": 729.37,
+    "end_s": 739.15,
+    "bed_clock_start_s": 14.27,
+    "bed_clock_end_s": 24.05,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x3",
+    "who": "reader",
+    "passage": 3,
+    "words": 58,
+    "start_s": 739.85,
+    "end_s": 763.5,
+    "bed_clock_start_s": 24.75,
+    "bed_clock_end_s": 48.4,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x6",
+    "who": "reader",
+    "passage": 1,
+    "words": 8,
+    "start_s": 841.2,
+    "end_s": 844.5,
+    "bed_clock_start_s": 126.1,
+    "bed_clock_end_s": 129.4,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x8",
+    "who": "reader",
+    "passage": 1,
+    "words": 16,
+    "start_s": 897.7,
+    "end_s": 904.21,
+    "bed_clock_start_s": 182.6,
+    "bed_clock_end_s": 189.11,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x8",
+    "who": "reader",
+    "passage": 2,
+    "words": 8,
+    "start_s": 904.91,
+    "end_s": 908.17,
+    "bed_clock_start_s": 189.81,
+    "bed_clock_end_s": 193.07,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x8",
+    "who": "reader",
+    "passage": 3,
+    "words": 5,
+    "start_s": 908.87,
+    "end_s": 910.9,
+    "bed_clock_start_s": 193.77,
+    "bed_clock_end_s": 195.8,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x9",
+    "who": "reader",
+    "passage": 1,
+    "words": 27,
+    "start_s": 942.0,
+    "end_s": 953.0,
+    "bed_clock_start_s": 226.9,
+    "bed_clock_end_s": 237.9,
+    "under_bed": false
+   }
+  ]
+ },
+ "room_tone": "none baked in: each cue is music only; the programme's room comes from the picture's own sound and the title's CC0 room (E5)",
+ "render_s": 7.6
+}
