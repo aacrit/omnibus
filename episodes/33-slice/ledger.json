@@ -1,0 +1,83 @@
+{
+  "schema": "omnibus.ledger/1",
+  "note": "TEST MEDIA ONLY (E11a slice, no air): every item below is a synthetic stand-in generated for the plan/lint check, held at D:/omnibus-media/33-slice/media, never committed and never rendered for broadcast. test_fixture is set on each so placeholder-media stays a draft warning, not a block; shows_bodies: false and drawn_kind: image are set for the same reason the engine's own news fixture sets them (studio/tests/fixture_news/film.py): every picture here is a test pattern, not a real body or map, so every shot is marked DRAWN (see each shot's mark in screenplay.json).",
+  "items": [
+    {
+      "id": "g-board",
+      "file": "g-board.mov",
+      "kind": "graphic",
+      "fps": "30",
+      "frames": 210,
+      "alpha": "straight",
+      "generator": "studio/graphics (E6, test stand-in)",
+      "content_date": "2026-11-05T16:12:35+00:00",
+      "content_basis": "drawn from the week record's lead.board (data_ref)",
+      "licence": "CC0",
+      "test_fixture": true,
+      "shows_bodies": false,
+      "drawn_kind": "image"
+    },
+    {
+      "id": "g-lt",
+      "file": "g-lt.mov",
+      "kind": "graphic",
+      "fps": "30",
+      "frames": 120,
+      "alpha": "straight",
+      "generator": "studio/graphics (E6, test stand-in)",
+      "content_date": "2026-11-05T00:00:00+00:00",
+      "content_basis": "names the part (no record figures)",
+      "licence": "CC0",
+      "test_fixture": true,
+      "shows_bodies": false,
+      "drawn_kind": "image"
+    },
+    {
+      "id": "g-testcard",
+      "file": "g-testcard.mov",
+      "kind": "graphic",
+      "fps": "30",
+      "frames": 90,
+      "alpha": "straight",
+      "generator": "studio/graphics (E6, test stand-in)",
+      "content_date": "1952-11-05T12:00:00-05:00",
+      "content_basis": "drawn from the record's issue number (data_ref)",
+      "licence": "CC0",
+      "test_fixture": true,
+      "shows_bodies": false,
+      "drawn_kind": "image"
+    },
+    {
+      "id": "dr-title",
+      "file": "dr-title.png",
+      "kind": "drawn",
+      "generator": "studio title macro (test stand-in)",
+      "content_date": "2026-11-08T22:16:50.309638+00:00",
+      "content_basis": "the record's day lines and week line",
+      "licence": "CC0",
+      "test_fixture": true,
+      "shows_bodies": false,
+      "drawn_kind": "image"
+    },
+    {
+      "id": "st-weight-tour",
+      "file": "st-weight-tour.png",
+      "date": "2026-11-04",
+      "licence": "public domain",
+      "title": "Test stand-in: a still for the Weight's tour (E11a slice)",
+      "test_fixture": true,
+      "shows_bodies": false,
+      "drawn_kind": "image"
+    },
+    {
+      "id": "st-echo",
+      "file": "st-echo.png",
+      "date": "1952-10-01",
+      "licence": "public domain",
+      "title": "Test stand-in: a still for the Echo (E11a slice)",
+      "test_fixture": true,
+      "shows_bodies": false,
+      "drawn_kind": "image"
+    }
+  ]
+}
