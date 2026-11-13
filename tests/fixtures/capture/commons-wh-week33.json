@@ -1,0 +1,1078 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&generator=categorymembers&gcmtitle=Category:Videos_by_The_White_House_posted_on_YouTube_(Donald_Trump,_2025-2029)&gcmtype=file&gcmsort=timestamp&gcmdir=desc&gcmstart=2026-11-09T00:00:00Z&gcmend=2026-11-02T00:00:00Z&gcmlimit=50&prop=imageinfo&iiprop=url|timestamp|mime|size|extmetadata&iiextmetadatafilter=ImageDescription|DateTimeOriginal|Credit|LicenseShortName",
+  "at": "2026-11-13T00:00:00Z",
+  "by": "C3 fixture recording: Commons API metadata only, no media; the White House category as of week 33 (members added 2 to 8 Nov)"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 172021067,
+     "ns": 6,
+     "title": "File:President Donald Trump Participates in a Trilateral Signing with Armenia and Azerbaijan.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2025-08-08T22:00:50Z",
+       "size": 554196326,
+       "width": 1920,
+       "height": 1080,
+       "duration": 2668.588,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/President_Donald_Trump_Participates_in_a_Trilateral_Signing_with_Armenia_and_Azerbaijan.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Donald_Trump_Participates_in_a_Trilateral_Signing_with_Armenia_and_Azerbaijan.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=172021067",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump participates in a Trilateral Signing with the Prime Minister of the Republic of Armenia and the President of the Republic of Azerbaijan.\nThe White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2025-08-08",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=EKHlDnl2tQg\"><bdi lang=\"\">President Trump Participates in a Trilateral Signing with Armenia and Azerbaijan</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=EKHlDnl2tQg\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 179877352,
+     "ns": 6,
+     "title": "File:President Trump Gaggles with the Press on Air Force One, Oct. 12, 2025.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2025-12-13T23:58:56Z",
+       "size": 371373472,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1484.482,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/d/d9/President_Trump_Gaggles_with_the_Press_on_Air_Force_One%2C_Oct._12%2C_2025.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Gaggles_with_the_Press_on_Air_Force_One,_Oct._12,_2025.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=179877352",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump Gaggles with the Press on Air Force One, Oct. 12, 2025",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2025-10-12",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=Y_IbbUjvNzo\"><bdi lang=\"\">President Trump Gaggles with the Press on Air Force One, Oct. 12, 2025</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=Y_IbbUjvNzo\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 186368857,
+     "ns": 6,
+     "title": "File:President Trump Participates in the Friends of Ireland Luncheon, Mar. 17, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-03-17T20:31:08Z",
+       "size": 154336750,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1373.972,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/President_Trump_Participates_in_the_Friends_of_Ireland_Luncheon%2C_Mar._17%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_the_Friends_of_Ireland_Luncheon,_Mar._17,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=186368857",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump Participates in the Friends of Ireland Luncheon",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-03-17",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://twitter.com/i/broadcasts/1lKQRvlABWdGE\">President Trump Participates in the Friends of Ireland Luncheon - Twitter</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202496684,
+     "ns": 6,
+     "title": "File:President Trump Meets with Artemis III Crew at the White House.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-10-31T00:11:26Z",
+       "size": 38931732,
+       "width": 3840,
+       "height": 2026,
+       "duration": 47.881,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/8/83/President_Trump_Meets_with_Artemis_III_Crew_at_the_White_House.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Meets_with_Artemis_III_Crew_at_the_White_House.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202496684",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump Meets with Artemis III Crew at the White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-10-30",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=YZT8jsIJyQU\"><bdi lang=\"\">President Trump Meets with Artemis III Crew at the White House</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=YZT8jsIJyQU\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202496894,
+     "ns": 6,
+     "title": "File:Secretary of the Treasury Scott Bessent Holds a Fraud Task Force Press Conference in St. Cloud, MN.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-02T22:38:53Z",
+       "size": 662377632,
+       "width": 1920,
+       "height": 1080,
+       "duration": 5860.021,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Secretary_of_the_Treasury_Scott_Bessent_Holds_a_Fraud_Task_Force_Press_Conference_in_St._Cloud%2C_MN.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Secretary_of_the_Treasury_Scott_Bessent_Holds_a_Fraud_Task_Force_Press_Conference_in_St._Cloud,_MN.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202496894",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "St. Cloud, MN",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-10-30",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=RyCfzP3I4eA\"><bdi lang=\"\">Secretary of the Treasury Scott Bessent Holds a Fraud Task Force Press Conference in St. Cloud, MN</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=RyCfzP3I4eA\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202499206,
+     "ns": 6,
+     "title": "File:President Trump Delivers Remarks, Oct. 30, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-10-30T22:50:09Z",
+       "size": 211662454,
+       "width": 1920,
+       "height": 1080,
+       "duration": 734.948,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/President_Trump_Delivers_Remarks%2C_Oct._30%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Oct._30,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202499206",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-10-30",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=wET2hazuFD4\"><bdi lang=\"\">President Trump Delivers Remarks, Oct. 30, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=wET2hazuFD4\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202595788,
+     "ns": 6,
+     "title": "File:President Trump Welcomes Back Stephen Hubbard.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-01T18:36:47Z",
+       "size": 13773453,
+       "width": 3840,
+       "height": 2026,
+       "duration": 18.501,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/President_Trump_Welcomes_Back_Stephen_Hubbard.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Welcomes_Back_Stephen_Hubbard.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202595788",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump Welcomes Back Stephen Hubbard",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-01",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=LK9bkwi4jIg\"><bdi lang=\"\">President Trump Welcomes Back Stephen Hubbard</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=LK9bkwi4jIg\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202616872,
+     "ns": 6,
+     "title": "File:POTUS Signs a Proclamation For Fishermen.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-01T22:32:52Z",
+       "size": 65055572,
+       "width": 3840,
+       "height": 2026,
+       "duration": 75.041,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/POTUS_Signs_a_Proclamation_For_Fishermen.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:POTUS_Signs_a_Proclamation_For_Fishermen.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202616872",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-01",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=VwwcDyiu0wA\"><bdi lang=\"\">President Trump and the First Lady Host Halloween at the White House</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=VwwcDyiu0wA\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202616997,
+     "ns": 6,
+     "title": "File:President Trump Gaggles with Press Upon Arrival at Dubuque, IA, Nov. 1, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-01T22:34:33Z",
+       "size": 109606386,
+       "width": 1920,
+       "height": 1080,
+       "duration": 545.1610000000001,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/President_Trump_Gaggles_with_Press_Upon_Arrival_at_Dubuque%2C_IA%2C_Nov._1%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Gaggles_with_Press_Upon_Arrival_at_Dubuque,_IA,_Nov._1,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202616997",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Dubuque, IA",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-01",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=zgHIpU0pAAk\"><bdi lang=\"\">President Trump and the First Lady Host Halloween at the White House</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=zgHIpU0pAAk\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202637692,
+     "ns": 6,
+     "title": "File:JD Vance - Happy Halloween everyone!.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-02T04:00:08Z",
+       "size": 9570697,
+       "width": 720,
+       "height": 1280,
+       "duration": 8.2,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/JD_Vance_-_Happy_Halloween_everyone%21.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:JD_Vance_-_Happy_Halloween_everyone!.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202637692",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "\"Happy Halloween everyone!\"",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-10-31",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.tiktok.com/@jd/video/7702959160081534222\">https://www.tiktok.com/@jd/video/7702959160081534222</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202688959,
+     "ns": 6,
+     "title": "File:Fighting harder than ever for the American people. THE HARDEST WORKING PRESIDENT IN HISTORY..webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-02T17:10:49Z",
+       "size": 7724472,
+       "width": 1920,
+       "height": 1080,
+       "duration": 46.88,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/0/08/Fighting_harder_than_ever_for_the_American_people._THE_HARDEST_WORKING_PRESIDENT_IN_HISTORY..webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Fighting_harder_than_ever_for_the_American_people._THE_HARDEST_WORKING_PRESIDENT_IN_HISTORY..webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202688959",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "<p>Fighting harder than ever for the American people. 🥊🇺🇸\n</p>\nTHE HARDEST WORKING PRESIDENT IN HISTORY.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-02",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=_2tsFHETHy0\"><bdi lang=\"\">Fighting harder than ever for the American people. 🥊🇺🇸THE HARDEST WORKING PRESIDENT IN HISTORY.</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=_2tsFHETHy0\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202713740,
+     "ns": 6,
+     "title": "File:President Trump Delivers Remarks, Nov. 2, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-03T00:08:22Z",
+       "size": 643249015,
+       "width": 1920,
+       "height": 1080,
+       "duration": 3308.5080000000003,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/8/89/President_Trump_Delivers_Remarks%2C_Nov._2%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._2,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202713740",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Washington, DC",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-02",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=2xrn-nfxk2w\"><bdi lang=\"\">President Trump Delivers Remarks, Nov. 2, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=2xrn-nfxk2w\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202726738,
+     "ns": 6,
+     "title": "File:President Trump Gives Remarks at the Lincoln Memorial Reflecting Pool.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-03T05:16:04Z",
+       "size": 56269556,
+       "width": 3840,
+       "height": 2026,
+       "duration": 46.181000000000004,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/President_Trump_Gives_Remarks_at_the_Lincoln_Memorial_Reflecting_Pool.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Gives_Remarks_at_the_Lincoln_Memorial_Reflecting_Pool.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202726738",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-02",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=dvcNqlBMHfY\"><bdi lang=\"\">President Trump Gives Remarks at the Lincoln Memorial Reflecting Pool</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=dvcNqlBMHfY\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202769685,
+     "ns": 6,
+     "title": "File:A pace that has yet to slow. An America that never surrenders..webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-04T02:23:56Z",
+       "size": 89002989,
+       "width": 3840,
+       "height": 2026,
+       "duration": 82.301,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/b/be/A_pace_that_has_yet_to_slow._An_America_that_never_surrenders..webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:A_pace_that_has_yet_to_slow._An_America_that_never_surrenders..webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202769685",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "A pace that has yet to slow. An America that never surrenders.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-03",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=lDY6BI5F1sA\"><bdi lang=\"\">A pace that has yet to slow. An America that never surrenders.</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=lDY6BI5F1sA\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202810922,
+     "ns": 6,
+     "title": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-04T21:27:34Z",
+       "size": 368136948,
+       "width": 1920,
+       "height": 1080,
+       "duration": 2585.0280000000002,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/6/69/President_Trump_Delivers_Remarks%2C_Nov._4%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202810922",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-04",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=LHT-znOQXkA\"><bdi lang=\"\">President Trump Delivers Remarks, Nov. 4, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=LHT-znOQXkA\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202845716,
+     "ns": 6,
+     "title": "File:First Lady Melania Trump Unites Russia and Ukraine at the White House Following Historic Ceasefire.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-12T06:57:52Z",
+       "size": 236119177,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1163.501,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/First_Lady_Melania_Trump_Unites_Russia_and_Ukraine_at_the_White_House_Following_Historic_Ceasefire.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:First_Lady_Melania_Trump_Unites_Russia_and_Ukraine_at_the_White_House_Following_Historic_Ceasefire.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202845716",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-05",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=olZO88UBW-M\"><bdi lang=\"\">First Lady Melania Trump Unites Russia and Ukraine at the White House Following Historic Ceasefire</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=olZO88UBW-M\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202857628,
+     "ns": 6,
+     "title": "File:President Trump Participates in Signing Time, Nov. 5, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-05T23:36:28Z",
+       "size": 278577873,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1631.83,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/3/37/President_Trump_Participates_in_Signing_Time%2C_Nov._5%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_Signing_Time,_Nov._5,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202857628",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-05",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=6YLUH8zRzgk\"><bdi lang=\"\">President Trump Participates in Signing Time, Nov. 5, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=6YLUH8zRzgk\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202875729,
+     "ns": 6,
+     "title": "File:Stand. Fight. Defend the Republic.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-06T08:43:31Z",
+       "size": 17948329,
+       "width": 1920,
+       "height": 1080,
+       "duration": 81.901,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Stand._Fight._Defend_the_Republic.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Stand._Fight._Defend_the_Republic.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202875729",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Stand. Fight. Defend the Republic.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=dHTb7U2wvnw\"><bdi lang=\"\">Stand. Fight. Defend the Republic.</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=dHTb7U2wvnw\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202903308,
+     "ns": 6,
+     "title": "File:White House Chief of Staff, Stephen Miller.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-06T22:50:08Z",
+       "size": 29561421,
+       "width": 3840,
+       "height": 2026,
+       "duration": 38.021,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/3/30/White_House_Chief_of_Staff%2C_Stephen_Miller.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202903308",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "White House Chief of Staff, Stephen Miller",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=qveFmi4I3BY\"><bdi lang=\"\">White House Chief of Staff, Stephen Miller</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=qveFmi4I3BY\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202903473,
+     "ns": 6,
+     "title": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-06T22:53:09Z",
+       "size": 73398226,
+       "width": 3840,
+       "height": 2160,
+       "duration": 64.921,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military%2C_a_safer_America.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202903473",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Secretary of War Pete Hegseth is delivering a stronger military, a safer America",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=yDLhDtcDpck\"><bdi lang=\"\">Secretary of War Pete Hegseth is delivering a stronger military, a safer America</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=yDLhDtcDpck\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202903552,
+     "ns": 6,
+     "title": "File:President Trump Gaggles with Press Upon Arrival at Joint Base Andrews, MD, Nov. 6, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-06T22:54:53Z",
+       "size": 4383619,
+       "width": 1920,
+       "height": 1080,
+       "duration": 26.521,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/President_Trump_Gaggles_with_Press_Upon_Arrival_at_Joint_Base_Andrews%2C_MD%2C_Nov._6%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Gaggles_with_Press_Upon_Arrival_at_Joint_Base_Andrews,_MD,_Nov._6,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202903552",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Joint Base Andrews, MD",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=K3YWTSKRiN4\"><bdi lang=\"\">President Trump Gaggles with Press Upon Arrival at Joint Base Andrews, MD, Nov. 6, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=K3YWTSKRiN4\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202903628,
+     "ns": 6,
+     "title": "File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-06T22:56:57Z",
+       "size": 26458371,
+       "width": 1920,
+       "height": 1080,
+       "duration": 126.021,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/President_Trump_Gaggles_with_Press_Upon_Departure_from_the_White_House%2C_Nov._6%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Gaggles_with_Press_Upon_Departure_from_the_White_House,_Nov._6,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202903628",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=_jBNwOUhHtg\"><bdi lang=\"\">President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=_jBNwOUhHtg\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202908396,
+     "ns": 6,
+     "title": "File:President Trump Delivers Remarks, Nov. 6, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-07T01:24:24Z",
+       "size": 427393322,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1870.948,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/4/41/President_Trump_Delivers_Remarks%2C_Nov._6%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._6,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202908396",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Cape Canaveral, FL",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=e038Q_qaltQ\"><bdi lang=\"\">President Trump Delivers Remarks, Nov. 6, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=e038Q_qaltQ\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202914446,
+     "ns": 6,
+     "title": "File:President Trump Participates in a Bilateral Meeting with the President of South Africa, May 21, 2025.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-07T06:35:38Z",
+       "size": 737592172,
+       "width": 1920,
+       "height": 1080,
+       "duration": 3849.9610000000002,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/President_Trump_Participates_in_a_Bilateral_Meeting_with_the_President_of_South_Africa%2C_May_21%2C_2025.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Bilateral_Meeting_with_the_President_of_South_Africa,_May_21,_2025.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202914446",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump Participates in a Bilateral Meeting with the President of South Africa at The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2025-05-21",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=4cy-HJ2wRZs\"><bdi lang=\"\">President Trump Participates in a Bilateral Meeting with the President of South Africa</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=4cy-HJ2wRZs\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202914549,
+     "ns": 6,
+     "title": "File:President Trump Makes a Trade Announcement, May 8, 2025.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-07T06:45:37Z",
+       "size": 722451544,
+       "width": 1920,
+       "height": 1080,
+       "duration": 3893.781,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/6/66/President_Trump_Makes_a_Trade_Announcement%2C_May_8%2C_2025.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Makes_a_Trade_Announcement,_May_8,_2025.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202914549",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump Makes a Trade Announcement, May 8, 2025",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2025-05-08",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=j2dTaFl9nM0\"><bdi lang=\"\">President Trump Makes a Trade Announcement, May 8, 2025</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=j2dTaFl9nM0\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202914570,
+     "ns": 6,
+     "title": "File:President Trump Participates in a Signing with the Prime Ministers of Cambodia and Thailand.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-07T06:47:07Z",
+       "size": 255143043,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1755.601,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/President_Trump_Participates_in_a_Signing_with_the_Prime_Ministers_of_Cambodia_and_Thailand.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Signing_with_the_Prime_Ministers_of_Cambodia_and_Thailand.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202914570",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "President Trump participates in a peace treaty, trade and critical mineral agreement signing with the Prime Minister of the Kingdom of Cambodia and the Prime Minister of the Kingdom of Thailand in Kuala Lumpur, Malaysia.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2025-10-26",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=lP--3SqzCnQ\"><bdi lang=\"\">President Trump Participates in a Signing with the Prime Ministers of Cambodia and Thailand</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=lP--3SqzCnQ\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202915162,
+     "ns": 6,
+     "title": "File:President Trump Welcomes Violinist Rusanda Panfili's Performance at the 2026 Governors Dinner.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-07T07:30:44Z",
+       "size": 324181470,
+       "width": 1920,
+       "height": 1080,
+       "duration": 1352.961,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/President_Trump_Welcomes_Violinist_Rusanda_Panfili%27s_Performance_at_the_2026_Governors_Dinner.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Welcomes_Violinist_Rusanda_Panfili%27s_Performance_at_the_2026_Governors_Dinner.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202915162",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "The White House",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-02-22",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=OYbhlm7DcWE\"><bdi lang=\"\">President Trump Welcomes Violinist Rusanda Panfili's Performance at the 2026 Governors Dinner</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=OYbhlm7DcWE\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 202936821,
+     "ns": 6,
+     "title": "File:President Trump Gaggles with Press Upon Arrival at Palm Beach, FL, Nov. 6, 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-07T20:46:23Z",
+       "size": 113379134,
+       "width": 1920,
+       "height": 1080,
+       "duration": 648.201,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/President_Trump_Gaggles_with_Press_Upon_Arrival_at_Palm_Beach%2C_FL%2C_Nov._6%2C_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:President_Trump_Gaggles_with_Press_Upon_Arrival_at_Palm_Beach,_FL,_Nov._6,_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=202936821",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "Palm Beach, FL",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-06",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=Hz9qiVv6bOA\"><bdi lang=\"\">President Trump Gaggles with Press Upon Arrival at Palm Beach, FL, Nov. 6, 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=Hz9qiVv6bOA\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
