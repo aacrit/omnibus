@@ -1,0 +1,94 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&generator=categorymembers&gcmtitle=Category:Videos_by_The_White_House_posted_on_YouTube_(Donald_Trump,_2025-2029)&gcmtype=file&gcmsort=timestamp&gcmdir=desc&gcmlimit=2&prop=imageinfo&iiprop=url|timestamp|mime|size|extmetadata&iiextmetadatafilter=ImageDescription|DateTimeOriginal|Credit|LicenseShortName",
+  "at": "2026-11-13T18:00:00Z",
+  "by": "C2 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "continue": {
+   "gcmcontinue": "20261112065020|203018270",
+   "continue": "gcmcontinue||"
+  },
+  "query": {
+   "pages": [
+    {
+     "pageid": 203147431,
+     "ns": 6,
+     "title": "File:To our veterans - We pledge you our utmost loyalty and devotion. Thank you for your service..webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-12T14:12:21Z",
+       "size": 17946591,
+       "width": 1080,
+       "height": 1920,
+       "duration": 96.788,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/To_our_veterans_-_We_pledge_you_our_utmost_loyalty_and_devotion._Thank_you_for_your_service..webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:To_our_veterans_-_We_pledge_you_our_utmost_loyalty_and_devotion._Thank_you_for_your_service..webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=203147431",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "We thank Almighty God for the noble warriors of the United States military who have always stepped forward so that America might always stay free.\nTo our veterans: We pledge you our utmost loyalty and devotion. Thank you for your service. 🇺🇸",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-11",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=VVo0xJr_7iQ\"><bdi lang=\"\">To our veterans: We pledge you our utmost loyalty and devotion. Thank you for your service. 🇺🇸</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=VVo0xJr_7iQ\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    },
+    {
+     "pageid": 203168533,
+     "ns": 6,
+     "title": "File:Veterans Day at Arlington National Cemetery 2026.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-13T01:37:36Z",
+       "size": 36007674,
+       "width": 3840,
+       "height": 2026,
+       "duration": 53.261,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/1/13/Veterans_Day_at_Arlington_National_Cemetery_2026.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Veterans_Day_at_Arlington_National_Cemetery_2026.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=203168533",
+       "extmetadata": {
+        "ImageDescription": {
+         "value": "We thank Almighty God for the noble warriors of the United States Military who have always stepped forward so that America might always STAY FREE. 🇺🇸\nGod bless America's veterans.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-12",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=-dTCMPdMxB8\"><bdi lang=\"\">Veterans Day at Arlington National Cemetery 2026</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=-dTCMPdMxB8\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
