@@ -15,6 +15,58 @@
           "horizon": "1952-11-05T12:00:00-05:00"
         }
       }
+    ],
+    "e33-echo-01": [
+      {
+        "adapter": "commons",
+        "ref": "File:Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
+        "tier": 3,
+        "date_record": { "adapter": "nara", "ref": "338959044" },
+        "fit": {
+          "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+          "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record of it (NAID 338959044, Truman Library accession 73-3881, the NLT-AVC-PHT-(73)3881 that echo-pick names for old NAID 200382) dates it 29 March 1952; Commons gives the year only.",
+          "horizon": "1952-11-05T12:00:00-05:00"
+        }
+      }
+    ],
+    "e33-echo-02": [
+      {
+        "adapter": "commons",
+        "ref": "File:Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
+        "tier": 3,
+        "date_record": { "adapter": "nara", "ref": "338959024" },
+        "fit": {
+          "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+          "why": "Abbie Rowe's photograph of the President receiving applause at the Armory. NARA's current record (NAID 338959024, Truman Library accession 73-3872, echo-pick's NLT-AVC-PHT-(73)3872 for old NAID 200380) dates it 29 March 1952; Commons gives the year only.",
+          "horizon": "1952-11-05T12:00:00-05:00"
+        }
+      }
+    ],
+    "e33-echo-03": [
+      {
+        "adapter": "commons",
+        "ref": "File:Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
+        "tier": 3,
+        "date_record": { "adapter": "nara", "ref": "338959048" },
+        "fit": {
+          "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+          "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record (NAID 338959048, Truman Library accession 73-3883, echo-pick's NLT-AVC-PHT-(73)3883 for old NAID 200383) dates it 29 March 1952; Commons gives the year only.",
+          "horizon": "1952-11-05T12:00:00-05:00"
+        }
+      }
+    ],
+    "e33-echo-04": [
+      {
+        "adapter": "commons",
+        "ref": "File:Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
+        "tier": 3,
+        "date_record": { "adapter": "nara", "ref": "338959010" },
+        "fit": {
+          "beat": "echo-x6: arrival at the Armory, 29 March 1952",
+          "why": "Abbie Rowe's photograph of the Trumans greeted on arrival at the National Guard Armory. NARA's current record (NAID 338959010, Truman Library accession 73-3866, echo-pick's NLT-AVC-PHT-(73)3866 for old NAID 200379) dates it 29 March 1952; Commons gives the year only.",
+          "horizon": "1952-11-05T12:00:00-05:00"
+        }
+      }
     ]
   }
 }
