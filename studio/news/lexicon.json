@@ -274,5 +274,15 @@
       "columnists"
     ],
     "window_words": 5
+  },
+  "demonym_suffixes": ["n", "ns", "an", "ans", "ian", "ians", "i", "is", "ese", "olese"],
+  "period_spellings": {
+    "_why": "CoS ruling 2026-11-12 under the founder's narrow no-bridge rule: a listed place of this week is also caught under the spelling the Echo's period used. Added to studio/show-as-was.json's period_names (modern to period), which the lint reads too.",
+    "Kyiv": ["Kiev"],
+    "Belarus": ["Byelorussia", "Belorussia"],
+    "Moldova": ["Moldavia"],
+    "Iran": ["Persia"],
+    "Chennai": ["Madras"],
+    "Beijing": ["Peking", "Peiping"]
   }
 }

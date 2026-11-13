@@ -65,7 +65,64 @@ def test_news_inputs_read_from_files_and_refuse_when_missing(tmp_path):
 def test_deferred_rules_are_declared_not_implemented():
     res = run(*EP.episode())
     deferred = {c["rule"]: c for c in res if c["severity"] == "not_implemented"}
-    assert set(deferred) == {"clock-true", "sources-last", "no-youtube"}
+    assert set(deferred) == {"clock-true", "sources-last", "no-youtube", "no-bridge-reverse"}
+    assert all(c["evidence"]["what"] and c["evidence"]["deferred_to"] for c in deferred.values())
+
+
+def test_a_naive_date_time_is_imprecise_never_utc():
+    lo, hi, precise = NL.instant("2026-03-02T11:30:00")
+    assert not precise and (hi - lo).total_seconds() > 24 * 3600
+    assert NL.instant("2026-03-02T11:30:00Z")[2]
+
+
+def test_items_under_a_late_part_are_judged_against_the_episode():
+    play, assets, inputs = EP.episode()
+    EP.part(play, "p-margins")["as_of"] = "2026-03-08"
+    assets["st-margin"]["date"] = "2026-03-08T23:30:00+00:00"
+    bad = [c for c in run(play, assets, inputs) if c["rule"] == "as-of" and not c["ok"]]
+    units = {c["unit"] for c in bad}
+    assert "part p-margins" in units and "S-MARGIN" in units
+    item = next(c for c in bad if c["unit"] == "S-MARGIN")
+    assert item["evidence"]["as_of"] == EP.AS_OF                  # clamped to the episode's instant
+
+
+def test_a_reader_line_takes_its_date_from_the_extract():
+    play, assets, inputs = EP.episode()
+    EP.line(play, "R2").pop("date")
+    inputs["echo"]["period_documents"][0]["date"] = "1952-11-04"
+    assert failing_rules(run(play, assets, inputs)) == set()
+
+
+def test_week_33_rundown_spine_and_bridge_list_read():
+    names = NL.bridge_list(real_inputs())
+    rx = NL.bridge_matchers(names)
+    hit = lambda t: sorted({nm for nm, r in rx if r.search(NL.fold(t))})  # noqa: E731
+    assert hit("The Iranian delegation") == ["Iran"]
+    assert hit("TRUMP spoke") == ["Trump"]
+    assert hit("The Jefferson-Jackson Day Dinner") == []          # word rule: "Troy Jackson" only in full
+    assert hit("The Democratic and Republican tickets") == []      # founder ruling: the 1952 party names
+    assert hit("Kiev in 1952") == ["Kyiv"]                         # a period spelling of a listed place
+
+
+def test_the_spine_trusts_labels_only_in_order():
+    play, _, _ = EP.episode()
+    from studio.news import schema as SC
+    assert SC.segments(play) == [p["segment"] for p in play["parts"]]
+    EP.part(play, "p-margins")["segment"] = "credits"
+    seg = SC.segments(play)
+    assert seg[6] is None and seg[-1] == "credits"
+
+
+def test_archival_gain_reads_the_shows_voice_ceiling_at_call_time():
+    from studio.engine import render as R
+    m = {"input_tp": -3.0}
+    try:
+        R.apply_show(SHOW.of({"show": "omnibus"}))
+        assert abs(R._archival_total(10.0, m, 0.0) - (R.VOICE_TP + 3.0)) < 1e-9
+        assert abs(R.VOICE_TP_FLOOR - (R.VOICE_TP - R.VOICE_TP_FLOOR_BELOW)) < 1e-9 and R.VOICE_TP_FLOOR < -7.0
+    finally:
+        R.apply_show(SHOW.of({}))
+    assert R.VOICE_TP_FLOOR == -7.0 and abs(R._archival_total(10.0, m, 0.0) - (-4.8 + 3.0)) < 1e-9
 
 
 def test_a_document_screenplay_gets_no_news_lints():
@@ -164,6 +221,14 @@ def test_apply_show_sets_the_programme_loudness():
     finally:
         R.apply_show(SHOW.of({}))
     assert R.TARGET_LUFS == -18.0
+
+
+def test_a_document_title_card_draws_the_house_wordmark_whatever_the_profile():
+    from studio.engine import render as R
+    shot = {"id": "S1", "kind": "card", "card": "lockup", "text": [], "_part_kind": "chapter"}
+    from studio.engine import motion as M
+    assert R.card_text_check(shot, 1920, 1080, show=dict(SHOW.of({}))) == R.card_text_check(shot, 1920, 1080)
+    assert R.show_lockup(dict(SHOW.of({}))) == M.LOCKUP_BRAND and R.show_wordmark(dict(SHOW.of({}))) == M.WORDMARK
 
 
 ATTACK = '"><img src=x onerror=alert(1)>'

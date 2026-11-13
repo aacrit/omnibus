@@ -158,7 +158,8 @@ def play() -> dict:
              "cues": [{"id": "M1", "kind": "music", "source": "bed-1", "start_s": 51.0, "end_s": 60.5}]},
             {"id": "p-margins", "kind": "chapter", "segment": "margins", "as_of": AS_OF,
              "shots": [_shot("S-MARGIN", "archive_still", 70, 5, asset="st-margin", mark="ARCHIVE"),
-                       _shot("C-COUNT", "card", 75, 3, mark="CARD", text=["4 outlets"])],
+                       _shot("C-COUNT", "card", 75, 3, mark="CARD", text=["4 outlets"],
+                             figures=[{"value": 4, "field": "margins.stories[0].source_count"}])],
              "lines": [{"id": "L-margin", "kind": "narration", "start_s": 71.0, "dur_s": 3.0, "read_by": "v-narrator",
                         "text": "Friday 6 March. An inspection found cracks in a bridge."}]},
             {"id": "p-question", "kind": "chapter", "segment": "question", "as_of": AS_OF,
@@ -314,6 +315,118 @@ FAIL = {
                                               {"ending-question"}),
     "a black shot without a reason": (lambda p, a, i: shot(p, "B1").pop("black_reason"), {"black-share"}),
     "too much black": (lambda p, a, i: shot(p, "B1").update(dur_s=4.0), {"black-share"}),
+    # -- review round 1 (PR #16) -------------------------------------------------------------------------------
+    # 1: a part's horizon is clamped to the episode's; a whole day on the episode's own day is not an instant
+    "a whole-day part horizon on the episode's day": (lambda p, a, i: part(p, "p-margins").update(as_of="2026-03-08"),
+                                                       {"as-of"}),
+    "an item after the episode's horizon under a whole-day part": (_many(
+        lambda p, a, i: part(p, "p-margins").update(as_of="2026-03-08"),
+        lambda p, a, i: a["st-margin"].update(date="2026-03-08T23:30:00+00:00")), {"as-of"}),
+    # 2: a graphic over a picture is dated like a shot's
+    "an overlay graphic drawn after its part's horizon": (
+        lambda p, a, i: a["g-lt"].update(content_date="2027-01-01T00:00:00+00:00"), {"as-of"}),
+    "an overlay graphic with no content_date": (lambda p, a, i: a["g-lt"].pop("content_date"), {"as-of"}),
+    # 4: the graphics that draw figures declare them
+    "a day graphic that declares nothing": (lambda p, a, i: shot(p, "G-DAY1").pop("shows"), {"graphic-schema"}),
+    "a count overlay that declares no figures": (lambda p, a, i: part(p, "p-weight")["text"][0].update(
+        subtype="count", data_ref="days[0]"), {"graphic-schema"}),
+    "a board that declares no rows": (lambda p, a, i: shot(p, "G-BOARD").update(shows={}),
+                                      {"graphic-schema", "board-rule"}),
+    # 5: the title part carries the day lines and the week line
+    "the title declares no title lines": (lambda p, a, i: shot(p, "T-MACRO").pop("shows"), {"title-lines-verbatim"}),
+    "the title without its week line": (lambda p, a, i: shot(p, "T-MACRO")["shows"].pop("week_line"),
+                                        {"title-lines-verbatim"}),
+    # 6: the spine, and exemptions read from the checked order
+    "the clock is not first": (lambda p, a, i: p["parts"].insert(1, p["parts"].pop(0)),
+                               {"segment-spine", "part-as-of-declared"}),
+    "a news part labelled the credits": (_many(
+        lambda p, a, i: part(p, "p-margins").update(segment="credits"),
+        _set_text("L-margin", "Friday 6 March. Residents slammed the bridge, as we now know, in 2031."),
+        lambda p, a, i: a["st-margin"].update(date="2031-01-01"),
+        lambda p, a, i: part(p, "p-margins").setdefault("cues", []).append(
+            {"id": "M9", "kind": "music", "source": "bed-9", "start_s": 70.0, "end_s": 75.0})),
+        {"segment-spine", "never-tell", "hindsight-language", "as-of", "no-music-under-news"}),
+    "a news part labelled the clock": (_many(
+        lambda p, a, i: part(p, "p-margins").update(segment="clock"),
+        lambda p, a, i: a["st-margin"].update(date="2031-01-01"),
+        lambda p, a, i: part(p, "p-margins").setdefault("cues", []).append(
+            {"id": "M9", "kind": "music", "source": "bed-9", "start_s": 70.0, "end_s": 75.0})),
+        {"segment-spine", "as-of", "no-music-under-news"}),
+    "a news part labelled the question": (_many(
+        lambda p, a, i: part(p, "p-mon").update(segment="question"),
+        lambda p, a, i: part(p, "p-mon").setdefault("cues", []).append(
+            {"id": "M9", "kind": "music", "source": "bed-9", "start_s": 21.0, "end_s": 29.0})),
+        {"segment-spine", "no-music-under-news"}),
+    "a news part of kind credits": (_many(
+        lambda p, a, i: part(p, "p-mon").update(kind="credits"),
+        _set_text("L-mon", "Monday 2 March. Residents slammed the council, as we now know.")),
+        {"never-tell", "hindsight-language"}),
+    "a news card that calls itself the credits": (
+        lambda p, a, i: shot(p, "C-COUNT").update(card="credits", text=["Critics called the bridge controversial."]),
+        {"never-tell"}),
+    # 7: a reader line names its voice
+    "a reader line with no read_by": (lambda p, a, i: line(p, "R1").pop("read_by"),
+                                      {"reader-read-by", "voice-disclosed"}),
+    # 8: black drawn as a card is black
+    "a black card without a reason": (
+        lambda p, a, i: (shot(p, "B1").update(kind="card", card="black"), shot(p, "B1").pop("black_reason")),
+        {"black-share"}),
+    "ten seconds of black card": (lambda p, a, i: shot(p, "B1").update(
+        kind="card", card="black", dur_s=10.0, reason="The frame goes dark for the count to settle in."),
+        {"black-share"}),
+    "a blank statement card": (lambda p, a, i: shot(p, "C-COUNT").update(text=[]), {"black-share"}),
+    # 10, 11: a date-time with no zone, and a record date that does not read
+    "a naive date-time read as UTC": (_many(
+        lambda p, a, i: part(p, "p-mon").update(as_of="2026-03-02T12:00:00+00:00"),
+        lambda p, a, i: a["g-day1"].update(content_date="2026-03-02T11:30:00")), {"as-of"}),
+    "a record date that does not read": (
+        lambda p, a, i: i["record"]["days"][0].update(printed_at="2026-03-02T25:00:00Z"), {"as-of"}),
+    "a record date under another key, after the horizon": (
+        lambda p, a, i: (i["record"]["days"][0].pop("printed_at"),
+                         i["record"]["days"][0].update(fetched_at="2026-03-09T00:00:00Z")), {"as-of"}),
+    # non-blocking findings, made blocking
+    "a numeral on a card no figure declares": (lambda p, a, i: shot(p, "C-COUNT").update(text=["7 outlets"]),
+                                               {"counts-match"}),
+    "a year as a count": (lambda p, a, i: shot(p, "C-COUNT").update(text=["2026 outlets"]), {"counts-match"}),
+    "a count spelled out": (lambda p, a, i: shot(p, "C-COUNT").update(text=["seven thousand outlets"]),
+                            {"counts-match"}),
+    "a card figure that is not its field": (lambda p, a, i: shot(p, "C-COUNT")["figures"][0].update(value=5),
+                                            {"counts-match"}),
+    "a reader line with no date": (lambda p, a, i: line(p, "R2").pop("date"), {"as-of"}),
+    "a reader line dated by its extract, after the horizon": (_many(
+        lambda p, a, i: line(p, "R2").pop("date"),
+        lambda p, a, i: i["echo"]["period_documents"][0].update(date="1953-01-01")), {"as-of"}),
+    "a card reproduces a board headline without its hash": (
+        lambda p, a, i: shot(p, "C-COUNT").update(text=["Doe Quits Over Water Deal, Admits Fraud"], figures=[]),
+        {"quote-verbatim"}),
+    "the Echo names this week's person in capitals": (_set_text("L-echo", "October 1952. JANE DOE was not yet born."),
+                                                      {"no-bridge"}),
+    "the Echo names a full name across a no-break space": (_many(
+        lambda p, a, i: i["rundown"]["parts"][1]["no_bridge"].update(must_not_appear=["Ruritania", "Strelsau", "Jane Doe"]),
+        _set_text("L-echo", "October 1952. Jane Doe was not yet born.")), {"no-bridge"}),
+    "the Echo names a full name across a line break": (_many(
+        lambda p, a, i: i["rundown"]["parts"][1]["no_bridge"].update(must_not_appear=["Ruritania", "Strelsau", "Jane Doe"]),
+        lambda p, a, i: shot(p, "S-ECHO").update(text=["Jane\nDoe"])), {"no-bridge"}),
+    "the Echo names a decomposed accent": (_many(
+        lambda p, a, i: i["rundown"]["parts"][1]["no_bridge"]["must_not_appear"].append("Zoë"),
+        _set_text("L-echo", "October 1952. Zoë voted.")), {"no-bridge"}),
+    "the Echo names this week's demonym": (_set_text("L-echo", "October 1952. The Ruritanian wards opened."),
+                                           {"no-bridge"}),
+    "the Echo names a period spelling of this week's place": (_many(
+        lambda p, a, i: i["rundown"]["parts"][1]["no_bridge"]["must_not_appear"].append("Kyiv"),
+        _set_text("L-echo", "October 1952. Kiev's wards opened.")), {"no-bridge"}),
+    "an empty no_bridge list": (
+        lambda p, a, i: i["rundown"]["parts"][1]["no_bridge"].update(must_not_appear=[]), {"no-bridge"}),
+    "an outlet characterised in lower case": (
+        _set_text("L-weight", "Wednesday 4 March. the liberal strelsau herald printed it."),
+        {"no-outlet-characterisation"}),
+    "music under a news part with no shots of its own": (lambda p, a, i: (
+        part(p, "p-mon").update(shots=[]), part(p, "p-mon").setdefault("cues", []).append(
+            {"id": "M9", "kind": "music", "source": "bed-9", "start_s": 20.0, "end_s": 30.0})),
+        {"no-music-under-news"}),
+    "a record the title cannot read": (lambda p, a, i: i["record"]["days"][0].pop("date"), {"title-lines-verbatim"}),
+    "a record the board cannot read": (lambda p, a, i: i["record"]["lead"]["board"].append("not a row"),
+                                       {"board-rule"}),
 }
 
 

@@ -11,37 +11,53 @@ line with no WAV yet is timed by its ``dur_s``, else at 150 words a minute). Eac
 The rules, each over the screenplay and the inputs it names (``news``: the week record, the rundown and the echo
 pick; studio/news/schema.py):
 
-- ``as-of`` (part level): everything a part shows or says is dated on or before its own ``as_of``, to the second
-  when both state a time: each shot's ledger item (a studio-made item by its ``content_date``), each graphic's
-  record data (every dated field under its ``data_ref``), each reading's date, each quoted card's source date, and
-  no year after the part's horizon in its narration or text. A whole-day date on the horizon's own day is a review
-  item. No part's horizon is after the episode's.
+Which part is which comes from the checked order (schema.segments), never from a part's own label or kind: only
+the first part labelled clock and the last labelled credits are exempt where the rules exempt them, and a part whose
+label is out of the spine's order is linted as news.
+
+- ``as-of`` (part level): everything a part shows or says is dated on or before its horizon (its own ``as_of``,
+  clamped to the episode's), to the second when both state a time: each shot's and each graphic overlay's ledger
+  item (a studio-made item by its ``content_date``), each graphic's record data (every field under its ``data_ref``
+  whose key is a date key, ``date`` or ends ``_date``, ``_at`` or ``_on``; a value that does not read is undated),
+  each reading's date (a reader line's own, else its extract's), each quoted card's source date, and no year after
+  the horizon in its narration or text. A date-time with no zone is every instant it can be in the world's zones,
+  never UTC. A whole-day date on the horizon's own day is a review item; a part's horizon is an instant or a day
+  before the episode's, never after it or a whole day straddling it.
 - ``never-tell`` and ``hindsight-language``: the bible's news list (studio/news/lexicon.json) on the narration and
   our own on-screen text, quotations exempt; and no narration line paraphrases a headline the board on screen shows.
-- ``no-outlet-characterisation``: no characterising word next to an outlet's name or a media noun (a legal status the
-  screenplay states, with its basis, aside).
+- ``no-outlet-characterisation``: no characterising word next to an outlet's name (in any case) or a media noun (a
+  legal status the screenplay states, with its basis, aside).
 - ``no-bridge``: none of the week's named persons, places and parties-as-actors (the rundown's Echo ``no_bridge``
-  list, founder ruling 2026-11-12: full names, word boundaries, case as written; the 1952 party names are allowed) in
-  anything the Echo says or shows, quotations included; and no bridging phrase ("like today", "just as") anywhere.
+  list, refused when empty; founder ruling 2026-11-12: full names, word boundaries; the 1952 party names are
+  allowed) in anything the Echo says or shows, quotations included, read after Unicode NFKC and whitespace folding,
+  as written or in capitals, with a single listed word's demonyms and derived forms and a listed place's period
+  spellings (CoS ruling under the founder's narrow rule); and no bridging phrase ("like today", "just as") anywhere.
+  The reverse direction (no Echo-era entity in a news part) is declared ``not_implemented`` with its reason.
 - ``board-rule``: a board shows the record's rows only (claim records, never context), one per titled occupied rung,
   verbatim and sha-matched, at least three when three are titled; an occupied rung with no titled headline has no
   row (the untitled-rung exception).
-- ``counts-match``: every figure a graphic declares equals its record field, and every numeral on screen (cards,
-  lower thirds, overlays, graphic lines) is a number the week record or the echo pick holds.
+- ``counts-match``: every figure an element declares (``figures`` on a card or text element, ``shows.figures`` on a
+  graphic) equals its record field, and every count its on-screen text states (numerals and written-out numbers; a
+  date's own day, month and year aside) is one of its own declared figures.
 - ``quote-verbatim``: every reader line's text hashes to its ``quote_sha256``, and that hash is an extract the
-  rundown or the echo pick records; every displayed headline hashes to its ``headline_sha256``, a hash the record holds.
-- ``title-lines-verbatim``: each printed day line is the day's rank-1 headline and count as the record holds them,
-  and the week line is the edition's.
+  rundown or the echo pick records; every displayed headline hashes to its ``headline_sha256``, a hash the record
+  holds; and our own text that reproduces a record headline carries its ``headline_sha256``.
+- ``title-lines-verbatim``: the title part carries ``title_lines`` and ``week_line``; each printed day line is the
+  day's rank-1 headline and count as the record holds them, and the week line is the edition's.
 - ``no-music-under-news``: no music cue over the cold open, The Week, The Weight or The Margins.
 - ``no-music-under-quote`` (founder ruling): no music cue under any reader line.
 - ``narration-ceiling``: at most 55% of the runtime voiced.
 - ``voice-disclosed``: the narrator and every reader voice state a credit naming the synthesised or computer voice,
-  and their dot label.
+  and their dot label; a reader line that names no voice fails.
 - ``ending-question``: the last voiced line before the credits is the narrator's, a question, followed by at least
   6 s with no voice.
-- ``black-share``: black is at most 3% of the runtime, and every black shot states its reason.
+- ``black-share``: black on screen (a black shot, a black card, a card that draws only its text with none) is at
+  most 3% of the runtime, and each states its reason.
 
-Declared here and run at release (``not_implemented`` until then): ``clock-true``, ``sources-last``, ``no-youtube``.
+A lint that cannot read its inputs fails its rule with the reason; it never crashes the run.
+
+Declared here and run later (``not_implemented`` until then): ``clock-true``, ``sources-last``, ``no-youtube`` (the
+release step), ``no-bridge-reverse`` (the echo pick's entity list).
 """
 
 from __future__ import annotations
@@ -52,6 +68,7 @@ import hashlib
 import json
 import re
 import sys
+import unicodedata
 from functools import lru_cache
 from pathlib import Path
 
@@ -76,10 +93,17 @@ DOT_LABELS = {"narrator": "synthesised voice", "reader": "computer voice"}   # b
 DATE_KEYS = ("printed_at", "published_at", "record_date", "printed_on", "date", "as_of", "content_date")
 STOP = set("the a an and or of to in on at for from with by as is was were be been are it its this that these those "
            "after before over under into than then their his her they he she we our you your not no".split())
-DEFERRED = {
-    "clock-true": "the clock's time equals the release timestamp within one second: known only when the release is cut",
-    "sources-last": "the sources page is published before the episode: checked by the release step",
-    "no-youtube": "no YouTube upload while the registry row's audit_passed is false: checked by the release step",
+DEFERRED = {      # rule: (where it runs, what it checks and why it cannot run here)
+    "clock-true": ("release", "the clock's time equals the release timestamp within one second: known only when the "
+                              "release is cut"),
+    "sources-last": ("release", "the sources page is published before the episode: checked by the release step"),
+    "no-youtube": ("release", "no YouTube upload while the registry row's audit_passed is false: checked by the "
+                              "release step"),
+    "no-bridge-reverse": ("the echo pick's entity list (E5)", "the bible's other direction: no person, place or event "
+                          "of the Echo's period named in a news part. It needs the Echo's own named entities as data, "
+                          "which the echo pick does not yet record (it lists this week's names to keep out of the "
+                          "Echo, not the Echo's names to keep out of the week); until it does, the reviewer reads the "
+                          "news parts for it"),
 }
 
 
@@ -152,9 +176,15 @@ def load_inputs(play: dict, film: Path | None = None) -> tuple[dict, list[str]]:
 UTC = dt.timezone.utc
 
 
+# A clock time with no zone is local somewhere between UTC-12 and UTC+14: as UTC, 14 h before it to 12 h after
+ZONE_EARLIEST, ZONE_LATEST = dt.timedelta(hours=14), dt.timedelta(hours=12)
+
+
 def instant(value):
-    """``(lo, hi, precise)``: a date-time (with its zone; UTC when it states none) as one instant, a date as its
-    whole UTC day, anything aswas.parse_date reads (a year, a month, "before 1948") as its span. None when unread."""
+    """``(lo, hi, precise)``: a date-time with its zone as one instant; a date-time with no zone as every instant it
+    can be in the world's zones (never read as UTC: imprecise, so it fails against any horizon it may pass); a date
+    as its whole UTC day; anything aswas.parse_date reads (a year, a month, "before 1948") as its span. None when
+    unread."""
     if isinstance(value, bool) or value is None:
         return None
     s = str(value).strip()
@@ -163,7 +193,9 @@ def instant(value):
             t = dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
         except ValueError:
             return None
-        t = t if t.tzinfo else t.replace(tzinfo=UTC)
+        if t.tzinfo is None:
+            u = t.replace(tzinfo=UTC)
+            return u - ZONE_EARLIEST, u + ZONE_LATEST, False
         return t.astimezone(UTC), t.astimezone(UTC), True
     span = AW.parse_date(value)
     if span is None:
@@ -269,31 +301,17 @@ def numerals(text: str) -> list[float]:
     return out
 
 
-def record_numbers(inputs: dict) -> set[float]:
-    """Every number the week record and the echo pick hold: numeric leaves and the numerals inside their strings."""
-    out: set[float] = set()
-
-    def walk(x):
-        if _is_num(x):
-            out.add(float(x))
-        elif isinstance(x, str):
-            out.update(numerals(x))
-        elif isinstance(x, dict):
-            for v in x.values():
-                walk(v)
-        elif isinstance(x, list):
-            for v in x:
-                walk(v)
-    walk(inputs.get("record"))
-    walk(inputs.get("echo"))
-    return out
+def is_date_key(k) -> bool:
+    """A record field that holds a date: the named keys, ``date``, and any key ending ``_date``, ``_at`` or ``_on``."""
+    return isinstance(k, str) and (k in DATE_KEYS or k.endswith(("_date", "_at", "_on")))
 
 
 def _dates_under(x) -> list:
+    """Every (key, value) under a date key, whatever the value: one that does not read as a date is undated."""
     out = []
     if isinstance(x, dict):
         for k, v in x.items():
-            if k in DATE_KEYS and isinstance(v, str):
+            if is_date_key(k):
                 out.append((k, v))
             else:
                 out += _dates_under(v)
@@ -315,11 +333,16 @@ def shot_dur(s: dict) -> float:
 
 
 def part_span(p: dict) -> tuple[float, float] | None:
+    """The part's time on screen: its shots', else (a part with no shots of its own) its lines' and text's."""
     shots = p.get("shots") or []
-    if not shots:
-        return None
-    return (min(float(s.get("start_s") or 0.0) for s in shots),
-            max(float(s.get("start_s") or 0.0) + shot_dur(s) for s in shots))
+    if shots:
+        return (min(float(s.get("start_s") or 0.0) for s in shots),
+                max(float(s.get("start_s") or 0.0) + shot_dur(s) for s in shots))
+    spans = [(float(x["start_s"]), float(x["start_s"]) + float(x.get("dur_s") or 0.0)) for x in p.get("lines") or []
+             if x.get("start_s") is not None]
+    spans += [(float(x["start_s"]), float(x["end_s"])) for x in p.get("text") or []
+              if x.get("start_s") is not None and x.get("end_s") is not None]
+    return (min(a for a, _ in spans), max(b for _, b in spans)) if spans else None
 
 
 def runtime(play: dict) -> float:
@@ -357,10 +380,25 @@ def _overlap(a0, a1, b0, b1) -> float:
     return max(0.0, min(a1, b1) - max(a0, b0))
 
 
+def parts(play: dict):
+    """(part, segment) for every part, the segment as the checked order trusts it (schema.segments: None where a
+    label is out of place, so the part is linted as news). No exemption is read from a part's own label or kind."""
+    ps = [p for p in play.get("parts") or [] if isinstance(p, dict)]
+    return list(zip(ps, SC.segments({"parts": ps})))
+
+
+def _as_linted(part: dict) -> dict:
+    """The part as A0's surfaces read it, its self-declared exemptions removed: A0 skips a ``kind: credits`` part
+    and a card labelled credits, attribution or mark key; in a news part those are labels, not exemptions."""
+    q = dict(part, kind="chapter" if part.get("kind") == "credits" else part.get("kind"))
+    q["shots"] = [dict(s, card="statement") if s.get("card") in AW.EXEMPT_CARDS else s for s in part.get("shots") or []]
+    return q
+
+
 def part_surfaces(part: dict) -> list[dict]:
     """A0's surfaces of one part (narration, our cards, lower thirds, overlays, part titles), plus every graphic's
-    own lines of text (``shows.lines``)."""
-    out = AW.surfaces({"parts": [part]})
+    own lines of text (``shows.lines``). The caller skips the trusted credits; nothing else is exempt."""
+    out = AW.surfaces({"parts": [_as_linted(part)]})
     for coll in ("shots", "text"):
         for x in part.get(coll) or []:
             if G.is_graphic(x):
@@ -422,36 +460,50 @@ def as_of_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
             "after": "dated after the part's horizon", "imprecise": "its date may fall after the part's horizon",
             "undated": "no date it can be judged by"}[status])))
 
-    def date_of(value):
-        return instant(value)
-
-    for p in play.get("parts") or []:
-        if p.get("segment") in SC.AS_OF_EXEMPT:
-            continue
-        hz = instant(p.get("as_of")) if p.get("as_of") else episode
-        if hz is None:
+    readers = {id(ln) for _, ln in SC.reader_lines(play)}
+    extracts = _extract_dates(inputs)
+    for p, seg in parts(play):
+        if seg in SC.AS_OF_EXEMPT:
+            continue                          # the trusted clock and credits only (schema.segments)
+        own = instant(p.get("as_of")) if p.get("as_of") else episode
+        if own is None:
             continue                          # schema's part-as-of-declared names it
-        base = {"part": p.get("id"), "as_of": _fmt(hz)}
         checked += 1
-        if against(hz, episode) not in ("ok", "same-day"):
-            found.append(_check("as-of", False, unit=f"part {p.get('id')}", evidence=dict(
-                base, episode_as_of=_fmt(episode), why="the part's horizon is after the episode's")))
+        rel = against(own, episode)
+        if rel != "ok":
+            found.append(_check("as-of", False, unit=f"part {p.get('id')}", evidence={
+                "part": p.get("id"), "as_of": p.get("as_of"), "episode_as_of": _fmt(episode), "why": {
+                    "after": "the part's horizon is after the episode's",
+                    "same-day": "a whole day on the episode's own day may run past the episode's instant: the part's "
+                                "horizon is an instant (with its zone), or a day before the episode's",
+                }.get(rel, "the part's horizon may fall after the episode's")}))
+        hz = own if own[1] <= episode[1] else episode       # every item is judged by the earlier of the two
+        base = {"part": p.get("id"), "as_of": _fmt(hz)}
+
+        def item_check(unit, item, graphic, asset, hz=hz, base=base):
+            nonlocal checked
+            if item is None or item.get("test_fixture"):
+                return
+            checked += 1
+            studio = bool(item.get("generator") or item.get("synthetic") or graphic)
+            v = item.get("content_date") if item.get("content_date") is not None else (
+                None if studio else (item.get("date") if item.get("date") is not None else item.get("year")))
+            d = instant(v)
+            judge(unit, "undated" if d is None else against(d, hz),
+                  dict(base, asset=asset, date=v, **({"fix": "a studio-made item declares content_date"}
+                                                     if studio and v is None else {})))
+
         for s in p.get("shots") or []:
-            item = assets.get(s.get("asset")) if s.get("asset") else None
-            if item is not None and not item.get("test_fixture"):
-                checked += 1
-                studio = bool(item.get("generator") or item.get("synthetic") or G.is_graphic(s))
-                v = item.get("content_date") if item.get("content_date") is not None else (
-                    None if studio else (item.get("date") if item.get("date") is not None else item.get("year")))
-                d = date_of(v)
-                judge(s.get("id"), "undated" if d is None else against(d, hz),
-                      dict(base, asset=s.get("asset"), date=v, **({"fix": "a studio-made item declares content_date"}
-                                                                    if studio and v is None else {})))
+            if s.get("asset"):
+                item_check(s.get("id"), assets.get(s["asset"]), G.is_graphic(s), s["asset"])
             if s.get("kind") == "card" and s.get("source_date") is not None:
                 checked += 1
-                d = date_of(s["source_date"])
+                d = instant(s["source_date"])
                 judge(s.get("id"), "undated" if d is None else against(d, hz), dict(base, source_date=s["source_date"]))
-        for _, g in [(p, x) for x in (p.get("shots") or []) + (p.get("text") or []) if G.is_graphic(x)]:
+        for t in p.get("text") or []:         # a graphic over a picture is dated like a shot (schema names a missing item)
+            if G.is_graphic(t) and t.get("asset"):
+                item_check(t.get("id"), assets.get(t["asset"]), True, t["asset"])
+        for g in [x for x in (p.get("shots") or []) + (p.get("text") or []) if G.is_graphic(x)]:
             if not g.get("data_ref"):
                 continue
             try:
@@ -462,22 +514,43 @@ def as_of_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
                 continue
             for k, v in _dates_under(sub):
                 checked += 1
-                d = date_of(v)
-                if d is not None:
-                    judge(g.get("id"), against(d, hz), dict(base, data_ref=g["data_ref"], field=k, date=v))
+                d = instant(v)
+                judge(g.get("id"), "undated" if d is None else against(d, hz),
+                      dict(base, data_ref=g["data_ref"], field=k, date=v))
         for ln in p.get("lines") or []:
-            if ln.get("kind") == "testimony":
-                v = ln.get("date") if ln.get("date") is not None else ln.get("year")
-                if v is not None:
-                    checked += 1
-                    d = date_of(v)
-                    judge(ln.get("id"), "undated" if d is None else against(d, hz), dict(base, date=v))
+            if ln.get("kind") != "testimony":
+                continue
+            v = ln.get("date") if ln.get("date") is not None else ln.get("year")
+            src = "line"
+            if v is None and id(ln) in readers:
+                v, src = extracts.get(ln.get("quote_sha256")), "extract"
+            if v is None and id(ln) not in readers:
+                continue                      # an archival clip is dated by its ledger item
+            checked += 1
+            d = instant(v)
+            judge(ln.get("id"), "undated" if d is None else against(d, hz), dict(base, date=v, dated_by=src, **(
+                {"fix": "a reader line states its date (or its extract in the rundown or the echo pick does)"}
+                if d is None else {})))
         for srf in part_surfaces(p):
             late = [y for y in AW.years_in(srf["text"]) if y > hz[1].year]
             if late:
                 found.append(_check("as-of", False, unit=srf["unit"], evidence=dict(
                     base, text=srf["text"], years=late, why="names a year after the part's horizon")))
     return _summary("as-of", found, checked)
+
+
+def _extract_dates(inputs: dict) -> dict:
+    """{quote_sha256: its date} for every extract the rundown or the echo pick records with a date."""
+    out = {}
+    for src in (inputs.get("rundown"), inputs.get("echo")):
+        for d in _iter_dicts(src):
+            h = d.get("quote_sha256")
+            if not isinstance(h, str) or h in out:
+                continue
+            v = next((d[k] for k in d if is_date_key(k) and d[k] is not None), d.get("year"))
+            if v is not None:
+                out[h] = v
+    return out
 
 
 def _content_words(text: str) -> set[str]:
@@ -487,8 +560,8 @@ def _content_words(text: str) -> set[str]:
 def language_checks(play: dict, inputs: dict, durations: dict | None) -> list[dict]:
     lex = lexicon()
     tell, hind, n = [], [], 0
-    for p in play.get("parts") or []:
-        if p.get("segment") == "credits":
+    for p, seg in parts(play):
+        if seg == "credits":
             continue
         for srf in part_surfaces(p):
             n += 1
@@ -548,15 +621,15 @@ _WORD = re.compile(r"[\w'-]+")
 def outlet_checks(play: dict, inputs: dict) -> list[dict]:
     spec = lexicon()["outlet_characterisation"]
     outlets = _outlets(inputs) + [str(x) for x in (play.get("news") or {}).get("outlets") or []]
-    legal = {o: {str(t).lower() for t in (v.get("terms") or [])}
+    legal = {o.lower(): {str(t).lower() for t in (v.get("terms") or [])}
              for o, v in ((play.get("news") or {}).get("legal_status") or {}).items()
              if isinstance(v, dict) and str(v.get("basis") or "").strip()}
     media = {w.lower() for w in spec["media_nouns"]}
     win = int(spec["window_words"])
     terms = list(spec["terms"]) + [r for r in rungs()]
     found, n = [], 0
-    for p in play.get("parts") or []:
-        if p.get("segment") == "credits":
+    for p, seg in parts(play):
+        if seg == "credits":
             continue
         for srf in part_surfaces(p):
             n += 1
@@ -567,7 +640,7 @@ def outlet_checks(play: dict, inputs: dict) -> list[dict]:
                 return max([i for i, (a, _) in enumerate(words) if a <= pos] or [0])
             names = []
             for o in outlets:
-                for m in re.finditer(r"(?<![\w])" + re.escape(o) + r"(?![\w])", text):
+                for m in re.finditer(r"(?<![\w])" + re.escape(o) + r"(?![\w])", text, re.I):   # any case
                     names.append((o, word_at(m.start()), word_at(m.end() - 1)))
             hits = []
             for t in terms:
@@ -578,7 +651,7 @@ def outlet_checks(play: dict, inputs: dict) -> list[dict]:
                     near = [o for o, a, b in names if min(abs(i - b), abs(a - j)) <= (3 if is_rung else win)]
                     noun = (not is_rung) and (t.split()[-1].lower() in media or any(
                         w in media for _, w in words[j + 1:j + 3] + words[max(0, i - 1):i]))
-                    near = [o for o in near if t.lower() not in legal.get(o, set())]
+                    near = [o for o in near if t.lower() not in legal.get(o.lower(), set())]
                     if near or noun:
                         hits.append({"term": t, "outlets": near, "media_noun": bool(noun)})
             if hits:
@@ -601,25 +674,84 @@ def bridge_list(inputs: dict) -> list[str] | None:
     return None
 
 
+def bridge_variants(inputs: dict) -> dict:
+    """{name: [spellings]} the rundown's Echo no_bridge declares (``variants``), e.g. {"Kyiv": ["Kiev"]}."""
+    for p in (inputs.get("rundown") or {}).get("parts") or []:
+        nb = p.get("no_bridge") if isinstance(p.get("no_bridge"), dict) else None
+        if nb and isinstance(nb.get("variants"), dict):
+            return {str(k): [str(v) for v in vs] for k, vs in nb["variants"].items() if isinstance(vs, list)}
+    return {}
+
+
+def fold(text) -> str:
+    """Text as no-bridge reads it: Unicode NFKC (composed accents, a no-break space as a space), curly apostrophes
+    straightened, and every run of whitespace (line breaks included) one space."""
+    t = unicodedata.normalize("NFKC", str(text or "")).replace("’", "'").replace("‘", "'")
+    return re.sub(r"\s+", " ", t)
+
+
+def _spellings(name: str, variants: dict) -> list[str]:
+    """A listed name and the forms it may take in the Echo: its declared variants and its period spellings (A0's
+    table, modern to period, and the news lexicon's), each as written and in capitals (CoS ruling under the founder's
+    narrow rule, 2026-11-12: full names as listed, no case-folding into common words)."""
+    lex = lexicon()
+    forms = [name] + list(variants.get(name) or []) + list((lex.get("period_spellings") or {}).get(name) or [])
+    forms += [str(e["period"]) for e in AW.lexicon()["period_names"] if e.get("modern") == name and e.get("period")]
+    out = []
+    for f in forms:
+        f = fold(f).strip()
+        for g in (f, f.upper()):
+            if g and g not in out:
+                out.append(g)
+    return out
+
+
+def bridge_matchers(names, variants: dict | None = None) -> list[tuple[str, re.Pattern]]:
+    """(listed name, pattern) for each name the Echo may not say, over ``fold``ed text: whole words; each listed
+    spelling as written or in capitals; and a single listed word of four letters or more with its demonyms and
+    derived forms ("Iran" "Iranian", "Ruritania" "Ruritanian", "Ukraine" "Ukrainian", "Congo" "Congolese", "Saudi"
+    "Saudis"). A short or multi-word name matches only as listed (so "Doe" never matches "Does")."""
+    sx = "|".join(re.escape(x) for x in lexicon()["demonym_suffixes"])
+    out = []
+    for nm in names or []:
+        alts = []
+        for f in _spellings(str(nm), variants or {}):
+            body = r"\s+".join(re.escape(w) for w in f.split(" "))
+            if " " in f or len(f) < 4:
+                alts.append(body)
+                continue
+            alts.append(body + f"(?i:{sx})?")
+            if f[-1].lower() in "aeo":
+                alts.append(re.escape(f[:-1]) + f"(?i:{sx})")       # Ukraine: Ukrain-ian; Congo: Cong-olese
+            if f[-1].lower() in "aeiou":
+                alts.append(body + "(?i:s)")                         # Saudi: Saudis
+        out.append((str(nm), re.compile(r"(?<![\w])(?:" + "|".join(alts) + r")(?![\w])")))
+    return out
+
+
 def bridge_checks(play: dict, inputs: dict) -> list[dict]:
     found, n = [], 0
-    echo_parts = [p for p in play.get("parts") or [] if p.get("segment") == "echo"]
+    echo_parts = [p for p in play.get("parts") or [] if p.get("segment") == "echo"]   # by label: stricter, never looser
     names = bridge_list(inputs)
     if echo_parts and names is None:
         return [_check("no-bridge", False, unit="news.rundown", evidence={
             "why": "the screenplay has an Echo but no no_bridge list was found in the rundown or the echo pick"})]
-    rxs = [(nm, re.compile(r"(?<![\w])" + re.escape(nm) + r"(?![\w])")) for nm in names or []]
+    if echo_parts and not names:
+        return [_check("no-bridge", False, unit="news.rundown", evidence={
+            "why": "the Echo's no_bridge list is empty: it names no one, so nothing the Echo says can be checked"})]
+    rxs = bridge_matchers(names, bridge_variants(inputs))
     for p in echo_parts:
         for srf in everything_said(p):
             n += 1
-            hits = [nm for nm, rx in rxs if rx.search(srf["text"])]
+            text = fold(srf["text"])
+            hits = [nm for nm, rx in rxs if rx.search(text)]
             if hits:
                 found.append(_check("no-bridge", False, unit=srf["unit"], evidence={
                     "part": p.get("id"), "text": srf["text"], "names": hits,
                     "why": "a person, place or party acting in this week's news is named in the Echo"}))
     phrases = lexicon()["bridge_phrases"]
-    for p in play.get("parts") or []:
-        if p.get("segment") == "credits":
+    for p, seg in parts(play):
+        if seg == "credits":
             continue
         for srf in part_surfaces(p):
             n += 1
@@ -702,47 +834,103 @@ def _values_equal(a, b) -> bool:
     return a == b
 
 
+_MONTH = (r"(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|"
+          r"oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?")
+_DOW = r"(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*\.?,?"
+DATE_EXPR = re.compile(
+    r"\b\d{4}-\d{2}-\d{2}\b"
+    rf"|\b(?:{_DOW}\s+)?\d{{1,2}}(?:st|nd|rd|th)?\s+{_MONTH}(?:,?\s+\d{{4}})?(?![\w])"
+    rf"|\b{_MONTH}\s+\d{{1,2}}(?:st|nd|rd|th)?(?:,\s*\d{{4}})?(?![\w])"
+    rf"|\b{_MONTH}\s+\d{{4}}(?![\w])", re.I)
+_UNITS = {w: i for i, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen "
+                                     "fourteen fifteen sixteen seventeen eighteen nineteen".split())}
+_TENS = {w: 10 * (i + 2) for i, w in enumerate("twenty thirty forty fifty sixty seventy eighty ninety".split())}
+_SCALES = {"hundred": 100, "thousand": 1000, "million": 10 ** 6, "billion": 10 ** 9}
+_NUMWORD = re.compile(r"\b(?:" + "|".join(list(_UNITS) + list(_TENS) + list(_SCALES)) + r")(?:(?:[\s-]+(?:and[\s-]+)?)(?:"
+                      + "|".join(list(_UNITS) + list(_TENS) + list(_SCALES)) + r"))*\b", re.I)
+
+
+def spelled_numbers(text: str) -> list[float]:
+    """The numbers written out in words ("seven thousand", "twenty-one"); a lone "one" is a pronoun as often as a
+    count, so it is read only inside a longer number."""
+    out = []
+    for m in _NUMWORD.finditer(str(text)):
+        words = [w.lower() for w in re.split(r"[\s-]+", m.group(0)) if w.lower() != "and"]
+        if words == ["one"]:
+            continue
+        total = cur = 0
+        for w in words:
+            if w in _UNITS:
+                cur += _UNITS[w]
+            elif w in _TENS:
+                cur += _TENS[w]
+            elif w == "hundred":
+                cur = max(cur, 1) * 100
+            else:
+                total += max(cur, 1) * _SCALES[w]
+                cur = 0
+        out.append(float(total + cur))
+    return out
+
+
+def on_screen_numbers(text: str) -> list[float]:
+    """Every count a line of our own on-screen text states: its numerals and its written-out numbers, a date's own
+    day, month and year aside (the as-of lint judges dates)."""
+    t = DATE_EXPR.sub(" ", AW.strip_quotes(str(text)))
+    return numerals(t) + spelled_numbers(t)
+
+
 def counts_checks(play: dict, inputs: dict) -> list[dict]:
+    """Every figure an element declares (``figures`` on a card or a text element, ``shows.figures`` on a graphic)
+    equals its record field; every count its on-screen text states is one of its own declared figures."""
     found, n = [], 0
-    known = record_numbers(inputs)
 
-    def loose(unit, text, allowed: set[float]):
+    def declared(unit, figs) -> set[float]:
         nonlocal n
-        n += 1
-        bad = [x for x in numerals(AW.strip_quotes(text)) if x not in known and x not in allowed]
-        if bad:
-            found.append(_check("counts-match", False, unit=unit, evidence={
-                "text": text, "numerals": [int(x) if x.is_integer() else x for x in bad],
-                "why": "a numeral on screen that neither the week record nor the echo pick holds"}))
-
-    for p in play.get("parts") or []:
-        for s in p.get("shots") or []:
-            if s.get("kind") == "card" and not s.get("quote"):
-                for k, x in enumerate(s.get("text") or []):
-                    loose(f"{s.get('id')}.text[{k}]", str(x), set())
-        for t in p.get("text") or []:
-            if t.get("quote"):
-                continue
-            for k, x in enumerate(t.get("lines") or []):
-                loose(f"{t.get('id')}.lines[{k}]", str(x), set())
-    for _, g in _graphics(play):
-        sh = g.get("shows") or {}
         allowed: set[float] = set()
-        for k, f in enumerate(sh.get("figures") or []):
+        for k, f in enumerate(figs if isinstance(figs, list) else []):
             n += 1
+            f = f if isinstance(f, dict) else {}
             try:
                 want = resolve(f.get("field"), inputs)
             except FieldError as e:
-                found.append(_check("counts-match", False, unit=f"{g.get('id')}.figures[{k}]", evidence={
+                found.append(_check("counts-match", False, unit=f"{unit}.figures[{k}]", evidence={
                     "field": f.get("field"), "value": f.get("value"), "why": f"the field does not resolve: {e}"}))
                 continue
             if not _values_equal(f.get("value"), want):
-                found.append(_check("counts-match", False, unit=f"{g.get('id')}.figures[{k}]", evidence={
+                found.append(_check("counts-match", False, unit=f"{unit}.figures[{k}]", evidence={
                     "field": f.get("field"), "shown": f.get("value"), "record": want}))
                 continue
             for v in (f["value"] if isinstance(f["value"], list) else [f["value"]]):
                 if _is_num(v):
                     allowed.add(float(v))
+        return allowed
+
+    def loose(unit, text, allowed: set[float]):
+        nonlocal n
+        n += 1
+        bad = [x for x in on_screen_numbers(text) if x not in allowed]
+        if bad:
+            found.append(_check("counts-match", False, unit=unit, evidence={
+                "text": text, "numbers": [int(x) if x.is_integer() else x for x in bad], "declared": sorted(allowed),
+                "why": "a count on screen that is not one of the element's declared figures",
+                "fix": "declare it: figures [{value, field}] naming the record field it is"}))
+
+    for p in play.get("parts") or []:
+        for s in p.get("shots") or []:
+            if s.get("kind") == "card" and not s.get("quote"):
+                allowed = declared(s.get("id"), s.get("figures"))
+                for k, x in enumerate(s.get("text") or []):
+                    loose(f"{s.get('id')}.text[{k}]", str(x), allowed)
+        for t in p.get("text") or []:
+            if t.get("quote") or G.is_graphic(t):
+                continue
+            allowed = declared(t.get("id"), t.get("figures"))
+            for k, x in enumerate(t.get("lines") or []):
+                loose(f"{t.get('id')}.lines[{k}]", str(x), allowed)
+    for _, g in _graphics(play):
+        sh = g.get("shows") or {}
+        allowed = declared(g.get("id"), sh.get("figures"))
         if g.get("subtype") == "clock":
             continue                         # the clock shows the release time: clock-true, at release
         for k, x in enumerate(sh.get("lines") or []):
@@ -790,6 +978,9 @@ def quote_checks(play: dict, inputs: dict) -> list[dict]:
         for s in p.get("shots") or []:
             if s.get("kind") == "card" and s.get("headline_sha256"):
                 shown.append((s.get("id"), (s.get("text") or [""])[0], s.get("headline_sha256")))
+        for t in p.get("text") or []:
+            if t.get("headline_sha256") and not G.is_graphic(t):
+                shown.append((t.get("id"), (t.get("lines") or [""])[0], t.get("headline_sha256")))
     for unit, text, h in shown:
         n += 1
         probs = []
@@ -800,7 +991,48 @@ def quote_checks(play: dict, inputs: dict) -> list[dict]:
         if probs:
             found.append(_check("quote-verbatim", False, unit=unit, evidence={"text": text, "headline_sha256": h,
                                                                               "problems": probs}))
+    # our own on-screen text that reproduces a record headline is a displayed headline: it carries its hash
+    record_heads = [(t, _content_words(t)) for t in record_headlines(inputs)]
+    for unit, text, has_sha in _own_screen_lines(play):
+        if has_sha:
+            continue
+        n += 1
+        tw = _content_words(text)
+        like = [t for t, hw in record_heads if len(hw) >= PARAPHRASE_MIN_WORDS and len(hw & tw) / len(hw) >= PARAPHRASE_SHARE]
+        if like:
+            found.append(_check("quote-verbatim", False, unit=unit, evidence={
+                "text": text, "record_headline": like[0],
+                "why": "the text reproduces a headline the week record holds, so it is shown verbatim with its "
+                       "headline_sha256 (a card's text[0])"}))
     return _summary("quote-verbatim", found, n)
+
+
+def record_headlines(inputs: dict) -> list[str]:
+    """Every headline and story title the week record holds."""
+    return sorted({d[k] for d in _iter_dicts(inputs.get("record") or {}) for k in ("headline", "title")
+                   if isinstance(d.get(k), str) and d[k].strip()})
+
+
+def _own_screen_lines(play: dict):
+    """(unit, text, carries headline_sha256) for every line of our own on-screen text: cards (a period quote aside),
+    text elements, and graphics' own lines."""
+    for p in play.get("parts") or []:
+        for s in p.get("shots") or []:
+            if s.get("kind") == "card" and not s.get("quote"):
+                for k, x in enumerate(s.get("text") or []):
+                    yield f"{s.get('id')}.text[{k}]", str(x), bool(s.get("headline_sha256"))
+            if G.is_graphic(s):
+                for k, x in enumerate((s.get("shows") or {}).get("lines") or []):
+                    yield f"{s.get('id')}.shows.lines[{k}]", str(x), False
+        for t in p.get("text") or []:
+            if t.get("quote"):
+                continue
+            if t.get("kind") != "lower_third":       # a name and a role, which share a headline's words by nature
+                for k, x in enumerate(t.get("lines") or []):
+                    yield f"{t.get('id')}.lines[{k}]", str(x), bool(t.get("headline_sha256"))
+            if G.is_graphic(t):
+                for k, x in enumerate((t.get("shows") or {}).get("lines") or []):
+                    yield f"{t.get('id')}.shows.lines[{k}]", str(x), False
 
 
 DOW = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
@@ -831,8 +1063,20 @@ def expected_week_line(record: dict) -> str:
 
 
 def title_checks(play: dict, inputs: dict) -> list[dict]:
+    """The title part (by the checked order) carries the day lines and the week line, and every element that
+    declares either holds them as the record does."""
     found, n = [], 0
     rec = inputs.get("record") or {}
+    for p, seg in parts(play):
+        if seg == "title" and not any(
+                {"title_lines", "week_line"} <= set(x.get("shows") or {}) for x in (p.get("shots") or []) + (p.get("text") or [])
+                if isinstance(x.get("shows"), dict)):
+            found.append(_check("title-lines-verbatim", False, unit=f"part {p.get('id')}", evidence={
+                "why": "the title part declares no element whose shows carry both title_lines and week_line, so its "
+                       "printed lines cannot be held to the record"}))
+    if not any(seg == "title" for _, seg in parts(play)):
+        found.append(_check("title-lines-verbatim", False, unit="parts", evidence={
+            "why": "no title part in the spine's order: the title's day lines and week line are not declared"}))
     for p in play.get("parts") or []:
         for x in (p.get("shots") or []) + (p.get("text") or []):
             sh = x.get("shows") if isinstance(x.get("shows"), dict) else {}
@@ -840,6 +1084,9 @@ def title_checks(play: dict, inputs: dict) -> list[dict]:
                 continue
             n += 1
             probs = []
+            for key in ("title_lines", "week_line"):
+                if key not in sh:
+                    probs.append(f"declares the title but not its {key}")
             if "title_lines" in sh:
                 want, got = expected_title_lines(rec), list(sh.get("title_lines") or [])
                 if len(got) != len(want):
@@ -850,16 +1097,15 @@ def title_checks(play: dict, inputs: dict) -> list[dict]:
             if "week_line" in sh and sh.get("week_line") != expected_week_line(rec):
                 probs.append({"week_line": sh.get("week_line"), "record": expected_week_line(rec)})
             found.append(_check("title-lines-verbatim", not probs, unit=x.get("id"), evidence={"problems": probs}))
-    return _summary("title-lines-verbatim", found, n) if n else [_check("title-lines-verbatim", True,
-                                                                         evidence={"title_lines": 0})]
+    return _summary("title-lines-verbatim", found, n)
 
 
 def music_checks(play: dict, durations: dict | None) -> list[dict]:
     cues = music_cues(play)
     out, news = [], []
-    for p in play.get("parts") or []:
-        if p.get("segment") not in SC.NEWS_SEGMENTS:
-            continue
+    for p, seg in parts(play):
+        if seg is not None and seg not in SC.NEWS_SEGMENTS:
+            continue                          # a part the checked order does not trust is news
         sp = part_span(p)
         if sp is None:
             continue
@@ -867,7 +1113,7 @@ def music_checks(play: dict, durations: dict | None) -> list[dict]:
             ov = _overlap(sp[0], sp[1], float(c["start_s"]), float(c["end_s"]))
             if ov > OVERLAP_EPS:
                 news.append(_check("no-music-under-news", False, unit=c.get("id"), evidence={
-                    "part": p.get("id"), "segment": p.get("segment"), "overlap_s": round(ov, 3),
+                    "part": p.get("id"), "segment": p.get("segment"), "trusted_segment": seg, "overlap_s": round(ov, 3),
                     "why": "footage's own sound is the only bed under the news (bible g)"}))
     out += _summary("no-music-under-news", news, len(cues))
     quotes = []
@@ -911,10 +1157,14 @@ def disclosure_checks(play: dict) -> list[dict]:
         for ln in p.get("lines") or []:
             if ln.get("kind") == "narration":
                 roles.setdefault(ln.get("read_by") or "v-narrator", "narrator")
+    found = []
     for _, ln in SC.reader_lines(play):
         if ln.get("read_by"):
             roles.setdefault(ln["read_by"], "reader")
-    found = []
+        else:
+            found.append(_check("voice-disclosed", False, unit=ln.get("id"), evidence={
+                "role": "reader", "problems": ["the reader line names no voice (read_by), so no credit or dot label "
+                                               "discloses the computer voice that reads it"]}))
     for vid, role in roles.items():
         v = voices.get(vid)
         probs = []
@@ -930,7 +1180,7 @@ def disclosure_checks(play: dict) -> list[dict]:
 
 
 def ending_checks(play: dict, durations: dict | None) -> list[dict]:
-    credits = [part_span(p) for p in play.get("parts") or [] if p.get("segment") == "credits"]
+    credits = [part_span(p) for p, seg in parts(play) if seg == "credits"]
     end = min((c[0] for c in credits if c), default=runtime(play))
     vs = [v for v in voiced(play, durations) if v["start"] < end]
     if not vs:
@@ -948,26 +1198,75 @@ def ending_checks(play: dict, durations: dict | None) -> list[dict]:
         "text": last["text"], "silence_after_s": round(gap, 2), "timed": last["how"], "problems": probs})]
 
 
+BLANK_CARDS = ("statement", "silent", "perspective")     # cards that draw only their text[]: blank without it
+
+
+def card_drawn_as(s: dict, part: dict, first: bool) -> str:
+    """The card kind the engine draws for a card shot (render.card_kind's order): what reaches the screen, so a
+    ``kind: credits`` part draws the credits roll, a title part the wordmark."""
+    if s.get("kind") == "black":
+        return "black"
+    if s.get("card"):
+        return str(s["card"])
+    if s.get("silent_record"):
+        return "silent"
+    if part.get("kind") in ("title", "credits"):
+        return part["kind"]
+    if part.get("kind") == "chapter" and first:
+        return "chapter"
+    return "statement"
+
+
+def black_shots(play: dict) -> list[tuple[dict, str]]:
+    """(shot, how) for every shot that puts black on screen: a black shot, a black card, and a card that draws only
+    its text[] with no text in it."""
+    out = []
+    for p in play.get("parts") or []:
+        for k, s in enumerate(p.get("shots") or []):
+            if s.get("kind") not in ("black", "card"):
+                continue
+            ck = card_drawn_as(s, p, k == 0)
+            if ck == "black":
+                out.append((s, "black shot" if s.get("kind") == "black" else "black card"))
+            elif ck in BLANK_CARDS and not any(str(x).strip() for x in s.get("text") or []):
+                out.append((s, "blank card"))
+    return out
+
+
 def black_checks(play: dict) -> list[dict]:
     rt = runtime(play)
-    blacks = [s for p in play.get("parts") or [] for s in p.get("shots") or [] if s.get("kind") == "black"]
-    total = sum(shot_dur(s) for s in blacks)
+    blacks = black_shots(play)
+    total = sum(shot_dur(s) for s, _ in blacks)
     share = total / rt if rt > 0 else 0.0
     out = [_check("black-share", share <= BLACK_SHARE_MAX + 1e-9, unit="film", evidence={
-        "black_s": round(total, 2), "runtime_s": round(rt, 2), "share": round(share, 4), "max": BLACK_SHARE_MAX})]
-    for s in blacks:
-        reason = s.get("black_reason") or s.get("reason")
+        "black_s": round(total, 2), "runtime_s": round(rt, 2), "share": round(share, 4), "max": BLACK_SHARE_MAX,
+        "shots": [{"id": s.get("id"), "as": how, "dur_s": shot_dur(s)} for s, how in blacks]})]
+    for s, how in blacks:
+        # a black shot's reason is black_reason (the engine refuses it on a card); a card's is its intent or reason
+        reason = s.get("black_reason") or s.get("reason") if s.get("kind") == "black" else s.get("reason")
         words = re.findall(r"[A-Za-z']+", reason) if isinstance(reason, str) else []
         ok = bool(s.get("intent")) or (len(words) >= BLACK_REASON_MIN_WORDS and len({w.lower() for w in words}) > 1)
         out.append(_check("black-share", ok, unit=s.get("id"), evidence={
-            "black_reason": reason, "intent": s.get("intent"),
-            **({} if ok else {"fix": "every black shot states its reason (black_reason, a sentence)"})}))
+            "as": how, "reason": reason, "intent": s.get("intent"),
+            **({} if ok else {"fix": "every black on screen states its reason: a black shot's black_reason (a "
+                                     "sentence), a card's intent or reason"})}))
     return out
 
 
 def deferred_checks() -> list[dict]:
-    return [_check(rule, True, severity="not_implemented", evidence={"deferred_to": "release", "what": what})
-            for rule, what in DEFERRED.items()]
+    return [_check(rule, True, severity="not_implemented", evidence={"deferred_to": to, "what": what})
+            for rule, (to, what) in DEFERRED.items()]
+
+
+def _guarded(rule: str, fn, *args) -> list[dict]:
+    """A lint's checks, or one failure of ``rule`` when the record (or the screenplay) has a shape the lint cannot
+    read: a malformed input is a finding, never a crash that hides every other lint."""
+    try:
+        return fn(*args)
+    except (KeyError, TypeError, ValueError, AttributeError, IndexError) as e:
+        return [_check(rule, False, unit="news", evidence={
+            "why": f"the inputs cannot be read by this lint: {type(e).__name__}: {e}",
+            "fix": "the week record, rundown and echo pick have the shapes studio/news/schema.py states"})]
 
 
 def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, durations: dict | None = None,
@@ -983,24 +1282,24 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out.append(_check("news-inputs", not problems, unit="news", evidence={"news": play.get("news"), "problems": problems}))
     if inputs.get("record") is None:
         return out + deferred_checks()
-    out += as_of_checks(play, assets, inputs)
-    out += language_checks(play, inputs, durations)
-    out += outlet_checks(play, inputs)
-    out += bridge_checks(play, inputs)
-    out += board_checks(play, inputs)
-    out += counts_checks(play, inputs)
-    out += quote_checks(play, inputs)
-    out += title_checks(play, inputs)
-    out += music_checks(play, durations)
-    out += ceiling_checks(play, durations)
-    out += disclosure_checks(play)
-    out += ending_checks(play, durations)
-    out += black_checks(play)
+    out += _guarded("as-of", as_of_checks, play, assets, inputs)
+    out += _guarded("never-tell", language_checks, play, inputs, durations)
+    out += _guarded("no-outlet-characterisation", outlet_checks, play, inputs)
+    out += _guarded("no-bridge", bridge_checks, play, inputs)
+    out += _guarded("board-rule", board_checks, play, inputs)
+    out += _guarded("counts-match", counts_checks, play, inputs)
+    out += _guarded("quote-verbatim", quote_checks, play, inputs)
+    out += _guarded("title-lines-verbatim", title_checks, play, inputs)
+    out += _guarded("no-music-under-news", music_checks, play, durations)
+    out += _guarded("narration-ceiling", ceiling_checks, play, durations)
+    out += _guarded("voice-disclosed", disclosure_checks, play)
+    out += _guarded("ending-question", ending_checks, play, durations)
+    out += _guarded("black-share", black_checks, play)
     return out + deferred_checks()
 
 
-RULES = ("show-profile", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
-         "reader-quote-sha", "silence-reason", "news-inputs", "as-of", "never-tell", "hindsight-language",
+RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
+         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", "never-tell", "hindsight-language",
          "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
          "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
          "ending-question", "black-share", *DEFERRED)

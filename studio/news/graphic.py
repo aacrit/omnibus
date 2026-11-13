@@ -32,6 +32,7 @@ KIND = "graphic"
 SUBTYPES = ("testcard", "board", "day", "clock", "count", "map", "lower_third", "credits", "end_board")
 OVERLAY_SUBTYPES = ("lower_third", "count")       # drawn over a picture; every other subtype fills the frame
 DATA_SUBTYPES = ("testcard", "board", "day", "clock", "count")   # each draws figures from the record: a data_ref
+FIGURE_SUBTYPES = ("testcard", "day", "count")   # each declares the figures it draws (shows.figures), checked to the record
 ALPHA_MODES = ("straight",)
 
 
