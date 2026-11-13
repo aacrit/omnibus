@@ -14,6 +14,7 @@ import { OWN_ADAPTER, OWN_PROPERTY, aiSignals, deniedBy, licenceProblems } from 
 import { validateLedger } from "./ledger.mjs";
 import { captureProblems } from "./own-pages.mjs";
 import { buildDisputePacket, serialisePacket } from "./disputes.mjs";
+import { DOW_DISCLOSURE, RESTRICTIONS_PAGE } from "./adapters/dvids.mjs";
 
 export const RULES = ["rights-ledger-schema", "licence-allowlist", "licence-evidence", "ai-generated-share-zero", "disputes-generated"];
 
@@ -80,7 +81,35 @@ export function lintLicenceEvidence(ledger, { now = new Date() } = {}) {
     if (it.laundering_check?.status === "suspect") {
       out.push(f("licence-evidence", it.id, `laundering suspicion: ${(it.laundering_check.findings ?? []).join("; ")}`));
     }
+    (it.evidence_also ?? []).forEach((e, i) => {
+      if (!/^https:\/\//.test(String(e?.url ?? ""))) out.push(f("licence-evidence", it.id, `evidence_also[${i}].url must be an https address`));
+      if (!String(e?.captured_text ?? "").trim()) out.push(f("licence-evidence", it.id, `evidence_also[${i}].captured_text is empty`));
+      if (!Number.isFinite(Date.parse(String(e?.captured_at ?? "")))) out.push(f("licence-evidence", it.id, `evidence_also[${i}].captured_at is not a timestamp`));
+    });
+    // A recorded address never carries an API key (DVIDS's would be ?api_key=).
+    for (const u of [it.item_url, it.media_url, ev.url, ...(it.evidence_also ?? []).map((e) => e?.url)]) {
+      if (/[?&](api_key|apikey|key|token)=/i.test(String(u ?? ""))) out.push(f("licence-evidence", it.id, `${String(u).replace(/([?&](?:api_key|apikey|key|token)=)[^&]*/gi, "$1[removed]")} carries a key`));
+    }
+    if (it.adapter === "dvids") out.push(...dvidsEvidenceProblems(it).map((m) => f("licence-evidence", it.id, m)));
   }
+  return out;
+}
+
+/**
+ * A DVIDS item's evidence names the source a claimant can read (E5c review):
+ * its public page, quoted with the PUBLIC DOMAIN mark and DVIDS's
+ * restrictions line; the API record is a second entry; the credits carry the
+ * DoW non-endorsement line.
+ */
+export function dvidsEvidenceProblems(it) {
+  const out = [];
+  const ev = it.licence_evidence ?? {};
+  if (!/^https:\/\/www\.dvidshub\.net\/(image|video|audio)\/\d+$/.test(String(ev.url ?? "")) || ev.url !== it.item_url) out.push("a DVIDS item's licence_evidence.url must be its public page on www.dvidshub.net, the item_url");
+  const text = String(ev.captured_text ?? "");
+  if (!/"PUBLIC DOMAIN"/.test(text)) out.push("the captured page text does not quote its PUBLIC DOMAIN mark");
+  if (!text.includes(`must comply with the restrictions shown on ${RESTRICTIONS_PAGE}`)) out.push(`the captured page text does not quote the "must comply with the restrictions shown on ${RESTRICTIONS_PAGE}" line`);
+  if (!(it.evidence_also ?? []).some((e) => /^https:\/\/api\.dvidshub\.net\/asset\?id=(image|video|audio):\d+$/.test(String(e?.url ?? "")))) out.push("the API asset record read is not kept as a second evidence entry");
+  if (it.disclosure !== DOW_DISCLOSURE) out.push(`a DVIDS item must carry the credits disclosure "${DOW_DISCLOSURE}"`);
   return out;
 }
 

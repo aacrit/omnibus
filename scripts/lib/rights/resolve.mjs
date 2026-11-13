@@ -9,7 +9,9 @@
 //            search (CirrusSearch syntax, as the rundown writes it), top hits
 //   nasa     NASA Images search with the step's parameters, top hits
 //   loc      loc.gov search with the step's parameters, top items
-//   dvids    passed through; the adapter skips it without DVIDS_API_KEY
+//   dvids    with DVIDS_API_KEY, one search per OR alternative (DVIDS has no
+//            OR), hits published by the window's end, newest first; without
+//            the key, passed through and the adapter skips it with its reason
 //   gov-federal, wayback-date-witness
 //            the episode's pins file (episodes/<issue>/asset-pins.json) says
 //            how: a pinned item, a federal RSS feed filtered to the window, a
@@ -22,7 +24,7 @@
 import { hostRefusal, isOwnUrl } from "./http.mjs";
 import { REQUESTS_SCHEMA_ID } from "./ledger.mjs";
 import { findCaptures } from "./adapters/wayback.mjs";
-import { redact as dvidsRedact, searchHits as dvidsHits, searchUrl as dvidsSearchUrl } from "./adapters/dvids.mjs";
+import { queryAlternatives as dvidsAlternatives, redact as dvidsRedact, searchResults as dvidsResults, searchUrl as dvidsSearchUrl } from "./adapters/dvids.mjs";
 import { clip } from "./text.mjs";
 
 export const SEARCH_HITS = 8;
@@ -131,13 +133,19 @@ async function resolvePin(pin, step, { http, echoPick }) {
   const c = { adapter: pin.adapter, ref: pin.ref, tier, pinned: true };
   if (window) c.window = window;
   if (pin.media) c.media = pin.media;
+  // How the item's own sound airs (the CoS's ruling recorded on the pin); the fetcher carries it into the ledger.
+  if (pin.audio !== undefined) {
+    if (pin.audio?.mode !== "muted" || !String(pin.audio?.reason ?? "").trim()) throw new Error(`pin ${pin.ref}: audio must be { mode: "muted", reason }`);
+    c.audio = { mode: "muted", reason: clip(String(pin.audio.reason), 600) };
+  }
   const sha = pin.sha256 ?? (pin.sha256_from ? echoPick?.sources?.find((s) => `echo-pick:${s.id}` === pin.sha256_from)?.sha256 : undefined);
   if (pin.sha256_from && !sha) throw new Error(`pin ${pin.ref}: ${pin.sha256_from} names no source with a sha256`);
   if (sha) c.sha256 = sha;
   return { candidates: [c], not_fetched: [] };
 }
 
-const VIDEO = /\.(webm|ogv|mp4|m4v|mov|mpe?g)$/i;
+/** A video file name, or a DVIDS video id ("video:1028785"). */
+const VIDEO = /\.(webm|ogv|mp4|m4v|mov|mpe?g)$|^video:\d+$/i;
 
 /** For a footage request, a step's video hits before its stills (stills stay as the rostrum fallback). */
 export function videoFirst(cands) {
@@ -169,8 +177,14 @@ async function searchStep(stepIn, { http, env }) {
     const key = env?.DVIDS_API_KEY;
     if (!key) return [{ adapter: "dvids", ref: clip(`search: ${step.query}`, 400), ...base }];
     try {
-      const r = await http.getJson(dvidsSearchUrl(stepParams(step.query), window, key));
-      return r.status === "ok" ? dvidsHits(r.json, window).slice(0, SEARCH_HITS).map((id) => ({ adapter: "dvids", ref: id, ...base })) : [];
+      // DVIDS has no OR: each alternative is its own search, and the hits are merged newest first.
+      const params = stepParams(step.query);
+      const hits = new Map();
+      for (const q of dvidsAlternatives(params.q)) {
+        const r = await http.getJson(dvidsSearchUrl({ ...params, q }, window, key));
+        if (r.status === "ok") for (const h of dvidsResults(r.json, window)) if (!hits.has(h.id)) hits.set(h.id, h);
+      }
+      return [...hits.values()].sort((a, b) => b.published - a.published).slice(0, SEARCH_HITS).map((h) => ({ adapter: "dvids", ref: h.id, ...base }));
     } catch (err) {
       throw new Error(dvidsRedact(err.message, key));
     }

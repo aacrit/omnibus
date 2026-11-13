@@ -42,6 +42,8 @@ export const FETCH_HOSTS = [
   "www.loc.gov",
   "tile.loc.gov",
   "api.dvidshub.net",
+  // DVIDS's public item pages, read without a key as the licence evidence a claimant can see (E5c review).
+  "www.dvidshub.net",
   "cdn.dvidshub.net",
   // DVIDS's media CDN, the host its documented Asset API names for image and video files (api.dvidshub.net/docs/asset_api).
   "d34w7g4gy10iej.cloudfront.net",

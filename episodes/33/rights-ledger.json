@@ -51,102 +51,6 @@
       }
     },
     {
-      "id": "e33-day3-pic",
-      "request_id": "e33-day3-pic",
-      "kind": "footage",
-      "adapter": "commons",
-      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
-      "licence": "pd-us-federal",
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T00:20:12Z"
-      },
-      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
-      "rights_checked": {
-        "date": "2026-11-13",
-        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
-      },
-      "item_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
-      "file": "e33-day3-pic.jpg",
-      "mime": "image/jpeg",
-      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
-      "bytes": 2898969,
-      "credit": "Emily J. Higgins, via Wikimedia Commons",
-      "date": "2026-03-25",
-      "published_at": "2026-09-04T05:23:37Z",
-      "content_date": null,
-      "source_tier": 3,
-      "ai_provenance_check": {
-        "status": "clear",
-        "method": "metadata",
-        "checked": [
-          "commons-categories",
-          "title",
-          "description",
-          "credit",
-          "licence",
-          "xmp-digital-source-type",
-          "c2pa-label"
-        ],
-        "findings": [],
-        "vision": "pending"
-      },
-      "laundering_check": {
-        "status": "clear",
-        "findings": []
-      }
-    },
-    {
-      "id": "e33-day5-pic",
-      "request_id": "e33-day5-pic",
-      "kind": "footage",
-      "adapter": "commons",
-      "title": "Pete Hegseth Official Portrait",
-      "licence": "pd-us-federal",
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Department of Defense\nCredit: https://www.defense.gov/About/Biographies/Biography/Article/4040890/hon-pete-hegseth/\nBasis category: PD US Military",
-        "captured_at": "2026-11-13T00:20:16Z"
-      },
-      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105)",
-      "rights_checked": {
-        "date": "2026-11-13",
-        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
-      },
-      "item_url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Pete_Hegseth_Official_Portrait.jpg",
-      "file": "e33-day5-pic.jpg",
-      "mime": "image/jpeg",
-      "sha256": "0334fdeff319cfafa7acb4cae3ccd080ac2e4ba3a6d2ce9c67b25b45be2384b5",
-      "bytes": 7802635,
-      "credit": "U.S. Department of Defense, via Wikimedia Commons",
-      "date": "2025-01-27",
-      "published_at": "2025-01-28T16:47:57Z",
-      "content_date": null,
-      "source_tier": 3,
-      "ai_provenance_check": {
-        "status": "clear",
-        "method": "metadata",
-        "checked": [
-          "commons-categories",
-          "title",
-          "description",
-          "credit",
-          "licence",
-          "xmp-digital-source-type",
-          "c2pa-label"
-        ],
-        "findings": [],
-        "vision": "pending"
-      },
-      "laundering_check": {
-        "status": "clear",
-        "findings": []
-      }
-    },
-    {
       "id": "e33-day6-doc",
       "request_id": "e33-day6-doc",
       "kind": "document",
@@ -1820,50 +1724,116 @@
           }
         ]
       }
+    },
+    {
+      "id": "e33-day5-pic",
+      "request_id": "e33-day5-pic",
+      "kind": "footage",
+      "adapter": "dvids",
+      "title": "SECWAR Hegseth delivers message from the Pentagon",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.dvidshub.net/video/1028785",
+        "captured_text": "Read from the public DVIDS item page https://www.dvidshub.net/video/1028785, fetched without a key.\nThe page's mark: \"PUBLIC DOMAIN\"\ncredit line: \"Video by Staff Sgt. Daniel Proper\"\nunit: \"Office of the Secretary of War Public Affairs\"\nVIRIN: \"261105-A-LE512-1001\"\nThe page's restrictions line: \"This work, SECWAR Hegseth delivers message from the Pentagon, by SSG Daniel Proper, identified by DVIDS, must comply with the restrictions shown on https://www.dvidshub.net/about/copyright.\"\nThe page and the API record (the second evidence entry) indicate no other copyright status: public domain, a US federal government work (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T03:37:07Z"
+      },
+      "basis": "the public DVIDS page marks it PUBLIC DOMAIN, and DVIDS states its media is public domain unless another copyright status is indicated; neither the page nor the API record indicates one: a US federal government work by Staff Sgt. Daniel Proper (Joint) (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.dvidshub.net/video/1028785",
+      "media_url": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112125491/DOD_112125491-1920x1080-9000k.mp4",
+      "file": "e33-day5-pic.mp4",
+      "mime": "video/mp4",
+      "sha256": "4da02779ce63ea8ad03632e6442c6a293fe462f45ec76d6ee444e8efa1c5ac12",
+      "bytes": 121590667,
+      "credit": "Staff Sgt. Daniel Proper, Office of the Secretary of War Public Affairs, DVIDS",
+      "date": "2026-11-05",
+      "published_at": "2026-11-05T20:09:54Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "keywords",
+          "title",
+          "description",
+          "credit",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      },
+      "evidence_also": [
+        {
+          "url": "https://api.dvidshub.net/asset?id=video:1028785",
+          "captured_text": "Read from the DVIDS API asset record for video 1028785 (https://api.dvidshub.net/asset?id=video:1028785, the key removed).\nDVIDS's statement (https://api.dvidshub.net/docs/copyright): \"All media on the site is produced by U.S. DoD or Federal Agency and is in the public domain unless other copyright status is indicated.\"\nbranch: Joint; unit: Office of the Secretary of War Public Affairs\ncredit: Staff Sgt. Daniel Proper\nattribution: DoW video by U.S. Army Staff Sgt. Daniel Proper\nVIRIN 261105-A-LE512-1001; category: Video Productions\ndate: 2026-11-05T00:00:00-05:00; date_published: 2026-11-05T15:09:54-05:00\nThe record indicates no other copyright status: public domain, a US federal government work (17 U.S.C. 105).",
+          "captured_at": "2026-11-13T03:37:07Z"
+        }
+      ],
+      "disclosure": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
+      "audio": {
+        "mode": "muted",
+        "reason": "it airs muted under the narration (CoS ruling under the founder's delegation, 2026-11-13): the Secretary's own defence of the war, heard with no counterpart, would tilt the beat; the narrator says only what was printed"
+      }
+    },
+    {
+      "id": "e33-day3-pic",
+      "request_id": "e33-day3-pic",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T03:06:14Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
+      "file": "e33-day3-pic.jpg",
+      "mime": "image/jpeg",
+      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
+      "bytes": 2898969,
+      "credit": "Emily J. Higgins, via Wikimedia Commons",
+      "date": "2026-03-25",
+      "published_at": "2026-09-04T05:23:37Z",
+      "content_date": null,
+      "source_tier": 3,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      }
     }
   ],
   "rejected": [
-    {
-      "request_id": "e33-day3-pic",
-      "adapter": "dvids",
-      "ref": "search: q=\"Vice President Vance\"; type=image OR video",
-      "reasons": [
-        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
-      ]
-    },
-    {
-      "request_id": "e33-day5-pic",
-      "adapter": "dvids",
-      "ref": "search: q=Hegseth; type=image OR video",
-      "reasons": [
-        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
-      ]
-    },
-    {
-      "request_id": "e33-day5-pic",
-      "adapter": "commons",
-      "ref": "File:Donald Trump official portrait.jpg",
-      "reasons": [
-        "dated 2017-10-06, outside its window 2021-01-01 to 2026-11-06T19:18:18.407444+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-cold-01",
-      "adapter": "dvids",
-      "ref": "search: q=\"election day\" OR \"absentee ballot\" voting; type=video",
-      "reasons": [
-        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "dvids",
-      "ref": "search: q=Ukraine humanitarian aid facility strike; type=image",
-      "reasons": [
-        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
-      ]
-    },
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
@@ -1883,17 +1853,9 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
       "reasons": [
-        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
       ]
     },
     {
@@ -1907,14 +1869,6 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
       "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
       "reasons": [
         "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
@@ -1923,9 +1877,25 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
       "reasons": [
-        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+        "published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
       ]
     },
     {
@@ -2135,9 +2105,9 @@
     {
       "request_id": "e33-day7-pic",
       "adapter": "dvids",
-      "ref": "search: q=\"U.S. Central Command\" OR CENTCOM task force; type=video",
+      "ref": "video:1029004",
       "reasons": [
-        "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+        "licence \"DVIDS: credit \"Courtesy\" names no DoD author; the record indicates another copyright status or a third party: \"Courtesy\"; the public page carries no \"must comply with the restrictions shown on https://www.dvidshub.net/about/copyright\" line; the page's credit line \"Courtesy Video\" indicates another status or a third party\" is not on the allowlist (credit \"Courtesy\" names no DoD author; the record indicates another copyright status or a third party: \"Courtesy\"; the public page carries no \"must comply with the restrictions shown on https://www.dvidshub.net/about/copyright\" line; the page's credit line \"Courtesy Video\" indicates another status or a third party)"
       ]
     },
     {
@@ -2363,7 +2333,7 @@
       "fallback_tier": 4,
       "fallback": "tier 4: the 4 Nov printed front page, toured to the result story 'Democrats Capture Control of Both Chambers of Congress in Midterms' with room tone (no voice for its first 6 s); the lead headline, which names a reason, stays out of frame until The Week",
       "reasons": [
-        "tier 1 dvids search: q=\"election day\" OR \"absentee ballot\" voting; type=video: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
+        "tier 1 api.dvidshub.net: the search found nothing: q=\"election day\" OR \"absentee ballot\" voting; type=video",
         "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"2026 United States elections\" filetype:video polling OR ballots OR count",
         "tier 3 commons.wikimedia.org: the search found nothing: incategory:\"2026 United States elections\" filetype:bitmap \"polling place\" OR \"polling station\" OR ballots",
         "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: the printed edition of 2026-11-04 rendered from archive.json at the pin, toured to its result story, days[2].next[0] 'Democrats Capture Control of Both Chambers of Congress in Midterms' (32 sources), never to the lead headline"
@@ -2455,15 +2425,15 @@
       "fallback_tier": 4,
       "fallback": "tier 4 locator map",
       "reasons": [
-        "tier 1 dvids search: q=Ukraine humanitarian aid facility strike; type=image: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm: published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp: published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 1 api.dvidshub.net: the search found nothing: q=Ukraine humanitarian aid facility strike; type=image",
         "tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
         "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)"
       ]
@@ -2561,7 +2531,7 @@
       "fallback_tier": 4,
       "fallback": "tier 4 locator map",
       "reasons": [
-        "tier 1 dvids search: q=\"U.S. Central Command\" OR CENTCOM task force; type=video: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
+        "tier 1 dvids video:1029004: licence \"DVIDS: credit \"Courtesy\" names no DoD author; the record indicates another copyright status or a third party: \"Courtesy\"; the public page carries no \"must comply with the restrictions shown on https://www.dvidshub.net/about/copyright\" line; the page's credit line \"Courtesy Video\" indicates another status or a third party\" is not on the allowlist (credit \"Courtesy\" names no DoD author; the record indicates another copyright status or a third party: \"Courtesy\"; the public page carries no \"must comply with the restrictions shown on https://www.dvidshub.net/about/copyright\" line; the page's credit line \"Courtesy Video\" indicates another status or a third party)",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821009).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821008).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821002).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
