@@ -126,3 +126,12 @@ describe("S4: federal hosts war.gov and state.gov (DECISIONS 2026-11-13)", async
     expect(gov.agencyFor("www.war.gov")?.agency).toBe("the US Department of War");
   });
 });
+
+describe("S4: the coverage page prints a dot label", async () => {
+  const { buildCoverage } = await import("../scripts/lib/rights/coverage.mjs");
+  it("names the label and its rule beside the fit", () => {
+    const item = { id: "e33-day2-pic", request_id: "e33-day2-pic", kind: "footage", adapter: "commons", title: "K", licence: "cc-by-4.0", source_tier: 2, file: "e33-day2-pic.webm", published_at: "2026-11-05T04:06:35Z", fit: { beat: "week-day-2", why: "the strike" }, dot_label: { text: "FILMED 2 NOV 2026 \u00b7 PUBLISHED 5 NOV 2026", why: "ruling A" }, published_by_edition: { rule: PUBLISHED_BY_EDITION } };
+    const md = buildCoverage({ assets: { issue: 33, requests: [{ id: "e33-day2-pic", kind: "footage", for: "week-day-2", candidates: [] }] }, ledger: { issue: 33, items: [item], rejected: [], dropped: [] }, mediaDir: "D:/m", durations: {} });
+    expect(md).toMatch(/dot label "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026" \(picture_published_by_edition\)/);
+  });
+});
