@@ -737,7 +737,7 @@
             "placed": 65,
             "unplaced": 11,
             "outlets": 76,
-            "caption": "OUTLETS CARRYING THE CLAIM · 65 PLACED · 11 UNPLACED",
+            "caption": "OUTLETS IN THE CLAIM'S RECORDS · 65 PLACED · 11 UNPLACED",
             "field": "lead.claim.rung_counts, lead.claim.unplaced, lead.claim.outlets"
           },
           "budget": {
@@ -784,7 +784,7 @@
           "count_cards": [
             {
               "hero": 76,
-              "context": "outlets carried the claim",
+              "context": "outlets in the claim's records",
               "field": "lead.claim.outlets"
             },
             {
