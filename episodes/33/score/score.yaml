@@ -1,0 +1,243 @@
+# void omnibus, issue 33: the score's note data (E8). Rendered by build.py; checked by audit.py.
+# Rows are [instrument, sounding note, at_s, dur_s, velocity, release_s (optional)], in seconds on the cue's own clock
+# (tempo 60, so a beat is a second). `at_s` is where the bow or breath starts: a bowed vibraphone bar swells for about
+# 0.8 s before it speaks, a string section for about 0.6 s, so arrivals sit that far after the row's time.
+# Instruments come from score-tools library.yaml (sha256 pinned in score.take.json) by name, plus the few samples of the
+# same two CC0 libraries the library does not list (add_samples), each pinned here by its own sha256 and URL.
+slug: omnibus-33
+tempo_bpm: 60
+rate: 48000
+
+instruments:
+  vibes:
+    from_library: vibes_bowed
+    # library: E4 and A5. Added: the G4 and D5 bars of the same bowed set, so the rising figure is never shifted more
+    # than three semitones (measured: G3 file 391.8 Hz = G4; D4 file 587.1 Hz = D5)
+    add_samples:
+    - file: vcsl/Idiophones/Struck Idiophones/Vibraphone/Bowed/Vibes_bowed_G3_rr1_Main.wav
+      note: G4
+      sha256: 4b566300ee58c75de89e97278607f710ba0a807622582118d9f2e451d8bf573c
+      url: https://raw.githubusercontent.com/sgossner/VCSL/master/Idiophones/Struck%20Idiophones/Vibraphone/Bowed/Vibes_bowed_G3_rr1_Main.wav
+      loop_start_s: 1.5
+      loop_end_s: 6.0
+    - file: vcsl/Idiophones/Struck Idiophones/Vibraphone/Bowed/Vibes_bowed_D4_rr1_Main.wav
+      note: D5
+      sha256: b5a6ab0a6c51b446832bc3686e27a62489f3169182ad4c872698912536d1ece6
+      url: https://raw.githubusercontent.com/sgossner/VCSL/master/Idiophones/Struck%20Idiophones/Vibraphone/Bowed/Vibes_bowed_D4_rr1_Main.wav
+      loop_start_s: 1.5
+      loop_end_s: 6.0
+  bass:
+    from_library: bass
+  cello:
+    from_library: cello
+    # library: E2 G2 C3 D3 A3 C4 E4. Added: the G4, B4 and D5 recordings (measured 392.5, 493.9, 590.8 Hz), the tenor
+    # register, which sits over the voice's low-mids where the bed shaping keeps it
+    add_samples:
+    - file: vsco2ce/Strings/Cello Section/susvib/susvib_G3_v1_1.wav
+      note: G4
+      sha256: 8d658346b8d2054fd534b3222b5d7a23196d22a83a68c3a04ffb76b21853a3db
+      url: https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_G3_v1_1.wav
+    - file: vsco2ce/Strings/Cello Section/susvib/susvib_B3_v1_1.wav
+      note: B4
+      sha256: bd25d66c1c4e73f5827bf3b931244e51ec8388594d8004529a762be81258097f
+      url: https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_B3_v1_1.wav
+    - file: vsco2ce/Strings/Cello Section/susvib/susvib_D4_v1_1.wav
+      note: D5
+      sha256: b4aa3a7fec1f0e783fa560f493868c17045feb271738e3d6834d1b00594b1c38
+      url: https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Cello%20Section/susvib/susvib_D4_v1_1.wav
+  viola:
+    from_library: viola
+    # library: E3 B3 D4 F4 A4. Added: the C5 recording (measured 523.1 Hz)
+    add_samples:
+    - file: vsco2ce/Strings/Viola Section/susvib/ViolaEns_susvib_C4_v1_1.wav
+      note: C5
+      sha256: 144ec7666be1b3b4da50937db4b1fc3675ca34bc2e871264707d83b8a0d526e6
+      url: https://raw.githubusercontent.com/sgossner/VSCO-2-CE/master/Strings/Viola%20Section/susvib/ViolaEns_susvib_C4_v1_1.wav
+
+rooms:
+  # the room is written by code (synth_room in build.py): a seeded, exponentially decaying noise tail with a darker,
+  # faster-dying top, after six early reflections. No measured impulse response is used (the house IR is MIT, outside
+  # this ticket's CC0-or-own-synthesis rule).
+  small: {rt60_s: 1.15, hf_rt60_s: 0.55, predelay_ms: 14, wet_db: -7.0, seed: 3301}
+  hall:  {rt60_s: 1.6, hf_rt60_s: 0.7, predelay_ms: 18, wet_db: -6.0, seed: 3302}
+
+cues:
+  theme:
+    role: main_title           # featured: heard for itself, levelled to -26 LUFS integrated
+    length_s: 18.0
+    room: small
+    target_lufs: -26.0
+    end_fade_s: [17.2, 18.0]   # the written decay's last 0.8 s, so the cue ends in the room, not on a tail
+    seed: 3311
+    notes:
+    # the pedal: E2 from 0.8 s (bible b), the sub-octave joins on the cut to the macro (3.0 s)
+    - [bass, E2, 0.8, 7.6, 0.55]
+    - [bass, E2, 8.0, 7.6, 0.60, 1.6]
+    - [bass, E1, 3.0, 11.6, 0.58, 2.4]
+    # the rising figure (one figure: the cell E-A-B, then the Dorian sixth, the dip, the fourth's peak)
+    - [vibes, E4, 1.6, 4.0, 0.50]
+    - [vibes, A4, 3.2, 2.8, 0.55]
+    - [vibes, B4, 4.4, 2.8, 0.58]
+    - [vibes, C#5, 6.0, 2.4, 0.62]
+    - [vibes, E5, 7.0, 2.8, 0.68]
+    - [vibes, D5, 8.4, 2.4, 0.64]
+    - [vibes, A5, 9.8, 4.8, 0.80, 2.4]
+    # the paper tears: the quartal chord E-A-D under the ringing A; the sting sits on the lockup cut at 14.4 s
+    - [vibes, E4, 12.8, 2.8, 0.46, 1.6]
+    - [vibes, A4, 12.85, 2.15, 0.44, 1.0]
+    - [vibes, D5, 12.9, 2.7, 0.48, 1.6]
+    # the suspension lets go: A to G, the week closed
+    - [vibes, G4, 14.6, 1.4, 0.42, 1.2]
+
+  credits:
+    role: main_title
+    length_s: 45.0
+    room: small
+    target_lufs: -26.0
+    end_fade_s: [43.8, 45.0]
+    seed: 3312
+    notes:
+    # A (0 to 14): the pedal returns; the cell, augmented, in the cellos; the vibraphone answers it on B
+    - [bass, E2, 0.4, 6.8, 0.50]
+    - [bass, E2, 6.8, 7.2, 0.55]
+    - [bass, E1, 2.0, 11.4, 0.55, 1.4]
+    - [cello, E4, 1.8, 4.2, 0.45]
+    - [cello, A4, 5.6, 3.8, 0.50]
+    - [cello, B4, 9.0, 4.6, 0.52, 1.2]
+    - [vibes, B4, 10.2, 2.4, 0.42]
+    - [vibes, E5, 11.6, 2.2, 0.46]
+    - [vibes, F#5, 12.8, 2.6, 0.48]
+    # B (14 to 28): the turn: the pedal steps to C, the cell sounds over it, then D, the figure's middle over it
+    - [bass, C2, 13.8, 6.4, 0.55, 1.0]
+    - [cello, C4, 14.0, 5.0, 0.42]
+    - [vibes, E4, 15.0, 3.0, 0.50]
+    - [vibes, A4, 17.0, 2.6, 0.54]
+    - [vibes, B4, 18.6, 3.2, 0.56]
+    - [cello, G4, 18.8, 4.0, 0.44]
+    - [cello, A4, 21.0, 4.8, 0.46]
+    - [vibes, C#5, 22.4, 2.4, 0.56]
+    - [vibes, E5, 23.6, 2.6, 0.60]
+    - [vibes, D5, 25.0, 2.8, 0.58]
+    - [cello, F#4, 25.4, 3.0, 0.42]
+    # C (28 to 38): home to E; the whole figure, quicker, and this time it goes one step past the title's peak, to B
+    - [bass, E2, 27.6, 7.0, 0.58]
+    - [bass, E1, 28.0, 10.4, 0.60, 2.0]
+    - [cello, E4, 28.2, 4.6, 0.44]
+    - [vibes, E4, 28.0, 2.2, 0.52]
+    - [vibes, A4, 29.4, 2.0, 0.56]
+    - [vibes, B4, 30.6, 2.0, 0.60]
+    - [vibes, C#5, 31.8, 1.8, 0.63]
+    - [vibes, E5, 32.8, 2.0, 0.68]
+    - [cello, B4, 33.0, 4.4, 0.48]
+    - [vibes, D5, 34.0, 1.8, 0.64]
+    - [vibes, A5, 35.0, 1.6, 0.74]
+    - [cello, G4, 36.0, 4.4, 0.38, 1.6]
+    - [vibes, B5, 36.2, 3.2, 0.80, 2.6]
+    # D (38 to 45): E-G-D under the B, softer than the B it answers; the end board (41 to 45) holds the decay
+    - [bass, E2, 34.6, 6.2, 0.44, 2.4]
+    - [bass, E1, 38.4, 2.8, 0.36, 2.6]
+    - [vibes, E4, 37.4, 3.4, 0.34, 2.6]
+    - [vibes, G4, 37.5, 3.2, 0.32, 2.6]
+    - [vibes, D5, 37.6, 3.2, 0.34, 2.6]
+
+  echo-bed-150:
+    role: bed                  # band-shaped (A29 refined) and levelled to -32 LUFS integrated by the engine at the mix
+    length_s: 150.0
+    room: hall
+    target_lufs: -32.0
+    start_fade_s: [0.0, 4.0]   # enters from no music under the x3 slate: a 4 s composed swell (A29: at least 1.5 s)
+    end_fade_s: [146.6, 149.6] # the written ending's last decay; silent from 149.6 s, before x7 (no music under it)
+    seed: 3313
+    notes:
+    # ---- the pedal: D in two octaves, D1 (felt more than heard) and the bowed D2 (73 Hz, which a phone plays 25 dB
+    # down: the bed's weight sits there, not in the voice's band), each re-bowed at uneven lengths, never a tiled period; the D2 bow
+    # breathes (about a second of the D1 alone between strokes)
+    - [bass, D1, 0.0, 7.6, 0.40]
+    - [bass, D1, 8.2, 9.4, 0.43]
+    - [bass, D1, 18.4, 8.6, 0.40]
+    - [bass, D1, 27.8, 10.0, 0.44]
+    - [bass, D1, 38.6, 7.4, 0.40]
+    - [bass, D1, 46.8, 9.6, 0.45]
+    - [bass, D1, 57.2, 8.8, 0.50]
+    - [bass, D1, 66.8, 9.8, 0.53]
+    - [bass, D1, 77.4, 8.0, 0.40]
+    - [bass, D1, 86.2, 9.4, 0.38]
+    - [bass, D1, 96.4, 8.6, 0.40]
+    - [bass, D1, 105.8, 10.0, 0.48]
+    - [bass, D1, 116.6, 9.0, 0.50]
+    - [bass, D1, 126.4, 8.0, 0.43]
+    - [bass, D1, 135.2, 8.4, 0.40, 3.2]
+    - [bass, D2, 0.0, 4.6, 0.51]
+    - [bass, D2, 6.4, 4.2, 0.54]
+    - [bass, D2, 12.4, 4.8, 0.49]
+    - [bass, D2, 19.0, 4.4, 0.52]
+    - [bass, D2, 25.2, 4.6, 0.51]
+    - [bass, D2, 31.6, 4.0, 0.54]
+    - [bass, D2, 37.4, 4.8, 0.49]
+    - [bass, D2, 44.0, 4.4, 0.52]
+    - [bass, D2, 50.2, 4.6, 0.51]
+    - [bass, D2, 56.6, 4.2, 0.55]
+    - [bass, D2, 62.6, 4.8, 0.54]
+    - [bass, D2, 69.2, 4.0, 0.52]
+    - [bass, D2, 75.0, 4.6, 0.49]
+    - [bass, D2, 81.4, 4.4, 0.48]
+    - [bass, D2, 87.6, 4.8, 0.51]
+    - [bass, D2, 94.2, 4.2, 0.49]
+    - [bass, D2, 100.2, 4.6, 0.51]
+    - [bass, D2, 106.6, 4.4, 0.54]
+    - [bass, D2, 112.8, 4.8, 0.55]
+    - [bass, D2, 119.4, 4.2, 0.52]
+    - [bass, D2, 125.4, 4.6, 0.49]
+    - [bass, D2, 131.8, 4.4, 0.51]
+    - [bass, D2, 138.0, 4.6, 0.48, 2.6]
+    # ---- x3 (0 to 55): the White House broadcast, 45 s of it voiced. D minor, one voice at a time and very soft, each
+    # phrase followed by a rest on the pedal alone: the cellos' tenor register, the violas taking a phrase in turn;
+    # everything over the voice's low-mids
+    - [cello, A4, 2.0, 5.0, 0.17]
+    - [cello, A#4, 8.8, 4.6, 0.17]
+    - [cello, A4, 15.4, 4.2, 0.16]
+    - [viola, C5, 21.4, 4.4, 0.15]
+    - [cello, G4, 27.8, 4.2, 0.16]
+    - [viola, A#4, 33.8, 4.4, 0.15]
+    - [cello, A4, 40.0, 4.2, 0.16]
+    # the account (motif): a falling step, a falling fourth, in the cellos, after the last reading, landing on the x4 cut
+    - [cello, D5, 46.6, 2.6, 0.18]
+    - [cello, C5, 49.0, 2.2, 0.17]
+    - [viola, A#4, 50.8, 2.4, 0.15]
+    - [cello, G4, 51.0, 3.4, 0.18, 1.2]
+    - [viola, A4, 52.6, 2.8, 0.15]
+    # ---- x4 (55 to 75): front and home front. B-flat over the pedal, one voice under the words; after them, the account a third
+    # higher with its step flattened (F, E-flat, B-flat), two sections at once: the first widening
+    - [viola, D5, 56.0, 4.6, 0.18]
+    - [cello, A#4, 57.0, 3.6, 0.16]
+    - [viola, C5, 62.6, 3.8, 0.17]
+    - [cello, F5, 67.6, 2.4, 0.18]
+    - [viola, D5, 67.8, 3.4, 0.16]
+    - [cello, D#5, 69.8, 2.2, 0.17]
+    - [cello, A#4, 71.8, 3.2, 0.18]
+    - [viola, A4, 72.0, 3.2, 0.17]
+    # ---- x5 (75 to 105): the count card. One cello line, fragments of the falling step with rests between them; the
+    # open fifth in the violas late; no word on why
+    - [cello, A4, 76.0, 4.4, 0.17]
+    - [cello, G4, 82.4, 4.0, 0.16]
+    - [cello, A#4, 88.4, 2.6, 0.17]
+    - [cello, A4, 91.4, 3.6, 0.17]
+    - [viola, D5, 94.6, 4.4, 0.17]
+    - [cello, C5, 97.0, 3.6, 0.18]
+    - [cello, A4, 102.6, 3.4, 0.18]
+    # ---- x6 (105 to 150): the dinner and the withdrawal. The account augmented in the cellos, the violas answering
+    # each fall with a rising step (call and answer, one voice at a time under the words); one viola note under the reader's line; after it, the bed's
+    # one widening to its high F; then the written ending: an open fifth, the account's last fall withheld (the cellos
+    # stop on D and never fall to A)
+    - [cello, D5, 107.6, 3.4, 0.18]
+    - [viola, A4, 111.4, 3.0, 0.15]
+    - [cello, C5, 114.8, 3.2, 0.18]
+    - [viola, A#4, 118.2, 3.0, 0.15]
+    - [cello, G4, 121.4, 3.0, 0.16]
+    - [viola, A4, 125.2, 4.6, 0.14]
+    - [viola, C5, 131.4, 2.4, 0.18]
+    - [cello, F5, 132.4, 3.6, 0.19]
+    - [viola, D5, 133.6, 3.0, 0.18]
+    - [cello, E5, 136.0, 2.6, 0.18]
+    - [viola, A4, 137.4, 4.6, 0.18, 2.4]
+    - [cello, D5, 138.6, 4.2, 0.18, 2.6]
