@@ -14,7 +14,8 @@ export const PLACEMENT_PENDING = "Not placed yet: in and out points are filled f
 
 function paragraph(item, terms) {
   const where = "Its in and out points in the episode are listed in this packet once the episode is rendered.";
-  const evidence = `The licence was read at ${item.licence_evidence.url} on ${item.licence_evidence.captured_at.slice(0, 10)}, and the text read is kept with this packet.`;
+  const also = (item.evidence_also ?? []).map((e) => `${e.url} on ${e.captured_at.slice(0, 10)}`);
+  const evidence = `The licence was read at ${item.licence_evidence.url} on ${item.licence_evidence.captured_at.slice(0, 10)}${also.length ? ` (its source record also, at ${also.join(" and at ")})` : ""}, and the text read is kept with this packet.`;
   const file = `The file used has the SHA-256 fingerprint ${item.sha256}.`;
   let rights;
   if (item.licence.startsWith("cc-")) {
@@ -33,6 +34,13 @@ export function sha256Text(text) {
   return createHash("sha256").update(text, "utf8").digest("hex");
 }
 
+/** Each distinct disclosure the ledger's items carry, with the assets that need it, in ledger order. */
+export function creditDisclosures(ledger) {
+  const by = new Map();
+  for (const item of ledger.items) if (item.disclosure) by.set(item.disclosure, [...(by.get(item.disclosure) ?? []), item.id]);
+  return [...by].map(([text, assets]) => ({ text, assets }));
+}
+
 /** The packet for a validated ledger; ledgerText is the ledger file's exact bytes. */
 export function buildDisputePacket(ledger, ledgerText) {
   return {
@@ -41,6 +49,8 @@ export function buildDisputePacket(ledger, ledgerText) {
     generated_by: "node scripts/rights.mjs packet <issue>",
     note: "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
     ledger_sha256: sha256Text(String(ledgerText).replace(/\r\n/g, "\n")),
+    // Lines the credits carry whenever one of the listed assets airs; the credits generator reads them from here.
+    credit_disclosures: creditDisclosures(ledger),
     assets: ledger.items.map((item) => {
       const terms = licenceTerms(item.licence, item);
       return {
@@ -52,6 +62,9 @@ export function buildDisputePacket(ledger, ledgerText) {
         credit: item.credit,
         licence: terms,
         licence_evidence: item.licence_evidence,
+        ...(item.evidence_also?.length ? { evidence_also: item.evidence_also } : {}),
+        ...(item.disclosure ? { disclosure: item.disclosure } : {}),
+        ...(item.audio ? { audio: item.audio } : {}),
         basis: item.basis,
         in_point: null,
         out_point: null,

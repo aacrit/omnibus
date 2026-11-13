@@ -13,7 +13,8 @@
 //       OMNIBUS_MEDIA), then episodes/<issue>/rights-ledger.json and
 //       disputes.json. --dry-run reads metadata only and writes nothing.
 //       A request already in the ledger is held; --redo fills the named
-//       ones again from their whole ladder.
+//       ones again from their whole ladder, keeping the held item when
+//       nothing on the ladder passes.
 //   node scripts/rights.mjs coverage <issue> --media <dir>
 //       writes episodes/<issue>/ASSETS.md (request to item or fallback, tier,
 //       licence, seconds measured by ffprobe, file path) from the ledger.

@@ -418,7 +418,25 @@
         },
         {
           "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -437,24 +455,6 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -856,16 +856,10 @@
           "window": {
             "from": "2026-10-30",
             "to": "2026-11-06T19:18:18.407444+00:00"
-          }
-        },
-        {
-          "adapter": "dvids",
-          "ref": "video:1028891",
-          "tier": 1,
-          "pinned": true,
-          "window": {
-            "from": "2026-10-30",
-            "to": "2026-11-06T19:18:18.407444+00:00"
+          },
+          "audio": {
+            "mode": "muted",
+            "reason": "it airs muted under the narration (CoS ruling under the founder's delegation, 2026-11-13): the Secretary's own defence of the war, heard with no counterpart, would tilt the beat; the narrator says only what was printed"
           }
         },
         {
@@ -946,6 +940,11 @@
           "tier": 2,
           "host": "commons.wikimedia.org",
           "reason": "the search found nothing: incategory:\"Pete Hegseth in 2026\" OR \"Pete Hegseth\" November 2026"
+        },
+        {
+          "tier": 1,
+          "host": "dvids",
+          "reason": "excluded on review: video:1028891: any other DVIDS hit for the step is file footage not of the week's events or of the beat's actor (the bible's no stock B-roll rule)"
         }
       ]
     },

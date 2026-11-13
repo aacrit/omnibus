@@ -427,13 +427,11 @@
         "tier": 1,
         "adapter": "dvids",
         "ref": "video:1028785",
-        "why": "fits the beat by its actor: the Defense Secretary himself, speaking from the Pentagon on 5 Nov 2026 during the post-election fallout the headline names (DVIDS: \"SECWAR Hegseth delivers message from the Pentagon\", published 2026-11-05T20:09:54Z, before the day-5 print at 2026-11-06T19:18Z). It shows him, not the impeachment threat; the narrator says only what was printed"
-      },
-      {
-        "tier": 1,
-        "adapter": "dvids",
-        "ref": "video:1028891",
-        "why": "second choice, the same actor in the same week: the President and the Defense Secretary at the Pentagon on 2 Nov 2026 (published 2026-11-06T15:11:07Z, before the print). A recruitment production, so it stands behind the 5 Nov message"
+        "why": "fits the beat by its actor: the Defense Secretary himself, speaking from the Pentagon on 5 Nov 2026 during the post-election fallout the headline names (DVIDS: \"SECWAR Hegseth delivers message from the Pentagon\", published 2026-11-05T20:09:54Z, before the day-5 print at 2026-11-06T19:18Z). It shows him, not the impeachment threat; the narrator says only what was printed",
+        "audio": {
+          "mode": "muted",
+          "reason": "it airs muted under the narration (CoS ruling under the founder's delegation, 2026-11-13): the Secretary's own defence of the war, heard with no counterpart, would tilt the beat; the narrator says only what was printed"
+        }
       },
       {
         "tier": 1,

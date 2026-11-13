@@ -124,11 +124,11 @@ Thin pictures (no footage, and under half the picture requests fetched): Cold op
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm: published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp: published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00
+  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00
+  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00
-  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00
-  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 1 api.dvidshub.net: the search found nothing: q=Ukraine humanitarian aid facility strike; type=image
   - tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap
   - tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)
@@ -171,7 +171,7 @@ Thin pictures (no footage, and under half the picture requests fetched): Cold op
   - tier 3 commons File:The White House - 54452195036.jpg: licence "Public domain" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))
   - tier 3 commons File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg: licence "Public domain" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))
 - **e33-day7-pic** (to tier 4):
-  - tier 1 dvids video:1029004: licence "DVIDS record: credit "Courtesy" names no DoD author; the record indicates another copyright status or a third party: "Courtesy"" is not on the allowlist (credit "Courtesy" names no DoD author; the record indicates another copyright status or a third party: "Courtesy")
+  - tier 1 dvids video:1029004: licence "DVIDS: credit "Courtesy" names no DoD author; the record indicates another copyright status or a third party: "Courtesy"; the public page carries no "must comply with the restrictions shown on https://www.dvidshub.net/about/copyright" line; the page's credit line "Courtesy Video" indicates another status or a third party" is not on the allowlist (credit "Cou...
   - tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821009).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00
   - tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821008).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00
   - tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821002).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00

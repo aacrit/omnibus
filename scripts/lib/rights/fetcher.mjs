@@ -7,7 +7,7 @@
 // Net-new. I/O only through the injected http and adapters.
 
 import path from "node:path";
-import { rmSync } from "node:fs";
+import { renameSync, rmSync } from "node:fs";
 import { hashLocal, isAllowedUrl, isOwnUrl } from "./http.mjs";
 import { OWN_ADAPTER } from "./licences.mjs";
 import { emptyLedger, validateLedger } from "./ledger.mjs";
@@ -124,6 +124,12 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     laundering_check: check.laundering_check,
     ...(c.witness ? { witness: c.witness } : {}),
     ...(c.own_property ? { own_property: c.own_property } : {}),
+    // Further sources read for the licence (DVIDS: the API record beside its public page).
+    ...(c.evidence_also?.length ? { evidence_also: c.evidence_also.map((e) => ({ url: e.url, captured_text: clip(e.captured_text, 4000), captured_at: e.captured_at })) } : {}),
+    // A line the episode's credits must carry wherever the item airs.
+    ...(c.disclosure ? { disclosure: clip(c.disclosure, 400) } : {}),
+    // How the item's own sound is used, from the pin: E6 and E11 honour it.
+    ...(c.audio ? { audio: { mode: c.audio.mode, reason: clip(c.audio.reason, 600) } } : {}),
   };
 }
 
@@ -177,12 +183,13 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
   // --redo: a held request is filled again from its whole ladder (a better tier became reachable, e.g. DVIDS with a key).
   const unknown = redo.filter((id) => !requestsDoc.requests.some((r) => r.id === id));
   if (unknown.length) throw new Error(`--redo names no request in assets.json: ${unknown.map((id) => clip(id, 80)).join(", ")}`);
-  if (redo.length) ledger.items = ledger.items.filter((i) => !redo.includes(i.request_id));
   const today = now().toISOString().slice(0, 10);
   const filled = new Set(ledger.items.map((i) => i.request_id));
   const report = [];
   for (const request of requestsDoc.requests) {
-    if (filled.has(request.id)) {
+    // A redo whose refill fills nothing keeps the held item, and the ledger's record of it, as they were.
+    const held = redo.includes(request.id) ? ledger.items.find((i) => i.request_id === request.id) ?? null : null;
+    if (filled.has(request.id) && !held) {
       report.push({ request: request.id, outcome: "held", detail: "already in the ledger" });
       continue;
     }
@@ -206,7 +213,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         refuse([found.reason ?? "not found at the source"]);
         continue;
       }
-      const c = { ...found.candidate, kind: request.kind };
+      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}) };
       const reasons = [];
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);
@@ -232,7 +239,9 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         break;
       }
       const file = own ? `${request.id}${c.ext ?? ".png"}` : mediaFileName(request.id, c.media_url, c.ext);
-      const dest = path.join(mediaDir, file);
+      const final = path.join(mediaDir, file);
+      // A redo downloads beside the held file and replaces it only once the new one passes, so a refusal never deletes it.
+      const dest = held && !own ? `${final}.redo` : final;
       let media;
       try {
         if (own) {
@@ -263,16 +272,24 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         refuse([...fileProblems, ...fileCheck.reasons, ...schemaProblems.map((p) => `ledger entry invalid: ${p}`)]);
         continue;
       }
+      if (dest !== final) renameSync(dest, final);
       if (c.witness) await recordWitness(ledger, { request, c, http, mediaDir, used: true, reasons: [] });
       taken = { candidate: cand, entry };
       break;
+    }
+    if (held && !taken) {
+      report.push({ request: request.id, outcome: "held", detail: `the refill filled nothing (${rejections.length} candidate(s) refused), so the held item is kept` });
+      log(`${request.id}: redo filled nothing; the held ${held.adapter} item is kept`);
+      continue;
     }
     ledger.rejected = ledger.rejected.filter((r) => r.request_id !== request.id).concat(rejections);
     const drops = (ledger.dropped ?? []).filter((d) => d.request_id !== request.id);
     if (!taken && !dryRun) drops.push(dropOf(request, rejections));
     if (drops.length || ledger.dropped) ledger.dropped = drops;
     if (taken?.entry) {
-      ledger.items.push(taken.entry);
+      // A redo's new item takes the held one's place in the ledger.
+      if (held) ledger.items.splice(ledger.items.indexOf(held), 1, taken.entry);
+      else ledger.items.push(taken.entry);
       report.push({ request: request.id, outcome: "taken", detail: `${taken.candidate.adapter} ${taken.candidate.ref} (tier ${taken.candidate.tier})` });
       log(`${request.id}: taken from ${taken.candidate.adapter} ${taken.candidate.ref}`);
     } else if (taken) {

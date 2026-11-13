@@ -236,7 +236,7 @@ describe("DVIDS by its documented fields (fixtures from api.dvidshub.net/docs, n
   it("passes a DoD record with a named credit on DVIDS's own statement, with its media on DVIDS's documented CDN", () => {
     const c = dvids.parseDvids(asset, { ref: "image:366678", capturedAt: AT }).candidate;
     expect(c).toMatchObject({ licence: "pd-us-federal", credit: "Master Sgt. Christopher Matt, 26th Marine Expeditionary Unit, DVIDS", published_at: "2026-11-03T16:18:00Z", date: "2026-11-02" });
-    expect(c.evidence.captured_text).toMatch(/public domain unless other copyright status is indicated/);
+    expect(c.api_evidence.captured_text).toMatch(/public domain unless other copyright status is indicated/);
     expect(isAllowedUrl(c.media_url)).toBe(true);
   });
 

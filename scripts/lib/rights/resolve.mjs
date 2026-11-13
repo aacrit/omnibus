@@ -133,6 +133,11 @@ async function resolvePin(pin, step, { http, echoPick }) {
   const c = { adapter: pin.adapter, ref: pin.ref, tier, pinned: true };
   if (window) c.window = window;
   if (pin.media) c.media = pin.media;
+  // How the item's own sound airs (the CoS's ruling recorded on the pin); the fetcher carries it into the ledger.
+  if (pin.audio !== undefined) {
+    if (pin.audio?.mode !== "muted" || !String(pin.audio?.reason ?? "").trim()) throw new Error(`pin ${pin.ref}: audio must be { mode: "muted", reason }`);
+    c.audio = { mode: "muted", reason: clip(String(pin.audio.reason), 600) };
+  }
   const sha = pin.sha256 ?? (pin.sha256_from ? echoPick?.sources?.find((s) => `echo-pick:${s.id}` === pin.sha256_from)?.sha256 : undefined);
   if (pin.sha256_from && !sha) throw new Error(`pin ${pin.ref}: ${pin.sha256_from} names no source with a sha256`);
   if (sha) c.sha256 = sha;
