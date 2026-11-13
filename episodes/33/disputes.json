@@ -3,7 +3,15 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "12611bf186d88ef49e43e1c1dd184dde5eda69e1c00e53eac5850f271679f686",
+  "ledger_sha256": "dbb86e72cb7a6ad63fe06c65c8acc537515aadcd6cba53e61e9b1da1c90c83a4",
+  "credit_disclosures": [
+    {
+      "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
+      "assets": [
+        "e33-day5-pic"
+      ]
+    }
+  ],
   "assets": [
     {
       "id": "e33-title-01",
@@ -29,56 +37,6 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"Explorer 1 Teletype Reporting During Launch\" from https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
-    },
-    {
-      "id": "e33-day3-pic",
-      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
-      "source_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
-      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
-      "credit": "Emily J. Higgins, via Wikimedia Commons",
-      "licence": {
-        "id": "pd-us-federal",
-        "name": "Public domain (US federal government work)",
-        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
-        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
-        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
-      },
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T00:20:12Z"
-      },
-      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
-      "in_point": null,
-      "out_point": null,
-      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)\" from https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
-    },
-    {
-      "id": "e33-day5-pic",
-      "title": "Pete Hegseth Official Portrait",
-      "source_url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Pete_Hegseth_Official_Portrait.jpg",
-      "sha256": "0334fdeff319cfafa7acb4cae3ccd080ac2e4ba3a6d2ce9c67b25b45be2384b5",
-      "credit": "U.S. Department of Defense, via Wikimedia Commons",
-      "licence": {
-        "id": "pd-us-federal",
-        "name": "Public domain (US federal government work)",
-        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
-        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
-        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
-      },
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Department of Defense\nCredit: https://www.defense.gov/About/Biographies/Biography/Article/4040890/hon-pete-hegseth/\nBasis category: PD US Military",
-        "captured_at": "2026-11-13T00:20:16Z"
-      },
-      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105)",
-      "in_point": null,
-      "out_point": null,
-      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"Pete Hegseth Official Portrait\" from https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0334fdeff319cfafa7acb4cae3ccd080ac2e4ba3a6d2ce9c67b25b45be2384b5. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-day6-doc",
@@ -604,6 +562,68 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"void news, printed edition of 2 Nov 2026 (Paper), toured to \"Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded\"\" from https://25edd2e7.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served. The licence was read at https://25edd2e7.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 675f307d00a157bce48a252e65d548ff253ed809f2476c2f458e32081da5de51. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day5-pic",
+      "title": "SECWAR Hegseth delivers message from the Pentagon",
+      "source_url": "https://www.dvidshub.net/video/1028785",
+      "media_url": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112125491/DOD_112125491-1920x1080-9000k.mp4",
+      "sha256": "4da02779ce63ea8ad03632e6442c6a293fe462f45ec76d6ee444e8efa1c5ac12",
+      "credit": "Staff Sgt. Daniel Proper, Office of the Secretary of War Public Affairs, DVIDS",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://www.dvidshub.net/video/1028785",
+        "captured_text": "Read from the public DVIDS item page https://www.dvidshub.net/video/1028785, fetched without a key.\nThe page's mark: \"PUBLIC DOMAIN\"\ncredit line: \"Video by Staff Sgt. Daniel Proper\"\nunit: \"Office of the Secretary of War Public Affairs\"\nVIRIN: \"261105-A-LE512-1001\"\nThe page's restrictions line: \"This work, SECWAR Hegseth delivers message from the Pentagon, by SSG Daniel Proper, identified by DVIDS, must comply with the restrictions shown on https://www.dvidshub.net/about/copyright.\"\nThe page and the API record (the second evidence entry) indicate no other copyright status: public domain, a US federal government work (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T03:37:07Z"
+      },
+      "evidence_also": [
+        {
+          "url": "https://api.dvidshub.net/asset?id=video:1028785",
+          "captured_text": "Read from the DVIDS API asset record for video 1028785 (https://api.dvidshub.net/asset?id=video:1028785, the key removed).\nDVIDS's statement (https://api.dvidshub.net/docs/copyright): \"All media on the site is produced by U.S. DoD or Federal Agency and is in the public domain unless other copyright status is indicated.\"\nbranch: Joint; unit: Office of the Secretary of War Public Affairs\ncredit: Staff Sgt. Daniel Proper\nattribution: DoW video by U.S. Army Staff Sgt. Daniel Proper\nVIRIN 261105-A-LE512-1001; category: Video Productions\ndate: 2026-11-05T00:00:00-05:00; date_published: 2026-11-05T15:09:54-05:00\nThe record indicates no other copyright status: public domain, a US federal government work (17 U.S.C. 105).",
+          "captured_at": "2026-11-13T03:37:07Z"
+        }
+      ],
+      "disclosure": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
+      "audio": {
+        "mode": "muted",
+        "reason": "it airs muted under the narration (CoS ruling under the founder's delegation, 2026-11-13): the Secretary's own defence of the war, heard with no counterpart, would tilt the beat; the narrator says only what was printed"
+      },
+      "basis": "the public DVIDS page marks it PUBLIC DOMAIN, and DVIDS states its media is public domain unless another copyright status is indicated; neither the page nor the API record indicates one: a US federal government work by Staff Sgt. Daniel Proper (Joint) (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"SECWAR Hegseth delivers message from the Pentagon\" from https://www.dvidshub.net/video/1028785. It is in the public domain: the public DVIDS page marks it PUBLIC DOMAIN, and DVIDS states its media is public domain unless another copyright status is indicated; neither the page nor the API record indicates one: a US federal government work by Staff Sgt. Daniel Proper (Joint) (17 U.S.C. 105). The licence was read at https://www.dvidshub.net/video/1028785 on 2026-11-13 (its source record also, at https://api.dvidshub.net/asset?id=video:1028785 on 2026-11-13), and the text read is kept with this packet. The file used has the SHA-256 fingerprint 4da02779ce63ea8ad03632e6442c6a293fe462f45ec76d6ee444e8efa1c5ac12. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day3-pic",
+      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
+      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
+      "credit": "Emily J. Higgins, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T03:06:14Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)\" from https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }

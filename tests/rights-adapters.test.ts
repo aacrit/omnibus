@@ -316,14 +316,16 @@ describe("DVIDS adapter (optional, needs DVIDS_API_KEY)", () => {
     },
   };
 
-  it("passes an item whose own record marks it public domain, and never leaks the key", async () => {
+  it("judges the record without leaking the key, and refuses it when its public page cannot be read (E5c review)", async () => {
     const asked: string[] = [];
-    const http = { getJson: async (url: string) => (asked.push(url), { status: "ok", json: record, url }) };
+    const http = { getJson: async (url: string) => (asked.push(url), { status: "ok", json: record, url }), getText: async (url: string) => (asked.push(url), { status: "not_found", url }) };
     const r = await dvids.lookup("image:123", { http, env: { DVIDS_API_KEY: "sekret-key" }, now });
-    expect(asked[0]).toBe("https://api.dvidshub.net/asset?id=image%3A123&api_key=sekret-key");
-    expect(r.candidate).toMatchObject({ licence: "pd-us-federal", credit: "Sgt. Jane Roe, 1st Mission Support Command, DVIDS", item_url: "https://www.dvidshub.net/image/123" });
+    expect(asked).toEqual(["https://api.dvidshub.net/asset?id=image%3A123&api_key=sekret-key", "https://www.dvidshub.net/image/123"]);
+    expect(dvids.parseDvids(record, { ref: "image:123", capturedAt: AT }).candidate).toMatchObject({ licence: "pd-us-federal", credit: "Sgt. Jane Roe, 1st Mission Support Command, DVIDS", item_url: "https://www.dvidshub.net/image/123" });
+    expect(r.candidate.licence).toBeNull();
+    expect(r.candidate.licence_note).toMatch(/public item page .* could not be read/);
     expect(JSON.stringify(r)).not.toMatch(/sekret-key/);
-    expect(checkCandidate({ ...r.candidate, kind: "still" }).ok).toBe(true);
+    expect(checkCandidate({ ...r.candidate, kind: "still" }).ok).toBe(false);
   });
 
   it("fails an item whose record indicates another status: a courtesy credit, a civilian branch, a copyright line", () => {

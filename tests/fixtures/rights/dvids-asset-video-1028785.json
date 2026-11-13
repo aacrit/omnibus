@@ -1,0 +1,69 @@
+{
+ "_recorded": {
+  "url": "https://api.dvidshub.net/asset?id=video%3A1028785",
+  "at": "2026-11-12T14:00:00Z",
+  "by": "E5c fixture recording: DVIDS API metadata only, no media; trimmed (hls_url and closed_caption_urls removed, they carry the key; files[] cut to three; long descriptions clipped); the api_key parameter is never recorded"
+ },
+ "response": {
+  "results": {
+   "id": "video:1028785",
+   "type": "video",
+   "title": "SECWAR Hegseth delivers message from the Pentagon",
+   "description": "Secretary of War Pete Hegseth delivers message from the Pentagon, Washington, D.C., Nov. 05, 2026. (DoW video by U.S. Army Staff Sgt. Daniel Proper)",
+   "keywords": "Secretary of War Pete Hegseth",
+   "date_published": "2026-11-05T15:09:54-05:00",
+   "date": "2026-11-05T00:00:00-05:00",
+   "category": "Video Productions",
+   "unit_id": "100",
+   "unit_name": "Office of the Secretary of War Public Affairs",
+   "branch": "Joint",
+   "image": "https://d1ldvf68ux039x.cloudfront.net/thumbs/frames/video/2611/1028785/DOD_112125491.0000001/2000w_q95.jpg",
+   "url": "https://www.dvidshub.net/video/1028785/secwar-hegseth-delivers-message-pentagon",
+   "credit": [
+    {
+     "id": 1680902,
+     "name": "Daniel Proper",
+     "rank": "Staff Sgt.",
+     "url": "https://www.dvidshub.net/portfolio/1680902"
+    }
+   ],
+   "location": {
+    "city": "Washington",
+    "state": "District of Columbia",
+    "country": "United States",
+    "state_abbreviation": "DC",
+    "country_abbreviation": "US"
+   },
+   "time_start": 0,
+   "virin": "261105-A-LE512-1001",
+   "duration": 346,
+   "aspect_ratio": "16:9",
+   "files": [
+    {
+     "src": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112125491/DOD_112125491.mp4",
+     "type": "video/mp4",
+     "height": 2160,
+     "width": 3840,
+     "size": 374338716,
+     "bitrate": 0
+    },
+    {
+     "src": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112125491/DOD_112125491-1920x1080-9000k.mp4",
+     "type": "video/mp4",
+     "height": 1080,
+     "width": 1920,
+     "size": 121590667,
+     "bitrate": 0
+    },
+    {
+     "src": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112125491/DOD_112125491-1280x720-3000k.mp4",
+     "type": "video/mp4",
+     "height": 720,
+     "width": 1280,
+     "size": 54745889,
+     "bitrate": 0
+    }
+   ]
+  }
+ }
+}

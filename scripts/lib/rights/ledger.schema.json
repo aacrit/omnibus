@@ -307,6 +307,40 @@
         "own_property": {
           "$ref": "#/$defs/own_property"
         },
+        "evidence_also": {
+          "description": "Further sources read for the licence, beside licence_evidence (which names the source a claimant can read): for DVIDS, the API asset record, its address without the key.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "disclosure": {
+          "description": "A line the episode's credits carry wherever the item airs (DVIDS: the DoW non-endorsement line).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "audio": {
+          "description": "How the item's own sound is used, set by its pin with the reason; the graphics (E6) and the render (E11) honour it.",
+          "type": "object",
+          "required": [
+            "mode",
+            "reason"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "mode": {
+              "enum": [
+                "muted"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 600
+            }
+          }
+        },
         "witness": {
           "description": "A dated Wayback capture that witnesses the item's text by its capture time. Never a licence.",
           "type": "object",
@@ -335,6 +369,28 @@
               "$ref": "#/$defs/https"
             }
           }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "url",
+        "captured_text",
+        "captured_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "$ref": "#/$defs/https"
+        },
+        "captured_text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "captured_at": {
+          "$ref": "#/$defs/datetime"
         }
       }
     },

@@ -6,12 +6,15 @@
 //       resolves rundown.json's asset ladders (searches) into concrete
 //       candidates in episodes/<issue>/assets.json; federal .gov and Wayback
 //       steps are read through episodes/<issue>/asset-pins.json.
-//   node scripts/rights.mjs fetch <issue> --media <dir> [--dry-run]
+//   node scripts/rights.mjs fetch <issue> --media <dir> [--dry-run] [--redo <id,id>]
 //       reads episodes/<issue>/assets.json (the rundown's ranked asset
 //       requests), fills each from the first candidate that passes every
 //       check, writes media to <dir>/<issue>/ (outside the repo; also
 //       OMNIBUS_MEDIA), then episodes/<issue>/rights-ledger.json and
 //       disputes.json. --dry-run reads metadata only and writes nothing.
+//       A request already in the ledger is held; --redo fills the named
+//       ones again from their whole ladder, keeping the held item when
+//       nothing on the ladder passes.
 //   node scripts/rights.mjs coverage <issue> --media <dir>
 //       writes episodes/<issue>/ASSETS.md (request to item or fallback, tier,
 //       licence, seconds measured by ffprobe, file path) from the ledger.
@@ -84,7 +87,7 @@ export function writePacket(root, issue) {
   return out;
 }
 
-export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = false, env = process.env, http = { getJson, getMedia, getText }, now, log = console.log }) {
+export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = false, redo = [], env = process.env, http = { getJson, getMedia, getText }, now, log = console.log }) {
   const dir = episodeDir(root, issue);
   const reqPath = path.join(dir, "assets.json");
   if (!existsSync(reqPath)) throw new Error(`${path.relative(root, reqPath)} not found: the rundown writes the asset requests`);
@@ -107,6 +110,7 @@ export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = fals
     env,
     now,
     dryRun,
+    redo,
     log,
   });
   if (!dryRun) {
@@ -173,7 +177,8 @@ async function main(argv) {
     const issue = parseIssue(issueArg);
     const dryRun = argv.includes("--dry-run");
     const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
-    const { report } = await runFetch({ issue, mediaDir, dryRun });
+    const redo = (flag("redo") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+    const { report } = await runFetch({ issue, mediaDir, dryRun, redo });
     const counts = report.reduce((a, r) => ({ ...a, [r.outcome]: (a[r.outcome] ?? 0) + 1 }), {});
     console.log(`rights: issue ${issue}: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(", ") || "no requests"}`);
     if (!process.env.DVIDS_API_KEY) console.log("rights: DVIDS_API_KEY is not set, so DVIDS candidates were skipped (optional)");
@@ -205,7 +210,7 @@ async function main(argv) {
     return 0;
   }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] | coverage <issue> --media <dir> | packet <issue> | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | coverage <issue> --media <dir> | packet <issue> | lint");
   return 2;
 }
 

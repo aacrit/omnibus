@@ -1,0 +1,41 @@
+{
+ "_recorded": {
+  "url": "https://api.dvidshub.net/asset?id=image%3A10078768",
+  "at": "2026-11-12T14:00:00Z",
+  "by": "E5c fixture recording: DVIDS API metadata only, no media; trimmed (hls_url and closed_caption_urls removed, they carry the key; files[] cut to three; long descriptions clipped); the api_key parameter is never recorded"
+ },
+ "response": {
+  "results": {
+   "id": "image:10078768",
+   "title": "F-35A Lightning II Maintenance and Take-Offs",
+   "description": "U.S. Air Force F-35A Lightning II aircraft takes off from an undisclosed location in the U.S. Central Command area of responsibility Nov. 4, 2026. (U.S. Air Force photo by Senior Airman Leighton Lucero)",
+   "keywords": "AFCENT, Weapons Management, F-35 Takeoff, maintenance, CENTCOM",
+   "date_published": "2026-11-07T08:20:44-05:00",
+   "date": "2026-11-03T16:00:00-05:00",
+   "unit_name": "United States Air Forces Central",
+   "branch": "Air Force",
+   "image": "https://d34w7g4gy10iej.cloudfront.net/photos/2611/10078768.jpg",
+   "url": "https://www.dvidshub.net/image/10078768/f-35a-lightning-ii-maintenance-and-take-offs",
+   "credit": [
+    {
+     "id": 1767858,
+     "name": "Leighton Lucero",
+     "rank": "Senior Airman",
+     "url": "https://www.dvidshub.net/portfolio/1767858"
+    }
+   ],
+   "location": {
+    "city": "",
+    "state": "USCENTCOM",
+    "country": "Undisclosed Location",
+    "state_abbreviation": "USCENTCOM",
+    "country_abbreviation": "UL"
+   },
+   "dimensions": {
+    "width": "6670",
+    "height": "4447"
+   },
+   "virin": "261104-F-SD514-1270"
+  }
+ }
+}
