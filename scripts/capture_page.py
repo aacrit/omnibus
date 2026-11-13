@@ -1,0 +1,69 @@
+"""Browser edge of the own-page capture (Studio stage 8, void news's own pages).
+
+    python scripts/capture_page.py <jobs.json> <result.json>
+
+jobs.json is a list of {"url", "out", "width", "clip"}; each page is loaded once
+in one headless Chromium (Playwright), its headings, links and every picture
+element are read with their boxes, and it is screenshotted 1920 wide (the whole
+page, or only `clip` when given). The browser is closed at the end, always.
+
+No judgement is made here: scripts/lib/rights/own-pages.mjs (Node, tested)
+decides the region, checks the edition and refuses third-party pictures. The
+request names void omnibus with its contact URL, as every fetcher request does.
+Audio is muted. Net-new.
+"""
+
+import json
+import sys
+
+from playwright.sync_api import sync_playwright
+
+USER_AGENT = "void-omnibus-capture/1 (+https://omnibus.voidvision.org; own-page capture, one page at a time)"
+
+READ = """() => {
+  const box = (e) => { const r = e.getBoundingClientRect(); return { x: Math.round(r.left + scrollX), y: Math.round(r.top + scrollY), w: Math.round(r.width), h: Math.round(r.height) }; };
+  const heads = [...document.querySelectorAll('h1, h2, h3')].map((e) => ({ tag: e.tagName.toLowerCase(), cls: e.className || '', text: e.textContent.trim().replace(/\\s+/g, ' '), href: (e.querySelector('a') || e.closest('a') || {}).href || null, box: box(e) }));
+  const pics = [];
+  for (const e of document.querySelectorAll('img, picture, video, iframe, object, embed, canvas, svg image')) {
+    const src = e.currentSrc || e.src || e.data || e.getAttribute('href') || e.getAttribute('xlink:href') || '';
+    pics.push({ tag: e.tagName.toLowerCase(), src: String(src).slice(0, 500), box: box(e) });
+  }
+  for (const e of document.querySelectorAll('*')) {
+    const bg = getComputedStyle(e).backgroundImage;
+    if (bg && bg !== 'none' && bg.includes('url(')) pics.push({ tag: 'background', src: bg.slice(0, 500), box: box(e) });
+  }
+  const time = document.querySelector('time');
+  return { title: document.title, width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight, heads, pics, time: time ? { text: time.textContent.trim(), datetime: time.getAttribute('datetime') } : null };
+}"""
+
+
+def main(jobs_path, result_path):
+    with open(jobs_path, encoding="utf8") as f:
+        jobs = json.load(f)
+    results = []
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True, args=["--mute-audio"])
+        try:
+            for job in jobs:
+                width = int(job.get("width", 1920))
+                page = browser.new_page(viewport={"width": width, "height": 1080}, device_scale_factor=1, color_scheme="light", user_agent=USER_AGENT)
+                try:
+                    resp = page.goto(job["url"], wait_until="networkidle", timeout=120_000)
+                    page.evaluate("document.fonts.ready")
+                    info = page.evaluate(READ)
+                    clip = job.get("clip")
+                    if clip:
+                        page.screenshot(path=job["out"], full_page=True, clip={"x": clip["x"], "y": clip["y"], "width": clip["w"], "height": clip["h"]})
+                    else:
+                        page.screenshot(path=job["out"], full_page=True)
+                    results.append({"url": job["url"], "final_url": page.url, "status": resp.status if resp else None, "out": job["out"], "clip": clip, "viewport_width": width, **info})
+                finally:
+                    page.close()
+        finally:
+            browser.close()
+    with open(result_path, "w", encoding="utf8") as f:
+        json.dump(results, f, indent=1)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])

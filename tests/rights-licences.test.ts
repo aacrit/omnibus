@@ -92,7 +92,7 @@ describe("licence allowlist (bible section f)", () => {
       const t = licenceTerms(id);
       expect(t.name, id).toBe(licenceName(id));
       expect(t.terms, id).toBeTruthy();
-      if (id === "pd-dedication") expect(t.deed_url, id).toBeNull();
+      if (id === "pd-dedication" || id === "own-property") expect(t.deed_url, id).toBeNull(); // the item's own evidence is cited instead
       else expect(t.deed_url, id).toMatch(/^https:\/\//);
     }
     // A plain dedication has no deed: the packet cites the item's own evidence, never CC0's.

@@ -11,7 +11,7 @@ export const LEDGER_SCHEMA = JSON.parse(readFileSync(new URL("./ledger.schema.js
 export const SCHEMA_ID = "omnibus.rights-ledger/1";
 export const REQUESTS_SCHEMA_ID = "omnibus.asset-requests/1";
 export const KINDS = ["still", "footage", "sound", "document"];
-export const ADAPTERS = ["commons", "nasa", "loc", "dvids", "gov", "nara", "wayback"];
+export const ADAPTERS = ["commons", "nasa", "loc", "dvids", "gov", "nara", "wayback", "voidnews"];
 
 export function emptyLedger(issue) {
   return { schema: SCHEMA_ID, issue, items: [], rejected: [] };

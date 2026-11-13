@@ -88,7 +88,7 @@ export function checkCandidate(c) {
   if (!c.licence) {
     reasons.push(c.licence_raw ? `licence "${c.licence_raw}" is not on the allowlist${c.licence_note ? ` (${c.licence_note})` : ""}` : "no licence stated");
   } else {
-    reasons.push(...licenceProblems({ licence: c.licence, basis: c.basis, credit: c.credit }));
+    reasons.push(...licenceProblems({ licence: c.licence, basis: c.basis, credit: c.credit, adapter: c.adapter }));
   }
   if (!c.evidence?.url || !String(c.evidence?.captured_text ?? "").trim()) reasons.push("no licence evidence captured");
   reasons.push(

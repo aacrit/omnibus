@@ -19,9 +19,10 @@
 //            not fetched; recorded with the reason, for the drop record
 // Net-new. Network only through the injected http.
 
-import { hostRefusal } from "./http.mjs";
+import { hostRefusal, isOwnUrl } from "./http.mjs";
 import { REQUESTS_SCHEMA_ID } from "./ledger.mjs";
 import { findCaptures } from "./adapters/wayback.mjs";
+import { redact as dvidsRedact, searchHits as dvidsHits, searchUrl as dvidsSearchUrl } from "./adapters/dvids.mjs";
 import { clip } from "./text.mjs";
 
 export const SEARCH_HITS = 8;
@@ -143,7 +144,7 @@ export function videoFirst(cands) {
   return [...cands.filter((c) => VIDEO.test(c.ref)), ...cands.filter((c) => !VIDEO.test(c.ref))];
 }
 
-async function searchStep(stepIn, { http }) {
+async function searchStep(stepIn, { http, env }) {
   const step = { ...stepIn, query: stepIn.query ?? stepIn.ref ?? "" };
   const window = step.window ? { from: step.window.from, to: step.window.to } : undefined;
   const base = { tier: step.tier, ...(window ? { window } : {}) };
@@ -163,7 +164,17 @@ async function searchStep(stepIn, { http }) {
     const ids = r.status === "ok" ? (r.json?.results ?? []).map((x) => String(x.id ?? "").match(/\/item\/([^/]+)\/?$/)?.[1]).filter(Boolean) : [];
     return [...new Set(ids)].slice(0, SEARCH_HITS).map((id) => ({ adapter: "loc", ref: id, ...base }));
   }
-  if (step.adapter === "dvids") return [{ adapter: "dvids", ref: clip(`search: ${step.query}`, 400), ...base }];
+  if (step.adapter === "dvids") {
+    // Without a key the step stays a search the adapter skips with its reason; with one, DVIDS is searched inside the window.
+    const key = env?.DVIDS_API_KEY;
+    if (!key) return [{ adapter: "dvids", ref: clip(`search: ${step.query}`, 400), ...base }];
+    try {
+      const r = await http.getJson(dvidsSearchUrl(stepParams(step.query), window, key));
+      return r.status === "ok" ? dvidsHits(r.json, window).slice(0, SEARCH_HITS).map((id) => ({ adapter: "dvids", ref: id, ...base })) : [];
+    } catch (err) {
+      throw new Error(dvidsRedact(err.message, key));
+    }
+  }
   return null;
 }
 
@@ -172,7 +183,7 @@ async function searchStep(stepIn, { http }) {
  * federal and Wayback steps; echoPick: the episode's echo-pick.json (for
  * pinned sha256 values). Returns the assets.json document.
  */
-export async function resolveRequests(rundown, { pins = {}, echoPick = null, http, log = () => {} }) {
+export async function resolveRequests(rundown, { pins = {}, echoPick = null, http, env = process.env, log = () => {} }) {
   const requests = [];
   for (const req of rundown.asset_requests ?? []) {
     const candidates = [];
@@ -197,6 +208,13 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
         }
         continue;
       }
+      if (adapter === "voidnews") {
+        // void news's own pages are pinned (deployment, page, tour target); the capture step renders them.
+        const mine = (pins[req.id] ?? []).filter((p) => p.adapter === "voidnews" && (p.tier ?? step.tier) === step.tier);
+        if (!mine.length) notFetched.push({ tier: step.tier, host, reason: "no own page is pinned for this request" });
+        for (const p of mine) candidates.push({ adapter: "voidnews", ref: p.ref, tier: step.tier, pinned: true, ...(step.window ? { window: { from: step.window.from, to: step.window.to } } : {}) });
+        continue;
+      }
       if (!adapter || adapter === "null") {
         notFetched.push({ tier: step.tier, host, reason: `${host} is outside the fetcher's allowlist and its federal extension` });
         continue;
@@ -207,7 +225,7 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
       }
       let found;
       try {
-        found = await searchStep(step, { http });
+        found = await searchStep(step, { http, env });
       } catch (err) {
         notFetched.push({ tier: step.tier, host, reason: `the search failed: ${clip(err.message, 300)}` });
         continue;
@@ -248,6 +266,11 @@ export function pinProblems(pins) {
   const out = [];
   for (const [id, list] of Object.entries(pins ?? {})) {
     for (const p of list) {
+      // An own page is reached only on void news's own hosts, never through the fetcher's allowlist.
+      if (p.adapter === "voidnews") {
+        for (const u of [p.ref, p.deployment?.url]) if (!isOwnUrl(u)) out.push(`${id}: ${u} is not one of void news's own hosts`);
+        continue;
+      }
       for (const u of [p.ref, p.media, p.feed, p.url].filter((x) => typeof x === "string" && /^https?:/.test(x))) {
         const r = hostRefusal(u);
         if (r) out.push(`${id}: ${r}`);

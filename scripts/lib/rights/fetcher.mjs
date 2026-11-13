@@ -8,7 +8,8 @@
 
 import path from "node:path";
 import { rmSync } from "node:fs";
-import { isAllowedUrl } from "./http.mjs";
+import { hashLocal, isAllowedUrl, isOwnUrl } from "./http.mjs";
+import { OWN_ADAPTER } from "./licences.mjs";
 import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
@@ -122,6 +123,7 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     ai_provenance_check: check.ai_provenance_check,
     laundering_check: check.laundering_check,
     ...(c.witness ? { witness: c.witness } : {}),
+    ...(c.own_property ? { own_property: c.own_property } : {}),
   };
 }
 
@@ -187,7 +189,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       const refuse = (reasons) => rejections.push({ request_id: request.id, adapter: cand.adapter, ref: clip(cand.ref, 400), reasons });
       let found;
       try {
-        found = await adapter.lookup(cand.ref, { http, env, now, kind: request.kind, candidate: cand });
+        found = await adapter.lookup(cand.ref, { http, env, now, kind: request.kind, candidate: cand, mediaDir });
       } catch (err) {
         refuse([`lookup failed: ${clip(err.message, 300)}`]);
         continue;
@@ -204,8 +206,13 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       const reasons = [];
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);
-      if (c.media_url && !isAllowedUrl(c.media_url)) reasons.push(`media host of ${clip(c.media_url, 200)} is not on the fetcher's domain allowlist`);
-      const requirePublished = NEWS_PART.test(String(request.for ?? "")) && (request.kind === "still" || request.kind === "footage");
+      const own = c.adapter === OWN_ADAPTER;
+      if (own) {
+        // void news's own page: captured from its own hosts, and held to the capture rules (own-pages.mjs) in place of the publication-time rule.
+        if (!isOwnUrl(c.media_url)) reasons.push(`own page ${clip(c.media_url, 200)} is not on void news's own hosts`);
+        reasons.push(...(c.own_problems ?? ["no capture record"]));
+      } else if (c.media_url && !isAllowedUrl(c.media_url)) reasons.push(`media host of ${clip(c.media_url, 200)} is not on the fetcher's domain allowlist`);
+      const requirePublished = !own && NEWS_PART.test(String(request.for ?? "")) && (request.kind === "still" || request.kind === "footage");
       const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true, publishedAt: c.published_at, requirePublished });
       if (outside) reasons.push(outside);
       const check = checkCandidate(c);
@@ -220,11 +227,15 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         taken = { candidate: cand, entry: null };
         break;
       }
-      const file = mediaFileName(request.id, c.media_url, c.ext);
+      const file = own ? `${request.id}${c.ext ?? ".png"}` : mediaFileName(request.id, c.media_url, c.ext);
       const dest = path.join(mediaDir, file);
       let media;
       try {
-        media = await http.getMedia(c.media_url, dest);
+        if (own) {
+          // The capture step wrote the still under the request's own name; it is hashed where it lies, never downloaded.
+          if (c.local_file !== file) throw new Error(`the capture is stored as ${c.local_file}, not ${file}`);
+          media = await (http.hashLocal ?? hashLocal)(dest, { mime: c.mime, url: c.media_url });
+        } else media = await http.getMedia(c.media_url, dest);
       } catch (err) {
         refuse([`download failed: ${clip(err.message, 300)}`]);
         continue;
@@ -236,6 +247,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       const fileProblems = [];
       if (c.sha1 && media.sha1 !== c.sha1) fileProblems.push(`downloaded file's sha1 ${media.sha1} differs from the source's ${c.sha1}`);
       if (cand.sha256 && media.sha256 !== cand.sha256) fileProblems.push(`downloaded file's sha256 ${media.sha256} differs from the ${cand.sha256} the request pins`);
+      if (c.sha256_expected && media.sha256 !== c.sha256_expected) fileProblems.push(`the still's sha256 ${media.sha256} differs from the ${c.sha256_expected} its capture recorded`);
       if (c.bytes_expected && media.bytes !== c.bytes_expected) fileProblems.push(`downloaded ${media.bytes} bytes, the source states ${c.bytes_expected}`);
       // The file's own provenance marks (XMP DigitalSourceType, a C2PA label) join the AI check.
       const scanned = { ...c, generator_tags: [...(c.generator_tags ?? []), ...(media.generator_tags ?? [])], file_scanned: true };

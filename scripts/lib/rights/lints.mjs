@@ -9,9 +9,10 @@
 // "ai-generated-share-zero" over the marks); tweaked to run on the ledger
 // alone, before any render exists, and to count a metadata flag as generated.
 
-import { isAllowedUrl } from "./http.mjs";
-import { aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
+import { isAllowedUrl, isOwnUrl } from "./http.mjs";
+import { OWN_ADAPTER, OWN_PROPERTY, aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
 import { validateLedger } from "./ledger.mjs";
+import { captureProblems } from "./own-pages.mjs";
 import { buildDisputePacket, serialisePacket } from "./disputes.mjs";
 
 export const RULES = ["rights-ledger-schema", "licence-allowlist", "licence-evidence", "ai-generated-share-zero", "disputes-generated"];
@@ -25,7 +26,14 @@ export function lintLicenceAllowlist(ledger) {
     for (const p of deniedBy({ urls: [it.item_url, it.media_url, it.licence_evidence?.url], texts: [it.title, it.basis], credits: [it.credit, it.licence_evidence?.captured_text], tags: [] })) {
       out.push(f("licence-allowlist", it.id, p));
     }
-    if (!isAllowedUrl(it.media_url)) out.push(f("licence-allowlist", it.id, `media_url ${it.media_url} is not on the fetcher's domain allowlist`));
+    // void news's own pages come from its own hosts, never from a fetcher host; anything else must be on the fetcher's allowlist.
+    const own = it.adapter === OWN_ADAPTER;
+    if (own ? !isOwnUrl(it.media_url) || !isOwnUrl(it.item_url) : !isAllowedUrl(it.media_url)) {
+      out.push(f("licence-allowlist", it.id, own ? `own page ${it.media_url} is not on void news's own hosts` : `media_url ${it.media_url} is not on the fetcher's domain allowlist`));
+    }
+    // The capture record is re-checked, never trusted: deployed in the edition's own window, its headlines, no picture in the region.
+    if (own) for (const p of it.own_property ? captureProblems(it.own_property) : ["no capture record"]) out.push(f("licence-allowlist", it.id, p));
+    if (it.licence === OWN_PROPERTY && !own) out.push(f("licence-allowlist", it.id, `own-property is claimed by adapter ${it.adapter}, not ${OWN_ADAPTER}`));
   }
   return out;
 }
@@ -48,6 +56,7 @@ export function evidenceMarker(id) {
   }
   if (id === "cc0-1.0") return /\bcc0\b|cc-zero|publicdomain\/zero/i;
   if (id === "eu-reuse-credit") return /European Union/i;
+  if (id === OWN_PROPERTY) return /\bown property\b[\s\S]*\bsame owner\b|\bsame owner\b[\s\S]*\bown property\b/i;
   if (String(id).startsWith("pd-")) return /public domain|\bPD\b|17 U\.S\.C\. 105|no field credits anyone outside/i;
   return /$^/;
 }
