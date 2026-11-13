@@ -109,8 +109,8 @@ def make(row: dict, film: Path, done_specs: set) -> None:
                            check=True, cwd=ROOT)
             done_specs.add(row["spec"])
     elif row["recipe"] == "pdf-page":
-        import fitz  # PyMuPDF, studio/requirements-draft.txt
-        with fitz.open(row["source"]) as doc:
+        import pymupdf  # studio/requirements-draft.txt
+        with pymupdf.open(row["source"]) as doc:
             doc[row["page"] - 1].get_pixmap(dpi=row["dpi"]).save(str(out))
     elif row["recipe"] == "concat":
         with tempfile.TemporaryDirectory(prefix="studio-items-") as d:
