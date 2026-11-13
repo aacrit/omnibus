@@ -11,7 +11,7 @@ import { rmSync } from "node:fs";
 import { isAllowedUrl } from "./http.mjs";
 import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
-import { clip } from "./text.mjs";
+import { clip, isoSecond } from "./text.mjs";
 
 const MEDIA_EXT = /\.(jpe?g|png|tiff?|webp|gif|svg|pdf|html|xml|mp4|m4v|mov|webm|ogv|mp3|wav|flac|ogg|oga|m4a)$/i;
 
@@ -53,8 +53,15 @@ export function dateSpan(d) {
  * cannot be read refuses an item found by search (it could be from any year);
  * an item the rundown pinned by name keeps its own dated record.
  */
-export function windowProblem(date, window, { pinned = false } = {}) {
+export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false } = {}) {
   if (!window) return null;
+  // A news part's picture must be public by the part's horizon: a later upload or post was not there to show.
+  if (requirePublished) {
+    const pub = Date.parse(String(publishedAt ?? ""));
+    const end = Date.parse(/T/.test(String(window.to)) ? String(window.to) : `${window.to}T23:59:59Z`);
+    if (!Number.isFinite(pub)) return `no publication time on the item, so it cannot be shown public by ${window.to}`;
+    if (Number.isFinite(end) && pub > end) return `published ${isoSecond(new Date(pub).toISOString())}, after its window ends ${window.to}`;
+  }
   const span = dateSpan(date);
   if (!span) return pinned ? null : `no date on the item, so it cannot be placed inside ${window.from} to ${window.to}`;
   const from = dateSpan(window.from)?.[0];
@@ -85,6 +92,9 @@ export function dropOf(request, rejections) {
     reasons: reasons.length ? reasons : ["no candidate was requested"],
   };
 }
+
+/** The rundown parts about the week's news, whose pictures must be public by the part's horizon. */
+export const NEWS_PART = /^(cold-open|week-|weight-|margins-)/;
 
 /** The ledger entry for a checked, downloaded candidate. */
 export function ledgerEntry({ request, candidate: c, tier, check, media, file, checkedBy, today }) {
@@ -195,7 +205,8 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);
       if (c.media_url && !isAllowedUrl(c.media_url)) reasons.push(`media host of ${clip(c.media_url, 200)} is not on the fetcher's domain allowlist`);
-      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true });
+      const requirePublished = NEWS_PART.test(String(request.for ?? "")) && (request.kind === "still" || request.kind === "footage");
+      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true, publishedAt: c.published_at, requirePublished });
       if (outside) reasons.push(outside);
       const check = checkCandidate(c);
       reasons.push(...check.reasons);

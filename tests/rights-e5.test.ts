@@ -66,6 +66,28 @@ describe("federal page adapter", () => {
     expect(anon.licence_note).toMatch(/does not name The White House/);
   });
 
+  it("review: refuses agency, stock and pool credits in any common form, read to the end of their element", () => {
+    for (const credit of ["(AP Photo/Evan Vucci)", "Photo: Reuters/Kevin Lamarque", "Image: Getty Images", "(Andrew Harnik/Getty Images)", "Photo by Reuters", "The President speaks. (Reuters)"]) {
+      const html = whPage(`<p>The President spoke at the White House.</p><figure><img src="/a.jpg"><figcaption>The President speaks. ${credit}</figcaption></figure>`);
+      const c = gov.parseFederalPage(html, { pageUrl, kind: "document", capturedAt: AT }).candidate;
+      expect(c.licence, credit).toBeNull();
+      expect(c.licence_note, credit).toMatch(/credits a party outside The White House/);
+    }
+    // a credit is read only to its element's end, not cut at a full stop ("Photo by J. Smith/Reuters")
+    expect(gov.pageCredits("<figcaption>Photo by J. Smith/Reuters</figcaption><p>Next.</p>")).toContain("Photo by J. Smith/Reuters");
+    // a federal office does not launder an agency named in the same credit
+    expect(gov.isFederalCredit("Official White House Photo by AP", gov.agencyFor("www.whitehouse.gov"))).toBe(false);
+    expect(gov.isFederalCredit("Official White House Photo by Emily J. Higgins", gov.agencyFor("www.whitehouse.gov"))).toBe(true);
+  });
+
+  it("review: takes a still only with a positive federal credit", () => {
+    const og = '<meta property="og:image" content="https://www.whitehouse.gov/wp-content/uploads/2026/11/P20261106.jpg" />';
+    const bare = gov.parseFederalPage(whPage("<p>Text.</p>", og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
+    expect(bare.licence_note).toMatch(/states no federal credit/);
+    const credited = gov.parseFederalPage(whPage("<figure><figcaption>Official White House Photo by Daniel Torok</figcaption></figure>", og), { pageUrl, kind: "still", capturedAt: AT }).candidate;
+    expect(credited).toMatchObject({ licence: "pd-us-federal", media_url: "https://www.whitehouse.gov/wp-content/uploads/2026/11/P20261106.jpg" });
+  });
+
   it("refuses a third-party video embed and a social share card", () => {
     const yt = gov.parseFederalPage(whPage('<iframe src="https://www.youtube.com/embed/abc"></iframe><iframe src="https://www.googletagmanager.com/ns.html"></iframe>'), { pageUrl, kind: "footage", capturedAt: AT }).candidate;
     expect(yt.licence).toBeNull();
@@ -177,6 +199,14 @@ describe("date windows", () => {
     expect(windowProblem(null, w)).toMatch(/no date/);
     expect(windowProblem(null, w, { pinned: true })).toBeNull();
     expect(windowProblem("1952-06", { from: "1952-06", to: "1952-11-05T12:00:00-05:00" })).toBeNull();
+  });
+  it("review: a news picture must be published by the window's end (Komyshuvakha: taken 2 Nov, uploaded 5 Nov)", () => {
+    const w = { from: "2026-11-02", to: "2026-11-03T19:39:27.128203+00:00" };
+    expect(windowProblem("2026-11-02", w, { publishedAt: "2026-11-05T09:12:00Z", requirePublished: true })).toMatch(/published 2026-11-05T09:12:00Z, after its window ends/);
+    expect(windowProblem("2026-11-02", w, { publishedAt: null, requirePublished: true })).toMatch(/no publication time/);
+    expect(windowProblem("2026-11-02", w, { publishedAt: "2026-11-03T08:00:00Z", requirePublished: true })).toBeNull();
+    // pinned or not, an upload after the horizon fails
+    expect(windowProblem("2026-03-25", w, { pinned: true, publishedAt: "2026-11-05T00:00:00Z", requirePublished: true })).toMatch(/after its window ends/);
   });
 });
 

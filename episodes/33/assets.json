@@ -401,7 +401,16 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -419,15 +428,6 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
@@ -437,7 +437,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -446,7 +446,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -1827,7 +1827,7 @@
         {
           "tier": 2,
           "host": "commons",
-          "reason": "excluded on review: File:Jet 27 Mar 1952 pg PA33.jpg: a magazine's printed page (Jet, 27 March 1952): an outlet's page, which is never shown"
+          "reason": "excluded on review: File:Jet 27 Mar 1952 pg PA33.jpg: policy call on review, not a licence finding: a magazine's printed page (Jet, 27 March 1952) is an outlet's page, which the show never shows"
         },
         {
           "tier": 2,

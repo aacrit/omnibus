@@ -28,7 +28,7 @@ const NASA_MISSIONS = /^(Mercury|Gemini|Apollo|Skylab|Explorer|Artemis|Space Shu
 // Anything that names an organisation, so it cannot be a NASA staff photographer's name.
 // Whole words only: "Laura Rochon" is not AURA, "Ben Kaplan" is not APL, "Sierra Smith" is not Sierra Space.
 const ORG =
-  /\b(Caltech|JPL|MSSS|Malin|SpaceX|Boeing|Lockheed|Northrop|Grumman|Blue Origin|Sierra Space|Sierra Nevada|Axiom|Orbital|Ball Aerospace|Maxar|Planet Labs?|ESA|JAXA|CSA|ISRO|CNES|DLR|Roscosmos|Hubble|Webb|STScI|AURA|APL|SwRI|Univ(ersity)?|College|Institut[eo]?|Observatory|Laborator(y|ies)|Labs?|Inc|LLC|Corp(oration)?|Ltd|GmbH|Getty|Reuters|AP|AFP|Agency|Company|Team|Sciences?|Aerospace|Space|Machines|Systems|Technolog(y|ies)|Industries|Dynamics|Robotics|Foundation|Museum|Society|Group|Studios?|Media|News|Press|Images|Photos|Photography)\b/i;
+  /\b(Caltech|JPL|MSSS|Malin|SpaceX|Boeing|Lockheed|Northrop|Grumman|Blue Origin|Sierra Space|Sierra Nevada|Axiom|Orbital|Ball Aerospace|Maxar|Planet Labs?|ESA|JAXA|CSA|ISRO|CNES|DLR|Roscosmos|Hubble|Webb|STScI|AURA|APL|SwRI|Univ(ersity)?|College|Institut[eo]?|Observatory|Laborator(y|ies)|Labs?|Inc|LLC|Corp(oration)?|Ltd|GmbH|Getty|Reuters|AP|AFP|Agency|Company|Team|Sciences?|Aerospace|Space|Machines|Systems|Technolog(y|ies)|Industries|Dynamics|Robotics|Aerojet|Rocketdyne|Jacobs|Hopkins|State|Research|Propulsion|Canyon|Foundation|Museum|Society|Group|Studios?|Media|News|Press|Images|Photos|Photography)\b/i;
 // T2c: a staff name is 2 to 4 words, each capitalised and none in capitals throughout
 // ("Bill Ingalls", "J. D. Smith"); "ULA", "CNSA", "ASI", "JHUAPL" and a lone "Bigelow" are not names.
 const PERSON = /^[A-Z][A-Za-z.'’-]*( [A-Z][A-Za-z.'’-]*){1,3}$/;
@@ -41,13 +41,15 @@ const isPerson = (p) => PERSON.test(p) && !ALL_CAPS_WORD.test(p) && !ORG.test(p)
  * or "NASA/<staff photographer>" (T2c: 2 to 4 words, not in capitals). "NASA/JPL-Caltech", "SpaceX", "Boeing",
  * "ESA/Hubble & NASA" and anything joined with & , or "and" are not.
  */
-export function isNasaOnlyCredit(raw) {
+export function isNasaOnlyCredit(raw, { staff = [] } = {}) {
   const s = plain(raw).replace(/^[\s(]+|[\s).]+$/g, "").replace(/^NASA['’]s\s+/i, "NASA ").replace(/^NASA\s+(?=[A-Z])/, "NASA/");
   if (!s) return true;
   if (/[&,;]|\band\b|\bwith\b/i.test(s)) return false;
   const parts = s.split(/\s*\/\s*/);
   if (!/^NASA$/i.test(parts[0])) return false;
-  return parts.slice(1).every((p) => NASA_UNITS.test(p) || NASA_MISSIONS.test(p) || isPerson(p));
+  // A name is a NASA photographer only when the record's own photographer or secondary_creator field names the same person.
+  const staffNames = new Set(staff.map((x) => plain(x).split("/").pop().replace(/[()]/g, "").trim().toLowerCase()).filter(Boolean));
+  return parts.slice(1).every((p) => NASA_UNITS.test(p) || NASA_MISSIONS.test(p) || (isPerson(p) && staffNames.has(p.toLowerCase())));
 }
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -121,7 +123,8 @@ export function parseNasa(search, manifest, { ref, capturedAt }) {
   const centre = plain(d.center) || null;
   const texts = [d.title, d.description, d.description_508];
   const staffField = (k, v) => (k === "photographer" || k === "secondary_creator") && isNasaStaffName(v, { centre, texts });
-  const named = credits.filter(([k, v]) => !isNasaOnlyCredit(v) && !staffField(k, v));
+  const staff = [photographer, secondary].filter(Boolean);
+  const named = credits.filter(([k, v]) => !isNasaOnlyCredit(v, { staff }) && !staffField(k, v));
   const licence = named.length ? null : "pd-us-federal";
   const capturedText = [
     `Read from the NASA Image and Video Library API (${searchUrl(d.nasa_id)}).`,

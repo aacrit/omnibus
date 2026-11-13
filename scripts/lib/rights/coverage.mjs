@@ -56,12 +56,14 @@ export function buildCoverage({ assets, ledger, durations = {}, mediaDir }) {
     if (PICTURE.has(r.kind)) p.pictures++;
     const it = items.get(r.id);
     if (it) {
-      const secs = durations[it.file] ?? null;
+      // A still filling a footage request is a rostrum still: it adds no seconds of footage.
+      const stillForFootage = r.kind === "footage" && /^image\//.test(String(it.mime ?? ""));
+      const secs = stillForFootage ? null : (durations[it.file] ?? null);
       if (r.kind === "footage") p.footage += secs ?? 0;
       if (r.kind === "sound") p.sound += secs ?? 0;
       if (PICTURE.has(r.kind)) p.fetched++;
       tally.satisfied[it.source_tier] = (tally.satisfied[it.source_tier] ?? 0) + 1;
-      rows.push([r.id, part, r.kind, `${clipped(it.title, 90)} (${it.adapter})`, it.source_tier, licenceName(it.licence), r.kind === "footage" || r.kind === "sound" ? fmt(secs) : "-", `${mediaDir}/${it.file}`]);
+      rows.push([r.id, part, r.kind, `${clipped(it.title, 90)} (${it.adapter})${stillForFootage ? ", a still filling a footage request (rostrum)" : ""}`, it.source_tier, licenceName(it.licence), stillForFootage ? "still" : r.kind === "footage" || r.kind === "sound" ? fmt(secs) : "-", `${mediaDir}/${it.file}`]);
     } else {
       const d = drops.get(r.id);
       const tier = d?.fallback_tier ?? r.fallback?.tier ?? null;

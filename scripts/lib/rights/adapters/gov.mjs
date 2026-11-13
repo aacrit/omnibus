@@ -52,16 +52,54 @@ function meta(html, name) {
   return m ? decodeEntities(m[1] ?? m[2] ?? "").trim() || null : null;
 }
 
-/** Every credit the page states: "Photo by X", "Photo credit: X", "Courtesy of X", "© X", and every figcaption's credit. */
-export function pageCredits(html, text = visibleText(html)) {
+// Agencies, stock and pools whose name in a credit makes it a third party's, whatever office stands beside it.
+export const THIRD_PARTY_CREDIT = /\b(?:AP|Associated Press|Reuters|AFP|EPA|Getty(?: Images)?|Bloomberg|Pool|Shutterstock|Alamy|Sipa|Xinhua|ANP|dpa)\b/;
+
+const BLOCK = /<\/?(?:p|figcaption|figure|div|span|li|td|th|h[1-6]|caption|small|em|cite|section|article|header|footer|aside|blockquote)\b[^>]*>|<br\s*\/?>/gi;
+
+/** The page's text cut at element boundaries, so a credit ends where its caption ends, never at a full stop. */
+export function textBlocks(html) {
+  return String(html ?? "")
+    .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<noscript[\s\S]*?<\/noscript>|<!--[\s\S]*?-->/gi, " ")
+    .split(BLOCK)
+    .map((b) => plain(b))
+    .filter(Boolean);
+}
+
+// Each pattern reads one credit statement up to a closing bracket or the end of its element.
+const TAIL = "[^()\\[\\]]{2,120}";
+const CREDIT_PATTERNS = [
+  // "AP Photo/Evan Vucci", "Reuters Photo/X", "Official White House Photo/X"
+  new RegExp(`\\b(?:[A-Z][\\w.&-]*\\s+){0,4}Photo\\s*/\\s*${TAIL}`, "g"),
+  // "Photo: Reuters/Kevin Lamarque", "Image: Getty Images", "Photo credit: X", "Image credit X"
+  new RegExp(`\\b(?:photo|image|video|footage)s?(?:\\s+credits?)?\\s*:\\s*${TAIL}`, "gi"),
+  new RegExp(`\\b(?:photo|image|video|footage)s?\\s+credits?\\s+${TAIL}`, "gi"),
+  // "Official White House Photo by X", "Photo by Reuters"
+  new RegExp(`(?:\\b(?:Official\\s+)?(?:White House|U\\.S\\. (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Senate)|DoD|Senate)\\s+)?\\b(?:photo|image|video|footage)s?\\s+by\\s+${TAIL}`, "gi"),
+  // "Andrew Harnik/Getty Images", "Name/AFP"
+  /[^()[\]/]{2,80}\/\s*(?:Getty Images|AFP|EPA|Reuters|AP|Bloomberg|Pool)\b/g,
+  new RegExp(`\\bcourtesy\\s+(?:of\\s+)?${TAIL}`, "gi"),
+  new RegExp(`©\\s*${TAIL}`, "g"),
+  // a bare agency name in a bracketed caption: "(Reuters)", "(AP)"
+  /\((?:[^()]*\b(?:AP|Associated Press|Reuters|AFP|EPA|Getty Images)\b[^()]*)\)/g,
+];
+
+/** Every credit the page states, each read whole and only to the end of its own element. */
+export function pageCredits(html) {
   const out = [];
-  // The office that stands directly before "Photo by" ("Official White House Photo by X") is part of the credit.
-  const re = /(?:\b((?:Official )?White House|U\.S\. (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Senate)|DoD|Senate)\s+)?\b(?:photo|image|video|footage)s?\s+(?:credit\s*:?|by)\s*([^.;|\n]{2,100})|\bcredit\s*:\s*([^.;|\n]{2,100})|\bcourtesy\s+(?:of\s+)?([^.;|\n]{2,100})|©\s*([^.;|\n]{2,80})/gi;
-  for (const m of text.matchAll(re)) {
-    const who = (m[2] ?? m[3] ?? m[4] ?? m[5]).trim();
-    out.push(m[1] ? `${m[1]} Photo by ${who}` : who);
+  for (const block of textBlocks(html)) {
+    for (const re of CREDIT_PATTERNS) {
+      for (const m of block.matchAll(re)) out.push(m[0].replace(/^[\s(]+|[\s)]+$/g, "").trim());
+    }
   }
-  return [...new Set(out)];
+  return [...new Set(out.filter(Boolean))];
+}
+
+/** Whether one credit is the federal body's own: it names the body or a federal photographer, and no agency, stock or pool. */
+export function isFederalCredit(credit, body) {
+  const c = String(credit);
+  if (THIRD_PARTY_CREDIT.test(c)) return false;
+  return FEDERAL_CREDIT.test(c) || Boolean(body?.re.test(c));
 }
 
 /** Every iframe, embed or object source that is not on a federal host and is not a tag manager: a third-party embed. */
@@ -114,8 +152,8 @@ export function parseFederalPage(html, { pageUrl, kind, media = null, capturedAt
   const site = meta(html, "og:site_name");
   const title = meta(html, "og:title") ?? (String(html).match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ? visibleText(String(html).match(/<title[^>]*>([\s\S]*?)<\/title>/i)[1]) : null) ?? pageUrl;
   const named = body.re.exec(`${site ?? ""} ${text}`)?.[0] ?? null;
-  const credits = pageCredits(html, text);
-  const outside = credits.filter((c) => !body.re.test(c) && !FEDERAL_CREDIT.test(c));
+  const credits = pageCredits(html);
+  const outside = credits.filter((c) => !isFederalCredit(c, body));
   const embeds = thirdPartyEmbeds(html);
   const reasons = [];
   let mediaUrl = null;
@@ -123,7 +161,7 @@ export function parseFederalPage(html, { pageUrl, kind, media = null, capturedAt
   if (media) {
     if (!isAllowedUrl(media)) reasons.push(`media ${clip(media, 200)} is not on the fetcher's allowlist`);
     else if (agencyFor(hostOf(media))?.host !== body.host) reasons.push(`media ${clip(media, 200)} is not on ${body.host}: a third party's file`);
-    else if (!pageNames(html, media) && !/\.xml$/i.test(new URL(pageUrl).pathname)) reasons.push(`media ${clip(media, 200)} is not named on the page`);
+    else if (!pageNames(html, media)) reasons.push(`media ${clip(media, 200)} is not named on the page`);
     mediaUrl = media;
   } else if (kind === "document") {
     // The document is the page itself: read live, or from the dated capture that witnesses it.
@@ -133,6 +171,7 @@ export function parseFederalPage(html, { pageUrl, kind, media = null, capturedAt
     if (!og) reasons.push("the page carries no picture of its own");
     else if (SHARE_CARD.test(og)) reasons.push(`the page's only picture is its share card or site artwork (${clip(og, 160)}), not a picture of the event`);
     else if (agencyFor(hostOf(og))?.host !== body.host) reasons.push(`the page's picture is on ${hostOf(og)}, not ${body.host}: a third party's file`);
+    else if (!credits.some((c) => isFederalCredit(c, body))) reasons.push(`the page's picture states no federal credit (such as "Official White House Photo by"), so its author is not shown to be federal`);
     else mediaUrl = og;
   } else if (kind === "footage") {
     const v = pageVideo(html, pageUrl);

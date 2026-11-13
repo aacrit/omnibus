@@ -19,7 +19,7 @@
       { "tier": 3, "exclude": "*", "why": "the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia" }
     ],
     "e33-echo-req-09": [
-      { "tier": 2, "exclude": "File:Jet 27 Mar 1952 pg PA33.jpg", "why": "a magazine's printed page (Jet, 27 March 1952): an outlet's page, which is never shown" },
+      { "tier": 2, "exclude": "File:Jet 27 Mar 1952 pg PA33.jpg", "why": "policy call on review, not a licence finding: a magazine's printed page (Jet, 27 March 1952) is an outlet's page, which the show never shows" },
       { "tier": 2, "exclude": "File:Confidential November 1955.jpg", "why": "a magazine cover from 1955, after the step's window and an outlet's page" },
       { "tier": 2, "exclude": "File:Nancy Kefauver.jpg", "why": "a portrait of Nancy Kefauver, not of the candidate" }
     ],

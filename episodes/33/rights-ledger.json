@@ -12,11 +12,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Army\nCredit: https://www.jpl.nasa.gov/video/details.php?id=1446 (rounded timestamps 1:51 seconds to 1:58)\nBasis category: PD US Army",
-        "captured_at": "2026-11-12T23:46:38Z"
+        "captured_at": "2026-11-13T00:20:08Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
@@ -51,54 +51,6 @@
       }
     },
     {
-      "id": "e33-day2-pic",
-      "request_id": "e33-day2-pic",
-      "kind": "footage",
-      "adapter": "commons",
-      "title": "Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)",
-      "licence": "cc-by-4.0",
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
-        "captured_at": "2026-11-12T23:46:39Z"
-      },
-      "basis": "Wikimedia Commons file page: CC BY 4.0 (Creative Commons Attribution 4.0)",
-      "rights_checked": {
-        "date": "2026-11-12",
-        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
-      },
-      "item_url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Destructions_in_Komyshuvakha_after_Russian_attack%2C_2026-11-02_%28001%29.webm",
-      "file": "e33-day2-pic.webm",
-      "mime": "video/webm",
-      "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d",
-      "bytes": 20913714,
-      "credit": "State Emergency Service of Ukraine, via Wikimedia Commons",
-      "date": "2026-11-02",
-      "published_at": "2026-11-05T04:06:35Z",
-      "content_date": null,
-      "source_tier": 2,
-      "ai_provenance_check": {
-        "status": "clear",
-        "method": "metadata",
-        "checked": [
-          "commons-categories",
-          "title",
-          "description",
-          "credit",
-          "licence",
-          "xmp-digital-source-type",
-          "c2pa-label"
-        ],
-        "findings": [],
-        "vision": "pending"
-      },
-      "laundering_check": {
-        "status": "clear",
-        "findings": []
-      }
-    },
-    {
       "id": "e33-day3-pic",
       "request_id": "e33-day3-pic",
       "kind": "footage",
@@ -108,11 +60,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-12T23:46:44Z"
+        "captured_at": "2026-11-13T00:20:12Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
@@ -156,11 +108,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Department of Defense\nCredit: https://www.defense.gov/About/Biographies/Biography/Article/4040890/hon-pete-hegseth/\nBasis category: PD US Military",
-        "captured_at": "2026-11-12T23:46:49Z"
+        "captured_at": "2026-11-13T00:20:16Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
@@ -204,19 +156,19 @@
       "licence_evidence": {
         "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
         "captured_text": "Read from the page https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/.\nHost www.whitehouse.gov belongs to The White House, a body of the US federal government.\nThe page names it: \"The White House\"; og:site_name \"The White House\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside The White House: a work of the US federal government, public domain (17 U.S.C. 105).",
-        "captured_at": "2026-11-12T23:46:52Z"
+        "captured_at": "2026-11-13T00:20:19Z"
       },
       "basis": "Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
       "media_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
       "file": "e33-day6-doc.html",
       "mime": "text/html; charset=UTF-8",
-      "sha256": "fe4f0c7296196a5460f5f94e0e5fbd75ac795ae0531e5e862e334a89c573f2a9",
-      "bytes": 293919,
+      "sha256": "bb431fc30a200b03861788989e2b2bd8a28138f81d9bc2dbd3aac728b313e1cb",
+      "bytes": 323221,
       "credit": "The White House",
       "date": "2026-11-06",
       "published_at": "2026-11-06T21:56:55Z",
@@ -251,11 +203,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-12T23:47:00Z"
+        "captured_at": "2026-11-13T00:20:25Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
@@ -299,11 +251,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-12T23:47:01Z"
+        "captured_at": "2026-11-13T00:20:26Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
@@ -347,11 +299,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-12T23:47:01Z"
+        "captured_at": "2026-11-13T00:20:26Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
@@ -395,11 +347,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-12T23:47:02Z"
+        "captured_at": "2026-11-13T00:20:27Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
@@ -443,11 +395,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Unknown author or not provided\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-12T23:47:02Z"
+        "captured_at": "2026-11-13T00:20:27Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
@@ -491,11 +443,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Unknown author or not provided\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-12T23:47:04Z"
+        "captured_at": "2026-11-13T00:20:29Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
@@ -539,11 +491,11 @@
       "licence_evidence": {
         "url": "https://catalog.archives.gov/id/542283",
         "captured_text": "Read from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=542283).\nnaId: 542283; local identifier: 342-AF-86335AC\nrecord group: 342 Records of U.S. Air Force Commands, Activities, and Organizations\ncreators: Department of Defense. Department of the Air Force. (09/26/1947 -); War Department. Army Air Forces. (06/20/1941 - 09/26/1947); War Department. Office of the Chief of Staff. General Headquarters Air Force. (11/19/1940 - 06/20/1941)\nuse restriction: Unrestricted; access restriction: Unrestricted\nA record of a US federal agency, unrestricted: public domain (17 U.S.C. 105).",
-        "captured_at": "2026-11-12T23:47:07Z"
+        "captured_at": "2026-11-13T00:20:32Z"
       },
       "basis": "National Archives identifier 542283 (342-AF-86335AC): a record created by Department of Defense. Department of the Air Force., a US federal agency (17 U.S.C. 105); use restriction Unrestricted",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://catalog.archives.gov/id/542283",
@@ -586,11 +538,11 @@
       "licence_evidence": {
         "url": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
         "captured_text": "Read from the page https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml.\nHost www.govinfo.gov belongs to the US Government Publishing Office, a body of the US federal government.\nThe page names it: \"Government Publishing Office\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside the US Government Publishing Office: a work of the US federal government, public domain (17 U.S.C. 105).",
-        "captured_at": "2026-11-12T23:48:10Z"
+        "captured_at": "2026-11-13T00:20:35Z"
       },
       "basis": "Published on www.govinfo.gov by the US Government Publishing Office, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
@@ -633,11 +585,11 @@
       "licence_evidence": {
         "url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
         "captured_text": "Read from the page https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner.\nHost www.trumanlibrary.gov belongs to the Harry S. Truman Library (National Archives), a body of the US federal government.\nThe page names it: \"Truman Library\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside the Harry S. Truman Library (National Archives): a work of the US federal government, public domain (17 U.S.C. 105).",
-        "captured_at": "2026-11-12T23:48:43Z"
+        "captured_at": "2026-11-13T00:21:07Z"
       },
       "basis": "Published on www.trumanlibrary.gov by the Harry S. Truman Library (National Archives), a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
       "rights_checked": {
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
       },
       "item_url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
@@ -686,6 +638,70 @@
       "ref": "search: q=Ukraine humanitarian aid facility strike; type=image",
       "reasons": [
         "DVIDS needs an API key (DVIDS_API_KEY is not set); skipped"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+      "reasons": [
+        "published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp",
+      "reasons": [
+        "published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
       ]
     },
     {
@@ -1237,6 +1253,25 @@
       ]
     },
     {
+      "request_id": "e33-day2-pic",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4 locator map",
+      "reasons": [
+        "tier 1 dvids search: q=Ukraine humanitarian aid facility strike; type=image: DVIDS needs an API key (DVIDS_API_KEY is not set); skipped",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm: published 2026-11-05T04:06:35Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp: published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
+        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)"
+      ]
+    },
+    {
       "request_id": "e33-day2-doc",
       "kind": "document",
       "fallback_tier": null,
@@ -1528,7 +1563,7 @@
         "tier 3 loc mss3413200853: dated 1839, outside its window 1952-01-01 to 1952-03-11; licence \"The Library of Congress's digital scans of the Records of the National American Woman Suffrage Association are in the public domain and are free to use and reuse. Credit Line: Library of Congress, ...\" is not on the allowlist (the rights text says public domain but not in the same sentence as a federal source, and no age basis applies)",
         "tier 3 loc mss425490753: dated 1854-01-01, outside its window 1952-01-01 to 1952-03-11; licence \"The Library of Congress believes that many of the papers in the Mary Church Terrell collection are in the public domain or have no known copyright restrictions. The Library presents additional mate...\" is not on the allowlist (the rights text says \"The Library of Congress believes that many of the papers in the Mary Church Terrell collection are in the public doma...\")",
         "tier 3 loc mss6557000501: dated only 1952, too coarse to place inside its window 1952-01-01 to 1952-03-11; licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")",
-        "tier 2 commons: excluded on review: File:Jet 27 Mar 1952 pg PA33.jpg: a magazine's printed page (Jet, 27 March 1952): an outlet's page, which is never shown",
+        "tier 2 commons: excluded on review: File:Jet 27 Mar 1952 pg PA33.jpg: policy call on review, not a licence finding: a magazine's printed page (Jet, 27 March 1952) is an outlet's page, which the show never shows",
         "tier 2 commons: excluded on review: File:Nancy Kefauver.jpg: a portrait of Nancy Kefauver, not of the candidate",
         "tier 2 commons: excluded on review: File:Confidential November 1955.jpg: a magazine cover from 1955, after the step's window and an outlet's page"
       ]
