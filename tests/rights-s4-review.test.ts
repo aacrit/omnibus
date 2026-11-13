@@ -2,7 +2,9 @@
 // each a failing test before its fix. One describe block per finding.
 import { describe, expect, it } from "vitest";
 import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTermsProblems, licenceProblems } from "../scripts/lib/rights/licences.mjs";
+import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
+import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
 import { foreignCreditParts, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
 const AT = "2026-11-13T12:00:00Z";
@@ -63,5 +65,29 @@ describe("S4 review 3: editorial-use is closed; a terms page must be on the revi
     expect(ALLOWED_IDS.has(EDITORIAL_USE)).toBe(false);
     expect(REVIEWED_TERMS_PAGES).toEqual([]);
     for (const t of WORDINGS) expect(licenceProblems({ licence: EDITORIAL_USE, basis: "b", credit: "X", terms: { ...base, captured_text: t } }).join(), t).toMatch(/closed/);
+  });
+});
+
+describe("S4 review 4: NARA's flagged path needs a maker from the explicit agency list", () => {
+  const rec = (heading: string, { status = "Restricted - Possibly", year = 1952 as number | null } = {}) => ({
+    body: { hits: { hits: [{ _source: { record: { naId: 1, title: "Film", useRestriction: { status, specificUseRestrictions: ["Copyright"] }, creators: [{ heading }], ancestors: [{ levelOfDescription: "recordGroup", recordGroupNumber: 200, title: "Motion Picture Films" }], productionDates: year ? [{ year }] : [], digitalObjects: [] } } }] } },
+  });
+  const lic = (heading: string, o?: any) => (nara.parseNara(rec(heading, o), { ref: 1, capturedAt: AT }) as any).candidate.licence;
+  it("refuses NBC, NETRC, US Steel, National Geographic and the Truman Library as makers", () => {
+    for (const h of ["National Broadcasting Company", "National Educational Television and Radio Center", "United States Steel Corporation", "National Geographic Society (1888 - )", "National Archives and Records Administration. Office of Presidential Libraries. Truman Library."]) {
+      expect(lic(h), h).toBeNull();
+    }
+  });
+  it("refuses an undated heading and a flagged record with no production year", () => {
+    expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer.")).toBeNull();
+    expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)", { year: null })).toBeNull();
+    expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)")).toBe("pd-us-federal");
+    expect(lic("Executive Office of the President. White House Naval Photographic Unit. (1956 - 1961)")).toBe("pd-us-federal");
+  });
+  it("the Chief Signal Officer's film 22399 still passes", () => {
+    const j = JSON.parse(readFileSync(new URL("./fixtures/rights/nara-video-22399.json", import.meta.url), "utf8"));
+    expect((nara.parseNara(j, { ref: "22399", capturedAt: AT, kind: "footage" }) as any).candidate.licence).toBe("pd-us-federal");
+    expect(nara.flaggedFederalMaker("Department of Defense. Department of the Navy. Naval Photographic Center. (12/01/1959 - ca. 1998)")).toBe(true);
+    expect(nara.flaggedFederalMaker("United States Information Agency. (08/01/1953 - 10/01/1999)")).toBe(true);
   });
 });

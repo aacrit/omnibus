@@ -22,6 +22,53 @@ export function itemUrl(naId) {
 }
 
 const FEDERAL_CREATOR = /^(?:Department of|War Department|Navy Department|Executive Office|Office of|Bureau of|National |United States|U\.S\.|Federal |Central Intelligence|Army|Air Force|Marine Corps|Coast Guard)|\bDepartment of (?:Defense|the Air Force|the Army|the Navy|State|War|Agriculture|Commerce|Labor|the Interior|Justice)\b|\bArmy Air Forces\b/;
+// A company, society, network or educational centre that happens to start "National" or "United States" (S4 review).
+const NOT_AN_AGENCY = /\b(?:Company|Corporation|Corp\.?|Inc\.?|Incorporated|Society|Broadcasting|Network|Television|Radio Center|Association|Foundation|University|College|Pictures|Studios?)\b/i;
+
+/**
+ * The federal makers a record flagged "Restricted - Possibly" (Copyright) may pass on (S4 review,
+ * 2026-11-13): an explicit list of agencies that made film and photographs, matched against one
+ * part of the creator heading. Never the National Archives or a presidential library (custodians),
+ * and never a heading that merely starts "National" or "United States".
+ */
+export const FLAGGED_FEDERAL_MAKERS = [
+  /^Department of the Army$/,
+  /^War Department$/,
+  /^Office of the Chief Signal Officer$/,
+  /^Army Pictorial (?:Service|Center)$/,
+  /^Department of the Navy$/,
+  /^Navy Department$/,
+  /^Naval Photographic Center$/,
+  /^(?:United States |U\.S\. )?Marine Corps$/,
+  /^Department of the Air Force$/,
+  /^(?:United States |U\.S\. )?Air Force$/,
+  /^Army Air Forces$/,
+  /^White House Naval Photographic Unit$/,
+  /^(?:United States|U\.S\.) Information Agency$/,
+  /^Office of War Information$/,
+  /^Department of Defense$/,
+  /^Department of State$/,
+  /^(?:United States |U\.S\. )?Coast Guard$/,
+];
+const CUSTODIAN = /\bNational Archives\b|\bPresidential Librar(?:y|ies)\b|\bLibrary\b|\bArchives and Records\b/i;
+
+/** The heading's parts ("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (dates)"), without the dates. */
+function headingParts(heading) {
+  return String(heading)
+    .replace(/\s*\([^)]*\)\s*$/, "")
+    .split(/\.\s+|\.$/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
+/** Whether a creator heading names a maker the flagged path accepts: on the explicit list, dated, and no custodian. */
+export function flaggedFederalMaker(heading) {
+  const h = String(heading);
+  if (CUSTODIAN.test(h) || NOT_AN_AGENCY.test(h)) return false;
+  if (!/\((?:ca\. )?(?:\d{2}\/\d{2}\/)?\d{4}\s*-/.test(h)) return false; // an undated heading is a custodian's, not a maker's
+  return headingParts(h).some((p) => FLAGGED_FEDERAL_MAKERS.some((re) => re.test(p)));
+}
+
 const DONATED = /\bdonat(?:ed|ion)\b|\bgift of\b|\bcourtesy of\b|\bcopyright(?:ed)?\b|\bused with permission\b/i;
 
 // NARA's own boilerplate beside its "possibly copyright" flag: it is the flag, not a statement about the record.
@@ -81,17 +128,20 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
   const creators = (hit.ancestors ?? []).flatMap((a) => (a.creators ?? []).map((c) => plain(c.heading))).concat((hit.creators ?? []).map((c) => plain(c.heading)));
   const year = (hit.productionDates?.[0] ?? hit.coverageStartDate ?? hit.coverageDates?.[0])?.year ?? null;
   const custodians = creators.filter((c) => FEDERAL_CREATOR.test(c) && custodianOnly(c, year));
-  const federal = creators.filter((c) => FEDERAL_CREATOR.test(c) && !custodianOnly(c, year));
+  const federalAll = creators.filter((c) => FEDERAL_CREATOR.test(c) && !NOT_AN_AGENCY.test(c) && !custodianOnly(c, year));
   const group = (hit.ancestors ?? []).find((a) => a.levelOfDescription === "recordGroup");
   const texts = [hit.title, hit.scopeAndContentNote, ...(hit.ancestors ?? []).map((a) => a.title), hit.useRestriction?.note, ...(hit.notes ?? [])].map(plain);
   const flagged = conservativeFlag(hit);
+  // A flagged record passes only on a maker from the explicit list (S4 review): never NARA, a library, or an undated heading.
+  const federal = flagged ? federalAll.filter(flaggedFederalMaker) : federalAll;
   const donated = texts.find((t) => DONATED.test(t) && !(flagged && FLAG_NOTE.test(t)));
   const reasons = [];
   const commercial = flagged ? texts.concat(creators).find((t) => COMMERCIAL_NEWSREEL.test(t)) : null;
   if (use !== "Unrestricted" && !flagged) reasons.push(`the catalogue's use restriction is "${use}", not Unrestricted`);
   if (flagged && !group) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record sits in a collection, not a federal record group, so the flag stands`);
   if (commercial) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record names a commercial newsreel or studio ("${clip(commercial, 120)}"), so the flag stands`);
-  if (flagged && !federal.length) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and no federal maker is proven on the record, so the flag stands`);
+  if (flagged && !federal.length) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and no federal maker is proven on the record (an agency on the list of film-making agencies, FLAGGED_FEDERAL_MAKERS), so the flag stands`);
+  if (flagged && !year) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record states no production year, so its maker cannot be shown to have made it`);
   if (!federal.length) reasons.push(custodians.length ? `the federal body named (${clip(custodians[0], 120)}) began after the record was made, so it holds the record and did not make it` : "no federal agency is named as the record's creator");
   if (donated) reasons.push(`the record speaks of donated or copyright material: "${clip(donated, 120)}"`);
   const obj = pickObject(hit.digitalObjects, kind);
