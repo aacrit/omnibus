@@ -51,6 +51,11 @@ label is out of the spine's order is linted as news.
   and their dot label; a reader line that names no voice fails.
 - ``ending-question``: the last voiced line before the credits is the narrator's, a question, followed by at least
   6 s with no voice.
+- ``tour-window-inside``: every window of a filled still's authored camera path lies inside the picture (z 1 or
+  more) and off its ledger item's no-tour bands; the picture's size comes from the ledger, never the file.
+- ``tour-no-claim-before-board``: before The Weight (and any board), no tour window shows a claim record's headline box on the
+  same printed edition (boxes from the ledger's own pages toured to a claim headline).
+- ``total of`` in a figure's field sums every number under it (a week's bars to its placed total).
 - ``black-share``: black on screen (a black shot, a black card, a card that draws only its text with none) is at
   most 3% of the runtime, and each states its reason.
 
@@ -253,6 +258,9 @@ def _walk(x, tokens):
 def resolve(field: str, inputs: dict):
     """The value a figure's ``field`` names in the week record (``echo:`` for the echo pick)."""
     f = str(field).strip()
+    grand = f.startswith("total of ")
+    if grand:
+        f = f[len("total of "):].strip()
     total = f.startswith("sum of ")
     if total:
         f = f[len("sum of "):].strip()
@@ -270,6 +278,11 @@ def resolve(field: str, inputs: dict):
     if pos != len(f) or not tokens:
         raise FieldError(f"cannot read {field!r}")
     v, mapped = _walk(src, tokens)
+    if grand:
+        flat = list(_numbers_in(v))
+        if not flat:
+            raise FieldError(f"'total of' finds no numbers at {field!r}")
+        return sum(flat)
     if not total:
         return v
     if mapped and v and all(isinstance(y, list) for y in v):
@@ -280,6 +293,14 @@ def resolve(field: str, inputs: dict):
     if isinstance(v, list) and all(_is_num(y) for y in v):
         return sum(v)
     raise FieldError(f"'sum of' needs numbers or rows of numbers at {field!r}")
+
+
+def _numbers_in(x):
+    if _is_num(x):
+        yield x
+    elif isinstance(x, list):
+        for y in x:
+            yield from _numbers_in(y)
 
 
 def _is_num(x) -> bool:
@@ -1253,6 +1274,116 @@ def black_checks(play: dict) -> list[dict]:
     return out
 
 
+FRAME_ASPECT = 16 / 9
+TOUR_SAMPLE_S = 0.1
+
+
+def _own_page(item: dict | None) -> dict | None:
+    op = (item or {}).get("own_property")
+    return op if isinstance(op, dict) and isinstance(op.get("page"), dict) else None
+
+
+def picture_size(item: dict | None):
+    """A still's (width, height) from its ledger item: an own page's captured page, or the item's own width and
+    height. None when the ledger does not say (the lint never opens the file: CI holds no media)."""
+    op = _own_page(item)
+    if op and op["page"].get("width") and op["page"].get("height"):
+        return float(op["page"]["width"]), float(op["page"]["height"])
+    if item and item.get("width") and item.get("height"):
+        return float(item["width"]), float(item["height"])
+    return None
+
+
+def stop_window(size, stop: dict):
+    """The window (x0, y0, x1, y1) a camera stop asks for, unclamped (tour.py's geometry: the centre as fractions
+    of the picture, z relative to the fill window), so a stop that would leave the picture is seen."""
+    iw, ih = size
+    fw, fh = (ih * FRAME_ASPECT, ih) if iw / ih >= FRAME_ASPECT else (iw, iw / FRAME_ASPECT)
+    z = float(stop.get("z", 1.0))
+    w, h = fw / z, fh / z
+    cx, cy = float(stop.get("x", 0.5)) * iw, float(stop.get("y", 0.5)) * ih
+    return cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2
+
+
+def path_windows(size, camera: list) -> list:
+    """Every window along an authored camera path: the stops and the straight line between them every 0.1 s."""
+    stops = sorted((s for s in camera if isinstance(s, dict) and "t" in s), key=lambda s: float(s["t"]))
+    out = []
+    for a, b in zip(stops, stops[1:] or stops):
+        ta, tb = float(a["t"]), float(b["t"])
+        n = max(1, int((tb - ta) / TOUR_SAMPLE_S))
+        for k in range(n + 1):
+            u = k / n
+            out.append(stop_window(size, {key: float(a.get(key, d)) + u * (float(b.get(key, d)) - float(a.get(key, d)))
+                                          for key, d in (("x", 0.5), ("y", 0.5), ("z", 1.0))}))
+    return out
+
+
+def _box(b: dict):
+    return float(b["x"]), float(b["y"]), float(b["x"]) + float(b["w"]), float(b["y"]) + float(b["h"])
+
+
+def _meets(w, b) -> bool:
+    return w[0] < b[2] and b[0] < w[2] and w[1] < b[3] and b[1] < w[3]
+
+
+def tour_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
+    """``tour-window-inside``: every window of a filled still's authored camera path (``fill_ok``) lies inside the
+    picture, at z 1 or more, and off every band its ledger item marks no-tour. ``tour-no-claim-before-board``:
+    before The Weight (and before any board), no window of any tour shows a claim record's headline box on the same printed edition
+    (the boxes are the ledger's own pages toured to a claim headline), so no reason is named before the board."""
+    inside, claim, n_in, n_claim = [], [], 0, 0
+    rec = inputs.get("record") or {}
+    claim_titles = {r.get("title") for r in (rec.get("lead") or {}).get("records") or [] if r.get("role") == "claim"}
+    claim_boxes: dict = {}
+    for it in assets.values():
+        op = _own_page(it)
+        tt = (op or {}).get("tour_target") or {}
+        if op and tt.get("headline") in claim_titles and isinstance(tt.get("box"), dict):
+            claim_boxes.setdefault(op.get("edition"), []).append((tt["headline"], _box(tt["box"])))
+    board_seen = False
+    weight = SC.SEGMENTS.index("weight")
+    for p, seg in parts(play):
+        if seg is not None and SC.SEGMENTS.index(seg) >= weight:
+            board_seen = True                 # The Weight shows the claim on purpose; only what comes before it is held
+        for s in p.get("shots") or []:
+            if G.is_graphic(s) and s.get("subtype") == "board":
+                board_seen = True
+            cam = s.get("camera")
+            if not isinstance(cam, list) or not cam or not s.get("asset"):
+                continue
+            item = assets.get(s["asset"])
+            size = picture_size(item)
+            if size is None:
+                if s.get("fill_ok"):
+                    inside.append(_check("tour-window-inside", True, unit=s.get("id"), severity="review", evidence={
+                        "asset": s["asset"], "why": "the ledger states no picture size, so the path cannot be read"}))
+                continue
+            wins = path_windows(size, cam)
+            if s.get("fill_ok"):
+                n_in += 1
+                bands = [_box(b["box"]) for b in ((_own_page(item) or {}).get("no_tour") or [])
+                         if isinstance(b, dict) and isinstance(b.get("box"), dict)]
+                low_z = [st for st in cam if float(st.get("z", 1.0)) < 1.0]
+                out = [w for w in wins if w[0] < -0.5 or w[1] < -0.5 or w[2] > size[0] + 0.5 or w[3] > size[1] + 0.5]
+                on_band = [w for w in wins if any(_meets(w, b) for b in bands)]
+                ok = not (low_z or out or on_band)
+                first = (out or on_band or [None])[0]
+                inside.append(_check("tour-window-inside", ok, unit=s.get("id"), evidence={
+                    "asset": s["asset"], "size": size, "windows": len(wins), "outside": len(out),
+                    "on_no_tour": len(on_band), "below_fill": len(low_z),
+                    **({} if ok else {"first": [round(v, 1) for v in first] if first else None,
+                                      "fix": "a path whose every window is inside the picture, off its no-tour bands"})}))
+            if not board_seen:
+                n_claim += 1
+                boxes = claim_boxes.get((_own_page(item) or {}).get("edition"), [])
+                hits = sorted({h for h, b in boxes for w in wins if _meets(w, b)})
+                claim.append(_check("tour-no-claim-before-board", not hits, unit=s.get("id"), evidence={
+                    "asset": s["asset"], "claim_boxes": len(boxes), "shown": hits,
+                    **({} if not hits else {"why": "a claim record's headline is in frame before the board"})}))
+    return _summary("tour-window-inside", inside, n_in) + _summary("tour-no-claim-before-board", claim, n_claim)
+
+
 def deferred_checks() -> list[dict]:
     return [_check(rule, True, severity="not_implemented", evidence={"deferred_to": to, "what": what})
             for rule, (to, what) in DEFERRED.items()]
@@ -1295,6 +1426,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out += _guarded("voice-disclosed", disclosure_checks, play)
     out += _guarded("ending-question", ending_checks, play, durations)
     out += _guarded("black-share", black_checks, play)
+    out += _guarded("tour-window-inside", tour_checks, play, assets, inputs)
     return out + deferred_checks()
 
 
@@ -1302,7 +1434,7 @@ RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared",
          "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", "never-tell", "hindsight-language",
          "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
          "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
-         "ending-question", "black-share", *DEFERRED)
+         "ending-question", "black-share", "tour-window-inside", "tour-no-claim-before-board", *DEFERRED)
 
 
 def main(argv=None) -> int:

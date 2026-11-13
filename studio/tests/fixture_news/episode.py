@@ -82,10 +82,20 @@ def _graphic_item(gid: str, content_date: str, frames: int = 180) -> dict:
             "content_basis": "drawn from the week record's fields named in its data_ref", "licence": "CC0"}
 
 
+def _own_page(headline: str, box: dict) -> dict:
+    return {"publication": "fixture", "edition": "2026-03-07", "page": {"width": 1920, "height": 3000},
+            "tour_target": {"headline": headline, "box": box},
+            "no_tour": [{"why": "a band built from another day", "box": {"x": 0, "y": 300, "w": 1920, "h": 600}}]}
+
+
 def assets() -> dict:
     return {
         "g-clock": _graphic_item("g-clock", AS_OF),
-        "st-open": {"id": "st-open", "date": "2026-03-07", "licence": "public domain", "title": "Count, Strelsau"},
+        "st-open": {"id": "st-open", "date": "2026-03-07", "licence": "public domain", "title": "Count, Strelsau",
+                    "own_property": _own_page(TITLES[5], {"x": 200, "y": 1500, "w": 600, "h": 80})},
+        # an own page of the same edition toured to a claim record's headline: the box no tour shows before the board
+        "st-claim-page": {"id": "st-claim-page", "date": "2026-03-07", "licence": "public domain", "title": "Claim page",
+                          "own_property": _own_page(TITLES[2], {"x": 1100, "y": 2400, "w": 600, "h": 80})},
         "dr-title": {"id": "dr-title", "generator": "studio title macro", "content_date": AS_OF,
                      "content_basis": "the seven printed day lines of the record", "licence": "CC0"},
         "g-day1": _graphic_item("g-day1", "2026-03-02T12:00:00+00:00"),
@@ -126,7 +136,8 @@ def play() -> dict:
              "shots": [_shot("G-CLOCK", "graphic", 0, 6, subtype="clock", asset="g-clock", mark="DRAWN", data_ref="as_of",
                              shows={"lines": ["MONDAY 21:00 UTC"]})]},
             {"id": "p-open", "kind": "chapter", "segment": "cold_open", "as_of": AS_OF,
-             "shots": [_shot("S-OPEN", "archive_still", 6, 8, asset="st-open", mark="ARCHIVE")],
+             "shots": [_shot("S-OPEN", "archive_still", 6, 8, asset="st-open", mark="ARCHIVE", fill_ok=True,
+                             camera=[{"t": 0, "x": 0.26, "y": 0.513, "z": 3.0}, {"t": 8, "x": 0.27, "y": 0.515, "z": 3.0}])],
              "lines": [{"id": "L-open", "kind": "narration", "start_s": 7.0, "dur_s": 4.0, "read_by": "v-narrator",
                         "text": "Saturday 7 March, Strelsau. The count went on past midnight."}]},
             {"id": "p-title", "kind": "chapter", "segment": "title", "as_of": AS_OF,
@@ -137,7 +148,8 @@ def play() -> dict:
                              data_ref="days[0]",
                              shows={"lines": ["MON 02 MAR 2026", "OUTLETS CARRYING THE DAY'S LEAD · 9 PLACED"],
                                     "figures": [{"value": BUCKETS[0], "field": "days[0].lead.buckets"},
-                                                {"value": 9, "field": "sum of days[0].lead.buckets"}]})],
+                                                {"value": 9, "field": "sum of days[0].lead.buckets"},
+                                                {"value": sum(map(sum, BUCKETS)), "field": "total of days[i].lead.buckets"}]})],
              "lines": [{"id": "L-mon", "kind": "narration", "start_s": 21.0, "dur_s": 4.0, "read_by": "v-narrator",
                         "text": "Monday 2 March. The council met on water rights."}]},
             {"id": "p-weight", "kind": "chapter", "segment": "weight", "as_of": AS_OF,
@@ -425,6 +437,15 @@ FAIL = {
             {"id": "M9", "kind": "music", "source": "bed-9", "start_s": 20.0, "end_s": 30.0})),
         {"no-music-under-news"}),
     "a record the title cannot read": (lambda p, a, i: i["record"]["days"][0].pop("date"), {"title-lines-verbatim"}),
+    # -- review of PR #18 ------------------------------------------------------------------------------------------
+    "a total that is not the record's": (lambda p, a, i: shot(p, "G-DAY1")["shows"]["figures"][2].update(value=1),
+                                         {"counts-match"}),
+    "a tour window outside the picture": (lambda p, a, i: shot(p, "S-OPEN")["camera"][0].update(x=0.05),
+                                          {"tour-window-inside"}),
+    "a tour resting on a no-tour band": (lambda p, a, i: shot(p, "S-OPEN")["camera"][1].update(y=0.2),
+                                         {"tour-window-inside"}),
+    "a claim headline in frame before the board": (
+        lambda p, a, i: shot(p, "S-OPEN")["camera"][1].update(x=0.729, y=0.813), {"tour-no-claim-before-board"}),
     "a record the board cannot read": (lambda p, a, i: i["record"]["lead"]["board"].append("not a row"),
                                        {"board-rule"}),
 }
