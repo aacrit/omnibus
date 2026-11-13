@@ -15,6 +15,15 @@ export const CC_VERSIONS = ["1.0", "2.0", "2.1", "2.5", "3.0", "4.0"];
 /** The three public-domain bases the bible allows. */
 export const PD_BASES = ["pd-us-federal", "pd-age", "pd-dedication"];
 
+/**
+ * Ledger class own_property (founder ruling, chat 2026-11-12): void news's
+ * own printed pages, published by the same owner. Not a licence anyone
+ * granted: our own work, shown as printed. Only the voidnews adapter may
+ * claim it, and only for a page captured from void news's own hosts.
+ */
+export const OWN_PROPERTY = "own-property";
+export const OWN_ADAPTER = "voidnews";
+
 /** Every canonical licence id that passes. Anything else fails the gate. */
 export const ALLOWED_IDS = new Set([
   ...PD_BASES,
@@ -22,6 +31,7 @@ export const ALLOWED_IDS = new Set([
   ...CC_VERSIONS.map((v) => `cc-by-${v}`),
   ...CC_VERSIONS.map((v) => `cc-by-sa-${v}`),
   "eu-reuse-credit",
+  OWN_PROPERTY,
 ]);
 
 /** The credit the EU's reuse decision makes mandatory: "© European Union, 2026". */
@@ -96,6 +106,7 @@ function fromCanonical(id) {
   if (PD_BASES.includes(id)) return { family: "pd", kind: null, version: null, port: null, id, raw: id };
   if (id === "cc0-1.0") return { family: "cc0", kind: null, version: "1.0", port: null, id, raw: id };
   if (id === "eu-reuse-credit") return { family: "eu", kind: null, version: null, port: null, id, raw: id };
+  if (id === OWN_PROPERTY) return { family: "own", kind: null, version: null, port: null, id, raw: id };
   const m = id.match(/^cc-(by|by-sa)-(\d\.\d)$/);
   return { family: "cc", kind: m[1], version: m[2], port: null, id, raw: id };
 }
@@ -107,6 +118,7 @@ export function licenceName(id) {
   if (id === "pd-dedication") return "Public domain (dedicated by the author)";
   if (id === "cc0-1.0") return "CC0 1.0";
   if (id === "eu-reuse-credit") return "EU reuse with credit (Commission Decision 2011/833/EU)";
+  if (id === OWN_PROPERTY) return "Own property (void news, the same owner's publication)";
   const m = String(id).match(/^cc-(by|by-sa)-(\d\.\d)$/);
   if (m) return `CC ${m[1].toUpperCase()} ${m[2]}`;
   return String(id);
@@ -172,6 +184,16 @@ export function licenceTerms(id, item = null) {
       deed_url: "https://commission.europa.eu/legal-notice_en",
       legalcode_url: "https://eur-lex.europa.eu/eli/dec/2011/833/oj",
       terms: "European Commission material may be reused, including commercially, provided the source is acknowledged with the credit the item states (© European Union, year) and the meaning is not distorted.",
+    };
+  }
+  if (id === OWN_PROPERTY) {
+    // No licence was granted: the page is our own publication, and its capture record is the evidence.
+    return {
+      id,
+      name: licenceName(id),
+      deed_url: item?.licence_evidence?.url ?? null,
+      legalcode_url: null,
+      terms: "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture.",
     };
   }
   return { id, name: String(id), deed_url: null, legalcode_url: null, terms: null };
@@ -322,6 +344,11 @@ export function licenceProblems(item) {
   }
   const credit = String(item.credit ?? "").trim();
   if (PD_BASES.includes(id) && !String(item.basis ?? "").trim()) out.push(`licence "${id}" has no basis`);
+  if (id === OWN_PROPERTY) {
+    if (!String(item.basis ?? "").trim()) out.push(`licence "${id}" has no basis`);
+    // Only a capture of void news's own page may claim it; the adapter is always known by the ledger and the fetcher.
+    if (item.adapter !== OWN_ADAPTER) out.push(`licence "${id}" is claimed only by void news's own pages (adapter ${OWN_ADAPTER}), not by ${item.adapter ?? "an unnamed adapter"}`);
+  }
   if (/^cc-by/.test(id) && !credit) out.push(`licence "${id}" requires a credit, and the item has none`);
   if (id === "eu-reuse-credit" && !EU_CREDIT.test(credit)) {
     out.push(`EU reuse requires the credit "© European Union, <year>"; the item's credit is "${credit}"`);

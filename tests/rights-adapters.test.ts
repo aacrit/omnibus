@@ -310,9 +310,9 @@ describe("DVIDS adapter (optional, needs DVIDS_API_KEY)", () => {
       date_published: "2026-10-29T12:00:00Z",
       credit: [{ rank: "Sgt.", name: "Jane Roe" }],
       unit_name: "1st Mission Support Command",
+      branch: "Army",
       keywords: "hurricane, relief",
-      image: "https://cdn.dvidshub.net/media/photos/2610/123.jpg",
-      license: "Public Domain",
+      image: "https://d34w7g4gy10iej.cloudfront.net/photos/2610/123.jpg",
     },
   };
 
@@ -326,9 +326,15 @@ describe("DVIDS adapter (optional, needs DVIDS_API_KEY)", () => {
     expect(checkCandidate({ ...r.candidate, kind: "still" }).ok).toBe(true);
   });
 
-  it("fails an item with no per-item mark", () => {
-    const r = dvids.parseDvids({ results: { ...record.results, license: undefined } }, { ref: "image:123", capturedAt: AT });
-    expect(r.candidate.licence).toBeNull();
+  it("fails an item whose record indicates another status: a courtesy credit, a civilian branch, a copyright line", () => {
+    for (const results of [
+      { ...record.results, credit: "Courtesy Photo" },
+      { ...record.results, branch: "Civilian" },
+      { ...record.results, description: "Photo courtesy of the Red Cross." },
+      { ...record.results, description: "© 2026 Example Ltd." },
+    ]) {
+      expect(dvids.parseDvids({ results }, { ref: "image:123", capturedAt: AT }).candidate.licence).toBeNull();
+    }
   });
 
   it("redacts the key from an error", async () => {

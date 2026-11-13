@@ -4,62 +4,423 @@
   "note": "How node scripts/rights.mjs resolve reads the rundown's federal .gov and Wayback steps, whose queries are prose. A pin is an item the rundown or the echo pick names, a federal RSS feed filtered to the step's window by a title pattern, a Wayback CDX search inside the window, or a probe of a host with no search the fetcher can read (its answer is the recorded reason). A pin never widens the allowlist: every address is checked against the fetcher's hosts. Nothing here is a rights decision; the fetcher checks every candidate.",
   "pins": {
     "e33-title-01": [
-      { "tier": 2, "adapter": "commons", "ref": "File:Explorer 1 Teletype Reporting During Launch.webm", "why": "the founder's title ruling (chat 2026-11-12): the 1958 Explorer 1 teleprinter clip, the file at D:/omnibus-media/title-probe/explorer1_teletype.webm (same sha1)" }
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Explorer 1 Teletype Reporting During Launch.webm",
+        "why": "the founder's title ruling (chat 2026-11-12): the 1958 Explorer 1 teleprinter clip, the file at D:/omnibus-media/title-probe/explorer1_teletype.webm (same sha1)"
+      }
     ],
     "e33-snd-01": [
-      { "tier": 2, "exclude": "*", "why": "the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes" }
+      {
+        "tier": 2,
+        "exclude": "*",
+        "why": "the search's hits are digital radio modes (MT63, PSK31, AMTOR, Olivia, ROS) and satellite telemetry recordings, not a teleprinter's mechanical strikes"
+      }
     ],
     "e33-snd-04": [
-      { "tier": 2, "exclude": "*", "why": "the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display" }
+      {
+        "tier": 2,
+        "exclude": "*",
+        "why": "the search's hits are a Polish podcast about the Solaris synchrotron, name pronunciations and bus engine recordings, not a split-flap display"
+      }
     ],
     "e33-snd-05": [
-      { "tier": 2, "exclude": "*", "why": "the hits are a flanged sci-fi drone from a 44 kHz MP3 ('alien ship machine room ambience') and a ratchet, not room tone at 48 kHz" }
+      {
+        "tier": 2,
+        "exclude": "*",
+        "why": "the hits are a flanged sci-fi drone from a 44 kHz MP3 ('alien ship machine room ambience') and a ratchet, not room tone at 48 kHz"
+      }
     ],
     "e33-margin3-pic": [
-      { "tier": 3, "exclude": "*", "why": "the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia" }
+      {
+        "tier": 3,
+        "exclude": "*",
+        "why": "the step's query names no stadium (the police statement is not held), so its hits are unrelated stadiums in England, Russia, the Czech Republic and Somalia"
+      }
     ],
     "e33-echo-req-09": [
-      { "tier": 2, "exclude": "File:Jet 27 Mar 1952 pg PA33.jpg", "why": "policy call on review, not a licence finding: a magazine's printed page (Jet, 27 March 1952) is an outlet's page, which the show never shows" },
-      { "tier": 2, "exclude": "File:Confidential November 1955.jpg", "why": "a magazine cover from 1955, after the step's window and an outlet's page" },
-      { "tier": 2, "exclude": "File:Nancy Kefauver.jpg", "why": "a portrait of Nancy Kefauver, not of the candidate" }
+      {
+        "tier": 2,
+        "exclude": "File:Jet 27 Mar 1952 pg PA33.jpg",
+        "why": "policy call on review, not a licence finding: a magazine's printed page (Jet, 27 March 1952) is an outlet's page, which the show never shows"
+      },
+      {
+        "tier": 2,
+        "exclude": "File:Confidential November 1955.jpg",
+        "why": "a magazine cover from 1955, after the step's window and an outlet's page"
+      },
+      {
+        "tier": 2,
+        "exclude": "File:Nancy Kefauver.jpg",
+        "why": "a portrait of Nancy Kefauver, not of the candidate"
+      }
     ],
     "e33-day3-doc": [
-      { "tier": 5, "finder": "cdx", "pattern": ["x.com/JDVance/status/*", "twitter.com/JDVance/status/*", "x.com/JDVance"] }
+      {
+        "tier": 5,
+        "finder": "cdx",
+        "pattern": [
+          "x.com/JDVance/status/*",
+          "twitter.com/JDVance/status/*",
+          "x.com/JDVance"
+        ]
+      }
     ],
     "e33-weight-02": [
-      { "tier": 5, "finder": "cdx", "pattern": ["x.com/JDVance/status/*", "twitter.com/JDVance/status/*", "x.com/JDVance"] }
+      {
+        "tier": 5,
+        "finder": "cdx",
+        "pattern": [
+          "x.com/JDVance/status/*",
+          "twitter.com/JDVance/status/*",
+          "x.com/JDVance"
+        ]
+      }
     ],
     "e33-day4-pic": [
-      { "tier": 1, "finder": "probe", "url": "https://wwwn.cdc.gov/phil/QuickSearch.aspx?key=true&searchtext=Ebola", "why": "CDC PHIL answers, but its search results are drawn by script after the page loads, so the fetcher can read no item from it; not resolved" }
+      {
+        "tier": 1,
+        "finder": "probe",
+        "url": "https://wwwn.cdc.gov/phil/QuickSearch.aspx?key=true&searchtext=Ebola",
+        "why": "CDC PHIL answers, but its search results are drawn by script after the page loads, so the fetcher can read no item from it; not resolved"
+      }
     ],
     "e33-day5-doc": [
-      { "tier": 5, "finder": "probe", "url": "https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D", "why": "congress.gov's search answered, but no parser reads it; not resolved" }
+      {
+        "tier": 5,
+        "finder": "probe",
+        "url": "https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D",
+        "why": "congress.gov puts its search behind a bot challenge, which is not answered. The official Congress.gov API (api.congress.gov, read 2026-11-12 with the public DEMO_KEY) lists two House resolutions impeaching Peter B. Hegseth: H.Res. 1177, introduced 2026-04-15, before the step window, and H.Res. 1655, introduced 2026-11-10, after the horizon; none was introduced inside the window, so there is no desk item"
+      }
     ],
     "e33-day6-pic": [
-      { "tier": 1, "finder": "rss", "feed": "https://www.whitehouse.gov/news/feed/", "pages": 2, "match": "Chief of Staff" }
+      {
+        "tier": 1,
+        "finder": "rss",
+        "feed": "https://www.whitehouse.gov/news/feed/",
+        "pages": 2,
+        "match": "Chief of Staff"
+      }
     ],
     "e33-day6-doc": [
-      { "tier": 5, "finder": "rss", "feed": "https://www.whitehouse.gov/news/feed/", "pages": 2, "match": "Chief of Staff" }
+      {
+        "tier": 5,
+        "finder": "rss",
+        "feed": "https://www.whitehouse.gov/news/feed/",
+        "pages": 2,
+        "match": "Chief of Staff"
+      }
     ],
     "e33-day7-doc": [
-      { "tier": 5, "finder": "probe", "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/", "why": "centcom.mil's press-release list answered, but no parser reads it; not resolved" }
+      {
+        "tier": 5,
+        "finder": "probe",
+        "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/",
+        "why": "centcom.mil refuses the fetcher; its press releases were not read, and the step is not resolved"
+      }
     ],
     "e33-weight-03": [
-      { "tier": 1, "finder": "probe", "url": "https://www.senate.gov/legislative/floor_activity_pail.htm", "why": "senate.gov answers, but its floor video plays only in the Senate's streaming player and the floor pages name no video file the fetcher can take; not resolved" },
-      { "tier": 5, "finder": "rss", "feed": "https://www.slotkin.senate.gov/feed/", "pages": 1, "match": "Vance" }
+      {
+        "tier": 1,
+        "finder": "probe",
+        "url": "https://www.senate.gov/legislative/floor_activity_pail.htm",
+        "why": "senate.gov answers, but its floor video plays only in the Senate's streaming player and the floor pages name no video file the fetcher can take; not resolved"
+      },
+      {
+        "tier": 5,
+        "finder": "rss",
+        "feed": "https://www.slotkin.senate.gov/feed/",
+        "pages": 1,
+        "match": "Vance"
+      }
     ],
     "e33-weight-04": [
-      { "tier": 1, "finder": "rss", "feed": "https://www.whitehouse.gov/news/feed/", "pages": 3, "match": "\\bRemarks\\b" },
-      { "tier": 5, "finder": "rss", "feed": "https://www.whitehouse.gov/news/feed/", "pages": 3, "match": "\\bRemarks\\b" }
+      {
+        "tier": 1,
+        "finder": "rss",
+        "feed": "https://www.whitehouse.gov/news/feed/",
+        "pages": 3,
+        "match": "\\bRemarks\\b"
+      },
+      {
+        "tier": 5,
+        "finder": "rss",
+        "feed": "https://www.whitehouse.gov/news/feed/",
+        "pages": 3,
+        "match": "\\bRemarks\\b"
+      }
     ],
     "e33-echo-07": [
-      { "tier": 3, "adapter": "nara", "ref": "542283" }
+      {
+        "tier": 3,
+        "adapter": "nara",
+        "ref": "542283"
+      }
     ],
     "e33-echo-req-13": [
-      { "tier": 5, "adapter": "gov", "ref": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml", "media": "https://www.govinfo.gov/content/pkg/FR-1951-01-30/pdf/FR-1951-01-30.pdf", "sha256_from": "echo-pick:src-fr-19510130" }
+      {
+        "tier": 5,
+        "adapter": "gov",
+        "ref": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
+        "media": "https://www.govinfo.gov/content/pkg/FR-1951-01-30/pdf/FR-1951-01-30.pdf",
+        "sha256_from": "echo-pick:src-fr-19510130"
+      }
     ],
     "e33-echo-req-14": [
-      { "tier": 5, "adapter": "gov", "ref": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner", "sha256_from": "echo-pick:src-truman-19520329" }
+      {
+        "tier": 5,
+        "adapter": "gov",
+        "ref": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+        "sha256_from": "echo-pick:src-truman-19520329"
+      }
+    ],
+    "e33-day1-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://25edd2e7.void-news.pages.dev/paper/#c9247d2e-fb45-4f94-8649-875e5323e71b",
+        "page_kind": "paper",
+        "edition": "2026-11-02",
+        "target_row": "c9247d2e-fb45-4f94-8649-875e5323e71b",
+        "deployment": {
+          "id": "25edd2e7-2556-4559-a789-83a947f1b711",
+          "url": "https://25edd2e7.void-news.pages.dev",
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
+        },
+        "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+        "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
+      }
+    ],
+    "e33-day2-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://c454bc83.void-news.pages.dev/paper/#56c546bd-c26e-4d7d-8189-31f58b90f2cd",
+        "page_kind": "paper",
+        "edition": "2026-11-03",
+        "target_row": "56c546bd-c26e-4d7d-8189-31f58b90f2cd",
+        "deployment": {
+          "id": "c454bc83-9423-4632-9f19-fddc114476dc",
+          "url": "https://c454bc83.void-news.pages.dev",
+          "created_at": "2026-11-03T19:49:40Z",
+          "source_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+          "environment": "production"
+        },
+        "data_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+        "why": "the first production deployment of void news's 2026-11-03 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
+      }
+    ],
+    "e33-day3-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
+        "page_kind": "story",
+        "edition": "2026-11-04",
+        "target_row": "bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
+        "deployment": {
+          "id": "b792c962-2f0e-4b7e-9a09-f813592be359",
+          "url": "https://b792c962.void-news.pages.dev",
+          "created_at": "2026-11-05T00:33:00Z",
+          "source_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
+          "environment": "production"
+        },
+        "data_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
+        "why": "no Paper page of the 2026-11-04 edition was ever served (no feed commit carried it); its lead's story page as first served, from the next data commit"
+      }
+    ],
+    "e33-day4-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://b2256762.void-news.pages.dev/paper/#001e9b8d-cc1b-4e21-aa5d-4feae8f08e8a",
+        "page_kind": "paper",
+        "edition": "2026-11-05",
+        "target_row": "001e9b8d-cc1b-4e21-aa5d-4feae8f08e8a",
+        "deployment": {
+          "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
+          "url": "https://b2256762.void-news.pages.dev",
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
+        },
+        "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+        "why": "the first production deployment of void news's 2026-11-05 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
+      }
+    ],
+    "e33-day5-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://f2de6e0a.void-news.pages.dev/paper/#7299b61b-515c-4607-924e-b2cd0b60479d",
+        "page_kind": "paper",
+        "edition": "2026-11-06",
+        "target_row": "7299b61b-515c-4607-924e-b2cd0b60479d",
+        "deployment": {
+          "id": "f2de6e0a-bd82-4027-97ca-04a88e4fd379",
+          "url": "https://f2de6e0a.void-news.pages.dev",
+          "created_at": "2026-11-06T19:37:27Z",
+          "source_commit": "0589ebad00665664f1cac41f89ef7894172678b1",
+          "environment": "production"
+        },
+        "data_commit": "0589ebad00665664f1cac41f89ef7894172678b1",
+        "why": "the first production deployment of void news's 2026-11-06 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
+      }
+    ],
+    "e33-day6-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://20a471a2.void-news.pages.dev/paper/#1f4fc267-47da-4a67-93b1-3c7820e10539",
+        "page_kind": "paper",
+        "edition": "2026-11-07",
+        "target_row": "1f4fc267-47da-4a67-93b1-3c7820e10539",
+        "deployment": {
+          "id": "20a471a2-8e16-46ab-b838-d30459f7ba05",
+          "url": "https://20a471a2.void-news.pages.dev",
+          "created_at": "2026-11-07T17:49:46Z",
+          "source_commit": "1db8348f2603dbb576e298966806af62c05dffc4",
+          "environment": "production"
+        },
+        "data_commit": "1db8348f2603dbb576e298966806af62c05dffc4",
+        "why": "the first production deployment of void news's 2026-11-07 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
+      }
+    ],
+    "e33-day7-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://6b2ebff5.void-news.pages.dev/paper/#bcdf31dd-db59-4b6c-94b5-cd6883d042f0",
+        "page_kind": "paper",
+        "edition": "2026-11-08",
+        "target_row": "bcdf31dd-db59-4b6c-94b5-cd6883d042f0",
+        "deployment": {
+          "id": "6b2ebff5-b688-4cf1-895f-dbe35ac4fc91",
+          "url": "https://6b2ebff5.void-news.pages.dev",
+          "created_at": "2026-11-08T12:02:59Z",
+          "source_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
+          "environment": "production"
+        },
+        "data_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
+        "why": "the first production deployment of void news's 2026-11-08 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
+      }
+    ],
+    "e33-weight-page-01": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://c454bc83.void-news.pages.dev/paper/#61390359-0c41-4778-8b62-2c6a9c742157",
+        "page_kind": "paper",
+        "edition": "2026-11-03",
+        "target_row": "61390359-0c41-4778-8b62-2c6a9c742157",
+        "deployment": {
+          "id": "c454bc83-9423-4632-9f19-fddc114476dc",
+          "url": "https://c454bc83.void-news.pages.dev",
+          "created_at": "2026-11-03T19:49:40Z",
+          "source_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+          "environment": "production"
+        },
+        "data_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+        "why": "the first production deployment of void news's 2026-11-03 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 20"
+      }
+    ],
+    "e33-weight-page-02": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
+        "page_kind": "story",
+        "edition": "2026-11-04",
+        "target_row": "bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
+        "deployment": {
+          "id": "b792c962-2f0e-4b7e-9a09-f813592be359",
+          "url": "https://b792c962.void-news.pages.dev",
+          "created_at": "2026-11-05T00:33:00Z",
+          "source_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
+          "environment": "production"
+        },
+        "data_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
+        "why": "no Paper page of the 2026-11-04 edition was ever served (no feed commit carried it); its lead's story page as first served, from the next data commit"
+      }
+    ],
+    "e33-weight-page-03": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://b2256762.void-news.pages.dev/paper/#8bb14953-67a9-43fa-bd39-fad4b0e43122",
+        "page_kind": "paper",
+        "edition": "2026-11-05",
+        "target_row": "8bb14953-67a9-43fa-bd39-fad4b0e43122",
+        "deployment": {
+          "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
+          "url": "https://b2256762.void-news.pages.dev",
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
+        },
+        "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+        "why": "the first production deployment of void news's 2026-11-05 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 3"
+      }
+    ],
+    "e33-margin1-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://b2256762.void-news.pages.dev/paper/#2fff3422-5df6-4ed7-954d-9397070b93b3",
+        "page_kind": "paper",
+        "edition": "2026-11-05",
+        "target_row": "2fff3422-5df6-4ed7-954d-9397070b93b3",
+        "deployment": {
+          "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
+          "url": "https://b2256762.void-news.pages.dev",
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
+        },
+        "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+        "why": "the first production deployment of void news's 2026-11-05 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 12"
+      }
+    ],
+    "e33-margin2-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://25edd2e7.void-news.pages.dev/paper/#2bd27665-18ec-4ba3-8402-99e78a967ec6",
+        "page_kind": "paper",
+        "edition": "2026-11-02",
+        "target_row": "2bd27665-18ec-4ba3-8402-99e78a967ec6",
+        "deployment": {
+          "id": "25edd2e7-2556-4559-a789-83a947f1b711",
+          "url": "https://25edd2e7.void-news.pages.dev",
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
+        },
+        "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+        "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 6"
+      }
+    ],
+    "e33-margin3-page": [
+      {
+        "tier": 3,
+        "adapter": "voidnews",
+        "ref": "https://25edd2e7.void-news.pages.dev/paper/#9a44cc02-db57-47bc-9750-da7db4665024",
+        "page_kind": "paper",
+        "edition": "2026-11-02",
+        "target_row": "9a44cc02-db57-47bc-9750-da7db4665024",
+        "deployment": {
+          "id": "25edd2e7-2556-4559-a789-83a947f1b711",
+          "url": "https://25edd2e7.void-news.pages.dev",
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
+        },
+        "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+        "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 15"
+      }
     ]
   }
 }

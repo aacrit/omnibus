@@ -1942,6 +1942,16 @@
       "must_show": "the first story's headline at full legibility",
       "ladder": [
         {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-02 edition, deployment 25edd2e7",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          }
+        },
+        {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
           "adapter": "e6-graphics",
@@ -2024,6 +2034,16 @@
       "purpose": "void news's printed edition of 2026-11-03, toured to its first story (the as-was record)",
       "must_show": "the first story's headline at full legibility",
       "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-03 edition, deployment c454bc83",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
         {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
@@ -2118,6 +2138,16 @@
       "purpose": "void news's printed edition of 2026-11-04, toured to its first story (the as-was record)",
       "must_show": "the first story's headline at full legibility",
       "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the lead's story page of the 2026-11-04 edition, deployment b792c962",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          }
+        },
         {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
@@ -2214,6 +2244,16 @@
       "must_show": "the first story's headline at full legibility",
       "ladder": [
         {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-05 edition, deployment b2256762",
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          }
+        },
+        {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
           "adapter": "e6-graphics",
@@ -2297,6 +2337,16 @@
       "purpose": "void news's printed edition of 2026-11-06, toured to its first story (the as-was record)",
       "must_show": "the first story's headline at full legibility",
       "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-06 edition, deployment f2de6e0a",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          }
+        },
         {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
@@ -2382,6 +2432,16 @@
       "must_show": "the first story's headline at full legibility",
       "ladder": [
         {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-07 edition, deployment 20a471a2",
+          "window": {
+            "from": "2026-11-07",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          }
+        },
+        {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
           "adapter": "e6-graphics",
@@ -2464,6 +2524,16 @@
       "purpose": "void news's printed edition of 2026-11-08, toured to its first story (the as-was record)",
       "must_show": "the first story's headline at full legibility",
       "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-08 edition, deployment 6b2ebff5",
+          "window": {
+            "from": "2026-11-08",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          }
+        },
         {
           "tier": 4,
           "host": "github.com/aacrit/void--news",
@@ -2707,6 +2777,63 @@
       "fallback": "the board's last page held as the end frame"
     },
     {
+      "id": "e33-weight-page-01",
+      "kind": "still",
+      "for": "weight-known",
+      "purpose": "void news's printed edition of 2026-11-03, toured to the context record 'JD Vance Rallies Conservative Voters in Rome Ahead of Midterms' (position 20)",
+      "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-03 edition, deployment c454bc83",
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "none: the beat runs on its other pictures and graphics"
+    },
+    {
+      "id": "e33-weight-page-02",
+      "kind": "still",
+      "for": "weight-known",
+      "purpose": "void news's story page of the claim's first record, the 2026-11-04 lead 'JD Vance Blames Iran War for Republican Midterm Defeat', as first served (no Paper page of the 4 Nov edition was served)",
+      "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the lead's story page of the 2026-11-04 edition, deployment b792c962",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "none: the beat runs on its other pictures and graphics"
+    },
+    {
+      "id": "e33-weight-page-03",
+      "kind": "still",
+      "for": "weight-known",
+      "purpose": "void news's printed edition of 2026-11-05, toured to the claim's second record 'JD Vance Blames Midterm Losses on Iran War in Social Media Post' (position 3)",
+      "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-05 edition, deployment b2256762",
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "none: the beat runs on its other pictures and graphics"
+    },
+    {
       "id": "e33-margin1-pic",
       "for": "margins-1",
       "kind": "still",
@@ -2850,6 +2977,63 @@
         }
       ],
       "fallback": "no desk item; picture, what was printed, the count"
+    },
+    {
+      "id": "e33-margin1-page",
+      "kind": "still",
+      "for": "margins-1",
+      "purpose": "void news's printed edition of 2026-11-05, toured to 'Troy Jackson Defeats Susan Collins in Maine Senate Race' (position 12)",
+      "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-05 edition, deployment b2256762",
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "none: the beat runs on its other pictures and graphics"
+    },
+    {
+      "id": "e33-margin2-page",
+      "kind": "still",
+      "for": "margins-2",
+      "purpose": "void news's printed edition of 2026-11-02, toured to 'Federal Judge Orders Trump Administration to Stop Threatening State Officials' (position 6)",
+      "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-02 edition, deployment 25edd2e7",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "none: the beat runs on its other pictures and graphics"
+    },
+    {
+      "id": "e33-margin3-page",
+      "kind": "still",
+      "for": "margins-3",
+      "purpose": "void news's printed edition of 2026-11-02, toured to 'Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded' (position 15)",
+      "ladder": [
+        {
+          "tier": 3,
+          "adapter": "voidnews",
+          "host": "void-news.pages.dev (own property, E5b)",
+          "query": "void news's own page as served: the Paper (/paper/) of the 2026-11-02 edition, deployment 25edd2e7",
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "fallback": "none: the beat runs on its other pictures and graphics"
     },
     {
       "id": "e33-echo-01",
@@ -3195,7 +3379,7 @@
     }
   ],
   "asset_request_tally": {
-    "requests": 53,
+    "requests": 59,
     "by_first_tier": {
       "1": 11,
       "2": 11,

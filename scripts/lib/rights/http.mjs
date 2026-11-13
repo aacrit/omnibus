@@ -14,6 +14,14 @@ import { retryAfterMs } from "../../snapshot.mjs";
 import { hostOf } from "./licences.mjs";
 
 export const USER_AGENT = "void-omnibus-rights/1 (+https://omnibus.voidvision.org; asset fetcher, one request at a time)";
+/**
+ * Every request carries the same honest identity (void omnibus and its
+ * contact URL, above) with a browser's ordinary Accept and Accept-Language
+ * (founder ruling, chat 2026-11-12). Never a browser's User-Agent, never a
+ * rotated identity; a bot challenge is never answered.
+ */
+export const ACCEPT_TEXT = "text/html,application/xhtml+xml,application/xml;q=0.9,application/rss+xml;q=0.9,*/*;q=0.8";
+export const ACCEPT_LANGUAGE = "en-US,en;q=0.9";
 export const TIMEOUT_MS = 30_000;
 export const MEDIA_TIMEOUT_MS = 600_000;
 export const RETRIES = 3;
@@ -35,7 +43,29 @@ export const FETCH_HOSTS = [
   "tile.loc.gov",
   "api.dvidshub.net",
   "cdn.dvidshub.net",
+  // DVIDS's media CDN, the host its documented Asset API names for image and video files (api.dvidshub.net/docs/asset_api).
+  "d34w7g4gy10iej.cloudfront.net",
 ];
+
+/**
+ * void news's own pages (same owner: own property, ledger class own_property):
+ * the public site and its Cloudflare Pages deployments, each at its own
+ * immutable address. Reached only by the capture step (scripts/rights.mjs capture, through scripts/capture_page.py),
+ * never by the fetcher's downloads; listed so a ledger item's address can be checked.
+ */
+export const OWN_HOSTS = ["news.voidvision.org", "void-news.pages.dev"];
+
+/** Whether a URL is one of void news's own pages (https, exact host or a deployment subdomain). */
+export function isOwnUrl(url) {
+  let u;
+  try {
+    u = new URL(url);
+  } catch {
+    return false;
+  }
+  const h = u.hostname.toLowerCase();
+  return u.protocol === "https:" && OWN_HOSTS.some((o) => h === o || h.endsWith(`.${o}`));
+}
 
 /**
  * Federal publishers (founder ruling, chat 2026-11-12): the host itself or any
@@ -90,6 +120,20 @@ export function isFederalHost(host) {
 }
 
 export class RefusedHost extends Error {}
+/** A host answered 403 to the honest request: recorded with the kind of refusal, never retried or worked around. */
+export class Refused extends Error {}
+
+/**
+ * The kind of 403 a host gave, read from its answer: a Cloudflare bot
+ * challenge, an Akamai "Access Denied", or a plain refusal (""). Pure.
+ */
+export function refusalKind(server, body) {
+  const s = String(server ?? "").toLowerCase();
+  const text = String(body ?? "").slice(0, 20_000);
+  if (/just a moment|cf-chl|challenge-platform/i.test(text)) return " (a Cloudflare bot challenge, which is not answered)";
+  if (/akamai/.test(s) || /errors\.edgesuite\.net/.test(text)) return ' (Akamai "Access Denied")';
+  return "";
+}
 
 /** How much of each file is scanned for embedded provenance (XMP sits near the start of JPEG, PNG and MP4 headers). */
 export const SNIFF_BYTES = 256 * 1024;
@@ -111,6 +155,22 @@ export function sniffGeneratorTags(buf) {
   }
   if (/jumb[\s\S]{0,64}c2pa/.test(s)) tags.push("C2PA manifest present (claims not verified)");
   return tags;
+}
+
+/** Hashes a file already on the media drive (an own-page still), as getMedia would report a download. */
+export async function hashLocal(file, { mime = null, url = null } = {}) {
+  const { readFileSync } = await import("node:fs");
+  const buf = readFileSync(file);
+  if (!buf.byteLength) throw new Error(`${file}: empty file`);
+  return {
+    status: "ok",
+    sha256: createHash("sha256").update(buf).digest("hex"),
+    sha1: createHash("sha1").update(buf).digest("hex"),
+    bytes: buf.byteLength,
+    mime,
+    url,
+    generator_tags: sniffGeneratorTags(buf.subarray(0, SNIFF_BYTES)),
+  };
 }
 
 export function assertAllowedUrl(url) {
@@ -140,7 +200,7 @@ async function getOnce(url, { fetchImpl, timeoutMs, accept }) {
   for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
     assertAllowedUrl(current);
     const res = await fetchImpl(current, {
-      headers: { "user-agent": USER_AGENT, accept },
+      headers: { "user-agent": USER_AGENT, accept, "accept-language": ACCEPT_LANGUAGE },
       signal: AbortSignal.timeout(timeoutMs),
       redirect: "manual",
     });
@@ -166,7 +226,7 @@ async function withRetries(url, opts, onOk) {
     try {
       got = await getOnce(url, opts);
     } catch (err) {
-      if (err instanceof RefusedHost) throw err;
+      if (err instanceof RefusedHost || err instanceof Refused) throw err;
       lastError = err;
       continue;
     }
@@ -180,6 +240,15 @@ async function withRetries(url, opts, onOk) {
     if (res.status === 404) {
       await discard(res);
       return { status: "not_found", url: got.url };
+    }
+    if (res.status === 403) {
+      let body = "";
+      try {
+        body = (await res.text()).slice(0, 20_000);
+      } catch {
+        // no body to read
+      }
+      throw new Refused(`${url} answered 403${refusalKind(res.headers.get("server"), body)}: the host refused the fetcher's honest request (void omnibus, with its contact URL); not retried, and no bot protection is worked around`);
     }
     if (!res.ok) {
       await discard(res);
@@ -218,8 +287,7 @@ export function getJson(url, { fetchImpl = fetch, sleep, retries, maxBytes = MAX
 
 /** GET an HTML or XML page as text. Resolves { status: "ok", text, url, contentType } or { status: "not_found" }. */
 export function getText(url, { fetchImpl = fetch, sleep, retries, maxBytes = MAX_JSON_BYTES } = {}) {
-  const accept = "text/html,application/xhtml+xml,application/xml;q=0.9,application/rss+xml;q=0.9,*/*;q=0.5";
-  return withRetries(url, { fetchImpl, sleep, retries, timeoutMs: TIMEOUT_MS, accept }, async (res, finalUrl) => {
+  return withRetries(url, { fetchImpl, sleep, retries, timeoutMs: TIMEOUT_MS, accept: ACCEPT_TEXT }, async (res, finalUrl) => {
     const text = await readText(res, maxBytes);
     return { status: "ok", text, url: finalUrl, contentType: res.headers.get("content-type") };
   });

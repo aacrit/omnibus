@@ -47,11 +47,11 @@ export function buildCoverage({ assets, ledger, durations = {}, mediaDir }) {
   const items = new Map(ledger.items.map((i) => [i.request_id, i]));
   const drops = new Map((ledger.dropped ?? []).map((d) => [d.request_id, d]));
   const rows = [];
-  const byPart = new Map(PARTS.map((p) => [p, { requests: 0, pictures: 0, fetched: 0, footage: 0, sound: 0, toTier4: 0 }]));
+  const byPart = new Map(PARTS.map((p) => [p, { requests: 0, pictures: 0, fetched: 0, footage: 0, stills: 0, sound: 0, toTier4: 0 }]));
   const tally = { satisfied: {}, dropped: {} };
   for (const r of assets.requests) {
     const part = partOf(r.for);
-    const p = byPart.get(part) ?? byPart.set(part, { requests: 0, pictures: 0, fetched: 0, footage: 0, sound: 0, toTier4: 0 }).get(part);
+    const p = byPart.get(part) ?? byPart.set(part, { requests: 0, pictures: 0, fetched: 0, footage: 0, stills: 0, sound: 0, toTier4: 0 }).get(part);
     p.requests++;
     if (PICTURE.has(r.kind)) p.pictures++;
     const it = items.get(r.id);
@@ -62,6 +62,7 @@ export function buildCoverage({ assets, ledger, durations = {}, mediaDir }) {
       if (r.kind === "footage") p.footage += secs ?? 0;
       if (r.kind === "sound") p.sound += secs ?? 0;
       if (PICTURE.has(r.kind)) p.fetched++;
+      if (PICTURE.has(r.kind) && (r.kind === "still" || stillForFootage)) p.stills++;
       tally.satisfied[it.source_tier] = (tally.satisfied[it.source_tier] ?? 0) + 1;
       rows.push([r.id, part, r.kind, `${clipped(it.title, 90)} (${it.adapter})${stillForFootage ? ", a still filling a footage request (rostrum)" : ""}`, it.source_tier, licenceName(it.licence), stillForFootage ? "still" : r.kind === "footage" || r.kind === "sound" ? fmt(secs) : "-", `${mediaDir}/${it.file}`]);
     } else {
@@ -84,10 +85,10 @@ export function buildCoverage({ assets, ledger, durations = {}, mediaDir }) {
     "",
   );
   out.push(`${assets.requests.length} requests: ${sat} satisfied (${tierList(tally.satisfied)}), ${drp} dropped to their fallback (${tierList(tally.dropped)}). Media under \`${cell(mediaDir)}\`, outside the repo.`, "");
-  out.push("## By part", "", "| Part | Requests | Picture requests | Pictures fetched | Pictures to tier 4 | Footage | Sound |", "|---|---|---|---|---|---|---|");
+  out.push("## By part", "", "| Part | Requests | Picture requests | Pictures fetched | Pictures to tier 4 | Footage | Stills | Sound |", "|---|---|---|---|---|---|---|---|");
   for (const [k, v] of byPart) {
     if (!v.requests) continue;
-    out.push(`| ${cell(k)} | ${v.requests} | ${v.pictures} | ${v.fetched} | ${v.toTier4} | ${fmt(v.footage)} | ${fmt(v.sound)} |`);
+    out.push(`| ${cell(k)} | ${v.requests} | ${v.pictures} | ${v.fetched} | ${v.toTier4} | ${fmt(v.footage)} | ${v.stills} | ${fmt(v.sound)} |`);
   }
   out.push("");
   out.push(

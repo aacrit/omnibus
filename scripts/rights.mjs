@@ -15,6 +15,9 @@
 //   node scripts/rights.mjs coverage <issue> --media <dir>
 //       writes episodes/<issue>/ASSETS.md (request to item or fallback, tier,
 //       licence, seconds measured by ffprobe, file path) from the ledger.
+//   node scripts/rights.mjs capture <issue> --media <dir> [--voidnews <checkout>]
+//       renders void news's own pages the pins name (headless Chromium,
+//       scripts/capture_page.py) into stills and voidnews-captures.json.
 //   node scripts/rights.mjs packet <issue>
 //       regenerates episodes/<issue>/disputes.json from the ledger.
 //   node scripts/rights.mjs lint
@@ -35,8 +38,10 @@ import * as gov from "./lib/rights/adapters/gov.mjs";
 import * as loc from "./lib/rights/adapters/loc.mjs";
 import * as nara from "./lib/rights/adapters/nara.mjs";
 import * as nasa from "./lib/rights/adapters/nasa.mjs";
+import * as voidnews from "./lib/rights/adapters/voidnews.mjs";
 import * as wayback from "./lib/rights/adapters/wayback.mjs";
 import { buildCoverage } from "./lib/rights/coverage.mjs";
+import { runCapture } from "./lib/rights/capture.mjs";
 import { buildDisputePacket, serialisePacket } from "./lib/rights/disputes.mjs";
 import { fetchRequests } from "./lib/rights/fetcher.mjs";
 import { getJson, getMedia, getText } from "./lib/rights/http.mjs";
@@ -45,7 +50,7 @@ import { pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
 import { lintAll } from "./lint-rights.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback };
+export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews };
 export const CHECKED_BY = "void omnibus fetcher, metadata checks (scripts/rights.mjs)";
 
 export function episodeDir(root, issue) {
@@ -184,6 +189,14 @@ async function main(argv) {
     assertMediaOutsideRepo(mediaDir);
     const out = runCoverage({ issue: parseIssue(issueArg), mediaDir });
     console.log(`rights: wrote ${path.relative(repoRoot, out)}`);
+    return 0;
+  }
+  if (cmd === "capture") {
+    const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
+    assertMediaOutsideRepo(mediaDir);
+    const voidnewsDir = flag("voidnews") ?? process.env.VOIDNEWS_DIR ?? path.resolve(repoRoot, "..", "voidnews");
+    const out = await runCapture({ root: repoRoot, issue: parseIssue(issueArg), mediaDir, voidnewsDir, python: process.env.PYTHON ?? "python" });
+    console.log(`rights: wrote ${out}`);
     return 0;
   }
   if (cmd === "packet") {
