@@ -1,4 +1,5 @@
-# Transplanted from document@b62c4fa:studio/engine/kokoro_worker.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/kokoro_worker.py (tweak, E7 issue 33: ``create`` became
+# ``create_timed`` so each job's phoneme timeline is reported; everything else is as document left it)
 """Kokoro-82M synthesis worker: the only file that imports kokoro-onnx. It runs in the TTS interpreter
 (studio/requirements-tts.txt, DOCUMENT_KOKORO_PYTHON), never the studio's, and talks to the engine
 (studio/engine/narrator.py) through files:
@@ -11,7 +12,8 @@ jobs.json: [{"id": "<cache key>", "text": "...", "voice": "af_aoede", "speed": 0
 Writes DIR/<id>.wav (24 kHz mono int16, peak at most -1 dBFS) per job and DIR/result.json:
     {"ok": [ids], "failed": {id: message}, "status": "ok" | "load-failed" | "memory" | "probe",
      "timing": {"load_s", "synth_s", "audio_s", "rtf"}, "peak_rss_mb": float | null, "sample_rate": 24000,
-     "runtime": {"kokoro-onnx", "onnxruntime", "numpy", "phonemizer", "espeakng-loader", "espeak-ng", "python"}}
+     "runtime": {"kokoro-onnx", "onnxruntime", "numpy", "phonemizer", "espeakng-loader", "espeak-ng", "python"},
+     "timings": {id: [[phoneme, start_s, end_s], ...]}}   # empty per id unless the pinned model reports durations
 
 Machine safety (the 2026-10 WSL memory runaway and BSODs): one process, ONNX intra-op threads capped by --threads.
 Before each job the worker reads its own peak working set; once that is past --max-rss-mb it synthesises nothing
@@ -121,7 +123,7 @@ def main(argv=None) -> int:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     result = {"ok": [], "failed": {}, "status": "ok", "timing": {}, "peak_rss_mb": None, "sample_rate": SAMPLE_RATE,
-              "runtime": runtime_versions()}
+              "runtime": runtime_versions(), "timings": {}}
     if args.probe:
         result["status"] = "probe"
         (out / "result.json").write_text(json.dumps(result), encoding="utf-8")
@@ -154,11 +156,14 @@ def main(argv=None) -> int:
             result["failed"][job["id"]] = f"stopped: working set {peak:g} MB is over {args.max_rss_mb:g} MB"
             continue
         try:
-            samples, rate = kokoro.create(job["text"], voice=job["voice"], speed=float(job["speed"]),
-                                          lang=job.get("lang") or "en-us")
+            samples, rate, timeline = kokoro.create_timed(job["text"], voice=job["voice"], speed=float(job["speed"]),
+                                                           lang=job.get("lang") or "en-us")
             if rate != SAMPLE_RATE:
                 raise RuntimeError(f"sample rate {rate}, expected {SAMPLE_RATE}")
             audio_s += write_wav(out / f"{job['id']}.wav", samples)
+            # When each phoneme is spoken (empty unless the pinned model exposes phoneme durations): the engine
+            # (studio/engine/narrator.py words_from_timings) groups it into word spans.
+            result["timings"][job["id"]] = [[t.phoneme, round(t.start, 4), round(t.end, 4)] for t in timeline]
             result["ok"].append(job["id"])
         except Exception as e:
             result["failed"][job["id"]] = f"{type(e).__name__}: {e}"

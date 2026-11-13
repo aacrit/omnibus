@@ -1,0 +1,5457 @@
+{
+ "schema": "omnibus-voicing/1",
+ "identity": {
+  "engine": "kokoro",
+  "voice": "af_aoede",
+  "speed": 0.88,
+  "pitch_shift_st": 0.0
+ },
+ "voices": {
+  "v-narrator": {
+   "engine": "kokoro",
+   "voice": "af_aoede",
+   "speed": 0.88,
+   "pitch_shift_st": 0.0
+  },
+  "v-narrator-echo": {
+   "engine": "kokoro",
+   "voice": "af_aoede",
+   "speed": 0.84,
+   "pitch_shift_st": 0.0
+  },
+  "v-reader-ops": {
+   "engine": "kokoro",
+   "voice": "am_michael",
+   "speed": 0.86,
+   "pitch_shift_st": 0.0
+  },
+  "v-reader-truman": {
+   "engine": "kokoro",
+   "voice": "am_michael",
+   "speed": 0.86,
+   "pitch_shift_st": 0.0
+  },
+  "v-reader-eisenhower": {
+   "engine": "kokoro",
+   "voice": "am_michael",
+   "speed": 0.86,
+   "pitch_shift_st": 0.0
+  },
+  "v-reader-stevenson": {
+   "engine": "kokoro",
+   "voice": "am_michael",
+   "speed": 0.86,
+   "pitch_shift_st": 0.0
+  }
+ },
+ "lines": {
+  "L-CO-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-CO-1.wav",
+   "sha256": "9786ba911369a4f54762302cf9cb5d08b2e85e4ed0707733263b68b5e98e0521",
+   "text_sha256": "d48884c043e3a1dffcbdd27fff73f18f5628f3e0f250944300017f7b1186d601",
+   "dur_s": 4.224,
+   "words": [
+    {
+     "w": "Tuesday,",
+     "start_s": 0.0,
+     "end_s": 0.603
+    },
+    {
+     "w": "the",
+     "start_s": 0.603,
+     "end_s": 0.83
+    },
+    {
+     "w": "third",
+     "start_s": 0.83,
+     "end_s": 1.207
+    },
+    {
+     "w": "of",
+     "start_s": 1.207,
+     "end_s": 1.358
+    },
+    {
+     "w": "November.",
+     "start_s": 1.358,
+     "end_s": 2.037
+    },
+    {
+     "w": "Election",
+     "start_s": 2.037,
+     "end_s": 2.64
+    },
+    {
+     "w": "day",
+     "start_s": 2.64,
+     "end_s": 2.866
+    },
+    {
+     "w": "in",
+     "start_s": 2.866,
+     "end_s": 3.017
+    },
+    {
+     "w": "the",
+     "start_s": 3.017,
+     "end_s": 3.243
+    },
+    {
+     "w": "United",
+     "start_s": 3.243,
+     "end_s": 3.696
+    },
+    {
+     "w": "States.",
+     "start_s": 3.696,
+     "end_s": 4.224
+    }
+   ]
+  },
+  "L-CO-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-CO-2.wav",
+   "sha256": "01d0534361b9a733b1b97c1d6eb8ad38f3450141c620a0710cc4cb2c81176e4a",
+   "text_sha256": "12e76cdf76f59f1464c354bf07dad332ae3c5b622f5dadc631e927799c93d614",
+   "dur_s": 4.843,
+   "words": [
+    {
+     "w": "Thursday's",
+     "start_s": 0.0,
+     "end_s": 0.723
+    },
+    {
+     "w": "paper",
+     "start_s": 0.723,
+     "end_s": 1.084
+    },
+    {
+     "w": "carried",
+     "start_s": 1.084,
+     "end_s": 1.59
+    },
+    {
+     "w": "the",
+     "start_s": 1.59,
+     "end_s": 1.807
+    },
+    {
+     "w": "result:",
+     "start_s": 1.807,
+     "end_s": 2.313
+    },
+    {
+     "w": "Democrats",
+     "start_s": 2.313,
+     "end_s": 2.963
+    },
+    {
+     "w": "won",
+     "start_s": 2.963,
+     "end_s": 3.18
+    },
+    {
+     "w": "both",
+     "start_s": 3.18,
+     "end_s": 3.469
+    },
+    {
+     "w": "chambers",
+     "start_s": 3.469,
+     "end_s": 4.048
+    },
+    {
+     "w": "of",
+     "start_s": 4.048,
+     "end_s": 4.192
+    },
+    {
+     "w": "Congress.",
+     "start_s": 4.192,
+     "end_s": 4.843
+    }
+   ]
+  },
+  "L-D1-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D1-0.wav",
+   "sha256": "78b14f09a045c8fb4252a02b8551f1fa23b3278b6dca617a477256d897cf04ed",
+   "text_sha256": "51100fc9286c52564921ab4935275c70b88db70e6c104fed6e888b6ae9a2f489",
+   "dur_s": 1.749,
+   "words": [
+    {
+     "w": "Monday,",
+     "start_s": 0.0,
+     "end_s": 0.454
+    },
+    {
+     "w": "the",
+     "start_s": 0.454,
+     "end_s": 0.648
+    },
+    {
+     "w": "second",
+     "start_s": 0.648,
+     "end_s": 1.037
+    },
+    {
+     "w": "of",
+     "start_s": 1.037,
+     "end_s": 1.166
+    },
+    {
+     "w": "November.",
+     "start_s": 1.166,
+     "end_s": 1.749
+    }
+   ]
+  },
+  "L-D1-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D1-1.wav",
+   "sha256": "cbb6cb01b87b66257ea26a6259d9a5a923303448dc137f84ff6f141fc688f8c9",
+   "text_sha256": "a0dfe5666d40ee6b81ac546b4c6bfde52332abebb958bcf0956d67cf8427b99f",
+   "dur_s": 11.221,
+   "words": [
+    {
+     "w": "Antigua",
+     "start_s": 0.0,
+     "end_s": 0.553
+    },
+    {
+     "w": "and",
+     "start_s": 0.553,
+     "end_s": 0.79
+    },
+    {
+     "w": "Barbuda.",
+     "start_s": 0.79,
+     "end_s": 1.422
+    },
+    {
+     "w": "After",
+     "start_s": 1.422,
+     "end_s": 1.818
+    },
+    {
+     "w": "a",
+     "start_s": 1.818,
+     "end_s": 1.897
+    },
+    {
+     "w": "Sunday",
+     "start_s": 1.897,
+     "end_s": 2.371
+    },
+    {
+     "w": "church",
+     "start_s": 2.371,
+     "end_s": 2.845
+    },
+    {
+     "w": "service",
+     "start_s": 2.845,
+     "end_s": 3.398
+    },
+    {
+     "w": "with",
+     "start_s": 3.398,
+     "end_s": 3.714
+    },
+    {
+     "w": "King",
+     "start_s": 3.714,
+     "end_s": 4.03
+    },
+    {
+     "w": "Charles",
+     "start_s": 4.03,
+     "end_s": 4.583
+    },
+    {
+     "w": "and",
+     "start_s": 4.583,
+     "end_s": 4.82
+    },
+    {
+     "w": "Queen",
+     "start_s": 4.82,
+     "end_s": 5.216
+    },
+    {
+     "w": "Camilla,",
+     "start_s": 5.216,
+     "end_s": 5.848
+    },
+    {
+     "w": "Prime",
+     "start_s": 5.848,
+     "end_s": 6.243
+    },
+    {
+     "w": "Minister",
+     "start_s": 6.243,
+     "end_s": 6.875
+    },
+    {
+     "w": "Gaston",
+     "start_s": 6.875,
+     "end_s": 7.349
+    },
+    {
+     "w": "Browne",
+     "start_s": 7.349,
+     "end_s": 7.823
+    },
+    {
+     "w": "says",
+     "start_s": 7.823,
+     "end_s": 8.139
+    },
+    {
+     "w": "he",
+     "start_s": 8.139,
+     "end_s": 8.297
+    },
+    {
+     "w": "supports",
+     "start_s": 8.297,
+     "end_s": 8.93
+    },
+    {
+     "w": "removing",
+     "start_s": 8.93,
+     "end_s": 9.562
+    },
+    {
+     "w": "the",
+     "start_s": 9.562,
+     "end_s": 9.799
+    },
+    {
+     "w": "King",
+     "start_s": 9.799,
+     "end_s": 10.115
+    },
+    {
+     "w": "as",
+     "start_s": 10.115,
+     "end_s": 10.273
+    },
+    {
+     "w": "head",
+     "start_s": 10.273,
+     "end_s": 10.589
+    },
+    {
+     "w": "of",
+     "start_s": 10.589,
+     "end_s": 10.747
+    },
+    {
+     "w": "state.",
+     "start_s": 10.747,
+     "end_s": 11.221
+    }
+   ]
+  },
+  "L-D1-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D1-2.wav",
+   "sha256": "b95c1e38d1cfd7f361de57cc03113353fb7af1915a7b60d9c61d3dc3211cee1e",
+   "text_sha256": "87c88b62848fa026a07a19189c013cbd92a6a7558b14515f4b76d6566b0bafd3",
+   "dur_s": 5.227,
+   "words": [
+    {
+     "w": "He",
+     "start_s": 0.0,
+     "end_s": 0.143
+    },
+    {
+     "w": "demands",
+     "start_s": 0.143,
+     "end_s": 0.644
+    },
+    {
+     "w": "that",
+     "start_s": 0.644,
+     "end_s": 0.931
+    },
+    {
+     "w": "the",
+     "start_s": 0.931,
+     "end_s": 1.146
+    },
+    {
+     "w": "United",
+     "start_s": 1.146,
+     "end_s": 1.575
+    },
+    {
+     "w": "Kingdom",
+     "start_s": 1.575,
+     "end_s": 2.076
+    },
+    {
+     "w": "pay",
+     "start_s": 2.076,
+     "end_s": 2.291
+    },
+    {
+     "w": "reparations",
+     "start_s": 2.291,
+     "end_s": 3.079
+    },
+    {
+     "w": "for",
+     "start_s": 3.079,
+     "end_s": 3.294
+    },
+    {
+     "w": "the",
+     "start_s": 3.294,
+     "end_s": 3.508
+    },
+    {
+     "w": "transatlantic",
+     "start_s": 3.508,
+     "end_s": 4.439
+    },
+    {
+     "w": "slave",
+     "start_s": 4.439,
+     "end_s": 4.797
+    },
+    {
+     "w": "trade.",
+     "start_s": 4.797,
+     "end_s": 5.227
+    }
+   ]
+  },
+  "L-D1-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D1-C.wav",
+   "sha256": "fefdf4aaa9b4802742ce0a8fb96852362aa49f6fe018547ee389b20c3b91998e",
+   "text_sha256": "9a9f10c30a4d39221bfa7a7d3b153105ce0bd4c32aa3b7ec18e886afed27e5b2",
+   "dur_s": 1.749,
+   "words": [
+    {
+     "w": "Twenty-four",
+     "start_s": 0.0,
+     "end_s": 0.687
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.687,
+     "end_s": 1.125
+    },
+    {
+     "w": "carried",
+     "start_s": 1.125,
+     "end_s": 1.562
+    },
+    {
+     "w": "it.",
+     "start_s": 1.562,
+     "end_s": 1.749
+    }
+   ]
+  },
+  "L-D2-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D2-0.wav",
+   "sha256": "f538d7bfedf38280bc1a5c2cc59fec24f1d067e63171d635d4fac571fbe1d3f8",
+   "text_sha256": "8f66c6ceec0fe5cf9c4a77de8c6da323b0b3a6eee44bf2de5c2f83fcdf14fc47",
+   "dur_s": 1.749,
+   "words": [
+    {
+     "w": "Tuesday,",
+     "start_s": 0.0,
+     "end_s": 0.518
+    },
+    {
+     "w": "the",
+     "start_s": 0.518,
+     "end_s": 0.713
+    },
+    {
+     "w": "third",
+     "start_s": 0.713,
+     "end_s": 1.037
+    },
+    {
+     "w": "of",
+     "start_s": 1.037,
+     "end_s": 1.166
+    },
+    {
+     "w": "November.",
+     "start_s": 1.166,
+     "end_s": 1.749
+    }
+   ]
+  },
+  "L-D2-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D2-1.wav",
+   "sha256": "8a1dd0ca3b2910c5a1e20229a3342e22782cf362805a7c99b93bd927aa69ca08",
+   "text_sha256": "461fd5057bf3e93a8c3f9de030a818dee5dd19a57168586ac477867e1656c982",
+   "dur_s": 12.011,
+   "words": [
+    {
+     "w": "Komyshuvakha,",
+     "start_s": 0.0,
+     "end_s": 0.995
+    },
+    {
+     "w": "a",
+     "start_s": 0.995,
+     "end_s": 1.071
+    },
+    {
+     "w": "village",
+     "start_s": 1.071,
+     "end_s": 1.607
+    },
+    {
+     "w": "in",
+     "start_s": 1.607,
+     "end_s": 1.76
+    },
+    {
+     "w": "the",
+     "start_s": 1.76,
+     "end_s": 1.989
+    },
+    {
+     "w": "Zaporizhzhia",
+     "start_s": 1.989,
+     "end_s": 2.907
+    },
+    {
+     "w": "region",
+     "start_s": 2.907,
+     "end_s": 3.366
+    },
+    {
+     "w": "of",
+     "start_s": 3.366,
+     "end_s": 3.519
+    },
+    {
+     "w": "Ukraine.",
+     "start_s": 3.519,
+     "end_s": 4.131
+    },
+    {
+     "w": "On",
+     "start_s": 4.131,
+     "end_s": 4.284
+    },
+    {
+     "w": "Monday,",
+     "start_s": 4.284,
+     "end_s": 4.82
+    },
+    {
+     "w": "Russian",
+     "start_s": 4.82,
+     "end_s": 5.355
+    },
+    {
+     "w": "airstrikes",
+     "start_s": 5.355,
+     "end_s": 6.12
+    },
+    {
+     "w": "hit",
+     "start_s": 6.12,
+     "end_s": 6.35
+    },
+    {
+     "w": "a",
+     "start_s": 6.35,
+     "end_s": 6.426
+    },
+    {
+     "w": "shelter",
+     "start_s": 6.426,
+     "end_s": 6.962
+    },
+    {
+     "w": "and",
+     "start_s": 6.962,
+     "end_s": 7.191
+    },
+    {
+     "w": "a",
+     "start_s": 7.191,
+     "end_s": 7.268
+    },
+    {
+     "w": "former",
+     "start_s": 7.268,
+     "end_s": 7.727
+    },
+    {
+     "w": "school",
+     "start_s": 7.727,
+     "end_s": 8.186
+    },
+    {
+     "w": "where",
+     "start_s": 8.186,
+     "end_s": 8.568
+    },
+    {
+     "w": "residents",
+     "start_s": 8.568,
+     "end_s": 9.257
+    },
+    {
+     "w": "had",
+     "start_s": 9.257,
+     "end_s": 9.486
+    },
+    {
+     "w": "gathered",
+     "start_s": 9.486,
+     "end_s": 10.098
+    },
+    {
+     "w": "to",
+     "start_s": 10.098,
+     "end_s": 10.251
+    },
+    {
+     "w": "receive",
+     "start_s": 10.251,
+     "end_s": 10.787
+    },
+    {
+     "w": "humanitarian",
+     "start_s": 10.787,
+     "end_s": 11.705
+    },
+    {
+     "w": "aid.",
+     "start_s": 11.705,
+     "end_s": 12.011
+    }
+   ]
+  },
+  "L-D2-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D2-2.wav",
+   "sha256": "69254c7f6ff581e17d8b66d343adabbf96fc40fcf0b967cd8b9ba9356027c4d4",
+   "text_sha256": "2c75df0205576cec58e05d1b50f1abd0fdff17a61f3bbd3862bf7fdf8b7f39c7",
+   "dur_s": 5.717,
+   "words": [
+    {
+     "w": "By",
+     "start_s": 0.0,
+     "end_s": 0.139
+    },
+    {
+     "w": "Tuesday,",
+     "start_s": 0.139,
+     "end_s": 0.697
+    },
+    {
+     "w": "at",
+     "start_s": 0.697,
+     "end_s": 0.837
+    },
+    {
+     "w": "least",
+     "start_s": 0.837,
+     "end_s": 1.185
+    },
+    {
+     "w": "thirty-one",
+     "start_s": 1.185,
+     "end_s": 1.883
+    },
+    {
+     "w": "people",
+     "start_s": 1.883,
+     "end_s": 2.301
+    },
+    {
+     "w": "are",
+     "start_s": 2.301,
+     "end_s": 2.51
+    },
+    {
+     "w": "dead,",
+     "start_s": 2.51,
+     "end_s": 2.859
+    },
+    {
+     "w": "and",
+     "start_s": 2.859,
+     "end_s": 3.068
+    },
+    {
+     "w": "more",
+     "start_s": 3.068,
+     "end_s": 3.347
+    },
+    {
+     "w": "than",
+     "start_s": 3.347,
+     "end_s": 3.626
+    },
+    {
+     "w": "forty-five",
+     "start_s": 3.626,
+     "end_s": 4.323
+    },
+    {
+     "w": "residents",
+     "start_s": 4.323,
+     "end_s": 4.95
+    },
+    {
+     "w": "are",
+     "start_s": 4.95,
+     "end_s": 5.16
+    },
+    {
+     "w": "missing.",
+     "start_s": 5.16,
+     "end_s": 5.717
+    }
+   ]
+  },
+  "L-D2-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D2-C.wav",
+   "sha256": "759bf370e03ffc7deed4aaee05b0f2e02578f68cfd6c2494265d7f54ff3bf416",
+   "text_sha256": "a0bdbd5ef12c0dd39ba968e020e26334ef265e51ea15eef5a1aa1d23af953bfb",
+   "dur_s": 1.493,
+   "words": [
+    {
+     "w": "Thirty",
+     "start_s": 0.0,
+     "end_s": 0.39
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.39,
+     "end_s": 0.844
+    },
+    {
+     "w": "carried",
+     "start_s": 0.844,
+     "end_s": 1.299
+    },
+    {
+     "w": "it.",
+     "start_s": 1.299,
+     "end_s": 1.493
+    }
+   ]
+  },
+  "L-D3-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D3-0.wav",
+   "sha256": "681e8787910aed7d7350803de2913212db5974d1a4dd5e5c85cbe6a048b0fbba",
+   "text_sha256": "3e1be589d156235e0539bd20bd6fe892594e38ce942bbe2c846b42a89c872499",
+   "dur_s": 3.285,
+   "words": [
+    {
+     "w": "Wednesday,",
+     "start_s": 0.0,
+     "end_s": 0.67
+    },
+    {
+     "w": "the",
+     "start_s": 0.67,
+     "end_s": 0.872
+    },
+    {
+     "w": "fourth",
+     "start_s": 0.872,
+     "end_s": 1.274
+    },
+    {
+     "w": "of",
+     "start_s": 1.274,
+     "end_s": 1.408
+    },
+    {
+     "w": "November.",
+     "start_s": 1.408,
+     "end_s": 2.011
+    },
+    {
+     "w": "The",
+     "start_s": 2.011,
+     "end_s": 2.213
+    },
+    {
+     "w": "day",
+     "start_s": 2.213,
+     "end_s": 2.414
+    },
+    {
+     "w": "after",
+     "start_s": 2.414,
+     "end_s": 2.749
+    },
+    {
+     "w": "the",
+     "start_s": 2.749,
+     "end_s": 2.95
+    },
+    {
+     "w": "vote.",
+     "start_s": 2.95,
+     "end_s": 3.285
+    }
+   ]
+  },
+  "L-D3-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D3-1.wav",
+   "sha256": "f86b975eb84829021f375661dfcc3cd450fe54c65f77aca9f1b7d0b5c376e678",
+   "text_sha256": "3d85d3e140547ffac3485f20973f348841fb52d024b4b70f1efc1af40824e823",
+   "dur_s": 5.205,
+   "words": [
+    {
+     "w": "Vice",
+     "start_s": 0.0,
+     "end_s": 0.341
+    },
+    {
+     "w": "President",
+     "start_s": 0.341,
+     "end_s": 1.109
+    },
+    {
+     "w": "JD",
+     "start_s": 1.109,
+     "end_s": 1.28
+    },
+    {
+     "w": "Vance",
+     "start_s": 1.28,
+     "end_s": 1.707
+    },
+    {
+     "w": "writes",
+     "start_s": 1.707,
+     "end_s": 2.219
+    },
+    {
+     "w": "about",
+     "start_s": 2.219,
+     "end_s": 2.645
+    },
+    {
+     "w": "the",
+     "start_s": 2.645,
+     "end_s": 2.901
+    },
+    {
+     "w": "result",
+     "start_s": 2.901,
+     "end_s": 3.413
+    },
+    {
+     "w": "in",
+     "start_s": 3.413,
+     "end_s": 3.584
+    },
+    {
+     "w": "a",
+     "start_s": 3.584,
+     "end_s": 3.669
+    },
+    {
+     "w": "post",
+     "start_s": 3.669,
+     "end_s": 4.011
+    },
+    {
+     "w": "on",
+     "start_s": 4.011,
+     "end_s": 4.181
+    },
+    {
+     "w": "social",
+     "start_s": 4.181,
+     "end_s": 4.693
+    },
+    {
+     "w": "media.",
+     "start_s": 4.693,
+     "end_s": 5.205
+    }
+   ]
+  },
+  "L-D3-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D3-2.wav",
+   "sha256": "43b1904f98f7ed4dbde1d7fee87563f181b9145026c1be34687b04b473fbedd6",
+   "text_sha256": "54fc62d9957a951d765e2f6847c526c7f35dfe8670c45511f6a44e8633594457",
+   "dur_s": 5.205,
+   "words": [
+    {
+     "w": "An",
+     "start_s": 0.0,
+     "end_s": 0.155
+    },
+    {
+     "w": "archived",
+     "start_s": 0.155,
+     "end_s": 0.777
+    },
+    {
+     "w": "copy",
+     "start_s": 0.777,
+     "end_s": 1.088
+    },
+    {
+     "w": "of",
+     "start_s": 1.088,
+     "end_s": 1.243
+    },
+    {
+     "w": "the",
+     "start_s": 1.243,
+     "end_s": 1.476
+    },
+    {
+     "w": "post",
+     "start_s": 1.476,
+     "end_s": 1.787
+    },
+    {
+     "w": "is",
+     "start_s": 1.787,
+     "end_s": 1.942
+    },
+    {
+     "w": "dated",
+     "start_s": 1.942,
+     "end_s": 2.331
+    },
+    {
+     "w": "ten",
+     "start_s": 2.331,
+     "end_s": 2.564
+    },
+    {
+     "w": "to",
+     "start_s": 2.564,
+     "end_s": 2.719
+    },
+    {
+     "w": "four",
+     "start_s": 2.719,
+     "end_s": 3.03
+    },
+    {
+     "w": "that",
+     "start_s": 3.03,
+     "end_s": 3.341
+    },
+    {
+     "w": "afternoon,",
+     "start_s": 3.341,
+     "end_s": 4.118
+    },
+    {
+     "w": "Greenwich",
+     "start_s": 4.118,
+     "end_s": 4.817
+    },
+    {
+     "w": "time.",
+     "start_s": 4.817,
+     "end_s": 5.205
+    }
+   ]
+  },
+  "L-D3-3": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D3-3.wav",
+   "sha256": "7343464d0e77f34e64b542d71e212fb4949822a06bf26afd3dfc1757fab11d3c",
+   "text_sha256": "ceb748125fefcfd4e16ec6d831a01409beae55ab1455fe07229d5f180ca25aae",
+   "dur_s": 1.728,
+   "words": [
+    {
+     "w": "Fifty-three",
+     "start_s": 0.0,
+     "end_s": 0.679
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.679,
+     "end_s": 1.111
+    },
+    {
+     "w": "carried",
+     "start_s": 1.111,
+     "end_s": 1.543
+    },
+    {
+     "w": "it.",
+     "start_s": 1.543,
+     "end_s": 1.728
+    }
+   ]
+  },
+  "L-D4-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D4-0.wav",
+   "sha256": "a80fd343dcf66f3429408da302f71808d6720ec3f5f139bedee272593f8907f1",
+   "text_sha256": "615739dab136df136dda5c690208dba0c1761aa2d0fa94a8718d68c21ff8aac1",
+   "dur_s": 1.707,
+   "words": [
+    {
+     "w": "Thursday,",
+     "start_s": 0.0,
+     "end_s": 0.549
+    },
+    {
+     "w": "the",
+     "start_s": 0.549,
+     "end_s": 0.731
+    },
+    {
+     "w": "fifth",
+     "start_s": 0.731,
+     "end_s": 1.036
+    },
+    {
+     "w": "of",
+     "start_s": 1.036,
+     "end_s": 1.158
+    },
+    {
+     "w": "November.",
+     "start_s": 1.158,
+     "end_s": 1.707
+    }
+   ]
+  },
+  "L-D4-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D4-1.wav",
+   "sha256": "60382756d7281d77a516247db1cd3af7a87f63e53d2cc6ee46e836f89f74e1ad",
+   "text_sha256": "4c07cc43642b4a1033a88655ebf09acbd95c695cc67e1e1ac3a1237b7384e209",
+   "dur_s": 10.645,
+   "words": [
+    {
+     "w": "A",
+     "start_s": 0.0,
+     "end_s": 0.079
+    },
+    {
+     "w": "British",
+     "start_s": 0.079,
+     "end_s": 0.631
+    },
+    {
+     "w": "healthcare",
+     "start_s": 0.631,
+     "end_s": 1.419
+    },
+    {
+     "w": "worker",
+     "start_s": 1.419,
+     "end_s": 1.893
+    },
+    {
+     "w": "infected",
+     "start_s": 1.893,
+     "end_s": 2.523
+    },
+    {
+     "w": "with",
+     "start_s": 2.523,
+     "end_s": 2.839
+    },
+    {
+     "w": "Ebola",
+     "start_s": 2.839,
+     "end_s": 3.233
+    },
+    {
+     "w": "in",
+     "start_s": 3.233,
+     "end_s": 3.391
+    },
+    {
+     "w": "the",
+     "start_s": 3.391,
+     "end_s": 3.627
+    },
+    {
+     "w": "Democratic",
+     "start_s": 3.627,
+     "end_s": 4.416
+    },
+    {
+     "w": "Republic",
+     "start_s": 4.416,
+     "end_s": 5.047
+    },
+    {
+     "w": "of",
+     "start_s": 5.047,
+     "end_s": 5.204
+    },
+    {
+     "w": "the",
+     "start_s": 5.204,
+     "end_s": 5.441
+    },
+    {
+     "w": "Congo",
+     "start_s": 5.441,
+     "end_s": 5.835
+    },
+    {
+     "w": "is",
+     "start_s": 5.835,
+     "end_s": 5.993
+    },
+    {
+     "w": "evacuated",
+     "start_s": 5.993,
+     "end_s": 6.703
+    },
+    {
+     "w": "to",
+     "start_s": 6.703,
+     "end_s": 6.86
+    },
+    {
+     "w": "the",
+     "start_s": 6.86,
+     "end_s": 7.097
+    },
+    {
+     "w": "United",
+     "start_s": 7.097,
+     "end_s": 7.57
+    },
+    {
+     "w": "Kingdom,",
+     "start_s": 7.57,
+     "end_s": 8.201
+    },
+    {
+     "w": "to",
+     "start_s": 8.201,
+     "end_s": 8.359
+    },
+    {
+     "w": "the",
+     "start_s": 8.359,
+     "end_s": 8.595
+    },
+    {
+     "w": "Royal",
+     "start_s": 8.595,
+     "end_s": 8.989
+    },
+    {
+     "w": "Free",
+     "start_s": 8.989,
+     "end_s": 9.305
+    },
+    {
+     "w": "Hospital",
+     "start_s": 9.305,
+     "end_s": 9.936
+    },
+    {
+     "w": "in",
+     "start_s": 9.936,
+     "end_s": 10.093
+    },
+    {
+     "w": "London.",
+     "start_s": 10.093,
+     "end_s": 10.645
+    }
+   ]
+  },
+  "L-D4-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D4-C.wav",
+   "sha256": "181674155eb177c88afc79833d4de03b787610e1a53d7220440e7413f881f30a",
+   "text_sha256": "84278e6695373e84edc565dad60902084c969f3a5e821d63146bc5b50f7fe798",
+   "dur_s": 1.579,
+   "words": [
+    {
+     "w": "Fifteen",
+     "start_s": 0.0,
+     "end_s": 0.46
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.46,
+     "end_s": 0.921
+    },
+    {
+     "w": "carried",
+     "start_s": 0.921,
+     "end_s": 1.381
+    },
+    {
+     "w": "it.",
+     "start_s": 1.381,
+     "end_s": 1.579
+    }
+   ]
+  },
+  "L-D5-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D5-0.wav",
+   "sha256": "10ffcc9e69f65057a43e707b0e6116ae126f826c7775677bf46c6a84b3038b34",
+   "text_sha256": "41f352b13f6eb2fb09bbe128e4a98987fff345dd6edeecce3cfcfaa077c9fea7",
+   "dur_s": 1.749,
+   "words": [
+    {
+     "w": "Friday,",
+     "start_s": 0.0,
+     "end_s": 0.471
+    },
+    {
+     "w": "the",
+     "start_s": 0.471,
+     "end_s": 0.673
+    },
+    {
+     "w": "sixth",
+     "start_s": 0.673,
+     "end_s": 1.009
+    },
+    {
+     "w": "of",
+     "start_s": 1.009,
+     "end_s": 1.144
+    },
+    {
+     "w": "November.",
+     "start_s": 1.144,
+     "end_s": 1.749
+    }
+   ]
+  },
+  "L-D5-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D5-1.wav",
+   "sha256": "87488673c3b88ef3aa35d0ff3d0a051432747a4787fca44c994269d135cc7fbb",
+   "text_sha256": "d6f515da2b3dbb26887b905e40824dbc8dd22e39098da5f7d3c6dbad04184299",
+   "dur_s": 10.539,
+   "words": [
+    {
+     "w": "Representative",
+     "start_s": 0.0,
+     "end_s": 1.046
+    },
+    {
+     "w": "Thomas",
+     "start_s": 1.046,
+     "end_s": 1.495
+    },
+    {
+     "w": "Massie",
+     "start_s": 1.495,
+     "end_s": 2.018
+    },
+    {
+     "w": "says",
+     "start_s": 2.018,
+     "end_s": 2.317
+    },
+    {
+     "w": "he",
+     "start_s": 2.317,
+     "end_s": 2.466
+    },
+    {
+     "w": "will",
+     "start_s": 2.466,
+     "end_s": 2.765
+    },
+    {
+     "w": "reintroduce",
+     "start_s": 2.765,
+     "end_s": 3.588
+    },
+    {
+     "w": "articles",
+     "start_s": 3.588,
+     "end_s": 4.186
+    },
+    {
+     "w": "of",
+     "start_s": 4.186,
+     "end_s": 4.335
+    },
+    {
+     "w": "impeachment",
+     "start_s": 4.335,
+     "end_s": 5.157
+    },
+    {
+     "w": "against",
+     "start_s": 5.157,
+     "end_s": 5.68
+    },
+    {
+     "w": "the",
+     "start_s": 5.68,
+     "end_s": 5.905
+    },
+    {
+     "w": "Defense",
+     "start_s": 5.905,
+     "end_s": 6.428
+    },
+    {
+     "w": "Secretary,",
+     "start_s": 6.428,
+     "end_s": 7.175
+    },
+    {
+     "w": "Pete",
+     "start_s": 7.175,
+     "end_s": 7.474
+    },
+    {
+     "w": "Hegseth,",
+     "start_s": 7.474,
+     "end_s": 8.147
+    },
+    {
+     "w": "when",
+     "start_s": 8.147,
+     "end_s": 8.446
+    },
+    {
+     "w": "the",
+     "start_s": 8.446,
+     "end_s": 8.67
+    },
+    {
+     "w": "House",
+     "start_s": 8.67,
+     "end_s": 9.044
+    },
+    {
+     "w": "returns",
+     "start_s": 9.044,
+     "end_s": 9.567
+    },
+    {
+     "w": "to",
+     "start_s": 9.567,
+     "end_s": 9.717
+    },
+    {
+     "w": "Washington.",
+     "start_s": 9.717,
+     "end_s": 10.539
+    }
+   ]
+  },
+  "L-D5-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D5-2.wav",
+   "sha256": "ada985aabbf97f1d70032dd69f86f8233e4381e91532e3c6d409b72ba5e5f900",
+   "text_sha256": "71742bc245916e1506ede4b05b293067ed7be56442598514ba3167ddae82a4de",
+   "dur_s": 1.685,
+   "words": [
+    {
+     "w": "He",
+     "start_s": 0.0,
+     "end_s": 0.135
+    },
+    {
+     "w": "points",
+     "start_s": 0.135,
+     "end_s": 0.539
+    },
+    {
+     "w": "to",
+     "start_s": 0.539,
+     "end_s": 0.674
+    },
+    {
+     "w": "the",
+     "start_s": 0.674,
+     "end_s": 0.876
+    },
+    {
+     "w": "war",
+     "start_s": 0.876,
+     "end_s": 1.079
+    },
+    {
+     "w": "with",
+     "start_s": 1.079,
+     "end_s": 1.348
+    },
+    {
+     "w": "Iran.",
+     "start_s": 1.348,
+     "end_s": 1.685
+    }
+   ]
+  },
+  "L-D5-3": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D5-3.wav",
+   "sha256": "d44d7409b79f471e5a3bc25456ccc27f48c6be78758fc9ecd69e408099aaf411",
+   "text_sha256": "db937e3c9f71c8847d6660f93da2a80fcb64fa5d0a2456342745138d78d4de1e",
+   "dur_s": 7.872,
+   "words": [
+    {
+     "w": "Hegseth",
+     "start_s": 0.0,
+     "end_s": 0.611
+    },
+    {
+     "w": "releases",
+     "start_s": 0.611,
+     "end_s": 1.223
+    },
+    {
+     "w": "a",
+     "start_s": 1.223,
+     "end_s": 1.299
+    },
+    {
+     "w": "video",
+     "start_s": 1.299,
+     "end_s": 1.681
+    },
+    {
+     "w": "statement",
+     "start_s": 1.681,
+     "end_s": 2.369
+    },
+    {
+     "w": "defending",
+     "start_s": 2.369,
+     "end_s": 3.057
+    },
+    {
+     "w": "his",
+     "start_s": 3.057,
+     "end_s": 3.286
+    },
+    {
+     "w": "tenure,",
+     "start_s": 3.286,
+     "end_s": 3.821
+    },
+    {
+     "w": "and",
+     "start_s": 3.821,
+     "end_s": 4.051
+    },
+    {
+     "w": "dismisses",
+     "start_s": 4.051,
+     "end_s": 4.738
+    },
+    {
+     "w": "the",
+     "start_s": 4.738,
+     "end_s": 4.968
+    },
+    {
+     "w": "impeachment",
+     "start_s": 4.968,
+     "end_s": 5.808
+    },
+    {
+     "w": "push",
+     "start_s": 5.808,
+     "end_s": 6.114
+    },
+    {
+     "w": "as",
+     "start_s": 6.114,
+     "end_s": 6.267
+    },
+    {
+     "w": "political",
+     "start_s": 6.267,
+     "end_s": 6.955
+    },
+    {
+     "w": "retaliation.",
+     "start_s": 6.955,
+     "end_s": 7.872
+    }
+   ]
+  },
+  "L-D5-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D5-C.wav",
+   "sha256": "381de009b5a34e299b1ff20ead823ed333e02c3f22c9ddc0d16ef553394bbc61",
+   "text_sha256": "8ddb8f73069bf08e0b0169914dd3839b16469e7e023c44dd0e6ba8b52f59f0a0",
+   "dur_s": 1.749,
+   "words": [
+    {
+     "w": "Thirty-four",
+     "start_s": 0.0,
+     "end_s": 0.687
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.687,
+     "end_s": 1.125
+    },
+    {
+     "w": "carried",
+     "start_s": 1.125,
+     "end_s": 1.562
+    },
+    {
+     "w": "it.",
+     "start_s": 1.562,
+     "end_s": 1.749
+    }
+   ]
+  },
+  "L-D6-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D6-0.wav",
+   "sha256": "82c42ce581479b199bf9a776a33fd7779ce8c9168559b80f90538d2ef9378e73",
+   "text_sha256": "57ceca060158214074c9310ff1015af25835703ae8fe5856718a9240d52e8a75",
+   "dur_s": 1.835,
+   "words": [
+    {
+     "w": "Saturday,",
+     "start_s": 0.0,
+     "end_s": 0.55
+    },
+    {
+     "w": "the",
+     "start_s": 0.55,
+     "end_s": 0.734
+    },
+    {
+     "w": "seventh",
+     "start_s": 0.734,
+     "end_s": 1.162
+    },
+    {
+     "w": "of",
+     "start_s": 1.162,
+     "end_s": 1.284
+    },
+    {
+     "w": "November.",
+     "start_s": 1.284,
+     "end_s": 1.835
+    }
+   ]
+  },
+  "L-D6-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D6-1.wav",
+   "sha256": "095dbca375e2d11875929afe0c811d6c50a1d4035cdac66b7ba401f54c78099c",
+   "text_sha256": "848ef3ac5fa3a02f192b912b6ae69edce5915cff57dfc1a1194c69ab9c79ab1b",
+   "dur_s": 11.456,
+   "words": [
+    {
+     "w": "President",
+     "start_s": 0.0,
+     "end_s": 0.701
+    },
+    {
+     "w": "Trump",
+     "start_s": 0.701,
+     "end_s": 1.091
+    },
+    {
+     "w": "names",
+     "start_s": 1.091,
+     "end_s": 1.481
+    },
+    {
+     "w": "Stephen",
+     "start_s": 1.481,
+     "end_s": 2.026
+    },
+    {
+     "w": "Miller,",
+     "start_s": 2.026,
+     "end_s": 2.572
+    },
+    {
+     "w": "his",
+     "start_s": 2.572,
+     "end_s": 2.806
+    },
+    {
+     "w": "deputy",
+     "start_s": 2.806,
+     "end_s": 3.273
+    },
+    {
+     "w": "chief",
+     "start_s": 3.273,
+     "end_s": 3.663
+    },
+    {
+     "w": "of",
+     "start_s": 3.663,
+     "end_s": 3.819
+    },
+    {
+     "w": "staff,",
+     "start_s": 3.819,
+     "end_s": 4.286
+    },
+    {
+     "w": "as",
+     "start_s": 4.286,
+     "end_s": 4.442
+    },
+    {
+     "w": "White",
+     "start_s": 4.442,
+     "end_s": 4.832
+    },
+    {
+     "w": "House",
+     "start_s": 4.832,
+     "end_s": 5.221
+    },
+    {
+     "w": "chief",
+     "start_s": 5.221,
+     "end_s": 5.611
+    },
+    {
+     "w": "of",
+     "start_s": 5.611,
+     "end_s": 5.767
+    },
+    {
+     "w": "staff.",
+     "start_s": 5.767,
+     "end_s": 6.235
+    },
+    {
+     "w": "Miller",
+     "start_s": 6.235,
+     "end_s": 6.702
+    },
+    {
+     "w": "replaces",
+     "start_s": 6.702,
+     "end_s": 7.326
+    },
+    {
+     "w": "Susie",
+     "start_s": 7.326,
+     "end_s": 7.715
+    },
+    {
+     "w": "Wiles,",
+     "start_s": 7.715,
+     "end_s": 8.183
+    },
+    {
+     "w": "who",
+     "start_s": 8.183,
+     "end_s": 8.417
+    },
+    {
+     "w": "submitted",
+     "start_s": 8.417,
+     "end_s": 9.118
+    },
+    {
+     "w": "her",
+     "start_s": 9.118,
+     "end_s": 9.352
+    },
+    {
+     "w": "resignation",
+     "start_s": 9.352,
+     "end_s": 10.209
+    },
+    {
+     "w": "on",
+     "start_s": 10.209,
+     "end_s": 10.365
+    },
+    {
+     "w": "Thursday",
+     "start_s": 10.365,
+     "end_s": 10.988
+    },
+    {
+     "w": "night.",
+     "start_s": 10.988,
+     "end_s": 11.456
+    }
+   ]
+  },
+  "L-D6-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D6-2.wav",
+   "sha256": "d95ca02141f9c2c9fbac2b8a8e69ad2aa85bcdad6503cd9628f34d33a022687a",
+   "text_sha256": "f0790a3640d62ef49c40b0c44b596177d943c344e3fe7fc2f699a145bf62e89f",
+   "dur_s": 4.608,
+   "words": [
+    {
+     "w": "A",
+     "start_s": 0.0,
+     "end_s": 0.069
+    },
+    {
+     "w": "White",
+     "start_s": 0.069,
+     "end_s": 0.413
+    },
+    {
+     "w": "House",
+     "start_s": 0.413,
+     "end_s": 0.757
+    },
+    {
+     "w": "release,",
+     "start_s": 0.757,
+     "end_s": 1.307
+    },
+    {
+     "w": "dated",
+     "start_s": 1.307,
+     "end_s": 1.651
+    },
+    {
+     "w": "Friday,",
+     "start_s": 1.651,
+     "end_s": 2.132
+    },
+    {
+     "w": "calls",
+     "start_s": 2.132,
+     "end_s": 2.476
+    },
+    {
+     "w": "him",
+     "start_s": 2.476,
+     "end_s": 2.682
+    },
+    {
+     "w": "the",
+     "start_s": 2.682,
+     "end_s": 2.889
+    },
+    {
+     "w": "thirty-third",
+     "start_s": 2.889,
+     "end_s": 3.714
+    },
+    {
+     "w": "chief",
+     "start_s": 3.714,
+     "end_s": 4.058
+    },
+    {
+     "w": "of",
+     "start_s": 4.058,
+     "end_s": 4.195
+    },
+    {
+     "w": "staff.",
+     "start_s": 4.195,
+     "end_s": 4.608
+    }
+   ]
+  },
+  "L-D6-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D6-C.wav",
+   "sha256": "061bf31dc012bd1cbf7b67b35c14b2f8c86a64259165e0398b73c876448ad932",
+   "text_sha256": "397ec9c8373df010edc58bb34ac313bba2cedc11d712de8803c3da03bd1c2cca",
+   "dur_s": 4.523,
+   "words": [
+    {
+     "w": "Sixty-eight",
+     "start_s": 0.0,
+     "end_s": 0.777
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.777,
+     "end_s": 1.272
+    },
+    {
+     "w": "carried",
+     "start_s": 1.272,
+     "end_s": 1.767
+    },
+    {
+     "w": "it,",
+     "start_s": 1.767,
+     "end_s": 1.979
+    },
+    {
+     "w": "the",
+     "start_s": 1.979,
+     "end_s": 2.191
+    },
+    {
+     "w": "most",
+     "start_s": 2.191,
+     "end_s": 2.473
+    },
+    {
+     "w": "for",
+     "start_s": 2.473,
+     "end_s": 2.685
+    },
+    {
+     "w": "any",
+     "start_s": 2.685,
+     "end_s": 2.897
+    },
+    {
+     "w": "day's",
+     "start_s": 2.897,
+     "end_s": 3.251
+    },
+    {
+     "w": "lead",
+     "start_s": 3.251,
+     "end_s": 3.533
+    },
+    {
+     "w": "so",
+     "start_s": 3.533,
+     "end_s": 3.675
+    },
+    {
+     "w": "far",
+     "start_s": 3.675,
+     "end_s": 3.887
+    },
+    {
+     "w": "this",
+     "start_s": 3.887,
+     "end_s": 4.169
+    },
+    {
+     "w": "week.",
+     "start_s": 4.169,
+     "end_s": 4.523
+    }
+   ]
+  },
+  "L-D7-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D7-0.wav",
+   "sha256": "c89898db0b59ee9807f6b88ba242a213ae9f710d798e3917e5c425ebcefa680e",
+   "text_sha256": "3633710c3bcc3ad6180b825130c9c6d0869dee15446ec11bb514e7968c0ca8b6",
+   "dur_s": 1.664,
+   "words": [
+    {
+     "w": "Sunday,",
+     "start_s": 0.0,
+     "end_s": 0.431
+    },
+    {
+     "w": "the",
+     "start_s": 0.431,
+     "end_s": 0.616
+    },
+    {
+     "w": "eighth",
+     "start_s": 0.616,
+     "end_s": 0.986
+    },
+    {
+     "w": "of",
+     "start_s": 0.986,
+     "end_s": 1.109
+    },
+    {
+     "w": "November.",
+     "start_s": 1.109,
+     "end_s": 1.664
+    }
+   ]
+  },
+  "L-D7-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D7-1.wav",
+   "sha256": "45221e156fedda1967265c9794418a1edf430d92ee9fee04329f7c992bbfdf83",
+   "text_sha256": "e8c0b1ad88525fea58da85fa894a8395796e2507e8ee90705a9a6f385183843a",
+   "dur_s": 11.669,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.25
+    },
+    {
+     "w": "United",
+     "start_s": 0.25,
+     "end_s": 0.75
+    },
+    {
+     "w": "States",
+     "start_s": 0.75,
+     "end_s": 1.25
+    },
+    {
+     "w": "military",
+     "start_s": 1.25,
+     "end_s": 1.917
+    },
+    {
+     "w": "sets",
+     "start_s": 1.917,
+     "end_s": 2.251
+    },
+    {
+     "w": "up",
+     "start_s": 2.251,
+     "end_s": 2.417
+    },
+    {
+     "w": "a",
+     "start_s": 2.417,
+     "end_s": 2.501
+    },
+    {
+     "w": "new",
+     "start_s": 2.501,
+     "end_s": 2.751
+    },
+    {
+     "w": "unit",
+     "start_s": 2.751,
+     "end_s": 3.084
+    },
+    {
+     "w": "of",
+     "start_s": 3.084,
+     "end_s": 3.251
+    },
+    {
+     "w": "twenty",
+     "start_s": 3.251,
+     "end_s": 3.751
+    },
+    {
+     "w": "members,",
+     "start_s": 3.751,
+     "end_s": 4.418
+    },
+    {
+     "w": "Task",
+     "start_s": 4.418,
+     "end_s": 4.751
+    },
+    {
+     "w": "Force",
+     "start_s": 4.751,
+     "end_s": 5.168
+    },
+    {
+     "w": "Iron",
+     "start_s": 5.168,
+     "end_s": 5.501
+    },
+    {
+     "w": "Gate,",
+     "start_s": 5.501,
+     "end_s": 5.918
+    },
+    {
+     "w": "to",
+     "start_s": 5.918,
+     "end_s": 6.085
+    },
+    {
+     "w": "restrict",
+     "start_s": 6.085,
+     "end_s": 6.752
+    },
+    {
+     "w": "trade",
+     "start_s": 6.752,
+     "end_s": 7.168
+    },
+    {
+     "w": "and",
+     "start_s": 7.168,
+     "end_s": 7.418
+    },
+    {
+     "w": "supply",
+     "start_s": 7.418,
+     "end_s": 7.918
+    },
+    {
+     "w": "lines",
+     "start_s": 7.918,
+     "end_s": 8.335
+    },
+    {
+     "w": "across",
+     "start_s": 8.335,
+     "end_s": 8.835
+    },
+    {
+     "w": "Iran's",
+     "start_s": 8.835,
+     "end_s": 9.335
+    },
+    {
+     "w": "land",
+     "start_s": 9.335,
+     "end_s": 9.669
+    },
+    {
+     "w": "borders",
+     "start_s": 9.669,
+     "end_s": 10.252
+    },
+    {
+     "w": "and",
+     "start_s": 10.252,
+     "end_s": 10.502
+    },
+    {
+     "w": "the",
+     "start_s": 10.502,
+     "end_s": 10.752
+    },
+    {
+     "w": "Caspian",
+     "start_s": 10.752,
+     "end_s": 11.336
+    },
+    {
+     "w": "Sea.",
+     "start_s": 11.336,
+     "end_s": 11.669
+    }
+   ]
+  },
+  "L-D7-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D7-2.wav",
+   "sha256": "6a889fd14aaf3913cd8d9e5ecf2483327cbb16d9f2a313840c19aa461bd3d16e",
+   "text_sha256": "b9adfcaa654844cd5ec984a15acb1e10c87697d8584d9be4ad0c911926166fa0",
+   "dur_s": 1.92,
+   "words": [
+    {
+     "w": "It",
+     "start_s": 0.0,
+     "end_s": 0.154
+    },
+    {
+     "w": "is",
+     "start_s": 0.154,
+     "end_s": 0.307
+    },
+    {
+     "w": "based",
+     "start_s": 0.307,
+     "end_s": 0.691
+    },
+    {
+     "w": "in",
+     "start_s": 0.691,
+     "end_s": 0.845
+    },
+    {
+     "w": "Tampa,",
+     "start_s": 0.845,
+     "end_s": 1.306
+    },
+    {
+     "w": "Florida.",
+     "start_s": 1.306,
+     "end_s": 1.92
+    }
+   ]
+  },
+  "L-D7-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-D7-C.wav",
+   "sha256": "9adb33287c89032e16ce647ed9d5436286d7d63decb4fdeab84c6153d62a6bc6",
+   "text_sha256": "5e67bf1fad44e46f5fa813fd11614f2e11e60e9feab739bba0b595604ab0e005",
+   "dur_s": 1.685,
+   "words": [
+    {
+     "w": "Thirty-one",
+     "start_s": 0.0,
+     "end_s": 0.624
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.624,
+     "end_s": 1.061
+    },
+    {
+     "w": "carried",
+     "start_s": 1.061,
+     "end_s": 1.498
+    },
+    {
+     "w": "it.",
+     "start_s": 1.498,
+     "end_s": 1.685
+    }
+   ]
+  },
+  "L-WK-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WK-1.wav",
+   "sha256": "f598415637ecfe2693a2fd22c9b2cab0c2c752e4b17d23145ecf2aa07d252161",
+   "text_sha256": "a557cc90c668dfdda6d205100359d1cc8d7f0b466bee2238bd35133a85b278e6",
+   "dur_s": 11.456,
+   "words": [
+    {
+     "w": "Monday,",
+     "start_s": 0.0,
+     "end_s": 0.594
+    },
+    {
+     "w": "the",
+     "start_s": 0.594,
+     "end_s": 0.849
+    },
+    {
+     "w": "second",
+     "start_s": 0.849,
+     "end_s": 1.358
+    },
+    {
+     "w": "of",
+     "start_s": 1.358,
+     "end_s": 1.527
+    },
+    {
+     "w": "November,",
+     "start_s": 1.527,
+     "end_s": 2.291
+    },
+    {
+     "w": "the",
+     "start_s": 2.291,
+     "end_s": 2.546
+    },
+    {
+     "w": "day",
+     "start_s": 2.546,
+     "end_s": 2.8
+    },
+    {
+     "w": "before",
+     "start_s": 2.8,
+     "end_s": 3.31
+    },
+    {
+     "w": "the",
+     "start_s": 3.31,
+     "end_s": 3.564
+    },
+    {
+     "w": "vote.",
+     "start_s": 3.564,
+     "end_s": 3.988
+    },
+    {
+     "w": "Vice",
+     "start_s": 3.988,
+     "end_s": 4.328
+    },
+    {
+     "w": "President",
+     "start_s": 4.328,
+     "end_s": 5.092
+    },
+    {
+     "w": "JD",
+     "start_s": 5.092,
+     "end_s": 5.261
+    },
+    {
+     "w": "Vance",
+     "start_s": 5.261,
+     "end_s": 5.686
+    },
+    {
+     "w": "campaigns",
+     "start_s": 5.686,
+     "end_s": 6.449
+    },
+    {
+     "w": "in",
+     "start_s": 6.449,
+     "end_s": 6.619
+    },
+    {
+     "w": "Rome,",
+     "start_s": 6.619,
+     "end_s": 7.043
+    },
+    {
+     "w": "New",
+     "start_s": 7.043,
+     "end_s": 7.298
+    },
+    {
+     "w": "York,",
+     "start_s": 7.298,
+     "end_s": 7.722
+    },
+    {
+     "w": "for",
+     "start_s": 7.722,
+     "end_s": 7.977
+    },
+    {
+     "w": "the",
+     "start_s": 7.977,
+     "end_s": 8.231
+    },
+    {
+     "w": "Republican",
+     "start_s": 8.231,
+     "end_s": 9.08
+    },
+    {
+     "w": "candidate",
+     "start_s": 9.08,
+     "end_s": 9.844
+    },
+    {
+     "w": "Anthony",
+     "start_s": 9.844,
+     "end_s": 10.438
+    },
+    {
+     "w": "Constantino.",
+     "start_s": 10.438,
+     "end_s": 11.456
+    }
+   ]
+  },
+  "L-WK-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WK-2.wav",
+   "sha256": "2f66816f06650db5b378cb3a696c065a276cf3e4b5d48e4110a0193010104828",
+   "text_sha256": "a6d7496c305db989e2ca014973f7dec613fc3b8b0647dd6ce4d252a0887bb81a",
+   "dur_s": 2.091,
+   "words": [
+    {
+     "w": "Wednesday,",
+     "start_s": 0.0,
+     "end_s": 0.634
+    },
+    {
+     "w": "the",
+     "start_s": 0.634,
+     "end_s": 0.824
+    },
+    {
+     "w": "Vice",
+     "start_s": 0.824,
+     "end_s": 1.077
+    },
+    {
+     "w": "President's",
+     "start_s": 1.077,
+     "end_s": 1.774
+    },
+    {
+     "w": "post.",
+     "start_s": 1.774,
+     "end_s": 2.091
+    }
+   ]
+  },
+  "L-WK-3": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WK-3.wav",
+   "sha256": "1309558eaad4eed7afb902d94c895af896ece1f7a573f211b2ebd48e97e51d52",
+   "text_sha256": "a835d1a9e1498035344eb9d8601ebd8e09e9422089936489b47bb0970bd78a09",
+   "dur_s": 3.179,
+   "words": [
+    {
+     "w": "Seventy-six",
+     "start_s": 0.0,
+     "end_s": 0.76
+    },
+    {
+     "w": "outlets",
+     "start_s": 0.76,
+     "end_s": 1.244
+    },
+    {
+     "w": "are",
+     "start_s": 1.244,
+     "end_s": 1.451
+    },
+    {
+     "w": "in",
+     "start_s": 1.451,
+     "end_s": 1.589
+    },
+    {
+     "w": "the",
+     "start_s": 1.589,
+     "end_s": 1.797
+    },
+    {
+     "w": "two",
+     "start_s": 1.797,
+     "end_s": 2.004
+    },
+    {
+     "w": "records",
+     "start_s": 2.004,
+     "end_s": 2.488
+    },
+    {
+     "w": "of",
+     "start_s": 2.488,
+     "end_s": 2.626
+    },
+    {
+     "w": "the",
+     "start_s": 2.626,
+     "end_s": 2.833
+    },
+    {
+     "w": "post.",
+     "start_s": 2.833,
+     "end_s": 3.179
+    }
+   ]
+  },
+  "L-WK-4": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WK-4.wav",
+   "sha256": "792a281a8f855ef7e4fe62f241972afabd821d76a543e67c01b34369d527149c",
+   "text_sha256": "fb8994da72d41afe69a372f8bc305c273dd313048f8265a7168837080904c92b",
+   "dur_s": 3.989,
+   "words": [
+    {
+     "w": "Eighty-nine",
+     "start_s": 0.0,
+     "end_s": 0.784
+    },
+    {
+     "w": "articles.",
+     "start_s": 0.784,
+     "end_s": 1.425
+    },
+    {
+     "w": "The",
+     "start_s": 1.425,
+     "end_s": 1.638
+    },
+    {
+     "w": "record",
+     "start_s": 1.638,
+     "end_s": 2.066
+    },
+    {
+     "w": "holds",
+     "start_s": 2.066,
+     "end_s": 2.422
+    },
+    {
+     "w": "headlines",
+     "start_s": 2.422,
+     "end_s": 3.063
+    },
+    {
+     "w": "for",
+     "start_s": 3.063,
+     "end_s": 3.277
+    },
+    {
+     "w": "forty-six.",
+     "start_s": 3.277,
+     "end_s": 3.989
+    }
+   ]
+  },
+  "L-WB-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WB-0.wav",
+   "sha256": "06aa112d0589aa76dbc1f1bc0ce9933b19aa04d771a41d0e3987835c5eab4b81",
+   "text_sha256": "58a867a0af1d20d29102b2676d794f09211beb1c95a96080dae5b7b00a766b25",
+   "dur_s": 2.773,
+   "words": [
+    {
+     "w": "Six",
+     "start_s": 0.0,
+     "end_s": 0.198
+    },
+    {
+     "w": "of",
+     "start_s": 0.198,
+     "end_s": 0.33
+    },
+    {
+     "w": "the",
+     "start_s": 0.33,
+     "end_s": 0.528
+    },
+    {
+     "w": "headlines,",
+     "start_s": 0.528,
+     "end_s": 1.189
+    },
+    {
+     "w": "as",
+     "start_s": 1.189,
+     "end_s": 1.321
+    },
+    {
+     "w": "the",
+     "start_s": 1.321,
+     "end_s": 1.519
+    },
+    {
+     "w": "outlets",
+     "start_s": 1.519,
+     "end_s": 1.981
+    },
+    {
+     "w": "printed",
+     "start_s": 1.981,
+     "end_s": 2.443
+    },
+    {
+     "w": "them.",
+     "start_s": 2.443,
+     "end_s": 2.773
+    }
+   ]
+  },
+  "L-WC-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WC-1.wav",
+   "sha256": "bbbb20b7e820855050c9cadef2196b9f0268b610acde7ca1e4fdaefd763b71ea",
+   "text_sha256": "c8a778c47be9d717c01cd0ab881206c462961266f3992e1b05ffe1f9aedbf960",
+   "dur_s": 8.405,
+   "words": [
+    {
+     "w": "Of",
+     "start_s": 0.0,
+     "end_s": 0.177
+    },
+    {
+     "w": "the",
+     "start_s": 0.177,
+     "end_s": 0.442
+    },
+    {
+     "w": "forty-six",
+     "start_s": 0.442,
+     "end_s": 1.239
+    },
+    {
+     "w": "headlines,",
+     "start_s": 1.239,
+     "end_s": 2.123
+    },
+    {
+     "w": "thirty-nine",
+     "start_s": 2.123,
+     "end_s": 3.097
+    },
+    {
+     "w": "name",
+     "start_s": 3.097,
+     "end_s": 3.451
+    },
+    {
+     "w": "Iran.",
+     "start_s": 3.451,
+     "end_s": 3.893
+    },
+    {
+     "w": "Four",
+     "start_s": 3.893,
+     "end_s": 4.247
+    },
+    {
+     "w": "name",
+     "start_s": 4.247,
+     "end_s": 4.601
+    },
+    {
+     "w": "Israel.",
+     "start_s": 4.601,
+     "end_s": 5.22
+    },
+    {
+     "w": "One",
+     "start_s": 5.22,
+     "end_s": 5.486
+    },
+    {
+     "w": "names",
+     "start_s": 5.486,
+     "end_s": 5.928
+    },
+    {
+     "w": "inflation.",
+     "start_s": 5.928,
+     "end_s": 6.813
+    },
+    {
+     "w": "One",
+     "start_s": 6.813,
+     "end_s": 7.078
+    },
+    {
+     "w": "names",
+     "start_s": 7.078,
+     "end_s": 7.521
+    },
+    {
+     "w": "migration.",
+     "start_s": 7.521,
+     "end_s": 8.405
+    }
+   ]
+  },
+  "L-WC-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WC-2.wav",
+   "sha256": "b1fdd25fadb577f52d391c208d2c4546de073dc148e01f32238352a4baec842b",
+   "text_sha256": "3437bd88259c1f2abe17039c5c6cf282f1dda1c4d023d85262c31fb2428aebf0",
+   "dur_s": 3.584,
+   "words": [
+    {
+     "w": "Three",
+     "start_s": 0.0,
+     "end_s": 0.345
+    },
+    {
+     "w": "outlets,",
+     "start_s": 0.345,
+     "end_s": 0.896
+    },
+    {
+     "w": "on",
+     "start_s": 0.896,
+     "end_s": 1.034
+    },
+    {
+     "w": "three",
+     "start_s": 1.034,
+     "end_s": 1.378
+    },
+    {
+     "w": "rungs,",
+     "start_s": 1.378,
+     "end_s": 1.792
+    },
+    {
+     "w": "printed",
+     "start_s": 1.792,
+     "end_s": 2.274
+    },
+    {
+     "w": "the",
+     "start_s": 2.274,
+     "end_s": 2.481
+    },
+    {
+     "w": "same",
+     "start_s": 2.481,
+     "end_s": 2.757
+    },
+    {
+     "w": "quoted",
+     "start_s": 2.757,
+     "end_s": 3.17
+    },
+    {
+     "w": "words.",
+     "start_s": 3.17,
+     "end_s": 3.584
+    }
+   ]
+  },
+  "L-WD-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-WD-1.wav",
+   "sha256": "31e5f9c3cab082cf08fc10c6c0d75b56c549592146539e62920b337e54ce31e5",
+   "text_sha256": "ca96eaaa9490b57b9db2a2c7421583fbb8587b6f9e9f460c3cf7ba8e87293106",
+   "dur_s": 2.261,
+   "words": [
+    {
+     "w": "On",
+     "start_s": 0.0,
+     "end_s": 0.129
+    },
+    {
+     "w": "the",
+     "start_s": 0.129,
+     "end_s": 0.323
+    },
+    {
+     "w": "President's",
+     "start_s": 0.323,
+     "end_s": 1.034
+    },
+    {
+     "w": "reply,",
+     "start_s": 1.034,
+     "end_s": 1.421
+    },
+    {
+     "w": "two",
+     "start_s": 1.421,
+     "end_s": 1.615
+    },
+    {
+     "w": "headlines.",
+     "start_s": 1.615,
+     "end_s": 2.261
+    }
+   ]
+  },
+  "L-M1-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M1-0.wav",
+   "sha256": "4f55f9cbd625fdb9bb218c6dfbdad4847fe8e49f6b25acf1c4086d3caeea642f",
+   "text_sha256": "50900f4597fab32ee6fa414eaf8871918f352afecd164de3e59bab5865c29020",
+   "dur_s": 2.603,
+   "words": [
+    {
+     "w": "Maine.",
+     "start_s": 0.0,
+     "end_s": 0.381
+    },
+    {
+     "w": "Printed",
+     "start_s": 0.381,
+     "end_s": 0.825
+    },
+    {
+     "w": "Thursday,",
+     "start_s": 0.825,
+     "end_s": 1.397
+    },
+    {
+     "w": "the",
+     "start_s": 1.397,
+     "end_s": 1.587
+    },
+    {
+     "w": "fifth",
+     "start_s": 1.587,
+     "end_s": 1.904
+    },
+    {
+     "w": "of",
+     "start_s": 1.904,
+     "end_s": 2.031
+    },
+    {
+     "w": "November.",
+     "start_s": 2.031,
+     "end_s": 2.603
+    }
+   ]
+  },
+  "L-M1-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M1-1.wav",
+   "sha256": "cb8e189746a066142098867cb4b1a160124f11ac4db88bf2fa2ef168f96a392c",
+   "text_sha256": "9cba08147e18e26ca5d506cb931ff447f5f0debcaebaec6fea4f14704f336a4c",
+   "dur_s": 7.616,
+   "words": [
+    {
+     "w": "Democratic",
+     "start_s": 0.0,
+     "end_s": 0.754
+    },
+    {
+     "w": "challenger",
+     "start_s": 0.754,
+     "end_s": 1.508
+    },
+    {
+     "w": "Troy",
+     "start_s": 1.508,
+     "end_s": 1.81
+    },
+    {
+     "w": "Jackson",
+     "start_s": 1.81,
+     "end_s": 2.338
+    },
+    {
+     "w": "defeats",
+     "start_s": 2.338,
+     "end_s": 2.865
+    },
+    {
+     "w": "the",
+     "start_s": 2.865,
+     "end_s": 3.092
+    },
+    {
+     "w": "Republican",
+     "start_s": 3.092,
+     "end_s": 3.846
+    },
+    {
+     "w": "incumbent,",
+     "start_s": 3.846,
+     "end_s": 4.6
+    },
+    {
+     "w": "Senator",
+     "start_s": 4.6,
+     "end_s": 5.128
+    },
+    {
+     "w": "Susan",
+     "start_s": 5.128,
+     "end_s": 5.505
+    },
+    {
+     "w": "Collins,",
+     "start_s": 5.505,
+     "end_s": 6.108
+    },
+    {
+     "w": "in",
+     "start_s": 6.108,
+     "end_s": 6.259
+    },
+    {
+     "w": "the",
+     "start_s": 6.259,
+     "end_s": 6.485
+    },
+    {
+     "w": "race",
+     "start_s": 6.485,
+     "end_s": 6.787
+    },
+    {
+     "w": "for",
+     "start_s": 6.787,
+     "end_s": 7.013
+    },
+    {
+     "w": "her",
+     "start_s": 7.013,
+     "end_s": 7.239
+    },
+    {
+     "w": "seat.",
+     "start_s": 7.239,
+     "end_s": 7.616
+    }
+   ]
+  },
+  "L-M1-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M1-C.wav",
+   "sha256": "c84da31937d239d355136be9cb527b4dda884164bce5590528dc6e86079e83c4",
+   "text_sha256": "5edcc86569f4747d1b34e2915c08a54a7d4f4d1ee35592a7c9ccf79476e7797f",
+   "dur_s": 1.003,
+   "words": [
+    {
+     "w": "Ten",
+     "start_s": 0.0,
+     "end_s": 0.273
+    },
+    {
+     "w": "outlets.",
+     "start_s": 0.273,
+     "end_s": 1.003
+    }
+   ]
+  },
+  "L-M2-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M2-0.wav",
+   "sha256": "b643e7c6f54bf1dc326b774d5885d382b6cb4069214261a56d0400ab909e375a",
+   "text_sha256": "c3693682fa7f8c085d2d4b7bd59d0c68cbcefdf8d5cf4e8339dca2b75691d9a8",
+   "dur_s": 3.691,
+   "words": [
+    {
+     "w": "Oakland,",
+     "start_s": 0.0,
+     "end_s": 0.557
+    },
+    {
+     "w": "California.",
+     "start_s": 0.557,
+     "end_s": 1.323
+    },
+    {
+     "w": "Printed",
+     "start_s": 1.323,
+     "end_s": 1.811
+    },
+    {
+     "w": "Monday,",
+     "start_s": 1.811,
+     "end_s": 2.298
+    },
+    {
+     "w": "the",
+     "start_s": 2.298,
+     "end_s": 2.507
+    },
+    {
+     "w": "second",
+     "start_s": 2.507,
+     "end_s": 2.925
+    },
+    {
+     "w": "of",
+     "start_s": 2.925,
+     "end_s": 3.064
+    },
+    {
+     "w": "November.",
+     "start_s": 3.064,
+     "end_s": 3.691
+    }
+   ]
+  },
+  "L-M2-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M2-1.wav",
+   "sha256": "1495821a967a056b7ba74be96008f55d1e99f80892db2bbdf27189b8c689c7df",
+   "text_sha256": "fd992022c18949c45611eca2ec4c6ba44bc1c296bc58c6b5f6c3993b52d3a0d7",
+   "dur_s": 11.093,
+   "words": [
+    {
+     "w": "District",
+     "start_s": 0.0,
+     "end_s": 0.6
+    },
+    {
+     "w": "Judge",
+     "start_s": 0.6,
+     "end_s": 0.974
+    },
+    {
+     "w": "Trina",
+     "start_s": 0.974,
+     "end_s": 1.349
+    },
+    {
+     "w": "Thompson",
+     "start_s": 1.349,
+     "end_s": 1.949
+    },
+    {
+     "w": "issues",
+     "start_s": 1.949,
+     "end_s": 2.399
+    },
+    {
+     "w": "a",
+     "start_s": 2.399,
+     "end_s": 2.474
+    },
+    {
+     "w": "temporary",
+     "start_s": 2.474,
+     "end_s": 3.148
+    },
+    {
+     "w": "restraining",
+     "start_s": 3.148,
+     "end_s": 3.973
+    },
+    {
+     "w": "order",
+     "start_s": 3.973,
+     "end_s": 4.347
+    },
+    {
+     "w": "that",
+     "start_s": 4.347,
+     "end_s": 4.647
+    },
+    {
+     "w": "bars",
+     "start_s": 4.647,
+     "end_s": 4.947
+    },
+    {
+     "w": "the",
+     "start_s": 4.947,
+     "end_s": 5.172
+    },
+    {
+     "w": "Trump",
+     "start_s": 5.172,
+     "end_s": 5.547
+    },
+    {
+     "w": "administration",
+     "start_s": 5.547,
+     "end_s": 6.596
+    },
+    {
+     "w": "from",
+     "start_s": 6.596,
+     "end_s": 6.896
+    },
+    {
+     "w": "threatening",
+     "start_s": 6.896,
+     "end_s": 7.72
+    },
+    {
+     "w": "or",
+     "start_s": 7.72,
+     "end_s": 7.87
+    },
+    {
+     "w": "intimidating",
+     "start_s": 7.87,
+     "end_s": 8.77
+    },
+    {
+     "w": "state",
+     "start_s": 8.77,
+     "end_s": 9.145
+    },
+    {
+     "w": "and",
+     "start_s": 9.145,
+     "end_s": 9.369
+    },
+    {
+     "w": "local",
+     "start_s": 9.369,
+     "end_s": 9.744
+    },
+    {
+     "w": "election",
+     "start_s": 9.744,
+     "end_s": 10.344
+    },
+    {
+     "w": "officials.",
+     "start_s": 10.344,
+     "end_s": 11.093
+    }
+   ]
+  },
+  "L-M2-2": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M2-2.wav",
+   "sha256": "7d7d433cda1f64325f76d0e4c7e9282255e0d8060be2ce0e450a407da28733ec",
+   "text_sha256": "609954ce5460422f8926c684039c3f2163fc4f55cbce0f070e2572e818073035",
+   "dur_s": 2.432,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.174
+    },
+    {
+     "w": "order",
+     "start_s": 0.174,
+     "end_s": 0.463
+    },
+    {
+     "w": "runs",
+     "start_s": 0.463,
+     "end_s": 0.695
+    },
+    {
+     "w": "through",
+     "start_s": 0.695,
+     "end_s": 1.1
+    },
+    {
+     "w": "the",
+     "start_s": 1.1,
+     "end_s": 1.274
+    },
+    {
+     "w": "sixteenth",
+     "start_s": 1.274,
+     "end_s": 1.795
+    },
+    {
+     "w": "of",
+     "start_s": 1.795,
+     "end_s": 1.911
+    },
+    {
+     "w": "November.",
+     "start_s": 1.911,
+     "end_s": 2.432
+    }
+   ]
+  },
+  "L-M2-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M2-C.wav",
+   "sha256": "2f63906f88c309d51be5b61cfab2a27cce8394dd471edcf764a2767c4109ceca",
+   "text_sha256": "963f2e58b832248fdf8ca5c076bb68159a4c5aebc679d22b16dc188bf3265812",
+   "dur_s": 1.088,
+   "words": [
+    {
+     "w": "Twelve",
+     "start_s": 0.0,
+     "end_s": 0.466
+    },
+    {
+     "w": "outlets.",
+     "start_s": 0.466,
+     "end_s": 1.088
+    }
+   ]
+  },
+  "L-M3-0": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M3-0.wav",
+   "sha256": "2af237134ccc26f27a1ed8aaee296dce56566a11e8c6b0a8dcc275febbf806e1",
+   "text_sha256": "d7045503e719e86be855909ef6c8decf7080ed4b646a307f28b6fcdd3b900675",
+   "dur_s": 3.627,
+   "words": [
+    {
+     "w": "Birmingham,",
+     "start_s": 0.0,
+     "end_s": 0.753
+    },
+    {
+     "w": "Alabama.",
+     "start_s": 0.753,
+     "end_s": 1.3
+    },
+    {
+     "w": "Printed",
+     "start_s": 1.3,
+     "end_s": 1.779
+    },
+    {
+     "w": "Monday,",
+     "start_s": 1.779,
+     "end_s": 2.258
+    },
+    {
+     "w": "the",
+     "start_s": 2.258,
+     "end_s": 2.463
+    },
+    {
+     "w": "second",
+     "start_s": 2.463,
+     "end_s": 2.874
+    },
+    {
+     "w": "of",
+     "start_s": 2.874,
+     "end_s": 3.011
+    },
+    {
+     "w": "November.",
+     "start_s": 3.011,
+     "end_s": 3.627
+    }
+   ]
+  },
+  "L-M3-1": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M3-1.wav",
+   "sha256": "c52301265654cc5538a6e2880718526d47b45c40f83b369032720cf4ae40625c",
+   "text_sha256": "aeb877610c57717230eb62d78adcc88000a90a2a86e9a0b459b0659ca79a25b3",
+   "dur_s": 8.235,
+   "words": [
+    {
+     "w": "Gunfire",
+     "start_s": 0.0,
+     "end_s": 0.539
+    },
+    {
+     "w": "outside",
+     "start_s": 0.539,
+     "end_s": 1.077
+    },
+    {
+     "w": "Legion",
+     "start_s": 1.077,
+     "end_s": 1.539
+    },
+    {
+     "w": "Field,",
+     "start_s": 1.539,
+     "end_s": 2.001
+    },
+    {
+     "w": "after",
+     "start_s": 2.001,
+     "end_s": 2.386
+    },
+    {
+     "w": "the",
+     "start_s": 2.386,
+     "end_s": 2.617
+    },
+    {
+     "w": "Magic",
+     "start_s": 2.617,
+     "end_s": 3.001
+    },
+    {
+     "w": "City",
+     "start_s": 3.001,
+     "end_s": 3.309
+    },
+    {
+     "w": "Classic",
+     "start_s": 3.309,
+     "end_s": 3.848
+    },
+    {
+     "w": "football",
+     "start_s": 3.848,
+     "end_s": 4.464
+    },
+    {
+     "w": "game",
+     "start_s": 4.464,
+     "end_s": 4.771
+    },
+    {
+     "w": "on",
+     "start_s": 4.771,
+     "end_s": 4.925
+    },
+    {
+     "w": "Saturday",
+     "start_s": 4.925,
+     "end_s": 5.541
+    },
+    {
+     "w": "night,",
+     "start_s": 5.541,
+     "end_s": 6.003
+    },
+    {
+     "w": "kills",
+     "start_s": 6.003,
+     "end_s": 6.388
+    },
+    {
+     "w": "one",
+     "start_s": 6.388,
+     "end_s": 6.619
+    },
+    {
+     "w": "person",
+     "start_s": 6.619,
+     "end_s": 7.08
+    },
+    {
+     "w": "and",
+     "start_s": 7.08,
+     "end_s": 7.311
+    },
+    {
+     "w": "wounds",
+     "start_s": 7.311,
+     "end_s": 7.773
+    },
+    {
+     "w": "eight.",
+     "start_s": 7.773,
+     "end_s": 8.235
+    }
+   ]
+  },
+  "L-M3-C": {
+   "voice": "v-narrator",
+   "wav": "audio/L-M3-C.wav",
+   "sha256": "2f63906f88c309d51be5b61cfab2a27cce8394dd471edcf764a2767c4109ceca",
+   "text_sha256": "963f2e58b832248fdf8ca5c076bb68159a4c5aebc679d22b16dc188bf3265812",
+   "dur_s": 1.088,
+   "words": [
+    {
+     "w": "Twelve",
+     "start_s": 0.0,
+     "end_s": 0.466
+    },
+    {
+     "w": "outlets.",
+     "start_s": 0.466,
+     "end_s": 1.088
+    }
+   ]
+  },
+  "L-Q": {
+   "voice": "v-narrator",
+   "wav": "audio/L-Q.wav",
+   "sha256": "6d17ea7e058cf56a5bfe6465fce8af234dd41b260f2db22df84784bfe5d025d4",
+   "text_sha256": "9d441823980201d11a5cf84ed5f4500327527038735fed29794e1a51b5cb78f9",
+   "dur_s": 2.56,
+   "words": [
+    {
+     "w": "What",
+     "start_s": 0.0,
+     "end_s": 0.301
+    },
+    {
+     "w": "did",
+     "start_s": 0.301,
+     "end_s": 0.527
+    },
+    {
+     "w": "the",
+     "start_s": 0.527,
+     "end_s": 0.753
+    },
+    {
+     "w": "voters",
+     "start_s": 0.753,
+     "end_s": 1.205
+    },
+    {
+     "w": "of",
+     "start_s": 1.205,
+     "end_s": 1.355
+    },
+    {
+     "w": "3",
+     "start_s": 1.355,
+     "end_s": 1.431
+    },
+    {
+     "w": "November",
+     "start_s": 1.431,
+     "end_s": 2.033
+    },
+    {
+     "w": "vote",
+     "start_s": 2.033,
+     "end_s": 2.334
+    },
+    {
+     "w": "on?",
+     "start_s": 2.334,
+     "end_s": 2.56
+    }
+   ]
+  },
+  "L-X1": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X1.wav",
+   "sha256": "7b9eec36ead50095ff572f60f565f78068250970ac90c0e607c0d841279b867a",
+   "text_sha256": "b5fb60a74c903ff3b81fa28534fe1ca963abec7db3999d82f15a8126699903ab",
+   "dur_s": 9.173,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.313
+    },
+    {
+     "w": "eighth",
+     "start_s": 0.313,
+     "end_s": 0.938
+    },
+    {
+     "w": "of",
+     "start_s": 0.938,
+     "end_s": 1.147
+    },
+    {
+     "w": "January,",
+     "start_s": 1.147,
+     "end_s": 1.981
+    },
+    {
+     "w": "1951.",
+     "start_s": 1.981,
+     "end_s": 2.502
+    },
+    {
+     "w": "Outside",
+     "start_s": 2.502,
+     "end_s": 3.232
+    },
+    {
+     "w": "Kangnung,",
+     "start_s": 3.232,
+     "end_s": 4.17
+    },
+    {
+     "w": "in",
+     "start_s": 4.17,
+     "end_s": 4.378
+    },
+    {
+     "w": "Korea,",
+     "start_s": 4.378,
+     "end_s": 5.004
+    },
+    {
+     "w": "a",
+     "start_s": 5.004,
+     "end_s": 5.108
+    },
+    {
+     "w": "file",
+     "start_s": 5.108,
+     "end_s": 5.525
+    },
+    {
+     "w": "of",
+     "start_s": 5.525,
+     "end_s": 5.733
+    },
+    {
+     "w": "refugees",
+     "start_s": 5.733,
+     "end_s": 6.567
+    },
+    {
+     "w": "walks",
+     "start_s": 6.567,
+     "end_s": 7.088
+    },
+    {
+     "w": "south",
+     "start_s": 7.088,
+     "end_s": 7.61
+    },
+    {
+     "w": "through",
+     "start_s": 7.61,
+     "end_s": 8.339
+    },
+    {
+     "w": "the",
+     "start_s": 8.339,
+     "end_s": 8.652
+    },
+    {
+     "w": "snow.",
+     "start_s": 8.652,
+     "end_s": 9.173
+    }
+   ]
+  },
+  "L-X2": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X2.wav",
+   "sha256": "26c02d0162ecdf1e8582cf7b5f4572db40ebd3fa7992c0ebbdb399b0f1825fcd",
+   "text_sha256": "bc780b6e79093bbd99b63f74aa441b511741016814734bf3b16bb36b64f57940",
+   "dur_s": 11.392,
+   "words": [
+    {
+     "w": "Washington,",
+     "start_s": 0.0,
+     "end_s": 1.09
+    },
+    {
+     "w": "the",
+     "start_s": 1.09,
+     "end_s": 1.387
+    },
+    {
+     "w": "thirtieth",
+     "start_s": 1.387,
+     "end_s": 2.278
+    },
+    {
+     "w": "of",
+     "start_s": 2.278,
+     "end_s": 2.477
+    },
+    {
+     "w": "January,",
+     "start_s": 2.477,
+     "end_s": 3.269
+    },
+    {
+     "w": "1951.",
+     "start_s": 3.269,
+     "end_s": 3.764
+    },
+    {
+     "w": "The",
+     "start_s": 3.764,
+     "end_s": 4.061
+    },
+    {
+     "w": "Federal",
+     "start_s": 4.061,
+     "end_s": 4.755
+    },
+    {
+     "w": "Register",
+     "start_s": 4.755,
+     "end_s": 5.547
+    },
+    {
+     "w": "prints",
+     "start_s": 5.547,
+     "end_s": 6.142
+    },
+    {
+     "w": "the",
+     "start_s": 6.142,
+     "end_s": 6.439
+    },
+    {
+     "w": "Office",
+     "start_s": 6.439,
+     "end_s": 7.033
+    },
+    {
+     "w": "of",
+     "start_s": 7.033,
+     "end_s": 7.231
+    },
+    {
+     "w": "Price",
+     "start_s": 7.231,
+     "end_s": 7.727
+    },
+    {
+     "w": "Stabilization's",
+     "start_s": 7.727,
+     "end_s": 9.213
+    },
+    {
+     "w": "general",
+     "start_s": 9.213,
+     "end_s": 9.906
+    },
+    {
+     "w": "freeze",
+     "start_s": 9.906,
+     "end_s": 10.5
+    },
+    {
+     "w": "on",
+     "start_s": 10.5,
+     "end_s": 10.699
+    },
+    {
+     "w": "prices.",
+     "start_s": 10.699,
+     "end_s": 11.392
+    }
+   ]
+  },
+  "L-X3": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X3.wav",
+   "sha256": "681e396413141128b19e0c262c0cb5d2318112336d98fde25a3fcedd232f3859",
+   "text_sha256": "f7a352dc716db053cec4086b857c466b65c50e0f32f00feeb6069026eb6c19c6",
+   "dur_s": 10.731,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.271
+    },
+    {
+     "w": "fourteenth",
+     "start_s": 0.271,
+     "end_s": 1.172
+    },
+    {
+     "w": "of",
+     "start_s": 1.172,
+     "end_s": 1.353
+    },
+    {
+     "w": "June,",
+     "start_s": 1.353,
+     "end_s": 1.803
+    },
+    {
+     "w": "1951.",
+     "start_s": 1.803,
+     "end_s": 2.254
+    },
+    {
+     "w": "From",
+     "start_s": 2.254,
+     "end_s": 2.615
+    },
+    {
+     "w": "the",
+     "start_s": 2.615,
+     "end_s": 2.886
+    },
+    {
+     "w": "White",
+     "start_s": 2.886,
+     "end_s": 3.336
+    },
+    {
+     "w": "House,",
+     "start_s": 3.336,
+     "end_s": 3.877
+    },
+    {
+     "w": "President",
+     "start_s": 3.877,
+     "end_s": 4.689
+    },
+    {
+     "w": "Truman",
+     "start_s": 4.689,
+     "end_s": 5.23
+    },
+    {
+     "w": "speaks",
+     "start_s": 5.23,
+     "end_s": 5.771
+    },
+    {
+     "w": "to",
+     "start_s": 5.771,
+     "end_s": 5.951
+    },
+    {
+     "w": "the",
+     "start_s": 5.951,
+     "end_s": 6.222
+    },
+    {
+     "w": "country",
+     "start_s": 6.222,
+     "end_s": 6.853
+    },
+    {
+     "w": "on",
+     "start_s": 6.853,
+     "end_s": 7.034
+    },
+    {
+     "w": "radio",
+     "start_s": 7.034,
+     "end_s": 7.484
+    },
+    {
+     "w": "and",
+     "start_s": 7.484,
+     "end_s": 7.755
+    },
+    {
+     "w": "television",
+     "start_s": 7.755,
+     "end_s": 8.657
+    },
+    {
+     "w": "about",
+     "start_s": 8.657,
+     "end_s": 9.108
+    },
+    {
+     "w": "inflation",
+     "start_s": 9.108,
+     "end_s": 9.919
+    },
+    {
+     "w": "controls.",
+     "start_s": 9.919,
+     "end_s": 10.731
+    }
+   ]
+  },
+  "L-X4": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X4.wav",
+   "sha256": "51c4c1657fc22588d2f679e2cb2c56ce23328c02b9cf5fad6719170698f3eb26",
+   "text_sha256": "e4d70aa8a2d56b62e94a5312f9caea031fff497a6b82b2a8b7ca54e97a7f5c93",
+   "dur_s": 11.925,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.291
+    },
+    {
+     "w": "fourteenth",
+     "start_s": 0.291,
+     "end_s": 1.26
+    },
+    {
+     "w": "of",
+     "start_s": 1.26,
+     "end_s": 1.454
+    },
+    {
+     "w": "December,",
+     "start_s": 1.454,
+     "end_s": 2.327
+    },
+    {
+     "w": "1951,",
+     "start_s": 2.327,
+     "end_s": 2.812
+    },
+    {
+     "w": "on",
+     "start_s": 2.812,
+     "end_s": 3.006
+    },
+    {
+     "w": "the",
+     "start_s": 3.006,
+     "end_s": 3.296
+    },
+    {
+     "w": "Kumsong",
+     "start_s": 3.296,
+     "end_s": 3.975
+    },
+    {
+     "w": "front.",
+     "start_s": 3.975,
+     "end_s": 4.557
+    },
+    {
+     "w": "Missouri",
+     "start_s": 4.557,
+     "end_s": 5.332
+    },
+    {
+     "w": "infantrymen",
+     "start_s": 5.332,
+     "end_s": 6.399
+    },
+    {
+     "w": "of",
+     "start_s": 6.399,
+     "end_s": 6.593
+    },
+    {
+     "w": "the",
+     "start_s": 6.593,
+     "end_s": 6.884
+    },
+    {
+     "w": "19th",
+     "start_s": 6.884,
+     "end_s": 7.272
+    },
+    {
+     "w": "Infantry",
+     "start_s": 7.272,
+     "end_s": 8.047
+    },
+    {
+     "w": "Regiment",
+     "start_s": 8.047,
+     "end_s": 8.823
+    },
+    {
+     "w": "wish",
+     "start_s": 8.823,
+     "end_s": 9.211
+    },
+    {
+     "w": "the",
+     "start_s": 9.211,
+     "end_s": 9.501
+    },
+    {
+     "w": "folks",
+     "start_s": 9.501,
+     "end_s": 9.986
+    },
+    {
+     "w": "at",
+     "start_s": 9.986,
+     "end_s": 10.18
+    },
+    {
+     "w": "home",
+     "start_s": 10.18,
+     "end_s": 10.568
+    },
+    {
+     "w": "a",
+     "start_s": 10.568,
+     "end_s": 10.665
+    },
+    {
+     "w": "happy",
+     "start_s": 10.665,
+     "end_s": 11.15
+    },
+    {
+     "w": "New",
+     "start_s": 11.15,
+     "end_s": 11.441
+    },
+    {
+     "w": "Year.",
+     "start_s": 11.441,
+     "end_s": 11.925
+    }
+   ]
+  },
+  "L-X5": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X5.wav",
+   "sha256": "eb4743155ee6554d2404b7fb5f296400909210487a7ca0eb3a5fad0edba7a88c",
+   "text_sha256": "305fdc7c2b7b5fba6d46b9d7eb6fdf0b30fffdb498379ee41fcac9f7921059b0",
+   "dur_s": 16.064,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.242
+    },
+    {
+     "w": "eleventh",
+     "start_s": 0.242,
+     "end_s": 0.888
+    },
+    {
+     "w": "of",
+     "start_s": 0.888,
+     "end_s": 1.049
+    },
+    {
+     "w": "March,",
+     "start_s": 1.049,
+     "end_s": 1.534
+    },
+    {
+     "w": "1952.",
+     "start_s": 1.534,
+     "end_s": 1.937
+    },
+    {
+     "w": "In",
+     "start_s": 1.937,
+     "end_s": 2.099
+    },
+    {
+     "w": "New",
+     "start_s": 2.099,
+     "end_s": 2.341
+    },
+    {
+     "w": "Hampshire's",
+     "start_s": 2.341,
+     "end_s": 3.229
+    },
+    {
+     "w": "Democratic",
+     "start_s": 3.229,
+     "end_s": 4.036
+    },
+    {
+     "w": "primary,",
+     "start_s": 4.036,
+     "end_s": 4.682
+    },
+    {
+     "w": "the",
+     "start_s": 4.682,
+     "end_s": 4.924
+    },
+    {
+     "w": "preference",
+     "start_s": 4.924,
+     "end_s": 5.731
+    },
+    {
+     "w": "vote",
+     "start_s": 5.731,
+     "end_s": 6.054
+    },
+    {
+     "w": "for",
+     "start_s": 6.054,
+     "end_s": 6.296
+    },
+    {
+     "w": "President.",
+     "start_s": 6.296,
+     "end_s": 7.104
+    },
+    {
+     "w": "Senator",
+     "start_s": 7.104,
+     "end_s": 7.669
+    },
+    {
+     "w": "Estes",
+     "start_s": 7.669,
+     "end_s": 8.072
+    },
+    {
+     "w": "Kefauver,",
+     "start_s": 8.072,
+     "end_s": 9.041
+    },
+    {
+     "w": "nineteen",
+     "start_s": 9.041,
+     "end_s": 9.687
+    },
+    {
+     "w": "thousand",
+     "start_s": 9.687,
+     "end_s": 10.333
+    },
+    {
+     "w": "eight",
+     "start_s": 10.333,
+     "end_s": 10.736
+    },
+    {
+     "w": "hundred.",
+     "start_s": 10.736,
+     "end_s": 11.382
+    },
+    {
+     "w": "President",
+     "start_s": 11.382,
+     "end_s": 12.109
+    },
+    {
+     "w": "Truman,",
+     "start_s": 12.109,
+     "end_s": 12.674
+    },
+    {
+     "w": "fifteen",
+     "start_s": 12.674,
+     "end_s": 13.239
+    },
+    {
+     "w": "thousand",
+     "start_s": 13.239,
+     "end_s": 13.884
+    },
+    {
+     "w": "nine",
+     "start_s": 13.884,
+     "end_s": 14.207
+    },
+    {
+     "w": "hundred",
+     "start_s": 14.207,
+     "end_s": 14.772
+    },
+    {
+     "w": "and",
+     "start_s": 14.772,
+     "end_s": 15.015
+    },
+    {
+     "w": "twenty-seven.",
+     "start_s": 15.015,
+     "end_s": 16.064
+    }
+   ]
+  },
+  "L-X6": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X6.wav",
+   "sha256": "00f4027d43af429532074ff15b9d6ee6976cf4d957006484f503273bccdbb83e",
+   "text_sha256": "57b01806370a62eb55f084538289174424b4bcd2311ae898b15b35042f3398c2",
+   "dur_s": 12.587,
+   "words": [
+    {
+     "w": "The",
+     "start_s": 0.0,
+     "end_s": 0.272
+    },
+    {
+     "w": "twenty-ninth",
+     "start_s": 0.272,
+     "end_s": 1.358
+    },
+    {
+     "w": "of",
+     "start_s": 1.358,
+     "end_s": 1.539
+    },
+    {
+     "w": "March,",
+     "start_s": 1.539,
+     "end_s": 2.083
+    },
+    {
+     "w": "1952.",
+     "start_s": 2.083,
+     "end_s": 2.535
+    },
+    {
+     "w": "The",
+     "start_s": 2.535,
+     "end_s": 2.807
+    },
+    {
+     "w": "Jefferson-Jackson",
+     "start_s": 2.807,
+     "end_s": 4.346
+    },
+    {
+     "w": "Day",
+     "start_s": 4.346,
+     "end_s": 4.618
+    },
+    {
+     "w": "Dinner,",
+     "start_s": 4.618,
+     "end_s": 5.252
+    },
+    {
+     "w": "at",
+     "start_s": 5.252,
+     "end_s": 5.433
+    },
+    {
+     "w": "the",
+     "start_s": 5.433,
+     "end_s": 5.705
+    },
+    {
+     "w": "National",
+     "start_s": 5.705,
+     "end_s": 6.429
+    },
+    {
+     "w": "Guard",
+     "start_s": 6.429,
+     "end_s": 6.882
+    },
+    {
+     "w": "Armory",
+     "start_s": 6.882,
+     "end_s": 7.425
+    },
+    {
+     "w": "in",
+     "start_s": 7.425,
+     "end_s": 7.606
+    },
+    {
+     "w": "Washington.",
+     "start_s": 7.606,
+     "end_s": 8.602
+    },
+    {
+     "w": "President",
+     "start_s": 8.602,
+     "end_s": 9.417
+    },
+    {
+     "w": "Truman",
+     "start_s": 9.417,
+     "end_s": 9.961
+    },
+    {
+     "w": "speaks",
+     "start_s": 9.961,
+     "end_s": 10.504
+    },
+    {
+     "w": "at",
+     "start_s": 10.504,
+     "end_s": 10.685
+    },
+    {
+     "w": "half",
+     "start_s": 10.685,
+     "end_s": 11.047
+    },
+    {
+     "w": "past",
+     "start_s": 11.047,
+     "end_s": 11.409
+    },
+    {
+     "w": "ten",
+     "start_s": 11.409,
+     "end_s": 11.681
+    },
+    {
+     "w": "that",
+     "start_s": 11.681,
+     "end_s": 12.043
+    },
+    {
+     "w": "night.",
+     "start_s": 12.043,
+     "end_s": 12.587
+    }
+   ]
+  },
+  "L-X7": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X7.wav",
+   "sha256": "f75898e8c15efeedd141df355e237546078c82772b5b0c672199b05b39b24e84",
+   "text_sha256": "2e77d8334a27ba21ae7f69d3fb0caab34c457bbae792270bcf4ebb588f53cbdd",
+   "dur_s": 11.392,
+   "words": [
+    {
+     "w": "June",
+     "start_s": 0.0,
+     "end_s": 0.403
+    },
+    {
+     "w": "1952,",
+     "start_s": 0.403,
+     "end_s": 0.907
+    },
+    {
+     "w": "in",
+     "start_s": 0.907,
+     "end_s": 1.109
+    },
+    {
+     "w": "Korea.",
+     "start_s": 1.109,
+     "end_s": 1.714
+    },
+    {
+     "w": "A",
+     "start_s": 1.714,
+     "end_s": 1.815
+    },
+    {
+     "w": "helicopter",
+     "start_s": 1.815,
+     "end_s": 2.823
+    },
+    {
+     "w": "carrying",
+     "start_s": 2.823,
+     "end_s": 3.629
+    },
+    {
+     "w": "two",
+     "start_s": 3.629,
+     "end_s": 3.932
+    },
+    {
+     "w": "wounded",
+     "start_s": 3.932,
+     "end_s": 4.637
+    },
+    {
+     "w": "soldiers",
+     "start_s": 4.637,
+     "end_s": 5.444
+    },
+    {
+     "w": "of",
+     "start_s": 5.444,
+     "end_s": 5.646
+    },
+    {
+     "w": "the",
+     "start_s": 5.646,
+     "end_s": 5.948
+    },
+    {
+     "w": "United",
+     "start_s": 5.948,
+     "end_s": 6.553
+    },
+    {
+     "w": "Nations",
+     "start_s": 6.553,
+     "end_s": 7.259
+    },
+    {
+     "w": "forces",
+     "start_s": 7.259,
+     "end_s": 7.864
+    },
+    {
+     "w": "comes",
+     "start_s": 7.864,
+     "end_s": 8.368
+    },
+    {
+     "w": "in",
+     "start_s": 8.368,
+     "end_s": 8.569
+    },
+    {
+     "w": "to",
+     "start_s": 8.569,
+     "end_s": 8.771
+    },
+    {
+     "w": "land",
+     "start_s": 8.771,
+     "end_s": 9.174
+    },
+    {
+     "w": "at",
+     "start_s": 9.174,
+     "end_s": 9.376
+    },
+    {
+     "w": "a",
+     "start_s": 9.376,
+     "end_s": 9.477
+    },
+    {
+     "w": "front-line",
+     "start_s": 9.477,
+     "end_s": 10.485
+    },
+    {
+     "w": "airstrip.",
+     "start_s": 10.485,
+     "end_s": 11.392
+    }
+   ]
+  },
+  "L-X8": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X8.wav",
+   "sha256": "7beab833de9b3d69884d3a737707a0a04aa6f6477e095f6d2cf7490be0034978",
+   "text_sha256": "4cdeab7c7696f449e1c8ac0769681d87be920c1c065a15a0830367be22b1db23",
+   "dur_s": 9.835,
+   "words": [
+    {
+     "w": "Detroit,",
+     "start_s": 0.0,
+     "end_s": 0.749
+    },
+    {
+     "w": "the",
+     "start_s": 0.749,
+     "end_s": 1.03
+    },
+    {
+     "w": "twenty-fourth",
+     "start_s": 1.03,
+     "end_s": 2.248
+    },
+    {
+     "w": "of",
+     "start_s": 2.248,
+     "end_s": 2.435
+    },
+    {
+     "w": "October,",
+     "start_s": 2.435,
+     "end_s": 3.185
+    },
+    {
+     "w": "1952.",
+     "start_s": 3.185,
+     "end_s": 3.653
+    },
+    {
+     "w": "Dwight",
+     "start_s": 3.653,
+     "end_s": 4.215
+    },
+    {
+     "w": "D.",
+     "start_s": 4.215,
+     "end_s": 4.402
+    },
+    {
+     "w": "Eisenhower,",
+     "start_s": 4.402,
+     "end_s": 5.432
+    },
+    {
+     "w": "the",
+     "start_s": 5.432,
+     "end_s": 5.713
+    },
+    {
+     "w": "Republican",
+     "start_s": 5.713,
+     "end_s": 6.65
+    },
+    {
+     "w": "nominee",
+     "start_s": 6.65,
+     "end_s": 7.306
+    },
+    {
+     "w": "for",
+     "start_s": 7.306,
+     "end_s": 7.587
+    },
+    {
+     "w": "President,",
+     "start_s": 7.587,
+     "end_s": 8.523
+    },
+    {
+     "w": "speaks",
+     "start_s": 8.523,
+     "end_s": 9.085
+    },
+    {
+     "w": "on",
+     "start_s": 9.085,
+     "end_s": 9.273
+    },
+    {
+     "w": "Korea.",
+     "start_s": 9.273,
+     "end_s": 9.835
+    }
+   ]
+  },
+  "L-X9": {
+   "voice": "v-narrator-echo",
+   "wav": "audio/L-X9.wav",
+   "sha256": "34f8115bc9cbbecbb492b351b155d41d24c6c8cbc49ea125efe55473e4fe8dca",
+   "text_sha256": "37d3627ed5e7f87df6fb95b9e6383480027ffc622ec1abcda87ccdab6da0bbd6",
+   "dur_s": 14.037,
+   "words": [
+    {
+     "w": "Tuesday,",
+     "start_s": 0.0,
+     "end_s": 0.72
+    },
+    {
+     "w": "the",
+     "start_s": 0.72,
+     "end_s": 0.99
+    },
+    {
+     "w": "fourth",
+     "start_s": 0.99,
+     "end_s": 1.53
+    },
+    {
+     "w": "of",
+     "start_s": 1.53,
+     "end_s": 1.71
+    },
+    {
+     "w": "November,",
+     "start_s": 1.71,
+     "end_s": 2.52
+    },
+    {
+     "w": "1952,",
+     "start_s": 2.52,
+     "end_s": 2.969
+    },
+    {
+     "w": "the",
+     "start_s": 2.969,
+     "end_s": 3.239
+    },
+    {
+     "w": "country",
+     "start_s": 3.239,
+     "end_s": 3.869
+    },
+    {
+     "w": "votes.",
+     "start_s": 3.869,
+     "end_s": 4.409
+    },
+    {
+     "w": "The",
+     "start_s": 4.409,
+     "end_s": 4.679
+    },
+    {
+     "w": "next",
+     "start_s": 4.679,
+     "end_s": 5.039
+    },
+    {
+     "w": "morning,",
+     "start_s": 5.039,
+     "end_s": 5.759
+    },
+    {
+     "w": "the",
+     "start_s": 5.759,
+     "end_s": 6.029
+    },
+    {
+     "w": "New",
+     "start_s": 6.029,
+     "end_s": 6.299
+    },
+    {
+     "w": "York",
+     "start_s": 6.299,
+     "end_s": 6.659
+    },
+    {
+     "w": "Times",
+     "start_s": 6.659,
+     "end_s": 7.109
+    },
+    {
+     "w": "prints",
+     "start_s": 7.109,
+     "end_s": 7.649
+    },
+    {
+     "w": "the",
+     "start_s": 7.649,
+     "end_s": 7.918
+    },
+    {
+     "w": "words",
+     "start_s": 7.918,
+     "end_s": 8.368
+    },
+    {
+     "w": "of",
+     "start_s": 8.368,
+     "end_s": 8.548
+    },
+    {
+     "w": "Adlai",
+     "start_s": 8.548,
+     "end_s": 8.998
+    },
+    {
+     "w": "Stevenson,",
+     "start_s": 8.998,
+     "end_s": 9.898
+    },
+    {
+     "w": "the",
+     "start_s": 9.898,
+     "end_s": 10.168
+    },
+    {
+     "w": "Democratic",
+     "start_s": 10.168,
+     "end_s": 11.068
+    },
+    {
+     "w": "nominee,",
+     "start_s": 11.068,
+     "end_s": 11.788
+    },
+    {
+     "w": "from",
+     "start_s": 11.788,
+     "end_s": 12.148
+    },
+    {
+     "w": "Springfield,",
+     "start_s": 12.148,
+     "end_s": 13.227
+    },
+    {
+     "w": "Illinois.",
+     "start_s": 13.227,
+     "end_s": 14.037
+    }
+   ]
+  },
+  "R-X2": {
+   "voice": "v-reader-ops",
+   "wav": "audio/R-X2.wav",
+   "sha256": "bcd2962f34909c1d435c1bad766ce4a99d390540c8104d6bec240d99ceac5139",
+   "text_sha256": "adee056ba1e6025c01425a5aa770796b972b0aad262014bd38607486e009491a",
+   "dur_s": 16.704,
+   "words": [
+    {
+     "w": "Since",
+     "start_s": 0.0,
+     "end_s": 0.532
+    },
+    {
+     "w": "the",
+     "start_s": 0.532,
+     "end_s": 0.851
+    },
+    {
+     "w": "outbreak",
+     "start_s": 0.851,
+     "end_s": 1.702
+    },
+    {
+     "w": "in",
+     "start_s": 1.702,
+     "end_s": 1.915
+    },
+    {
+     "w": "Korea,",
+     "start_s": 1.915,
+     "end_s": 2.553
+    },
+    {
+     "w": "basic",
+     "start_s": 2.553,
+     "end_s": 3.085
+    },
+    {
+     "w": "commodity",
+     "start_s": 3.085,
+     "end_s": 4.043
+    },
+    {
+     "w": "prices",
+     "start_s": 4.043,
+     "end_s": 4.681
+    },
+    {
+     "w": "have",
+     "start_s": 4.681,
+     "end_s": 5.107
+    },
+    {
+     "w": "risen",
+     "start_s": 5.107,
+     "end_s": 5.639
+    },
+    {
+     "w": "almost",
+     "start_s": 5.639,
+     "end_s": 6.277
+    },
+    {
+     "w": "50",
+     "start_s": 6.277,
+     "end_s": 6.49
+    },
+    {
+     "w": "percent,",
+     "start_s": 6.49,
+     "end_s": 7.341
+    },
+    {
+     "w": "farm",
+     "start_s": 7.341,
+     "end_s": 7.767
+    },
+    {
+     "w": "prices",
+     "start_s": 7.767,
+     "end_s": 8.405
+    },
+    {
+     "w": "about",
+     "start_s": 8.405,
+     "end_s": 8.937
+    },
+    {
+     "w": "16",
+     "start_s": 8.937,
+     "end_s": 9.15
+    },
+    {
+     "w": "percent,",
+     "start_s": 9.15,
+     "end_s": 10.001
+    },
+    {
+     "w": "wholesale",
+     "start_s": 10.001,
+     "end_s": 10.959
+    },
+    {
+     "w": "food",
+     "start_s": 10.959,
+     "end_s": 11.384
+    },
+    {
+     "w": "prices",
+     "start_s": 11.384,
+     "end_s": 12.023
+    },
+    {
+     "w": "12",
+     "start_s": 12.023,
+     "end_s": 12.235
+    },
+    {
+     "w": "percent,",
+     "start_s": 12.235,
+     "end_s": 13.087
+    },
+    {
+     "w": "and",
+     "start_s": 13.087,
+     "end_s": 13.406
+    },
+    {
+     "w": "industrial",
+     "start_s": 13.406,
+     "end_s": 14.47
+    },
+    {
+     "w": "prices",
+     "start_s": 14.47,
+     "end_s": 15.108
+    },
+    {
+     "w": "about",
+     "start_s": 15.108,
+     "end_s": 15.64
+    },
+    {
+     "w": "14",
+     "start_s": 15.64,
+     "end_s": 15.853
+    },
+    {
+     "w": "percent.",
+     "start_s": 15.853,
+     "end_s": 16.704
+    }
+   ]
+  },
+  "R-X3A": {
+   "voice": "v-reader-truman",
+   "wav": "audio/R-X3A.wav",
+   "sha256": "a70671db35ba73475b5882576250926125235538405ea80ed99bbc1804842397",
+   "text_sha256": "7759abd732b7f21c3723494eae12afeb1e3bd9cbdbacfdad67389d2b53f1a4b8",
+   "dur_s": 3.797,
+   "words": [
+    {
+     "w": "This",
+     "start_s": 0.0,
+     "end_s": 0.37
+    },
+    {
+     "w": "is",
+     "start_s": 0.37,
+     "end_s": 0.556
+    },
+    {
+     "w": "the",
+     "start_s": 0.556,
+     "end_s": 0.834
+    },
+    {
+     "w": "problem",
+     "start_s": 0.834,
+     "end_s": 1.482
+    },
+    {
+     "w": "of",
+     "start_s": 1.482,
+     "end_s": 1.667
+    },
+    {
+     "w": "inflation",
+     "start_s": 1.667,
+     "end_s": 2.501
+    },
+    {
+     "w": "and",
+     "start_s": 2.501,
+     "end_s": 2.779
+    },
+    {
+     "w": "high",
+     "start_s": 2.779,
+     "end_s": 3.149
+    },
+    {
+     "w": "prices.",
+     "start_s": 3.149,
+     "end_s": 3.797
+    }
+   ]
+  },
+  "R-X3B": {
+   "voice": "v-reader-truman",
+   "wav": "audio/R-X3B.wav",
+   "sha256": "8fc481cf6fdf536d5149afb5ce5af1ea68ae5233650fdeb702d660fd2c4e66e3",
+   "text_sha256": "c0ef2611a00aee866621a50276193995f1da72bf7b173658f196badb2e86366a",
+   "dur_s": 10.987,
+   "words": [
+    {
+     "w": "Now",
+     "start_s": 0.0,
+     "end_s": 0.289
+    },
+    {
+     "w": "we",
+     "start_s": 0.289,
+     "end_s": 0.482
+    },
+    {
+     "w": "are",
+     "start_s": 0.482,
+     "end_s": 0.771
+    },
+    {
+     "w": "in",
+     "start_s": 0.771,
+     "end_s": 0.964
+    },
+    {
+     "w": "a",
+     "start_s": 0.964,
+     "end_s": 1.06
+    },
+    {
+     "w": "great",
+     "start_s": 1.06,
+     "end_s": 1.542
+    },
+    {
+     "w": "mobilization",
+     "start_s": 1.542,
+     "end_s": 2.698
+    },
+    {
+     "w": "effort.",
+     "start_s": 2.698,
+     "end_s": 3.373
+    },
+    {
+     "w": "Requiring",
+     "start_s": 3.373,
+     "end_s": 4.24
+    },
+    {
+     "w": "20",
+     "start_s": 4.24,
+     "end_s": 4.433
+    },
+    {
+     "w": "percent",
+     "start_s": 4.433,
+     "end_s": 5.108
+    },
+    {
+     "w": "of",
+     "start_s": 5.108,
+     "end_s": 5.301
+    },
+    {
+     "w": "our",
+     "start_s": 5.301,
+     "end_s": 5.59
+    },
+    {
+     "w": "national",
+     "start_s": 5.59,
+     "end_s": 6.361
+    },
+    {
+     "w": "production",
+     "start_s": 6.361,
+     "end_s": 7.324
+    },
+    {
+     "w": "is",
+     "start_s": 7.324,
+     "end_s": 7.517
+    },
+    {
+     "w": "defense.",
+     "start_s": 7.517,
+     "end_s": 8.288
+    },
+    {
+     "w": "Now",
+     "start_s": 8.288,
+     "end_s": 8.577
+    },
+    {
+     "w": "our",
+     "start_s": 8.577,
+     "end_s": 8.866
+    },
+    {
+     "w": "men",
+     "start_s": 8.866,
+     "end_s": 9.156
+    },
+    {
+     "w": "are",
+     "start_s": 9.156,
+     "end_s": 9.445
+    },
+    {
+     "w": "fighting",
+     "start_s": 9.445,
+     "end_s": 10.216
+    },
+    {
+     "w": "in",
+     "start_s": 10.216,
+     "end_s": 10.408
+    },
+    {
+     "w": "Korea.",
+     "start_s": 10.408,
+     "end_s": 10.987
+    }
+   ]
+  },
+  "R-X3C": {
+   "voice": "v-reader-truman",
+   "wav": "audio/R-X3C.wav",
+   "sha256": "b804916fcb5cd4dab6a434261d606ce439bff8c2d9f2a925bcaa6e95d1f86649",
+   "text_sha256": "ee63c06f3dd13fc5b0194e62c19ce26e44dcf21fe92e0547a80d730bbf9c2127",
+   "dur_s": 23.979,
+   "words": [
+    {
+     "w": "Some",
+     "start_s": 0.0,
+     "end_s": 0.355
+    },
+    {
+     "w": "people",
+     "start_s": 0.355,
+     "end_s": 0.888
+    },
+    {
+     "w": "have",
+     "start_s": 0.888,
+     "end_s": 1.243
+    },
+    {
+     "w": "the",
+     "start_s": 1.243,
+     "end_s": 1.51
+    },
+    {
+     "w": "idea",
+     "start_s": 1.51,
+     "end_s": 1.865
+    },
+    {
+     "w": "that",
+     "start_s": 1.865,
+     "end_s": 2.22
+    },
+    {
+     "w": "if",
+     "start_s": 2.22,
+     "end_s": 2.398
+    },
+    {
+     "w": "the",
+     "start_s": 2.398,
+     "end_s": 2.664
+    },
+    {
+     "w": "fighting",
+     "start_s": 2.664,
+     "end_s": 3.375
+    },
+    {
+     "w": "stopped",
+     "start_s": 3.375,
+     "end_s": 3.996
+    },
+    {
+     "w": "in",
+     "start_s": 3.996,
+     "end_s": 4.174
+    },
+    {
+     "w": "Korea",
+     "start_s": 4.174,
+     "end_s": 4.618
+    },
+    {
+     "w": "we",
+     "start_s": 4.618,
+     "end_s": 4.796
+    },
+    {
+     "w": "could",
+     "start_s": 4.796,
+     "end_s": 5.24
+    },
+    {
+     "w": "cut",
+     "start_s": 5.24,
+     "end_s": 5.506
+    },
+    {
+     "w": "down",
+     "start_s": 5.506,
+     "end_s": 5.861
+    },
+    {
+     "w": "our",
+     "start_s": 5.861,
+     "end_s": 6.128
+    },
+    {
+     "w": "defense",
+     "start_s": 6.128,
+     "end_s": 6.75
+    },
+    {
+     "w": "effort",
+     "start_s": 6.75,
+     "end_s": 7.282
+    },
+    {
+     "w": "enough",
+     "start_s": 7.282,
+     "end_s": 7.815
+    },
+    {
+     "w": "to",
+     "start_s": 7.815,
+     "end_s": 7.993
+    },
+    {
+     "w": "do",
+     "start_s": 7.993,
+     "end_s": 8.171
+    },
+    {
+     "w": "away",
+     "start_s": 8.171,
+     "end_s": 8.526
+    },
+    {
+     "w": "with",
+     "start_s": 8.526,
+     "end_s": 8.881
+    },
+    {
+     "w": "the",
+     "start_s": 8.881,
+     "end_s": 9.147
+    },
+    {
+     "w": "danger",
+     "start_s": 9.147,
+     "end_s": 9.68
+    },
+    {
+     "w": "of",
+     "start_s": 9.68,
+     "end_s": 9.858
+    },
+    {
+     "w": "inflation.",
+     "start_s": 9.858,
+     "end_s": 10.746
+    },
+    {
+     "w": "That",
+     "start_s": 10.746,
+     "end_s": 11.101
+    },
+    {
+     "w": "is",
+     "start_s": 11.101,
+     "end_s": 11.279
+    },
+    {
+     "w": "not",
+     "start_s": 11.279,
+     "end_s": 11.545
+    },
+    {
+     "w": "true.",
+     "start_s": 11.545,
+     "end_s": 11.989
+    },
+    {
+     "w": "We",
+     "start_s": 11.989,
+     "end_s": 12.167
+    },
+    {
+     "w": "would",
+     "start_s": 12.167,
+     "end_s": 12.611
+    },
+    {
+     "w": "need",
+     "start_s": 12.611,
+     "end_s": 12.966
+    },
+    {
+     "w": "controls",
+     "start_s": 12.966,
+     "end_s": 13.677
+    },
+    {
+     "w": "even",
+     "start_s": 13.677,
+     "end_s": 14.032
+    },
+    {
+     "w": "if",
+     "start_s": 14.032,
+     "end_s": 14.21
+    },
+    {
+     "w": "the",
+     "start_s": 14.21,
+     "end_s": 14.476
+    },
+    {
+     "w": "fighting",
+     "start_s": 14.476,
+     "end_s": 15.186
+    },
+    {
+     "w": "in",
+     "start_s": 15.186,
+     "end_s": 15.364
+    },
+    {
+     "w": "Korea",
+     "start_s": 15.364,
+     "end_s": 15.808
+    },
+    {
+     "w": "stopped",
+     "start_s": 15.808,
+     "end_s": 16.43
+    },
+    {
+     "w": "tomorrow.",
+     "start_s": 16.43,
+     "end_s": 17.229
+    },
+    {
+     "w": "The",
+     "start_s": 17.229,
+     "end_s": 17.496
+    },
+    {
+     "w": "threat",
+     "start_s": 17.496,
+     "end_s": 18.028
+    },
+    {
+     "w": "of",
+     "start_s": 18.028,
+     "end_s": 18.206
+    },
+    {
+     "w": "Communist",
+     "start_s": 18.206,
+     "end_s": 19.005
+    },
+    {
+     "w": "aggression",
+     "start_s": 19.005,
+     "end_s": 19.893
+    },
+    {
+     "w": "is",
+     "start_s": 19.893,
+     "end_s": 20.071
+    },
+    {
+     "w": "worldwide,",
+     "start_s": 20.071,
+     "end_s": 20.959
+    },
+    {
+     "w": "and",
+     "start_s": 20.959,
+     "end_s": 21.226
+    },
+    {
+     "w": "must",
+     "start_s": 21.226,
+     "end_s": 21.581
+    },
+    {
+     "w": "be",
+     "start_s": 21.581,
+     "end_s": 21.758
+    },
+    {
+     "w": "met",
+     "start_s": 21.758,
+     "end_s": 22.025
+    },
+    {
+     "w": "with",
+     "start_s": 22.025,
+     "end_s": 22.38
+    },
+    {
+     "w": "worldwide",
+     "start_s": 22.38,
+     "end_s": 23.179
+    },
+    {
+     "w": "defenses.",
+     "start_s": 23.179,
+     "end_s": 23.979
+    }
+   ]
+  },
+  "R-X6": {
+   "voice": "v-reader-truman",
+   "wav": "audio/R-X6.wav",
+   "sha256": "e21efa4b954bf64e281b9c5ee77234b51e6de2ec7a39dfcbb216480a2a30c745",
+   "text_sha256": "84ad550844ada9eb11b35440cd216465be50c1a8dccbec2c53986dd44f243588",
+   "dur_s": 2.987,
+   "words": [
+    {
+     "w": "I",
+     "start_s": 0.0,
+     "end_s": 0.085
+    },
+    {
+     "w": "shall",
+     "start_s": 0.085,
+     "end_s": 0.512
+    },
+    {
+     "w": "not",
+     "start_s": 0.512,
+     "end_s": 0.768
+    },
+    {
+     "w": "be",
+     "start_s": 0.768,
+     "end_s": 0.939
+    },
+    {
+     "w": "a",
+     "start_s": 0.939,
+     "end_s": 1.024
+    },
+    {
+     "w": "candidate",
+     "start_s": 1.024,
+     "end_s": 1.792
+    },
+    {
+     "w": "for",
+     "start_s": 1.792,
+     "end_s": 2.048
+    },
+    {
+     "w": "reelection.",
+     "start_s": 2.048,
+     "end_s": 2.987
+    }
+   ]
+  },
+  "R-X8A": {
+   "voice": "v-reader-eisenhower",
+   "wav": "audio/R-X8A.wav",
+   "sha256": "b3ea9a62039e4512d2bfc27069d29698190a1f3b00a0fc5bc8447cd0d402b280",
+   "text_sha256": "188d6129582b928d16e194134ed45a61ae773ae23b7bd8d879ca70c659cdcbfa",
+   "dur_s": 6.784,
+   "words": [
+    {
+     "w": "In",
+     "start_s": 0.0,
+     "end_s": 0.183
+    },
+    {
+     "w": "this",
+     "start_s": 0.183,
+     "end_s": 0.55
+    },
+    {
+     "w": "anxious",
+     "start_s": 0.55,
+     "end_s": 1.192
+    },
+    {
+     "w": "autumn",
+     "start_s": 1.192,
+     "end_s": 1.742
+    },
+    {
+     "w": "for",
+     "start_s": 1.742,
+     "end_s": 2.017
+    },
+    {
+     "w": "America,",
+     "start_s": 2.017,
+     "end_s": 2.75
+    },
+    {
+     "w": "one",
+     "start_s": 2.75,
+     "end_s": 3.025
+    },
+    {
+     "w": "fact",
+     "start_s": 3.025,
+     "end_s": 3.392
+    },
+    {
+     "w": "looms",
+     "start_s": 3.392,
+     "end_s": 3.85
+    },
+    {
+     "w": "above",
+     "start_s": 3.85,
+     "end_s": 4.309
+    },
+    {
+     "w": "all",
+     "start_s": 4.309,
+     "end_s": 4.584
+    },
+    {
+     "w": "others",
+     "start_s": 4.584,
+     "end_s": 5.134
+    },
+    {
+     "w": "in",
+     "start_s": 5.134,
+     "end_s": 5.317
+    },
+    {
+     "w": "our",
+     "start_s": 5.317,
+     "end_s": 5.592
+    },
+    {
+     "w": "people's",
+     "start_s": 5.592,
+     "end_s": 6.326
+    },
+    {
+     "w": "mind.",
+     "start_s": 6.326,
+     "end_s": 6.784
+    }
+   ]
+  },
+  "R-X8B": {
+   "voice": "v-reader-eisenhower",
+   "wav": "audio/R-X8B.wav",
+   "sha256": "da69d4bd981c1b11fc6661137d2730e8bd110ea90d4458628f220ef2c86aadb8",
+   "text_sha256": "48e66695bc0ede391f12972f8f5f7c8ecccac96298e2fe52372d7d00288959f4",
+   "dur_s": 3.115,
+   "words": [
+    {
+     "w": "This",
+     "start_s": 0.0,
+     "end_s": 0.328
+    },
+    {
+     "w": "fact,",
+     "start_s": 0.328,
+     "end_s": 0.738
+    },
+    {
+     "w": "this",
+     "start_s": 0.738,
+     "end_s": 1.066
+    },
+    {
+     "w": "tragedy,",
+     "start_s": 1.066,
+     "end_s": 1.721
+    },
+    {
+     "w": "this",
+     "start_s": 1.721,
+     "end_s": 2.049
+    },
+    {
+     "w": "word",
+     "start_s": 2.049,
+     "end_s": 2.377
+    },
+    {
+     "w": "is:",
+     "start_s": 2.377,
+     "end_s": 2.623
+    },
+    {
+     "w": "Korea.",
+     "start_s": 2.623,
+     "end_s": 3.115
+    }
+   ]
+  },
+  "R-X8C": {
+   "voice": "v-reader-eisenhower",
+   "wav": "audio/R-X8C.wav",
+   "sha256": "9857112e44ffc7b1168013a929f0abd30a4b2882f542505df90c646bb65a26f8",
+   "text_sha256": "530845bafd8e587e3919608e93701c64b1226051214687feecc4c8bcbd0d9936",
+   "dur_s": 1.664,
+   "words": [
+    {
+     "w": "I",
+     "start_s": 0.0,
+     "end_s": 0.104
+    },
+    {
+     "w": "shall",
+     "start_s": 0.104,
+     "end_s": 0.624
+    },
+    {
+     "w": "go",
+     "start_s": 0.624,
+     "end_s": 0.832
+    },
+    {
+     "w": "to",
+     "start_s": 0.832,
+     "end_s": 1.04
+    },
+    {
+     "w": "Korea.",
+     "start_s": 1.04,
+     "end_s": 1.664
+    }
+   ]
+  },
+  "R-X9": {
+   "voice": "v-reader-stevenson",
+   "wav": "audio/R-X9.wav",
+   "sha256": "176619113d29ecb0745777ae7c86efe1478ae5ddd786630f52d27e50813ef31f",
+   "text_sha256": "b35c274bd2e5b94d8be1d8c5196690394a91a9089d2f24fc7f14826c9d1b1dea",
+   "dur_s": 11.669,
+   "words": [
+    {
+     "w": "My",
+     "start_s": 0.0,
+     "end_s": 0.173
+    },
+    {
+     "w": "fellow",
+     "start_s": 0.173,
+     "end_s": 0.692
+    },
+    {
+     "w": "citizens",
+     "start_s": 0.692,
+     "end_s": 1.383
+    },
+    {
+     "w": "have",
+     "start_s": 1.383,
+     "end_s": 1.729
+    },
+    {
+     "w": "made",
+     "start_s": 1.729,
+     "end_s": 2.075
+    },
+    {
+     "w": "their",
+     "start_s": 2.075,
+     "end_s": 2.507
+    },
+    {
+     "w": "choice",
+     "start_s": 2.507,
+     "end_s": 3.025
+    },
+    {
+     "w": "and",
+     "start_s": 3.025,
+     "end_s": 3.285
+    },
+    {
+     "w": "have",
+     "start_s": 3.285,
+     "end_s": 3.63
+    },
+    {
+     "w": "selected",
+     "start_s": 3.63,
+     "end_s": 4.322
+    },
+    {
+     "w": "General",
+     "start_s": 4.322,
+     "end_s": 4.927
+    },
+    {
+     "w": "Eisenhower",
+     "start_s": 4.927,
+     "end_s": 5.791
+    },
+    {
+     "w": "and",
+     "start_s": 5.791,
+     "end_s": 6.051
+    },
+    {
+     "w": "the",
+     "start_s": 6.051,
+     "end_s": 6.31
+    },
+    {
+     "w": "Republican",
+     "start_s": 6.31,
+     "end_s": 7.174
+    },
+    {
+     "w": "Party",
+     "start_s": 7.174,
+     "end_s": 7.607
+    },
+    {
+     "w": "as",
+     "start_s": 7.607,
+     "end_s": 7.78
+    },
+    {
+     "w": "the",
+     "start_s": 7.78,
+     "end_s": 8.039
+    },
+    {
+     "w": "instruments",
+     "start_s": 8.039,
+     "end_s": 8.99
+    },
+    {
+     "w": "of",
+     "start_s": 8.99,
+     "end_s": 9.163
+    },
+    {
+     "w": "their",
+     "start_s": 9.163,
+     "end_s": 9.595
+    },
+    {
+     "w": "will",
+     "start_s": 9.595,
+     "end_s": 9.941
+    },
+    {
+     "w": "for",
+     "start_s": 9.941,
+     "end_s": 10.2
+    },
+    {
+     "w": "the",
+     "start_s": 10.2,
+     "end_s": 10.459
+    },
+    {
+     "w": "next",
+     "start_s": 10.459,
+     "end_s": 10.805
+    },
+    {
+     "w": "four",
+     "start_s": 10.805,
+     "end_s": 11.151
+    },
+    {
+     "w": "years.",
+     "start_s": 11.151,
+     "end_s": 11.669
+    }
+   ]
+  }
+ },
+ "media": "D:/omnibus-media/33/voice",
+ "words_estimated": [
+  "L-CO-1",
+  "L-CO-2",
+  "L-D1-0",
+  "L-D1-1",
+  "L-D1-2",
+  "L-D1-C",
+  "L-D2-0",
+  "L-D2-1",
+  "L-D2-2",
+  "L-D2-C",
+  "L-D3-0",
+  "L-D3-1",
+  "L-D3-2",
+  "L-D3-3",
+  "L-D4-0",
+  "L-D4-1",
+  "L-D4-C",
+  "L-D5-0",
+  "L-D5-1",
+  "L-D5-2",
+  "L-D5-3",
+  "L-D5-C",
+  "L-D6-0",
+  "L-D6-1",
+  "L-D6-2",
+  "L-D6-C",
+  "L-D7-0",
+  "L-D7-1",
+  "L-D7-2",
+  "L-D7-C",
+  "L-M1-0",
+  "L-M1-1",
+  "L-M1-C",
+  "L-M2-0",
+  "L-M2-1",
+  "L-M2-2",
+  "L-M2-C",
+  "L-M3-0",
+  "L-M3-1",
+  "L-M3-C",
+  "L-Q",
+  "L-WB-0",
+  "L-WC-1",
+  "L-WC-2",
+  "L-WD-1",
+  "L-WK-1",
+  "L-WK-2",
+  "L-WK-3",
+  "L-WK-4",
+  "L-X1",
+  "L-X2",
+  "L-X3",
+  "L-X4",
+  "L-X5",
+  "L-X6",
+  "L-X7",
+  "L-X8",
+  "L-X9",
+  "R-X2",
+  "R-X3A",
+  "R-X3B",
+  "R-X3C",
+  "R-X6",
+  "R-X8A",
+  "R-X8B",
+  "R-X8C",
+  "R-X9"
+ ]
+}

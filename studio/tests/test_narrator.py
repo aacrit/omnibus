@@ -429,3 +429,86 @@ def test_a_kokoro_films_readers_derive_against_aoede():
     tara_play["cast"]["voices"][0] = dict(TARA, id="v-narrator")
     t, n, _ = VO.reference(R.narrator_voice(tara_play))
     assert VO.setting(tara_play, table, t, n)[0]["kokoro:am_eric"] == {"eq": rec["eq"], "how": "house table"}
+
+
+# --------------------------------------------------------------------------
+# Word timings (E7, issue 33): kokoro_worker.py's phoneme timeline grouped into word spans
+# --------------------------------------------------------------------------
+
+
+def test_words_from_timings_pairs_one_run_per_word():
+    # "Go home." phonemized loosely as g-o SPACE h-o-m-e. (the trailing stop has no timing of its own here)
+    timeline = [("g", 0.0, 0.1), ("o", 0.1, 0.2), (" ", 0.2, 0.2), ("h", 0.2, 0.3), ("o", 0.3, 0.4),
+               ("m", 0.4, 0.5), ("e", 0.5, 0.7)]
+    words = NR.words_from_timings("Go home.", timeline)
+    assert words == [{"w": "Go", "start_s": 0.0, "end_s": 0.2}, {"w": "home.", "start_s": 0.2, "end_s": 0.7}]
+
+
+def test_words_from_timings_falls_back_when_the_run_count_does_not_match():
+    # three spoken runs ("nineteen", "fifty", "one") for the one written word "1951"
+    timeline = [("a", 0.0, 0.3), (" ", 0.3, 0.3), ("b", 0.3, 0.5), (" ", 0.5, 0.5), ("c", 0.5, 0.6)]
+    (w,) = NR.words_from_timings("1951", timeline)
+    assert w["w"] == "1951" and w["start_s"] == 0.0 and w["end_s"] == 0.6
+
+
+def test_words_from_timings_shares_total_s_by_character_length_with_no_timeline():
+    words = NR.words_from_timings("a bb ccc", [], total_s=6.0)
+    assert [w["w"] for w in words] == ["a", "bb", "ccc"]
+    assert [round(w["end_s"] - w["start_s"], 3) for w in words] == [1.0, 2.0, 3.0]
+    assert words[0]["start_s"] == 0.0 and words[-1]["end_s"] == 6.0
+
+
+def test_words_from_timings_with_no_text_or_no_timeline_and_no_total_is_empty_or_zero():
+    assert NR.words_from_timings("", [("a", 0.0, 1.0)]) == []
+    (w,) = NR.words_from_timings("one", [])
+    assert w == {"w": "one", "start_s": 0.0, "end_s": 0.0}
+
+
+def test_voice_lines_carries_the_timeline_through_the_cache(tmp_path):
+    def runner(jobs, files, out, **kw):
+        for j in jobs:
+            (out / f"{j['id']}.wav").write_bytes(b"RIFF")
+        timings = {j["id"]: [["x", 0.0, 1.0], [" ", 1.0, 1.0], ["y", 1.0, 2.0]] for j in jobs}
+        return {"ok": [j["id"] for j in jobs], "failed": {}, "timing": {"audio_s": 1.0}, "timings": timings}
+
+    lock = NR.load_lock()
+    folder = tmp_path / "models"
+    folder.mkdir()
+    for f in lock["files"]:
+        (folder / f["name"]).write_bytes(f["name"].encode())
+    lock = dict(lock, files=[dict(f, size=len(f["name"]), sha256=NR.sha256_path(folder / f["name"]))
+                             for f in lock["files"]])
+    kw = dict(runner=runner, folder=folder, lock=lock, prober=probe)
+    res = NR.voice_lines([{"id": "N1", "text": "ab cd"}], cache=tmp_path / "c", **kw)
+    assert res["lines"]["N1"]["timeline"] == [["x", 0.0, 1.0], [" ", 1.0, 1.0], ["y", 1.0, 2.0]]
+    again = NR.voice_lines([{"id": "N1", "text": "ab cd"}], cache=tmp_path / "c", **kw)
+    assert again["lines"]["N1"]["cached"] and again["lines"]["N1"]["timeline"] == res["lines"]["N1"]["timeline"]
+
+
+def test_voice_lines_timeline_is_none_when_the_worker_reports_none(tmp_path):
+    def runner(jobs, files, out, **kw):
+        for j in jobs:
+            (out / f"{j['id']}.wav").write_bytes(b"RIFF")
+        return {"ok": [j["id"] for j in jobs], "failed": {}, "timing": {"audio_s": 1.0}}
+
+    lock = NR.load_lock()
+    folder = tmp_path / "models"
+    folder.mkdir()
+    for f in lock["files"]:
+        (folder / f["name"]).write_bytes(f["name"].encode())
+    lock = dict(lock, files=[dict(f, size=len(f["name"]), sha256=NR.sha256_path(folder / f["name"]))
+                             for f in lock["files"]])
+    res = NR.voice_lines([{"id": "N1", "text": "x"}], cache=tmp_path / "c", runner=runner, folder=folder, lock=lock,
+                         prober=probe)
+    assert res["lines"]["N1"]["timeline"] is None
+
+
+def test_words_timed_reports_whether_it_had_to_estimate():
+    timeline = [("g", 0.0, 0.1), ("o", 0.1, 0.2), (" ", 0.2, 0.2), ("h", 0.2, 0.3), ("o", 0.3, 0.4),
+               ("m", 0.4, 0.5), ("e", 0.5, 0.7)]
+    words, estimated = NR.words_timed("Go home.", timeline)
+    assert words == NR.words_from_timings("Go home.", timeline) and estimated is False
+    words, estimated = NR.words_timed("1951", timeline)                 # one written word, two spoken runs
+    assert estimated is True and words == NR.words_from_timings("1951", timeline)
+    _, estimated = NR.words_timed("x", [])
+    assert estimated is True
