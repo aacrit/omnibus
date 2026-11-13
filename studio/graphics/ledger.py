@@ -42,6 +42,7 @@ class LedgerEntry:
     output_sha256: str
     frames: int
     cls: str = CLASS_DRAWN
+    extra: dict = field(default_factory=dict)   # e.g. the clock's release time and whether it is nominal
 
     def __post_init__(self):
         if self.cls != CLASS_DRAWN:
@@ -52,14 +53,20 @@ class LedgerEntry:
     def to_dict(self) -> dict:
         d = asdict(self)
         d["class"] = d.pop("cls")
+        d.update(d.pop("extra"))
         return d
 
 
 def build_entry(*, id: str, subtype: str, data_ref: str, template_html: str, output_path: str | Path,
-                 frames: int, output_bytes: bytes | None = None) -> LedgerEntry:
+                 frames: int, output_bytes: bytes | None = None, extra: dict | None = None) -> LedgerEntry:
     """``output_bytes`` lets a test build an entry without touching disk;
     the real render pipeline passes the encoded media's bytes (or reads
-    them from ``output_path`` if omitted and the file exists)."""
+    them from ``output_path`` if omitted and the file exists).
+    ``template_html`` is the page as built with placeholder stylesheet
+    paths, before the machine's real paths are injected, so the hash is
+    the same on every machine."""
+    if "file:///" in template_html:
+        raise ValueError(f"{id}: hash the template before path injection (it carries a file:/// path)")
     if output_bytes is not None:
         out_hash = sha256_bytes(output_bytes)
     else:
@@ -72,6 +79,7 @@ def build_entry(*, id: str, subtype: str, data_ref: str, template_html: str, out
         output_path=str(output_path),
         output_sha256=out_hash,
         frames=frames,
+        extra=dict(extra or {}),
     )
 
 

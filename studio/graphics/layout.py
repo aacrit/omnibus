@@ -12,7 +12,11 @@ index 0..6.
 
 from __future__ import annotations
 
+import json
+import math
+import re
 from dataclasses import dataclass
+from pathlib import Path
 
 RUNGS = ("far-left", "left", "center-left", "center", "center-right", "right", "far-right")
 
@@ -118,6 +122,32 @@ def outlet_placement(rung: str, rung_x: float, name_width: float, *,
     return OutletPlacement(rung, rung_x, "none")
 
 
+# ---- Rung labels, never retyped ------------------------------------
+
+LADDER_MJS = Path(__file__).resolve().parents[2] / "web" / "src" / "lib" / "ladder.mjs"
+
+_LABEL_BLOCK = re.compile(r"export const LEAN_LABEL_TEXT\s*=\s*\{(?P<body>.*?)\};", re.DOTALL)
+_LABEL_PAIR = re.compile(r'"?(?P<key>[a-z-]+)"?\s*:\s*"(?P<val>[^"]*)"')
+
+
+def parse_lean_label_text(js_source: str) -> dict[str, str]:
+    """Reads `LEAN_LABEL_TEXT` out of `web/src/lib/ladder.mjs`'s source
+    (CLAUDE.md: rung labels are lifted verbatim, never retyped). Raises if
+    the table is missing or does not name all seven rungs."""
+    m = _LABEL_BLOCK.search(js_source)
+    if not m:
+        raise ValueError("ladder.mjs has no LEAN_LABEL_TEXT table")
+    labels = {pm.group("key"): pm.group("val") for pm in _LABEL_PAIR.finditer(m.group("body"))}
+    missing = [r for r in RUNGS if r not in labels]
+    if missing:
+        raise ValueError(f"LEAN_LABEL_TEXT lacks rungs {missing}")
+    return {r: labels[r] for r in RUNGS}
+
+
+def load_lean_label_text(path: str | Path = LADDER_MJS) -> dict[str, str]:
+    return parse_lean_label_text(Path(path).read_text(encoding="utf-8"))
+
+
 # ---- Clock -----------------------------------------------------------
 
 def clock_hand_angles(hour: int, minute: int, second: int) -> dict[str, float]:
@@ -137,9 +167,28 @@ def clock_hand_angles(hour: int, minute: int, second: int) -> dict[str, float]:
 
 def sweep_second_angles(start_second: int, fps: int = 30, seconds: float = 6.0) -> list[float]:
     """The second hand's constant angular velocity (6 deg/s) across the
-    last ``seconds`` to airtime, one angle per frame."""
+    last ``seconds`` to airtime, one angle per frame. Frame ``seconds*fps``
+    is the airtime itself (20:59:54 + 6 s = 21:00:00, angle 0: at 12)."""
     n = round(seconds * fps)
     return [round(((start_second + i / fps) % 60) / 60 * 360, 3) for i in range(n + 1)]
+
+
+def sweep_hand_angles(hour: int, minute: int, second: int, fps: int = 30, seconds: float = 6.0) -> list[dict[str, float]]:
+    """All three hands' angles per frame from ``hour:minute:second``
+    across ``seconds``: the hour and minute hands move continuously too
+    (0.6 degrees of minute hand over six seconds), so the frame at the
+    airtime reads exactly the airtime."""
+    n = round(seconds * fps)
+    base = hour % 12 * 3600 + minute * 60 + second
+    out = []
+    for i in range(n + 1):
+        t = base + i / fps
+        out.append({
+            "hour": round((t % 43200) / 43200 * 360, 4),
+            "minute": round((t % 3600) / 3600 * 360, 4),
+            "second": round((t % 60) / 60 * 360, 4),
+        })
+    return out
 
 
 # ---- Title typed-paper macro ------------------------------------------
@@ -183,6 +232,50 @@ def chars_shown_at_frame(row_length: int, frame_index: int, rate_cps: float, fps
     within that row's own strike window)."""
     shown = int((frame_index + 1) / fps * rate_cps)
     return max(0, min(row_length, shown))
+
+
+def typed_row_starts(rows: list[str], rate_cps: float, *, platen_s: float = 0.060) -> list[float]:
+    """Start time (seconds) of each row's first strike: rows strike one
+    after another at ``rate_cps``, with one platen step of ``platen_s``
+    between a row's last character and the next row's first (spec 3.2:
+    60 ms per platen step)."""
+    starts = []
+    t = 0.0
+    for row in rows:
+        starts.append(t)
+        t += len(row) / rate_cps + platen_s
+    return starts
+
+
+def typed_chars_at(rows: list[str], rate_cps: float, t: float, *, platen_s: float = 0.060) -> list[int]:
+    """How many characters of each row have struck by time ``t`` (s).
+    A character lands at ``start + k / rate`` for k = 1..len: never
+    more than the rate allows, never counting past the row."""
+    out = []
+    for row, start in zip(rows, typed_row_starts(rows, rate_cps, platen_s=platen_s)):
+        if t < start:
+            out.append(0)
+            continue
+        out.append(max(0, min(len(row), math.floor((t - start) * rate_cps + 1e-9))))
+    return out
+
+
+def typed_strike_end_s(rows: list[str], rate_cps: float, *, platen_s: float = 0.060) -> float:
+    """When the last character of the last row lands."""
+    if not rows:
+        return 0.0
+    starts = typed_row_starts(rows, rate_cps, platen_s=platen_s)
+    return starts[-1] + len(rows[-1]) / rate_cps
+
+
+MAX_STRIKE_CPS = 100.0
+
+
+def check_strike_rate(rate_cps: float) -> float:
+    """The G2 ruling caps the declared strike rate at 100 cps."""
+    if not 0 < rate_cps <= MAX_STRIKE_CPS:
+        raise ValueError(f"strike rate {rate_cps} cps is outside (0, {MAX_STRIKE_CPS:g}] (G2 ruling)")
+    return rate_cps
 
 
 # ---- Board pagination --------------------------------------------------

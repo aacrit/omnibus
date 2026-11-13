@@ -10,7 +10,18 @@ loaded.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+
+MONTHS = ("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+WEEKDAYS = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
+
+
+def as_of_line(iso: str) -> str:
+    """Spec 3.7's date line, ``AS OF 26 OCT 2026``, from an ISO time."""
+    d = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    return f"AS OF {d.day:02d} {MONTHS[d.month - 1]} {d.year}"
 
 
 # ---- shared -------------------------------------------------------------
@@ -79,6 +90,7 @@ class DayBarSpec:
     placed: int
     unplaced: int
     caption: str
+    bars_field: str = ""   # the week record's field the bars were read from (counts-match reads it back)
 
 
 def day_bars(rundown: dict) -> list[DayBarSpec]:
@@ -95,6 +107,7 @@ def day_bars(rundown: dict) -> list[DayBarSpec]:
             placed=dev["placed"],
             unplaced=dev["unplaced"],
             caption=dev["caption"],
+            bars_field=dev.get("bars_field", ""),
         ))
     return out
 
@@ -115,9 +128,10 @@ class BoardSpec:
     head_right: str
     rows: tuple[BoardRow, ...]
     untitled: dict[str, list[str]] = field(default_factory=dict)   # rung -> outlet names, no headline
+    rung_labels: dict[str, str] = field(default_factory=dict)      # LEAN_LABEL_TEXT, read from ladder.mjs
 
 
-def board_spec(rundown: dict, week: dict, *, issue: int) -> BoardSpec:
+def board_spec(rundown: dict, week: dict, *, issue: int, rung_labels: dict[str, str]) -> BoardSpec:
     part = _part(rundown, "the-weight")
     rows_raw = None
     for beat in part.get("beats", []):
@@ -131,7 +145,8 @@ def board_spec(rundown: dict, week: dict, *, issue: int) -> BoardSpec:
         for r in rows_raw
     )
     untitled = week.get("lead", {}).get("board_untitled_outlets", {}) or {}
-    return BoardSpec(head_left="THE WEIGHT", head_right=f"WEEK {issue}", rows=rows, untitled=untitled)
+    return BoardSpec(head_left="THE WEIGHT", head_right=f"WEEK {issue}", rows=rows, untitled=untitled,
+                     rung_labels=dict(rung_labels))
 
 
 # ---- count cards (3.7) ---------------------------------------------------
@@ -143,6 +158,10 @@ class CountRow:
     qualifier: str | None = None
 
 
+def _words(text: str | None) -> int:
+    return len(text.split()) if text else 0
+
+
 @dataclass(frozen=True)
 class CountCardSpec:
     id: str
@@ -150,6 +169,19 @@ class CountCardSpec:
     week_label: str
     rows: tuple[CountRow, ...]
     date_line: str | None = None
+    echo: bool = False
+
+    @property
+    def words(self) -> int:
+        """Every word the viewer reads below the card's head: each row's
+        qualifier, numeral and context line, and the date line."""
+        return (sum(_words(r.qualifier) + _words(r.hero) + _words(r.context) for r in self.rows)
+                + _words(self.date_line))
+
+    @property
+    def hold_s(self) -> float:
+        """Spec 3.7: hold words / 3 + 1.5 s."""
+        return self.words / 3 + 1.5
 
 
 def claim_term_card(week: dict, *, issue: int, date_line: str) -> CountCardSpec:
@@ -166,40 +198,62 @@ def claim_term_card(week: dict, *, issue: int, date_line: str) -> CountCardSpec:
 
 
 def weight_known_count_cards(rundown: dict, *, issue: int, date_line: str) -> list[CountCardSpec]:
+    """cw-2, cw-3: the rundown's own count cards. The context line is the
+    rundown's sentence as written; its `of` field is a number that
+    sentence already carries ("titled headlines of 89 articles"), so it is
+    checked against the context and never appended a second time."""
     part = _part(rundown, "the-weight")
     cards = []
     for beat in part.get("beats", []):
         if beat.get("id") != "weight-known":
             continue
         for i, cc in enumerate(beat.get("count_cards", []), start=2):
-            context = cc["context"] if "of" not in cc else f"{cc['context']} (of {cc['of']})"
+            context = cc["context"]
+            if "of" in cc and f"of {cc['of']}" not in context:
+                raise ValueError(f"cw-{i}: context {context!r} does not carry its 'of {cc['of']}'")
             rows = (CountRow(hero=str(cc["hero"]), context=context),)
             cards.append(CountCardSpec(id=f"cw-{i}", eyebrow="THE WEIGHT", week_label=f"WEEK {issue}",
                                         rows=rows, date_line=date_line))
     return cards
 
 
-def echo_comparison_card(rundown: dict, *, issue: int, date_line: str) -> CountCardSpec | None:
-    """The echo-x5 count card named in `counts_on_screen`: two numerals
-    compared (Kefauver's and Truman's New Hampshire vote)."""
-    for item in rundown.get("counts_on_screen", []):
-        if item.get("where") == "echo-x5 count card" and isinstance(item.get("value"), dict):
-            rows = tuple(CountRow(hero=f"{v:,}", context=name) for name, v in item["value"].items())
+def echo_comparison_card(rundown: dict, echo_pick: dict, *, issue: int) -> CountCardSpec | None:
+    """cw-4, the Echo's New Hampshire count (echo-x5). Numerals and basis
+    come from echo-pick's `counts_on_screen` (src-nh-manual-1953: the New
+    Hampshire primary of 11 Mar 1952, the State canvass printed in 1953).
+    The rundown's count card must name the same source and values, and its
+    date line must be the one echo-pick's basis quotes; any disagreement
+    raises."""
+    part = _part(rundown, "the-echo")
+    for beat in part.get("beats", []):
+        for cc in beat.get("count_cards", []) or []:
+            src = cc.get("source")
+            picks = [c for c in echo_pick.get("counts_on_screen", []) if c.get("source") == src]
+            if not picks:
+                raise ValueError(f"{beat['id']}: count card source {src!r} is not in echo-pick counts_on_screen")
+            pick = picks[0]
+            if cc.get("values") != pick["values"]:
+                raise ValueError(f"{beat['id']}: rundown values {cc.get('values')} differ from echo-pick {pick['values']}")
+            date_line = cc.get("date_line")
+            if not date_line or f"'{date_line}'" not in pick.get("basis", ""):
+                raise ValueError(f"{beat['id']}: date line {date_line!r} is not the one echo-pick's basis quotes")
+            rows = tuple(CountRow(hero=f"{v:,}", context=name) for name, v in pick["values"].items())
             return CountCardSpec(id="cw-4", eyebrow="THE ECHO", week_label=f"WEEK {issue}", rows=rows,
-                                  date_line=date_line)
+                                  date_line=date_line, echo=True)
     return None
 
 
-def all_count_cards(rundown: dict, week: dict, *, issue: int, date_line: str) -> list[CountCardSpec]:
+def all_count_cards(rundown: dict, week: dict, echo_pick: dict, *, issue: int) -> list[CountCardSpec]:
+    date_line = as_of_line(week["as_of"])
     out = [claim_term_card(week, issue=issue, date_line=date_line)]
     out.extend(weight_known_count_cards(rundown, issue=issue, date_line=date_line))
-    echo_card = echo_comparison_card(rundown, issue=issue, date_line=date_line)
+    echo_card = echo_comparison_card(rundown, echo_pick, issue=issue)
     if echo_card:
         out.append(echo_card)
     return out
 
 
-# ---- lower thirds (3.5) ---------------------------------------------------
+# ---- lower thirds (3.5, 3.10) ---------------------------------------------
 
 @dataclass(frozen=True)
 class LowerThirdSpec:
@@ -208,7 +262,36 @@ class LowerThirdSpec:
     date: str
     speaker_name: str
     role: str
-    dot_label: str = "RECONSTRUCTED"
+    dot_labels: tuple[str, ...]
+    echo: bool = False
+
+
+COMPUTER_VOICE = "COMPUTER VOICE"
+SYNTHESISED_VOICE = "SYNTHESISED VOICE"
+TRANSCRIBED_PAGE = "TRANSCRIBED PAGE"
+
+
+def voice_dot_label(voice: dict) -> str:
+    """Spec 3.5's dot label for a voice. A stock engine voice (Kokoro) is
+    COMPUTER VOICE; the founder's own voice, synthesised with consent
+    (`founder: true` on the voice), is SYNTHESISED VOICE. Anything else is
+    refused: a voice is never labelled by guess, and never RECONSTRUCTED."""
+    if voice.get("founder"):
+        return SYNTHESISED_VOICE
+    if voice.get("engine") == "kokoro":
+        return COMPUTER_VOICE
+    raise ValueError(f"no dot label for voice {voice!r}")
+
+
+_PAREN = re.compile(r"\s*\(([^)]*)\)")
+
+
+def normalise_source_id(raw: str) -> tuple[str, str]:
+    """``"src-eisenhower-19521024 (transcribed from the scan)"`` becomes
+    ``("src-eisenhower-19521024", "transcribed from the scan")``: the id
+    without its parentheticals, and the notes they carried."""
+    notes = "; ".join(m.group(1).strip() for m in _PAREN.finditer(raw))
+    return _PAREN.sub("", raw).strip(), notes
 
 
 def _split_slate(slate: str) -> tuple[str, str]:
@@ -222,25 +305,52 @@ def _split_who(who: str) -> tuple[str, str]:
 
 
 def lower_thirds(rundown: dict, echo_pick: dict) -> list[LowerThirdSpec]:
-    by_source = {}
+    """One lower third for every Echo beat whose words the reader speaks:
+    the slate's place and date; the speaker from echo-pick's
+    `period_perspectives` (joined on the normalised source id) or, for a
+    period document the reader voices (`period_documents`), no speaker.
+    The dot labels the voice from `voices.reader`, plus TRANSCRIBED PAGE
+    when the source's own record says its text is a transcription. A
+    reader beat that cannot be joined raises: no voice goes unlabelled."""
+    voice_label = voice_dot_label(rundown["voices"]["reader"])
+    people: dict[str, tuple[dict, str]] = {}
     for pp in echo_pick.get("period_perspectives", []):
-        src = pp.get("source")
-        if src:
-            by_source[src] = pp
+        if pp.get("source"):
+            sid, notes = normalise_source_id(pp["source"])
+            people[sid] = (pp, notes)
+    documents = {normalise_source_id(d["id"])[0] for d in echo_pick.get("period_documents", []) if d.get("id")}
     part = _part(rundown, "the-echo")
     out: list[LowerThirdSpec] = []
+    reader_beats: list[str] = []
     for beat in part.get("beats", []):
-        slate = beat.get("slate")
         readers = beat.get("reader")
-        if not slate or not readers:
+        if not readers:
             continue
-        source = readers[0].get("source")
-        pp = by_source.get(source)
-        if not pp:
-            continue
+        reader_beats.append(beat["id"])
+        slate = beat.get("slate")
+        if not slate:
+            raise ValueError(f"{beat['id']}: the reader speaks but the beat has no slate for its lower third")
+        sources = {normalise_source_id(r.get("source", ""))[0] for r in readers}
+        if len(sources) != 1:
+            raise ValueError(f"{beat['id']}: reader lines come from {sorted(sources)}; one lower third needs one source")
+        (sid,) = sources
         place, date = _split_slate(slate)
-        name, role = _split_who(pp["who"])
-        out.append(LowerThirdSpec(id=f"lt-{beat['id']}", place=place, date=date, speaker_name=name, role=role))
+        labels = [voice_label]
+        if sid in people:
+            pp, notes = people[sid]
+            name, role = _split_who(pp["who"])
+        elif sid in documents:
+            name, role, notes = "", "", ""
+        else:
+            raise ValueError(f"{beat['id']}: reader source {sid!r} is in neither period_perspectives "
+                             "nor period_documents")
+        if "transcribed" in notes.lower():
+            labels.append(TRANSCRIBED_PAGE)
+        out.append(LowerThirdSpec(id=f"lt-{beat['id']}", place=place, date=date, speaker_name=name, role=role,
+                                  dot_labels=tuple(labels), echo=True))
+    made = [lt.id[3:] for lt in out]
+    if made != reader_beats:
+        raise ValueError(f"reader beats {reader_beats} but lower thirds for {made}")
     return out
 
 
@@ -252,6 +362,29 @@ class ClockSpec:
     minute: int
     second: int
     date_line: str
+    release: str | None = None        # the airtime the sweep ends on, ISO UTC
+    release_nominal: bool = False     # a pre-release pass: not yet clock-true
+
+
+def parse_release(text: str) -> datetime:
+    """``--release``: an ISO time with a UTC offset, on a whole second."""
+    d = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    if d.tzinfo is None:
+        raise ValueError(f"--release {text!r} needs a UTC offset (e.g. 2026-11-16T21:00:00Z)")
+    d = d.astimezone(timezone.utc)
+    if d.microsecond:
+        raise ValueError(f"--release {text!r} must fall on a whole second")
+    return d
+
+
+def clock_spec_for_release(release: datetime, *, nominal: bool, sweep_s: int = 6) -> ClockSpec:
+    """Spec 3.9: the second hand sweeps the last six seconds to the
+    airtime; the date line is the airtime's own date
+    (``MON 02 NOV 2026 · UTC``)."""
+    start = release - timedelta(seconds=sweep_s)
+    date_line = f"{WEEKDAYS[release.weekday()]} {release.day:02d} {MONTHS[release.month - 1]} {release.year} · UTC"
+    return ClockSpec(hour=start.hour, minute=start.minute, second=start.second, date_line=date_line,
+                     release=release.strftime("%Y-%m-%dT%H:%M:%SZ"), release_nominal=nominal)
 
 
 def clock_spec(*, hour: int = 20, minute: int = 59, second: int = 54, date_line: str) -> ClockSpec:
@@ -265,15 +398,40 @@ class CreditsSpec:
     lines: tuple[str, ...]
 
 
-def credits_spec(rundown: dict, rights_ledger: dict | None, *, max_credits: int = 40) -> CreditsSpec:
-    lines: list[str] = []
-    if rights_ledger:
-        for item in rights_ledger.get("items", [])[:max_credits]:
-            title = item.get("title")
-            if title:
-                lines.append(title)
-    part = _part(rundown, "credits")
-    lines.extend(part.get("disclosures", []))
+ENGINE_NAMES = {"kokoro": "Kokoro"}
+
+
+def voice_credit_line(voices: dict) -> str:
+    """Spec 3.11's voice disclosure: the founder's line once their voice
+    lands (`founder: true`), the stand-in line (the rundown's credits
+    plan) until then. An unknown engine raises."""
+    narrator, reader = voices["narrator"], voices["reader"]
+    if reader.get("engine") not in ENGINE_NAMES:
+        raise ValueError(f"no credit line for reader engine {reader.get('engine')!r}")
+    reader_part = f"quotations read by {ENGINE_NAMES[reader['engine']]} {reader['voice']}"
+    if narrator.get("founder"):
+        return f"Narrated in the founder's voice, synthesised with their consent; {reader_part}"
+    if narrator.get("engine") not in ENGINE_NAMES:
+        raise ValueError(f"no credit line for narrator engine {narrator.get('engine')!r}")
+    return f"Narrated by a computer voice, {ENGINE_NAMES[narrator['engine']]} {narrator['voice']}; {reader_part}"
+
+
+def credits_spec(rundown: dict, rights_ledger: dict, *, max_credits: int = 40) -> CreditsSpec:
+    """Spec 3.11: every asset's credit (each item's `credit`, in ledger
+    order; a credit several assets share is listed once), then the voice
+    disclosure, then the rundown's disclosures. More distinct credits
+    than the roll holds raises: nothing is silently cut."""
+    credits: list[str] = []
+    for item in rights_ledger.get("items", []):
+        credit = item.get("credit")
+        if not credit:
+            raise ValueError(f"rights ledger item {item.get('id')!r} has no credit")
+        if credit not in credits:
+            credits.append(credit)
+    if len(credits) > max_credits:
+        raise ValueError(f"{len(credits)} distinct credits exceed the roll's {max_credits}")
+    lines = credits + [voice_credit_line(rundown["voices"])]
+    lines.extend(_part(rundown, "credits").get("disclosures", []))
     return CreditsSpec(lines=tuple(lines))
 
 
@@ -308,12 +466,20 @@ class TitleMacroSpec:
     week_line: str
     rate_cps: float
     columns: int = 69
+    print_window_s: float | None = None   # the whole macro: strikes, platen steps, week line, bell and tear
 
 
 def title_macro_spec(rundown: dict) -> TitleMacroSpec:
+    from .layout import check_strike_rate
     part = _part(rundown, "title")
+    lines = tuple(part["title_lines"])
+    strike = part["strike"]
+    chars = sum(len(x) for x in lines)
+    if strike.get("characters") is not None and strike["characters"] != chars:
+        raise ValueError(f"strike.characters {strike['characters']} != {chars} characters in title_lines")
     return TitleMacroSpec(
-        lines=tuple(part["title_lines"]),
+        lines=lines,
         week_line=part["week_line"],
-        rate_cps=part["strike"]["rate_cps"],
+        rate_cps=check_strike_rate(strike["rate_cps"]),
+        print_window_s=strike.get("print_window_s"),
     )

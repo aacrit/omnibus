@@ -51,6 +51,21 @@ def test_write_and_read_ledger_round_trips(tmp_path):
     json.loads(path.read_text(encoding="utf-8"))
 
 
+def test_template_is_hashed_before_path_injection():
+    with pytest.raises(ValueError):
+        ledger.build_entry(id="x", subtype="clock", data_ref="r", template_html='<link href="file:///C:/a.css">',
+                           output_path="D:/x.mov", frames=1, output_bytes=b"x")
+
+
+def test_extra_fields_land_in_the_row():
+    e = ledger.build_entry(id="clock-dial", subtype="clock", data_ref="release", template_html="<p>@@TOKENS_CSS@@</p>",
+                           output_path="D:/x.mov", frames=181, output_bytes=b"x",
+                           extra={"release": "2026-11-16T21:00:00Z", "release_nominal": True})
+    d = e.to_dict()
+    assert d["release_nominal"] is True and d["release"] == "2026-11-16T21:00:00Z"
+    assert "extra" not in d and d["class"] == "DRAWN"
+
+
 def test_sha256_file_matches_known_bytes(tmp_path):
     p = tmp_path / "f.bin"
     p.write_bytes(b"hello world")

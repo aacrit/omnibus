@@ -48,6 +48,26 @@ def flap_progress(frame: int, timing: FlapTiming) -> float:
     return (frame - timing.start_frame) / timing.fall_frames
 
 
+FLAP_REBOUND = 0.97   # spec 1.3: settles on one 3% rebound
+
+
+def flap_scale(frame: int, timing: FlapTiming) -> float:
+    """The card's projected height as a fraction of its full height (the
+    CSS fold is ``rotateX(-90deg) -> 0`` about the card's top edge, so the
+    projected height is ``sin(angle)``). The fall accelerates into the
+    stop (gravity: progress squared), then one frame rebounds 3% before
+    the card sits flat. 0 before it starts, 1 once seated."""
+    import math
+    if frame <= timing.start_frame:
+        return 0.0
+    if frame < timing.end_frame:
+        p = (frame - timing.start_frame) / timing.fall_frames
+        return math.sin(p * p * math.pi / 2)
+    if frame == timing.end_frame + 1:
+        return FLAP_REBOUND
+    return 1.0
+
+
 def flap_total_frames(n_rows: int, *, row_gap_ms: float = 400, fall_ms: float = 180, fps: int = FPS) -> int:
     """One more than the last row's own ``end_frame`` so the sequence
     includes a frame where every row has actually settled (``end_frame``
@@ -55,7 +75,7 @@ def flap_total_frames(n_rows: int, *, row_gap_ms: float = 400, fall_ms: float = 
     if n_rows <= 0:
         return 0
     last = flap_row_timing(n_rows - 1, row_gap_ms=row_gap_ms, fall_ms=fall_ms, fps=fps)
-    return last.end_frame + 1
+    return last.end_frame + 3   # landing frame, its one rebound frame, then seated
 
 
 # ---- wipe: hard-edge reveal from the left, 240 ms -----------------------

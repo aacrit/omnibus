@@ -119,3 +119,66 @@ def test_paginate_rows_four_per_page():
     assert len(pages) == 2
     assert len(pages[0]) == 4
     assert len(pages[1]) == 2
+
+
+def test_lean_label_text_is_read_from_ladder_mjs_not_retyped():
+    labels = layout.load_lean_label_text()
+    assert list(labels) == list(layout.RUNGS)
+    assert labels["center-left"] == "Center-Left" and labels["far-right"] == "Far Right"
+
+
+def test_parse_lean_label_text_refuses_a_partial_table():
+    import pytest
+    with pytest.raises(ValueError):
+        layout.parse_lean_label_text('export const LEAN_LABEL_TEXT = { left: "Left" };')
+    with pytest.raises(ValueError):
+        layout.parse_lean_label_text("nothing here")
+
+
+def test_sweep_second_angles_frame_180_is_the_airtime_at_12():
+    angles = layout.sweep_second_angles(54)
+    assert len(angles) == 181
+    assert angles[0] == 324.0 and angles[180] == 0.0
+    steps = {round(b - a, 3) for a, b in zip(angles, angles[1:179])}
+    assert steps == {0.2}   # 6 degrees a second at 30 fps
+
+
+def test_sweep_hand_angles_read_the_airtime_on_the_last_frame():
+    a = layout.sweep_hand_angles(20, 59, 54)
+    assert a[0] == {"hour": 269.95, "minute": 359.4, "second": 324.0}   # clock.html's own values
+    assert a[180] == {"hour": 270.0, "minute": 0.0, "second": 0.0}
+
+
+def test_typed_schedule_steps_the_platen_between_rows():
+    rows = ["A" * 10, "B" * 5]
+    starts = layout.typed_row_starts(rows, 10.0, platen_s=0.06)
+    assert starts == [0.0, 1.06]
+    assert layout.typed_chars_at(rows, 10.0, 0.55) == [5, 0]
+    assert layout.typed_chars_at(rows, 10.0, 1.05) == [10, 0]
+    assert layout.typed_chars_at(rows, 10.0, 1.36) == [10, 3]
+    assert layout.typed_strike_end_s(rows, 10.0) == 1.56
+
+
+def test_week33_strikes_fit_the_declared_print_window():
+    import json
+    from pathlib import Path
+    from studio.graphics import data, typeset
+    rundown = json.loads((Path(__file__).resolve().parents[2] / "episodes/33/rundown.json").read_text(encoding="utf-8"))
+    tm = data.title_macro_spec(rundown)
+    rows = typeset.title_rows(tm)
+    assert len(rows) == 15   # 14 rows at 69 columns, then the week line
+    end = layout.typed_strike_end_s(rows, tm.rate_cps)
+    assert end <= tm.print_window_s
+    # Strikes + platen steps of the 14 title rows fit the window minus 1.8 s (spec 3.2's rule). The
+    # declared rate counts all 651 characters; the 7 spaces where a line wraps become platen steps
+    # instead of strikes, so the rows finish 7 / 74.3 s (0.09 s) early, never late.
+    title_end = layout.typed_row_starts(rows, tm.rate_cps)[-1]
+    slack = (tm.print_window_s - 1.8) - title_end
+    assert 0 <= slack < 7 / tm.rate_cps + 0.01
+
+
+def test_strike_rate_cap():
+    import pytest
+    assert layout.check_strike_rate(100) == 100
+    with pytest.raises(ValueError):
+        layout.check_strike_rate(100.01)

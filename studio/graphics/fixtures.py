@@ -20,6 +20,7 @@ below) are cross-checked against it in
 
 from __future__ import annotations
 
+from .layout import load_lean_label_text
 from .data import (
     BoardRow,
     BoardSpec,
@@ -79,11 +80,12 @@ BOARD = BoardSpec(
                  headline_sha256="2285b83952e0ab831ab8ad86420634d290299dc372f6d3d58e127d708090d634"),
     ),
     untitled={},
+    rung_labels=load_lean_label_text(),
 )
 
 LOWER_THIRD = LowerThirdSpec(
     id="lt-fixture-32", place="Toledo province, Spain", date="Wed 28 Oct 2026",
-    speaker_name="", role="", dot_label="Synthesised voice",
+    speaker_name="", role="", dot_labels=("Synthesised voice",),
 )
 
 COUNT_CARD = CountCardSpec(

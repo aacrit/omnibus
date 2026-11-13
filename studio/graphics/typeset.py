@@ -1,12 +1,16 @@
 """Builds the full HTML document Chromium typesets for each broadcast
-graphic subtype, at 1920x1080, over `design/tokens.css` and
-`design/mocks/broadcast/frame.css` (the only two stylesheets: colours
-stay inside `tokens.css`, per Ink & Momentum, and the frame's layout
-grammar stays inside `frame.css`, so a generated page and a hand-built
-mock use exactly the same CSS). Every function here returns a plain
-string; nothing touches a browser, so these are unit-tested directly in
-`studio/tests/test_graphics_typeset.py` by asserting on the markup they
-produce (the numbers they typeset, the absence of forbidden effects).
+graphic subtype, at 1920x1080, over `design/tokens.css`,
+`design/mocks/broadcast/frame.css` and the generator's own
+`studio/graphics/graphics.css` (colours stay inside `tokens.css`, per Ink
+& Momentum; the mocks' layout grammar stays inside `frame.css`, so a
+generated page and a hand-built mock share the same CSS). Every function
+returns a plain string; nothing touches a browser, so these are unit-tested
+directly in `studio/tests/test_graphics_typeset.py` by asserting on the
+markup they produce.
+
+Stylesheet paths are passed in, never baked: `render.py` builds each page
+with placeholder paths, hashes that machine-independent template for the
+ledger, and only then injects the real ``file:///`` paths.
 """
 
 from __future__ import annotations
@@ -35,20 +39,32 @@ RUNG_ABBR = {
 
 
 def esc(text: object) -> str:
-    """Every value interpolated into markup goes through this: ids,
-    headlines and outlet names are untrusted strings read from the
-    record, never typeset raw."""
+    """Every value interpolated into markup goes through this, text and
+    attributes alike: ids, headlines and outlet names are untrusted strings
+    read from the record, never typeset raw."""
     return _html.escape(str(text), quote=True)
 
 
-def _head(title: str, *, tokens_css: str, frame_css: str) -> str:
+def _rung(rung: str) -> str:
+    """A rung lands in class names and data attributes: only the seven
+    ladder ids are accepted."""
+    if rung not in layout.RUNGS:
+        raise ValueError(f"unknown rung {rung!r}")
+    return rung
+
+
+def _head(title: str, *, tokens_css: str, frame_css: str, graphics_css: str = "", body_class: str = "",
+          html_class: str = "") -> str:
+    links = f'<link rel="stylesheet" href="{esc(tokens_css)}">\n<link rel="stylesheet" href="{esc(frame_css)}">\n'
+    if graphics_css:
+        links += f'<link rel="stylesheet" href="{esc(graphics_css)}">\n'
+    html_cls = f' class="{esc(html_class)}"' if html_class else ""
+    body_cls = f' class="{esc(body_class)}"' if body_class else ""
     return (
-        '<!doctype html>\n<html lang="en" data-theme="dark">\n<head>\n'
+        f'<!doctype html>\n<html lang="en" data-theme="dark"{html_cls}>\n<head>\n'
         '<meta charset="utf-8">\n<meta name="viewport" content="width=1920">\n'
-        f"<title>{esc(title)}</title>\n"
-        f'<link rel="stylesheet" href="file:///{tokens_css}">\n'
-        f'<link rel="stylesheet" href="file:///{frame_css}">\n'
-        "</head>\n<body>\n"
+        f"<title>{esc(title)}</title>\n" + links
+        + f"</head>\n<body{body_cls}>\n"
     )
 
 
@@ -57,14 +73,14 @@ _TAIL = "</body>\n</html>\n"
 
 # ---- test card (3.3, 3.4) -------------------------------------------------
 
-def testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str) -> str:
+def testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
     if spec.subtype == "echo":
-        return _echo_testcard_html(spec, tokens_css=tokens_css, frame_css=frame_css)
+        return _echo_testcard_html(spec, tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
 
     band_x, band_width = 420.0, 600.0
     segs = layout.bar_segments(list(spec.bars), band_x=band_x, band_width=band_width)
     bar_rects = "".join(
-        f'<rect class="b-{s.rung}" x="{s.x}" y="436" width="{s.width}" height="124"/>' for s in segs
+        f'<rect class="b-{_rung(s.rung)}" x="{s.x}" y="436" width="{s.width}" height="124"/>' for s in segs
     )
     cols = layout.key_columns()
     counts = dict(zip(layout.RUNGS, spec.bars))
@@ -98,20 +114,20 @@ def testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str) -> str
         + f'<text class="tc-word" x="720" y="410" text-anchor="middle" font-size="76">{esc(spec.word)}</text>'
         + bar_rects
         + f'<rect class="tc-band-frame" x="{band_x}" y="436" width="{band_width}" height="124"/>'
-        + f'<text class="tc-abbr" x="720" y="594" text-anchor="middle" font-size="20">{esc(spec.caption)}</text>'
+        + f'<text class="tc-abbr" data-count="caption" x="720" y="594" text-anchor="middle" font-size="20">{esc(spec.caption)}</text>'
         + "".join(key_parts)
         + f'<text class="tc-line" x="720" y="772" text-anchor="middle" font-size="30">{esc(spec.week_line)}</text>'
         + svgparts.staircase_rects()
         + "</g></svg>"
     )
     return (
-        _head(f"Test card, {spec.word}", tokens_css=tokens_css, frame_css=frame_css)
+        _head(f"Test card, {spec.word}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
         + f'<div class="frame"><div class="field">{svg}</div></div>\n'
         + _TAIL
     )
 
 
-def _echo_testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str) -> str:
+def _echo_testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
     # The Echo's six bars are decorative (equal width, stair-6..stair-1),
     # never a measurement - spec 3.4: "the past has no outlet measurement".
     bars = "".join(
@@ -134,7 +150,7 @@ def _echo_testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str) 
         + "</g></svg>"
     )
     return (
-        _head(f"Test card, {spec.word}", tokens_css=tokens_css, frame_css=frame_css)
+        _head(f"Test card, {spec.word}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
         + f'<div class="frame"><div class="field field--echo">{svg}</div></div>\n'
         + _TAIL
     )
@@ -142,90 +158,152 @@ def _echo_testcard_html(spec: TestCardSpec, *, tokens_css: str, frame_css: str) 
 
 # ---- framings board (3.6) -------------------------------------------------
 
+# The mock's own clamp, verbatim in behaviour: an outlet name centres on its
+# rung, then is clamped inside title-safe by its measured width.
+_CLAMP_SCRIPT = (
+    "<script>\n"
+    "document.fonts.ready.then(function () {\n"
+    "  document.querySelectorAll('.outlet').forEach(function (o) {\n"
+    "    var x = parseFloat(o.dataset.x), half = o.offsetWidth / 2;\n"
+    "    if (x + half > 1152) { o.classList.add('clamp-r'); o.style.left = '1152px'; }\n"
+    "    else if (x - half < 0) { o.classList.add('clamp-l'); o.style.left = '0px'; }\n"
+    "  });\n"
+    "  document.documentElement.dataset.clamped = '1';\n"
+    "});\n"
+    "</script>\n"
+)
+
+
+def _outlet_span(rung: str, name: str, extra_class: str = "") -> str:
+    x = layout.rung_center_x(layout.RUNGS.index(_rung(rung)))
+    return (f'<span class="outlet bc-caps r-{rung}{extra_class}" data-x="{x:g}" '
+            f'style="left:{x:g}px">{esc(name)}</span>')
+
+
 def board_page_html(page: list[BoardRow], *, head_left: str, head_right: str, page_index: int,
-                     untitled: dict[str, list[str]], tokens_css: str, frame_css: str) -> str:
+                     untitled: dict[str, list[str]], rung_labels: dict[str, str], tokens_css: str,
+                     frame_css: str, graphics_css: str = "", rows_hidden: bool = False) -> str:
+    """One board page. `rows_hidden` typesets the same page with its rows
+    invisible (the head, ladder, rung labels and any untitled rung stay):
+    the base the motion pass flaps each row onto."""
+    for rung in layout.RUNGS:
+        if not rung_labels.get(rung):
+            raise ValueError(f"rung_labels lacks {rung!r} (read LEAN_LABEL_TEXT from ladder.mjs)")
     rows_html = []
-    for row in page:
-        rung_idx = layout.RUNGS.index(row.rung)
-        rung_x = layout.rung_center_x(rung_idx)
+    for i, row in enumerate(page):
+        rung_x = layout.rung_center_x(layout.RUNGS.index(_rung(row.rung)))
         margin = layout.flap_margin(rung_x)
-        placement = layout.outlet_placement(row.rung, rung_x, len(row.outlet) * 9.0)
-        clamp_class = {"left": " clamp-l", "right": " clamp-r"}.get(placement.clamp, "")
-        local_x = placement.x
         rows_html.append(
-            f'<div class="brow"><div class="flap" style="margin-left:{margin:g}px">'
+            f'<div class="brow" data-row="{i}"><div class="flap" style="margin-left:{margin:g}px">'
             f'<span class="flap-block bc-board">{esc(row.headline)}</span></div>'
-            f'<div class="outlet-line"><span class="outlet bc-caps r-{row.rung}{clamp_class}" '
-            f'data-x="{local_x:g}" style="left:{local_x:g}px">{esc(row.outlet)}</span></div></div>'
+            f'<div class="outlet-line">{_outlet_span(row.rung, row.outlet)}</div></div>'
         )
     ticks = layout.ladder_ticks()
     tick_svg = "".join(f'<line x1="{t:g}" y1="2" x2="{t:g}" y2="14"/>' for t in ticks)
-    occupied = {row.rung for row in page} | set(untitled.keys())
+    occupied = {row.rung for row in page} | {_rung(r) for r in untitled}
     mark_svg = "".join(
         f'<rect class="b-{rung}" x="{layout.rung_center_x(i) - 14:g}" y="0" width="28" height="16"/>'
         for i, rung in enumerate(layout.RUNGS) if rung in occupied
     )
     label_svg = "".join(
-        f'<span class="bc-caps" style="left:{layout.rung_center_x(i):g}px">{esc(layout.RUNGS[i].replace("-", " ").title())}</span>'
-        for i in range(7)
+        f'<span class="bc-caps" style="left:{layout.rung_center_x(i):g}px">{esc(rung_labels[rung])}</span>'
+        for i, rung in enumerate(layout.RUNGS)
     )
-    untitled_html = "".join(
-        f'<div class="brow"><div class="outlet-line"><span class="outlet bc-caps r-{rung}">{esc(name)}</span></div></div>'
-        for rung, names in untitled.items() for name in names
-    )
+    untitled_html = ""
+    if untitled:
+        names = "".join(_outlet_span(rung, name, " untitled") for rung, names_ in untitled.items() for name in names_)
+        untitled_html = f'<div class="untitled-line" aria-label="Occupied rung, no headline">{names}</div>'
     return (
-        _head(f"Framings board, page {page_index + 1}", tokens_css=tokens_css, frame_css=frame_css)
+        _head(f"Framings board, page {page_index + 1}", tokens_css=tokens_css, frame_css=frame_css,
+              graphics_css=graphics_css, body_class="rows-hidden" if rows_hidden else "")
         + '<div class="frame"><div class="field">'
         + f'<div class="board-head"><span class="bc-caps eyebrow-bc">{esc(head_left)}</span>'
         + f'<span class="bc-mono eyebrow-bc">{esc(head_right)}</span></div>'
-        + f'<div class="rows">{"".join(rows_html)}{untitled_html}</div>'
+        + f'<div class="rows">{"".join(rows_html)}</div>'
         + f'<svg class="ladder-base" viewBox="0 0 1152 16" aria-hidden="true">{tick_svg}{mark_svg}</svg>'
         + f'<div class="ladder-labels" aria-hidden="true">{label_svg}</div>'
-        + "</div></div>\n" + _TAIL
+        + untitled_html
+        + "</div></div>\n" + _CLAMP_SCRIPT + _TAIL
     )
 
 
-def board_pages_html(spec: BoardSpec, *, tokens_css: str, frame_css: str) -> list[str]:
+def board_pages(spec: BoardSpec) -> list[tuple[list[BoardRow], dict[str, list[str]]]]:
+    """(rows, untitled) per page. The untitled occupied rungs (a rung the
+    claim occupies with no headline) go on the page whose rows sit beside
+    them in rung order, the first page for far left."""
     pages = layout.paginate_rows(list(spec.rows))
+    out: list[tuple[list[BoardRow], dict[str, list[str]]]] = [(p, {}) for p in pages]
+    for rung, names in spec.untitled.items():
+        idx = layout.RUNGS.index(_rung(rung))
+        target = 0
+        for i, page in enumerate(pages):
+            if page and layout.RUNGS.index(page[0].rung) <= idx:
+                target = i
+        out[target][1].setdefault(rung, []).extend(names)
+    return out
+
+
+def board_pages_html(spec: BoardSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "",
+                     rows_hidden: bool = False) -> list[str]:
     return [
-        board_page_html(page, head_left=spec.head_left, head_right=spec.head_right, page_index=i,
-                         untitled=(spec.untitled if i == len(pages) - 1 else {}),
-                         tokens_css=tokens_css, frame_css=frame_css)
-        for i, page in enumerate(pages)
+        board_page_html(rows, head_left=spec.head_left, head_right=spec.head_right, page_index=i,
+                         untitled=untitled, rung_labels=spec.rung_labels, tokens_css=tokens_css,
+                         frame_css=frame_css, graphics_css=graphics_css, rows_hidden=rows_hidden)
+        for i, (rows, untitled) in enumerate(board_pages(spec))
     ]
 
 
-# ---- lower third (3.5) -----------------------------------------------------
+# ---- lower third (3.5, 3.10) ----------------------------------------------
 
-def lower_third_html(spec: LowerThirdSpec, *, tokens_css: str, frame_css: str) -> str:
+SEP = '<span class="sep">·</span>'
+
+
+def lower_third_html(spec: LowerThirdSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "",
+                      over_slot: bool = False) -> str:
+    """Spec 3.5: tier 1 the slate's place (Barlow caps; in the Echo,
+    Playfair 600 italic per 3.10) then the speaker's name; tier 2 the
+    speaker's role then the date in Mono (``{ROLE} · 14 JUN 1951``), or the
+    date alone for a slate with no speaker. An overlay: the frame, field
+    and slot are transparent and only the bars, rule, dot and type keep
+    pixels. `over_slot` draws the mock's PD-still slot behind it instead,
+    for the week-32 regression only."""
+    if not spec.dot_labels:
+        raise ValueError(f"{spec.id}: a lower third needs its provenance dot label")
+    t1 = f'<span class="lt-place bc-caps">{esc(spec.place)}</span>'
+    if spec.speaker_name:
+        t1 += SEP + f'<span class="lt-name">{esc(spec.speaker_name)}</span>'
+    date = f'<span class="lt-date bc-mono">{esc(spec.date.upper())}</span>'
+    t2 = (f'<span class="lt-role bc-caps">{esc(spec.role)}</span>' + SEP + date) if spec.role else date
+    label = " · ".join(spec.dot_labels)
+    slot = ('<div class="slot" aria-label="Public-domain still slot"><div class="slot-frame"></div></div>'
+            if over_slot else "")
+    lt_class = "lt lt--echo" if spec.echo else "lt"
     return (
-        _head(f"Lower third, {spec.place}", tokens_css=tokens_css, frame_css=frame_css)
-        + '<div class="frame"><div class="slot" aria-label="Public-domain still slot">'
-        + '<div class="slot-frame"></div></div>'
-        + f'<div class="lt" role="img" aria-label="Slate: {esc(spec.place)}, {esc(spec.date)}">'
+        _head(f"Lower third, {spec.place}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css,
+              body_class="" if over_slot else "overlay")
+        + '<div class="frame">' + slot
+        + f'<div class="{lt_class}" role="img" aria-label="{esc(spec.place)}, {esc(spec.date)}">'
         + '<div class="lt-rule"></div>'
-        + f'<div class="lt-t1"><span class="lt-place bc-caps">{esc(spec.place.upper())}</span>'
-        + f'<span class="lt-name">{esc(spec.speaker_name)}</span></div>'
-        + f'<div class="lt-t2"><span class="lt-date bc-mono">{esc(spec.date.upper())}</span>'
-        + f'<span class="lt-role bc-caps">{esc(spec.role)}</span></div>'
+        + f'<div class="lt-t1">{t1}</div>'
+        + f'<div class="lt-t2">{t2}</div>'
         + '<span class="lt-dot" style="left:calc(100% + 18px)"></span>'
-        + f'<span class="lt-dot-label bc-caps" style="left:calc(100% + 52px); top:-13px">{esc(spec.dot_label)}</span>'
+        + f'<span class="lt-dot-label bc-caps" style="left:calc(100% + 52px); top:-13px">{esc(label)}</span>'
         + "</div></div>\n" + _TAIL
     )
 
 
 # ---- count card (3.7) -------------------------------------------------------
 
-def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str) -> str:
+def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
     """One hero numeral (count-card.html's own 300/350/600/760 offsets,
-    reproduced exactly) for a single-row card; a multi-row card (e.g.
-    cw-1's three terms, cw-4's two-way comparison - net-new compositions,
-    no G2 mock covers more than one count at a time) distributes evenly
-    in a smaller face so rows never overlap: each gets its own
-    ``row_height`` band, sized to clear a hero numeral plus its context
-    line."""
+    reproduced exactly) for a single-row card; a multi-row card (cw-1's
+    three terms, cw-4's two-way comparison: net-new compositions, no G2
+    mock covers more than one count at a time) distributes rows evenly in
+    a smaller face so rows never overlap. Every numeral carries
+    ``data-row`` so counts-match reads each one back."""
     n = len(spec.rows)
     blocks = []
+    date_top = 760
     if n <= 1:
         row = spec.rows[0] if spec.rows else None
         if row:
@@ -236,8 +314,10 @@ def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str) -> 
                 )
             blocks.append('<div class="count-block" style="top:350px"><div class="hero-num bc-mono" data-row="0">'
                            f'{esc(row.hero)}</div></div>')
-            blocks.append(f'<div class="count-block" style="top:600px"><p class="context">{esc(row.context)}</p></div>')
+            blocks.append(f'<div class="count-block" style="top:600px"><p class="context" data-row="0">'
+                          f'{esc(row.context)}</p></div>')
     else:
+        date_top = 900
         available_top, available_bottom = 220.0, 860.0
         row_height = (available_bottom - available_top) / n
         hero_size = max(72, min(132, round(row_height * 0.42)))
@@ -250,17 +330,18 @@ def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str) -> 
                 f'data-row="{i}" style="font-size:{hero_size}px">{esc(row.hero)}</div></div>'
             )
             blocks.append(
-                f'<div class="count-block" style="top:{context_top:g}px"><p class="context" '
+                f'<div class="count-block" style="top:{context_top:g}px"><p class="context" data-row="{i}" '
                 f'style="font-size:26px">{esc(row.context)}</p></div>'
             )
     date_html = (
-        f'<div class="count-block" style="top:900px"><span class="bc-mono" '
+        f'<div class="count-block" style="top:{date_top}px"><span class="bc-mono count-date" '
         f'style="font-size:var(--bc-data); color:var(--o-grey-2)">{esc(spec.date_line)}</span></div>'
         if spec.date_line else ""
     )
+    field_class = "field field--echo" if spec.echo else "field"
     return (
-        _head(f"Count card, {spec.id}", tokens_css=tokens_css, frame_css=frame_css)
-        + '<div class="frame"><div class="field">'
+        _head(f"Count card, {spec.id}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
+        + f'<div class="frame"><div class="{field_class}">'
         + f'<div class="board-head"><span class="bc-caps eyebrow-bc">{esc(spec.eyebrow)}</span>'
         + f'<span class="bc-mono eyebrow-bc">{esc(spec.week_label)}</span></div>'
         + "".join(blocks) + date_html
@@ -271,23 +352,23 @@ def count_card_html(spec: CountCardSpec, *, tokens_css: str, frame_css: str) -> 
 
 # ---- day lean bars (net-new; no G2 mock, see docs/DECISIONS.md) ------------
 
-def day_bars_html(spec: DayBarSpec, *, tokens_css: str, frame_css: str) -> str:
+def day_bars_html(spec: DayBarSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
     band_x, band_width = 420.0, 600.0
     segs = layout.bar_segments(list(spec.bars), band_x=band_x, band_width=band_width)
     bar_rects = "".join(
-        f'<rect class="b-{s.rung}" x="{s.x}" y="500" width="{s.width}" height="60"/>' for s in segs
+        f'<rect class="b-{_rung(s.rung)}" x="{s.x}" y="500" width="{s.width}" height="60"/>' for s in segs
     )
     svg = (
         '<svg class="tc-svg" viewBox="0 0 1440 1080" role="img" '
         f'aria-label="Day bars: {esc(spec.day)}"><g>'
         + bar_rects
         + f'<rect class="tc-band-frame" x="{band_x}" y="500" width="{band_width}" height="60"/>'
-        + f'<text class="tc-abbr" x="720" y="580" text-anchor="middle" font-size="18">{esc(spec.caption)}</text>'
+        + f'<text class="tc-abbr" data-count="caption" x="720" y="580" text-anchor="middle" font-size="18">{esc(spec.caption)}</text>'
         + f'<text class="tc-line" x="720" y="420" text-anchor="middle" font-size="30">{esc(spec.slate)}</text>'
         + "</g></svg>"
     )
     return (
-        _head(f"Day bars, {spec.day}", tokens_css=tokens_css, frame_css=frame_css)
+        _head(f"Day bars, {spec.day}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
         + f'<div class="frame"><div class="field">{svg}</div></div>\n'
         + _TAIL
     )
@@ -295,68 +376,83 @@ def day_bars_html(spec: DayBarSpec, *, tokens_css: str, frame_css: str) -> str:
 
 # ---- clock (3.9) ------------------------------------------------------------
 
-def clock_html(spec: ClockSpec, *, tokens_css: str, frame_css: str) -> str:
-    angles = layout.clock_hand_angles(spec.hour, spec.minute, spec.second)
-    ticks = svgparts.clock_ticks_svg()
-    svg = (
-        '<svg class="clock" viewBox="-100 -100 200 200" role="img" '
-        f'aria-label="Clock at {spec.hour:02d}:{spec.minute:02d}:{spec.second:02d} UTC">'
-        '<circle class="dial" r="97"/>' + ticks
-        + f'<g transform="rotate({angles["hour"]})">'
-        '<line class="hand-key" x1="0" y1="10" x2="0" y2="-49.5" stroke-width="10"/>'
-        '<line class="hand" x1="0" y1="10" x2="0" y2="-48" stroke-width="7"/></g>'
-        + f'<g transform="rotate({angles["minute"]})">'
-        '<line class="hand-key" x1="0" y1="10" x2="0" y2="-79.5" stroke-width="7.5"/>'
-        '<line class="hand" x1="0" y1="10" x2="0" y2="-78" stroke-width="4.5"/></g>'
-        + f'<g transform="rotate({angles["second"]})" class="sec">'
-        '<line class="hand-sec" x1="0" y1="18" x2="0" y2="-86" stroke-width="1.6"/></g>'
-        '<circle class="hub-key" r="6.5" style="fill:var(--o-black)"/>'
-        '<circle class="hub" r="4.5"/></svg>'
-    )
+CLOCK_PIVOT = (960, 456)   # frame pixels: field x 240 + 360 + 360, top 96 + 360
+CLOCK_PARTS = frozenset({"base", "hour", "minute", "second"})
+
+
+def clock_html(spec: ClockSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "",
+               parts: frozenset[str] = CLOCK_PARTS, at_zero: bool = False) -> str:
+    """The clock. `parts` picks the layers drawn: ``base`` (frame, field,
+    dial, ticks, wordmark, date), ``hour``, ``minute``, ``second`` (the
+    second hand with the hub over it). Without ``base`` the page is an
+    overlay (transparent frame and field). `at_zero` typesets every hand
+    drawn at rotate(0), pointing to 12, for the motion pass to rotate."""
+    unknown = set(parts) - CLOCK_PARTS
+    if unknown:
+        raise ValueError(f"unknown clock parts {sorted(unknown)}")
+    angles = ({"hour": 0, "minute": 0, "second": 0} if at_zero
+              else layout.clock_hand_angles(spec.hour, spec.minute, spec.second))
+    svg = ['<svg class="clock" viewBox="-100 -100 200 200" role="img" '
+           f'aria-label="Clock at {spec.hour:02d}:{spec.minute:02d}:{spec.second:02d} UTC">']
+    if "base" in parts:
+        svg.append('<circle class="dial" r="97"/>' + svgparts.clock_ticks_svg())
+    if "hour" in parts:
+        svg.append(f'<g transform="rotate({angles["hour"]:g})">'
+                   '<line class="hand-key" x1="0" y1="10" x2="0" y2="-49.5" stroke-width="10"/>'
+                   '<line class="hand" x1="0" y1="10" x2="0" y2="-48" stroke-width="7"/></g>')
+    if "minute" in parts:
+        svg.append(f'<g transform="rotate({angles["minute"]:g})">'
+                   '<line class="hand-key" x1="0" y1="10" x2="0" y2="-79.5" stroke-width="7.5"/>'
+                   '<line class="hand" x1="0" y1="10" x2="0" y2="-78" stroke-width="4.5"/></g>')
+    if "second" in parts:
+        svg.append(f'<g class="sec" transform="rotate({angles["second"]:g})">'
+                   '<line class="hand-sec" x1="0" y1="18" x2="0" y2="-86" stroke-width="1.6"/></g>'
+                   '<circle class="hub-key" r="6.5" style="fill:var(--o-black)"/>'
+                   '<circle class="hub" r="4.5"/>')
+    svg.append("</svg>")
+    under = ""
+    if "base" in parts:
+        under = ('<div class="abs wordmark" style="left:0; width:1440px; top:846px; font-size:60px">void omnibus</div>'
+                 f'<div class="abs bc-mono clock-date" style="left:0; width:1440px; top:936px; text-align:center; '
+                 f'font-size:30px; color:var(--o-grey-2)">{esc(spec.date_line)}</div>')
     return (
-        _head(f"Clock, {spec.hour:02d}:{spec.minute:02d}:{spec.second:02d} UTC", tokens_css=tokens_css, frame_css=frame_css)
+        _head(f"Clock, {spec.hour:02d}:{spec.minute:02d}:{spec.second:02d} UTC", tokens_css=tokens_css,
+              frame_css=frame_css, graphics_css=graphics_css, body_class="" if "base" in parts else "overlay")
         + '<div class="frame"><div class="field">'
-        + f'<div class="abs" style="left:360px; top:96px; width:720px; height:720px">{svg}</div>'
-        + '<div class="abs wordmark" style="left:0; width:1440px; top:846px; font-size:60px">void omnibus</div>'
-        + f'<div class="abs bc-mono" style="left:0; width:1440px; top:936px; text-align:center; font-size:30px; color:var(--o-grey-2)">{esc(spec.date_line)}</div>'
+        + f'<div class="abs" style="left:360px; top:96px; width:720px; height:720px">{"".join(svg)}</div>'
+        + under
         + "</div></div>\n" + _TAIL
     )
 
 
-def clock_layer_html(spec: ClockSpec, *, layer: str, tokens_css: str, frame_css: str) -> str:
-    """The clock is shot as two separate layers (ticket: "clock dial + hands
-    as separate layers"): `layer="dial"` typesets everything except the
-    three hand groups, `layer="hands"` typesets only the hands (dial left
-    transparent) so the sweep's motion pass only has to repaint the hands."""
-    full = clock_html(spec, tokens_css=tokens_css, frame_css=frame_css)
-    if layer == "dial":
-        import re
-        return re.sub(r'<g transform="rotate\([^)]*\)"[^>]*>.*?</g>', "", full, flags=re.DOTALL)
-    if layer == "hands":
-        import re
-        dial_bits = re.sub(r'<circle class="dial"[^/]*/>', "", full)
-        dial_bits = re.sub(r'<line class="tick"[^/]*/>', "", dial_bits)
-        return dial_bits
-    raise ValueError(f"unknown clock layer {layer!r}")
-
-
 # ---- credits and end board (3.11) ------------------------------------------
 
-def credits_html(spec: CreditsSpec, *, tokens_css: str, frame_css: str, line_height: int = 54) -> str:
-    lines_html = "".join(f'<div class="endline" style="position:static">{esc(line)}</div>' for line in spec.lines)
-    height = max(1080, len(spec.lines) * line_height + 1080)
+def credits_html(spec: CreditsSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
+    """One tall strip, top down: a screen of empty field, every line in
+    Barlow 600 caps 30 px cream, centred, then a screen of empty field so
+    the roll starts and ends clear. Its height is measured in Chromium."""
+    lines_html = "".join(f'<p class="credit-line">{esc(line)}</p>' for line in spec.lines)
     return (
-        _head("Credits roll", tokens_css=tokens_css, frame_css=frame_css)
-        + f'<div class="frame" style="height:{height}px">'
-        + f'<div class="field" style="height:{height}px; display:flex; flex-direction:column; '
-        + f'justify-content:flex-end; gap:{line_height - 30}px; text-align:center; padding-bottom:40px">'
-        + lines_html + "</div></div>\n" + _TAIL
+        _head("Credits roll", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css,
+              html_class="tall")
+        + f'<div class="frame"><div class="field"><div class="credits">{lines_html}</div></div></div>\n'
+        + _TAIL
     )
 
 
-def end_board_html(spec: EndBoardSpec, *, tokens_css: str, frame_css: str) -> str:
+def _licence_html(licence: str) -> str:
+    """``CC BY-SA 4.0``: words in the caps register, the version numeral
+    in Mono (spec 1.2: every numeral)."""
+    parts = []
+    for word in licence.split(" "):
+        cls = "bc-mono" if any(ch.isdigit() for ch in word) else "bc-caps"
+        parts.append(f'<span class="{cls}">{esc(word)}</span>')
+    return " ".join(parts)
+
+
+def end_board_html(spec: EndBoardSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
     return (
-        _head(f"End board, week {spec.issue}", tokens_css=tokens_css, frame_css=frame_css)
+        _head(f"End board, week {spec.issue}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
         + '<div class="frame"><div class="field">'
         + '<div class="abs sigil-bc" style="left:560px; top:170px; width:320px; height:320px">'
         '<svg style="width:320px;height:320px" viewBox="0 0 24 24" aria-hidden="true">'
@@ -365,7 +461,7 @@ def end_board_html(spec: EndBoardSpec, *, tokens_css: str, frame_css: str) -> st
         + '<div class="endline" style="top:800px">'
         + f'<span class="bc-caps">Week</span> <span class="bc-mono">{esc(spec.issue)}</span>'
         + f'<span class="sep">·</span><span class="roman">{esc(spec.roman_year)}</span>'
-        + f'<span class="sep">·</span><span class="bc-caps">{esc(spec.licence.split(" ")[0])} {esc(spec.licence.split(" ")[1]) if " " in spec.licence else ""}</span>'
+        + f'<span class="sep">·</span>{_licence_html(spec.licence)}'
         + f'<span class="sep">·</span><span class="bc-mono" style="font-size:28px">{esc(spec.domain)}</span>'
         + "</div></div></div>\n" + _TAIL
     )
@@ -373,30 +469,23 @@ def end_board_html(spec: EndBoardSpec, *, tokens_css: str, frame_css: str) -> st
 
 # ---- title typed-paper macro (3.2) -----------------------------------------
 
-def title_macro_html(spec: TitleMacroSpec, *, tokens_css: str, frame_css: str, reveal_rows: int | None = None,
-                      reveal_chars: int | None = None) -> str:
-    """The whole 14-row macro, Plex Mono caps, full HD. `reveal_rows`/
-    `reveal_chars` let the motion pass render a partial strike (every row
-    before `reveal_rows` full, that row cut to `reveal_chars`, everything
-    after empty); omitted, the full text shows (the typeset reference the
-    counts-match check reads)."""
-    rows = layout.wrapped_rows(list(spec.lines), spec.columns)
-    rows = rows + [spec.week_line]
-    shown_rows = []
-    for i, row in enumerate(rows):
-        if reveal_rows is None:
-            shown_rows.append(row)
-        elif i < reveal_rows:
-            shown_rows.append(row)
-        elif i == reveal_rows and reveal_chars is not None:
-            shown_rows.append(row[:reveal_chars])
-        else:
-            shown_rows.append("")
-    rows_html = "".join(f'<div class="macro-row bc-mono">{esc(r)}&nbsp;</div>' for r in shown_rows)
+def title_rows(spec: TitleMacroSpec) -> list[str]:
+    """The paper's rows: each verbatim line wrapped at the paper's 69
+    columns, then the week line."""
+    return layout.wrapped_rows(list(spec.lines), spec.columns) + [spec.week_line]
+
+
+def title_macro_html(spec: TitleMacroSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
+    """The whole macro, every row struck, Plex Mono caps 43 px on a
+    full-frame paper ground. The motion pass reveals it character by
+    character from this one typeset frame; each row's text sits in its
+    own span so its character advances can be measured."""
+    rows_html = "".join(
+        f'<div class="macro-row" data-row="{i}"><span>{esc(r)}</span></div>' for i, r in enumerate(title_rows(spec))
+    )
     return (
-        _head("Title, typed-paper macro", tokens_css=tokens_css, frame_css=frame_css)
-        + '<div class="frame" style="background:var(--o-paper)">'
-        + '<div class="field" style="background:var(--o-paper); color:var(--o-ink); padding:60px; '
-        + 'font-family:var(--font-data); text-transform:uppercase; white-space:pre">'
-        + rows_html + "</div></div>\n" + _TAIL
+        _head("Title, typed-paper macro", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css,
+              body_class="macro")
+        + f'<div class="frame"><div class="macro-rows">{rows_html}</div></div>\n'
+        + _TAIL
     )

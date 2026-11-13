@@ -38,7 +38,7 @@ def test_flap_progress_before_during_after():
 def test_flap_total_frames_covers_last_row():
     total = motion.flap_total_frames(4)
     last = motion.flap_row_timing(3)
-    assert total == last.end_frame + 1
+    assert total == last.end_frame + 3   # landing, one 3% rebound frame, seated
 
 
 def test_flap_total_frames_zero_rows():
@@ -97,3 +97,15 @@ def test_typed_paper_frame_count_week33_fourteen_rows_positive():
     rows = ["X" * 69] * 14
     n = motion.typed_paper_frame_count(rows, rate_cps=74.3)
     assert n > 0
+
+
+def test_flap_scale_falls_with_gravity_then_rebounds_once():
+    t = motion.flap_row_timing(0)
+    scales = [motion.flap_scale(f, t) for f in range(t.end_frame + 4)]
+    assert scales[0] == 0.0
+    fall = scales[1:t.end_frame]
+    steps = [b - a for a, b in zip(fall, fall[1:])]
+    assert all(b > a for a, b in zip(steps, steps[1:]))   # accelerating into the stop
+    assert scales[t.end_frame] == 1.0
+    assert scales[t.end_frame + 1] == motion.FLAP_REBOUND == 0.97
+    assert scales[t.end_frame + 2:] == [1.0, 1.0]

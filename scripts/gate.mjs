@@ -82,6 +82,8 @@ const STEPS = [
           "studio/tests/test_graphics_data.py",
           "studio/tests/test_graphics_typeset.py",
           "studio/tests/test_graphics_fixtures.py",
+          "studio/tests/test_graphics_expected.py",
+          "studio/tests/test_graphics_framesheet.py",
           "-q", "-p", "no:cacheprovider",
         ],
         { cwd: repoRoot, stdio: "inherit", shell: false },

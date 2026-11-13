@@ -6,13 +6,10 @@
 # The narrator's TTS runtime (Kokoro) is a separate venv, out of scope for E2/E2a: see kokoro_worker.py's own
 # docstring once a later ticket carries studio/requirements-tts.txt over.
 #
-# E6: playwright is the graphics generator's typesetting engine (studio/graphics/shoot.py, studio/graphics/
-# render.py). The package installs fine with this file alone; the Chromium *binary* it drives
-# ("playwright install chromium") is only needed to run studio/graphics/render.py directly, never by the gate
-# or studio-full, so neither CI workflow installs it (docs/DECISIONS.md, 2026-11-12, "graphics generator").
+# E6's graphics renderer needs Playwright, which lives in studio/requirements-graphics.txt: the gate and
+# studio-full install only this file and stay browser-free.
 numpy==2.5.3
 pillow==12.3.0
 soundfile==0.14.0
 pytest==9.1.1
 fonttools==4.66.1
-playwright==1.63.0
