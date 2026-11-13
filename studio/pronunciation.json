@@ -1,0 +1,11 @@
+{
+  "_note": "Net-new (E7, issue 33). Plain-text respellings for names the synthesiser (Kokoro, via espeak-ng's en-us phonemizer) is known to mangle, read by studio/news/voice_episode.py. Not studio/news/lexicon.json: that one is the show bible's banned-phrase list (what the narrator may not say); this one only changes how a name sounds. A respelling is one token, hyphens marking syllables, no spaces and no ALL-CAPS (espeak reads an all-caps word as spelled-out letters): voice_episode.words_from_timings pairs it one for one with the word as written, so word timings still land on the right word, and the written word, never the respelling, is what a caption shows and what text_sha256 and quote_sha256 hash.",
+  "words": {
+    "Mamdani": "Mahm-dah-nee",
+    "Slotkin": "Slot-kin",
+    "Hegseth": "Heg-seth",
+    "Massie": "Mass-ee",
+    "Kefauver": "Kuh-faw-ver",
+    "Tuscaloosa": "Tusk-uh-loo-suh"
+  }
+}

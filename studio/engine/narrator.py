@@ -313,6 +313,45 @@ def cache_dir(film: Path | None = None) -> Path:
     return Path(film) / "cache" / "voice"
 
 
+def words_from_timings(text: str, timings: list[tuple[str, float, float]], *, total_s: float | None = None) -> list[dict]:
+    """[{"w", "start_s", "end_s"}] for each of ``text``'s whitespace-split words, from a phoneme timeline
+    (character, start seconds, end seconds, in the model's own vocabulary, which includes a space character
+    between words) such as kokoro_worker.py reports (empty when the pinned model exposes no phoneme durations).
+
+    A run of non-space entries is one spoken word; when the timeline has exactly as many runs as ``text`` has
+    written words, each is paired with the written word at its position in order (so a word timing always names
+    the word as written, never a respelling fed to the model: E7's lexicon substitutes before this is called, and
+    only into a one-token respelling, so the count still matches). When it does not (a number read as several
+    spoken words, a model that reports no durations at all), every written word instead gets a share of the
+    line's span proportional to its character length, so the list is still in order and inside the line
+    (``total_s``, the take's measured length, bounds the span when the timeline itself is empty)."""
+    words = text.split()
+    if not words:
+        return []
+    runs: list[list[tuple[str, float, float]]] = []
+    cur: list[tuple[str, float, float]] = []
+    for ch, a, b in timings:
+        if ch == " ":
+            if cur:
+                runs.append(cur)
+                cur = []
+            continue
+        cur.append((ch, float(a), float(b)))
+    if cur:
+        runs.append(cur)
+    if runs and len(runs) == len(words):
+        return [{"w": w, "start_s": round(r[0][1], 3), "end_s": round(r[-1][2], 3)} for w, r in zip(words, runs)]
+    span_start = float(timings[0][1]) if timings else 0.0
+    span_end = float(timings[-1][2]) if timings else float(total_s or 0.0)
+    total_chars = sum(len(w) for w in words) or 1
+    out, t = [], span_start
+    for w in words:
+        share = max(span_end - span_start, 0.0) * (len(w) / total_chars)
+        out.append({"w": w, "start_s": round(t, 3), "end_s": round(t + share, 3)})
+        t += share
+    return out
+
+
 def run_worker(jobs: list[dict], files: dict[str, Path], out: Path, *, threads: int, max_rss_mb: float,
                python: str | None = None) -> dict:
     """Run kokoro_worker.py on ``jobs`` in the TTS interpreter; returns its result.json."""
@@ -335,9 +374,11 @@ def voice_lines(lines: list[dict], voice: dict | None = None, cache: Path | None
     """Voice narration lines ({id, text}) as ``voice`` (the house narrator by default). The runtime is probed
     first, so its versions are in every key. A take already in the cache under its key is reused; the rest are
     synthesised in one worker run and stored under their keys; a worker run whose reported runtime is not the probed
-    one refuses. Returns {"lines": {id: {key, wav, cached}}, "timing", "peak_rss_mb", "runtime", ...}. Refuses an
-    engine other than Kokoro and Orpheus, an Orpheus narrator (its takes are made outside the engine), a voice A57
-    refuses, and a model file off the lock."""
+    one refuses. Returns {"lines": {id: {key, wav, cached, timeline}}, "timing", "peak_rss_mb", "runtime", ...};
+    ``timeline`` is the take's phoneme timeline (kokoro_worker.py's own, cached beside the take so a later cache
+    hit still carries it; words_from_timings turns it into word spans), or None when the worker reported none.
+    Refuses an engine other than Kokoro and Orpheus, an Orpheus narrator (its takes are made outside the engine),
+    a voice A57 refuses, and a model file off the lock."""
     voice = dict(voice or HOUSE_NARRATOR)
     if voice.get("engine") not in ENGINES:
         raise NarratorError(f"narrator engine {voice.get('engine')!r} is not one of {sorted(ENGINES)}")
@@ -376,14 +417,21 @@ def voice_lines(lines: list[dict], voice: dict | None = None, cache: Path | None
                                     + "; ".join(f"{k[:12]}: {v}" for k, v in res["failed"].items()))
             if res.get("runtime") and res["runtime"] != runtime:
                 raise NarratorError(f"the worker ran on {res['runtime']}, the keys were made for {runtime}")
+            timelines = res.get("timings") or {}
             for j in jobs:
                 os.replace(work / f"{j['id']}.wav", cache / f"{j['id']}.wav")
+                tl = timelines.get(j["id"])
+                if tl is not None:          # the phoneme timeline, cached beside the take for a later cache hit
+                    (cache / f"{j['id']}.timeline.json").write_text(json.dumps(tl), encoding="utf-8")
             timing = dict(res.get("timing") or {}, wall_s=round(wall, 2))
             if timing.get("audio_s"):
                 timing["rtf_wall"] = round(wall / timing["audio_s"], 3)
             peak = res.get("peak_rss_mb")
         finally:
             shutil.rmtree(work, ignore_errors=True)
+    for lid, info in out.items():
+        tf = cache / f"{info['key']}.timeline.json"
+        info["timeline"] = json.loads(tf.read_text(encoding="utf-8")) if tf.exists() else None
     return {"voice": voice, "identity": ident, "lines": out, "synthesised": len(jobs), "timing": timing,
             "peak_rss_mb": peak, "threads": threads, "model": lock_digest(lock), "runtime": runtime}
 
