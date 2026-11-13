@@ -168,7 +168,7 @@ export function videoFirst(cands) {
   return [...cands.filter((c) => VIDEO.test(c.ref)), ...cands.filter((c) => !VIDEO.test(c.ref))];
 }
 
-async function searchStep(stepIn, { http, env }) {
+async function searchStep(stepIn, { http, env, searchTo = null }) {
   const step = { ...stepIn, query: stepIn.query ?? stepIn.ref ?? "" };
   const window = step.window ? { from: step.window.from, to: step.window.to } : undefined;
   const base = { tier: step.tier, ...(window ? { window } : {}) };
@@ -197,8 +197,10 @@ async function searchStep(stepIn, { http, env }) {
       const params = stepParams(step.query);
       const hits = new Map();
       for (const q of dvidsAlternatives(params.q)) {
-        const r = await http.getJson(dvidsSearchUrl({ ...params, q }, window, key));
-        if (r.status === "ok") for (const h of dvidsResults(r.json, window)) if (!hits.has(h.id)) hits.set(h.id, h);
+        // Ruling A: a Week day's search runs to the edition cutoff; the fetcher still holds each hit to the day's own event.
+        const reach = searchTo && window ? { ...window, to: searchTo } : window;
+        const r = await http.getJson(dvidsSearchUrl({ ...params, q }, reach, key));
+        if (r.status === "ok") for (const h of dvidsResults(r.json, reach)) if (!hits.has(h.id)) hits.set(h.id, h);
       }
       return [...hits.values()].sort((a, b) => b.published - a.published).slice(0, SEARCH_HITS).map((h) => ({ adapter: "dvids", ref: h.id, ...base }));
     } catch (err) {
@@ -215,7 +217,10 @@ async function searchStep(stepIn, { http, env }) {
  */
 export async function resolveRequests(rundown, { pins = {}, echoPick = null, http, env = process.env, log = () => {} }) {
   const requests = [];
+  // The edition cutoff (the rundown's as_of): ruling A admits a Week day's own picture published by it.
+  const editionCutoff = typeof rundown.as_of === "string" && /^\d{4}-\d{2}-\d{2}/.test(rundown.as_of) ? rundown.as_of : null;
   for (const req of rundown.asset_requests ?? []) {
+    const searchTo = /^week-day-\d+$/.test(String(req.for ?? "")) ? editionCutoff : null;
     const candidates = [];
     const notFetched = [];
     for (const step of req.ladder ?? []) {
@@ -255,7 +260,7 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
       }
       let found;
       try {
-        found = await searchStep(step, { http, env });
+        found = await searchStep(step, { http, env, searchTo });
       } catch (err) {
         notFetched.push({ tier: step.tier, host, reason: `the search failed: ${clip(err.message, 300)}` });
         continue;
@@ -299,9 +304,7 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
     });
     log(`${req.id}: ${unique.length} candidate(s), ${notFetched.length} step(s) not fetched`);
   }
-  // The edition cutoff (the rundown's as_of): ruling A admits a Week day's own picture published by it.
-  const cutoff = typeof rundown.as_of === "string" && /^\d{4}-\d{2}-\d{2}/.test(rundown.as_of) ? { edition_cutoff: rundown.as_of } : {};
-  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...cutoff, requests };
+  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...(editionCutoff ? { edition_cutoff: editionCutoff } : {}), requests };
 }
 
 export const CANDIDATES_SCHEMA_ID = "omnibus.asset-candidates/1";
