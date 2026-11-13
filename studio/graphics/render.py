@@ -47,19 +47,26 @@ from studio.graphics import (  # noqa: E402
 )
 
 FPS = motion.FPS
+ACTION_SAFE_RIGHT = 1920 - 96   # 16:9 action-safe (5%): a lower third sits over full-bleed picture
 LEDGER_PATH = ROOT / "episodes" / "33" / "graphics-ledger.json"
 
 # Week-32 regression: mean absolute per-channel difference (0..255) each
 # layer may show against its G2 mock (docs/DECISIONS.md, E6 review fixes).
+# 0.05 is about one channel step on 2% of the frame: font hinting noise,
+# never a moved, missing or recoloured element.
 REGRESSION_THRESHOLDS = {
     "testcard-week": 0.05,
     "testcard-echo": 0.05,
-    "flap-board": 0.15,
-    "lower-third": 0.30,
+    "flap-board": 0.05,
+    "lower-third": 0.05,
     "count-card": 0.05,
     "clock": 0.05,
     "end-board": 0.05,
 }
+# Review-only copy in a mock that no broadcast layer carries, measured from
+# the mock's own DOM and left out of the comparison (the lower third's
+# "PD still slot" caption: a real lower third sits over a picture).
+REGRESSION_EXCLUDE = {"lower-third": [".slot-label"]}
 
 
 def inject(template: str) -> str:
@@ -169,6 +176,12 @@ def render_week33(out_dir: Path, *, release: str, release_nominal: bool) -> list
             t = typeset.lower_third_html(lt, **PH)
             with run.session(t, where=lt.id, transparent=True) as shot:
                 box = shot.union_box(".lt")
+                if box[0] + box[2] > ACTION_SAFE_RIGHT:
+                    shot.evaluate("document.querySelector('.lt-dot-label').classList.add('above')")
+                    shoot._settle(shot.page)
+                    box = shot.union_box(".lt")
+                if box[0] + box[2] > ACTION_SAFE_RIGHT:
+                    raise ValueError(f"{lt.id}: lower third ends at x {box[0] + box[2]}, past action-safe {ACTION_SAFE_RIGHT}")
                 label = shot.text(".lt-dot-label")
                 if label != " · ".join(lt.dot_labels):
                     raise ValueError(f"{lt.id}: dot label {label!r}")
@@ -293,7 +306,6 @@ def render_regression32(out_dir: Path) -> dict:
     frame (reduced motion = the final state, spec 1.3), reports the mean
     absolute channel difference (0..255) and raises if any layer is over
     its threshold."""
-    import numpy as np
     out_dir.mkdir(parents=True, exist_ok=True)
     PH = PLACEHOLDERS
     jobs = [
@@ -310,13 +322,16 @@ def render_regression32(out_dir: Path) -> dict:
         for name, template, mock in jobs:
             clean.assert_clean(template, where=name)
             gen_png = shoot.shoot_html(browser, inject(template), transparent=False)
-            mock_png = shoot.shoot_path(browser, MOCKS_DIR / mock, transparent=False)
+            with shoot.session_path(browser, MOCKS_DIR / mock, transparent=False) as shot:
+                exclude = [shot.box(sel) for sel in REGRESSION_EXCLUDE.get(name, [])]
+                mock_png = shot.screenshot()
             (out_dir / f"{name}-generated.png").write_bytes(gen_png)
             (out_dir / f"{name}-mock.png").write_bytes(mock_png)
-            a = np.asarray(compose.load_rgba(gen_png).convert("RGB"), dtype=np.int16)
-            b = np.asarray(compose.load_rgba(mock_png).convert("RGB"), dtype=np.int16)
-            diff = round(float(np.abs(a - b).mean()), 4)
-            results[name] = {"diff": diff, "threshold": REGRESSION_THRESHOLDS[name]}
+            a, b = compose.load_rgba(gen_png), compose.load_rgba(mock_png)
+            raw = round(compose.mean_abs_diff(a, b), 4)
+            diff = round(compose.mean_abs_diff(a, b, exclude=exclude), 4)
+            results[name] = {"diff": diff, "threshold": REGRESSION_THRESHOLDS[name], "raw_diff": raw,
+                             "excluded": [list(e) for e in exclude]}
             if diff > REGRESSION_THRESHOLDS[name]:
                 over.append(f"{name} {diff} > {REGRESSION_THRESHOLDS[name]}")
     (out_dir / "pixel-diff.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")

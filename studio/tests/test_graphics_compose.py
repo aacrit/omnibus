@@ -26,6 +26,16 @@ def test_presets_are_generators_not_lists():
     assert len(list(gen)) == 3
 
 
+def test_mean_abs_diff_and_its_exclusions():
+    a = Image.new("RGBA", (10, 10), (0, 0, 0, 255))
+    b = a.copy()
+    b.paste(Image.new("RGBA", (2, 5), (255, 255, 255, 255)), (0, 0))   # 10 of 100 pixels differ by 255
+    assert compose.mean_abs_diff(a, b) == pytest.approx(25.5)
+    assert compose.mean_abs_diff(a, b, exclude=[(0, 0, 2, 5)]) == 0.0
+    with pytest.raises(ValueError):
+        compose.mean_abs_diff(a, Image.new("RGBA", (9, 10)))
+
+
 def test_step_frames_repeats_the_same_pixels():
     img = _solid()
     frames = list(compose.step_frames(img, hold_frames=5))

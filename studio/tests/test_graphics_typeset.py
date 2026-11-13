@@ -230,7 +230,7 @@ def test_credits_strip_is_top_down_caps_lines():
 
 def test_end_board_prints_the_full_licence_with_its_numeral_in_mono():
     html = typeset.end_board_html(fixtures.END_BOARD, **CSS)
-    assert ('<span class="bc-caps">CC</span> <span class="bc-caps">BY-SA</span> <span class="bc-mono">4.0</span>'
+    assert ('<span class="bc-caps">CC BY-SA</span> <span class="bc-mono">4.0</span>'
             in html)
     assert '<span class="bc-mono">32</span>' in html
     assert '<span class="roman">MMXXVI</span>' in html

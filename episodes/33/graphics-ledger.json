@@ -1,139 +1,223 @@
 [
   {
-    "id": "tc-week",
+    "id": "testcard-week",
     "subtype": "testcard",
-    "data_ref": "rundown:the-week.testcard",
-    "source_template_sha256": "fe2b65fb99ded2c7681dc245e41eb98a18c3931bb630ba0e9d10c58cffbc31d2",
+    "data_ref": "rundown:week testcard; week:bars",
+    "source_template_sha256": "561d8e29cd7ea71bf737a2b302f9a6b2513373f2583a3a5ba80a0101954011a2",
     "output_path": "D:\\omnibus-media\\33\\graphics\\testcard-week.mov",
     "output_sha256": "8f29623a3e2c52aeb8ec311c9b4a0efb7739b7955e27efbf26c2d67ead076862",
     "frames": 54,
     "class": "DRAWN"
   },
   {
-    "id": "tc-weight",
+    "id": "testcard-weight",
     "subtype": "testcard",
-    "data_ref": "rundown:the-weight.testcard",
-    "source_template_sha256": "f9b94dc9cc2fe1a06dc260335046324fd6b9e4b8020ea5de8bb3d63ac789493d",
+    "data_ref": "rundown:weight testcard; week:bars",
+    "source_template_sha256": "37b6bf2fa348718ccca4cbe2458bd4ae2f58415c9db6c7f55d1ec88d7d9fa609",
     "output_path": "D:\\omnibus-media\\33\\graphics\\testcard-weight.mov",
     "output_sha256": "97defce722a6787731b4d9f6d75359b936518a39f88dfb157042146b6b46371b",
     "frames": 54,
     "class": "DRAWN"
   },
   {
-    "id": "tc-echo",
+    "id": "testcard-echo",
     "subtype": "testcard",
-    "data_ref": "rundown:the-echo.testcard",
-    "source_template_sha256": "524065c89af4a28a271b5aa68dc1e94195ae42ca28e3b43b2ff611a47a4719a3",
+    "data_ref": "rundown:echo testcard; week:bars",
+    "source_template_sha256": "bf42260c3374b0fab67f5d85eab499879a62eb80ff5abc35815359c4f34d1e0d",
     "output_path": "D:\\omnibus-media\\33\\graphics\\testcard-echo.mov",
     "output_sha256": "d1bf3872786deeb6392e27785046290e38033fe7fc482ef6e0c08d24eec3a867",
     "frames": 54,
     "class": "DRAWN"
   },
   {
-    "id": "tc-margins",
+    "id": "testcard-margins",
     "subtype": "testcard",
-    "data_ref": "rundown:the-margins.testcard",
-    "source_template_sha256": "39dc5a6a80dec363660f357e6681ef98f77cd25f6abc10aeaede1c38224c66c5",
+    "data_ref": "rundown:margins testcard; week:bars",
+    "source_template_sha256": "699b1d8ec3d06793e7b86815f196aeeca3eccc797fa95fe83f50c70fa52b29ab",
     "output_path": "D:\\omnibus-media\\33\\graphics\\testcard-margins.mov",
     "output_sha256": "66d369e55d11e289a404b51adfa5d61385506dbc0b9b66fc2ca8b903f8cf81e8",
     "frames": 54,
     "class": "DRAWN"
   },
   {
-    "id": "board-1",
+    "id": "board-page-1",
     "subtype": "board",
-    "data_ref": "rundown:the-weight.beats[weight-board]",
-    "source_template_sha256": "09538f39c3280dbe93ead6fdbdac8fc59649b52dfb65e7524fac3423510f9ee7",
+    "data_ref": "rundown:the-weight.beats[weight-board]; week:lead.board",
+    "source_template_sha256": "898fc821568e53fe8b83f6dd3179d710804b9668eed5a81e88492599874adf4b",
     "output_path": "D:\\omnibus-media\\33\\graphics\\board-page-1.mov",
-    "output_sha256": "2251ef75b6348fac3fc30822d8cabdbccb270e3cef5bff6d5e72b837d201d499",
-    "frames": 42,
-    "class": "DRAWN"
+    "output_sha256": "87626c323b24da162857d9c92fc12fcb997ff0a10f6fa26aed3195f91d42b27e",
+    "frames": 404,
+    "class": "DRAWN",
+    "rows": 4,
+    "untitled": {
+      "far-left": [
+        "Tehran Times"
+      ]
+    },
+    "hold_s": 12.0
   },
   {
-    "id": "board-2",
+    "id": "board-page-2",
     "subtype": "board",
-    "data_ref": "rundown:the-weight.beats[weight-board]",
-    "source_template_sha256": "57aa7e8e57e7373cf09f8c0a9f5fcabb565f86eeba000db72f31b5be2d761134",
+    "data_ref": "rundown:the-weight.beats[weight-board]; week:lead.board",
+    "source_template_sha256": "d712f090fab99683666a39cad3ee4f5bc928cac6043bd76da7bd2d34712b0c23",
     "output_path": "D:\\omnibus-media\\33\\graphics\\board-page-2.mov",
-    "output_sha256": "053d9c2a5a68d78ee20323ee18d9d0a700d0531ae19432d744ee9b474b29b822",
-    "frames": 18,
-    "class": "DRAWN"
+    "output_sha256": "dc14c4d61440bf58f8295de23d99a8518dd7ab065df0aa53ecab9dea44c0b5f5",
+    "frames": 200,
+    "class": "DRAWN",
+    "rows": 2,
+    "untitled": {},
+    "hold_s": 6.0
+  },
+  {
+    "id": "lt-echo-x2",
+    "subtype": "lower-third",
+    "data_ref": "rundown:the-echo.beats[echo-x2]; echo-pick",
+    "source_template_sha256": "c2932cd8886cd8bc0a87e7007926fdc7241b785ab6f601031d833e1fc9ed4527",
+    "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x2.mov",
+    "output_sha256": "557bb729f773ea88309d8673b107393f0d8fdd3fa4a3047a3055ef822d5e5677",
+    "frames": 112,
+    "class": "DRAWN",
+    "dot_labels": [
+      "COMPUTER VOICE"
+    ],
+    "wipe_box": [
+      312,
+      825,
+      661,
+      167
+    ]
   },
   {
     "id": "lt-echo-x3",
     "subtype": "lower-third",
-    "data_ref": "rundown:the-echo.beats/echo-pick.period_perspectives",
-    "source_template_sha256": "0c320f0078fc1a314a091e17525ff4290e2da92259140a2263fd0fcc1dff99cc",
+    "data_ref": "rundown:the-echo.beats[echo-x3]; echo-pick",
+    "source_template_sha256": "d9b819dc8d653b768e997b1fbebb17c363d8a7760e9e04d7462288c2a92073a2",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x3.mov",
-    "output_sha256": "1fb2b6534508d02cbad861a496bb4b11af763bbaee67fd9d6c5d2eb4b2f69173",
+    "output_sha256": "984e6afe782ab98404c3c9054091ee18b0ee2d04b0ef341fc6707877c5eb3b8d",
     "frames": 112,
-    "class": "DRAWN"
+    "class": "DRAWN",
+    "dot_labels": [
+      "COMPUTER VOICE"
+    ],
+    "wipe_box": [
+      312,
+      825,
+      1110,
+      167
+    ]
   },
   {
     "id": "lt-echo-x6",
     "subtype": "lower-third",
-    "data_ref": "rundown:the-echo.beats/echo-pick.period_perspectives",
-    "source_template_sha256": "60f02547002f43d4d1d88aea0af364d2aa89ccea31911176d1461d2aeb214bcf",
+    "data_ref": "rundown:the-echo.beats[echo-x6]; echo-pick",
+    "source_template_sha256": "c2792ac61d0b9f3434eb3bfcdd74f5578328c6b59ab3aabdf701573bb071519d",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x6.mov",
-    "output_sha256": "7052e446849a39fc84a51b0fc10b149aeaa129cf1986916c21142fb684a96376",
+    "output_sha256": "5e56bf823466e60666e1844c31c81406db6369619792e4eed9d5c626e5eb7514",
     "frames": 112,
-    "class": "DRAWN"
+    "class": "DRAWN",
+    "dot_labels": [
+      "COMPUTER VOICE"
+    ],
+    "wipe_box": [
+      312,
+      794,
+      1449,
+      198
+    ]
+  },
+  {
+    "id": "lt-echo-x8",
+    "subtype": "lower-third",
+    "data_ref": "rundown:the-echo.beats[echo-x8]; echo-pick",
+    "source_template_sha256": "97ea6b5bd2d7111ea66417c1ab70cb27508d5b7c36fafab018923f0d3a81a2f9",
+    "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x8.mov",
+    "output_sha256": "c5ae7e914a674a40b88fceb311704034861e9490cb4728a04933b0e21fbfdfb9",
+    "frames": 112,
+    "class": "DRAWN",
+    "dot_labels": [
+      "COMPUTER VOICE",
+      "TRANSCRIBED PAGE"
+    ],
+    "wipe_box": [
+      312,
+      825,
+      1448,
+      167
+    ]
   },
   {
     "id": "lt-echo-x9",
     "subtype": "lower-third",
-    "data_ref": "rundown:the-echo.beats/echo-pick.period_perspectives",
-    "source_template_sha256": "5abca1aafab664c6f4ead91c0a36a729f236a327175f8b71175198a8c5b30000",
+    "data_ref": "rundown:the-echo.beats[echo-x9]; echo-pick",
+    "source_template_sha256": "461c855025537aa814099fc5eedcac3c353bd0c5f733697056bff234aa290805",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x9.mov",
-    "output_sha256": "8d76fdeb3afb395b28a0299e4f07c047e22be72acfa230f8defc9c237d4bc5fd",
+    "output_sha256": "a07b37522bd70d4ae8e42a535723c64e713db9e503c3240c346a6ffef8566646",
     "frames": 112,
-    "class": "DRAWN"
+    "class": "DRAWN",
+    "dot_labels": [
+      "COMPUTER VOICE"
+    ],
+    "wipe_box": [
+      312,
+      825,
+      1250,
+      167
+    ]
   },
   {
     "id": "cw-1",
     "subtype": "count-card",
-    "data_ref": "rundown/week:counts_on_screen",
-    "source_template_sha256": "6cce684886c8e37777d1c7c28ea48997ceaee17c8af5bc4ec0e1efe1e8669ecc",
+    "data_ref": "week:lead.claim",
+    "source_template_sha256": "527d56b13ae062c02c1096860a54d6c95fa35bbeecfaf4e706d3d7f810d1a2e5",
     "output_path": "D:\\omnibus-media\\33\\graphics\\cw-1.mov",
-    "output_sha256": "9333917d2015e27a3bacb5a7b6aef956bc87e0ee5745c598c18467423e52aeee",
-    "frames": 90,
-    "class": "DRAWN"
+    "output_sha256": "12e027c622a28149fa258aab7f383e9412ad3354965ed2c2e17beb239aec7ad9",
+    "frames": 275,
+    "class": "DRAWN",
+    "words": 23,
+    "hold_s": 9.167
   },
   {
     "id": "cw-2",
     "subtype": "count-card",
-    "data_ref": "rundown/week:counts_on_screen",
-    "source_template_sha256": "f20ffcb0cca15a2ab6ae23d176731a67ba29cf8e24b2f9a8d0c879769116b8b3",
+    "data_ref": "week:lead.claim",
+    "source_template_sha256": "22805b2ee7a41656cff0360873c4bf16df9d74535a8628a9a8cc88cb66c73907",
     "output_path": "D:\\omnibus-media\\33\\graphics\\cw-2.mov",
-    "output_sha256": "bada21bacd16a056e86d9a3fcafa8738f22573a31a51ec328ba8581e3e0d40cf",
-    "frames": 90,
-    "class": "DRAWN"
+    "output_sha256": "f7d99ba2ad2a647fb915791a6dc55a1b7bbc9e5e9db3420db3bc02c02b7ebd75",
+    "frames": 145,
+    "class": "DRAWN",
+    "words": 10,
+    "hold_s": 4.833
   },
   {
     "id": "cw-3",
     "subtype": "count-card",
-    "data_ref": "rundown/week:counts_on_screen",
-    "source_template_sha256": "541635fbd4ec8e3c69f56edfc7d866f2a85913be78c85ec27227e4a1f6f46fd6",
+    "data_ref": "week:lead.claim",
+    "source_template_sha256": "63a241da536277d6bdcebef9ba5da1a3f478b53f13c8096469d68e92aa0397b8",
     "output_path": "D:\\omnibus-media\\33\\graphics\\cw-3.mov",
-    "output_sha256": "c36c146d6764a7c649de276837b9d502e2c45025edd80c1322b985b9accdc237",
-    "frames": 90,
-    "class": "DRAWN"
+    "output_sha256": "0eb28646d4459ff2837be4bab873043a7ced7434f6fd9e5933ed50b3bcac00fd",
+    "frames": 155,
+    "class": "DRAWN",
+    "words": 11,
+    "hold_s": 5.167
   },
   {
     "id": "cw-4",
     "subtype": "count-card",
-    "data_ref": "rundown/week:counts_on_screen",
-    "source_template_sha256": "0ad8c411fbf37290a50e6eb9845d93a0c675fbb58ae90cc54b62b16d3be2a5c4",
+    "data_ref": "echo-pick:counts_on_screen",
+    "source_template_sha256": "5e117f8947d62dae90786eeb05856208800e7da01cbf4c2a6ee1d395a7ef5382",
     "output_path": "D:\\omnibus-media\\33\\graphics\\cw-4.mov",
-    "output_sha256": "2c21539f77707056b2b45bfcf3c90089acba498a722d0dfbfe12ee52d47965d7",
-    "frames": 90,
-    "class": "DRAWN"
+    "output_sha256": "5895d0bca3cac1ede37bf116ecd9003ae510a25e31b1c28d860ee55850eb74bf",
+    "frames": 165,
+    "class": "DRAWN",
+    "words": 12,
+    "hold_s": 5.5
   },
   {
     "id": "day-bars-1",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-1].device",
-    "source_template_sha256": "c8afaac2e65956a4fb9e2da2e8c81ae87f323ce9e74d1ca10eb93a1f4791018e",
+    "data_ref": "week:days[0].lead.buckets",
+    "source_template_sha256": "f5a3e35882933ba88610a008a0b43186b7453157a0e631456d137c46363f94fd",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-1.mov",
     "output_sha256": "f218015d242281672c394adbd820bc88e46cb7c03bbae28d06e9c636a39f82ca",
     "frames": 60,
@@ -142,8 +226,8 @@
   {
     "id": "day-bars-2",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-2].device",
-    "source_template_sha256": "0c3e0170aaec8e5ec9af78cbb62fa3a67963a213304d5abb3e27300bce775695",
+    "data_ref": "week:days[1].lead.buckets",
+    "source_template_sha256": "188e44d40fdaffcfd5f3f32753566092d623db438d3ff8b7f5b04f342bbab604",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-2.mov",
     "output_sha256": "6323afdbaaed8355e32717c68e829bac171ac0cbabe767ae444e57313ec5e07d",
     "frames": 60,
@@ -152,8 +236,8 @@
   {
     "id": "day-bars-3",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-3].device",
-    "source_template_sha256": "4562b1219c3d53bb7f837ac15eb6b0569e04858ef66de020534b96dbe5deb7e9",
+    "data_ref": "week:days[2].lead.buckets",
+    "source_template_sha256": "f364f3c97b6df1aa2a683b2b742b8b65ad0c2f786e0f47bdd2f1bc2a0772f763",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-3.mov",
     "output_sha256": "961ec3d62b22b174b20c2f374ea70c3638a00c9e9e49f5d5fb11390f0bec7306",
     "frames": 60,
@@ -162,8 +246,8 @@
   {
     "id": "day-bars-4",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-4].device",
-    "source_template_sha256": "e38240dcb5152b4c44cd14d04a796c692733933e077094b5451477ffb63fbdc3",
+    "data_ref": "week:days[3].lead.buckets",
+    "source_template_sha256": "595ced1b3af086f2f99ea5901467ba20d007832af41e84a0b940056bb11a7a47",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-4.mov",
     "output_sha256": "ff850f6c5dafefbbedcf7c93ad417db00f988837a22f0ff9b88ea5fac5de1322",
     "frames": 60,
@@ -172,8 +256,8 @@
   {
     "id": "day-bars-5",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-5].device",
-    "source_template_sha256": "3ed011cf395a3ad1092e23a1fa625c79f9e717a04d814d7989502eee1453d809",
+    "data_ref": "week:days[4].lead.buckets",
+    "source_template_sha256": "ecf719b6b96d95b36d99bbce0b14a0b7f43eb87e8d507f96ec6d2014e81c6b63",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-5.mov",
     "output_sha256": "5f53253ff912123cd2bc56af579999031e19e9bfe5b7d079ff61650549ee72f0",
     "frames": 60,
@@ -182,8 +266,8 @@
   {
     "id": "day-bars-6",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-6].device",
-    "source_template_sha256": "a34a8c53f195d6fe3ae50178b37a8a2c1d4b9430668f0d2ab1b57a0d449cf717",
+    "data_ref": "week:days[5].lead.buckets",
+    "source_template_sha256": "279b9263682fd60035d5766d77ee18a46aec5a511318e29873f55f03ee7cd041",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-6.mov",
     "output_sha256": "e839145ea676841c05f5eeb4ece36aed6bde54ac4760e4ac0316eb4a9dd2cfc3",
     "frames": 60,
@@ -192,8 +276,8 @@
   {
     "id": "day-bars-7",
     "subtype": "day-bars",
-    "data_ref": "rundown:the-week.beats[week-day-7].device",
-    "source_template_sha256": "0b6fc88a28cbf22eff31e232d5b051f56b552c0b5d2eff2b79702f9b9ea2c243",
+    "data_ref": "week:days[6].lead.buckets",
+    "source_template_sha256": "9b5ebcfafb214a45eea0e4b2df51f48da861cbbeb73f1b005e103ca83d8069b7",
     "output_path": "D:\\omnibus-media\\33\\graphics\\day-bars-7.mov",
     "output_sha256": "0b32f32f2cad406370a2f31f9afdcb071de2f7a56779c8816b26fc0fbc014de4",
     "frames": 60,
@@ -202,51 +286,63 @@
   {
     "id": "clock-dial",
     "subtype": "clock",
-    "data_ref": "rundown:clock",
-    "source_template_sha256": "d51c2124e0d02f48cfa573fa8b3a5fe3f4436183afeed09fdde2f14971590100",
+    "data_ref": "release",
+    "source_template_sha256": "62d9599307e99516a3bd5ee5f752f1b648b0b7520e8bb29ea190c2cd54fa0aa7",
     "output_path": "D:\\omnibus-media\\33\\graphics\\clock-dial.mov",
-    "output_sha256": "873d5b87e94698b924ac54b26aeff7f228c84b64454ef9938c1cfce186e1b2ec",
-    "frames": 30,
-    "class": "DRAWN"
+    "output_sha256": "4b94abc76b978a0f2c5212034cbddce1b48e6220f92df506dfa8db11fa86a397",
+    "frames": 181,
+    "class": "DRAWN",
+    "release": "2026-11-16T21:00:00Z",
+    "release_nominal": true,
+    "airtime_frame": 180
   },
   {
-    "id": "clock-hands",
+    "id": "clock-second-hand",
     "subtype": "clock",
-    "data_ref": "rundown:clock",
-    "source_template_sha256": "bfeccd6596c4c9cc9ca672dd9374a3896e3173d954fdf38cea5c514fd79fd237",
-    "output_path": "D:\\omnibus-media\\33\\graphics\\clock-hands.mov",
-    "output_sha256": "b0bb79353011bbf143943ad7a94879168d87bfd11bcf705c5a08192f031177b1",
+    "data_ref": "release",
+    "source_template_sha256": "ad13312d1024cb77516133a5f63411ea7386a17106c22eb0e7c8e2fc90acf9d3",
+    "output_path": "D:\\omnibus-media\\33\\graphics\\clock-second-hand.mov",
+    "output_sha256": "ebf4dd7cbed8bec0edc994ab7825ea7354592def5fc2700701f580ff4bc32436",
     "frames": 181,
-    "class": "DRAWN"
+    "class": "DRAWN",
+    "release": "2026-11-16T21:00:00Z",
+    "release_nominal": true,
+    "airtime_frame": 180
   },
   {
     "id": "credits",
     "subtype": "credits",
-    "data_ref": "rundown:credits/rights-ledger",
-    "source_template_sha256": "44d8c01df6aeae3b49a9963b44ff5e18fad150dee52c67c798f6ebe856ac9703",
+    "data_ref": "rights-ledger:items[].credit; rundown:voices, credits.disclosures",
+    "source_template_sha256": "75ead8ca61b3cddec1bb506b54092aa378472b7ec6181730bfe939f6da6798ef",
     "output_path": "D:\\omnibus-media\\33\\graphics\\credits.mov",
-    "output_sha256": "8036521a06cfd4af03600f93a53eb74770e4d61cfe51d38e40be02cc04dabbea",
-    "frames": 613,
-    "class": "DRAWN"
+    "output_sha256": "a11d5ac89240c31cfcc218df4b115b61870432f2e1793eba1b0b9b3652b29914",
+    "frames": 1128,
+    "class": "DRAWN",
+    "strip_px": 4461,
+    "lines": 26
   },
   {
     "id": "end-board",
     "subtype": "end-board",
-    "data_ref": "data:week.{issue,week_start}",
-    "source_template_sha256": "aa579c198f43cc82d174ae86011301f3151dd15abf9a877ddb1ece492e6f0390",
+    "data_ref": "week:issue, week_start",
+    "source_template_sha256": "cb48b3ba4b3d500eda044b1c552e26e640331fa1336d26577cec55e96b931049",
     "output_path": "D:\\omnibus-media\\33\\graphics\\end-board.mov",
-    "output_sha256": "d1a3cae48ea462c6d5fdcd558d180b70f36dacbff8aad9b278a133eeb4d16bbe",
+    "output_sha256": "e6eeee7e7c4d41dab40fdf02d22112dd51591e096db52f2aab57aad146f2b2c7",
     "frames": 120,
     "class": "DRAWN"
   },
   {
     "id": "title-macro",
     "subtype": "title-macro",
-    "data_ref": "rundown:title.title_lines",
-    "source_template_sha256": "4f094623c8208f118b67751cf5778e3a5901f7b9ee68f50d235ef05c849a7a2e",
+    "data_ref": "rundown:title.title_lines, strike",
+    "source_template_sha256": "32f8fd94300f07291033da6d7f02707db43d800c93ab9024cc6efeac731f0812",
     "output_path": "D:\\omnibus-media\\33\\graphics\\title-macro.mov",
-    "output_sha256": "645394ac0c5d7466bb68e7bebaf0dd6e52626c8e7264b363aafe246cf0346c80",
-    "frames": 281,
-    "class": "DRAWN"
+    "output_sha256": "47b0bee235ae4560de0b2a47b90f1509bcf4873f1a71a8ab9dbe81ffeed628df",
+    "frames": 342,
+    "class": "DRAWN",
+    "rate_cps": 74.3,
+    "platen_ms": 60,
+    "cap_height_px": 30,
+    "print_window_s": 11.4
   }
 ]

@@ -42,6 +42,22 @@ def _crop(img: Image.Image, box: Box) -> Image.Image:
     return img.crop((x, y, x + w, y + h))
 
 
+def mean_abs_diff(a: Image.Image, b: Image.Image, *, exclude: list[Box] | None = None) -> float:
+    """The week-32 regression metric: mean absolute per-channel RGB
+    difference (0..255) over every pixel outside the `exclude` boxes."""
+    import numpy as np
+    if a.size != b.size:
+        raise ValueError(f"sizes differ: {a.size} vs {b.size}")
+    x = np.asarray(a.convert("RGB"), dtype=np.int16)
+    y = np.asarray(b.convert("RGB"), dtype=np.int16)
+    keep = np.ones(x.shape[:2], dtype=bool)
+    for bx, by, bw, bh in exclude or []:
+        keep[max(0, by):by + bh, max(0, bx):bx + bw] = False
+    if not keep.any():
+        raise ValueError("the exclusions cover the whole frame")
+    return float(np.abs(x - y)[keep].mean())
+
+
 # ---- step: hold the typeset frame, never counts up ------------------------
 
 def step_frames(static: Image.Image, hold_frames: int) -> Iterator[Image.Image]:

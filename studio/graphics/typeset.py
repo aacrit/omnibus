@@ -443,11 +443,14 @@ def credits_html(spec: CreditsSpec, *, tokens_css: str, frame_css: str, graphics
 def _licence_html(licence: str) -> str:
     """``CC BY-SA 4.0``: words in the caps register, the version numeral
     in Mono (spec 1.2: every numeral)."""
-    parts = []
+    runs: list[tuple[str, list[str]]] = []
     for word in licence.split(" "):
         cls = "bc-mono" if any(ch.isdigit() for ch in word) else "bc-caps"
-        parts.append(f'<span class="{cls}">{esc(word)}</span>')
-    return " ".join(parts)
+        if runs and runs[-1][0] == cls:
+            runs[-1][1].append(word)
+        else:
+            runs.append((cls, [word]))
+    return " ".join(f'<span class="{cls}">{esc(" ".join(words))}</span>' for cls, words in runs)
 
 
 def end_board_html(spec: EndBoardSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
