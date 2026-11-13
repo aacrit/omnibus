@@ -40,7 +40,9 @@
   ``contact_sheet`` ``{path, sha256}``. For a video (a ledger ``kind`` "footage" or a ``video/`` mime) it also names
   ``cuts`` ``{times, threshold, method}`` (every cut in the file, seconds, ``[]`` for a single shot; the scene
   threshold; how they were found, ffmpeg ``select=gt(scene,0.3)``), and every shot of the aired span between consecutive cuts holds a frame (S4 review
-  round 3).
+  round 3). The cuts carry ``ffmpeg`` (the version that found them in the file: the fetch step finds them itself, a
+  reported list is never trusted), and the render's check finds them again in the local file over the aired span and
+  refuses a review that disagrees by more than CUT_TOLERANCE_S (rights fix round 4: ``read_cuts``).
 
 The ledger wins: a field the rights ledger states is never replaced, and a manifest entry that contradicts it
 (``shows_bodies``) is refused, since one of them is wrong. A picture that needs vision data is a ledger item shown as
@@ -76,6 +78,7 @@ REVIEWERS = ("verifier", "cos", "founder")
 REVIEWER = re.compile(r"^\s*(verifier|cos|founder)\b", re.I)
 NOT_REVIEWER = re.compile(r"\b(builder|sourcer|sourcing)\b", re.I)
 FRAME_EVERY_S = 30
+CUT_TOLERANCE_S = 0.1          # a recorded cut and the file's own agree within this (rights fix round 4)
 # A call to action on screen (mirrors licences.mjs CTA_MARK): an engagement mechanic void never airs.
 CTA_MARK = re.compile(r"QR code|TEXT .* TO \d{4,6}|scan (the|this)|text .* to \d{4,6}", re.I)
 
@@ -162,6 +165,9 @@ def review_problems(r, where: str, item: dict | None = None) -> list[str]:
                 out.append(f"{where}.frames holds a frame in every shot: {where}.cuts is {{times, threshold, method}}, "
                            "every cut in the video (seconds; [] for a single shot), the scene threshold and the method "
                            "that found them (ffmpeg select=gt(scene,0.3))")
+            elif not (isinstance(c.get("ffmpeg"), str) and c["ffmpeg"].strip()):
+                out.append(f"{where}.frames holds a frame in every shot: {where}.cuts.ffmpeg names the ffmpeg that found "
+                           "the cuts in the file (the fetch step finds them itself; a reported cut list is never trusted)")
             elif span is not None:
                 unseen = unseen_shots(fr, cuts, span)
                 if unseen:
@@ -172,6 +178,49 @@ def review_problems(r, where: str, item: dict | None = None) -> list[str]:
     if not (isinstance(cs, dict) and isinstance(cs.get("path"), str) and cs["path"].strip()
             and isinstance(cs.get("sha256"), str) and SHA256.match(cs["sha256"])):
         out.append(f"{where}.contact_sheet is {{path, sha256}} naming the sheet of those frames")
+    return out
+
+
+def cuts_disagree(recorded, computed, span, tol=CUT_TOLERANCE_S) -> tuple[list[float], list[float]]:
+    """Where two cut lists disagree inside the span (mirrors scripts/lib/rights/scenes.mjs cutsDisagree): the file's
+    cuts the record lacks, and the record's cuts the file lacks, each beyond ``tol`` of every cut of the other. A cut
+    within ``tol`` of an edge of the span is not counted (whether it falls inside is a matter of a frame)."""
+    a, b = span
+
+    def inside(t):
+        return t > a + tol and (b is None or t < b - tol)
+
+    def near(t, ts):
+        return any(abs(u - t) <= tol + 1e-9 for u in ts)
+
+    rec = [float(t) for t in recorded or [] if _num(t)]
+    got = [float(t) for t in computed or [] if _num(t)]
+    return [t for t in got if inside(t) and not near(t, rec)], [t for t in rec if inside(t) and not near(t, got)]
+
+
+def cut_problems(aid: str, item: dict, reviews: list[tuple[str, dict]], read_cuts) -> list[str]:
+    """The render-time check of a video's marks reviews (rights fix round 4): the cuts are found again in the local
+    file over the aired span (``read_cuts(item, span)``, None when the file cannot be read) and a review whose cuts
+    disagree with them by more than CUT_TOLERANCE_S is refused: its frames were placed against shots that are not
+    the file's."""
+    reviews = [(w, r) for w, r in reviews if isinstance(r, dict) and isinstance(r.get("cuts"), dict)]
+    if not (is_video(item) and reviews and read_cuts is not None):
+        return []
+    span = aired_span(item, reviews[0][1])
+    if span is None:
+        return []
+    found = read_cuts(item, span)
+    if found is None:
+        return [f"{aid}: the cuts of its file could not be found again over {span[0]:g}..{span[1]:g} s (ffmpeg): "
+                "its marks review cannot be confirmed"]
+    out = []
+    for where, r in reviews:
+        missing, extra = cuts_disagree(r["cuts"].get("times"), found, span)
+        if missing or extra:
+            out.append(f"{aid}: {where}.cuts disagree with the file's own over {span[0]:g}..{span[1]:g} s (tolerance "
+                       f"{CUT_TOLERANCE_S:g} s; the file cuts at {', '.join(f'{t:g}' for t in missing) or 'no other time'} "
+                       f"the review lacks, the review cuts at {', '.join(f'{t:g}' for t in extra) or 'no other time'} "
+                       "the file lacks): the review is refused, see the shots again")
     return out
 
 
@@ -328,12 +377,13 @@ def overlay(item: dict, entry: dict, file_sha: str | None = None) -> tuple[dict,
     return out, []
 
 
-def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None) -> dict:
+def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None, read_cuts=None) -> dict:
     """The manifest over the cited pictures. ``cited`` maps an asset id to every kind of shot that shows it (a still's
     needs and a clip's both apply). ``read_sha(item)`` is the sha256 of the item's file on disk (None when unread);
     without it no entry is used. Returns {assets (a new dict, overlaid), problems (blocking always: unreadable, stale,
     contradicting), pending ({asset id: [missing fields]}: pictures with no reading yet), used ([asset ids read from
-    the manifest])}."""
+    the manifest])}. ``read_cuts(item, span)`` finds a video's cuts in its file over the span (None when unread): every
+    marks review of a cited video (the ledger's and the manifest's) is held to them (cut_problems)."""
     out = dict(assets)
     probs = problems(man) if man is not None else []
     entries = (man or {}).get("items") if not probs else {}
@@ -357,6 +407,17 @@ def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None) -
             else:
                 out[aid] = new
                 used.append(aid)
+        reviews = [("marks_checked.reviewed", mc.get("reviewed"))]
+        if isinstance(e, dict):
+            reviews.append(("vision.json reviewed", e.get("reviewed")))
+        bad_cuts = cut_problems(aid, item, reviews, read_cuts)
+        if bad_cuts:
+            probs += bad_cuts
+            out[aid] = item                       # a refused review stands for nothing: no manifest overlay
+            if aid in used:
+                used.remove(aid)
+            if "marks_checked" in item:
+                out[aid] = dict(item, marks_checked=dict(mc, reviewed=None))
         miss = list(dict.fromkeys(f for k in kinds for f in missing_fields(out[aid], k)))
         if miss:
             pending[aid] = miss

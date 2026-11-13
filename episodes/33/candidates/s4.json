@@ -11,9 +11,17 @@
         "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
         "fit": {
           "beat": "week-day-2",
-          "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
+          "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator. It airs 0 to 14.5 s only (CoS ruling, 2026-11-13): the rest of the file is never aired.",
+          "in_s": 0,
+          "out_s": 14.5,
           "horizon": "2026-11-03T19:39:27Z",
           "shows_days_event": true
+        },
+        "shows_bodies": true,
+        "bodies_excluded": {
+          "from_s": 20.3,
+          "to_s": 26.8,
+          "note": "covered remains carried from the rubble, ~20.3–26.8 s — excluded, never aired"
         },
         "audio": {
           "mode": "muted",
@@ -50,7 +58,8 @@
             },
             "duration_s": 67.868
           }
-        }
+        },
+        "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d"
       },
       {
         "tier": 2,

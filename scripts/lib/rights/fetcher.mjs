@@ -13,6 +13,7 @@ import { OWN_ADAPTER } from "./licences.mjs";
 import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
+import { cutsDisagree, detectCuts as ffmpegCuts } from "./scenes.mjs";
 
 /** A marks review as the ledger keeps it: who (a role), when, the frames, the contact sheet, the file's length, a video's cuts. */
 function marksReviewed(r = {}) {
@@ -23,7 +24,8 @@ function marksReviewed(r = {}) {
     contact_sheet: r.contact_sheet ? { path: clip(r.contact_sheet.path, 300), sha256: String(r.contact_sheet.sha256 ?? "") } : r.contact_sheet,
     ...(r.duration_s !== undefined ? { duration_s: r.duration_s } : {}),
     // The cuts in a video, the scene threshold and the method that found them (S4 review round 3).
-    ...(r.cuts !== undefined ? { cuts: r.cuts && typeof r.cuts === "object" ? { times: Array.isArray(r.cuts.times) ? r.cuts.times.slice(0, 2000) : r.cuts.times, threshold: r.cuts.threshold, method: clip(r.cuts.method, 200) } : r.cuts } : {}),
+    // The fetcher writes them from the file itself (rights fix round 4), with the ffmpeg that found them and the span it read.
+    ...(r.cuts !== undefined ? { cuts: r.cuts && typeof r.cuts === "object" ? { times: Array.isArray(r.cuts.times) ? r.cuts.times.slice(0, 2000) : r.cuts.times, threshold: r.cuts.threshold, method: clip(r.cuts.method, 200), ...(r.cuts.ffmpeg !== undefined ? { ffmpeg: clip(r.cuts.ffmpeg, 200) } : {}), ...(r.cuts.span !== undefined ? { span: r.cuts.span } : {}) } : r.cuts } : {}),
   };
 }
 
@@ -294,7 +296,20 @@ export function titleKey(t) {
  */
 export function dignityHit(c, list = []) {
   const keys = new Set([titleKey(c?.ref), titleKey(c?.ref_requested), titleKey(c?.title)].filter(Boolean));
-  return list.find((d) => (d.title_key && keys.has(d.title_key)) || (d.sha1 && c?.sha1 === d.sha1) || (d.sha256 && c?.sha256 === d.sha256)) ?? null;
+  return list.find((d) => ((d.title_key && keys.has(d.title_key)) || (d.sha1 && c?.sha1 === d.sha1) || (d.sha256 && c?.sha256 === d.sha256)) && !spanLeftOut(d.span, c?.fit)) ?? null;
+}
+
+/**
+ * Whether a fit's aired span leaves a dignity span out (rights fix round 4): a dignity entry with a span
+ * { from_s, to_s } refuses only the file's seconds that show it, so the item airs when its fit names an
+ * in_s..out_s clear of them; with no span, or no such fit, the whole file is refused.
+ */
+export function spanLeftOut(span, fit) {
+  if (!span) return false;
+  const a = fit?.in_s;
+  const b = fit?.out_s;
+  if (!(Number.isFinite(a) && Number.isFinite(b) && b > a)) return false;
+  return b <= span.from_s || a >= span.to_s;
 }
 
 /** The rundown parts about the week's news, whose pictures must be public by the part's horizon. */
@@ -341,6 +356,9 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     // A YouTube copy on Commons, and the record of the frame check its on-screen marks had (S4 review).
     ...(c.youtube_source ? { youtube_source: clip(c.youtube_source, 200) } : {}),
     ...(c.marks_checked ? { marks_checked: { marks: (c.marks_checked.marks ?? []).map((x) => clip(x, 200)), reviewed: marksReviewed(c.marks_checked.reviewed), ...(c.marks_checked.mask ? { mask: { covers: (c.marks_checked.mask.covers ?? []).map((x) => clip(x, 200)), region: { ...c.marks_checked.mask.region } } } : {}) } } : {}),
+    // Whether the file shows bodies, and the span that does, which the item's fit leaves out and never airs (CoS ruling, rights fix round 4).
+    ...(typeof c.shows_bodies === "boolean" ? { shows_bodies: c.shows_bodies } : {}),
+    ...(c.bodies_excluded ? { bodies_excluded: { from_s: c.bodies_excluded.from_s, to_s: c.bodies_excluded.to_s, note: clip(c.bodies_excluded.note, 400) } } : {}),
     // Ruling A: a Week picture published after its day's horizon, by the edition cutoff.
     ...(c.published_by_edition ? { published_by_edition: { ...c.published_by_edition } } : {}),
     // A dot label the shot must carry wherever the item airs (ruling A's, or a sourcing pass's: an Echo film of another place and day).
@@ -403,7 +421,7 @@ export async function recordWitness(ledger, { request, c, http, mediaDir, used, 
  * Returns { ledger, report }: report lists what was taken, refused or skipped.
  */
 export async function fetchRequests(requestsDoc, ledgerIn, opts) {
-  const { adapters, http, mediaDir, checkedBy, now = () => new Date(), env = process.env, dryRun = false, redo = [], log = () => {} } = opts;
+  const { adapters, http, mediaDir, checkedBy, now = () => new Date(), env = process.env, dryRun = false, redo = [], log = () => {}, detectCuts = ffmpegCuts } = opts;
   const ledger = structuredClone(ledgerIn ?? emptyLedger(requestsDoc.issue));
   // --redo: a held request is filled again from its whole ladder (a better tier became reachable, e.g. DVIDS with a key).
   const unknown = redo.filter((id) => !requestsDoc.requests.some((r) => r.id === id));
@@ -439,7 +457,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         continue;
       }
       // A pin's fit and fair-use record travel with the candidate; the source's own record never sets them.
-      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}), ...(cand.marks_checked ? { marks_checked: cand.marks_checked } : {}) };
+      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}), ...(cand.marks_checked ? { marks_checked: cand.marks_checked } : {}), ...(cand.shows_bodies !== undefined ? { shows_bodies: cand.shows_bodies } : {}), ...(cand.bodies_excluded ? { bodies_excluded: cand.bodies_excluded } : {}) };
       const reasons = [];
       // A pin's date record states the item's day where the source gives only its year (a NARA record of a Commons file).
       if (cand.date_record) {
@@ -482,7 +500,9 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       }
       // A pin's own dot label (a sourcing pass's requirement), when ruling A has not set one.
       if (cand.dot_label && !c.dot_label) c.dot_label = cand.dot_label;
-      const check = checkCandidate(c);
+      // A video's cuts are found in the file after the download (below); before it, the reported list counts for nothing.
+      const videoReview = c.marks_checked?.reviewed && (request.kind === "footage" || /^video\//i.test(String(c.mime ?? "")));
+      const check = checkCandidate(videoReview ? { ...c, marks_checked: { ...c.marks_checked, reviewed: { ...c.marks_checked.reviewed, cuts: { times: [], threshold: 0.3, method: "found after the download", ffmpeg: "pending" } } } } : c);
       reasons.push(...check.reasons);
       if (reasons.length) {
         // A refused Wayback capture is still kept as a date witness (hashed, never a licence, never on screen).
@@ -518,6 +538,25 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       if (cand.sha256 && media.sha256 !== cand.sha256) fileProblems.push(`downloaded file's sha256 ${media.sha256} differs from the ${cand.sha256} the request pins`);
       if (c.sha256_expected && media.sha256 !== c.sha256_expected) fileProblems.push(`the still's sha256 ${media.sha256} differs from the ${c.sha256_expected} its capture recorded`);
       if (c.bytes_expected && media.bytes !== c.bytes_expected) fileProblems.push(`downloaded ${media.bytes} bytes, the source states ${c.bytes_expected}`);
+      // A video's cuts are never taken from a report (rights fix round 4): they are found in the downloaded file over the
+      // aired span (the fit's in_s..out_s, else the whole file) and written into the marks review in place of the reported list.
+      let cutNote = null;
+      if (c.marks_checked?.reviewed && (request.kind === "footage" || /^video\//i.test(String(media.mime ?? c.mime ?? "")))) {
+        const f = c.fit ?? {};
+        const spanned = Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s;
+        try {
+          const found = await detectCuts(dest, { fromS: spanned ? f.in_s : 0, toS: spanned ? f.out_s : null, env });
+          const reported = c.marks_checked.reviewed.cuts?.times;
+          if (Array.isArray(reported)) {
+            const d = cutsDisagree(reported, found.times, found.span);
+            if (d.missing.length || d.extra.length) cutNote = `the reported cuts differ from the file's (missing ${d.missing.join(", ") || "none"}; not in the file ${d.extra.join(", ") || "none"}): the file's are recorded`;
+          }
+          c.marks_checked = { ...c.marks_checked, reviewed: { ...c.marks_checked.reviewed, cuts: { times: found.times, threshold: found.threshold, method: found.method, ffmpeg: found.ffmpeg, span: found.span } } };
+        } catch (err) {
+          fileProblems.push(`the video's cuts could not be found in the file: ${clip(err.message, 300)}`);
+        }
+      }
+      if (cutNote) log(`${request.id}: ${cutNote}`);
       // The file's own provenance marks (XMP DigitalSourceType, a C2PA label) join the AI check.
       const scanned = { ...c, generator_tags: [...(c.generator_tags ?? []), ...(media.generator_tags ?? [])], file_scanned: true };
       const fileCheck = checkCandidate(scanned);
@@ -535,7 +574,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
     }
     if (held && !taken) {
       report.push({ request: request.id, outcome: "held", detail: `the refill filled nothing (${rejections.length} candidate(s) refused), so the held item is kept` });
-      log(`${request.id}: redo filled nothing; the held ${held.adapter} item is kept`);
+      log(`${request.id}: redo filled nothing; the held ${held.adapter} item is kept (${rejections.map((r) => `${clip(r.ref, 80)}: ${r.reasons.join("; ")}`).join(" | ")})`);
       continue;
     }
     ledger.rejected = ledger.rejected.filter((r) => r.request_id !== request.id).concat(rejections);
