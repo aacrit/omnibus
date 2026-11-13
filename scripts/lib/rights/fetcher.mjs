@@ -75,6 +75,27 @@ export function windowProblem(date, window, { pinned = false, publishedAt = null
 }
 
 /**
+ * A pin's date record (a sourcing pass's finding): another catalogue record of the
+ * same item that states its day. Pure. The record's date must be a full day and
+ * must lie inside the date the source itself gives (it refines, never moves, the
+ * date). Returns { date, evidence } or { problem }.
+ */
+export function refineDate(sourceDate, record, { capturedAt }) {
+  const d = String(record?.date ?? "");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return { problem: `the date record ${clip(record?.item_url ?? "", 200)} states no full day (${d || "none"})` };
+  const own = dateSpan(sourceDate);
+  if (own && (d < own[0] || d > own[1])) return { problem: `the date record's ${d} lies outside the source's own date ${sourceDate}` };
+  return {
+    date: d,
+    evidence: {
+      url: record.evidence?.url ?? record.item_url,
+      captured_text: clip(`Date of the item read from a second catalogue record of it: "${record.title}" (${record.item_url}), production date ${d}.\n${record.evidence?.captured_text ?? ""}`, 4000),
+      captured_at: capturedAt,
+    },
+  };
+}
+
+/**
  * The record of a request no candidate filled: the ladder's fallback, and
  * why each step failed (refused candidates, then steps the fetcher cannot
  * reach: drawn by E6, or on a host outside the allowlist).
@@ -229,6 +250,21 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       // A pin's fit and fair-use record travel with the candidate; the source's own record never sets them.
       const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}) };
       const reasons = [];
+      // A pin's date record states the item's day where the source gives only its year (a NARA record of a Commons file).
+      if (cand.date_record) {
+        let rec;
+        try {
+          rec = await adapters[cand.date_record.adapter]?.lookup(cand.date_record.ref, { http, env, now, kind: request.kind, candidate: cand, mediaDir });
+        } catch (err) {
+          rec = { status: "error", reason: clip(err.message, 300) };
+        }
+        const refined = rec?.status === "ok" ? refineDate(c.date, rec.candidate, { capturedAt: isoSecond(now().toISOString()) }) : { problem: `the date record ${cand.date_record.adapter} ${clip(cand.date_record.ref, 80)} could not be read${rec?.reason ? `: ${rec.reason}` : ""}` };
+        if (refined.problem) reasons.push(refined.problem);
+        else {
+          c.date = refined.date;
+          c.evidence_also = [...(c.evidence_also ?? []), refined.evidence];
+        }
+      }
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);
       const own = c.adapter === OWN_ADAPTER;
@@ -238,7 +274,8 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         reasons.push(...(c.own_problems ?? ["no capture record"]));
       } else if (c.media_url && !isAllowedUrl(c.media_url)) reasons.push(`media host of ${clip(c.media_url, 200)} is not on the fetcher's domain allowlist`);
       const requirePublished = !own && NEWS_PART.test(String(request.for ?? "")) && (request.kind === "still" || request.kind === "footage");
-      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true, publishedAt: c.published_at, requirePublished });
+      // A sourcing pass's pin (it states a fit) keeps no undated exemption: its date must be on the record and inside the window.
+      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished });
       if (outside) reasons.push(outside);
       const check = checkCandidate(c);
       reasons.push(...check.reasons);
