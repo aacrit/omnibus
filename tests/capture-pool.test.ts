@@ -12,11 +12,12 @@ import { fileURLToPath } from "node:url";
 import { loadChannels, selectItems } from "../scripts/capture/relevance.mjs";
 import { CATEGORIES, parseCategory } from "../scripts/capture/listers/commons.mjs";
 import { parseSearch } from "../scripts/capture/listers/dvids.mjs";
-import { emptyIndex, planPut, sourceId } from "../scripts/lib/capture-store.mjs";
+import { INDEX_KEY, emptyIndex, planPut, readIndex, serialiseIndex, sourceId, sweep } from "../scripts/lib/capture-store.mjs";
+import { applyPins, pinCaptured, pinRequestKey, readPinRequests } from "../scripts/capture-r2.mjs";
 import { AUTO_WHY, POOL_SCHEMA, buildPool, candidatesFromPool, kindOf, poolKey, poolProblems, unconfirmedFit, weekStories } from "../scripts/capture/pool.mjs";
 import { CANDIDATES_SCHEMA_ID, mergeCandidatePins, pinProblems, resolveRequests } from "../scripts/lib/rights/resolve.mjs";
 import { fitRecord } from "../scripts/lib/rights/fetcher.mjs";
-import { writeCaptureCandidates } from "../scripts/rights.mjs";
+import { capturedSids, writeCaptureCandidates } from "../scripts/rights.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fixture = (p: string) => JSON.parse(readFileSync(path.join(root, "tests/fixtures", p), "utf8"));
@@ -122,5 +123,80 @@ describe("rights.mjs candidates 33", () => {
     expect(() => writeCaptureCandidates({ root: tmp, issue: 34, pool })).toThrow(/issue 33, not 34/);
     rmSync(tmp, { recursive: true, force: true });
     expect(existsSync(path.join(root, "episodes/33/candidates/capture.json"))).toBe(false);
+  });
+});
+
+describe("pinning what candidates names (review of cap/c6-c7)", () => {
+  const T0 = "2026-11-07T21:41:00Z";
+  const day15 = new Date(Date.parse(T0) + 15 * 86_400_000);
+  const ev = (id: string) => ({ record: { captured_at: T0, published_at: "2026-11-06T22:50:00Z", page: { sha256: hex(id) }, terms: { sha256: hex("terms") }, verdict: { status: "ok", licence: "pd-us-federal" } }, blobs: [{ sha256: hex(id), gz: Buffer.from(id), kind: "page", url: "u" }] });
+  const withMedia = () => {
+    let idx = emptyIndex();
+    for (const [id, m] of [[MILLER, "m"], ["File:Other.webm", "o"]]) {
+      idx = planPut({ index: idx, item: { source: "commons", id, url: "u", title: id }, evidence: ev(id), media: { sha256: hex(m), ext: "webm", bytes: 10 }, now: T0 }).index;
+    }
+    return idx;
+  };
+  const memStore = (conditionalWins: boolean) => {
+    const o = new Map<string, { body: string; etag: string }>();
+    let n = 0;
+    return {
+      o,
+      conditional: true,
+      get: (k: string) => o.get(k)?.body ?? null,
+      getWithEtag: (k: string) => ({ text: o.get(k)?.body ?? null, etag: o.get(k)?.etag ?? null }),
+      put: (k: string, b: any) => void o.set(k, { body: String(b), etag: `e${n++}` }),
+      putIfMatch(k: string, b: any, etag: string | null) {
+        if (!conditionalWins || (o.get(k)?.etag ?? null) !== etag) return false;
+        o.set(k, { body: String(b), etag: `e${n++}` });
+        return true;
+      },
+      delete: (k: string) => void o.delete(k),
+      list: (p: string) => [...o.keys()].filter((k) => k.startsWith(p)).map((key) => ({ key, size: o.get(key)!.body.length })),
+    };
+  };
+  const millerSid = `commons:${MILLER}`;
+  const doc = { pins: { "e33-day6-pic": [{ capture: { sid: millerSid } }], "e33-day5-pic": [{ capture: { sid: millerSid } }, { capture: {} }] } };
+
+  it("names each captured sid once", () => {
+    expect(capturedSids(doc)).toEqual([millerSid]);
+  });
+
+  it("pins the index at once on a conditional store, and the pinned item survives the sweep at day 15", () => {
+    const store = memStore(true);
+    store.put(INDEX_KEY, serialiseIndex(withMedia()));
+    const r = pinCaptured({ store, issue: 33, sids: capturedSids(doc), airsOn: "2026-11-20", now: () => new Date(T0) });
+    expect(r).toMatchObject({ pinned_now: true, missing: [] });
+    const idx = readIndex(store.get(INDEX_KEY));
+    expect(idx.items[millerSid].pinned).toEqual({ issue: 33, airs_on: "2026-11-20" });
+    const swept = sweep({ index: idx, now: day15 });
+    expect(swept.index.items[millerSid].media).not.toBeNull();
+    expect(swept.index.items["commons:File:Other.webm"].media).toBeNull();
+    expect(swept.deletes).toEqual([`capture/media/${hex("o")}.webm`]);
+  });
+
+  it("when the index write loses every race, the pin request is applied by the next capture run before it sweeps", () => {
+    const store = memStore(false);
+    store.put(INDEX_KEY, serialiseIndex(withMedia()));
+    const r = pinCaptured({ store, issue: 33, sids: [millerSid, "commons:File:Gone.webm"], now: () => new Date(T0) });
+    expect(r.pinned_now).toBe(false);
+    expect(readIndex(store.get(INDEX_KEY)).items[millerSid].pinned).toBeNull();
+    expect(store.get(pinRequestKey(33))).toMatch(/omnibus\.capture-pins\/1/);
+    const { index, missing } = applyPins(readIndex(store.get(INDEX_KEY)), readPinRequests(store));
+    expect(missing).toEqual(["commons:File:Gone.webm"]);
+    expect(sweep({ index, now: day15 }).index.items[millerSid].media).not.toBeNull();
+  });
+
+  it("a capture run applies the pin requests it finds before its sweep", async () => {
+    const { runCapture } = await import("../scripts/capture/run.mjs");
+    const store = memStore(false);
+    store.put(INDEX_KEY, serialiseIndex(withMedia()));
+    pinCaptured({ store, issue: 33, sids: [millerSid], now: () => new Date(T0) });
+    const base = mkdtempSync(path.join(os.tmpdir(), "omnibus-pin-run-"));
+    await runCapture({ store, mode: "r2", outDir: path.join(base, "o"), workDir: path.join(base, "w"), editions, now: () => day15, env: {}, listers: { voa: async () => ({ source: "voa", items: [], skipped: null }) }, log: () => {} });
+    const idx = readIndex(store.get(INDEX_KEY));
+    expect(idx.items[millerSid]).toMatchObject({ pinned: { issue: 33, airs_on: null }, media: { ext: "webm" } });
+    expect(idx.items["commons:File:Other.webm"].media).toBeNull();
+    rmSync(base, { recursive: true, force: true });
   });
 });

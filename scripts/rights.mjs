@@ -21,13 +21,16 @@
 //   node scripts/rights.mjs capture <issue> --media <dir> [--voidnews <checkout>]
 //       renders void news's own pages the pins name (headless Chromium,
 //       scripts/capture_page.py) into stills and voidnews-captures.json.
-//   node scripts/rights.mjs candidates <issue> [--pool r2|artifact|<path>]
+//   node scripts/rights.mjs candidates <issue> [--pool r2|artifact|<path>] [--airs-on <date>] [--no-pin]
 //       turns the capture's weekly pool (capture/weekly/<issue>/pool.json:
 //       from R2, the default; from the newest capture run's artifact through
 //       gh; or a file) into episodes/<issue>/candidates/capture.json, mapped to
 //       the rundown's requests by cluster id and day. Every fit is automatic:
 //       a final render refuses it until a session confirms it
-//       (capture-fit-confirmed, scripts/capture/pool.mjs).
+//       (capture-fit-confirmed, scripts/capture/pool.mjs). It then pins every
+//       captured item it names in R2 (capture/pins/<issue>.json, and the index
+//       itself where R2's S3 API can write it conditionally), so their proxies
+//       outlive the 14-day sweep until the episode airs plus 30 days.
 //   node scripts/rights.mjs packet <issue>
 //       regenerates episodes/<issue>/disputes.json from the ledger.
 //   node scripts/rights.mjs lint
@@ -186,6 +189,11 @@ export function readPool(issue, where = "r2", { root = repoRoot } = {}) {
   return Promise.resolve(JSON.parse(readFileSync(path.resolve(where), "utf8")));
 }
 
+/** The captured source ids a candidates file pins. */
+export function capturedSids(doc) {
+  return [...new Set(Object.values(doc?.pins ?? {}).flatMap((list) => list.map((p) => p.capture?.sid).filter(Boolean)))];
+}
+
 /** Writes episodes/<issue>/candidates/capture.json from the pool; refuses a file mergeCandidatePins would refuse. */
 export function writeCaptureCandidates({ root = repoRoot, issue, pool, now = new Date() }) {
   const pp = poolProblems(pool);
@@ -272,6 +280,12 @@ async function main(argv) {
     const { out, doc } = writeCaptureCandidates({ issue, pool });
     const n = Object.values(doc.pins).reduce((a, l) => a + l.length, 0);
     console.log(`rights: wrote ${path.relative(repoRoot, out)} (${n} automatic pin(s) on ${Object.keys(doc.pins).length} request(s); confirm each fit before a final render)`);
+    // Keep the pinned items' proxies past the 14-day sweep (until the episode airs plus 30 days).
+    if (!argv.includes("--no-pin")) {
+      const { captureStore, pinCaptured } = await import("./capture-r2.mjs");
+      const p = pinCaptured({ store: captureStore(), issue, sids: capturedSids(doc), airsOn: flag("airs-on") ?? null });
+      console.log(`rights: pinned ${p.request.sids.length} captured item(s) for issue ${issue} (${p.pinned_now ? "in the index now" : "at the next capture run"})${p.missing.length ? `; ${p.missing.length} no longer in the index` : ""}`);
+    }
     return 0;
   }
   if (cmd === "packet") {
