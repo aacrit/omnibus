@@ -1,0 +1,334 @@
+{
+  "schema": "omnibus.disputes/1",
+  "issue": 33,
+  "generated_by": "node scripts/rights.mjs packet <issue>",
+  "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
+  "ledger_sha256": "33da1d49b76ae5238ace131e8dec908b74198f051edd27b3773931bc4f9b17b3",
+  "assets": [
+    {
+      "id": "e33-title-01",
+      "title": "Explorer 1 Teletype Reporting During Launch",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "sha256": "b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef",
+      "credit": "U.S. Army, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Army\nCredit: https://www.jpl.nasa.gov/video/details.php?id=1446 (rounded timestamps 1:51 seconds to 1:58)\nBasis category: PD US Army",
+        "captured_at": "2026-11-13T00:20:08Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Explorer 1 Teletype Reporting During Launch\" from https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day3-pic",
+      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
+      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
+      "credit": "Emily J. Higgins, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T00:20:12Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)\" from https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day5-pic",
+      "title": "Pete Hegseth Official Portrait",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Pete_Hegseth_Official_Portrait.jpg",
+      "sha256": "0334fdeff319cfafa7acb4cae3ccd080ac2e4ba3a6d2ce9c67b25b45be2384b5",
+      "credit": "U.S. Department of Defense, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Department of Defense\nCredit: https://www.defense.gov/About/Biographies/Biography/Article/4040890/hon-pete-hegseth/\nBasis category: PD US Military",
+        "captured_at": "2026-11-13T00:20:16Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Pete Hegseth Official Portrait\" from https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Military\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0334fdeff319cfafa7acb4cae3ccd080ac2e4ba3a6d2ce9c67b25b45be2384b5. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day6-doc",
+      "title": "President Trump Names Stephen Miller as 33rd White House Chief of Staff",
+      "source_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "media_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "sha256": "bb431fc30a200b03861788989e2b2bd8a28138f81d9bc2dbd3aac728b313e1cb",
+      "credit": "The White House",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+        "captured_text": "Read from the page https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/.\nHost www.whitehouse.gov belongs to The White House, a body of the US federal government.\nThe page names it: \"The White House\"; og:site_name \"The White House\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside The White House: a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:20:19Z"
+      },
+      "basis": "Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"President Trump Names Stephen Miller as 33rd White House Chief of Staff\" from https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/. It is in the public domain: Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it. The licence was read at https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint bb431fc30a200b03861788989e2b2bd8a28138f81d9bc2dbd3aac728b313e1cb. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-01",
+      "title": "Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+      "sha256": "bd7ca7bd5215a41ff553cf688b5470e303afefdcf08ee25be9840f3a02ab7439",
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:25Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint bd7ca7bd5215a41ff553cf688b5470e303afefdcf08ee25be9840f3a02ab7439. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-02",
+      "title": "Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard Armory in Washington.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+      "sha256": "470e2e3adf9ba403e2ff723d29a6bcb90a16f239e7338ac063fc0f97f6ce7da6",
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:26Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard Armory in Washington.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 470e2e3adf9ba403e2ff723d29a6bcb90a16f239e7338ac063fc0f97f6ce7da6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-03",
+      "title": "Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner%2C_during_which_the_President..._-_NARA_-_200383.jpg",
+      "sha256": "b6d0750136f39b168b911b6455c0872ded719d61963f26ad7dd8c87e6be8355e",
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:26Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b6d0750136f39b168b911b6455c0872ded719d61963f26ad7dd8c87e6be8355e. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-04",
+      "title": "Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in Washington for the annual Jefferson-Jackson Day Dinner.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+      "sha256": "0fd470223a11942972ddc3e8a932795ce42ab4b29729fab46b024b37ebca89bf",
+      "credit": "Abbie Rowe, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:27Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in Washington for the annual Jefferson-Jackson Day Dinner.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0fd470223a11942972ddc3e8a932795ce42ab4b29729fab46b024b37ebca89bf. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-05",
+      "title": "Long trek southward: Seemingly endless file of Korean refugees slogs through snow outside of Kangnung, blocking withdrawal of Republic of Korea I Corps.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Long_trek_southward%2C_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung%2C_blocking..._-_NARA_-_531397.tif",
+      "sha256": "46bba91fb42b8fa8fbf47e57cf4f671bb1ccd634ae74925024fe1677c2ec7114",
+      "credit": "Unknown author or not provided, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Unknown author or not provided\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:27Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Long trek southward: Seemingly endless file of Korean refugees slogs through snow outside of Kangnung, blocking withdrawal of Republic of Korea I Corps.\" from https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Long_trek_southward,_Seemingly_endless_file_of_Korean_refugees_slogs_through_snow_outside_of_Kangnung,_blocking..._-_NARA_-_531397.tif on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 46bba91fb42b8fa8fbf47e57cf4f671bb1ccd634ae74925024fe1677c2ec7114. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-06",
+      "title": "Missouri infantrymen with the 19th Infantry Regiment along the Kumsong front wish Happy New Year to the stateside folks.",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+      "sha256": "7ebf39d3fe9e13754ef189322b179de46282975ef8c0195fcaa03d6d804d956b",
+      "credit": "Unknown author or not provided, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Unknown author or not provided\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
+        "captured_at": "2026-11-13T00:20:29Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Missouri infantrymen with the 19th Infantry Regiment along the Kumsong front wish Happy New Year to the stateside folks.\" from https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Missouri_infantrymen_with_the_19th_Infantry_Regiment_along_the_Kumsong_front_wish_Happy_New_Year_to_the_stateside_folks._-_NARA_-_531422.tif on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 7ebf39d3fe9e13754ef189322b179de46282975ef8c0195fcaa03d6d804d956b. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-07",
+      "title": "COMBAT CARGO, KOREA -- A helicopter, carrying two seriously wounded UN soldiers, is about to land gently at a front line airstrip in Korea where the soldiers will soon be placed aboard a Combat Cargo C-54 transport for the flight to Japan",
+      "source_url": "https://catalog.archives.gov/id/542283",
+      "media_url": "https://catalog.archives.gov/medialz/stillpix/342-af/342-AF-086335AC_34-3853M.TIF",
+      "sha256": "aea082e8df76a5a7dfda721fd21779b9656489649172e804c77619a2d8338a7f",
+      "credit": "Department of Defense. Department of the Air Force., via the National Archives (NAID 542283, 342-AF-86335AC)",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://catalog.archives.gov/id/542283",
+        "captured_text": "Read from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=542283).\nnaId: 542283; local identifier: 342-AF-86335AC\nrecord group: 342 Records of U.S. Air Force Commands, Activities, and Organizations\ncreators: Department of Defense. Department of the Air Force. (09/26/1947 -); War Department. Army Air Forces. (06/20/1941 - 09/26/1947); War Department. Office of the Chief of Staff. General Headquarters Air Force. (11/19/1940 - 06/20/1941)\nuse restriction: Unrestricted; access restriction: Unrestricted\nA record of a US federal agency, unrestricted: public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:20:32Z"
+      },
+      "basis": "National Archives identifier 542283 (342-AF-86335AC): a record created by Department of Defense. Department of the Air Force., a US federal agency (17 U.S.C. 105); use restriction Unrestricted",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"COMBAT CARGO, KOREA -- A helicopter, carrying two seriously wounded UN soldiers, is about to land gently at a front line airstrip in Korea where the soldiers will soon be placed aboard a Combat Cargo C-54 transport for the flight to Japan\" from https://catalog.archives.gov/id/542283. It is in the public domain: National Archives identifier 542283 (342-AF-86335AC): a record created by Department of Defense. Department of the Air Force., a US federal agency (17 U.S.C. 105); use restriction Unrestricted. The licence was read at https://catalog.archives.gov/id/542283 on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint aea082e8df76a5a7dfda721fd21779b9656489649172e804c77619a2d8338a7f. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-req-13",
+      "title": "Federal Register",
+      "source_url": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
+      "media_url": "https://www.govinfo.gov/content/pkg/FR-1951-01-30/pdf/FR-1951-01-30.pdf",
+      "sha256": "84213c6ee2f40a62229b22aa702d7858dc31fc93d4acac24131b295638d9cb31",
+      "credit": "US Government Publishing Office",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml",
+        "captured_text": "Read from the page https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml.\nHost www.govinfo.gov belongs to the US Government Publishing Office, a body of the US federal government.\nThe page names it: \"Government Publishing Office\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside the US Government Publishing Office: a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:20:35Z"
+      },
+      "basis": "Published on www.govinfo.gov by the US Government Publishing Office, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Federal Register\" from https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml. It is in the public domain: Published on www.govinfo.gov by the US Government Publishing Office, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it. The licence was read at https://www.govinfo.gov/metadata/pkg/FR-1951-01-30/mods.xml on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 84213c6ee2f40a62229b22aa702d7858dc31fc93d4acac24131b295638d9cb31. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-req-14",
+      "title": "Address at the Jefferson-Jackson Day Dinner | Harry S. Truman",
+      "source_url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+      "media_url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+      "sha256": "0ab64abac915d13cae4a5470df67b393c2b33f47622c0d1f154601202290a5f4",
+      "credit": "Harry S. Truman Library (National Archives)",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner",
+        "captured_text": "Read from the page https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner.\nHost www.trumanlibrary.gov belongs to the Harry S. Truman Library (National Archives), a body of the US federal government.\nThe page names it: \"Truman Library\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside the Harry S. Truman Library (National Archives): a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T00:21:07Z"
+      },
+      "basis": "Published on www.trumanlibrary.gov by the Harry S. Truman Library (National Archives), a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Address at the Jefferson-Jackson Day Dinner | Harry S. Truman\" from https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner. It is in the public domain: Published on www.trumanlibrary.gov by the Harry S. Truman Library (National Archives), a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it. The licence was read at https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0ab64abac915d13cae4a5470df67b393c2b33f47622c0d1f154601202290a5f4. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    }
+  ]
+}

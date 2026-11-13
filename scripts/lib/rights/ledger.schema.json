@@ -4,32 +4,120 @@
   "title": "void omnibus rights ledger, one per episode (episodes/<issue>/rights-ledger.json)",
   "description": "Item fields lifted from void document's ledgers (aacrit/document@b62c4fa42017d5f3432bb3317b0fc03465bda193: films/panama-canal/stills-ledger.json and footage-ledger.json); licence_evidence and rights_checked are structured here where document kept prose. Written by scripts/rights.mjs fetch, never by hand.",
   "type": "object",
-  "required": ["schema", "issue", "items", "rejected"],
+  "required": [
+    "schema",
+    "issue",
+    "items",
+    "rejected"
+  ],
   "additionalProperties": false,
   "properties": {
-    "schema": { "const": "omnibus.rights-ledger/1" },
-    "issue": { "type": "integer", "minimum": 1 },
-    "items": { "type": "array", "items": { "$ref": "#/$defs/item" } },
-    "rejected": { "type": "array", "items": { "$ref": "#/$defs/rejection" } }
+    "schema": {
+      "const": "omnibus.rights-ledger/1"
+    },
+    "issue": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "rejected": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rejection"
+      }
+    },
+    "dropped": {
+      "description": "Requests no candidate filled, each with the ladder's fallback it drops to (tier 4 drawn by E6, tier 5 typeset, or none) and every reason a step was refused or not fetched.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/drop"
+      }
+    },
+    "witnesses": {
+      "description": "Dated Wayback captures read as date witnesses for primary texts (founder ruling, chat 2026-11-12): what was captured, when, and its sha256. A witness is never a licence; used is true only when the item it witnesses passed its own rights checks.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/witness_record"
+      }
+    }
   },
   "$defs": {
-    "date": { "type": "string", "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?$" },
-    "datetime": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
-    "https": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 2048 },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?$"
+    },
+    "datetime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "https": {
+      "type": "string",
+      "pattern": "^https://[^\\s]+$",
+      "maxLength": 2048
+    },
     "item": {
       "type": "object",
       "required": [
-        "id", "request_id", "kind", "adapter", "title", "licence", "licence_evidence", "basis", "rights_checked",
-        "item_url", "media_url", "file", "sha256", "bytes", "credit", "date", "content_date", "source_tier",
-        "ai_provenance_check", "laundering_check"
+        "id",
+        "request_id",
+        "kind",
+        "adapter",
+        "title",
+        "licence",
+        "licence_evidence",
+        "basis",
+        "rights_checked",
+        "item_url",
+        "media_url",
+        "file",
+        "sha256",
+        "bytes",
+        "credit",
+        "date",
+        "content_date",
+        "source_tier",
+        "ai_provenance_check",
+        "laundering_check"
       ],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$" },
-        "request_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$" },
-        "kind": { "enum": ["still", "footage", "sound", "document"] },
-        "adapter": { "enum": ["commons", "nasa", "loc", "dvids"] },
-        "title": { "type": "string", "minLength": 1, "maxLength": 400 },
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+        },
+        "kind": {
+          "enum": [
+            "still",
+            "footage",
+            "sound",
+            "document"
+          ]
+        },
+        "adapter": {
+          "enum": [
+            "commons",
+            "nasa",
+            "loc",
+            "dvids",
+            "gov",
+            "nara",
+            "wayback"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
         "licence": {
           "description": "A canonical id; the licence-allowlist lint (scripts/lib/rights/lints.mjs) decides which pass, so a wrong one fails under that rule's name.",
           "type": "string",
@@ -38,67 +126,370 @@
         },
         "licence_evidence": {
           "type": "object",
-          "required": ["url", "captured_text", "captured_at"],
+          "required": [
+            "url",
+            "captured_text",
+            "captured_at"
+          ],
           "additionalProperties": false,
           "properties": {
-            "url": { "$ref": "#/$defs/https" },
-            "captured_text": { "type": "string", "minLength": 1, "maxLength": 4000 },
-            "captured_at": { "$ref": "#/$defs/datetime" }
+            "url": {
+              "$ref": "#/$defs/https"
+            },
+            "captured_text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "captured_at": {
+              "$ref": "#/$defs/datetime"
+            }
           }
         },
-        "basis": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "basis": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
         "rights_checked": {
           "type": "object",
-          "required": ["date", "by"],
+          "required": [
+            "date",
+            "by"
+          ],
           "additionalProperties": false,
           "properties": {
-            "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
-            "by": { "type": "string", "minLength": 1, "maxLength": 200 }
+            "date": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "by": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
           }
         },
-        "item_url": { "$ref": "#/$defs/https" },
-        "media_url": { "$ref": "#/$defs/https" },
-        "file": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$" },
-        "mime": { "type": ["string", "null"], "maxLength": 100 },
-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
-        "bytes": { "type": "integer", "minimum": 1 },
-        "credit": { "type": "string", "minLength": 1, "maxLength": 600 },
-        "date": { "anyOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
-        "published_at": { "anyOf": [{ "$ref": "#/$defs/datetime" }, { "$ref": "#/$defs/date" }, { "type": "null" }] },
-        "content_date": { "anyOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
-        "source_tier": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "item_url": {
+          "$ref": "#/$defs/https"
+        },
+        "media_url": {
+          "$ref": "#/$defs/https"
+        },
+        "file": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$"
+        },
+        "mime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 100
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "credit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        },
+        "date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/datetime"
+            },
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "content_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_tier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
         "ai_provenance_check": {
           "type": "object",
-          "required": ["status", "method", "checked", "findings", "vision"],
+          "required": [
+            "status",
+            "method",
+            "checked",
+            "findings",
+            "vision"
+          ],
           "additionalProperties": false,
           "properties": {
-            "status": { "enum": ["clear", "flagged"] },
-            "method": { "const": "metadata" },
-            "checked": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
-            "findings": { "type": "array", "items": { "type": "string" } },
-            "vision": { "enum": ["pending", "clear", "flagged"] }
+            "status": {
+              "enum": [
+                "clear",
+                "flagged"
+              ]
+            },
+            "method": {
+              "const": "metadata"
+            },
+            "checked": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "vision": {
+              "enum": [
+                "pending",
+                "clear",
+                "flagged"
+              ]
+            }
           }
         },
         "laundering_check": {
           "type": "object",
-          "required": ["status", "findings"],
+          "required": [
+            "status",
+            "findings"
+          ],
           "additionalProperties": false,
           "properties": {
-            "status": { "enum": ["clear", "suspect", "not_applicable"] },
-            "findings": { "type": "array", "items": { "type": "string" } }
+            "status": {
+              "enum": [
+                "clear",
+                "suspect",
+                "not_applicable"
+              ]
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "witness": {
+          "description": "A dated Wayback capture that witnesses the item's text by its capture time. Never a licence.",
+          "type": "object",
+          "required": [
+            "service",
+            "capture_url",
+            "raw_url",
+            "captured_at",
+            "original_url"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "service": {
+              "const": "Internet Archive Wayback Machine"
+            },
+            "capture_url": {
+              "$ref": "#/$defs/https"
+            },
+            "raw_url": {
+              "$ref": "#/$defs/https"
+            },
+            "captured_at": {
+              "$ref": "#/$defs/datetime"
+            },
+            "original_url": {
+              "$ref": "#/$defs/https"
+            }
           }
         }
       }
     },
     "rejection": {
       "type": "object",
-      "required": ["request_id", "adapter", "ref", "reasons"],
+      "required": [
+        "request_id",
+        "adapter",
+        "ref",
+        "reasons"
+      ],
       "additionalProperties": false,
       "properties": {
-        "request_id": { "type": "string", "minLength": 1, "maxLength": 80 },
-        "adapter": { "type": "string", "minLength": 1, "maxLength": 20 },
-        "ref": { "type": "string", "minLength": 1, "maxLength": 400 },
-        "reasons": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "drop": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "kind",
+        "fallback_tier",
+        "fallback",
+        "reasons"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+        },
+        "kind": {
+          "enum": [
+            "still",
+            "footage",
+            "sound",
+            "document"
+          ]
+        },
+        "fallback_tier": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 4,
+          "maximum": 5
+        },
+        "fallback": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "witness_record": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "capture_url",
+        "captured_at",
+        "original_url",
+        "text",
+        "file",
+        "sha256",
+        "bytes",
+        "used",
+        "note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+        },
+        "capture_url": {
+          "$ref": "#/$defs/https"
+        },
+        "captured_at": {
+          "$ref": "#/$defs/datetime"
+        },
+        "original_url": {
+          "$ref": "#/$defs/https"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "used": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        }
       }
     }
   }

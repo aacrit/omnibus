@@ -213,7 +213,11 @@ describe("NASA Image and Video Library adapter", () => {
   });
 
   it("reads which credits are NASA's alone", () => {
-    for (const ok of ["NASA", "NASA/JSC", "NASA/Keegan Barber", "(NASA/Bill Ingalls)", "NASA/GSFC"]) expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    for (const ok of ["NASA", "NASA/JSC", "NASA/GSFC"]) expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    expect(nasa.isNasaOnlyCredit("NASA/Keegan Barber", { staff: ["NASA/Keegan Barber"] })).toBe(true);
+    expect(nasa.isNasaOnlyCredit("(NASA/Bill Ingalls)", { staff: ["Bill Ingalls"] })).toBe(true);
+    expect(nasa.isNasaOnlyCredit("NASA/Bill Ingalls", { staff: ["Kim Shiflett"] })).toBe(false);
+    expect(nasa.isNasaOnlyCredit("NASA/Bill Ingalls")).toBe(false);
     for (const no of ["NASA/JPL-Caltech", "NASA/JPL", "SpaceX", "Boeing", "ESA/Hubble & NASA", "NASA/JPL-Caltech/MSSS", "NASA/Johns Hopkins APL", "NASA, ESA and STScI", "NASA/Univ. of Arizona"]) {
       expect(nasa.isNasaOnlyCredit(no), no).toBe(false);
     }
@@ -378,7 +382,9 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
     expect(withData({ description: "Pad view. Credit: SpaceX" }).licence).toBeNull();
     expect(withData({ description: "Pad view. Photo credit SpaceX" }).licence).toBeNull();
     expect(withData({ description: "Pad view. Courtesy of SpaceX" }).licence).toBeNull();
-    expect(withData({ description: "Pad view. Photo credit: NASA/Kim Shiflett" }).licence).toBe("pd-us-federal");
+    expect(withData({ photographer: "Kim Shiflett", description: "Pad view. Photo credit: NASA/Kim Shiflett" }).licence).toBe("pd-us-federal");
+    // E5 review: a name after NASA/ needs the record's own photographer field to name the same person
+    expect(withData({ description: "Pad view. Photo credit: NASA/Kim Shiflett" }).licence).toBeNull();
   });
 
   it("matches organisation names as whole words, so staff names that contain them pass", () => {
@@ -392,7 +398,7 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
       "NASA/Kennedy Space Center",
       "NASA/Johnson Space Center/Josh Valcarcel",
     ]) {
-      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+      expect(nasa.isNasaOnlyCredit(ok, { staff: [ok.split("/").pop()] }), ok).toBe(true);
     }
     for (const no of ["NASA/Sierra Space", "NASA/Ball Aerospace", "NASA/AURA", "NASA/Johns Hopkins APL", "NASA/Firefly Aerospace"]) {
       expect(nasa.isNasaOnlyCredit(no), no).toBe(false);
@@ -416,6 +422,49 @@ describe("T2b precision: no federal claim for a third party, no refusal of ordin
       expect(c.licence_raw, who).toContain(who);
       expect(checkCandidate({ ...c, kind: "still" }).ok, who).toBe(false);
     }
+  });
+
+  it("E5: a federal category in the plural ('PD US Marines') is a federal basis, never pd-age", () => {
+    expect(commons.pdBasis(["PD US Marines"])).toMatchObject({ id: "pd-us-federal" });
+    expect(commons.pdBasis(["PD US Military"])).toMatchObject({ id: "pd-us-federal" });
+    expect(commons.pdBasis(["PD US Army"])).toMatchObject({ id: "pd-us-federal" });
+    // "PD US" followed by anything but an age term is not an age basis
+    expect(commons.pdBasis(["PD US Something"])).toBeNull();
+    expect(commons.pdBasis(["PD US expired"])).toMatchObject({ id: "pd-age" });
+    expect(commons.pdBasis(["PD-US"])).toMatchObject({ id: "pd-age" });
+  });
+
+  it("T2c: after NASA/, takes only NASA units, a short mission list or a 2 to 4 word name that is not all capitals", () => {
+    for (const no of ["NASA/ULA", "NASA/CNSA", "NASA/ASI", "NASA/Bigelow", "NASA/JHUAPL/CIW", "NASA/GSFC/ASU", "NASA/KARI", "NASA/Ingalls", "NASA/CIW", "NASA/JHU APL", "NASA/Sierra SNC"]) {
+      expect(nasa.isNasaOnlyCredit(no), no).toBe(false);
+    }
+    for (const ok of ["NASA/Explorer 1", "NASA/Apollo 11", "NASA/Artemis II", "NASA/GSFC"]) {
+      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    }
+    for (const ok of ["NASA/Joel Kowsky", "NASA/Aubrey Gemignani", "NASA/J. D. Smith"]) {
+      expect(nasa.isNasaOnlyCredit(ok, { staff: [ok.slice(5)] }), ok).toBe(true);
+    }
+    // E5 review: organisations that look like names, even with a matching field
+    for (const no of ["NASA/Aerojet Rocketdyne", "NASA/Johns Hopkins", "NASA/Goddard/Arizona State", "NASA/Montana State", "NASA/Southwest Research", "NASA/Jet Propulsion", "NASA/Blue Canyon"]) {
+      expect(nasa.isNasaOnlyCredit(no, { staff: [no.split("/").pop()] }), no).toBe(false);
+    }
+  });
+
+  it("T2c: reads Goddard's Conceptual Image Lab and Scientific Visualization Studio without the slash", () => {
+    for (const ok of [
+      "NASA Goddard Space Flight Center Conceptual Image Lab",
+      "NASA's Goddard Space Flight Center Conceptual Image Lab",
+      "NASA Goddard Space Flight Center Scientific Visualization Studio",
+      "NASA's Goddard Space Flight Center Scientific Visualization Studio",
+    ]) {
+      expect(nasa.isNasaOnlyCredit(ok), ok).toBe(true);
+    }
+    expect(nasa.isNasaOnlyCredit("NASA Goddard Space Flight Center Conceptual Image Lab/ASU")).toBe(false);
+  });
+
+  it("T2c: a bare all-capitals or one-word staff field is never read as a NASA photographer", () => {
+    expect(withData({ center: "KSC", photographer: "ULA", description: "Photo credit: NASA/ULA" }).licence).toBeNull();
+    expect(withData({ center: "KSC", photographer: "Bigelow", description: "Photo credit: NASA/Bigelow" }).licence).toBeNull();
   });
 
   it("reads NASA's visualisation studios as NASA units", () => {
