@@ -1,12 +1,14 @@
 // A small JSON Schema validator for the keywords the rights ledger uses:
 // $ref (local #/$defs/...), type, const, enum, anyOf, required, properties,
-// additionalProperties: false, items, minItems, minLength, maxLength,
-// pattern, minimum, maximum. A keyword it does not know is an error, so the
-// schema can never ask for a check this file silently skips. Pure; no deps.
+// additionalProperties: false, items, minItems, maxItems, minLength, maxLength,
+// pattern, minimum, maximum, exclusiveMinimum, exclusiveMaximum. A keyword it
+// does not know is an error, so the schema can never ask for a check this
+// file silently skips. Pure; no deps.
 
 const KNOWN = new Set([
   "$schema", "$id", "$defs", "$ref", "title", "description", "type", "const", "enum", "anyOf", "required",
-  "properties", "additionalProperties", "items", "minItems", "minLength", "maxLength", "pattern", "minimum", "maximum",
+  "properties", "additionalProperties", "items", "minItems", "maxItems", "minLength", "maxLength", "pattern",
+  "minimum", "maximum", "exclusiveMinimum", "exclusiveMaximum",
 ]);
 
 function typeOf(v) {
@@ -60,9 +62,12 @@ export function validate(schema, value, root = schema, at = "$") {
   if (typeof value === "number") {
     if (schema.minimum !== undefined && value < schema.minimum) errors.push(`${at}: below ${schema.minimum}`);
     if (schema.maximum !== undefined && value > schema.maximum) errors.push(`${at}: above ${schema.maximum}`);
+    if (schema.exclusiveMinimum !== undefined && value <= schema.exclusiveMinimum) errors.push(`${at}: must be greater than ${schema.exclusiveMinimum}`);
+    if (schema.exclusiveMaximum !== undefined && value >= schema.exclusiveMaximum) errors.push(`${at}: must be less than ${schema.exclusiveMaximum}`);
   }
   if (Array.isArray(value)) {
     if (schema.minItems !== undefined && value.length < schema.minItems) errors.push(`${at}: fewer than ${schema.minItems} items`);
+    if (schema.maxItems !== undefined && value.length > schema.maxItems) errors.push(`${at}: more than ${schema.maxItems} items`);
     if (schema.items) value.forEach((v, i) => errors.push(...validate(schema.items, v, root, `${at}[${i}]`)));
   }
   if (typeOf(value) === "object") {

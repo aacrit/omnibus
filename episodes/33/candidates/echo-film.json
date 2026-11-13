@@ -8,11 +8,18 @@
         "adapter": "nara",
         "ref": "22399",
         "tier": 1,
-        "window": { "from": "1951-01-01", "to": "1952-11-05T12:00:00-05:00" },
+        "window": {
+          "from": "1951-01-01",
+          "to": "1952-11-05T12:00:00-05:00"
+        },
         "fit": {
           "beat": "echo-x1: the January 1951 withdrawal, refugees in snow",
-          "why": "Signal Corps film 111-ADC-8634, Uijongbu, 2 Jan 1951 (shot card 1, 4th scene): a 24th Division squad checks a file of refugees passing south, then two soldiers walk the snow-covered ground. The same withdrawal six days before the line's date, near Seoul, not Kangnung: the cut takes the refugee scene only. No in/out yet: the 839 ft silent reel is not viewed (no transcode in this pass); the editor sets in_s/out_s from the shot card's 4th scene.",
+          "why": "Signal Corps film 111-ADC-8634, Uijongbu, 2 Jan 1951 (shot card 1, 4th scene): a 24th Division squad checks a file of refugees passing south, then two soldiers walk the snow-covered ground. The same withdrawal six days before the line's date, near Seoul, not Kangnung: the cut takes the refugee scene only. No in/out yet: the 839 ft silent reel is not viewed (no transcode in this pass); the editor sets in_s/out_s from the shot card's 4th scene. S4 read the shot card (111-ADC-8634.pdf, card 1 of 2): the refugee check is the 4th of 8 scenes in the Uijongbu story, which opens the reel, but the card gives no footage counts or times, so in/out stay unset.",
           "horizon": "1952-11-05T12:00:00-05:00"
+        },
+        "dot_label": {
+          "text": "FILMED UIJONGBU · 2 JAN 1951",
+          "why": "S4 (CoS, 2026-11-13): the film shows the withdrawal near Uijongbu on 2 Jan 1951, and the line it plays under (L-X1) names Kangnung on 8 Jan; it is usable only with this label on screen"
         }
       }
     ],
@@ -21,7 +28,10 @@
         "adapter": "commons",
         "ref": "File:Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
         "tier": 3,
-        "date_record": { "adapter": "nara", "ref": "338959044" },
+        "date_record": {
+          "adapter": "nara",
+          "ref": "338959044"
+        },
         "fit": {
           "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
           "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record of it (NAID 338959044, Truman Library accession 73-3881, the NLT-AVC-PHT-(73)3881 that echo-pick names for old NAID 200382) dates it 29 March 1952; Commons gives the year only.",
@@ -34,7 +44,10 @@
         "adapter": "commons",
         "ref": "File:Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
         "tier": 3,
-        "date_record": { "adapter": "nara", "ref": "338959024" },
+        "date_record": {
+          "adapter": "nara",
+          "ref": "338959024"
+        },
         "fit": {
           "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
           "why": "Abbie Rowe's photograph of the President receiving applause at the Armory. NARA's current record (NAID 338959024, Truman Library accession 73-3872, echo-pick's NLT-AVC-PHT-(73)3872 for old NAID 200380) dates it 29 March 1952; Commons gives the year only.",
@@ -47,7 +60,10 @@
         "adapter": "commons",
         "ref": "File:Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
         "tier": 3,
-        "date_record": { "adapter": "nara", "ref": "338959048" },
+        "date_record": {
+          "adapter": "nara",
+          "ref": "338959048"
+        },
         "fit": {
           "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
           "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record (NAID 338959048, Truman Library accession 73-3883, echo-pick's NLT-AVC-PHT-(73)3883 for old NAID 200383) dates it 29 March 1952; Commons gives the year only.",
@@ -60,7 +76,10 @@
         "adapter": "commons",
         "ref": "File:Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
         "tier": 3,
-        "date_record": { "adapter": "nara", "ref": "338959010" },
+        "date_record": {
+          "adapter": "nara",
+          "ref": "338959010"
+        },
         "fit": {
           "beat": "echo-x6: arrival at the Armory, 29 March 1952",
           "why": "Abbie Rowe's photograph of the Trumans greeted on arrival at the National Guard Armory. NARA's current record (NAID 338959010, Truman Library accession 73-3866, echo-pick's NLT-AVC-PHT-(73)3866 for old NAID 200379) dates it 29 March 1952; Commons gives the year only.",

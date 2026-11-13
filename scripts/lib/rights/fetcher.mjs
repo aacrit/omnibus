@@ -9,10 +9,26 @@
 import path from "node:path";
 import { renameSync, rmSync } from "node:fs";
 import { hashLocal, isAllowedUrl, isOwnUrl } from "./http.mjs";
-import { OWN_ADAPTER } from "./licences.mjs";
+import { OWN_ADAPTER, reviewProblems } from "./licences.mjs";
 import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
+import { cutsDisagree, detectCuts as ffmpegCuts } from "./scenes.mjs";
+
+/** A marks review as the ledger keeps it: who (a role), when, the frames, the contact sheet, the file's length, a video's cuts. */
+function marksReviewed(r = {}) {
+  return {
+    by: clip(r.by, 200),
+    at: String(r.at ?? ""),
+    frames: Array.isArray(r.frames) ? r.frames.slice(0, 400) : r.frames,
+    contact_sheet: r.contact_sheet ? { path: clip(r.contact_sheet.path, 300), sha256: String(r.contact_sheet.sha256 ?? "") } : r.contact_sheet,
+    ...(r.duration_s !== undefined ? { duration_s: r.duration_s } : {}),
+    // The cuts in a video, the scene threshold and the method that found them (S4 review round 3).
+    // The fetcher writes them from the file itself (rights fix round 4), with the ffmpeg that found them and the span it read.
+    ...(r.resign_required !== undefined ? { resign_required: clip(r.resign_required, 1000) } : {}),
+    ...(r.cuts !== undefined ? { cuts: r.cuts && typeof r.cuts === "object" ? { times: Array.isArray(r.cuts.times) ? r.cuts.times.slice(0, 2000) : r.cuts.times, threshold: r.cuts.threshold, method: clip(r.cuts.method, 200), ...(r.cuts.ffmpeg !== undefined ? { ffmpeg: clip(r.cuts.ffmpeg, 200) } : {}), ...(r.cuts.span !== undefined ? { span: r.cuts.span } : {}) } : r.cuts } : {}),
+  };
+}
 
 const MEDIA_EXT = /\.(jpe?g|png|tiff?|webp|gif|svg|pdf|html|xml|mp4|m4v|mov|webm|ogv|mp3|wav|flac|ogg|oga|m4a)$/i;
 
@@ -54,14 +70,19 @@ export function dateSpan(d) {
  * cannot be read refuses an item found by search (it could be from any year);
  * an item the rundown pinned by name keeps its own dated record.
  */
-export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false } = {}) {
+export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false, editionCutoff = null, event = {} } = {}) {
   if (!window) return null;
   // A news part's picture must be public by the part's horizon: a later upload or post was not there to show.
   if (requirePublished) {
     const pub = Date.parse(String(publishedAt ?? ""));
     const end = Date.parse(/T/.test(String(window.to)) ? String(window.to) : `${window.to}T23:59:59Z`);
     if (!Number.isFinite(pub)) return `no publication time on the item, so it cannot be shown public by ${window.to}`;
-    if (Number.isFinite(end) && pub > end) return `published ${isoSecond(new Date(pub).toISOString())}, after its window ends ${window.to}`;
+    if (Number.isFinite(end) && pub > end) {
+      // Ruling A (founder, 2026-11-13): in The Week a picture of the day's own event may be published by the edition cutoff.
+      const by = editionCutoff ? publishedByEdition({ date, publishedAt, window, editionCutoff, event }) : null;
+      if (!by) return `published ${isoSecond(new Date(pub).toISOString())}, after its window ends ${window.to}`;
+      if (by.problem) return by.problem;
+    }
   }
   const span = dateSpan(date);
   if (!span) return pinned ? null : `no date on the item, so it cannot be placed inside ${window.from} to ${window.to}`;
@@ -74,17 +95,160 @@ export function windowProblem(date, window, { pinned = false, publishedAt = null
   return null;
 }
 
+/** The rule a Week picture published after its day's horizon is admitted under (ruling A, founder 2026-11-13). */
+export const PUBLISHED_BY_EDITION = "picture_published_by_edition";
+/** The Week's day beats, whose pictures ruling A covers (never the cold open, The Weight or The Margins). */
+export const WEEK_DAY = /^week-day-\d+$/;
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+/** "2 NOV 2026" for an ISO day, or an instant's UTC day. */
+export function dotDay(d) {
+  const s = String(d ?? "");
+  const t = /T/.test(s) ? Date.parse(s) : NaN;
+  if (Number.isFinite(t)) {
+    const x = new Date(t);
+    return `${x.getUTCDate()} ${MONTHS[x.getUTCMonth()]} ${x.getUTCFullYear()}`;
+  }
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}` : null;
+}
+
+/** The dot label such a shot carries on screen: "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026". */
+export function editionDotLabel(eventDate, publishedAt) {
+  return `FILMED ${dotDay(eventDate)} \u00b7 PUBLISHED ${dotDay(publishedAt)}`;
+}
+
+/**
+ * Ruling A (founder, 2026-11-13): a picture of a Week day's own event, published after that
+ * day's horizon, is admitted when the event's own day lies inside the day's window (on or
+ * before the horizon's day) and it was published by the edition cutoff. Facts and narration
+ * stay at the day's horizon; the shot carries a dot label saying when it was filmed and
+ * published. Pure. Returns null (published by the horizon: the ordinary rule applies),
+ * { problem }, or { record } for the ledger.
+ */
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** Whether a text names an ISO day: "2026-11-02", "Nov. 2, 2026", "November 2, 2026", "2 November 2026", "2 Nov 2026", "11/2/2026". */
+export function namesDay(text, day) {
+  const m = String(day ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return null;
+  const [, y, mm, dd] = m;
+  const d = Number(dd);
+  const full = MONTH_NAMES[Number(mm) - 1];
+  const mon = `(?:${full}|${full.slice(0, 3)}\\.?${full.length > 4 ? `|${full.slice(0, 4)}\\.?` : ""})`;
+  const forms = [
+    `${y}-${mm}-${dd}`,
+    `${mon}\\s+0?${d}(?:st|nd|rd|th)?,?\\s+${y}`,
+    `0?${d}(?:st|nd|rd|th)?\\s+${mon},?\\s+${y}`,
+    `0?${Number(mm)}/0?${d}/${y}`,
+  ];
+  const re = new RegExp(`(?<![0-9])(?:${forms.join("|")})(?![0-9])`, "i");
+  return String(text ?? "").match(re)?.[0] ?? null;
+}
+
+/**
+ * Ruling A's event-date evidence (S4 review, 2026-11-13): the sourcing pass's fit must state
+ * shows_days_event: true, and the event's day must be shown independently of the item's
+ * publication or upload: its title or description names the day, or the event's own record
+ * (a date record) dates it. The date field of a YouTube copy ({{From YouTube}}, video2commons)
+ * is its upload day, never evidence. Returns { evidence } or { problem }.
+ */
+export function eventDateEvidence(day, event = {}) {
+  const why = [];
+  if (event?.shows_days_event !== true) why.push("its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)");
+  let evidence = null;
+  if (event?.record_date === day) evidence = `the event's own record dates it ${day}${event.record_url ? ` (${clip(event.record_url, 200)})` : ""}`;
+  for (const t of event?.texts ?? []) {
+    if (evidence) break;
+    const hit = namesDay(t, day);
+    if (hit) evidence = `its own title or description names the day: "${clip(hit, 60)}"`;
+  }
+  if (!evidence) {
+    why.push(
+      event?.youtube_source
+        ? `its date ${day} is the upload day of a YouTube copy (${clip(event.youtube_source, 120)}), and no title, description or record names the event's day`
+        : `nothing independent of its publication dates the event to ${day} (no title, description or record names the day)`,
+    );
+  }
+  return why.length ? { problem: why.join("; ") } : { evidence };
+}
+
+export function publishedByEdition({ date, publishedAt, window, editionCutoff, event = {} }) {
+  const pub = Date.parse(String(publishedAt ?? ""));
+  const end = Date.parse(/T/.test(String(window?.to)) ? String(window.to) : `${window?.to}T23:59:59Z`);
+  if (!Number.isFinite(pub) || !Number.isFinite(end) || pub <= end) return null;
+  const cutoff = Date.parse(/T/.test(String(editionCutoff)) ? String(editionCutoff) : `${editionCutoff}T23:59:59Z`);
+  const at = isoSecond(new Date(pub).toISOString());
+  if (!Number.isFinite(cutoff)) return { problem: `published ${at}, after its window ends ${window.to}, and the edition cutoff does not read` };
+  if (pub > cutoff) return { problem: `published ${at}, after its window ends ${window.to} and after the edition cutoff ${editionCutoff}` };
+  const span = dateSpan(date);
+  if (!span || span[0] !== span[1]) return { problem: `published ${at}, after its window ends ${window.to}; ${PUBLISHED_BY_EDITION} needs the event's own day, and the item is dated ${date ?? "nowhere"}` };
+  const dayTo = new Date(end).toISOString().slice(0, 10);
+  const dayFrom = dateSpan(window.from)?.[0];
+  if (span[0] > dayTo || (dayFrom && span[0] < dayFrom)) return { problem: `published ${at}, after its window ends ${window.to}, and its event date ${span[0]} is not the day's (${window.from} to ${window.to})` };
+  const ev = eventDateEvidence(span[0], event);
+  if (ev.problem) return { problem: `published ${at}, after its window ends ${window.to}; ${PUBLISHED_BY_EDITION} needs the day's own event: ${ev.problem}` };
+  return {
+    record: {
+      rule: PUBLISHED_BY_EDITION,
+      event_date: span[0],
+      published_at: at,
+      day_horizon: String(window.to),
+      edition_cutoff: String(editionCutoff),
+      dot_label: editionDotLabel(span[0], at),
+      ...(dayFrom ? { day_from: dayFrom } : {}),
+      event_evidence: clip(ev.evidence, 400),
+    },
+  };
+}
+
+/** The event evidence a fetched candidate offers ruling A: its fit's flag, its own title and description, its date record, its YouTube source. */
+export function eventOf(c) {
+  return {
+    shows_days_event: c?.fit?.shows_days_event === true,
+    texts: [c?.title, c?.description].filter(Boolean),
+    record_date: c?.event_record?.date ?? null,
+    record_url: c?.event_record?.url ?? null,
+    youtube_source: c?.youtube_source ?? null,
+  };
+}
+
+/** A pattern for one record identifier: its letter and digit groups in order, any short separator between ("73-3881" finds "NLT-AVC-PHT-(73)3881"). */
+export function idPattern(id) {
+  const groups = String(id ?? "").match(/[A-Za-z0-9]+/g) ?? [];
+  // An identifier of fewer than 4 letters and digits would be found anywhere: it proves nothing.
+  if (groups.join("").length < 4) return null;
+  return new RegExp(`(?<![A-Za-z0-9])${groups.join("[^A-Za-z0-9]{0,3}")}(?![A-Za-z0-9])`, "i");
+}
+
+/** Every text a source states about itself: its ref, title, description, addresses, credit fields, page text and licence evidence. */
+export function sourceMetadata(c) {
+  return [c?.ref, c?.ref_requested, c?.title, c?.description, c?.item_url, c?.media_url, ...(c?.credit_fields ?? []), c?.source_text, c?.evidence?.captured_text]
+    .filter(Boolean)
+    .map(String)
+    .join("\n");
+}
+
 /**
  * A pin's date record (a sourcing pass's finding): another catalogue record of the
- * same item that states its day. Pure. The record's date must be a full day and
- * must lie inside the date the source itself gives (it refines, never moves, the
- * date). Returns { date, evidence } or { problem }.
+ * same item that states its day. Pure. The source must state a date of its own (a
+ * record refines it, never sets it); the record's date must be a full day inside
+ * it (it refines, never moves, the date); and one of the record's own identifiers
+ * (NAID, local id) must appear in the source's own metadata, so the record is
+ * shown to be of this item (S4 review, 2026-11-13). Returns { date, evidence } or
+ * { problem }.
  */
-export function refineDate(sourceDate, record, { capturedAt }) {
+export function refineDate(sourceDate, record, { capturedAt, source = null }) {
   const d = String(record?.date ?? "");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return { problem: `the date record ${clip(record?.item_url ?? "", 200)} states no full day (${d || "none"})` };
   const own = dateSpan(sourceDate);
-  if (own && (d < own[0] || d > own[1])) return { problem: `the date record's ${d} lies outside the source's own date ${sourceDate}` };
+  if (!own) return { problem: `the source states no date of its own (${sourceDate ?? "null"}), so the date record ${clip(record?.item_url ?? "", 200)} would set its date, not refine it` };
+  const ids = (record?.record_ids ?? [record?.ref]).filter((x) => x != null && String(x).trim());
+  const meta = sourceMetadata(source);
+  if (!ids.some((id) => idPattern(id)?.test(meta))) {
+    return { problem: `none of the date record's identifiers (${ids.map((x) => clip(String(x), 40)).join(", ") || "none"}) appears in the source's own metadata, so it is not shown to be a record of this item` };
+  }
+  if (d < own[0] || d > own[1]) return { problem: `the date record's ${d} lies outside the source's own date ${sourceDate}` };
   return {
     date: d,
     evidence: {
@@ -113,6 +277,40 @@ export function dropOf(request, rejections) {
     fallback: clip(request.fallback?.text ?? "none stated", 1000),
     reasons: reasons.length ? reasons : ["no candidate was requested"],
   };
+}
+
+/** A title as the dignity list compares it: no "File:", no extension, lower case, one space between words. */
+export function titleKey(t) {
+  return String(t ?? "")
+    .replace(/^File:/i, "")
+    .replace(/\.[a-z0-9]{2,5}$/i, "")
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/**
+ * The episode's dignity list (S4 review, 2026-11-13): a picture refused on dignity (a death on
+ * camera) is refused for every request of the episode, matched by its normalised title or its
+ * file's sha1/sha256, so a renamed or re-requested copy cannot slip in. Returns the entry or null.
+ */
+export function dignityHit(c, list = []) {
+  const keys = new Set([titleKey(c?.ref), titleKey(c?.ref_requested), titleKey(c?.title)].filter(Boolean));
+  return list.find((d) => ((d.title_key && keys.has(d.title_key)) || (d.sha1 && c?.sha1 === d.sha1) || (d.sha256 && c?.sha256 === d.sha256)) && !spanLeftOut(d.span, c?.fit)) ?? null;
+}
+
+/**
+ * Whether a fit's aired span leaves a dignity span out (rights fix round 4): a dignity entry with a span
+ * { from_s, to_s } refuses only the file's seconds that show it, so the item airs when its fit names an
+ * in_s..out_s clear of them; with no span, or no such fit, the whole file is refused.
+ */
+export function spanLeftOut(span, fit) {
+  if (!span) return false;
+  const a = fit?.in_s;
+  const b = fit?.out_s;
+  if (!(Number.isFinite(a) && Number.isFinite(b) && b > a)) return false;
+  return b <= span.from_s || a >= span.to_s;
 }
 
 /** The rundown parts about the week's news, whose pictures must be public by the part's horizon. */
@@ -156,6 +354,16 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     // An editorial-use item's captured terms; a fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13).
     ...(c.terms ? { terms: { url: c.terms.url, captured_text: clip(c.terms.captured_text, 4000), captured_at: c.terms.captured_at, credit_required: clip(c.terms.credit_required, 400), restrictions: (c.terms.restrictions ?? []).map((r) => clip(r, 400)) } } : {}),
     ...(c.fair_use ? { fair_use: { ...c.fair_use, rationale: clip(c.fair_use.rationale, 2000) } } : {}),
+    // A YouTube copy on Commons, and the record of the frame check its on-screen marks had (S4 review).
+    ...(c.youtube_source ? { youtube_source: clip(c.youtube_source, 200) } : {}),
+    ...(c.marks_checked ? { marks_checked: { marks: (c.marks_checked.marks ?? []).map((x) => clip(x, 200)), reviewed: marksReviewed(c.marks_checked.reviewed), ...(c.marks_checked.mask ? { mask: { covers: (c.marks_checked.mask.covers ?? []).map((x) => clip(x, 200)), region: { ...c.marks_checked.mask.region } } } : {}) } } : {}),
+    // Whether the file shows bodies, and the span that does, which the item's fit leaves out and never airs (CoS ruling, rights fix round 4).
+    ...(typeof c.shows_bodies === "boolean" ? { shows_bodies: c.shows_bodies } : {}),
+    ...(c.bodies_excluded ? { bodies_excluded: { from_s: c.bodies_excluded.from_s, to_s: c.bodies_excluded.to_s, note: clip(c.bodies_excluded.note, 400) } } : {}),
+    // Ruling A: a Week picture published after its day's horizon, by the edition cutoff.
+    ...(c.published_by_edition ? { published_by_edition: { ...c.published_by_edition } } : {}),
+    // A dot label the shot must carry wherever the item airs (ruling A's, or a sourcing pass's: an Echo film of another place and day).
+    ...(c.dot_label ? { dot_label: { text: clip(c.dot_label.text, 120), why: clip(c.dot_label.why, 600) } } : {}),
   };
 }
 
@@ -164,6 +372,8 @@ export function fitRecord(fit, request) {
   const out = { beat: clip(fit.beat ?? request.for ?? request.id, 80), why: clip(fit.why, 600) };
   for (const k of ["in_s", "out_s"]) if (Number.isFinite(fit[k]) && fit[k] >= 0) out[k] = fit[k];
   if (fit.horizon) out.horizon = clip(fit.horizon, 64);
+  // The sourcing pass's finding that the item shows the day's own event (ruling A needs it, S4 review).
+  if (fit.shows_days_event === true) out.shows_days_event = true;
   return out;
 }
 
@@ -212,7 +422,7 @@ export async function recordWitness(ledger, { request, c, http, mediaDir, used, 
  * Returns { ledger, report }: report lists what was taken, refused or skipped.
  */
 export async function fetchRequests(requestsDoc, ledgerIn, opts) {
-  const { adapters, http, mediaDir, checkedBy, now = () => new Date(), env = process.env, dryRun = false, redo = [], log = () => {} } = opts;
+  const { adapters, http, mediaDir, checkedBy, now = () => new Date(), env = process.env, dryRun = false, redo = [], log = () => {}, detectCuts = ffmpegCuts } = opts;
   const ledger = structuredClone(ledgerIn ?? emptyLedger(requestsDoc.issue));
   // --redo: a held request is filled again from its whole ladder (a better tier became reachable, e.g. DVIDS with a key).
   const unknown = redo.filter((id) => !requestsDoc.requests.some((r) => r.id === id));
@@ -248,7 +458,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         continue;
       }
       // A pin's fit and fair-use record travel with the candidate; the source's own record never sets them.
-      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}) };
+      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}), ...(cand.marks_checked ? { marks_checked: cand.marks_checked } : {}), ...(cand.shows_bodies !== undefined ? { shows_bodies: cand.shows_bodies } : {}), ...(cand.bodies_excluded ? { bodies_excluded: cand.bodies_excluded } : {}) };
       const reasons = [];
       // A pin's date record states the item's day where the source gives only its year (a NARA record of a Commons file).
       if (cand.date_record) {
@@ -258,13 +468,16 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         } catch (err) {
           rec = { status: "error", reason: clip(err.message, 300) };
         }
-        const refined = rec?.status === "ok" ? refineDate(c.date, rec.candidate, { capturedAt: isoSecond(now().toISOString()) }) : { problem: `the date record ${cand.date_record.adapter} ${clip(cand.date_record.ref, 80)} could not be read${rec?.reason ? `: ${rec.reason}` : ""}` };
+        const refined = rec?.status === "ok" ? refineDate(c.date, rec.candidate, { capturedAt: isoSecond(now().toISOString()), source: c }) : { problem: `the date record ${cand.date_record.adapter} ${clip(cand.date_record.ref, 80)} could not be read${rec?.reason ? `: ${rec.reason}` : ""}` };
         if (refined.problem) reasons.push(refined.problem);
         else {
           c.date = refined.date;
+          c.event_record = { date: refined.date, url: refined.evidence.url };
           c.evidence_also = [...(c.evidence_also ?? []), refined.evidence];
         }
       }
+      const dignity = dignityHit(c, requestsDoc.dignity ?? []);
+      if (dignity) reasons.push(`on the episode's dignity list (${clip(dignity.ref ?? dignity.title_key, 200)}): ${clip(dignity.why, 300)}`);
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);
       const own = c.adapter === OWN_ADAPTER;
@@ -274,10 +487,23 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         reasons.push(...(c.own_problems ?? ["no capture record"]));
       } else if (c.media_url && !isAllowedUrl(c.media_url)) reasons.push(`media host of ${clip(c.media_url, 200)} is not on the fetcher's domain allowlist`);
       const requirePublished = !own && NEWS_PART.test(String(request.for ?? "")) && (request.kind === "still" || request.kind === "footage");
+      // Ruling A covers The Week's day beats only, against the edition cutoff assets.json carries.
+      const editionCutoff = WEEK_DAY.test(String(request.for ?? "")) ? requestsDoc.edition_cutoff ?? null : null;
       // A sourcing pass's pin (it states a fit) keeps no undated exemption: its date must be on the record and inside the window.
-      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished });
+      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished, editionCutoff, event: eventOf(c) });
       if (outside) reasons.push(outside);
-      const check = checkCandidate(c);
+      else if (requirePublished && editionCutoff && cand.window) {
+        const by = publishedByEdition({ date: c.date, publishedAt: c.published_at, window: cand.window, editionCutoff, event: eventOf(c) });
+        if (by?.record) {
+          c.published_by_edition = by.record;
+          c.dot_label = { text: by.record.dot_label, why: `${PUBLISHED_BY_EDITION} (founder ruling, 2026-11-13): published after the day's horizon ${cand.window.to}, by the edition cutoff ${editionCutoff}` };
+        }
+      }
+      // A pin's own dot label (a sourcing pass's requirement), when ruling A has not set one.
+      if (cand.dot_label && !c.dot_label) c.dot_label = cand.dot_label;
+      // A video's cuts are found in the file after the download (below); before it, the reported list counts for nothing.
+      const videoReview = c.marks_checked?.reviewed && (request.kind === "footage" || /^video\//i.test(String(c.mime ?? "")));
+      const check = checkCandidate(videoReview ? { ...c, marks_checked: { ...c.marks_checked, reviewed: { ...c.marks_checked.reviewed, resign_required: "pending: the review is held to the file's own cuts after the download" } } } : c);
       reasons.push(...check.reasons);
       if (reasons.length) {
         // A refused Wayback capture is still kept as a date witness (hashed, never a licence, never on screen).
@@ -313,6 +539,33 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       if (cand.sha256 && media.sha256 !== cand.sha256) fileProblems.push(`downloaded file's sha256 ${media.sha256} differs from the ${cand.sha256} the request pins`);
       if (c.sha256_expected && media.sha256 !== c.sha256_expected) fileProblems.push(`the still's sha256 ${media.sha256} differs from the ${c.sha256_expected} its capture recorded`);
       if (c.bytes_expected && media.bytes !== c.bytes_expected) fileProblems.push(`downloaded ${media.bytes} bytes, the source states ${c.bytes_expected}`);
+      // A video's cuts are never taken from a report (rights fix round 4): they are found in the downloaded file over the
+      // aired span (the fit's in_s..out_s, else the whole file) and written into the marks review in place of the reported list.
+      let cutNote = null;
+      if (c.marks_checked?.reviewed && (request.kind === "footage" || /^video\//i.test(String(media.mime ?? c.mime ?? "")))) {
+        const f = c.fit ?? {};
+        const spanned = Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s;
+        try {
+          const found = await detectCuts(dest, { fromS: spanned ? f.in_s : 0, toS: spanned ? f.out_s : null, env });
+          const reported = c.marks_checked.reviewed.cuts?.times;
+          if (Array.isArray(reported)) {
+            const d = cutsDisagree(reported, found.times, found.span);
+            if (d.missing.length || d.extra.length) cutNote = `the reported cuts differ from the file's (missing ${d.missing.join(", ") || "none"}; not in the file ${d.extra.join(", ") || "none"}): the file's are recorded`;
+          }
+          const { resign_required: _was, ...signed } = c.marks_checked.reviewed;
+          const reviewed = { ...signed, cuts: { times: found.times, threshold: found.threshold, method: found.method, ffmpeg: found.ffmpeg, span: found.span } };
+          // A review whose frames do not cover the file's own shots (or whose reported cuts are not the file's) is ledgered
+          // marked for a re-sign: it stands for nothing, the rights lint fails, and only the checking role clears it.
+          // Only a coverage shortfall is held for a re-sign; any other fault in the review (the role, the sheet) refuses the item.
+          const probs = reviewProblems(reviewed, { ...c, kind: request.kind });
+          const coverage = probs.filter((p) => /\.frames must (hold|be at most)/.test(p));
+          const wanting = probs.length === coverage.length ? [...(cutNote ? [cutNote] : []), ...coverage] : [];
+          c.marks_checked = { ...c.marks_checked, reviewed: wanting.length ? { ...reviewed, resign_required: clip(`found by the fetch step ${isoSecond(now().toISOString())}: ${wanting.join("; ")}`, 1000) } : reviewed };
+        } catch (err) {
+          fileProblems.push(`the video's cuts could not be found in the file: ${clip(err.message, 300)}`);
+        }
+      }
+      if (cutNote) log(`${request.id}: ${cutNote}`);
       // The file's own provenance marks (XMP DigitalSourceType, a C2PA label) join the AI check.
       const scanned = { ...c, generator_tags: [...(c.generator_tags ?? []), ...(media.generator_tags ?? [])], file_scanned: true };
       const fileCheck = checkCandidate(scanned);
@@ -330,7 +583,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
     }
     if (held && !taken) {
       report.push({ request: request.id, outcome: "held", detail: `the refill filled nothing (${rejections.length} candidate(s) refused), so the held item is kept` });
-      log(`${request.id}: redo filled nothing; the held ${held.adapter} item is kept`);
+      log(`${request.id}: redo filled nothing; the held ${held.adapter} item is kept (${rejections.map((r) => `${clip(r.ref, 80)}: ${r.reasons.join("; ")}`).join(" | ")})`);
       continue;
     }
     ledger.rejected = ledger.rejected.filter((r) => r.request_id !== request.id).concat(rejections);

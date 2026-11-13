@@ -3,7 +3,7 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "6893090f34d7dc527bbac74b13e329d5390eddb4cbb41faa7ab9c0e077d8b6ca",
+  "ledger_sha256": "c058d7155ae105c2e3e1913fdaa7a4cb8d7637009a1ab5643c69a789cea1ef2a",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -645,7 +645,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T03:06:14Z"
+        "captured_at": "2026-11-13T17:16:00Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
@@ -670,13 +670,71 @@
       "licence_evidence": {
         "url": "https://catalog.archives.gov/id/22399",
         "captured_text": "Read from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=22399).\nnaId: 22399; local identifier: 111-ADC-8634\nrecord group: 111 Records of the Office of the Chief Signal Officer\ncreators: Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)\nuse restriction: Restricted - Possibly; access restriction: Unrestricted\nNARA flags the record \"Restricted - Possibly\" (Copyright), a blanket caution on the series; its maker, Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964), is a US federal agency named on the record, so it is a work of the US government: public domain (17 U.S.C. 105).",
-        "captured_at": "2026-11-13T16:39:13Z"
+        "captured_at": "2026-11-13T17:09:25Z"
       },
       "basis": "National Archives identifier 22399 (111-ADC-8634): a record created by Department of Defense. Department of the Army. Office of the Chief Signal Officer., a US federal agency (17 U.S.C. 105); use restriction Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names",
       "in_point": null,
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"KOREAN WAR, UIJONGBU; REFUGEES, PUSAN, KOREA; EVACUATION, HUNGNAM AREA, KOREA, BOKU-DO\" from https://catalog.archives.gov/id/22399. It is in the public domain: National Archives identifier 22399 (111-ADC-8634): a record created by Department of Defense. Department of the Army. Office of the Chief Signal Officer., a US federal agency (17 U.S.C. 105); use restriction Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names. The licence was read at https://catalog.archives.gov/id/22399 on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 6d073ffb0bb0c1332df736d763633588d116272ee303e3e415b81b273fa2ec87. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day2-pic",
+      "title": "Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Destructions_in_Komyshuvakha_after_Russian_attack%2C_2026-11-02_%28001%29.webm",
+      "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d",
+      "credit": "State Emergency Service of Ukraine, via Wikimedia Commons",
+      "licence": {
+        "id": "cc-by-4.0",
+        "name": "CC BY 4.0",
+        "deed_url": "https://creativecommons.org/licenses/by/4.0/",
+        "legalcode_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "terms": "Anyone may copy, adapt and share the work, including commercially, provided the author is credited, the licence is named and changes are indicated."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
+        "captured_at": "2026-11-13T23:58:06Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
+      },
+      "basis": "Wikimedia Commons file page: CC BY 4.0 (Creative Commons Attribution 4.0)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)\" from https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"State Emergency Service of Ukraine, via Wikimedia Commons\". The licence was read at https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day6-pic",
+      "title": "White House Chief of Staff, Stephen Miller",
+      "source_url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/White_House_Chief_of_Staff%2C_Stephen_Miller.webm",
+      "sha256": "a9431293346f266371109b32f382384b7b4dd01417b059d4ef63d84e4cdbedbb",
+      "credit": "The White House, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: White House Chief of Staff, Stephen Miller – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T23:40:59Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "the White House's own edit carries music; no music under the news (bible g), so the montage plays muted under the narrator"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"White House Chief of Staff, Stephen Miller\" from https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint a9431293346f266371109b32f382384b7b4dd01417b059d4ef63d84e4cdbedbb. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }

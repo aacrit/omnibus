@@ -1968,8 +1968,8 @@
     {
       "id": "e33-day1-pic",
       "for": "week-day-1",
-      "kind": "still",
-      "purpose": "the day's lead picture: Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit",
+      "kind": "footage",
+      "purpose": "the day's lead picture: Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
       "ladder": [
         {
@@ -2216,6 +2216,26 @@
       "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources"
     },
     {
+      "id": "e33-day3-pic2",
+      "for": "week-day-3",
+      "kind": "footage",
+      "purpose": "S4 (2026-11-13): the White House's video of the President's remarks on 4 Nov, the day after the vote, published after the 4 Nov print and by the edition cutoff (ruling A); muted under the narration, never as the Vice President's post or as the President's reply",
+      "must_show": "the President speaking on 4 Nov 2026, in the White House's own video",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)"
+    },
+    {
       "id": "e33-day3-doc",
       "for": "week-day-3",
       "kind": "document",
@@ -2270,8 +2290,8 @@
     {
       "id": "e33-day4-pic",
       "for": "week-day-4",
-      "kind": "still",
-      "purpose": "the day's lead picture: British Healthcare Worker Infected With Ebola Is Evacuated From Congo",
+      "kind": "footage",
+      "purpose": "the day's lead picture: British Healthcare Worker Infected With Ebola Is Evacuated From Congo (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "every person in frame at some rostrum stop; dated on or before the day's print time",
       "ladder": [
         {
@@ -2402,6 +2422,26 @@
         }
       ],
       "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources"
+    },
+    {
+      "id": "e33-day5-pic2",
+      "for": "week-day-5",
+      "kind": "footage",
+      "purpose": "S4 (2026-11-13): the Secretary's own video of 6 Nov, published after the 6 Nov print and by the edition cutoff (ruling A); CoS ruling: it plays MUTED under the narration, never as the statement the deck reports",
+      "must_show": "the Secretary of War himself, in the White House's video of 6 Nov",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4: the printed page alone carries the beat (e33-day5-pic's DVIDS clip stays)"
     },
     {
       "id": "e33-day5-doc",
@@ -2624,8 +2664,8 @@
     {
       "id": "e33-weight-01",
       "for": "weight-known",
-      "kind": "still",
-      "purpose": "the Vice President campaigning on election eve, 2 Nov 2026 (ledger: Columbus Dispatch, NTD News, New York Post headlines name Ohio and New York rallies)",
+      "kind": "footage",
+      "purpose": "the Vice President campaigning on election eve, 2 Nov 2026 (ledger: Columbus Dispatch, NTD News, New York Post headlines name Ohio and New York rallies) (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "the Vice President at the event; place and date from the item's record",
       "ladder": [
         {
@@ -2759,8 +2799,8 @@
     {
       "id": "e33-weight-05",
       "for": "weight-end",
-      "kind": "still",
-      "purpose": "the end frame: a second election-day picture from the same search as e33-cold-01 (not the same frame)",
+      "kind": "footage",
+      "purpose": "the end frame: a second election-day picture from the same search as e33-cold-01 (not the same frame) (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "the count or the ballots",
       "ladder": [
         {
@@ -2836,8 +2876,8 @@
     {
       "id": "e33-margin1-pic",
       "for": "margins-1",
-      "kind": "still",
-      "purpose": "Troy Jackson Defeats Susan Collins in Maine Senate Race",
+      "kind": "footage",
+      "purpose": "Troy Jackson Defeats Susan Collins in Maine Senate Race (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "the place",
       "ladder": [
         {
@@ -2888,8 +2928,8 @@
     {
       "id": "e33-margin2-pic",
       "for": "margins-2",
-      "kind": "still",
-      "purpose": "Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+      "kind": "footage",
+      "purpose": "Federal Judge Orders Trump Administration to Stop Threatening State Officials (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "the place",
       "ladder": [
         {
@@ -2929,8 +2969,8 @@
     {
       "id": "e33-margin3-pic",
       "for": "margins-3",
-      "kind": "still",
-      "purpose": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+      "kind": "footage",
+      "purpose": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "must_show": "the place",
       "ladder": [
         {
@@ -3379,17 +3419,17 @@
     }
   ],
   "asset_request_tally": {
-    "requests": 59,
+    "requests": 61,
     "by_first_tier": {
       "1": 11,
-      "2": 11,
+      "2": 13,
       "3": 10,
       "4": 8,
       "5": 13
     },
     "searches_by_tier": {
       "1": 11,
-      "2": 20,
+      "2": 22,
       "3": 24,
       "4": 16,
       "5": 15

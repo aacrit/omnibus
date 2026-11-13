@@ -87,6 +87,9 @@ export const FEDERAL_HOSTS = [
   "cdc.gov",
   "centcom.mil",
   "defense.gov",
+  // The Pentagon's own host since the Department of War name (S4, DECISIONS 2026-11-13); State's own pages.
+  "war.gov",
+  "state.gov",
   "archives.gov",
   "trumanlibrary.gov",
   "eisenhowerlibrary.gov",

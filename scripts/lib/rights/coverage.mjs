@@ -104,7 +104,9 @@ export function buildCoverage({ assets, ledger, durations = {}, mediaDir }) {
   if (!fits.length) out.push("No item records a fit yet.");
   for (const i of fits) {
     const span = Number.isFinite(i.fit.in_s) && Number.isFinite(i.fit.out_s) ? `${i.fit.in_s.toFixed(1)} to ${i.fit.out_s.toFixed(1)} s` : "whole item";
-    out.push(`- **${cell(i.request_id)}** (${cell(i.fit.beat)}), ${span}; published ${cell(i.published_at ?? "-")}${i.fit.horizon ? `, horizon ${cell(i.fit.horizon)}` : ""}: ${cell(clipped(i.fit.why, 400))}`);
+    // A dot label the shot must carry (ruling A's FILMED/PUBLISHED line, or a sourcing pass's).
+    const dot = i.dot_label?.text ? `; dot label "${cell(i.dot_label.text)}"${i.published_by_edition ? " (picture_published_by_edition)" : ""}` : "";
+    out.push(`- **${cell(i.request_id)}** (${cell(i.fit.beat)}), ${span}; published ${cell(i.published_at ?? "-")}${i.fit.horizon ? `, horizon ${cell(i.fit.horizon)}` : ""}${dot}: ${cell(clipped(i.fit.why, 400))}`);
   }
   out.push("", "## Why each drop", "");
   for (const d of ledger.dropped ?? []) {

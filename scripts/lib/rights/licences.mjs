@@ -9,6 +9,8 @@
 // "EU free reuse with mandatory credit" is added, and MIT (document's sound
 // exception) is left behind. Pure: no I/O.
 
+import { createHash } from "node:crypto";
+
 /** CC licence versions that exist (1.0 to 4.0; 2.1 only as Japanese ports). */
 export const CC_VERSIONS = ["1.0", "2.0", "2.1", "2.5", "3.0", "4.0"];
 
@@ -35,7 +37,13 @@ export const OWN_ADAPTER = "voidnews";
  * institution publishes free for news or editorial use, under terms whose
  * page is captured as the evidence, with the credit those terms require.
  * The item keeps its own terms (it is not relicensed under the episode's
- * CC BY-SA 4.0); terms that exclude our use refuse it (editorialTermsProblems).
+ * CC BY-SA 4.0).
+ *
+ * Closed (S4 review, 2026-11-13): no adapter fetches a terms page yet, so the
+ * class is off ALLOWED_IDS and every editorial-use item is refused. It reopens
+ * only with an adapter that fetches the terms page itself (its url on the
+ * fetcher's FETCH_HOSTS, the captured text hashed with a witness), and only for
+ * a terms page on REVIEWED_TERMS_PAGES (editorialTermsProblems).
  */
 export const EDITORIAL_USE = "editorial-use";
 
@@ -56,7 +64,6 @@ export const ALLOWED_IDS = new Set([
   ...SA_VERSIONS.map((v) => `cc-by-sa-${v}`),
   "eu-reuse-credit",
   OWN_PROPERTY,
-  EDITORIAL_USE,
   FAIR_USE,
 ]);
 
@@ -264,6 +271,8 @@ export const DENIED_HOSTS = [
   "washingtonpost.com", "theguardian.com", "msnbc.com", "npr.org", "pbs.org",
   // UN Web TV
   "webtv.un.org", "media.un.org",
+  // agency video, pool and syndication feeds (S4 review, 2026-11-13): C-SPAN, AP Archive, EPA, Bloomberg, Ruptly, Storyful, Xinhua, CCTV
+  "c-span.org", "aparchive.com", "epa.eu", "epaimages.com", "bloomberg.com", "ruptly.tv", "storyful.com", "xinhuanet.com", "news.cn", "cctv.com", "cntv.cn",
 ];
 
 /** The networks and outlets among DENIED_HOSTS: the only hosts a fair-use excerpt may come from. */
@@ -277,12 +286,25 @@ const OUTLET_NAME = "a news network or outlet";
 
 /** Names in a credit, author, title or description that mark agency, stock or outlet material. */
 export const DENIED_NAMES = [
-  { name: "AP", re: /\bAssociated Press\b|\bAP (Photo|Images|Video)\b|\(AP\)|©\s*AP\b|\b(photo|credit|source|image|video)[:\s]+AP\b/i },
+  { name: "AP", re: /\bAssociated Press\b|\bAP (Photo|Images|Video|Archive|Newsroom)\b|\bAPTN\b|\(AP\)|©\s*AP\b|\b(photo|credit|source|image|video)[:\s]+AP\b/i },
+  { name: "AP", creditOnly: true, re: /^\s*AP\s*$/ },
   { name: "Reuters", re: /\bReuters\b/i },
   { name: "Getty Images", re: /\bGetty\b|\biStock(photo)?\b/i },
   { name: "AFP", re: /\bAFP\b|Agence France[- ]Presse/i },
   { name: "stock library", re: /\b(Shutterstock|Alamy|Unsplash|Pexels|Pixabay)\b/i },
   { name: "UN Web TV", re: /\bUN Web TV\b|\bwebtv\.un\.org\b/i },
+  // S4 review (2026-11-13): a broadcaster's or agency's feed carried inside a federal or Commons item.
+  { name: "C-SPAN", re: /\bC-?SPAN\b|\bc-span\.org\b/i },
+  { name: "Ruptly", re: /\bRuptly\b/i },
+  { name: "Storyful", re: /\bStoryful\b/i },
+  { name: "Xinhua", re: /\bXinhua\b/i },
+  // EPA the photo agency (EPA-EFE, "EPA/", "© EPA", "Photo: EPA", a bare "EPA" credit), never the US Environmental Protection Agency spelt out.
+  { name: "EPA (European Pressphoto Agency)", re: /\bEPA[-‐ ]?EFE\b|\bEPA\s*\/|\/\s*EPA\b|©\s*EPA\b|\b(photo|credit|source|image|video)[:\s]+EPA\b|European Pressphoto Agency/i },
+  { name: "EPA (European Pressphoto Agency)", creditOnly: true, re: /^\s*EPA\s*$/i },
+  // Named as a subject (Michael Bloomberg, a CCTV camera, a swimming pool) these are not a source: credits only.
+  { name: "Bloomberg", creditOnly: true, re: /\bBloomberg\b/i },
+  { name: "CCTV", creditOnly: true, re: /\bCCTV\b|China Central Television/ },
+  { name: "a pool feed", creditOnly: true, re: /\bpool\b/i },
   {
     name: OUTLET_NAME,
     creditOnly: true,
@@ -368,6 +390,210 @@ export function deniedBy({ urls = [], texts = [], tags = [], credits = [], allow
   return [...new Set(reasons)];
 }
 
+/**
+ * On-screen marks (S4 review, 2026-11-13; second round). A picture's frames can carry another
+ * party's bug (a C-SPAN or network logo, an agency's lower third) or a call to action (a QR
+ * code, "TEXT POTUS TO 45470") that no metadata states. The record of a frame check is
+ * marks_checked: { marks: [the marks seen, [] for none], reviewed: { by, at, frames, contact_sheet,
+ * duration_s? }, mask? }:
+ * - reviewed.by names the checking role: verifier, cos or founder (MARKS_REVIEWERS), never the
+ *   builder or the sourcer who chose the item (CoS ruling (b), 2026-11-13);
+ * - reviewed.frames lists the timestamps looked at (seconds into the file), at least one in every
+ *   30 s of the aired span: the item's fit in_s..out_s, else the whole file (reviewed.duration_s);
+ * - reviewed.contact_sheet { path, sha256 } names the sheet of those frames;
+ * - for a video, reviewed.cuts { times, threshold, method } lists every cut in the file (seconds; [] for
+ *   a single shot), the scene threshold and the method that found them (ffmpeg select=gt(scene,0.3)); every shot
+ *   inside the aired span (between consecutive cuts) holds at least one of the frames (S4 review
+ *   round 3: a montage is reviewed shot by shot, not one frame per 30 s).
+ * Until a frame reader exists, a VOA item and a YouTube copy on Commons ({{From YouTube}},
+ * video2commons) need a reviewed record; any item whose marks name a denied party (C-SPAN
+ * included) is refused, and so is one whose marks carry a call to action (CTA_MARK) unless
+ * mask { covers: [those marks], region: {x, y, w, h} } records the mask (the shot is then
+ * alteration-marked, RECONSTRUCTED).
+ */
+export const MARKS_REVIEWERS = ["verifier", "cos", "founder"];
+export const MARKS_FRAME_EVERY_S = 30;
+/** Inside every shot of a video, the frames looked at are at most this far apart, the shot's edges included (rights fix 4 review: a dissolve or soft cut the detector misses is still looked at). */
+export const MARKS_SHOT_GAP_S = 2.5;
+const REVIEWER = /^\s*(verifier|cos|founder)\b/i;
+const NOT_REVIEWER = /\b(builder|sourcer|sourcing)\b/i;
+/** A call to action on screen: an engagement mechanic void never airs (values: no engagement mechanics). */
+export const CTA_MARK = /QR code|TEXT .* TO \d{4,6}|scan (the|this)|text .* to \d{4,6}/i;
+
+/**
+ * A YouTube origin named in a credit or source text ("YouTube: <title>", "<title> (on Youtube)",
+ * a youtube.com or youtu.be address): the matched words, or null.
+ */
+export function youtubeInText(texts = []) {
+  for (const t of (Array.isArray(texts) ? texts : [texts]).filter(Boolean).map(String)) {
+    const m = t.match(/https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be)\/\S*|^\s*YouTube\s*:|\(\s*on\s+YouTube\s*\)/im);
+    if (m) return m[0].trim().slice(0, 120);
+  }
+  return null;
+}
+
+/** The YouTube origin a ledger item shows: its youtube_source, else one its captured Credit, Artist or Source line or its credit names. */
+export function youtubeOrigin(item) {
+  if (item?.youtube_source) return String(item.youtube_source);
+  const lines = String(item?.licence_evidence?.captured_text ?? "").split("\n").filter((l) => /^(?:Credit|Artist|Source):/i.test(l)).map((l) => l.replace(/^[A-Za-z]+:\s*/, ""));
+  const hit = youtubeInText([...lines, item?.credit]);
+  return hit ? `credit ${hit}` : null;
+}
+
+export function needsMarksCheck(item) {
+  return item?.adapter === "voa" || (item?.kind === "footage" && Boolean(youtubeOrigin(item)));
+}
+
+/** The span the frames must cover: [in_s, out_s] from the item's fit, else [0, duration_s]; null when neither is known. */
+export function airedSpan(item, reviewed = item?.marks_checked?.reviewed) {
+  const f = item?.fit ?? {};
+  if (Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s) return [f.in_s, f.out_s];
+  const d = reviewed?.duration_s;
+  return Number.isFinite(d) && d > 0 ? [0, d] : null;
+}
+
+/** Whether the item is a moving picture (its marks review must name its cuts). */
+export function isVideo(item) {
+  return item?.kind === "footage" || /^video\//i.test(String(item?.mime ?? ""));
+}
+
+/**
+ * The shots of the aired span [a, b] that no frame falls in: the span cut at every cut inside it, each shot
+ * [from, to) holding a frame from its first frame up to the next cut (the last shot up to b, inclusive).
+ */
+export function unseenShots(frames, cuts, [a, b]) {
+  const inner = [...new Set(cuts.filter((c) => c > a + 1e-6 && c < b - 1e-6))].sort((x, y) => x - y);
+  const edges = [a, ...inner, b];
+  const out = [];
+  for (let k = 0; k < edges.length - 1; k++) {
+    const lo = edges[k];
+    const hi = edges[k + 1];
+    const last = k === edges.length - 2;
+    if (!frames.some((t) => t >= lo - 1e-6 && (last ? t <= hi + 1e-6 : t < hi - 1e-6))) out.push([+lo.toFixed(2), +hi.toFixed(2)]);
+  }
+  return out;
+}
+
+/**
+ * The stretches inside the shots of [a, b] longer than gap with no frame looked at: each shot's
+ * edges and its frames, consecutive gaps over gap (rights fix 4 review: frames at most 2.5 s apart).
+ */
+export function sparseShots(frames, cuts, [a, b], gap = MARKS_SHOT_GAP_S) {
+  const inner = [...new Set(cuts.filter((c) => c > a + 1e-6 && c < b - 1e-6))].sort((x, y) => x - y);
+  const edges = [a, ...inner, b];
+  const out = [];
+  for (let k = 0; k < edges.length - 1; k++) {
+    const lo = edges[k];
+    const hi = edges[k + 1];
+    const pts = [lo, ...frames.filter((t) => t >= lo - 1e-6 && t <= hi + 1e-6).sort((x, y) => x - y), hi];
+    for (let i = 0; i < pts.length - 1; i++) if (pts[i + 1] - pts[i] > gap + 1e-6) out.push([+pts[i].toFixed(3), +pts[i + 1].toFixed(3)]);
+  }
+  return out;
+}
+
+/** The 30 s windows of a span that no frame falls in (each window [from, to], inclusive). */
+export function uncoveredWindows(frames, [a, b], every = MARKS_FRAME_EVERY_S) {
+  const n = Math.max(1, Math.ceil((b - a) / every - 1e-9));
+  const w = (b - a) / n;
+  const out = [];
+  for (let k = 0; k < n; k++) {
+    const lo = a + k * w;
+    const hi = a + (k + 1) * w;
+    if (!frames.some((t) => t >= lo - 1e-6 && t <= hi + 1e-6)) out.push([+lo.toFixed(2), +hi.toFixed(2)]);
+  }
+  return out;
+}
+
+/** Whether a cut record's span is the aired one: [in_s, out_s] from the fit, else [0, null] (the whole file). */
+function spanMatches(rec, item, span) {
+  if (!(Array.isArray(rec) && rec.length === 2)) return false;
+  const f = item?.fit ?? {};
+  const fitted = Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s;
+  return Math.abs(rec[0] - span[0]) < 1e-6 && (fitted ? Number.isFinite(rec[1]) && Math.abs(rec[1] - span[1]) < 1e-6 : rec[1] === null || Math.abs(rec[1] - span[1]) < 1e-6);
+}
+
+/** Why a marks review cannot stand: the role, the time, the frames over the aired span, the contact sheet. */
+export function reviewProblems(r, item, where = "marks_checked.reviewed") {
+  const out = [];
+  if (!r || typeof r !== "object") return [`${where} must be { by, at, frames, contact_sheet }`];
+  const by = String(r.by ?? "");
+  if (!REVIEWER.test(by) || NOT_REVIEWER.test(by)) out.push(`${where}.by must name the checking role (${MARKS_REVIEWERS.join(", ")}), never the builder or the sourcer: "${by.slice(0, 80)}"`);
+  if (!Number.isFinite(Date.parse(String(r.at ?? "")))) out.push(`${where}.at must be an ISO date-time`);
+  const frames = r.frames;
+  if (!(Array.isArray(frames) && frames.length >= 1 && frames.every((t) => typeof t === "number" && Number.isFinite(t) && t >= 0))) {
+    out.push(`${where}.frames must list the timestamps looked at (seconds into the file, at least one)`);
+  } else {
+    const span = airedSpan(item, r);
+    if (!span) out.push(`${where}.duration_s must state the file's length: the item's fit names no in_s..out_s, so the frames cover the whole file`);
+    else {
+      const gaps = uncoveredWindows(frames, span);
+      if (gaps.length) out.push(`${where}.frames must hold one frame in every ${MARKS_FRAME_EVERY_S} s of the aired span ${span[0]}..${span[1]} s; none in ${gaps.map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}`);
+    }
+    if (isVideo(item)) {
+      const cuts = r.cuts?.times;
+      if (!(Array.isArray(cuts) && cuts.every((t) => typeof t === "number" && Number.isFinite(t) && t >= 0) && typeof r.cuts.threshold === "number" && r.cuts.threshold > 0 && r.cuts.threshold <= 1 && String(r.cuts.method ?? "").trim())) {
+        out.push(`${where}.cuts must be { times, threshold, method }: every cut in the video (seconds; [] for a single shot), the scene threshold and the method that found them (ffmpeg select=gt(scene,0.3)), so every shot of the aired span is looked at`);
+      } else if (!String(r.cuts.ffmpeg ?? "").trim()) {
+        out.push(`${where}.cuts.ffmpeg must name the ffmpeg that found the cuts in the file: the fetch step finds them itself (scripts/lib/rights/scenes.mjs), a reported cut list is never trusted (rights fix round 4)`);
+      } else if (span && !spanMatches(r.cuts.span, item, span)) {
+        out.push(`${where}.cuts.span must be the span the fetch step read, the aired ${span[0]}..${span[1]} s: ${JSON.stringify(r.cuts.span ?? null).slice(0, 60)}`);
+      } else if (span) {
+        const unseen = unseenShots(frames, cuts, span);
+        if (unseen.length) out.push(`${where}.frames must hold a frame in every shot of the aired span ${span[0]}..${span[1]} s (${cuts.length} cuts at threshold ${r.cuts.threshold}); ${unseen.length} shot(s) unseen: ${unseen.slice(0, 12).map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}${unseen.length > 12 ? ", ..." : ""}`);
+        const sparse = sparseShots(frames, cuts, span);
+        if (sparse.length) out.push(`${where}.frames must be at most ${MARKS_SHOT_GAP_S} s apart inside every shot of the aired span (its edges included), so a dissolve or soft cut is still looked at; ${sparse.length} gap(s): ${sparse.slice(0, 12).map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}${sparse.length > 12 ? ", ..." : ""}`);
+      }
+    }
+  }
+  const cs = r.contact_sheet;
+  if (!(cs && typeof cs.path === "string" && cs.path.trim() && /^[0-9a-f]{64}$/.test(String(cs.sha256 ?? "")))) out.push(`${where}.contact_sheet must be { path, sha256 } naming the sheet of those frames`);
+  // A review the fetch step found wanting (its cuts or frames against the file's own) stands for nothing until the checking role signs again.
+  if (r.resign_required !== undefined) out.push(`${where} needs a re-sign by the checking role (${MARKS_REVIEWERS.join(", ")}): ${String(r.resign_required).slice(0, 400)}`);
+  return out;
+}
+
+/**
+ * Why an item's bodies record cannot stand (GRAMMAR 1.6; CoS ruling, rights fix round 4): a file that
+ * shows bodies airs only with bodies_excluded { from_s, to_s, note } naming those seconds and a fit
+ * in_s..out_s clear of them; bodies_excluded beside anything but shows_bodies: true is refused.
+ */
+export function bodiesProblems(item) {
+  const b = item?.bodies_excluded;
+  if (item?.shows_bodies !== true) return b ? ["bodies_excluded is stated, and shows_bodies is not true"] : [];
+  if (!(b && Number.isFinite(b.from_s) && Number.isFinite(b.to_s) && b.to_s > b.from_s && String(b.note ?? "").trim())) return ["the file shows bodies and names no bodies_excluded { from_s, to_s, note }: it never airs"];
+  const f = item.fit ?? {};
+  if (!(Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s)) return [`the file shows bodies at ${b.from_s}..${b.to_s} s and its fit names no in_s..out_s that leaves them out`];
+  if (!(f.out_s <= b.from_s || f.in_s >= b.to_s)) return [`its fit ${f.in_s}..${f.out_s} s overlaps the bodies at ${b.from_s}..${b.to_s} s`];
+  return [];
+}
+
+/** The CTA marks a mask does not cover. */
+export function unmaskedCtas(marks, mask) {
+  const covers = Array.isArray(mask?.covers) ? mask.covers.map(String) : [];
+  const r = mask?.region;
+  const located = r && ["x", "y", "w", "h"].every((k) => Number.isFinite(r[k])) && r.w > 0 && r.h > 0;
+  return (marks ?? []).filter((m) => typeof m === "string" && CTA_MARK.test(m) && !(located && covers.includes(m)));
+}
+
+/** Why an item's marks_checked record is missing, malformed, or names a denied party or an unmasked call to action. */
+export function marksProblems(item, { resignPending = false } = {}) {
+  const out = [];
+  const m = item?.marks_checked;
+  if (m === undefined || m === null) {
+    if (needsMarksCheck(item)) out.push(`${item.adapter === "voa" ? "a VOA item" : `a YouTube copy (${String(youtubeOrigin(item)).slice(0, 120)})`} needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists`);
+    return out;
+  }
+  const marks = Array.isArray(m.marks) ? m.marks : null;
+  if (!marks || marks.some((x) => typeof x !== "string" || !x.trim())) out.push("marks_checked.marks must list the marks seen (strings; [] for none)");
+  // The fetch step may ledger an item whose review it marked for a re-sign (resignPending): the review's own problems
+  // then wait for the checking role, and the rights lint (never resignPending) holds the gate until it signs again.
+  if (!(resignPending && m.reviewed?.resign_required !== undefined)) out.push(...reviewProblems(m.reviewed, item));
+  // A mark is described in words ("White House logo, lower left"): only the parties it names count, not the word logo.
+  for (const reason of deniedBy({ credits: marks ?? [] }).filter((x) => x !== "a logo is never used")) out.push(`an on-screen mark names a denied party: ${reason}`);
+  for (const cta of unmaskedCtas(marks, m.mask)) out.push(`an on-screen mark is a call to action (an engagement mechanic): "${cta.slice(0, 120)}"; refused unless marks_checked.mask { covers, region } records its mask and the shot is alteration-marked`);
+  return out;
+}
+
 /** Every AI signal found in the given text fields and tags (empty when none). */
 export function aiSignals(fields, { categories = [] } = {}) {
   const found = [];
@@ -393,6 +619,11 @@ export function aiSignals(fields, { categories = [] } = {}) {
 export function licenceProblems(item) {
   const out = [];
   const id = item?.licence;
+  if (id === EDITORIAL_USE) {
+    out.push(`licence "${id}" is closed: no adapter fetches the terms page yet, and only a terms page on the reviewed list (REVIEWED_TERMS_PAGES) may admit it`);
+    out.push(...editorialTermsProblems(item.terms, String(item.credit ?? "").trim()));
+    return [...new Set(out)];
+  }
   if (!ALLOWED_IDS.has(id)) {
     const read = readLicence(id);
     out.push(
@@ -409,10 +640,6 @@ export function licenceProblems(item) {
     // Only a capture of void news's own page may claim it; the adapter is always known by the ledger and the fetcher.
     if (item.adapter !== OWN_ADAPTER) out.push(`licence "${id}" is claimed only by void news's own pages (adapter ${OWN_ADAPTER}), not by ${item.adapter ?? "an unnamed adapter"}`);
   }
-  if (id === EDITORIAL_USE) {
-    if (!String(item.basis ?? "").trim()) out.push(`licence "${id}" has no basis`);
-    out.push(...editorialTermsProblems(item.terms, credit));
-  }
   if (id === FAIR_USE && !item.fair_use) out.push(`licence "${id}" needs its fair_use record (rationale, excerpt bounds, outlet, rung)`);
   if (/^cc-by/.test(id) && !credit) out.push(`licence "${id}" requires a credit, and the item has none`);
   if (id === "eu-reuse-credit" && !EU_CREDIT.test(credit)) {
@@ -422,31 +649,35 @@ export function licenceProblems(item) {
 }
 
 /**
- * Terms wording that excludes our use (a free, online news episode): fees,
- * a licence or prior permission to obtain, or a bar on news, online or
- * broadcast use. A restriction we can honour (credit, no commercial resale,
- * no alteration of meaning) is recorded, never a refusal.
+ * The reviewed allowlist of institutional terms pages (S4 review, 2026-11-13): an
+ * editorial-use item's terms page must be on it, with the exact text that was
+ * reviewed (its sha256, whitespace-normalised). A keyword reading of terms is
+ * never enough ("Editorial use is prohibited" names editorial use). Each entry:
+ * { url, text_sha256, institution, reviewed: { by, at } }. Empty: none reviewed yet.
  */
-export const TERMS_EXCLUDE = [
-  { why: "the terms charge a fee", re: /\b(?:licen[cs]ing|service) fees?\b|\bfor a fee\b|\bfees? (?:apply|will be charged)|\bthere will be (?:service and )?licensing fees\b/i },
-  { why: "the terms require prior permission or a licence", re: /\b(?:prior|express|written) (?:written )?(?:permission|authori[sz]ation|consent)\b|\bmust (?:first )?(?:obtain|request) (?:a )?(?:licen[cs]e|permission)\b/i },
-  { why: "the terms bar news, online or broadcast use", re: /\bnot (?:be )?(?:used|permitted|available) for (?:news|editorial|online|internet|broadcast)\b|\bpersonal use only\b|\bno (?:online|internet|broadcast) use\b/i },
-];
+export const REVIEWED_TERMS_PAGES = Object.freeze([]);
+
+/** The sha256 of a terms page's text, whitespace-normalised, as the reviewed list records it. */
+export function termsTextSha(text) {
+  return createHash("sha256").update(String(text ?? "").replace(/\s+/g, " ").trim(), "utf8").digest("hex");
+}
 
 /**
  * Why an editorial-use item's terms record does not let it in: the terms page
- * must be captured (https url, quoted text), must allow news or editorial use,
- * must name the credit the item carries, must list its restrictions (an empty
- * list states there are none), and must not exclude our use.
+ * must be captured (https url, quoted text), must be a reviewed institutional
+ * terms page with exactly the reviewed text, must name the credit the item
+ * carries, and must list its restrictions (an empty list states there are none).
  */
-export function editorialTermsProblems(terms, credit = "") {
+export function editorialTermsProblems(terms, credit = "", { reviewed = REVIEWED_TERMS_PAGES } = {}) {
   const out = [];
   if (!terms || typeof terms !== "object") return ["editorial-use needs its terms record (the terms page, its text, the required credit, the restrictions)"];
   if (!/^https:\/\//.test(String(terms.url ?? ""))) out.push("the terms page address must be https");
   const text = String(terms.captured_text ?? "");
   if (!text.trim()) out.push("the terms page text is not captured");
-  else if (!/\b(?:news|editorial|current affairs|information(?:al)? purposes)\b/i.test(text)) out.push("the captured terms do not allow news or editorial use");
-  for (const { why, re } of TERMS_EXCLUDE) if (re.test(text)) out.push(`${why}: "${(text.match(re) ?? [""])[0]}"`);
+  const page = reviewed.find((r) => r.url === terms.url);
+  if (!page) out.push(`the terms page ${String(terms.url ?? "(none)").slice(0, 200)} is not on the reviewed list of institutional terms pages`);
+  else if (!page.reviewed?.by || !page.reviewed?.at) out.push(`the reviewed terms page ${page.url} names no review (by, at)`);
+  else if (text.trim() && termsTextSha(text) !== page.text_sha256) out.push(`the captured terms text differs from the reviewed text of ${page.url} (sha256 ${termsTextSha(text).slice(0, 12)}, reviewed ${String(page.text_sha256).slice(0, 12)})`);
   const req = String(terms.credit_required ?? "").trim();
   if (!req) out.push("the terms record names no required credit");
   else if (!String(credit).includes(req)) out.push(`the item's credit "${credit}" does not carry the required credit "${req}"`);

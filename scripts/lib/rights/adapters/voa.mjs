@@ -21,8 +21,23 @@ export const VOA_PAGE = /^https:\/\/www\.voanews\.com\/a\/(?:[a-z0-9-]+\/)?\d{1,
 export const TERMS_URL = "https://www.voanews.com/p/5338.html";
 export const VIDEO_HOST = "voa-video-ns.akamaized.net";
 export const PD_STATEMENT = "All text, audio and video material produced exclusively by the Voice of America is in the public domain.";
-/** Agencies and outlets whose name in a credit makes a VOA item third-party material. */
-const AGENCY = DENIED_NAMES.filter((d) => d.name !== "a news network or outlet").map((d) => d.re);
+/** Agencies whose name in a credit makes a VOA item third-party material (every denied name), and those also refused in the page's text. */
+const AGENCY = DENIED_NAMES.map((d) => d.re);
+const AGENCY_IN_TEXT = DENIED_NAMES.filter((d) => !d.creditOnly).map((d) => d.re);
+const VOA_NAME = /\b(?:VOA|Voice of America)\b/;
+const CREDIT_LABEL = /^(?:(?:photo|video|image|footage|camera|credit|credits|source|courtesy|produced by|by)s?\s*[:\-]?\s*)+/i;
+
+/**
+ * Every part of a credit that is not VOA's own: a credit is split on "/", ",", ";", "&" and "and"
+ * (S4 review, 2026-11-13: "VOA / C-SPAN" and "VOA, Ruptly" are two sources, one of them outside VOA).
+ */
+export function foreignCreditParts(credit) {
+  return String(credit ?? "")
+    .split(/\s*(?:\/|,|;|&|\band\b)\s*/i)
+    .map((p) => p.replace(CREDIT_LABEL, "").trim())
+    .filter(Boolean)
+    .filter((p) => !VOA_NAME.test(p) || AGENCY.some((re) => re.test(p)) || THIRD_PARTY_CREDIT.test(p));
+}
 
 /** The PD statement as the terms page states it, or null. */
 export function termsStatement(html) {
@@ -38,7 +53,23 @@ export function pageVideos(html) {
     const h = url.match(/_(\d{3,4})p\.mp4$/);
     out.set(url, { url, height: h ? Number(h[1]) : Infinity });
   }
-  return [...out.values()].sort((a, b) => b.height - a.height);
+  const all = [...out.values()].sort((a, b) => b.height - a.height);
+  // The page's own video is the one it declares (og:video, or JSON-LD contentUrl); a related clip's mp4 is not it (S4 review).
+  const declared = declaredVideo(html);
+  if (!declared) return all;
+  const base = (u) => u.replace(/_\d{3,4}p\.mp4$/, ".mp4");
+  const own = all.filter((v) => base(v.url) === base(declared));
+  return own.length ? own : [{ url: declared, height: Infinity }];
+}
+
+/** The mp4 the page declares as its own video: og:video (or og:video:url / secure_url), else JSON-LD contentUrl, on VOA's host. */
+export function declaredVideo(html) {
+  const s = String(html);
+  const host = "https:\\/\\/voa-video-ns\\.akamaized\\.net\\/[^\"'?]+\\.mp4";
+  const og = s.match(new RegExp(`<meta[^>]+property=["']og:video(?::url|:secure_url)?["'][^>]+content=["'](${host})`, "i")) ?? s.match(new RegExp(`<meta[^>]+content=["'](${host})[^>]+property=["']og:video(?::url|:secure_url)?["']`, "i"));
+  if (og) return decodeEntities(og[1]);
+  const ld = s.match(new RegExp(`"contentUrl"\\s*:\\s*"(${host})`));
+  return ld ? decodeEntities(ld[1].replace(/\\\//g, "/")) : null;
 }
 
 function published(html) {
@@ -55,9 +86,9 @@ export function parseVoaPage(html, { pageUrl, termsHtml, capturedAt }) {
   const credits = pageCredits(html);
   const reasons = [];
   if (!/\b(?:VOA|Voice of America)\b/.test(text)) reasons.push("the page does not name VOA");
-  const foreign = credits.filter((c) => THIRD_PARTY_CREDIT.test(c) || AGENCY.some((re) => re.test(c)) || !/\b(?:VOA|Voice of America)\b/.test(c));
+  const foreign = credits.filter((c) => THIRD_PARTY_CREDIT.test(c) || AGENCY.some((re) => re.test(c)) || foreignCreditParts(c).length > 0);
   if (foreign.length) reasons.push(`the page credits a party outside VOA: ${foreign.map((c) => clip(c, 80)).join("; ")}`);
-  const agencyInText = AGENCY.find((re) => re.test(text));
+  const agencyInText = AGENCY_IN_TEXT.find((re) => re.test(text));
   if (agencyInText) reasons.push(`the page names an agency whose material VOA only licenses: "${clip(text.match(agencyInText)[0], 60)}"`);
   const statement = termsHtml ? termsStatement(termsHtml) : null;
   if (!statement) reasons.push(`VOA's terms page (${TERMS_URL}) could not be read for its public-domain statement`);
