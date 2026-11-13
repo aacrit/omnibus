@@ -12,6 +12,12 @@
 /** CC licence versions that exist (1.0 to 4.0; 2.1 only as Japanese ports). */
 export const CC_VERSIONS = ["1.0", "2.0", "2.1", "2.5", "3.0", "4.0"];
 
+/**
+ * BY-SA versions an adaptation may be shared from under the episode's CC BY-SA 4.0. BY-SA 1.0 has no
+ * "later version" clause, so a 1.0 work cannot go into a 4.0 episode: refused (E9i review, 2026-11-13).
+ */
+export const SA_VERSIONS = CC_VERSIONS.filter((v) => v !== "1.0");
+
 /** The three public-domain bases the bible allows. */
 export const PD_BASES = ["pd-us-federal", "pd-age", "pd-dedication"];
 
@@ -29,7 +35,7 @@ export const ALLOWED_IDS = new Set([
   ...PD_BASES,
   "cc0-1.0",
   ...CC_VERSIONS.map((v) => `cc-by-${v}`),
-  ...CC_VERSIONS.map((v) => `cc-by-sa-${v}`),
+  ...SA_VERSIONS.map((v) => `cc-by-sa-${v}`),
   "eu-reuse-credit",
   OWN_PROPERTY,
 ]);
@@ -98,7 +104,7 @@ export function readLicence(raw) {
   const version = vm ? vm[1] : null;
   const port = url?.[3] ?? low.match(/\d\.\d[- ]([a-z]{2,3})\b/)?.[1] ?? null;
   const allowedKind = kind === "by" || kind === "by-sa";
-  const id = allowedKind && version && CC_VERSIONS.includes(version) ? `cc-${kind}-${version}` : null;
+  const id = allowedKind && version && (kind === "by-sa" ? SA_VERSIONS : CC_VERSIONS).includes(version) ? `cc-${kind}-${version}` : null;
   return { family: "cc", kind, version, port, id, raw: s };
 }
 

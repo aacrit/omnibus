@@ -26,13 +26,19 @@ describe("licence allowlist (bible section f)", () => {
     }
   });
 
-  it("passes CC BY and BY-SA 1.0 to 4.0, including ports", () => {
+  it("passes CC BY 1.0 to 4.0 and BY-SA 2.0 to 4.0, including ports", () => {
     for (const v of ["1.0", "2.0", "2.5", "3.0", "4.0"]) {
       expect(ok(`CC BY ${v}`)).toBe(true);
-      expect(ok(`CC BY-SA ${v}`)).toBe(true);
+      if (v !== "1.0") expect(ok(`CC BY-SA ${v}`)).toBe(true);
     }
     expect(readLicence("CC BY 3.0 US")).toMatchObject({ id: "cc-by-3.0", port: "us" });
     expect(readLicence("CC BY 2.1 jp").id).toBe("cc-by-2.1");
+  });
+
+  it("refuses CC BY-SA 1.0: it has no later-version clause, so it cannot go into a CC BY-SA 4.0 episode", () => {
+    expect(ok("CC BY-SA 1.0")).toBe(false);
+    expect(ALLOWED_IDS.has("cc-by-sa-1.0")).toBe(false);
+    expect(readLicence("https://creativecommons.org/licenses/by-sa/1.0/").id).toBe(null);
   });
 
   it("passes CC0 and EU reuse with its credit", () => {
