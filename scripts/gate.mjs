@@ -68,6 +68,7 @@ const STEPS = [
           "studio/tests/test_maps.py",
           "studio/tests/test_a56_map_credit.py",
           "studio/tests/test_house_tokens_match_palette.py",
+          "studio/tests/test_news_lints.py",   // E3: the news lints, pure (a pass and a fail fixture per lint)
           "-q", "-p", "no:cacheprovider",
         ],
         { cwd: repoRoot, stdio: "inherit", shell: false },
