@@ -35,3 +35,9 @@ snapshots-out/
 
 # design review screenshots go to Agentique/reports/g2, never git (rule 8)
 design/shots/
+
+# the studio engine's Python bytecode cache and pytest's own cache (rule 8)
+__pycache__/
+*.pyc
+.pytest_cache/
+
