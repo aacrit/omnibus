@@ -22,20 +22,29 @@ Three checks run before anything reaches the model:
   ``quote_sha256``): the written word is what a caption shows and what the printed record carries.
 
 Word timings: ``studio/engine/kokoro_worker.py`` reports each take's phoneme timeline when the pinned model
-exposes phoneme durations; ``narrator.words_from_timings`` groups it into one span per written word (a
-respelling is one token, so the count still matches; a number read as several spoken words, or a model that
-reports no durations, falls back to a proportional split of the line's measured length).
+exposes phoneme durations; ``narrator.words_timed`` groups it into one span per written word (a respelling is
+one token, so the count still matches) and says whether it had to fall back instead to a proportional split of
+the line's measured length (a number read as several spoken words, or a model that reports no durations at
+all): the manifest's top-level ``words_estimated`` lists every line id where that happened, so a line whose word
+timings are a guess, not a measurement, is never mistaken for one.
+
+This is the one heavy job the house allows at a time (CLAUDE.md rule 13): ``voice_episode`` takes
+``studio/engine/vision.py``'s ``HeavyLock`` around the whole voicing loop (every cast voice, not per voice), and
+refuses immediately, before anything is sent to the model, when another job already holds it.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import shutil
+import sys
 import wave
 from pathlib import Path
 
 from studio.engine import narrator as NR
+from studio.engine import vision as VIS
 from studio.news import voicing_manifest as NVO
 
 PRONUNCIATION_PATH = Path(__file__).resolve().parents[1] / "pronunciation.json"
@@ -152,16 +161,22 @@ def voice_episode(film: Path, *, out: Path | None = None, cache: Path | None = N
                   max_rss_mb: float = NR.MAX_RSS_MB, python: str | None = None, folder: Path | None = None,
                   pronunciation: dict[str, str] | None = None, runner=NR.run_worker, prober=NR.probe_runtime,
                   lock: dict | None = None, media_root: Path | None = None) -> dict:
-    """Voice every narration and reader line of ``film``'s screenplay.json, across every cast voice it names.
-    Each take's WAV is written under ``media_root`` (default ``out``, default ``<film>/audio``) and copied to
-    ``<film>/audio/<line id>.wav`` so the manifest's own path (relative to the film folder, as
+    """Voice every narration and reader line of ``film``'s screenplay.json, across every cast voice it names,
+    under the house ``HeavyLock`` (refuses at once, before anything reaches the model, when another job holds
+    it). Each take's WAV is written under ``media_root`` (default ``out``, default ``<film>/audio``) and copied
+    to ``<film>/audio/<line id>.wav`` so the manifest's own path (relative to the film folder, as
     ``voicing_manifest`` requires) resolves the same way render.py's does. Writes the manifest to
-    ``<film>/audio/voice.json`` (``voicing_manifest.PATH``, schema ``omnibus-voicing/1``).
+    ``<film>/audio/voice.json`` (``voicing_manifest.PATH``, schema ``omnibus-voicing/1``), plus two fields
+    outside what ``voicing_manifest`` validates (extra top-level keys, never a line's own): ``media``, where
+    ``media_root`` actually put the WAVs (as a ledger's own ``media`` field records its asset root, screenplay.json
+    ``ledgers.*.media``), and ``words_estimated``, the line ids whose word timings are a proportional guess
+    (``narrator.words_timed``'s fallback), not a measurement.
 
     Raises ``NR.NarratorError`` if any reader line's quote is stale, or any cast voice used fails A57
-    (``narrator.narrator_problems``); neither ever reaches the model. Returns {"manifest", "report"}: the written
-    manifest document, and a per-line report (measured length against the screenplay's planned ``dur_s``, and a
-    listen-free word-outlier flag) plus the lines flagged over 15% from plan."""
+    (``narrator.narrator_problems``); ``VIS.MissingModel`` if the lock is held; neither ever reaches the model.
+    Returns {"manifest", "report"}: the written manifest document, and a per-line report (measured length
+    against the screenplay's planned ``dur_s``, and a listen-free word-outlier flag) plus the lines flagged over
+    15% from plan."""
     film = Path(film)
     play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
     lines = NVO.voiced_lines(play)
@@ -180,46 +195,80 @@ def voice_episode(film: Path, *, out: Path | None = None, cache: Path | None = N
     lines_doc: dict[str, dict] = {}
     per_line_report: dict[str, dict] = {}
     voices_timing: dict[str, dict] = {}
-    for vid, group in groups.items():
-        voice = NVO.line_voice(play, group[0])
-        problems = NR.narrator_problems(voice, lock)
-        if problems:
-            raise NR.NarratorError(f"{vid}: " + "; ".join(problems))
-        synth_lines = [{"id": ln["id"], "text": apply_pronunciation(orig_text[ln["id"]], guide)} for ln in group]
-        res = NR.voice_lines(synth_lines, voice, cache=cache, film=film, threads=threads, max_rss_mb=max_rss_mb,
-                             python=python, folder=folder, runner=runner, prober=prober, lock=lock)
-        voices_doc[vid] = NR.identity(voice)
-        voices_timing[vid] = res["timing"]
-        for ln in group:
-            lid = ln["id"]
-            info = res["lines"][lid]
-            media_root.mkdir(parents=True, exist_ok=True)
-            media_wav = media_root / f"{lid}.wav"
-            if Path(info["wav"]) != media_wav:
-                shutil.copyfile(info["wav"], media_wav)
-            dest_dir.mkdir(parents=True, exist_ok=True)
-            dest_wav = dest_dir / f"{lid}.wav"
-            if media_wav != dest_wav:
-                shutil.copyfile(media_wav, dest_wav)
-            dur_s = wav_seconds(dest_wav)
-            synth_text = apply_pronunciation(orig_text[lid], guide)
-            timeline = [tuple(e) for e in (info.get("timeline") or [])]
-            words = NR.words_from_timings(synth_text, timeline, total_s=dur_s)
-            words = [dict(w, w=orig) for w, orig in zip(words, orig_text[lid].split())]   # the written word, not the respelling
-            lines_doc[lid] = {"voice": vid, "wav": dest_wav.relative_to(film).as_posix(),
-                              "sha256": NR.sha256_path(dest_wav), "text_sha256": NR.sha256_text(orig_text[lid]),
-                              "dur_s": round(dur_s, 3), "words": words}
-            per_line_report[lid] = dict(plan_diff(dur_s, ln.get("dur_s")), dur_s=round(dur_s, 3),
-                                        word_outliers=word_outliers(words))
+    words_estimated: list[str] = []
+    with VIS.HeavyLock(f"E7 voice episode {film.name} ({len(lines)} lines, {len(groups)} cast voices)"):
+        for vid, group in groups.items():
+            voice = NVO.line_voice(play, group[0])
+            problems = NR.narrator_problems(voice, lock)
+            if problems:
+                raise NR.NarratorError(f"{vid}: " + "; ".join(problems))
+            synth_lines = [{"id": ln["id"], "text": apply_pronunciation(orig_text[ln["id"]], guide)} for ln in group]
+            res = NR.voice_lines(synth_lines, voice, cache=cache, film=film, threads=threads, max_rss_mb=max_rss_mb,
+                                 python=python, folder=folder, runner=runner, prober=prober, lock=lock)
+            voices_doc[vid] = NR.identity(voice)
+            voices_timing[vid] = res["timing"]
+            for ln in group:
+                lid = ln["id"]
+                info = res["lines"][lid]
+                media_root.mkdir(parents=True, exist_ok=True)
+                media_wav = media_root / f"{lid}.wav"
+                if Path(info["wav"]) != media_wav:
+                    shutil.copyfile(info["wav"], media_wav)
+                dest_dir.mkdir(parents=True, exist_ok=True)
+                dest_wav = dest_dir / f"{lid}.wav"
+                if media_wav != dest_wav:
+                    shutil.copyfile(media_wav, dest_wav)
+                dur_s = wav_seconds(dest_wav)
+                synth_text = apply_pronunciation(orig_text[lid], guide)
+                timeline = [tuple(e) for e in (info.get("timeline") or [])]
+                words, estimated = NR.words_timed(synth_text, timeline, total_s=dur_s)
+                words = [dict(w, w=orig) for w, orig in zip(words, orig_text[lid].split())]  # the written word
+                if estimated:
+                    words_estimated.append(lid)
+                lines_doc[lid] = {"voice": vid, "wav": dest_wav.relative_to(film).as_posix(),
+                                  "sha256": NR.sha256_path(dest_wav), "text_sha256": NR.sha256_text(orig_text[lid]),
+                                  "dur_s": round(dur_s, 3), "words": words}
+                per_line_report[lid] = dict(plan_diff(dur_s, ln.get("dur_s")), dur_s=round(dur_s, 3),
+                                            word_outliers=word_outliers(words))
     narrator_voice_id = next((ln.get("read_by") or "v-narrator" for ln in lines if ln.get("kind") == "narration"
                               and (ln.get("read_by") or "v-narrator") in voices_doc), None)
     manifest = {"schema": NVO.SCHEMA, "identity": voices_doc.get(narrator_voice_id) or next(iter(voices_doc.values())),
-               "voices": voices_doc, "lines": lines_doc}
+               "voices": voices_doc, "lines": lines_doc, "media": media_root.as_posix(),
+               "words_estimated": sorted(words_estimated)}
     (film / NVO.PATH).parent.mkdir(parents=True, exist_ok=True)
     (film / NVO.PATH).write_text(json.dumps(manifest, indent=1), encoding="utf-8")
     flagged = [lid for lid, r in per_line_report.items() if r["over_15pct"]]
+    short = [lid for lid in flagged if (per_line_report[lid]["diff_pct"] or 0) < 0]
     total_s = sum(r["dur_s"] for r in per_line_report.values())
     plan_s = sum(r["plan_dur_s"] for r in per_line_report.values() if r["plan_dur_s"] is not None)
     return {"manifest": manifest, "manifest_path": str(film / NVO.PATH), "lines": per_line_report,
-           "flagged_over_15pct": flagged, "total_voiced_s": round(total_s, 2), "total_plan_s": round(plan_s, 2),
-           "voices_timing": voices_timing}
+           "flagged_over_15pct": flagged, "flagged_short": short, "flagged_long": [l for l in flagged if l not in short],
+           "total_voiced_s": round(total_s, 2), "total_plan_s": round(plan_s, 2),
+           "words_estimated_count": len(words_estimated), "voices_timing": voices_timing}
+
+
+# --------------------------------------------------------------------------
+# The command line
+# --------------------------------------------------------------------------
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(prog="python -m studio.news.voice_episode", description=__doc__.split("\n\n")[0])
+    ap.add_argument("film")
+    ap.add_argument("--media-root")
+    ap.add_argument("--cache")
+    ap.add_argument("--threads", type=int, default=NR.THREADS)
+    ap.add_argument("--max-rss-mb", type=float, default=NR.MAX_RSS_MB)
+    a = ap.parse_args(argv)
+    try:
+        res = voice_episode(Path(a.film), media_root=Path(a.media_root) if a.media_root else None,
+                            cache=Path(a.cache) if a.cache else None, threads=a.threads, max_rss_mb=a.max_rss_mb)
+    except (NR.NarratorError, VIS.MissingModel) as e:
+        print(f"voice_episode: {e}", file=sys.stderr)
+        return 2
+    print(json.dumps({k: res[k] for k in ("total_voiced_s", "total_plan_s", "flagged_short", "flagged_long",
+                                          "words_estimated_count", "manifest_path")}, indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

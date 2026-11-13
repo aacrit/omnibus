@@ -313,21 +313,8 @@ def cache_dir(film: Path | None = None) -> Path:
     return Path(film) / "cache" / "voice"
 
 
-def words_from_timings(text: str, timings: list[tuple[str, float, float]], *, total_s: float | None = None) -> list[dict]:
-    """[{"w", "start_s", "end_s"}] for each of ``text``'s whitespace-split words, from a phoneme timeline
-    (character, start seconds, end seconds, in the model's own vocabulary, which includes a space character
-    between words) such as kokoro_worker.py reports (empty when the pinned model exposes no phoneme durations).
-
-    A run of non-space entries is one spoken word; when the timeline has exactly as many runs as ``text`` has
-    written words, each is paired with the written word at its position in order (so a word timing always names
-    the word as written, never a respelling fed to the model: E7's lexicon substitutes before this is called, and
-    only into a one-token respelling, so the count still matches). When it does not (a number read as several
-    spoken words, a model that reports no durations at all), every written word instead gets a share of the
-    line's span proportional to its character length, so the list is still in order and inside the line
-    (``total_s``, the take's measured length, bounds the span when the timeline itself is empty)."""
-    words = text.split()
-    if not words:
-        return []
+def _phoneme_runs(timings: list[tuple[str, float, float]]) -> list[list[tuple[str, float, float]]]:
+    """``timings`` split at its space entries: a run of non-space entries is one spoken word, in order."""
     runs: list[list[tuple[str, float, float]]] = []
     cur: list[tuple[str, float, float]] = []
     for ch, a, b in timings:
@@ -339,6 +326,26 @@ def words_from_timings(text: str, timings: list[tuple[str, float, float]], *, to
         cur.append((ch, float(a), float(b)))
     if cur:
         runs.append(cur)
+    return runs
+
+
+def words_from_timings(text: str, timings: list[tuple[str, float, float]], *, total_s: float | None = None) -> list[dict]:
+    """[{"w", "start_s", "end_s"}] for each of ``text``'s whitespace-split words, from a phoneme timeline
+    (character, start seconds, end seconds, in the model's own vocabulary, which includes a space character
+    between words) such as kokoro_worker.py reports (empty when the pinned model exposes no phoneme durations).
+
+    A run of non-space entries is one spoken word (``_phoneme_runs``); when the timeline has exactly as many runs
+    as ``text`` has written words, each is paired with the written word at its position in order (so a word
+    timing always names the word as written, never a respelling fed to the model: E7's pronunciation guide
+    substitutes before this is called, and only into a one-token respelling, so the count still matches). When
+    it does not (a number read as several spoken words, a model that reports no durations at all), every written
+    word instead gets a share of the line's span proportional to its character length, so the list is still in
+    order and inside the line (``total_s``, the take's measured length, bounds the span when the timeline itself
+    is empty). ``words_timed`` also reports which of the two this was."""
+    words = text.split()
+    if not words:
+        return []
+    runs = _phoneme_runs(timings)
     if runs and len(runs) == len(words):
         return [{"w": w, "start_s": round(r[0][1], 3), "end_s": round(r[-1][2], 3)} for w, r in zip(words, runs)]
     span_start = float(timings[0][1]) if timings else 0.0
@@ -350,6 +357,14 @@ def words_from_timings(text: str, timings: list[tuple[str, float, float]], *, to
         out.append({"w": w, "start_s": round(t, 3), "end_s": round(t + share, 3)})
         t += share
     return out
+
+
+def words_timed(text: str, timings: list[tuple[str, float, float]], *, total_s: float | None = None) -> tuple[list[dict], bool]:
+    """``words_from_timings``, plus whether it had to fall back to the proportional estimate (True) rather than
+    pairing the model's own per-word runs one for one with the written text (False)."""
+    words = text.split()
+    estimated = not (words and len(_phoneme_runs(timings)) == len(words))
+    return words_from_timings(text, timings, total_s=total_s), estimated
 
 
 def run_worker(jobs: list[dict], files: dict[str, Path], out: Path, *, threads: int, max_rss_mb: float,

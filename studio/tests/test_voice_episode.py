@@ -13,6 +13,7 @@ import wave
 import pytest
 
 from studio.engine import narrator as NR
+from studio.engine import vision as VIS
 from studio.news import voice_episode as VE
 from studio.news import voicing_manifest as NVO
 
@@ -155,7 +156,8 @@ def _stub_runner(seconds_per_job=1.0):
     return runner
 
 
-def test_voice_episode_writes_every_voiced_line_and_the_manifest(tmp_path):
+def test_voice_episode_writes_every_voiced_line_and_the_manifest(tmp_path, monkeypatch):
+    monkeypatch.setenv("DOCUMENT_HEAVY_LOCK", str(tmp_path / "HEAVY.lock"))
     film = tmp_path / "film"
     film.mkdir()
     (film / "screenplay.json").write_text(json.dumps(play_with()), encoding="utf-8")
@@ -167,6 +169,7 @@ def test_voice_episode_writes_every_voiced_line_and_the_manifest(tmp_path):
     assert man == res["manifest"] and man["schema"] == "omnibus-voicing/1"
     assert set(man["voices"]) == {"v-narrator", "v-reader-x"}
     assert man["identity"] == NR.identity(AOEDE)
+    assert man["media"] == media.as_posix()                                # the ledgers' own "media" convention
     n1, r1 = man["lines"]["N1"], man["lines"]["R1"]
     assert n1["voice"] == "v-narrator" and r1["voice"] == "v-reader-x"
     assert n1["wav"] == "audio/N1.wav" and (film / n1["wav"]).exists() and (media / "N1.wav").exists()
@@ -175,6 +178,24 @@ def test_voice_episode_writes_every_voiced_line_and_the_manifest(tmp_path):
     assert NVO.problems(man, play_with(), exists=lambda rel: (film / rel).exists(),
                         read_sha=lambda rel: NR.sha256_path(film / rel), text_sha=NR.sha256_text) == []
     assert res["lines"]["N1"]["plan_dur_s"] == 2.0 and res["total_voiced_s"] == pytest.approx(4.0, abs=0.01)
+    assert not (tmp_path / "HEAVY.lock").exists()                           # released once the loop is done
+    assert "words_estimated" in man and res["words_estimated_count"] == len(man["words_estimated"])
+
+
+def test_voice_episode_refuses_when_another_job_holds_the_lock(tmp_path, monkeypatch):
+    lock_path = tmp_path / "HEAVY.lock"
+    monkeypatch.setenv("DOCUMENT_HEAVY_LOCK", str(lock_path))
+    lock_path.write_text(json.dumps({"group": "other", "job": "a render", "pid": -1}), encoding="utf-8")
+    film = tmp_path / "film"
+    film.mkdir()
+    (film / "screenplay.json").write_text(json.dumps(play_with()), encoding="utf-8")
+
+    def never(*a, **k):
+        raise AssertionError("the model ran while another job held HEAVY.lock")
+
+    with pytest.raises(VIS.MissingModel, match="HEAVY.lock is held"):
+        VE.voice_episode(film, media_root=tmp_path / "media", cache=tmp_path / "cache", runner=never, prober=probe)
+    assert lock_path.read_text(encoding="utf-8") == json.dumps({"group": "other", "job": "a render", "pid": -1})
 
 
 def test_voice_episode_refuses_a_stale_quote_before_the_model_runs(tmp_path):
@@ -189,7 +210,8 @@ def test_voice_episode_refuses_a_stale_quote_before_the_model_runs(tmp_path):
         VE.voice_episode(film, media_root=tmp_path / "media", cache=tmp_path / "cache", runner=never, prober=probe)
 
 
-def test_voice_episode_pronunciation_changes_the_sound_not_the_hash(tmp_path):
+def test_voice_episode_pronunciation_changes_the_sound_not_the_hash(tmp_path, monkeypatch):
+    monkeypatch.setenv("DOCUMENT_HEAVY_LOCK", str(tmp_path / "HEAVY.lock"))
     film = tmp_path / "film"
     film.mkdir()
     play = play_with(narration_text="Massie spoke.")

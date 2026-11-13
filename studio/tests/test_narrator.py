@@ -501,3 +501,14 @@ def test_voice_lines_timeline_is_none_when_the_worker_reports_none(tmp_path):
     res = NR.voice_lines([{"id": "N1", "text": "x"}], cache=tmp_path / "c", runner=runner, folder=folder, lock=lock,
                          prober=probe)
     assert res["lines"]["N1"]["timeline"] is None
+
+
+def test_words_timed_reports_whether_it_had_to_estimate():
+    timeline = [("g", 0.0, 0.1), ("o", 0.1, 0.2), (" ", 0.2, 0.2), ("h", 0.2, 0.3), ("o", 0.3, 0.4),
+               ("m", 0.4, 0.5), ("e", 0.5, 0.7)]
+    words, estimated = NR.words_timed("Go home.", timeline)
+    assert words == NR.words_from_timings("Go home.", timeline) and estimated is False
+    words, estimated = NR.words_timed("1951", timeline)                 # one written word, two spoken runs
+    assert estimated is True and words == NR.words_from_timings("1951", timeline)
+    _, estimated = NR.words_timed("x", [])
+    assert estimated is True
