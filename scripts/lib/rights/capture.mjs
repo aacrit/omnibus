@@ -50,12 +50,12 @@ export async function runCapture({ root, issue, mediaDir, voidnewsDir, python = 
     const url = p.ref.split("#")[0];
     const shot = full.get(url);
     const refuse = (why) => (captures.push({ ref: p.ref, request_id: p.request_id, refused: why }), log(`${p.request_id}: refused: ${why}`));
+    // A stale still from an earlier run never survives a refusal, whatever the refusal.
+    rmSync(path.join(issueMedia, `${p.request_id}.png`), { force: true });
     if (!shot || shot.status !== 200) {
       refuse(`${url} answered ${shot?.status ?? "nothing"}`);
       continue;
     }
-    // A stale still from an earlier run never survives a refusal.
-    rmSync(path.join(issueMedia, `${p.request_id}.png`), { force: true });
     // The edition from the record the page was built from; the next edition from void news's later record.
     const ed = editionOf(archiveAt(p.data_commit), p.edition, archiveAt(laterCommit));
     if (!ed) {
