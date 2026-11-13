@@ -441,28 +441,18 @@
             ],
             "reviewed": {
               "by": "verifier: claude-sonnet-5",
-              "at": "2026-11-13T19:34:09Z",
+              "at": "2026-11-14T00:05:00Z",
               "frames": [
-                2.95,
+                1.517,
+                4.467,
                 7.2,
                 9.967,
                 12.967,
-                41.6,
-                45.35
+                14.4
               ],
-              "cuts": {
-                "times": [
-                  5.9,
-                  8.5,
-                  11.433,
-                  44.9
-                ],
-                "threshold": 0.3,
-                "method": "ffmpeg select=gt(scene,0.3)"
-              },
               "contact_sheet": {
-                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-shots.png",
-                "sha256": "4f1bea3ce1f8dba1572540445bef478252f1b022ed28f95cbf41f76369e96dba"
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-resign/e33-day2-pic-resign-contact-sheet.png",
+                "sha256": "95ef0921330a838e36a4bb479c97b6414730f4978478a5917b2cafbef725180c"
               },
               "duration_s": 67.868
             }
