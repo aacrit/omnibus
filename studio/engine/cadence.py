@@ -1,4 +1,6 @@
-# Transplanted from document@b62c4fa:studio/engine/cadence.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/cadence.py (tweak: a show's masters, E3; see
+# docs/TRANSPLANT-document-engine.md. parse_rate, native_master, majority and resolve take ``masters``, defaulting to
+# document's own (24, 30000/1001) so every document film behaves exactly as before; omnibus's profile adds 30/1.)
 """GRAMMAR A44, the master frame rate per film (cinematography ticket #6; founder ruling 1 (c), 2026-10-17:
 "Per film, the native rate of the majority of clip runtime. Real World masters at 30000/1001.").
 
@@ -20,8 +22,10 @@ HOUSE = Fraction(24)                    # film-era stories and every film with n
 NTSC = Fraction(30000, 1001)            # video: 29.97 frames a second
 FILM = Fraction(24000, 1001)            # film under 3:2 pulldown, after inverse telecine (23.976)
 MASTERS = (HOUSE, NTSC)
-NAMES = {HOUSE: "24", NTSC: "30000/1001"}
-ALIASES = {"24": HOUSE, "24/1": HOUSE, "30000/1001": NTSC, "29.97": NTSC}
+BROADCAST = Fraction(30)                # tweak (E3): 30/1, allowed only by a show profile that lists it (omnibus)
+ALL_MASTERS = (HOUSE, NTSC, BROADCAST)
+NAMES = {HOUSE: "24", NTSC: "30000/1001", BROADCAST: "30"}
+ALIASES = {"24": HOUSE, "24/1": HOUSE, "30000/1001": NTSC, "29.97": NTSC, "30": BROADCAST, "30/1": BROADCAST}
 FAMILY_TOL = 0.002                      # a clip within 0.2% of a master's rate (23.976 for 24, 30 for 29.97) counts for it
 SAME_TOL = 0.01                         # frames a second: a clip this close to the master plays 1:1 (render.conform_plan)
 
@@ -30,21 +34,42 @@ class RateError(ValueError):
     pass
 
 
-def parse_rate(v) -> Fraction:
-    """A stated master rate as an exact rational: 24, "24", 24.0, "30000/1001", "29.97" or 29.97. Anything else
-    (another rate, a bool, a malformed string) raises RateError naming what is allowed."""
+def _masters(masters) -> tuple[Fraction, ...]:
+    """Masters given as rationals or as their names ("24", "30000/1001", "30"), in order."""
+    out = []
+    for m in masters:
+        r = ALIASES.get(m.strip()) if isinstance(m, str) else Fraction(m)
+        if r is None or r not in ALL_MASTERS:
+            raise RateError(f"unknown master rate {m!r}")
+        out.append(r)
+    return tuple(out)
+
+
+def parse_rate(v, masters=MASTERS) -> Fraction:
+    """A stated master rate as an exact rational: 24, "24", 24.0, "30000/1001", "29.97" or 29.97, and 30, "30" or
+    "30/1" where ``masters`` includes 30/1 (a show profile's, E3). Anything else (another rate, a bool, a malformed
+    string) raises RateError naming what is allowed."""
+    ms = _masters(masters)
+    if ms == MASTERS:                    # document's own wording, unchanged
+        num, word = "24 or 30000/1001", "24 or 30000/1001 (\"24\", \"30000/1001\" or \"29.97\")"
+    else:
+        names = [NAMES[m] for m in ms]
+        num = ", ".join(names[:-1]) + " or " + names[-1]
+        word = num
     if isinstance(v, bool) or v is None:
-        raise RateError(f"master_fps must be 24 or 30000/1001, not {v!r}")
+        raise RateError(f"master_fps must be {num}, not {v!r}")
     if isinstance(v, (int, float)):
         if math.isfinite(float(v)):
-            if float(v) == 24.0:
+            if float(v) == 24.0 and HOUSE in ms:
                 return HOUSE
-            if abs(float(v) - 29.97) < 1e-9:
+            if abs(float(v) - 29.97) < 1e-9 and NTSC in ms:
                 return NTSC
-        raise RateError(f"master_fps must be 24 or 30000/1001, not {v!r}")
-    if isinstance(v, str) and v.strip() in ALIASES:
+            if float(v) == 30.0 and BROADCAST in ms:
+                return BROADCAST
+        raise RateError(f"master_fps must be {num}, not {v!r}")
+    if isinstance(v, str) and v.strip() in ALIASES and ALIASES[v.strip()] in ms:
         return ALIASES[v.strip()]
-    raise RateError(f"master_fps must be 24 or 30000/1001 (\"24\", \"30000/1001\" or \"29.97\"), not {v!r}")
+    raise RateError(f"master_fps must be {word}, not {v!r}")
 
 
 def rate_str(r: Fraction) -> str:
@@ -70,43 +95,44 @@ def timescale(r: Fraction) -> int:
     return r.numerator * 1000 if r.denominator == 1 else r.numerator
 
 
-def native_master(rate: Fraction | float | None, telecined=None) -> Fraction | None:
+def native_master(rate: Fraction | float | None, telecined=None, masters=MASTERS) -> Fraction | None:
     """The master a clip plays 1:1 (or nearly: within FAMILY_TOL) against: telecined video is film under 3:2
-    pulldown, restored to 24 by inverse telecine; else the master within 0.2% of its rate; else None (10, 25, 59.94
-    fps: no master plays it 1:1, and it does not count toward the majority)."""
+    pulldown, restored to 24 by inverse telecine; else the nearest of ``masters`` within 0.2% of its rate; else None
+    (10, 25, 59.94 fps: no master plays it 1:1, and it does not count toward the majority)."""
     if telecined is True:
         return HOUSE
     if rate is None or float(rate) <= 0:
         return None
-    for m in MASTERS:
-        if abs(float(rate) - float(m)) <= FAMILY_TOL * float(m):
-            return m
-    return None
+    near = [m for m in _masters(masters) if abs(float(rate) - float(m)) <= FAMILY_TOL * float(m)]
+    return min(near, key=lambda m: abs(float(rate) - float(m))) if near else None
 
 
-def majority(clips: list[dict]) -> tuple[Fraction, dict]:
+def majority(clips: list[dict], masters=MASTERS) -> tuple[Fraction, dict]:
     """The master rate by the majority of clip runtime: ``clips`` are {rate, runtime_s, telecined?}. Each clip's
     runtime counts for the master it plays 1:1 against (native_master); the larger total wins, a tie goes to 24 (the
     house rate), and a film with no clip that counts masters at 24. Returns (rate, tally in seconds by rate name)."""
-    tally = {m: 0.0 for m in MASTERS}
+    ms = _masters(masters)
+    tally = {m: 0.0 for m in ms}
     for c in clips:
-        m = native_master(c.get("rate"), c.get("telecined"))
+        m = native_master(c.get("rate"), c.get("telecined"), ms)
         if m is not None:
-            tally[m] += max(0.0, float(c.get("runtime_s") or 0.0))
-    best = max(tally.values())
-    rate = NTSC if best > 0 and tally[NTSC] > tally[HOUSE] + 1e-9 else HOUSE
+            tally[m] = tally.get(m, 0.0) + max(0.0, float(c.get("runtime_s") or 0.0))
+    rate = HOUSE
+    for m in ms:                         # with document's two masters: 30000/1001 only when it strictly leads 24
+        if m != HOUSE and tally[m] > tally.get(rate, 0.0) + 1e-9:
+            rate = m
     return rate, {NAMES[m]: round(v, 3) for m, v in tally.items()}
 
 
-def resolve(declared, clips: list[dict]) -> dict:
+def resolve(declared, clips: list[dict], masters=MASTERS) -> dict:
     """The film's master rate: the declared ``settings.master_fps`` when it parses, else the majority rule.
     {rate, name, fps (float), from: "settings" | "majority" | "house", tally, problem}."""
-    rate, tally = majority(clips)
+    rate, tally = majority(clips, masters)
     how = "majority" if any(v > 0 for v in tally.values()) else "house"
     problem = None
     if declared is not None:
         try:
-            rate, how = parse_rate(declared), "settings"
+            rate, how = parse_rate(declared, masters), "settings"
         except RateError as e:
             problem = str(e)
     return {"rate": rate, "name": rate_str(rate), "fps": float(rate), "from": how, "tally": tally, "problem": problem}

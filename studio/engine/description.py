@@ -1,4 +1,6 @@
-# Transplanted from document@b62c4fa:studio/engine/description.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/description.py (tweak: the sources and corrections links and
+# the CARD legend's brand come from sources.json's ``show`` record when it has one (E3, studio/news/profile.py);
+# a sources.json without one is document's and reads exactly as before; see docs/TRANSPLANT-document-engine.md)
 """A56: the per-film description block, generated from the film's sources.json.
 
 The picture carries only the dot (A42); every disclosure it no longer shows (the
@@ -124,7 +126,7 @@ def names_mit(text) -> bool:
     return bool(MIT.match(_s(text)))
 
 
-_STUDIO_ONLY = re.compile(r"(?i)^void document(?: studio)?\.?$")
+_STUDIO_ONLY = re.compile(r"(?i)^void (?:document|omnibus)(?: studio)?\.?$")   # E3: either show's own name
 
 
 def names_studio_only(text) -> bool:
@@ -380,6 +382,19 @@ def sources_page(slug: str, site: str = SITE) -> str:
     return f"{site}/f/{slug}/sources/"
 
 
+def show_of(src: dict) -> dict | None:
+    """E3: the show record sources.json carries (studio/news/profile.record), or None for a document film's."""
+    show = src.get("show")
+    return show if isinstance(show, dict) and show.get("sources_page") and show.get("correct_page") else None
+
+
+def marks_legend(show: dict | None) -> tuple:
+    """MARKS, with the CARD line naming the show's own wordmark (E3); document's when there is no show record."""
+    if not show or not show.get("wordmark"):
+        return MARKS
+    return tuple((c, line.replace("void document", _s(show["wordmark"])) if c == "CARD" else line) for c, line in MARKS)
+
+
 INCOMPLETE = ("This description is incomplete: what does not fit here is left out. Full credits and notes for every "
               "shot are on the film's sources page: {url}")
 
@@ -409,18 +424,19 @@ def compose(src: dict, film: dict | None = None, *, site: str = SITE) -> dict:
     slug = _s(film.get("slug") or src.get("slug"))     # the page films.json lists; else the render's own slug
     title = _s(film.get("title") or src.get("title"))
     head = title + (f" ({_s(film['dates'])})" if film.get("dates") else "")
-    page = sources_page(slug, site)
+    show = show_of(src)
+    page = _s(show["sources_page"]) if show else sources_page(slug, site)
     top = [head]
     if film.get("logline"):
         lg = _s(film["logline"])
         top.append(lg[:1].upper() + lg[1:] + ("" if lg.endswith(".") else "."))
-    marks = ["The mark in the corner says what you see."] + [line for _, line in MARKS]
+    marks = ["The mark in the corner says what you see."] + [line for _, line in marks_legend(show)]
     voices = [x for x in [n["narrator"],
                           ("Read by computer voices: " + "; ".join(n["readers"]) + ".") if n["readers"] else None,
                           ("Original recordings: " + "; ".join(n["originals"]) + ".") if n["originals"] else None] if x]
     gap_lines = [g["says"] + (f" {g['searched']}" if g["searched"] else "") for g in n["gaps"]] + n["statements"]
     link = SOURCES_LINE.format(url=page)
-    correct = "Correct something: " + f"{site}/f/{slug}/correct/"
+    correct = "Correct something: " + (_s(show["correct_page"]) if show else f"{site}/f/{slug}/correct/")
     entries = n["source_entries"]
     st = {"header": False, "cut": dict.fromkeys(("gaps", "map_notes", "unnamed", "voices", "marks"), 0), "top": top}
 
