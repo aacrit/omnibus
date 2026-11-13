@@ -391,33 +391,119 @@ export function deniedBy({ urls = [], texts = [], tags = [], credits = [], allow
 }
 
 /**
- * On-screen marks (S4 review, 2026-11-13). A picture's frames can carry another party's bug
- * (a C-SPAN or network logo, an agency's lower third) that no metadata states. The record of
- * a frame check is marks_checked: { marks: [the marks seen, [] for none], reviewed: { by, at,
- * frames_checked } }. Until a frame reader exists, a VOA item and a YouTube copy on Commons
- * ({{From YouTube}}, video2commons) need a reviewed record; any item whose marks name a denied
- * party (C-SPAN included) is refused.
+ * On-screen marks (S4 review, 2026-11-13; second round). A picture's frames can carry another
+ * party's bug (a C-SPAN or network logo, an agency's lower third) or a call to action (a QR
+ * code, "TEXT POTUS TO 45470") that no metadata states. The record of a frame check is
+ * marks_checked: { marks: [the marks seen, [] for none], reviewed: { by, at, frames, contact_sheet,
+ * duration_s? }, mask? }:
+ * - reviewed.by names the checking role: verifier, cos or founder (MARKS_REVIEWERS), never the
+ *   builder or the sourcer who chose the item (CoS ruling (b), 2026-11-13);
+ * - reviewed.frames lists the timestamps looked at (seconds into the file), at least one in every
+ *   30 s of the aired span: the item's fit in_s..out_s, else the whole file (reviewed.duration_s);
+ * - reviewed.contact_sheet { path, sha256 } names the sheet of those frames.
+ * Until a frame reader exists, a VOA item and a YouTube copy on Commons ({{From YouTube}},
+ * video2commons) need a reviewed record; any item whose marks name a denied party (C-SPAN
+ * included) is refused, and so is one whose marks carry a call to action (CTA_MARK) unless
+ * mask { covers: [those marks], region: {x, y, w, h} } records the mask (the shot is then
+ * alteration-marked, RECONSTRUCTED).
  */
-export function needsMarksCheck(item) {
-  return item?.adapter === "voa" || (item?.kind === "footage" && Boolean(item?.youtube_source));
+export const MARKS_REVIEWERS = ["verifier", "cos", "founder"];
+export const MARKS_FRAME_EVERY_S = 30;
+const REVIEWER = /^\s*(verifier|cos|founder)\b/i;
+const NOT_REVIEWER = /\b(builder|sourcer|sourcing)\b/i;
+/** A call to action on screen: an engagement mechanic void never airs (values: no engagement mechanics). */
+export const CTA_MARK = /QR code|TEXT .* TO \d{4,6}|scan (the|this)|text .* to \d{4,6}/i;
+
+/**
+ * A YouTube origin named in a credit or source text ("YouTube: <title>", "<title> (on Youtube)",
+ * a youtube.com or youtu.be address): the matched words, or null.
+ */
+export function youtubeInText(texts = []) {
+  for (const t of (Array.isArray(texts) ? texts : [texts]).filter(Boolean).map(String)) {
+    const m = t.match(/https?:\/\/(?:www\.|m\.)?(?:youtube\.com|youtu\.be)\/\S*|^\s*YouTube\s*:|\(\s*on\s+YouTube\s*\)/im);
+    if (m) return m[0].trim().slice(0, 120);
+  }
+  return null;
 }
 
-/** Why an item's marks_checked record is missing, malformed, or names a denied party. */
+/** The YouTube origin a ledger item shows: its youtube_source, else one its captured Credit, Artist or Source line or its credit names. */
+export function youtubeOrigin(item) {
+  if (item?.youtube_source) return String(item.youtube_source);
+  const lines = String(item?.licence_evidence?.captured_text ?? "").split("\n").filter((l) => /^(?:Credit|Artist|Source):/i.test(l)).map((l) => l.replace(/^[A-Za-z]+:\s*/, ""));
+  const hit = youtubeInText([...lines, item?.credit]);
+  return hit ? `credit ${hit}` : null;
+}
+
+export function needsMarksCheck(item) {
+  return item?.adapter === "voa" || (item?.kind === "footage" && Boolean(youtubeOrigin(item)));
+}
+
+/** The span the frames must cover: [in_s, out_s] from the item's fit, else [0, duration_s]; null when neither is known. */
+export function airedSpan(item, reviewed = item?.marks_checked?.reviewed) {
+  const f = item?.fit ?? {};
+  if (Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s) return [f.in_s, f.out_s];
+  const d = reviewed?.duration_s;
+  return Number.isFinite(d) && d > 0 ? [0, d] : null;
+}
+
+/** The 30 s windows of a span that no frame falls in (each window [from, to], inclusive). */
+export function uncoveredWindows(frames, [a, b], every = MARKS_FRAME_EVERY_S) {
+  const n = Math.max(1, Math.ceil((b - a) / every - 1e-9));
+  const w = (b - a) / n;
+  const out = [];
+  for (let k = 0; k < n; k++) {
+    const lo = a + k * w;
+    const hi = a + (k + 1) * w;
+    if (!frames.some((t) => t >= lo - 1e-6 && t <= hi + 1e-6)) out.push([+lo.toFixed(2), +hi.toFixed(2)]);
+  }
+  return out;
+}
+
+/** Why a marks review cannot stand: the role, the time, the frames over the aired span, the contact sheet. */
+export function reviewProblems(r, item, where = "marks_checked.reviewed") {
+  const out = [];
+  if (!r || typeof r !== "object") return [`${where} must be { by, at, frames, contact_sheet }`];
+  const by = String(r.by ?? "");
+  if (!REVIEWER.test(by) || NOT_REVIEWER.test(by)) out.push(`${where}.by must name the checking role (${MARKS_REVIEWERS.join(", ")}), never the builder or the sourcer: "${by.slice(0, 80)}"`);
+  if (!Number.isFinite(Date.parse(String(r.at ?? "")))) out.push(`${where}.at must be an ISO date-time`);
+  const frames = r.frames;
+  if (!(Array.isArray(frames) && frames.length >= 1 && frames.every((t) => typeof t === "number" && Number.isFinite(t) && t >= 0))) {
+    out.push(`${where}.frames must list the timestamps looked at (seconds into the file, at least one)`);
+  } else {
+    const span = airedSpan(item, r);
+    if (!span) out.push(`${where}.duration_s must state the file's length: the item's fit names no in_s..out_s, so the frames cover the whole file`);
+    else {
+      const gaps = uncoveredWindows(frames, span);
+      if (gaps.length) out.push(`${where}.frames must hold one frame in every ${MARKS_FRAME_EVERY_S} s of the aired span ${span[0]}..${span[1]} s; none in ${gaps.map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}`);
+    }
+  }
+  const cs = r.contact_sheet;
+  if (!(cs && typeof cs.path === "string" && cs.path.trim() && /^[0-9a-f]{64}$/.test(String(cs.sha256 ?? "")))) out.push(`${where}.contact_sheet must be { path, sha256 } naming the sheet of those frames`);
+  return out;
+}
+
+/** The CTA marks a mask does not cover. */
+export function unmaskedCtas(marks, mask) {
+  const covers = Array.isArray(mask?.covers) ? mask.covers.map(String) : [];
+  const r = mask?.region;
+  const located = r && ["x", "y", "w", "h"].every((k) => Number.isFinite(r[k])) && r.w > 0 && r.h > 0;
+  return (marks ?? []).filter((m) => typeof m === "string" && CTA_MARK.test(m) && !(located && covers.includes(m)));
+}
+
+/** Why an item's marks_checked record is missing, malformed, or names a denied party or an unmasked call to action. */
 export function marksProblems(item) {
   const out = [];
   const m = item?.marks_checked;
   if (m === undefined || m === null) {
-    if (needsMarksCheck(item)) out.push(`${item.adapter === "voa" ? "a VOA item" : `a YouTube copy (${String(item.youtube_source).slice(0, 120)})`} needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists`);
+    if (needsMarksCheck(item)) out.push(`${item.adapter === "voa" ? "a VOA item" : `a YouTube copy (${String(youtubeOrigin(item)).slice(0, 120)})`} needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists`);
     return out;
   }
   const marks = Array.isArray(m.marks) ? m.marks : null;
   if (!marks || marks.some((x) => typeof x !== "string" || !x.trim())) out.push("marks_checked.marks must list the marks seen (strings; [] for none)");
-  const r = m.reviewed ?? {};
-  if (!String(r.by ?? "").trim() || !Number.isFinite(Date.parse(String(r.at ?? ""))) || !(Number.isInteger(r.frames_checked) && r.frames_checked >= 1)) {
-    out.push("marks_checked.reviewed must name who checked (by), when (at) and how many frames (frames_checked, at least 1)");
-  }
+  out.push(...reviewProblems(m.reviewed, item));
   // A mark is described in words ("White House logo, lower left"): only the parties it names count, not the word logo.
   for (const reason of deniedBy({ credits: marks ?? [] }).filter((x) => x !== "a logo is never used")) out.push(`an on-screen mark names a denied party: ${reason}`);
+  for (const cta of unmaskedCtas(marks, m.mask)) out.push(`an on-screen mark is a call to action (an engagement mechanic): "${cta.slice(0, 120)}"; refused unless marks_checked.mask { covers, region } records its mask and the shot is alteration-marked`);
   return out;
 }
 

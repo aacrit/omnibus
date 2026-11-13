@@ -14,7 +14,9 @@
           "shows_bodies": false,
           "people": [{"x": 0.41, "y": 0.18, "w": 0.12, "h": 0.55, "name": null, "kind": "person"}],
           "marks": ["<an on-screen mark seen in the frames: a logo, a bug, a lower third, a watermark>"],
-          "reviewed": {"by": "<who confirmed it>", "at": "<ISO date-time>", "frames_checked": 12}
+          "reviewed": {"by": "verifier: <who>", "at": "<ISO date-time>", "frames": [0.0, 12.0, 24.0],
+                       "contact_sheet": {"path": "<the sheet of those frames>", "sha256": "<64 hex>"},
+                       "duration_s": 33.0}
         }
       }
     }
@@ -28,10 +30,14 @@
   a clip states ``shows_bodies`` and may omit ``people``.
 - ``marks`` (S4 review, 2026-11-13) is every on-screen mark seen in the picture's frames (a broadcaster's bug, an
   agency's lower third, a watermark), ``[]`` for none. Every archive still and clip needs it; a mark naming a denied
-  party (C-SPAN, an agency, a network: scripts/lib/rights/licences.mjs DENIED_NAMES) refuses the picture. A ledger
-  item's own ``marks_checked.marks`` (the rights lint's frame check) counts as stated.
-- ``reviewed``: who confirmed the machine's reading. With ``marks`` it is required and names ``frames_checked``
-  (how many frames were looked at, at least 1).
+  party (C-SPAN, an agency, a network: scripts/lib/rights/licences.mjs DENIED_NAMES) refuses the picture, and so does a
+  call to action (``CTA_MARK``: a QR code, "TEXT ... TO 45470") unless the ledger item's ``marks_checked.mask``
+  ``{covers, region}`` records its mask (the shot is then alteration-marked). A ledger item's own ``marks_checked``
+  (the rights lint's frame check) counts as stated only when its review stands, as below.
+- ``reviewed``: who confirmed the reading. With ``marks`` it is required: ``by`` names the checking role (verifier, cos
+  or founder; never the builder or the sourcer, CoS ruling 2026-11-13), ``at``, ``frames`` (the timestamps looked at,
+  one in every 30 s of the aired span: the item's ``fit`` in_s..out_s, else the whole file, ``duration_s``) and
+  ``contact_sheet`` ``{path, sha256}``.
 
 The ledger wins: a field the rights ledger states is never replaced, and a manifest entry that contradicts it
 (``shows_bodies``) is refused, since one of them is wrong. A picture that needs vision data is a ledger item shown as
@@ -44,6 +50,7 @@ unmeasured still (people unknown, A41's default); a final render refuses it (``v
 
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 
@@ -62,6 +69,14 @@ DENIED_MARK = re.compile(
     re.I)
 
 
+REVIEWERS = ("verifier", "cos", "founder")
+REVIEWER = re.compile(r"^\s*(verifier|cos|founder)\b", re.I)
+NOT_REVIEWER = re.compile(r"\b(builder|sourcer|sourcing)\b", re.I)
+FRAME_EVERY_S = 30
+# A call to action on screen (mirrors licences.mjs CTA_MARK): an engagement mechanic void never airs.
+CTA_MARK = re.compile(r"QR code|TEXT .* TO \d{4,6}|scan (the|this)|text .* to \d{4,6}", re.I)
+
+
 def studio_made(item: dict) -> bool:
     return bool(item.get("generator") or item.get("synthetic") or item.get("test_fixture"))
 
@@ -71,12 +86,88 @@ def needs(item: dict | None, shot_kind: str) -> bool:
     return bool(item) and shot_kind in PICTURE_KINDS and not studio_made(item)
 
 
+def aired_span(item: dict, reviewed: dict | None):
+    """The span the frames must cover: the item's fit in_s..out_s, else 0..duration_s; None when neither is known."""
+    f = item.get("fit") if isinstance(item.get("fit"), dict) else {}
+    a, b = f.get("in_s"), f.get("out_s")
+    if _num(a) and _num(b) and b > a:
+        return float(a), float(b)
+    d = (reviewed or {}).get("duration_s")
+    return (0.0, float(d)) if _num(d) and d > 0 else None
+
+
+def uncovered(frames, span, every=FRAME_EVERY_S) -> list[tuple[float, float]]:
+    """The 30 s windows of the span no frame falls in."""
+    a, b = span
+    n = max(1, math.ceil((b - a) / every - 1e-9))
+    w = (b - a) / n
+    out = []
+    for k in range(n):
+        lo, hi = a + k * w, a + (k + 1) * w
+        if not any(lo - 1e-6 <= t <= hi + 1e-6 for t in frames):
+            out.append((round(lo, 2), round(hi, 2)))
+    return out
+
+
+def review_problems(r, where: str, item: dict | None = None) -> list[str]:
+    """Why a marks review cannot stand: the role, the time, the frames (over the aired span when the item is given), the
+    contact sheet."""
+    if not isinstance(r, dict):
+        return [f"{where} is {{by, at, frames, contact_sheet}}"]
+    out = []
+    by = r.get("by") if isinstance(r.get("by"), str) else ""
+    if not REVIEWER.search(by) or NOT_REVIEWER.search(by):
+        out.append(f"{where}.by names the checking role ({', '.join(REVIEWERS)}), never the builder or the sourcer")
+    if not (isinstance(r.get("at"), str) and r["at"].strip()):
+        out.append(f"{where}.at is when the marks were checked")
+    fr = r.get("frames")
+    if not (isinstance(fr, list) and fr and all(_num(t) and t >= 0 for t in fr)):
+        out.append(f"{where}.frames lists the timestamps looked at (seconds into the file, at least one)")
+    elif item is not None:
+        span = aired_span(item, r)
+        if span is None:
+            out.append(f"{where}.duration_s states the file's length (the item's fit names no in_s..out_s)")
+        else:
+            gaps = uncovered(fr, span)
+            if gaps:
+                out.append(f"{where}.frames holds one frame in every {FRAME_EVERY_S} s of the aired span {span[0]:g}.."
+                           f"{span[1]:g} s; none in " + ", ".join(f"{lo:g}..{hi:g} s" for lo, hi in gaps))
+    cs = r.get("contact_sheet")
+    if not (isinstance(cs, dict) and isinstance(cs.get("path"), str) and cs["path"].strip()
+            and isinstance(cs.get("sha256"), str) and SHA256.match(cs["sha256"])):
+        out.append(f"{where}.contact_sheet is {{path, sha256}} naming the sheet of those frames")
+    return out
+
+
+def ledger_marks(item: dict):
+    """The ledger's own frame check, when its review stands: its marks, else None."""
+    mc = item.get("marks_checked")
+    if not (isinstance(mc, dict) and isinstance(mc.get("marks"), list)):
+        return None
+    return mc["marks"] if not review_problems(mc.get("reviewed"), "marks_checked.reviewed", item) else None
+
+
 def marks_stated(item: dict):
-    """The item's on-screen marks: the manifest's ``marks`` overlaid, else the ledger's ``marks_checked.marks``."""
+    """The item's on-screen marks: the manifest's ``marks`` overlaid, else the ledger's ``marks_checked.marks`` (only
+    when its review stands: a role other than the builder, frames over the aired span, a contact sheet)."""
     if isinstance(item.get("marks"), list):
         return item["marks"]
-    mc = item.get("marks_checked")
-    return mc.get("marks") if isinstance(mc, dict) and isinstance(mc.get("marks"), list) else None
+    return ledger_marks(item)
+
+
+def unmasked_ctas(marks, item: dict) -> list[str]:
+    """The call-to-action marks the ledger item's ``marks_checked.mask`` does not cover."""
+    mc = item.get("marks_checked") if isinstance(item.get("marks_checked"), dict) else {}
+    mask = mc.get("mask") if isinstance(mc.get("mask"), dict) else {}
+    covers = [c for c in mask.get("covers") or [] if isinstance(c, str)]
+    reg = mask.get("region") if isinstance(mask.get("region"), dict) else {}
+    located = all(_num(reg.get(k)) for k in ("x", "y", "w", "h")) and reg["w"] > 0 and reg["h"] > 0
+    return [m for m in marks or [] if isinstance(m, str) and CTA_MARK.search(m) and not (located and m in covers)]
+
+
+def refused_marks(marks, item: dict) -> list[str]:
+    """Why these marks refuse the picture: a denied party, or an unmasked call to action."""
+    return denied_marks(marks) + [f"a call to action, unmasked: {m}" for m in unmasked_ctas(marks, item)]
 
 
 def denied_marks(marks) -> list[str]:
@@ -133,12 +224,7 @@ def entry_problems(aid: str, e) -> list[str]:
     if "marks" in e:
         if not (isinstance(e["marks"], list) and all(isinstance(m, str) and m.strip() for m in e["marks"])):
             out.append(f"items.{aid}.marks lists the on-screen marks seen ([] is none)")
-        r = e.get("reviewed")
-        fc = r.get("frames_checked") if isinstance(r, dict) else None
-        if not (isinstance(r, dict) and isinstance(r.get("by"), str) and r["by"].strip() and isinstance(r.get("at"), str)
-                and r["at"].strip() and isinstance(fc, int) and not isinstance(fc, bool) and fc >= 1):
-            out.append(f"items.{aid}.reviewed names who checked the marks (by), when (at) and how many frames "
-                       "(frames_checked, at least 1)")
+        out += review_problems(e.get("reviewed"), f"items.{aid}.reviewed")
     if "people" in e:
         if not isinstance(e["people"], list):
             out.append(f"items.{aid}.people is a list ([] is nobody)")
@@ -186,11 +272,14 @@ def overlay(item: dict, entry: dict, file_sha: str | None = None) -> tuple[dict,
     if led is not None and "shows_bodies" in entry and entry["shows_bodies"] != led:
         why.append(f"{item.get('id')}: vision.json says shows_bodies {entry['shows_bodies']}, the ledger "
                    f"{led}: one of them is wrong")
-    bad = denied_marks(entry.get("marks")) + denied_marks((item.get("marks_checked") or {}).get("marks")
-                                                          if isinstance(item.get("marks_checked"), dict) else None)
+    if "marks" in entry:     # the frames must cover this item's aired span
+        why += [f"{item.get('id')}: {p}" for p in review_problems(entry.get("reviewed"), "vision.json reviewed", item)
+                if ".frames holds" in p or ".duration_s" in p]
+    mc = item.get("marks_checked") if isinstance(item.get("marks_checked"), dict) else {}
+    bad = list(dict.fromkeys(refused_marks(entry.get("marks"), item) + refused_marks(mc.get("marks"), item)))
     if bad:
-        why.append(f"{item.get('id')}: its on-screen marks name a denied party ({'; '.join(bad)}): the picture is "
-                   "never used")
+        why.append(f"{item.get('id')}: its on-screen marks name a denied party or a call to action "
+                   f"({'; '.join(bad)}): the picture is never used")
     if why:
         return item, why
     out = dict(item)
@@ -220,8 +309,10 @@ def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None) -
         if not kinds:
             continue
         e = (entries or {}).get(aid)
-        if e is None and denied_marks(marks_stated(item)):
-            probs.append(f"{aid}: its on-screen marks name a denied party ({'; '.join(denied_marks(marks_stated(item)))}):"
+        mc = item.get("marks_checked") if isinstance(item.get("marks_checked"), dict) else {}
+        bad = refused_marks(mc.get("marks"), item)
+        if e is None and bad:
+            probs.append(f"{aid}: its on-screen marks name a denied party or a call to action ({'; '.join(bad)}):"
                          " the picture is never used")
         if e is not None:
             new, why = overlay(item, e, read_sha(item) if read_sha is not None else None)

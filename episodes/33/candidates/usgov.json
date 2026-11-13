@@ -16,17 +16,6 @@
           "in_s": 0,
           "out_s": 33,
           "horizon": "2026-11-07T17:30:11Z"
-        },
-        "marks_checked": {
-          "marks": [
-            "THE WHITE HOUSE end card (final seconds)",
-            "THE GOLDEN AGE podium banner (in the scene)"
-          ],
-          "reviewed": {
-            "by": "Forge builder (Claude Opus 5.5), S4 review fix round: 8 frames sampled evenly across the file at 640 px",
-            "at": "2026-11-13T18:30:00Z",
-            "frames_checked": 8
-          }
         }
       },
       {

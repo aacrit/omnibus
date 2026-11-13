@@ -117,8 +117,14 @@ function productionDate(rec) {
  * author: a library founded in 2011 did not film 1952.
  */
 export function custodianOnly(heading, year) {
-  const m = String(heading).match(/\((\d{2})\/(\d{2})\/(\d{4})\s*-/);
-  return Boolean(m && year && Number(m[3]) > Number(year));
+  // A start given as a day ("(09/18/1947 -") or a year only ("(1947 -"), as NARA writes both (S4 review, round 2).
+  const m = String(heading).match(/\((?:ca\. )?(?:\d{2}\/\d{2}\/)?(\d{4})\s*-/);
+  return Boolean(m && year && Number(m[1]) > Number(year));
+}
+
+/** Whether a creator heading names a custodian (the National Archives, a presidential library): it holds records, it did not make them. */
+export function isCustodian(heading) {
+  return CUSTODIAN.test(String(heading));
 }
 
 export function parseNara(json, { ref, capturedAt, kind = "still" }) {
@@ -127,8 +133,9 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
   const use = plain(hit.useRestriction?.status) || "(none)";
   const creators = (hit.ancestors ?? []).flatMap((a) => (a.creators ?? []).map((c) => plain(c.heading))).concat((hit.creators ?? []).map((c) => plain(c.heading)));
   const year = (hit.productionDates?.[0] ?? hit.coverageStartDate ?? hit.coverageDates?.[0])?.year ?? null;
-  const custodians = creators.filter((c) => FEDERAL_CREATOR.test(c) && custodianOnly(c, year));
-  const federalAll = creators.filter((c) => FEDERAL_CREATOR.test(c) && !NOT_AN_AGENCY.test(c) && !custodianOnly(c, year));
+  // A custodian (NARA, a presidential library) or a body that began after the record holds it; it never made it, restricted or not.
+  const custodians = creators.filter((c) => FEDERAL_CREATOR.test(c) && (custodianOnly(c, year) || isCustodian(c)));
+  const federalAll = creators.filter((c) => FEDERAL_CREATOR.test(c) && !NOT_AN_AGENCY.test(c) && !custodianOnly(c, year) && !isCustodian(c));
   const group = (hit.ancestors ?? []).find((a) => a.levelOfDescription === "recordGroup");
   const texts = [hit.title, hit.scopeAndContentNote, ...(hit.ancestors ?? []).map((a) => a.title), hit.useRestriction?.note, ...(hit.notes ?? [])].map(plain);
   const flagged = conservativeFlag(hit);
@@ -142,7 +149,7 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
   if (commercial) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record names a commercial newsreel or studio ("${clip(commercial, 120)}"), so the flag stands`);
   if (flagged && !federal.length) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and no federal maker is proven on the record (an agency on the list of film-making agencies, FLAGGED_FEDERAL_MAKERS), so the flag stands`);
   if (flagged && !year) reasons.push(`the catalogue's use restriction is "${use}" (Copyright) and the record states no production year, so its maker cannot be shown to have made it`);
-  if (!federal.length) reasons.push(custodians.length ? `the federal body named (${clip(custodians[0], 120)}) began after the record was made, so it holds the record and did not make it` : "no federal agency is named as the record's creator");
+  if (!federal.length) reasons.push(custodians.length ? `the federal body named (${clip(custodians[0], 120)}) ${isCustodian(custodians[0]) ? "is a custodian" : "began after the record was made"}, so it holds the record and did not make it` : "no federal agency is named as the record's creator");
   if (donated) reasons.push(`the record speaks of donated or copyright material: "${clip(donated, 120)}"`);
   const obj = pickObject(hit.digitalObjects, kind);
   const ok = reasons.length === 0;

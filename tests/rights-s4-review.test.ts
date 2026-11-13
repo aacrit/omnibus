@@ -1,7 +1,7 @@
 // S4 review fixes (reviewer BLOCK, 2026-11-13): the reviewer's probe cases,
 // each a failing test before its fix. One describe block per finding.
 import { describe, expect, it } from "vitest";
-import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTermsProblems, licenceProblems, marksProblems } from "../scripts/lib/rights/licences.mjs";
+import { ALLOWED_IDS, CTA_MARK, EDITORIAL_USE, REVIEWED_TERMS_PAGES, airedSpan, deniedBy, editorialTermsProblems, licenceProblems, marksProblems, needsMarksCheck, uncoveredWindows, youtubeOrigin } from "../scripts/lib/rights/licences.mjs";
 import { youtubeSource } from "../scripts/lib/rights/adapters/commons.mjs";
 import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
@@ -87,7 +87,8 @@ describe("S4 review 4: NARA's flagged path needs a maker from the explicit agenc
     expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer.")).toBeNull();
     expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)", { year: null })).toBeNull();
     expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)")).toBe("pd-us-federal");
-    expect(lic("Executive Office of the President. White House Naval Photographic Unit. (1956 - 1961)")).toBe("pd-us-federal");
+    expect(lic("Executive Office of the President. White House Naval Photographic Unit. (1956 - 1961)", { year: 1958 })).toBe("pd-us-federal");
+    expect(lic("Executive Office of the President. White House Naval Photographic Unit. (1956 - 1961)")).toBeNull(); // began 1956, after the 1952 film
   });
   it("the Chief Signal Officer's film 22399 still passes", () => {
     const j = JSON.parse(readFileSync(new URL("./fixtures/rights/nara-video-22399.json", import.meta.url), "utf8"));
@@ -167,13 +168,13 @@ describe("S4 review 5: ruling A needs the day's own event, evidenced apart from 
 });
 
 describe("S4 review 1: on-screen marks", () => {
-  const reviewed = { by: "t", at: AT, frames_checked: 10 };
+  const reviewed = { by: "verifier", at: AT, frames: [0, 25, 50], contact_sheet: { path: "sheets/x.jpg", sha256: "a".repeat(64) }, duration_s: 60 };
   it("a VOA item and a YouTube copy need a reviewed marks_checked record", () => {
     expect(marksProblems({ adapter: "voa", kind: "footage" }).join()).toMatch(/VOA item needs a reviewed marks_checked/);
     expect(marksProblems({ adapter: "commons", kind: "footage", youtube_source: 'category "Uploaded with video2commons"' }).join()).toMatch(/YouTube copy/);
     expect(marksProblems({ adapter: "commons", kind: "footage" })).toEqual([]);
     expect(marksProblems({ adapter: "voa", kind: "footage", marks_checked: { marks: [], reviewed } })).toEqual([]);
-    expect(marksProblems({ adapter: "voa", kind: "footage", marks_checked: { marks: [], reviewed: { by: "t", at: AT } } }).join()).toMatch(/frames_checked/);
+    expect(marksProblems({ adapter: "voa", kind: "footage", marks_checked: { marks: [], reviewed: { by: "verifier", at: AT } } }).join()).toMatch(/frames must list/);
   });
   it("refuses any item whose marks name a denied party or C-SPAN", () => {
     for (const mk of ["C-SPAN bug, top right", "CNN lower third", "Reuters watermark", "APTN slate", "POOL"]) {
@@ -232,5 +233,68 @@ describe("S4 review, non-blocking", () => {
     expect(publishRefusals({ items: [{ id: "f", licence: "fair-use-excerpt", fair_use: { no_youtube: true } }] }, "youtube")).toHaveLength(1);
     expect(publishRefusals({ items: [{ id: "f", licence: "fair-use-excerpt" }] }, "site")).toEqual([]);
     expect(publishRefusals({ items: [{ id: "p", licence: "pd-us-federal" }] }, "youtube")).toEqual([]);
+  });
+});
+
+describe("S4 review round 2: who checks marks, which frames, and calls to action", () => {
+  const sheet = { path: "sheets/e33-day6-pic.jpg", sha256: "b".repeat(64) };
+  const rv = (o: any = {}) => ({ by: "verifier", at: AT, frames: [0, 12, 24, 33], contact_sheet: sheet, ...o });
+  const item = (mc: any, fit: any = { beat: "week-day-6", why: "w", in_s: 0, out_s: 33 }) => ({ adapter: "commons", kind: "footage", youtube_source: "x", fit, marks_checked: mc });
+  it("refuses a review by the builder, the sourcer, or no named role", () => {
+    for (const by of ["Forge builder (Claude Opus 5.5)", "sourcer", "t", "E10 test", "verifier and builder", ""]) {
+      expect(marksProblems(item({ marks: [], reviewed: rv({ by }) })).join(), by).toMatch(/checking role/);
+    }
+    for (const by of ["verifier", "verifier: Claude Sonnet, contact sheet at 640 px", "CoS", "cos (founder delegation)", "founder"]) {
+      expect(marksProblems(item({ marks: [], reviewed: rv({ by }) })), by).toEqual([]);
+    }
+  });
+  it("needs one frame in every 30 s of the aired span (fit in_s..out_s, else the whole file) and a contact sheet", () => {
+    expect(airedSpan(item({}))).toEqual([0, 33]);
+    expect(uncoveredWindows([10], [0, 33])).toEqual([[16.5, 33]]);
+    expect(uncoveredWindows([10, 20], [0, 33])).toEqual([]);
+    expect(marksProblems(item({ marks: [], reviewed: rv({ frames: [5] }) })).join()).toMatch(/none in 16.5..33 s/);
+    expect(marksProblems(item({ marks: [], reviewed: rv({ frames: undefined, frames_checked: 8 }) })).join()).toMatch(/frames must list/);
+    expect(marksProblems(item({ marks: [], reviewed: rv({ contact_sheet: undefined }) })).join()).toMatch(/contact_sheet/);
+    expect(marksProblems(item({ marks: [], reviewed: rv({ contact_sheet: { path: "x.jpg", sha256: "nope" } }) })).join()).toMatch(/contact_sheet/);
+    const whole = (r: any) => marksProblems(item({ marks: [], reviewed: r }, { beat: "b", why: "w" })).join();
+    expect(whole(rv())).toMatch(/duration_s must state/);
+    expect(whole(rv({ frames: [0, 14.5, 30], duration_s: 61 }))).toMatch(/none in 40.67..61 s/);
+    expect(whole(rv({ frames: [0, 14.5, 30, 45.8, 60], duration_s: 61 }))).toBe("");
+  });
+  it("refuses a call to action (a QR code, TEXT ... TO 45470) unless a mask covers it", () => {
+    const cta = 'The White House lower third throughout: TEXT "POTUS" TO 45470 FOR WHITE HOUSE UPDATES, a QR code and APP.GOV';
+    for (const mk of [cta, "QR code, lower right", "Scan this to donate", "text JOIN to 88022"]) {
+      expect(CTA_MARK.test(mk), mk).toBe(true);
+      expect(marksProblems(item({ marks: [mk], reviewed: rv() })).join(), mk).toMatch(/call to action/);
+    }
+    expect(marksProblems(item({ marks: ["THE WHITE HOUSE end card (final seconds)"], reviewed: rv() }))).toEqual([]);
+    const mask = { covers: [cta], region: { x: 0, y: 0.8, w: 1, h: 0.2 } };
+    expect(marksProblems(item({ marks: [cta], reviewed: rv(), mask }))).toEqual([]);
+    expect(marksProblems(item({ marks: [cta], reviewed: rv(), mask: { covers: [cta] } })).join()).toMatch(/call to action/);
+  });
+  it("a YouTube copy is read from |source=, {{YouTube CC-BY}}, the credit, or the ledger's captured Credit line", () => {
+    expect(youtubeSource([], "{{Information|source=https://www.youtube.com/watch?v=abc123|author=SES}}")).toMatch(/youtube\.com/);
+    expect(youtubeSource([], "|source=https://youtu.be/abc123\n")).toMatch(/youtu\.be/);
+    expect(youtubeSource([], "{{YouTube CC-BY|SES}}")).toMatch(/YouTube CC-BY/);
+    expect(youtubeSource([], "", ["Росіяни вдарили по школі (on Youtube)"])).toMatch(/on Youtube/);
+    expect(youtubeSource([], "", ["YouTube: White House Chief of Staff, Stephen Miller"])).toMatch(/YouTube/);
+    expect(youtubeSource([], "{{Information|source=Own work}}", ["State Emergency Service of Ukraine"])).toBeNull();
+    // e33-day2-pic as the ledger held it before round 2 (no youtube_source): its captured Credit line names YouTube.
+    const day2 = { kind: "footage", adapter: "commons", credit: "State Emergency Service of Ukraine, via Wikimedia Commons", licence_evidence: { captured_text: "LicenseShortName: CC BY 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)" } };
+    expect(youtubeOrigin(day2)).toMatch(/on Youtube/);
+    expect(needsMarksCheck(day2)).toBe(true);
+    const capt = { kind: "footage", adapter: "commons", licence_evidence: { captured_text: "LicenseShortName: CC BY 4.0\nArtist: SES\nCredit: Video title (on Youtube)" } };
+    expect(youtubeOrigin(capt)).toMatch(/on Youtube/);
+    expect(needsMarksCheck({ ...capt, licence_evidence: { captured_text: "Credit: SES" } })).toBe(false);
+  });
+  it("NARA: a year-only start makes a later body a custodian, and a custodian never makes a record, restricted or not", () => {
+    const rec = (heading: string, status: string, year = 1945) => ({ body: { hits: { hits: [{ _source: { record: { naId: 1, title: "Film", useRestriction: { status, specificUseRestrictions: status === "Unrestricted" ? [] : ["Copyright"] }, creators: [{ heading }], ancestors: [{ levelOfDescription: "recordGroup", recordGroupNumber: 111, title: "Records" }], productionDates: [{ year }], digitalObjects: [] } } }] } } });
+    const lic = (h: string, s: string, y?: number) => (nara.parseNara(rec(h, s, y), { ref: 1, capturedAt: AT }) as any).candidate.licence;
+    expect(lic("National Archives and Records Administration. Office of Presidential Libraries. Truman Library.", "Unrestricted", 1952)).toBeNull();
+    expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (1947 - 1964)", "Restricted - Possibly")).toBeNull();
+    expect(lic("Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)", "Restricted - Possibly")).toBeNull();
+    expect(lic("War Department. Office of the Chief Signal Officer. (1860 - 09/18/1947)", "Restricted - Possibly")).toBe("pd-us-federal");
+    expect(nara.custodianOnly("Department of the Army. (1947 - 1964)", 1945)).toBe(true);
+    expect(nara.custodianOnly("Department of the Army. (1947 - 1964)", 1950)).toBe(false);
   });
 });

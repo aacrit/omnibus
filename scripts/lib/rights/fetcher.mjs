@@ -14,6 +14,17 @@ import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
 
+/** A marks review as the ledger keeps it: who (a role), when, the frames, the contact sheet, the file's length. */
+function marksReviewed(r = {}) {
+  return {
+    by: clip(r.by, 200),
+    at: String(r.at ?? ""),
+    frames: Array.isArray(r.frames) ? r.frames.slice(0, 400) : r.frames,
+    contact_sheet: r.contact_sheet ? { path: clip(r.contact_sheet.path, 300), sha256: String(r.contact_sheet.sha256 ?? "") } : r.contact_sheet,
+    ...(r.duration_s !== undefined ? { duration_s: r.duration_s } : {}),
+  };
+}
+
 const MEDIA_EXT = /\.(jpe?g|png|tiff?|webp|gif|svg|pdf|html|xml|mp4|m4v|mov|webm|ogv|mp3|wav|flac|ogg|oga|m4a)$/i;
 
 /** The file name an item is stored under: the request id plus the source's own extension. */
@@ -327,7 +338,7 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     ...(c.fair_use ? { fair_use: { ...c.fair_use, rationale: clip(c.fair_use.rationale, 2000) } } : {}),
     // A YouTube copy on Commons, and the record of the frame check its on-screen marks had (S4 review).
     ...(c.youtube_source ? { youtube_source: clip(c.youtube_source, 200) } : {}),
-    ...(c.marks_checked ? { marks_checked: { marks: (c.marks_checked.marks ?? []).map((x) => clip(x, 200)), reviewed: { by: clip(c.marks_checked.reviewed?.by, 200), at: String(c.marks_checked.reviewed?.at ?? ""), frames_checked: c.marks_checked.reviewed?.frames_checked } } } : {}),
+    ...(c.marks_checked ? { marks_checked: { marks: (c.marks_checked.marks ?? []).map((x) => clip(x, 200)), reviewed: marksReviewed(c.marks_checked.reviewed), ...(c.marks_checked.mask ? { mask: { covers: (c.marks_checked.mask.covers ?? []).map((x) => clip(x, 200)), region: { ...c.marks_checked.mask.region } } } : {}) } } : {}),
     // Ruling A: a Week picture published after its day's horizon, by the edition cutoff.
     ...(c.published_by_edition ? { published_by_edition: { ...c.published_by_edition } } : {}),
     // A dot label the shot must carry wherever the item airs (ruling A's, or a sourcing pass's: an Echo film of another place and day).

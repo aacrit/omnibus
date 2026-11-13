@@ -682,39 +682,14 @@
         "tier": 4,
         "text": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "commons",
-          "ref": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
           "tier": 2,
-          "pinned": true,
-          "window": {
-            "from": "2026-11-04",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "audio": {
-            "mode": "muted",
-            "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
-          },
-          "fit": {
-            "beat": "week-day-3",
-            "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file is not viewed in this pass.",
-            "horizon": "2026-11-04T19:39:06Z",
-            "shows_days_event": true
-          },
-          "marks_checked": {
-            "marks": [
-              "The White House lower third throughout: TEXT \"POTUS\" TO 45470 FOR WHITE HOUSE UPDATES, a QR code and APP.GOV"
-            ],
-            "reviewed": {
-              "by": "Forge builder (Claude Opus 5.5), S4 review fix round: 8 frames sampled evenly across the file at 640 px",
-              "at": "2026-11-13T18:30:00Z",
-              "frames_checked": 8
-            }
-          }
+          "host": "commons",
+          "reason": "excluded on review: File:President Trump Delivers Remarks, Nov. 4, 2026.webm: CoS ruling (a) of 2026-11-13: its White House lower third carries a QR code and \"TEXT POTUS TO 45470\", a call to action (an engagement mechanic against void's values); dropped, never aired"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-day3-doc",
@@ -1129,17 +1104,6 @@
             "in_s": 0,
             "out_s": 33,
             "horizon": "2026-11-07T17:30:11Z"
-          },
-          "marks_checked": {
-            "marks": [
-              "THE WHITE HOUSE end card (final seconds)",
-              "THE GOLDEN AGE podium banner (in the scene)"
-            ],
-            "reviewed": {
-              "by": "Forge builder (Claude Opus 5.5), S4 review fix round: 8 frames sampled evenly across the file at 640 px",
-              "at": "2026-11-13T18:30:00Z",
-              "frames_checked": 8
-            }
           }
         },
         {

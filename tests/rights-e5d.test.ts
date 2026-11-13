@@ -100,7 +100,7 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
     expect(c.credit).toMatch(/^Voice of America/);
     // Until a frame reader exists a VOA item needs a reviewed marks check (S4 review).
     expect(checkCandidate({ ...c, kind: "footage" }).reasons.join()).toMatch(/marks_checked/);
-    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "t", at: AT, frames_checked: 12 } } }).reasons).toEqual([]);
+    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "verifier", at: AT, frames: [0, 20], contact_sheet: { path: "sheets/voa.jpg", sha256: "a".repeat(64) }, duration_s: 40 } } }).reasons).toEqual([]);
   });
 
   it("refuses an item crediting an agency, a page without the terms statement, and a page with no file of its own", () => {
@@ -211,7 +211,7 @@ describe("NARA moving images", () => {
     const r = nara.parseNara(json("nara-video-80338.json"), { ref: "80338", capturedAt: AT, kind: "footage" });
     expect(r.candidate.licence).toBeNull();
     expect(r.candidate.licence_note).toMatch(/"Undetermined", not Unrestricted/);
-    expect(r.candidate.licence_note).toMatch(/began after the record was made/);
+    expect(r.candidate.licence_note).toMatch(/began after the record was made|is a custodian/);
   });
   it("refuses the flag with another specific restriction beside Copyright", () => {
     const j = json("nara-video-23327.json");
@@ -221,7 +221,7 @@ describe("NARA moving images", () => {
   it("refuses a library named as creator that began after the film was made: it holds the film, it did not make it", () => {
     const r = nara.parseNara(json("nara-video-353712960.json"), { ref: "353712960", capturedAt: AT, kind: "footage" });
     expect(r.candidate.licence).toBeNull();
-    expect(r.candidate.licence_note).toMatch(/began after the record was made/);
+    expect(r.candidate.licence_note).toMatch(/began after the record was made|is a custodian/);
     expect(nara.custodianOnly("Dwight D. Eisenhower Library. (07/31/2011 - )", 1952)).toBe(true);
     expect(nara.custodianOnly("Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)", 1951)).toBe(false);
   });

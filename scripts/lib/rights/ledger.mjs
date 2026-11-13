@@ -80,7 +80,7 @@ export function validateRequests(doc) {
       if (c?.pinned !== undefined && typeof c.pinned !== "boolean") out.push(`${cat}.pinned must be true or false`);
       if (c?.audio !== undefined && !(c.audio?.mode === "muted" && typeof c.audio?.reason === "string" && c.audio.reason.trim())) out.push(`${cat}.audio must be { mode: "muted", reason }`);
       if (c?.dot_label !== undefined && !(typeof c.dot_label?.text === "string" && c.dot_label.text.trim() && typeof c.dot_label?.why === "string" && c.dot_label.why.trim())) out.push(`${cat}.dot_label must be { text, why }`);
-      if (c?.marks_checked !== undefined && !(Array.isArray(c.marks_checked?.marks) && c.marks_checked.marks.every((x) => typeof x === "string") && typeof c.marks_checked?.reviewed?.by === "string" && Number.isInteger(c.marks_checked?.reviewed?.frames_checked))) out.push(`${cat}.marks_checked must be { marks: [strings], reviewed: { by, at, frames_checked } }`);
+      if (c?.marks_checked !== undefined && !(Array.isArray(c.marks_checked?.marks) && c.marks_checked.marks.every((x) => typeof x === "string") && typeof c.marks_checked?.reviewed?.by === "string" && Array.isArray(c.marks_checked?.reviewed?.frames) && typeof c.marks_checked?.reviewed?.contact_sheet?.path === "string")) out.push(`${cat}.marks_checked must be { marks: [strings], reviewed: { by, at, frames: [s], contact_sheet: { path, sha256 }, duration_s? }, mask? }`);
       if (c?.date_record !== undefined && !(ADAPTERS.includes(c.date_record?.adapter) && typeof c.date_record?.ref === "string" && c.date_record.ref.trim() && c.date_record.ref.length <= 400)) out.push(`${cat}.date_record must be { adapter, ref } naming an adapter the fetcher has`);
     });
     (r?.not_fetched ?? []).forEach((s, j) => {
