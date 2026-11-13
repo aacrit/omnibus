@@ -69,6 +69,7 @@ def make(dest: Path) -> Path:
         for s in p.get("shots") or []:
             if s["kind"] == "archive_still":
                 s.update(mark="DRAWN", preset="HOLD", fill_ok=True)
+                s.pop("camera", None)            # a test pattern is held, not toured
                 s.pop("alterations", None)
         for ln in p.get("lines") or []:
             (dest / "audio").mkdir(exist_ok=True)
