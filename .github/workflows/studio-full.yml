@@ -1,0 +1,83 @@
+name: studio-full
+
+# The per-commit `gate` job's studio-test step runs only aswas, clips, pages, disclosure, counts, maps and a net-new palette-vs-tokens guard (601
+# cases, measured 187s on CI; the whole gate job measured 3m54s): the areas that don't need the session-scoped
+# `rendered`/`plan` fixture (a real small render). Render core, layers/stems, narrator and the titles/score
+# audio checks all build or measure real media and are too slow for the per-commit gate (test_render.py alone
+# measured ~4 min locally); see docs/DECISIONS.md (2026-11-12) for the exact split. This workflow runs the
+# WHOLE lifted suite instead (studio/tests, about 2,560 cases): on every pull request (so the check always
+# reports, satisfying branch protection even for a PR that never touches studio/**) but only executes pytest
+# when a path this gate's own inputs depend on changed, on push to main, or nightly; otherwise it reports
+# success without running it. No advisory escape hatch of any kind (rules 1, 14): a run that executes pytest
+# fails the job on any failing or erroring test. A failed scheduled (nightly) run opens or updates a tracked
+# issue, the same prod-red shape as .github/workflows/verify-production.yml.
+#
+# Rule 10 (Agentique CLAUDE.md) declaration:
+#   owner: Forge (omnibus)
+#   kill_after_idle_days: 30
+#   heartbeat_url: n/a (not declared): a CI-only check has no served endpoint to poll; its own failed-run
+#     issue (studio-red, below) is the signal, read by the Watch routine the same way as prod-red.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 7 * * *"
+
+permissions:
+  issues: write
+
+jobs:
+  studio-full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Widened past studio/** itself: anything the fast subset's own gate step, or this workflow, reads or is
+      # defined by, so a change to one of those without a matching studio/ change still runs the full suite.
+      - name: does this change touch the lifted engine or its gate wiring?
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only "origin/${{ github.event.pull_request.base.ref }}"...HEAD \
+               | grep -qE '^(studio/|pytest\.ini$|package(-lock)?\.json$|web/src/cc-licences\.json$|tests/fixtures/a0-cases\.json$|\.github/workflows/studio-full\.yml$|scripts/gate\.mjs$)'; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.changed.outputs.run == 'true'
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        if: steps.changed.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+        if: steps.changed.outputs.run == 'true'
+      - run: python -m pip install -r studio/requirements-studio.txt
+        if: steps.changed.outputs.run == 'true'
+      # npm install, not npm ci: the engine's card-drawing tests need the @fontsource packages under
+      # node_modules (studio/engine/motion.py), the same install the per-commit gate already runs.
+      - run: npm install
+        if: steps.changed.outputs.run == 'true'
+      - run: python -m pytest studio/tests -q -p no:cacheprovider
+        if: steps.changed.outputs.run == 'true'
+      - run: echo "nothing the lifted engine's gate wiring depends on changed; the full suite still runs on push to main and nightly"
+        if: steps.changed.outputs.run == 'false'
+      - name: Open or update the studio-red issue on a failed scheduled run
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          EXISTING=$(gh issue list --label studio-red --state open --json number --jq '.[0].number')
+          BODY="The nightly full run of the lifted engine's suite (studio/tests) failed at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The Agentique Watch routine also reads this label weekly; closing this issue does not require a code change if the maintainer confirms the suite passes again."
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create --title "studio/tests failing on the nightly full run" --label studio-red --body "$BODY"
+          fi
