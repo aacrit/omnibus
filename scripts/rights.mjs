@@ -181,7 +181,12 @@ export function readPool(issue, where = "r2", { root = repoRoot } = {}) {
         }
       }
       for (const f of [path.join(dir, "weekly", String(issue), "pool.json"), path.join(dir, "store", ...poolKey(issue).split("/"))]) {
-        if (existsSync(f)) return Promise.resolve(JSON.parse(readFileSync(f, "utf8")));
+        if (!existsSync(f)) continue;
+        const pool = JSON.parse(readFileSync(f, "utf8"));
+        const report = existsSync(path.join(dir, "report.json")) ? JSON.parse(readFileSync(path.join(dir, "report.json"), "utf8")) : null;
+        const why = artifactPoolProblem(pool, report, issue);
+        if (why) return Promise.reject(new Error(`capture run ${r.databaseId}: ${why}`));
+        return Promise.resolve(pool);
       }
     }
     return Promise.reject(new Error(`no capture artifact of the last ${runs.length} runs holds the pool for issue ${issue}`));
@@ -192,6 +197,17 @@ export function readPool(issue, where = "r2", { root = repoRoot } = {}) {
 /** The captured source ids a candidates file pins. */
 export function capturedSids(doc) {
   return [...new Set(Object.values(doc?.pins ?? {}).flatMap((list) => list.map((p) => p.capture?.sid).filter(Boolean)))];
+}
+
+/** Why an artifact's pool is not the one its own run wrote for this issue, or null. Pure. */
+export function artifactPoolProblem(pool, report, issue) {
+  if (pool?.issue !== issue) return `its pool is for issue ${pool?.issue}, not ${issue}`;
+  if (!report) return "it holds a pool but no report.json from the run that wrote it";
+  if (report.pool?.issue !== issue || report.pool?.status !== "written") return `its report says the pool for issue ${issue} was not written by this run (${report.pool?.status ?? "no pool"})`;
+  if (report.pool.built_at && report.pool.built_at !== pool.built_at) return `its pool was built at ${pool.built_at}, but the run reports ${report.pool.built_at}`;
+  const lag = Date.parse(pool.built_at) - Date.parse(report.ran_at);
+  if (!(lag >= 0 && lag <= 30 * 60_000)) return `its pool was built at ${pool.built_at}, outside the run that started at ${report.ran_at}`;
+  return null;
 }
 
 /** Writes episodes/<issue>/candidates/capture.json from the pool; refuses a file mergeCandidatePins would refuse. */

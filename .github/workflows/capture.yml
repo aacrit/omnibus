@@ -10,6 +10,9 @@
 #   owner: Studio (omnibus)
 #   kill_after_idle_days: 21
 #   heartbeat_url: https://omnibus.voidvision.org/api/capture/heartbeat
+#     (live only once CAPTURE_R2_ENABLED is "true": until the R2 secrets are set
+#     and the release carrying the route is out, it answers 503 by design, and
+#     verify-production does not read it)
 #
 # Runs sit at 05:23, 13:11 and 21:41 UTC, off the top and half hour when
 # GitHub's scheduler is busiest. Secrets reach only the steps that need them:
@@ -93,8 +96,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
-          gh label create capture-red --color B60205 --description "The footage capture failed" --force
-          gh label create prod-red --color B60205 --description "Production check failing" --force
+          # Labels are created only when missing, so an existing label's colour and description are kept.
+          LABELS=$(gh label list --limit 500 --json name --jq '.[].name')
+          if ! printf '%s\n' "$LABELS" | grep -qx capture-red; then gh label create capture-red --color B60205 --description "The footage capture failed"; fi
+          if ! printf '%s\n' "$LABELS" | grep -qx prod-red; then gh label create prod-red --color B60205 --description "Production check failing"; fi
           EXISTING=$(gh issue list --label capture-red --state open --json number --jq '.[0].number')
           BODY="The scheduled footage capture failed at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. White House and VOA feeds roll over within days, so a capture missed for long is footage lost. The Agentique Watch routine reads the prod-red label weekly."
           if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then

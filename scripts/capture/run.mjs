@@ -29,7 +29,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { INDEX_KEY, CAPS, commit, planPut, readIndex, sourceId, sweep } from "../lib/capture-store.mjs";
+import { INDEX_KEY, CAPS, commit, evidenceKey, mediaKey, planPut, readIndex, serialiseIndex, sourceId, storedBytes, sweep } from "../lib/capture-store.mjs";
 import { applyPins, readPinRequests } from "../capture-r2.mjs";
 import { getJson, getMedia, getText } from "../lib/rights/http.mjs";
 import { normaliseWeek } from "../lib/normalise.mjs";
@@ -53,6 +53,48 @@ export const LISTERS = { whitehouse: listWhiteHouse, commons: listCommons, dvids
 // Bounds a run inside the workflow's 25 minutes: items past this are left for the next run (they are re-scored).
 export const MAX_ITEMS_PER_RUN = 80;
 export const SOFT_DEADLINE_MS = 17 * 60_000;
+// The heartbeat and pin requests between reconciles, counted against the bucket cap.
+export const OVERHEAD_RESERVE_BYTES = 64 * 1024;
+// A pool is trimmed to fit this (fewer items per story) and refused past it.
+export const MAX_POOL_BYTES = 1024 * 1024;
+export const RECONCILE_DAYS = 7;
+const CAP_REFUSAL = /over the \d+-byte (?:day|bucket) cap/;
+const BLOB = /^capture\/(media|evidence)\//;
+
+/** Whether a held item is fetched again: only one refused for the day or bucket cap alone, with no media. */
+export function retriesHeld(entry) {
+  if (!entry || entry.media) return false;
+  const why = entry.refused ?? [];
+  return why.length > 0 && why.every((r) => CAP_REFUSAL.test(r));
+}
+
+/**
+ * Weekly: list what R2 really holds under capture/, delete media and evidence
+ * objects the index does not name (a run that stopped between its puts and its
+ * index), and set overhead_bytes from every other object (index, pools, pins,
+ * heartbeat). Returns the index with its reconcile record.
+ */
+export function reconcile(store, indexIn, { now }) {
+  const index = structuredClone(indexIn);
+  const objects = store.list("capture/");
+  const named = new Set([...Object.entries(index.media).map(([sha, m]) => mediaKey(sha, m.ext)), ...Object.keys(index.evidence).map((sha) => evidenceKey(sha))]);
+  const orphans = objects.filter((o) => BLOB.test(o.key) && !named.has(o.key));
+  for (const o of orphans) store.delete(o.key);
+  const other = objects.filter((o) => !BLOB.test(o.key)).reduce((n, o) => n + o.size, 0);
+  index.overhead_bytes = other + OVERHEAD_RESERVE_BYTES;
+  index.reconcile = { at: iso(now), objects: objects.length, listed_bytes: objects.reduce((n, o) => n + o.size, 0), orphans_deleted: orphans.length, orphan_bytes: orphans.reduce((n, o) => n + o.size, 0) };
+  return index;
+}
+
+/** The pool's body, trimmed to maxBytes by keeping fewer items per story; null when even three a story do not fit. */
+export function fitPool(build, maxBytes = MAX_POOL_BYTES) {
+  for (const maxItems of [12, 8, 5, 3]) {
+    const doc = build(maxItems);
+    const body = `${JSON.stringify(doc, null, 1)}\n`;
+    if (Buffer.byteLength(body) <= maxBytes) return { doc, body, maxItems };
+  }
+  return null;
+}
 
 const iso = (d) => d.toISOString().replace(/\.\d{3}Z$/, "Z");
 
@@ -144,7 +186,16 @@ export async function runCapture({
   }
 
   // 3. Evidence, proxy, plan.
-  let index = readIndex(store.get(INDEX_KEY));
+  const indexText = store.get(INDEX_KEY);
+  let index = readIndex(indexText);
+  // The weekly reconcile, where the store can list (R2's S3 API, a directory).
+  let reconciled = null;
+  const last = Date.parse(index.reconcile?.at ?? "");
+  if (typeof store.list === "function" && !(Number.isFinite(last) && ranAt.getTime() - last < RECONCILE_DAYS * 86_400_000)) {
+    index = reconcile(store, index, { now: ranAt });
+    reconciled = index.reconcile;
+  }
+  index.overhead_bytes = Math.max(index.overhead_bytes ?? 0, Buffer.byteLength(indexText ?? "") + OVERHEAD_RESERVE_BYTES);
   const puts = [];
   const mediaFiles = new Map();
   const results = [];
@@ -152,7 +203,8 @@ export async function runCapture({
   const refused = new Set(); // hosts that refused the honest identity this run: never asked again
   let deferred = 0;
   for (const [sid, { item, reason }] of chosen) {
-    if (index.items[sid]) continue; // dedupe by source id: a held item is never fetched again
+    // Dedupe by source id: a held item is fetched again only when the day or bucket cap alone refused it.
+    if (index.items[sid] && !retriesHeld(index.items[sid])) continue;
     if (results.length >= maxItems || Date.now() - started > deadlineMs) {
       deferred++;
       continue;
@@ -205,13 +257,19 @@ export async function runCapture({
       const wr = await weekRecord(weekly.issue, { root, reader: weekly.reader });
       if (!wr.record) pool = { issue: weekly.issue, status: "waiting", reason: wr.reason };
       else {
-        const doc = buildPool({ issue: weekly.issue, record: wr.record, index, editions, channels, now: now(), from: wr.from });
-        const body = `${JSON.stringify(doc, null, 1)}\n`;
-        store.put(key, body);
-        const copy = path.join(outDir, "weekly", String(weekly.issue), "pool.json");
-        mkdirSync(path.dirname(copy), { recursive: true });
-        writeFileSync(copy, body);
-        pool = { issue: weekly.issue, status: "written", stories: doc.stories.length, items: doc.stories.reduce((n, s) => n + s.items.length, 0) };
+        const fit = fitPool((maxItems) => buildPool({ issue: weekly.issue, record: wr.record, index, editions, channels, now: now(), from: wr.from, maxItems }));
+        if (!fit) pool = { issue: weekly.issue, status: "refused", reason: `over the ${MAX_POOL_BYTES}-byte pool cap even at three items a story` };
+        else if (storedBytes(index) + Buffer.byteLength(fit.body) > CAPS.bucketCapBytes) pool = { issue: weekly.issue, status: "refused", reason: `over the ${CAPS.bucketCapBytes}-byte bucket cap` };
+        else {
+          const { doc, body } = fit;
+          store.put(key, body);
+          index.overhead_bytes += Buffer.byteLength(body);
+          store.put(INDEX_KEY, serialiseIndex(index));
+          const copy = path.join(outDir, "weekly", String(weekly.issue), "pool.json");
+          mkdirSync(path.dirname(copy), { recursive: true });
+          writeFileSync(copy, body);
+          pool = { issue: weekly.issue, status: "written", built_at: doc.built_at, items_per_story: fit.maxItems, stories: doc.stories.length, items: doc.stories.reduce((n, s) => n + s.items.length, 0) };
+        }
       }
     }
   }
@@ -230,6 +288,8 @@ export async function runCapture({
     deferred,
     swept: swept.deletes.length,
     index_items: Object.keys(index.items).length,
+    stored_bytes: storedBytes(index),
+    reconcile: reconciled,
     listers: Object.fromEntries(Object.entries(listerStatus).map(([k, v]) => [k, v.status])),
     pool,
   };

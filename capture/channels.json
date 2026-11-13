@@ -90,50 +90,143 @@
     {
       "id": "potus-remarks",
       "why": "the President's remarks, gaggles, addresses and statements, from the White House's own feeds and its Commons uploads",
-      "sources": ["whitehouse", "commons"],
+      "sources": [
+        "whitehouse",
+        "commons"
+      ],
       "when": [
-        { "title": "\\b(?:President (?:Donald )?(?:J\\. )?Trump|POTUS)\\b.*\\b(?:Remarks|Gaggles?|Address(?:es)?|Speech|Statement|Press Conference|Briefing|Interview)\\b" },
-        { "title": "\\b(?:Remarks|Address|Statement) by President Trump\\b" }
+        {
+          "title": "\\b(?:President (?:Donald )?(?:J\\. )?Trump|POTUS)\\b.*\\b(?:Remarks|Gaggles?|Address(?:es)?|Speech|Statement|Press Conference|Briefing|Interview)\\b"
+        },
+        {
+          "title": "\\b(?:Remarks|Address|Statement) by President Trump\\b"
+        }
       ]
     },
     {
       "id": "vp-remarks",
       "why": "the Vice President's remarks and statements",
-      "sources": ["whitehouse", "commons"],
+      "sources": [
+        "whitehouse",
+        "commons"
+      ],
       "when": [
-        { "title": "\\b(?:Vice President|VP|JD Vance)\\b.*\\b(?:Remarks|Gaggles?|Address(?:es)?|Speech|Statement|Press Conference|Briefing|Interview)\\b" },
-        { "title": "\\b(?:Remarks|Address|Statement) by (?:the )?Vice President\\b" }
+        {
+          "title": "\\b(?:Vice President|VP|JD Vance)\\b.*\\b(?:Remarks|Gaggles?|Address(?:es)?|Speech|Statement|Press Conference|Briefing|Interview)\\b"
+        },
+        {
+          "title": "\\b(?:Remarks|Address|Statement) by (?:the )?Vice President\\b"
+        }
       ]
     },
     {
       "id": "press-secretary",
       "why": "the White House press secretary's briefings and remarks",
-      "sources": ["whitehouse", "commons"],
-      "when": [{ "title": "\\bPress Secretary\\b" }, { "title": "\\bWhite House Press Briefing\\b" }]
+      "sources": [
+        "whitehouse",
+        "commons"
+      ],
+      "when": [
+        {
+          "title": "\\bPress Secretary\\b"
+        },
+        {
+          "title": "\\bWhite House Press Briefing\\b"
+        }
+      ]
     },
     {
       "id": "dvids-secwar-osd",
       "why": "the Secretary of War and the Office of the Secretary on DVIDS",
-      "sources": ["dvids"],
-      "when": [{ "unit": "\\bOffice of the Secretary of (?:War|Defense)\\b|\\bOSD\\b" }, { "title": "\\bSecretary of (?:War|Defense)\\b" }, { "keywords": "\\bSecretary of (?:War|Defense)\\b" }]
+      "sources": [
+        "dvids"
+      ],
+      "when": [
+        {
+          "unit": "\\bOffice of the Secretary of (?:War|Defense)\\b|\\bOSD\\b"
+        },
+        {
+          "title": "\\bSecretary of (?:War|Defense)\\b"
+        },
+        {
+          "keywords": "\\bSecretary of (?:War|Defense)\\b"
+        }
+      ]
     },
     {
       "id": "dvids-joint-staff",
       "why": "the Joint Staff and its Chairman on DVIDS",
-      "sources": ["dvids"],
-      "when": [{ "unit": "\\bJoint Staff\\b|\\bJoint Chiefs of Staff\\b" }, { "title": "\\bChairman of the Joint Chiefs\\b" }]
+      "sources": [
+        "dvids"
+      ],
+      "when": [
+        {
+          "unit": "\\bJoint Staff\\b|\\bJoint Chiefs of Staff\\b"
+        },
+        {
+          "title": "\\bChairman of the Joint Chiefs\\b"
+        }
+      ]
     },
     {
       "id": "dvids-centcom",
       "why": "U.S. Central Command on DVIDS",
-      "sources": ["dvids"],
-      "when": [{ "unit": "\\bCentral Command\\b|\\bCENTCOM\\b" }]
+      "sources": [
+        "dvids"
+      ],
+      "when": [
+        {
+          "unit": "\\bCentral Command\\b|\\bCENTCOM\\b"
+        }
+      ]
     },
     {
       "id": "state-briefings",
       "why": "the State Department's press briefings",
-      "sources": ["commons"],
-      "when": [{ "category": "\\bState Department Press Briefings\\b" }, { "title": "\\bDepartment (?:of State )?Press Briefing\\b" }]
+      "sources": [
+        "commons"
+      ],
+      "when": [
+        {
+          "category": "\\bState Department Press Briefings\\b"
+        },
+        {
+          "title": "\\bDepartment (?:of State )?Press Briefing\\b"
+        }
+      ]
+    }
+  ],
+  "exclude_note": "Dignity: an item whose title or description matches one of these is never pinned automatically by rights.mjs candidates; the pool keeps it with the reason, and a session may pin it by hand only after looking, under the bible's rules. Matched case-insensitively.",
+  "exclude": [
+    {
+      "id": "body-cam",
+      "pattern": "\\bbody[- ]?cam(era)?s?\\b|\\bbodycams?\\b",
+      "why": "body-camera footage"
+    },
+    {
+      "id": "casualty",
+      "pattern": "\\bcasualt(y|ies)\\b|\\bfatalit(y|ies)\\b",
+      "why": "casualties"
+    },
+    {
+      "id": "graphic",
+      "pattern": "\\bgraphic (content|images?|footage|video)\\b|\\bviewer discretion\\b|\\bdisturbing\\b",
+      "why": "marked graphic or disturbing"
+    },
+    {
+      "id": "corpse",
+      "pattern": "\\bcorpses?\\b|\\bdead bod(y|ies)\\b|\\bhuman remains\\b",
+      "why": "the dead"
+    },
+    {
+      "id": "killed-on-camera",
+      "pattern": "\\bkilled on (camera|video|tape)\\b|\\b(moment|video) of (the )?(death|killing|shooting)\\b|\\bexecution\\b|\\bbeheading\\b",
+      "why": "a death on camera"
+    },
+    {
+      "id": "injury",
+      "pattern": "\\bwounded (child|children|civilians)\\b|\\bautops(y|ies)\\b|\\bgore\\b",
+      "why": "injury or bodies in detail"
     }
   ]
 }
