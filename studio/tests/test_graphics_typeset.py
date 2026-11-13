@@ -7,12 +7,14 @@ any of those fields never breaks out of its attribute or text node."""
 from __future__ import annotations
 
 import re
+from pathlib import Path
 
 import pytest
 
 from studio.graphics import clean, data, fixtures, layout, typeset
 
 CSS = {"tokens_css": "@@TOKENS_CSS@@", "frame_css": "@@FRAME_CSS@@", "graphics_css": "@@GRAPHICS_CSS@@"}
+GRAPHICS_CSS = (Path(__file__).resolve().parents[2] / "studio" / "graphics" / "graphics.css").read_text(encoding="utf-8")
 XSS = '"><img src=x onerror=alert(1)>'
 LABELS = layout.load_lean_label_text()
 
@@ -177,6 +179,19 @@ def test_lower_third_without_a_dot_label_is_refused():
 def test_lower_third_regression_variant_draws_the_mock_slot():
     html = typeset.lower_third_html(fixtures.LOWER_THIRD, over_slot=True, **CSS)
     assert 'class="slot"' in html and "overlay" not in html
+
+
+def test_lower_third_compact_scales_tier_1_and_2_down():
+    """E6 review: lt-echo-x6's place alone ("NATIONAL GUARD ARMORY,
+    WASHINGTON") still crossed action-safe after the dot label moved
+    above. render.py's self-heal redraws with compact=True; this checks
+    the class is wired through to the markup and the stylesheet actually
+    shrinks tier 1/2 (spec 3.5: the lower third stays inside action-safe)."""
+    html = typeset.lower_third_html(_lt(), compact=True, **CSS)
+    assert 'class="lt lt--echo lt--compact"' in html
+    plain = typeset.lower_third_html(_lt(), **CSS)
+    assert "lt--compact" not in plain
+    assert ".lt--compact .lt-place" in GRAPHICS_CSS and ".lt--compact .lt-name" in GRAPHICS_CSS
 
 
 # ---- count card ------------------------------------------------------------

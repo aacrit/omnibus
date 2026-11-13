@@ -184,14 +184,27 @@ class CountCardSpec:
         return self.words / 3 + 1.5
 
 
+# Country names stay capitalised on screen; every other reason word is
+# shown sentence-case lower (CoS ruling, docs/DECISIONS.md: "the consensus
+# card shows 'migration 1' in lower case, as ruled"). The record's term
+# stays however the normaliser's --claim-terms input cased it (whole-word,
+# case-sensitive matching), so "Migration" keeps its capital M in
+# `lead.claim.terms` while its on-screen label is lower-cased here.
+_PROPER_NOUN_TERMS = {"Iran", "Israel"}
+
+
+def _claim_term_label(term: str) -> str:
+    return term if term in _PROPER_NOUN_TERMS else term[:1].lower() + term[1:]
+
+
 def claim_term_card(week: dict, *, issue: int, date_line: str) -> CountCardSpec:
-    """cw-1: the consensus card's reason words (Iran, Israel, inflation for
-    week 33), `lead.claim.terms` - each term's titled-headline count, of
-    the claim's total titled headlines."""
+    """cw-1: the consensus card's reason words (Iran, Israel, inflation,
+    migration for week 33), `lead.claim.terms` - each term's
+    titled-headline count, of the claim's total titled headlines."""
     claim = week["lead"]["claim"]
     total_titled = claim["titled"]
     rows = tuple(
-        CountRow(hero=str(t["titled"]), context=f"{t['term']}, of {total_titled} titled headlines")
+        CountRow(hero=str(t["titled"]), context=f"{_claim_term_label(t['term'])}, of {total_titled} titled headlines")
         for t in claim["terms"]
     )
     return CountCardSpec(id="cw-1", eyebrow="THE WEIGHT", week_label=f"WEEK {issue}", rows=rows, date_line=date_line)
@@ -428,8 +441,12 @@ def voice_credit_line(voices: dict) -> str:
 def credits_spec(rundown: dict, rights_ledger: dict, *, max_credits: int = 40) -> CreditsSpec:
     """Spec 3.11: every asset's credit (each item's `credit`, in ledger
     order; a credit several assets share is listed once), then the voice
-    disclosure, then the rundown's disclosures. More distinct credits
-    than the roll holds raises: nothing is silently cut."""
+    disclosure, then every rights-ledger item's own `disclosure` (the DoW
+    non-endorsement line whenever a DVIDS item airs - read from the
+    ledger itself, in ledger order, deduplicated, never from a hand-kept
+    copy that could fall out of date), then the rundown's own
+    disclosures. More distinct credits than the roll holds raises:
+    nothing is silently cut."""
     credits: list[str] = []
     for item in rights_ledger.get("items", []):
         credit = item.get("credit")
@@ -440,7 +457,13 @@ def credits_spec(rundown: dict, rights_ledger: dict, *, max_credits: int = 40) -
     if len(credits) > max_credits:
         raise ValueError(f"{len(credits)} distinct credits exceed the roll's {max_credits}")
     lines = credits + [voice_credit_line(rundown["voices"])]
-    lines.extend(_part(rundown, "credits").get("disclosures", []))
+    for item in rights_ledger.get("items", []):
+        disclosure = item.get("disclosure")
+        if disclosure and disclosure not in lines:
+            lines.append(disclosure)
+    for disclosure in _part(rundown, "credits").get("disclosures", []):
+        if disclosure not in lines:
+            lines.append(disclosure)
     return CreditsSpec(lines=tuple(lines))
 
 

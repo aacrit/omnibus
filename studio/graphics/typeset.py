@@ -262,14 +262,17 @@ SEP = '<span class="sep">·</span>'
 
 
 def lower_third_html(spec: LowerThirdSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "",
-                      over_slot: bool = False) -> str:
+                      over_slot: bool = False, compact: bool = False) -> str:
     """Spec 3.5: tier 1 the slate's place (Barlow caps; in the Echo,
     Playfair 600 italic per 3.10) then the speaker's name; tier 2 the
     speaker's role then the date in Mono (``{ROLE} · 14 JUN 1951``), or the
     date alone for a slate with no speaker. An overlay: the frame, field
     and slot are transparent and only the bars, rule, dot and type keep
     pixels. `over_slot` draws the mock's PD-still slot behind it instead,
-    for the week-32 regression only."""
+    for the week-32 regression only. `compact` scales tier 1 and tier 2's
+    face down (`graphics.css`'s `.lt--compact`) for a slate whose place
+    name alone would otherwise cross the action-safe edge (spec 3.5);
+    render.py measures the real box and sets this when it must."""
     if not spec.dot_labels:
         raise ValueError(f"{spec.id}: a lower third needs its provenance dot label")
     t1 = f'<span class="lt-place bc-caps">{esc(spec.place)}</span>'
@@ -281,6 +284,8 @@ def lower_third_html(spec: LowerThirdSpec, *, tokens_css: str, frame_css: str, g
     slot = ('<div class="slot" aria-label="Public-domain still slot"><div class="slot-frame"></div></div>'
             if over_slot else "")
     lt_class = "lt lt--echo" if spec.echo else "lt"
+    if compact:
+        lt_class += " lt--compact"
     return (
         _head(f"Lower third, {spec.place}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css,
               body_class="" if over_slot else "overlay")

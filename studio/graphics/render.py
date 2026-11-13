@@ -173,23 +173,34 @@ def render_week33(out_dir: Path, *, release: str, release_nominal: bool) -> list
 
         # ---- lower thirds --------------------------------------------------
         for lt in data.lower_thirds(rundown, echo_pick):
-            t = typeset.lower_third_html(lt, **PH)
-            with run.session(t, where=lt.id, transparent=True) as shot:
-                box = shot.union_box(".lt")
-                if box[0] + box[2] > ACTION_SAFE_RIGHT:
-                    shot.evaluate("document.querySelector('.lt-dot-label').classList.add('above')")
-                    shoot._settle(shot.page)
+            # Two self-heal passes, each measured for real: move the dot
+            # label above the rule first (cheapest, least visible change);
+            # if a long place name alone still crosses action-safe (spec
+            # 3.5), redraw tier 1/2 at the compact face
+            # (typeset.lower_third_html(..., compact=True)) and remeasure.
+            # Only raise once both have been tried.
+            for compact in (False, True):
+                t = typeset.lower_third_html(lt, compact=compact, **PH)
+                with run.session(t, where=lt.id, transparent=True) as shot:
                     box = shot.union_box(".lt")
-                if box[0] + box[2] > ACTION_SAFE_RIGHT:
-                    raise ValueError(f"{lt.id}: lower third ends at x {box[0] + box[2]}, past action-safe {ACTION_SAFE_RIGHT}")
-                label = shot.text(".lt-dot-label")
-                if label != " · ".join(lt.dot_labels):
-                    raise ValueError(f"{lt.id}: dot label {label!r}")
-                static = compose.load_rgba(shot.screenshot())
+                    if box[0] + box[2] > ACTION_SAFE_RIGHT:
+                        shot.evaluate("document.querySelector('.lt-dot-label').classList.add('above')")
+                        shoot._settle(shot.page)
+                        box = shot.union_box(".lt")
+                    fits = box[0] + box[2] <= ACTION_SAFE_RIGHT
+                    if fits or compact:
+                        if not fits:
+                            raise ValueError(f"{lt.id}: lower third ends at x {box[0] + box[2]}, "
+                                              f"past action-safe {ACTION_SAFE_RIGHT}")
+                        label = shot.text(".lt-dot-label")
+                        if label != " · ".join(lt.dot_labels):
+                            raise ValueError(f"{lt.id}: dot label {label!r}")
+                        static = compose.load_rgba(shot.screenshot())
+                        break
             frames = (f for seq in (compose.wipe_frames(static, box), compose.step_frames(static, frames_for(3.5)))
                       for f in seq)
             run.emit(lt.id, "lower-third", f"rundown:the-echo.beats[{lt.id[3:]}]; echo-pick", t, frames,
-                     extra={"dot_labels": list(lt.dot_labels), "wipe_box": list(box)})
+                     extra={"dot_labels": list(lt.dot_labels), "wipe_box": list(box), "compact": compact})
 
         # ---- count cards ---------------------------------------------------
         weight_date = data.as_of_line(week["as_of"])
@@ -253,7 +264,8 @@ def render_week33(out_dir: Path, *, release: str, release_nominal: bool) -> list
             strip = compose.load_rgba(shot.screenshot())
         if strip.height != height:
             raise ValueError(f"credits strip shot {strip.height} px, measured {height} px")
-        run.emit("credits", "credits", "rights-ledger:items[].credit; rundown:voices, credits.disclosures", t,
+        run.emit("credits", "credits",
+                 "rights-ledger:items[].credit, items[].disclosure; rundown:voices, credits.disclosures", t,
                  compose.credits_roll_frames(strip, 1080), extra={"strip_px": height, "lines": len(credits.lines)})
 
         # ---- end board -------------------------------------------------------

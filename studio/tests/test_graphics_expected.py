@@ -50,7 +50,7 @@ def test_board_rows_from_lead_board(week):
 
 
 def test_count_card_numbers(week, echo_pick):
-    assert expected.count_card_numbers(week, echo_pick, "cw-1") == ["39", "46", "4", "46", "1", "46"]
+    assert expected.count_card_numbers(week, echo_pick, "cw-1") == ["39", "46", "4", "46", "1", "46", "1", "46"]
     assert expected.count_card_numbers(week, echo_pick, "cw-2") == ["76"]
     assert expected.count_card_numbers(week, echo_pick, "cw-3") == ["46", "89"]
     assert expected.count_card_numbers(week, echo_pick, "cw-4") == ["19800", "15927"]

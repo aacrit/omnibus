@@ -84,7 +84,11 @@ def test_as_of_line_matches_spec_3_7():
 def test_claim_term_card_matches_the_tickets_own_example(week):
     cc = data.claim_term_card(week, issue=33, date_line="AS OF 08 NOV 2026")
     by_context = {row.context.split(",")[0]: row.hero for row in cc.rows}
-    assert by_context == {"Iran": "39", "Israel": "4", "inflation": "1"}
+    # The record's fourth term is "Migration" (capital M, --claim-terms is
+    # whole-word case-sensitive); the card's label is lower-case "migration"
+    # (docs/DECISIONS.md: "the consensus card shows 'migration 1' in lower
+    # case, as ruled"). Country names stay capitalised.
+    assert by_context == {"Iran": "39", "Israel": "4", "inflation": "1", "migration": "1"}
     assert all(row.context.endswith("of 46 titled headlines") for row in cc.rows)
 
 
@@ -214,8 +218,27 @@ def test_credits_use_each_items_credit_then_voice_then_disclosures(rundown, righ
     voice = cs.lines[len(credits)]
     assert voice == "Narrated by a computer voice, Kokoro af_aoede; quotations read by Kokoro am_michael"
     assert "untitled occupied rung: far-left (Tehran Times)" in cs.lines
-    disclosures = next(p for p in rundown["parts"] if p["id"] == "credits")["disclosures"]
-    assert list(cs.lines[len(credits) + 1:]) == disclosures
+    ledger_disclosures = []
+    for item in rights["items"]:
+        d = item.get("disclosure")
+        if d and d not in ledger_disclosures:
+            ledger_disclosures.append(d)
+    rundown_disclosures = next(p for p in rundown["parts"] if p["id"] == "credits")["disclosures"]
+    tail = ledger_disclosures + [d for d in rundown_disclosures if d not in ledger_disclosures]
+    assert list(cs.lines[len(credits) + 1:]) == tail
+
+
+def test_credits_carry_every_rights_ledger_disclosure(rundown, rights):
+    """E6 review: the DoW non-endorsement line must air whenever a DVIDS
+    item airs (episodes/33/rights-ledger.json items[].disclosure, the
+    same text disputes.json aggregates into credit_disclosures[])."""
+    cs = data.credits_spec(rundown, rights)
+    ledger_disclosures = {item["disclosure"] for item in rights["items"] if item.get("disclosure")}
+    assert ledger_disclosures, "fixture must carry at least one disclosure to test this"
+    assert ledger_disclosures <= set(cs.lines)
+    disputes = _load("episodes/33/disputes.json")
+    for entry in disputes["credit_disclosures"]:
+        assert entry["text"] in cs.lines
 
 
 def test_credits_raise_rather_than_slice(rundown):

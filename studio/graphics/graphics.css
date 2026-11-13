@@ -44,3 +44,13 @@ body.macro, body.macro .frame { background: var(--o-paper); }
 /* A dot label that would cross the 16:9 action-safe edge (x 1824) grows
    above the rule instead, right-aligned to the dot (render.py measures). */
 .lt-dot-label.above { left: auto !important; right: -40px; top: -44px !important; }
+
+/* A slate whose place name alone is long (e.g. a full venue address) can
+   still push tier 1 past the action-safe edge even with the dot label
+   moved above (spec 3.5: the lower third stays inside action-safe).
+   render.py measures the real box and adds this class as a last resort;
+   `typeset.lower_third_html(..., compact=True)` sets it up front. */
+.lt--compact .lt-place { font-size: calc(var(--bc-place) * 0.78); }
+.lt--compact .lt-name { font-size: calc(var(--bc-name) * 0.78); }
+.lt--compact .lt-role { font-size: calc(var(--bc-second) * 0.85); }
+.lt--compact .lt-date { font-size: calc(var(--bc-second) * 0.85); }

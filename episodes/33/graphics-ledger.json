@@ -124,7 +124,8 @@
       794,
       1449,
       198
-    ]
+    ],
+    "compact": false
   },
   {
     "id": "lt-echo-x8",
@@ -169,13 +170,13 @@
     "id": "cw-1",
     "subtype": "count-card",
     "data_ref": "week:lead.claim",
-    "source_template_sha256": "527d56b13ae062c02c1096860a54d6c95fa35bbeecfaf4e706d3d7f810d1a2e5",
+    "source_template_sha256": "3b7dbdb2335eda71edbf31aad5a053f85712dd3cb53a5f0c6865bea66e378505",
     "output_path": "D:\\omnibus-media\\33\\graphics\\cw-1.mov",
-    "output_sha256": "12e027c622a28149fa258aab7f383e9412ad3354965ed2c2e17beb239aec7ad9",
-    "frames": 275,
+    "output_sha256": "427a1cb134aea78f78ce000a4261177237453aebe091fd8a9fae625653305da0",
+    "frames": 335,
     "class": "DRAWN",
-    "words": 23,
-    "hold_s": 9.167
+    "words": 29,
+    "hold_s": 11.167
   },
   {
     "id": "cw-2",
@@ -312,14 +313,14 @@
   {
     "id": "credits",
     "subtype": "credits",
-    "data_ref": "rights-ledger:items[].credit; rundown:voices, credits.disclosures",
-    "source_template_sha256": "75ead8ca61b3cddec1bb506b54092aa378472b7ec6181730bfe939f6da6798ef",
+    "data_ref": "rights-ledger:items[].credit, items[].disclosure; rundown:voices, credits.disclosures",
+    "source_template_sha256": "8a135264cc4eb3996eaf867a90580ee5a41b211b3f0c098e6d98dead6ff47482",
     "output_path": "D:\\omnibus-media\\33\\graphics\\credits.mov",
-    "output_sha256": "a11d5ac89240c31cfcc218df4b115b61870432f2e1793eba1b0b9b3652b29914",
-    "frames": 1128,
+    "output_sha256": "a091daa56a8cb7e13f2a96165560a97ce1e14a68cdebcf21b0cef7e06e88c93f",
+    "frames": 1164,
     "class": "DRAWN",
-    "strip_px": 4461,
-    "lines": 26
+    "strip_px": 4569,
+    "lines": 27
   },
   {
     "id": "end-board",
