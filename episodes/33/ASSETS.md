@@ -127,15 +127,15 @@ Thin pictures (no footage, and under half the picture requests fetched): Cold op
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00
-  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00
-  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (24).webp: published 2026-11-05T03:43:41Z, after its window ends 2026-11-03T19:39:27.128203+00:00
+  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00
+  - tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00
   - tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap
   - tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)
 - **e33-day2-doc** (to no fallback tier):
   - tier 5 dsns.gov.ua: dsns.gov.ua is outside the fetcher's allowlist and its federal extension
 - **e33-day3-page** (to tier 4):
-  - tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, once the next edition (2026-11-05T00:24:59Z) was printed, so the page was not this edition's
+  - tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z
   - tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-04 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout
 - **e33-day3-doc** (to no fallback tier):
   - tier 5 wayback https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835: licence "x.com page seen through a Wayback capture" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-04T17:07:07Z, https://web.archive.org/web/2026110417...
@@ -204,7 +204,7 @@ Thin pictures (no footage, and under half the picture requests fetched): Cold op
 - **e33-weight-05** (to tier 4):
   - tier 3 commons.wikimedia.org: the search found nothing: incategory:"2026 United States elections" filetype:bitmap ballots OR count OR "election night"
 - **e33-weight-page-02** (to no fallback tier):
-  - tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, once the next edition (2026-11-05T00:24:59Z) was printed, so the page was not this edition's
+  - tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z
 - **e33-margin1-pic** (to tier 4):
   - tier 3 commons.wikimedia.org: the search found nothing: incategory:"Susan Collins" official portrait OR "Troy Jackson" Maine filetype:bitmap
   - tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Maine (Natural Earth, US states)

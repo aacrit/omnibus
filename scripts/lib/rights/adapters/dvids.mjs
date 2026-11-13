@@ -21,8 +21,9 @@ import { clip, firstDate, isoSecond, plain } from "../text.mjs";
 const API = "https://api.dvidshub.net";
 export const COPYRIGHT_PAGE = "https://api.dvidshub.net/docs/copyright";
 export const DVIDS_STATEMENT = "All media on the site is produced by U.S. DoD or Federal Agency and is in the public domain unless other copyright status is indicated.";
-/** DoD branches as DVIDS names them; "Civilian" is not a DoD branch and is refused. */
+/** US armed-service branches as DVIDS names them (DoD, and the Coast Guard under DHS); "Civilian" is refused. */
 export const DOD_BRANCHES = ["Army", "Navy", "Air Force", "Marines", "Coast Guard", "Joint", "Space Force"];
+const US_RANK = /\b(?:Pvt|PFC|Pfc|Spc|Cpl|Lance Cpl|LCpl|Sgt|SSgt|Staff Sgt|Master Sgt|MSgt|Gunnery Sgt|GySgt|1st Sgt|Sgt\. Maj|Seaman|Airman|SrA|A1C|TSgt|Tech\. Sgt|Petty Officer|PO[123]|CPO|Chief|Ens|Lt|Capt|Maj|Col|Cmdr|Adm|Gen|Brig|Warrant Officer|CW[2-5]|WO1|Cadet|Midshipman)\b/;
 const OTHER_STATUS = /\bcourtesy\b|©|\bcopyright(ed)?\b|\ball rights reserved\b|\bused with permission\b|\b(provided|submitted) by\b|\bphoto(graph)? by [^.]*\b(for|of) (the )?[A-Z]/i;
 
 /** "image:123456" or "video:123456". */
@@ -64,7 +65,11 @@ export function parseDvids(json, { ref, capturedAt }) {
   const branch = plain(r.branch) || null;
   const unit = plain(r.unit_name) || null;
   const reasons = [];
-  if (!DOD_BRANCHES.includes(branch)) reasons.push(`branch "${branch ?? "(none)"}" is not a DoD branch`);
+  if (!DOD_BRANCHES.includes(branch)) reasons.push(`branch "${branch ?? "(none)"}" is not a US armed service`);
+  // "Joint" names no service: the credit must carry a US military rank or service.
+  if (branch === "Joint" && !(Array.isArray(r.credit) ? r.credit : []).some((c) => US_RANK.test(plain(c.rank ?? "")))) reasons.push("branch Joint, and no credit carries a US military rank");
+  // DVIDS documents no licence field; a non-empty one is another status, whatever it says.
+  for (const k of ["copyright", "restrictions", "license", "licence"]) if (r[k] != null && plain(String(r[k])) !== "") reasons.push(`the record has a ${k} field ("${clip(plain(String(r[k])), 80)}")`);
   if (!creditList.length) reasons.push(creditText ? `credit "${clip(creditText, 120)}" names no DoD author` : "no credit is named");
   const marks = [r.title, r.description, creditText, ...creditList].map(plain).filter((t) => OTHER_STATUS.test(t));
   if (marks.length) reasons.push(`the record indicates another copyright status or a third party: "${clip(marks[0], 160)}"`);
@@ -76,7 +81,7 @@ export function parseDvids(json, { ref, capturedAt }) {
     `branch: ${branch ?? "(none)"}; unit: ${unit ?? "(none)"}`,
     `credit: ${creditList.join("; ") || creditText || "(none)"}`,
     `date: ${r.date ?? "(none)"}; date_published: ${r.date_published ?? "(none)"}`,
-    pd ? "The record indicates no other copyright status: public domain, a US DoD work (17 U.S.C. 105)." : `Refused: ${reasons.join("; ")}.`,
+    pd ? "The record indicates no other copyright status: public domain, a US federal government work (17 U.S.C. 105)." : `Refused: ${reasons.join("; ")}.`,
   ].join("\n");
   const files = Array.isArray(r.files) ? r.files.filter((f) => /mp4/.test(String(f.type ?? f.src))) : [];
   const video = files.sort((a, b) => (b.height ?? 0) - (a.height ?? 0) || (b.bitrate ?? 0) - (a.bitrate ?? 0))[0]?.src ?? null;
@@ -97,7 +102,7 @@ export function parseDvids(json, { ref, capturedAt }) {
       licence_raw: pd ? "public domain (DVIDS statement; no other status indicated)" : `DVIDS record: ${reasons.join("; ")}`,
       licence: pd ? "pd-us-federal" : null,
       licence_note: pd ? null : reasons.join("; "),
-      basis: pd ? `DVIDS states its media is public domain unless another copyright status is indicated, and this record indicates none: a US DoD work by ${creditList.join(", ")} (${branch}) (17 U.S.C. 105)` : null,
+      basis: pd ? `DVIDS states its media is public domain unless another copyright status is indicated, and this record indicates none: a US federal government work by ${creditList.join(", ")} (${branch}) (17 U.S.C. 105)` : null,
       credit: [creditList.join(", "), unit, "DVIDS"].filter(Boolean).join(", "),
       credit_fields: [creditText].filter(Boolean),
       evidence: { url: page, captured_text: capturedText, captured_at: capturedAt },

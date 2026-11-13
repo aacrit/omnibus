@@ -340,83 +340,275 @@
     },
     "box": {
       "type": "object",
-      "required": ["x", "y", "w", "h"],
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
       "additionalProperties": false,
       "properties": {
-        "x": { "type": "integer" },
-        "y": { "type": "integer" },
-        "w": { "type": "integer" },
-        "h": { "type": "integer" }
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "w": {
+          "type": "integer"
+        },
+        "h": {
+          "type": "integer"
+        }
       }
     },
     "own_property": {
-      "description": "A capture of void news's own printed page (ledger class own_property, same owner): which deployment served it, the commit it was built from, the edition it is and when that edition was printed, the region the still holds and every picture element left out of it. Checked by scripts/lib/rights/own-pages.mjs captureProblems.",
+      "description": "A capture of void news's own printed page (ledger class own_property, same owner): which deployment served it, the commit it was built from, the edition it is and when that edition was printed, the region the still holds and every picture element left out of it. Checked by scripts/lib/rights/own-pages.mjs captureProblems. The next edition is read from a later printed-edition record (void news main), never from the one the page was built from.",
       "type": "object",
-      "required": ["publication", "repo", "edition", "printed_at", "next_edition_at", "data_commit", "deployment", "page_url", "page", "edition_check", "tour_target", "region", "pictures_excluded"],
+      "required": [
+        "publication",
+        "repo",
+        "edition",
+        "printed_at",
+        "next_edition_at",
+        "data_commit",
+        "deployment",
+        "page_url",
+        "page",
+        "edition_check",
+        "tour_target",
+        "region",
+        "pictures_excluded",
+        "next_edition_from",
+        "no_tour"
+      ],
       "additionalProperties": false,
       "properties": {
-        "publication": { "const": "void news" },
-        "repo": { "const": "https://github.com/aacrit/void--news" },
-        "edition": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
-        "printed_at": { "$ref": "#/$defs/datetime" },
-        "next_edition_at": { "anyOf": [{ "$ref": "#/$defs/datetime" }, { "type": "null" }] },
-        "data_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "publication": {
+          "const": "void news"
+        },
+        "repo": {
+          "const": "https://github.com/aacrit/void--news"
+        },
+        "edition": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "printed_at": {
+          "$ref": "#/$defs/datetime"
+        },
+        "next_edition_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/datetime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
         "deployment": {
           "type": "object",
-          "required": ["id", "url", "created_at"],
+          "required": [
+            "id",
+            "url",
+            "created_at",
+            "source_commit",
+            "environment"
+          ],
           "additionalProperties": false,
           "properties": {
-            "id": { "type": "string", "pattern": "^[0-9a-f-]{8,40}$" },
-            "url": { "$ref": "#/$defs/https" },
-            "created_at": { "$ref": "#/$defs/datetime" }
+            "id": {
+              "type": "string",
+              "pattern": "^[0-9a-f-]{8,40}$"
+            },
+            "url": {
+              "$ref": "#/$defs/https"
+            },
+            "created_at": {
+              "$ref": "#/$defs/datetime"
+            },
+            "source_commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "environment": {
+              "enum": [
+                "production",
+                "preview"
+              ]
+            }
           }
         },
-        "page_url": { "$ref": "#/$defs/https" },
+        "page_url": {
+          "$ref": "#/$defs/https"
+        },
         "page": {
           "type": "object",
-          "required": ["width", "height", "color_scheme", "title"],
+          "required": [
+            "width",
+            "height",
+            "color_scheme",
+            "title",
+            "overlays_hidden"
+          ],
           "additionalProperties": false,
           "properties": {
-            "width": { "type": "integer", "minimum": 1 },
-            "height": { "type": "integer", "minimum": 1 },
-            "color_scheme": { "enum": ["light", "dark"] },
-            "title": { "type": "string", "maxLength": 400 }
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "color_scheme": {
+              "enum": [
+                "light",
+                "dark"
+              ]
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 400
+            },
+            "overlays_hidden": {
+              "type": "integer",
+              "minimum": 0
+            }
           }
         },
         "edition_check": {
           "type": "object",
-          "required": ["kind", "headlines", "matched", "in_order", "first_position"],
+          "required": [
+            "kind",
+            "headlines",
+            "matched",
+            "in_order",
+            "first_position"
+          ],
           "additionalProperties": false,
           "properties": {
-            "kind": { "enum": ["paper", "story"] },
-            "headlines": { "type": "integer", "minimum": 0 },
-            "matched": { "type": "integer", "minimum": 0 },
-            "in_order": { "type": "boolean" },
-            "first_position": { "type": ["integer", "null"] }
+            "kind": {
+              "enum": [
+                "paper",
+                "story"
+              ]
+            },
+            "headlines": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "matched": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "in_order": {
+              "type": "boolean"
+            },
+            "first_position": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
           }
         },
         "tour_target": {
           "type": "object",
-          "required": ["row_id", "position", "headline", "box"],
+          "required": [
+            "row_id",
+            "position",
+            "headline",
+            "box"
+          ],
           "additionalProperties": false,
           "properties": {
-            "row_id": { "type": "string", "maxLength": 80 },
-            "position": { "type": "integer", "minimum": 1 },
-            "headline": { "type": "string", "minLength": 1, "maxLength": 400 },
-            "box": { "$ref": "#/$defs/box" }
+            "row_id": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "position": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "headline": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 400
+            },
+            "box": {
+              "$ref": "#/$defs/box"
+            }
           }
         },
-        "region": { "$ref": "#/$defs/box" },
+        "region": {
+          "$ref": "#/$defs/box"
+        },
         "pictures_excluded": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["tag", "src", "box"],
+            "required": [
+              "tag",
+              "src",
+              "box"
+            ],
             "additionalProperties": false,
             "properties": {
-              "tag": { "type": "string", "maxLength": 20 },
-              "src": { "type": "string", "maxLength": 300 },
-              "box": { "$ref": "#/$defs/box" }
+              "tag": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "src": {
+                "type": "string",
+                "maxLength": 300
+              },
+              "box": {
+                "$ref": "#/$defs/box"
+              }
+            }
+          }
+        },
+        "next_edition_from": {
+          "type": "object",
+          "required": [
+            "commit",
+            "edition_is_latest"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "edition_is_latest": {
+              "type": "boolean"
+            }
+          }
+        },
+        "no_tour": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "why",
+              "box"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "why": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "box": {
+                "$ref": "#/$defs/box"
+              }
             }
           }
         }

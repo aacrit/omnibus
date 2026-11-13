@@ -631,8 +631,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://25edd2e7.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, built from commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-03T19:39:27Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1277: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served.",
       "rights_checked": {
@@ -643,8 +643,8 @@
       "media_url": "https://25edd2e7.void-news.pages.dev/paper/",
       "file": "e33-day1-page.png",
       "mime": "image/png",
-      "sha256": "597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202",
-      "bytes": 2773704,
+      "sha256": "675f307d00a157bce48a252e65d548ff253ed809f2476c2f458e32081da5de51",
+      "bytes": 2781420,
       "credit": "void news, printed edition of 2 Nov 2026",
       "date": "2026-11-02",
       "published_at": "2026-11-02T01:21:29Z",
@@ -672,19 +672,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-02",
         "printed_at": "2026-11-02T00:59:28Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-03T19:39:27Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "deployment": {
           "id": "25edd2e7-2556-4559-a789-83a947f1b711",
           "url": "https://25edd2e7.void-news.pages.dev",
-          "created_at": "2026-11-02T01:21:29Z"
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
         },
         "page_url": "https://25edd2e7.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5699,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -710,7 +717,18 @@
           "w": 1920,
           "h": 5699
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 990
+            }
+          }
+        ]
       }
     },
     {
@@ -722,8 +740,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://c454bc83.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://c454bc83.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc at https://c454bc83.void-news.pages.dev, deployed 2026-11-03T19:49:40Z.\nBuilt from void news commit b78793a9227a53d39b985d42712bcb2c230dae64, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-03, printed 2026-11-03T19:39:27Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5762 of a 5762-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://c454bc83.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment c454bc83-9423-4632-9f19-fddc114476dc at https://c454bc83.void-news.pages.dev, built from commit b78793a9227a53d39b985d42712bcb2c230dae64, deployed 2026-11-03T19:49:40Z.\nBuilt from void news commit b78793a9227a53d39b985d42712bcb2c230dae64, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-03, printed 2026-11-03T19:39:27Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-04T19:39:06Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5762 of a 5762-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1277: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc, built from commit b78793a9227a, as the edition of 2026-11-03 was served.",
       "rights_checked": {
@@ -734,8 +752,8 @@
       "media_url": "https://c454bc83.void-news.pages.dev/paper/",
       "file": "e33-day2-page.png",
       "mime": "image/png",
-      "sha256": "7eaa3e82b3625cf5b10d331ec43ae521ffca028c6fd890861409cbd0a2e762a2",
-      "bytes": 2789413,
+      "sha256": "be71722009db8d5cb3a83fc5a44edb6ca1cda6a09dfa29ea54a534628103c9e5",
+      "bytes": 2797502,
       "credit": "void news, printed edition of 3 Nov 2026",
       "date": "2026-11-03",
       "published_at": "2026-11-03T19:49:40Z",
@@ -763,19 +781,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-03",
         "printed_at": "2026-11-03T19:39:27Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-04T19:39:06Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
         "deployment": {
           "id": "c454bc83-9423-4632-9f19-fddc114476dc",
           "url": "https://c454bc83.void-news.pages.dev",
-          "created_at": "2026-11-03T19:49:40Z"
+          "created_at": "2026-11-03T19:49:40Z",
+          "source_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+          "environment": "production"
         },
         "page_url": "https://c454bc83.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5762,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -801,7 +826,18 @@
           "w": 1920,
           "h": 5762
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 990
+            }
+          }
+        ]
       }
     },
     {
@@ -813,8 +849,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://b2256762.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, built from commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-06T19:18:18Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1448: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served.",
       "rights_checked": {
@@ -825,8 +861,8 @@
       "media_url": "https://b2256762.void-news.pages.dev/paper/",
       "file": "e33-day4-page.png",
       "mime": "image/png",
-      "sha256": "e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0",
-      "bytes": 2579819,
+      "sha256": "6e70631cf64147b6c283401dfcac36055fc92fa2619eef280573297e05a999f8",
+      "bytes": 2588284,
       "credit": "void news, printed edition of 5 Nov 2026",
       "date": "2026-11-05",
       "published_at": "2026-11-05T21:18:11Z",
@@ -854,19 +890,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-05",
         "printed_at": "2026-11-05T20:55:22Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-06T19:18:18Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
         "deployment": {
           "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
           "url": "https://b2256762.void-news.pages.dev",
-          "created_at": "2026-11-05T21:18:11Z"
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
         },
         "page_url": "https://b2256762.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5401,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -892,7 +935,18 @@
           "w": 1920,
           "h": 5401
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 1161
+            }
+          }
+        ]
       }
     },
     {
@@ -904,8 +958,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://f2de6e0a.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://f2de6e0a.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment f2de6e0a-bd82-4027-97ca-04a88e4fd379 at https://f2de6e0a.void-news.pages.dev, deployed 2026-11-06T19:37:27Z.\nBuilt from void news commit 0589ebad00665664f1cac41f89ef7894172678b1, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-06, printed 2026-11-06T19:18:18Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5312 of a 5312-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://f2de6e0a.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment f2de6e0a-bd82-4027-97ca-04a88e4fd379 at https://f2de6e0a.void-news.pages.dev, built from commit 0589ebad00665664f1cac41f89ef7894172678b1, deployed 2026-11-06T19:37:27Z.\nBuilt from void news commit 0589ebad00665664f1cac41f89ef7894172678b1, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-06, printed 2026-11-06T19:18:18Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-07T17:30:11Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5312 of a 5312-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1448: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment f2de6e0a-bd82-4027-97ca-04a88e4fd379, built from commit 0589ebad0066, as the edition of 2026-11-06 was served.",
       "rights_checked": {
@@ -916,8 +970,8 @@
       "media_url": "https://f2de6e0a.void-news.pages.dev/paper/",
       "file": "e33-day5-page.png",
       "mime": "image/png",
-      "sha256": "344aa72fbc2e758e6b49d9fdf9102f1cb2dfeafa5a8cbce035e034c54a1739b4",
-      "bytes": 2526976,
+      "sha256": "432f76f21bc5b5d7493016213a828bff2fe7ec15fb4f7b2f434da78246b3a254",
+      "bytes": 2534575,
       "credit": "void news, printed edition of 6 Nov 2026",
       "date": "2026-11-06",
       "published_at": "2026-11-06T19:37:27Z",
@@ -945,19 +999,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-06",
         "printed_at": "2026-11-06T19:18:18Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-07T17:30:11Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "0589ebad00665664f1cac41f89ef7894172678b1",
         "deployment": {
           "id": "f2de6e0a-bd82-4027-97ca-04a88e4fd379",
           "url": "https://f2de6e0a.void-news.pages.dev",
-          "created_at": "2026-11-06T19:37:27Z"
+          "created_at": "2026-11-06T19:37:27Z",
+          "source_commit": "0589ebad00665664f1cac41f89ef7894172678b1",
+          "environment": "production"
         },
         "page_url": "https://f2de6e0a.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5312,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -983,7 +1044,18 @@
           "w": 1920,
           "h": 5312
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 1161
+            }
+          }
+        ]
       }
     },
     {
@@ -995,8 +1067,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://20a471a2.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://20a471a2.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 20a471a2-8e16-46ab-b838-d30459f7ba05 at https://20a471a2.void-news.pages.dev, deployed 2026-11-07T17:49:46Z.\nBuilt from void news commit 1db8348f2603dbb576e298966806af62c05dffc4, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-07, printed 2026-11-07T17:30:11Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 6002 of a 6002-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://20a471a2.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment 20a471a2-8e16-46ab-b838-d30459f7ba05 at https://20a471a2.void-news.pages.dev, built from commit 1db8348f2603dbb576e298966806af62c05dffc4, deployed 2026-11-07T17:49:46Z.\nBuilt from void news commit 1db8348f2603dbb576e298966806af62c05dffc4, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-07, printed 2026-11-07T17:30:11Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-08T11:51:04Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 6002 of a 6002-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1448: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 20a471a2-8e16-46ab-b838-d30459f7ba05, built from commit 1db8348f2603, as the edition of 2026-11-07 was served.",
       "rights_checked": {
@@ -1007,8 +1079,8 @@
       "media_url": "https://20a471a2.void-news.pages.dev/paper/",
       "file": "e33-day6-page.png",
       "mime": "image/png",
-      "sha256": "979325fe1f22ad6b66d671d568fe9c3284a5b0cc14d8dd317932c5cf0237287c",
-      "bytes": 3131154,
+      "sha256": "6aff68e1150e75ea21b5629449663fdd4e6e5da1f40d9152bcefd08d40281cfc",
+      "bytes": 3140264,
       "credit": "void news, printed edition of 7 Nov 2026",
       "date": "2026-11-07",
       "published_at": "2026-11-07T17:49:46Z",
@@ -1036,19 +1108,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-07",
         "printed_at": "2026-11-07T17:30:11Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-08T11:51:04Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "1db8348f2603dbb576e298966806af62c05dffc4",
         "deployment": {
           "id": "20a471a2-8e16-46ab-b838-d30459f7ba05",
           "url": "https://20a471a2.void-news.pages.dev",
-          "created_at": "2026-11-07T17:49:46Z"
+          "created_at": "2026-11-07T17:49:46Z",
+          "source_commit": "1db8348f2603dbb576e298966806af62c05dffc4",
+          "environment": "production"
         },
         "page_url": "https://20a471a2.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 6002,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1074,7 +1153,18 @@
           "w": 1920,
           "h": 6002
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 1161
+            }
+          }
+        ]
       }
     },
     {
@@ -1086,8 +1176,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://6b2ebff5.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://6b2ebff5.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 6b2ebff5-b688-4cf1-895f-dbe35ac4fc91 at https://6b2ebff5.void-news.pages.dev, deployed 2026-11-08T12:02:59Z.\nBuilt from void news commit bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-08, printed 2026-11-08T11:51:04Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5656 of a 5656-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://6b2ebff5.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment 6b2ebff5-b688-4cf1-895f-dbe35ac4fc91 at https://6b2ebff5.void-news.pages.dev, built from commit bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c, deployed 2026-11-08T12:02:59Z.\nBuilt from void news commit bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-08, printed 2026-11-08T11:51:04Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-09T11:45:09Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5656 of a 5656-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1469: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 6b2ebff5-b688-4cf1-895f-dbe35ac4fc91, built from commit bdb6e7d4d6cf, as the edition of 2026-11-08 was served.",
       "rights_checked": {
@@ -1098,8 +1188,8 @@
       "media_url": "https://6b2ebff5.void-news.pages.dev/paper/",
       "file": "e33-day7-page.png",
       "mime": "image/png",
-      "sha256": "1690dff19a6523fa2de4f4812fb6de3172a2c3e688c7ff841edeacfa67af4f9f",
-      "bytes": 2665524,
+      "sha256": "ecfda513b81cb1cf0bff30e29717efecb5827edebdc8f15b0f1e9e29cf662923",
+      "bytes": 2673160,
       "credit": "void news, printed edition of 8 Nov 2026",
       "date": "2026-11-08",
       "published_at": "2026-11-08T12:02:59Z",
@@ -1127,19 +1217,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-08",
         "printed_at": "2026-11-08T11:51:04Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-09T11:45:09Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
         "deployment": {
           "id": "6b2ebff5-b688-4cf1-895f-dbe35ac4fc91",
           "url": "https://6b2ebff5.void-news.pages.dev",
-          "created_at": "2026-11-08T12:02:59Z"
+          "created_at": "2026-11-08T12:02:59Z",
+          "source_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
+          "environment": "production"
         },
         "page_url": "https://6b2ebff5.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5656,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1165,7 +1262,18 @@
           "w": 1920,
           "h": 5656
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 1182
+            }
+          }
+        ]
       }
     },
     {
@@ -1177,8 +1285,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://c454bc83.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://c454bc83.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc at https://c454bc83.void-news.pages.dev, deployed 2026-11-03T19:49:40Z.\nBuilt from void news commit b78793a9227a53d39b985d42712bcb2c230dae64, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-03, printed 2026-11-03T19:39:27Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5762 of a 5762-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://c454bc83.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment c454bc83-9423-4632-9f19-fddc114476dc at https://c454bc83.void-news.pages.dev, built from commit b78793a9227a53d39b985d42712bcb2c230dae64, deployed 2026-11-03T19:49:40Z.\nBuilt from void news commit b78793a9227a53d39b985d42712bcb2c230dae64, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-03, printed 2026-11-03T19:39:27Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-04T19:39:06Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5762 of a 5762-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1277: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc, built from commit b78793a9227a, as the edition of 2026-11-03 was served.",
       "rights_checked": {
@@ -1189,8 +1297,8 @@
       "media_url": "https://c454bc83.void-news.pages.dev/paper/",
       "file": "e33-weight-page-01.png",
       "mime": "image/png",
-      "sha256": "7eaa3e82b3625cf5b10d331ec43ae521ffca028c6fd890861409cbd0a2e762a2",
-      "bytes": 2789413,
+      "sha256": "be71722009db8d5cb3a83fc5a44edb6ca1cda6a09dfa29ea54a534628103c9e5",
+      "bytes": 2797502,
       "credit": "void news, printed edition of 3 Nov 2026",
       "date": "2026-11-03",
       "published_at": "2026-11-03T19:49:40Z",
@@ -1218,19 +1326,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-03",
         "printed_at": "2026-11-03T19:39:27Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-04T19:39:06Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
         "deployment": {
           "id": "c454bc83-9423-4632-9f19-fddc114476dc",
           "url": "https://c454bc83.void-news.pages.dev",
-          "created_at": "2026-11-03T19:49:40Z"
+          "created_at": "2026-11-03T19:49:40Z",
+          "source_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+          "environment": "production"
         },
         "page_url": "https://c454bc83.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5762,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1256,7 +1371,18 @@
           "w": 1920,
           "h": 5762
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 990
+            }
+          }
+        ]
       }
     },
     {
@@ -1268,8 +1394,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://b2256762.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, built from commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-06T19:18:18Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1448: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served.",
       "rights_checked": {
@@ -1280,8 +1406,8 @@
       "media_url": "https://b2256762.void-news.pages.dev/paper/",
       "file": "e33-weight-page-03.png",
       "mime": "image/png",
-      "sha256": "e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0",
-      "bytes": 2579819,
+      "sha256": "6e70631cf64147b6c283401dfcac36055fc92fa2619eef280573297e05a999f8",
+      "bytes": 2588284,
       "credit": "void news, printed edition of 5 Nov 2026",
       "date": "2026-11-05",
       "published_at": "2026-11-05T21:18:11Z",
@@ -1309,19 +1435,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-05",
         "printed_at": "2026-11-05T20:55:22Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-06T19:18:18Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
         "deployment": {
           "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
           "url": "https://b2256762.void-news.pages.dev",
-          "created_at": "2026-11-05T21:18:11Z"
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
         },
         "page_url": "https://b2256762.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5401,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1347,7 +1480,18 @@
           "w": 1920,
           "h": 5401
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 1161
+            }
+          }
+        ]
       }
     },
     {
@@ -1359,8 +1503,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://b2256762.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, built from commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-06T19:18:18Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1448: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served.",
       "rights_checked": {
@@ -1371,8 +1515,8 @@
       "media_url": "https://b2256762.void-news.pages.dev/paper/",
       "file": "e33-margin1-page.png",
       "mime": "image/png",
-      "sha256": "e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0",
-      "bytes": 2579819,
+      "sha256": "6e70631cf64147b6c283401dfcac36055fc92fa2619eef280573297e05a999f8",
+      "bytes": 2588284,
       "credit": "void news, printed edition of 5 Nov 2026",
       "date": "2026-11-05",
       "published_at": "2026-11-05T21:18:11Z",
@@ -1400,19 +1544,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-05",
         "printed_at": "2026-11-05T20:55:22Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-06T19:18:18Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
         "deployment": {
           "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
           "url": "https://b2256762.void-news.pages.dev",
-          "created_at": "2026-11-05T21:18:11Z"
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
         },
         "page_url": "https://b2256762.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5401,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1438,7 +1589,18 @@
           "w": 1920,
           "h": 5401
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 1161
+            }
+          }
+        ]
       }
     },
     {
@@ -1450,8 +1612,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://25edd2e7.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, built from commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-03T19:39:27Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1277: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served.",
       "rights_checked": {
@@ -1462,8 +1624,8 @@
       "media_url": "https://25edd2e7.void-news.pages.dev/paper/",
       "file": "e33-margin2-page.png",
       "mime": "image/png",
-      "sha256": "597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202",
-      "bytes": 2773704,
+      "sha256": "675f307d00a157bce48a252e65d548ff253ed809f2476c2f458e32081da5de51",
+      "bytes": 2781420,
       "credit": "void news, printed edition of 2 Nov 2026",
       "date": "2026-11-02",
       "published_at": "2026-11-02T01:21:29Z",
@@ -1491,19 +1653,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-02",
         "printed_at": "2026-11-02T00:59:28Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-03T19:39:27Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "deployment": {
           "id": "25edd2e7-2556-4559-a789-83a947f1b711",
           "url": "https://25edd2e7.void-news.pages.dev",
-          "created_at": "2026-11-02T01:21:29Z"
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
         },
         "page_url": "https://25edd2e7.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5699,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1529,7 +1698,18 @@
           "w": 1920,
           "h": 5699
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 990
+            }
+          }
+        ]
       }
     },
     {
@@ -1541,8 +1721,8 @@
       "licence": "own-property",
       "licence_evidence": {
         "url": "https://25edd2e7.void-news.pages.dev/paper/",
-        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
-        "captured_at": "2026-11-13T00:51:25Z"
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages production deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, built from commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z. In void news's later record (commit cd8a12610e5efc97d1809559cd9a945794135855) the next edition was printed 2026-11-03T19:39:27Z.\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light, with 3 fixed or sticky overlay(s) hidden; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.\nNo tour rests on y 287 to 1277: the Brief, built from the latest brief at build time, not from the edition.",
+        "captured_at": "2026-11-13T01:12:23Z"
       },
       "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served.",
       "rights_checked": {
@@ -1553,8 +1733,8 @@
       "media_url": "https://25edd2e7.void-news.pages.dev/paper/",
       "file": "e33-margin3-page.png",
       "mime": "image/png",
-      "sha256": "597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202",
-      "bytes": 2773704,
+      "sha256": "675f307d00a157bce48a252e65d548ff253ed809f2476c2f458e32081da5de51",
+      "bytes": 2781420,
       "credit": "void news, printed edition of 2 Nov 2026",
       "date": "2026-11-02",
       "published_at": "2026-11-02T01:21:29Z",
@@ -1582,19 +1762,26 @@
         "repo": "https://github.com/aacrit/void--news",
         "edition": "2026-11-02",
         "printed_at": "2026-11-02T00:59:28Z",
-        "next_edition_at": null,
+        "next_edition_at": "2026-11-03T19:39:27Z",
+        "next_edition_from": {
+          "commit": "cd8a12610e5efc97d1809559cd9a945794135855",
+          "edition_is_latest": false
+        },
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "deployment": {
           "id": "25edd2e7-2556-4559-a789-83a947f1b711",
           "url": "https://25edd2e7.void-news.pages.dev",
-          "created_at": "2026-11-02T01:21:29Z"
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
         },
         "page_url": "https://25edd2e7.void-news.pages.dev/paper/",
         "page": {
           "width": 1920,
           "height": 5699,
           "color_scheme": "light",
-          "title": "Paper | Void News"
+          "title": "Paper | Void News",
+          "overlays_hidden": 3
         },
         "edition_check": {
           "kind": "paper",
@@ -1620,7 +1807,18 @@
           "w": 1920,
           "h": 5699
         },
-        "pictures_excluded": []
+        "pictures_excluded": [],
+        "no_tour": [
+          {
+            "why": "the Brief, built from the latest brief at build time, not from the edition",
+            "box": {
+              "x": 196,
+              "y": 287,
+              "w": 1528,
+              "h": 990
+            }
+          }
+        ]
       }
     }
   ],
@@ -1709,14 +1907,6 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
       "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
       "reasons": [
         "published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
@@ -1725,9 +1915,17 @@
     {
       "request_id": "e33-day2-pic",
       "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (24).webp",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
       "reasons": [
-        "published 2026-11-05T03:43:41Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+        "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
+      ]
+    },
+    {
+      "request_id": "e33-day2-pic",
+      "adapter": "commons",
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+      "reasons": [
+        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00"
       ]
     },
     {
@@ -1735,7 +1933,7 @@
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
       "reasons": [
-        "deployed 2026-11-05T00:33:00Z, once the next edition (2026-11-05T00:24:59Z) was printed, so the page was not this edition's"
+        "deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
       ]
     },
     {
@@ -2051,7 +2249,7 @@
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
       "reasons": [
-        "deployed 2026-11-05T00:33:00Z, once the next edition (2026-11-05T00:24:59Z) was printed, so the page was not this edition's"
+        "deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
       ]
     },
     {
@@ -2263,9 +2461,9 @@
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (24).webp: published 2026-11-05T03:43:41Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
+        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00",
         "tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
         "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)"
       ]
@@ -2285,7 +2483,7 @@
       "fallback_tier": 4,
       "fallback": "none needed (tier 4 is always satisfiable)",
       "reasons": [
-        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, once the next edition (2026-11-05T00:24:59Z) was printed, so the page was not this edition's",
+        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z",
         "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-04 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
       ]
     },
@@ -2445,7 +2643,7 @@
       "fallback_tier": null,
       "fallback": "none: the beat runs on its other pictures and graphics",
       "reasons": [
-        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, once the next edition (2026-11-05T00:24:59Z) was printed, so the page was not this edition's"
+        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
       ]
     },
     {

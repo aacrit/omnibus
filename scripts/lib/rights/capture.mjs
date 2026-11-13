@@ -11,7 +11,7 @@ import { createHash } from "node:crypto";
 import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { MANIFEST, PUBLICATION, REPO } from "./adapters/voidnews.mjs";
-import { PAGE_WIDTH, MAX_PICTURES_RECORDED, chooseRegion, editionCheck, editionOf, picturesOnPage, targetBox } from "./own-pages.mjs";
+import { PAGE_WIDTH, MAX_PICTURES_RECORDED, captureProblems, chooseRegion, editionCheck, editionOf, intersects, picturesOnPage, targetBox } from "./own-pages.mjs";
 import { isoSecond } from "./text.mjs";
 
 const ARCHIVE = "frontend/build-data/archive.json";
@@ -31,6 +31,8 @@ export async function runCapture({ root, issue, mediaDir, voidnewsDir, python = 
   const work = path.join(issueMedia, ".capture");
   mkdirSync(work, { recursive: true });
   const script = path.join(root, "scripts", "capture_page.py");
+  // The later printed-edition record: void news's main as this checkout last fetched it.
+  const laterCommit = execFileSync("git", ["-C", voidnewsDir, "rev-parse", "origin/main"], { encoding: "utf8" }).trim();
   const archives = new Map();
   const archiveAt = (sha) => {
     if (!archives.has(sha)) archives.set(sha, JSON.parse(execFileSync("git", ["-C", voidnewsDir, "show", `${sha}:${ARCHIVE}`], { encoding: "utf8", maxBuffer: 512 * 1024 * 1024 })));
@@ -52,7 +54,10 @@ export async function runCapture({ root, issue, mediaDir, voidnewsDir, python = 
       refuse(`${url} answered ${shot?.status ?? "nothing"}`);
       continue;
     }
-    const ed = editionOf(archiveAt(p.data_commit), p.edition);
+    // A stale still from an earlier run never survives a refusal.
+    rmSync(path.join(issueMedia, `${p.request_id}.png`), { force: true });
+    // The edition from the record the page was built from; the next edition from void news's later record.
+    const ed = editionOf(archiveAt(p.data_commit), p.edition, archiveAt(laterCommit));
     if (!ed) {
       refuse(`the record at ${p.data_commit} holds no edition of ${p.edition}`);
       continue;
@@ -78,16 +83,24 @@ export async function runCapture({ root, issue, mediaDir, voidnewsDir, python = 
         edition: p.edition,
         printed_at: ed.printed_at,
         next_edition_at: ed.next_edition_at,
+        next_edition_from: { commit: laterCommit, edition_is_latest: ed.edition_is_latest },
         data_commit: p.data_commit,
         deployment: p.deployment,
         page_url: url,
-        page: { width: shot.viewport_width, height: shot.height, color_scheme: "light", title: String(shot.title ?? "").slice(0, 400) },
+        page: { width: shot.viewport_width, height: shot.height, color_scheme: "light", title: String(shot.title ?? "").slice(0, 400), overlays_hidden: Number(shot.overlays_hidden ?? 0) },
         edition_check,
         tour_target: { row_id: row.id, position: row.pos, headline: row.title, box },
         region,
         pictures_excluded: pictures.slice(0, MAX_PICTURES_RECORDED),
+        no_tour: (shot.no_tour ?? []).filter((n) => n?.box && n.box.h > 0 && intersects(n.box, region)).map((n) => ({ why: String(n.why).slice(0, 200), box: n.box })),
       },
     };
+    // The same rules the fetcher and the lint apply, applied before any still is kept.
+    const bad = captureProblems(rec.own_property);
+    if (bad.length) {
+      refuse(bad.join("; "));
+      continue;
+    }
     const whole = region.y === 0 && region.h === shot.height;
     if (whole) copyFileSync(shot.out, path.join(issueMedia, rec.file));
     else clips.push({ url, out: path.join(issueMedia, rec.file), width: PAGE_WIDTH, clip: region });

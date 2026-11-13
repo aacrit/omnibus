@@ -50,7 +50,7 @@ export const FETCH_HOSTS = [
 /**
  * void news's own pages (same owner: own property, ledger class own_property):
  * the public site and its Cloudflare Pages deployments, each at its own
- * immutable address. Reached only by the capture step (scripts/capture-voidnews.py),
+ * immutable address. Reached only by the capture step (scripts/rights.mjs capture, through scripts/capture_page.py),
  * never by the fetcher's downloads; listed so a ledger item's address can be checked.
  */
 export const OWN_HOSTS = ["news.voidvision.org", "void-news.pages.dev"];

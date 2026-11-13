@@ -109,6 +109,14 @@ export function chooseRegion({ width = PAGE_WIDTH, height, pictures, target }) {
 
 const HEX40 = /^[0-9a-f]{40}$/;
 const t = (s) => Date.parse(String(s ?? ""));
+/** The longest a served page may trail its edition's print: the pipeline's commit, build and deploy. */
+export const MAX_DEPLOY_LAG_MS = 60 * 60 * 1000;
+
+/** A production deployment's own immutable address: https://<first 8 of its id>.void-news.pages.dev (never a branch or preview alias). */
+export function isDeploymentAddress(dep) {
+  const id = String(dep?.id ?? "");
+  return /^[0-9a-f]{8}-/.test(id) && String(dep?.url ?? "") === `https://${id.slice(0, 8)}.void-news.pages.dev`;
+}
 
 /**
  * Every reason an own-page capture record cannot stand (the record kept in
@@ -121,12 +129,23 @@ export function captureProblems(rec) {
   if (!isOwnUrl(dep.url)) out.push(`deployment ${dep.url} is not one of void news's own hosts`);
   if (!isOwnUrl(rec.page_url) || !String(rec.page_url).startsWith(String(dep.url))) out.push(`page ${rec.page_url} is not on the deployment ${dep.url}`);
   if (!HEX40.test(String(rec.data_commit ?? ""))) out.push("the commit the page was built from is not a full sha");
+  if (dep.environment !== "production") out.push(`deployment environment is ${dep.environment ?? "(not stated)"}, not production`);
+  if (dep.source_commit !== rec.data_commit) out.push(`the deployment was built from ${dep.source_commit ?? "(not stated)"}, not the edition's commit ${rec.data_commit}`);
+  if (!isDeploymentAddress(dep)) out.push(`${dep.url} is not the deployment's own address (a branch or preview alias is refused)`);
   const deployed = t(dep.created_at);
   const printed = t(rec.printed_at);
   if (!Number.isFinite(deployed) || !Number.isFinite(printed)) out.push("the deployment or print time cannot be read");
   else {
     if (deployed < printed) out.push(`deployed ${dep.created_at}, before the edition was printed ${rec.printed_at}`);
-    if (rec.next_edition_at != null && !(deployed < t(rec.next_edition_at))) out.push(`deployed ${dep.created_at}, once the next edition (${rec.next_edition_at}) was printed, so the page was not this edition's`);
+    if (deployed - printed > MAX_DEPLOY_LAG_MS) out.push(`deployed ${dep.created_at}, more than an hour after the edition was printed ${rec.printed_at}`);
+    const later = rec.next_edition_from;
+    if (!later || !HEX40.test(String(later.commit ?? ""))) out.push("no later printed-edition record was read, so the next edition's print time is unknown");
+    else if (rec.next_edition_at == null) {
+      if (later.edition_is_latest !== true) out.push("the next edition's print time is missing, and the edition is not the latest in the later record");
+    } else if (!(deployed < t(rec.next_edition_at))) out.push(`deployed ${dep.created_at}, once the next edition (${rec.next_edition_at}) was printed, so the page was not this edition's`);
+  }
+  for (const nt of rec.no_tour ?? []) {
+    if (rec.tour_target?.box && nt?.box && intersects(nt.box, rec.tour_target.box)) out.push(`the tour target lies in a band no tour may rest on (${nt.why})`);
   }
   const ec = rec.edition_check ?? {};
   if (!(ec.matched >= 1) || ec.in_order !== true || ec.matched !== ec.headlines) out.push("the page's headlines are not the edition's rows in order");
@@ -143,11 +162,13 @@ export function captureProblems(rec) {
 }
 
 /**
- * The edition a printed-edition record (archive.json rows) holds for a date:
+ * The edition a printed-edition record (archive.json rows) holds for a date
+ * (read at the commit the page was built from), and from a later record
+ * (laterRows, read at void news's current main) the next edition:
  * its rows in position order, when it was printed (its earliest row's
  * created_at) and when the next edition after it was printed (or null).
  */
-export function editionOf(archiveRows, date) {
+export function editionOf(archiveRows, date, laterRows = archiveRows) {
   const rows = archiveRows
     .filter((r) => r.printed_on === date)
     .sort((a, b) => a.edition_position - b.edition_position)
@@ -155,12 +176,13 @@ export function editionOf(archiveRows, date) {
   if (!rows.length) return null;
   const iso = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
   const printed = rows.map((r) => t(r.created_at)).filter(Number.isFinite);
-  const later = [...new Set(archiveRows.filter((r) => r.printed_on > date).map((r) => r.printed_on))].sort()[0];
-  const nextRows = later ? archiveRows.filter((r) => r.printed_on === later).map((r) => t(r.created_at)).filter(Number.isFinite) : [];
+  const later = [...new Set(laterRows.filter((r) => r.printed_on > date).map((r) => r.printed_on))].sort()[0];
+  const nextRows = later ? laterRows.filter((r) => r.printed_on === later).map((r) => t(r.created_at)).filter(Number.isFinite) : [];
   return {
     date,
     rows,
     printed_at: printed.length ? iso(Math.min(...printed)) : null,
     next_edition_at: nextRows.length ? iso(Math.min(...nextRows)) : null,
+    edition_is_latest: !later,
   };
 }

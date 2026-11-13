@@ -31,11 +31,12 @@ export function parseCapture(rec, { capturedAt }) {
   const target = o?.tour_target;
   const lines = [
     `void news (news.voidvision.org; ${REPO}) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.`,
-    `Page: ${o?.page_url} (${kind}), from Cloudflare Pages deployment ${o?.deployment?.id} at ${o?.deployment?.url}, deployed ${o?.deployment?.created_at}.`,
-    `Built from void news commit ${o?.data_commit}, whose printed-edition record (frontend/build-data/archive.json) holds the edition of ${o?.edition}, printed ${o?.printed_at}; the next edition was printed ${o?.next_edition_at ?? "(none in the record)"}.`,
+    `Page: ${o?.page_url} (${kind}), from Cloudflare Pages ${o?.deployment?.environment} deployment ${o?.deployment?.id} at ${o?.deployment?.url}, built from commit ${o?.deployment?.source_commit}, deployed ${o?.deployment?.created_at}.`,
+    `Built from void news commit ${o?.data_commit}, whose printed-edition record (frontend/build-data/archive.json) holds the edition of ${o?.edition}, printed ${o?.printed_at}. In void news's later record (commit ${o?.next_edition_from?.commit}) ${o?.next_edition_at ? `the next edition was printed ${o.next_edition_at}` : o?.next_edition_from?.edition_is_latest ? "this is still the latest edition" : "no next edition could be read"}.`,
     `Edition check: ${o?.edition_check?.matched} of ${o?.edition_check?.headlines} headline(s) on the page are the edition's rows, in its order (first at position ${o?.edition_check?.first_position}).`,
-    `Captured ${o?.page?.width} pixels wide in headless Chromium, colour scheme ${o?.page?.color_scheme}; the still is the band y ${o?.region?.y} to ${(o?.region?.y ?? 0) + (o?.region?.h ?? 0)} of a ${o?.page?.height}-pixel page.`,
+    `Captured ${o?.page?.width} pixels wide in headless Chromium, colour scheme ${o?.page?.color_scheme}, with ${o?.page?.overlays_hidden} fixed or sticky overlay(s) hidden; the still is the band y ${o?.region?.y} to ${(o?.region?.y ?? 0) + (o?.region?.h ?? 0)} of a ${o?.page?.height}-pixel page.`,
     `${(o?.pictures_excluded ?? []).length} picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.`,
+    ...(o?.no_tour ?? []).map((n) => `No tour rests on y ${n.box.y} to ${n.box.y + n.box.h}: ${n.why}.`),
   ];
   return {
     status: "ok",

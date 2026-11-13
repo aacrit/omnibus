@@ -186,7 +186,9 @@
         "deployment": {
           "id": "25edd2e7-2556-4559-a789-83a947f1b711",
           "url": "https://25edd2e7.void-news.pages.dev",
-          "created_at": "2026-11-02T01:21:29Z"
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
         },
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
@@ -203,7 +205,9 @@
         "deployment": {
           "id": "c454bc83-9423-4632-9f19-fddc114476dc",
           "url": "https://c454bc83.void-news.pages.dev",
-          "created_at": "2026-11-03T19:49:40Z"
+          "created_at": "2026-11-03T19:49:40Z",
+          "source_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+          "environment": "production"
         },
         "data_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
         "why": "the first production deployment of void news's 2026-11-03 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
@@ -220,7 +224,9 @@
         "deployment": {
           "id": "b792c962-2f0e-4b7e-9a09-f813592be359",
           "url": "https://b792c962.void-news.pages.dev",
-          "created_at": "2026-11-05T00:33:00Z"
+          "created_at": "2026-11-05T00:33:00Z",
+          "source_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
+          "environment": "production"
         },
         "data_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
         "why": "no Paper page of the 2026-11-04 edition was ever served (no feed commit carried it); its lead's story page as first served, from the next data commit"
@@ -237,7 +243,9 @@
         "deployment": {
           "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
           "url": "https://b2256762.void-news.pages.dev",
-          "created_at": "2026-11-05T21:18:11Z"
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
         },
         "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
         "why": "the first production deployment of void news's 2026-11-05 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
@@ -254,7 +262,9 @@
         "deployment": {
           "id": "f2de6e0a-bd82-4027-97ca-04a88e4fd379",
           "url": "https://f2de6e0a.void-news.pages.dev",
-          "created_at": "2026-11-06T19:37:27Z"
+          "created_at": "2026-11-06T19:37:27Z",
+          "source_commit": "0589ebad00665664f1cac41f89ef7894172678b1",
+          "environment": "production"
         },
         "data_commit": "0589ebad00665664f1cac41f89ef7894172678b1",
         "why": "the first production deployment of void news's 2026-11-06 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
@@ -271,7 +281,9 @@
         "deployment": {
           "id": "20a471a2-8e16-46ab-b838-d30459f7ba05",
           "url": "https://20a471a2.void-news.pages.dev",
-          "created_at": "2026-11-07T17:49:46Z"
+          "created_at": "2026-11-07T17:49:46Z",
+          "source_commit": "1db8348f2603dbb576e298966806af62c05dffc4",
+          "environment": "production"
         },
         "data_commit": "1db8348f2603dbb576e298966806af62c05dffc4",
         "why": "the first production deployment of void news's 2026-11-07 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
@@ -288,7 +300,9 @@
         "deployment": {
           "id": "6b2ebff5-b688-4cf1-895f-dbe35ac4fc91",
           "url": "https://6b2ebff5.void-news.pages.dev",
-          "created_at": "2026-11-08T12:02:59Z"
+          "created_at": "2026-11-08T12:02:59Z",
+          "source_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
+          "environment": "production"
         },
         "data_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
         "why": "the first production deployment of void news's 2026-11-08 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 1"
@@ -305,7 +319,9 @@
         "deployment": {
           "id": "c454bc83-9423-4632-9f19-fddc114476dc",
           "url": "https://c454bc83.void-news.pages.dev",
-          "created_at": "2026-11-03T19:49:40Z"
+          "created_at": "2026-11-03T19:49:40Z",
+          "source_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
+          "environment": "production"
         },
         "data_commit": "b78793a9227a53d39b985d42712bcb2c230dae64",
         "why": "the first production deployment of void news's 2026-11-03 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 20"
@@ -322,7 +338,9 @@
         "deployment": {
           "id": "b792c962-2f0e-4b7e-9a09-f813592be359",
           "url": "https://b792c962.void-news.pages.dev",
-          "created_at": "2026-11-05T00:33:00Z"
+          "created_at": "2026-11-05T00:33:00Z",
+          "source_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
+          "environment": "production"
         },
         "data_commit": "88c7b009a6100c8603ca94ce1b366801e9fc13ff",
         "why": "no Paper page of the 2026-11-04 edition was ever served (no feed commit carried it); its lead's story page as first served, from the next data commit"
@@ -339,7 +357,9 @@
         "deployment": {
           "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
           "url": "https://b2256762.void-news.pages.dev",
-          "created_at": "2026-11-05T21:18:11Z"
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
         },
         "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
         "why": "the first production deployment of void news's 2026-11-05 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 3"
@@ -356,7 +376,9 @@
         "deployment": {
           "id": "b2256762-d149-4b20-ac1a-2f644fadf4a9",
           "url": "https://b2256762.void-news.pages.dev",
-          "created_at": "2026-11-05T21:18:11Z"
+          "created_at": "2026-11-05T21:18:11Z",
+          "source_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
+          "environment": "production"
         },
         "data_commit": "93e0e539213b52342f7df56b0bbbfad0d0acf0d6",
         "why": "the first production deployment of void news's 2026-11-05 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 12"
@@ -373,7 +395,9 @@
         "deployment": {
           "id": "25edd2e7-2556-4559-a789-83a947f1b711",
           "url": "https://25edd2e7.void-news.pages.dev",
-          "created_at": "2026-11-02T01:21:29Z"
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
         },
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 6"
@@ -390,7 +414,9 @@
         "deployment": {
           "id": "25edd2e7-2556-4559-a789-83a947f1b711",
           "url": "https://25edd2e7.void-news.pages.dev",
-          "created_at": "2026-11-02T01:21:29Z"
+          "created_at": "2026-11-02T01:21:29Z",
+          "source_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
+          "environment": "production"
         },
         "data_commit": "fd44da84eca56d90f6d9661f9bc8f818b2773db9",
         "why": "the first production deployment of void news's 2026-11-02 edition (Cloudflare Pages deployment list, read 2026-11-12), toured to position 15"

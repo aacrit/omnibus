@@ -34,9 +34,11 @@ function record(over: Record<string, unknown> = {}) {
     printed_at: "2026-11-02T00:59:28Z",
     next_edition_at: "2026-11-03T19:39:27Z",
     data_commit: "f".repeat(40),
-    deployment: { id: "25edd2e7-0000-0000-0000-000000000000", url: "https://25edd2e7.void-news.pages.dev", created_at: "2026-11-02T01:21:29Z" },
+    deployment: { id: "25edd2e7-0000-0000-0000-000000000000", url: "https://25edd2e7.void-news.pages.dev", created_at: "2026-11-02T01:21:29Z", source_commit: "f".repeat(40), environment: "production" },
+    next_edition_from: { commit: "e".repeat(40), edition_is_latest: false },
+    no_tour: [],
     page_url: "https://25edd2e7.void-news.pages.dev/paper/",
-    page: { width: 1920, height: 2400, color_scheme: "light", title: "Paper | Void News" },
+    page: { width: 1920, height: 2400, color_scheme: "light", title: "Paper | Void News", overlays_hidden: 2 },
     edition_check: { kind: "paper", headlines: 3, matched: 3, in_order: true, first_position: 1 },
     tour_target: { row_id: "r1", position: 1, headline: "Lead Story Here", box: { x: 100, y: 200, w: 800, h: 40 } },
     region: { x: 0, y: 0, w: 1920, h: 2400 },
@@ -46,6 +48,31 @@ function record(over: Record<string, unknown> = {}) {
 }
 
 describe("own pages: the edition, the region, the capture record", () => {
+  it("reads the next edition from a later record, never from the one the page was built from", () => {
+    const built = rows.map((r) => ({ id: r.id, printed_on: "2026-11-02", edition_position: r.pos, title: r.title, source_cluster_id: r.cluster, created_at: r.created_at }));
+    const later = [...built, { id: "n1", printed_on: "2026-11-03", edition_position: 1, title: "Next", source_cluster_id: "x", created_at: "2026-11-03T19:39:27.12+00:00" }];
+    // The record at the build commit cannot hold a later edition: read alone, it calls this edition the latest.
+    expect(editionOf(built, "2026-11-02")).toMatchObject({ next_edition_at: null, edition_is_latest: true });
+    expect(editionOf(built, "2026-11-02", later)).toMatchObject({ printed_at: "2026-11-02T00:59:28Z", next_edition_at: "2026-11-03T19:39:27Z", edition_is_latest: false });
+    expect(captureProblems(record({ next_edition_at: null })).join()).toMatch(/not the latest/);
+    expect(captureProblems(record({ next_edition_at: null, next_edition_from: { commit: "e".repeat(40), edition_is_latest: true } }))).toEqual([]);
+    expect(captureProblems(record({ next_edition_from: null })).join()).toMatch(/no later printed-edition record/);
+  });
+
+  it("refuses a deployment over an hour late, from another commit, in preview, or at an alias", () => {
+    const dep = record().deployment;
+    expect(captureProblems(record({ deployment: { ...dep, created_at: "2026-11-02T02:00:00Z" } })).join()).toMatch(/more than an hour/);
+    expect(captureProblems(record({ deployment: { ...dep, source_commit: "a".repeat(40) } })).join()).toMatch(/not the edition.s commit/);
+    expect(captureProblems(record({ deployment: { ...dep, environment: "preview" } })).join()).toMatch(/not production/);
+    const alias = { ...dep, url: "https://main.void-news.pages.dev" };
+    expect(captureProblems(record({ deployment: alias, page_url: "https://main.void-news.pages.dev/paper/" })).join()).toMatch(/alias/);
+  });
+
+  it("refuses a tour that rests on the Brief", () => {
+    expect(captureProblems(record({ no_tour: [{ why: "the Brief", box: { x: 0, y: 150, w: 1920, h: 200 } }] })).join()).toMatch(/no tour may rest/);
+    expect(captureProblems(record({ no_tour: [{ why: "the Brief", box: { x: 0, y: 600, w: 1920, h: 200 } }] }))).toEqual([]);
+  });
+
   it("reads an edition from the printed-edition record, with its print time and the next one's", () => {
     const archive = [...rows.map((r) => ({ id: r.id, printed_on: "2026-11-02", edition_position: r.pos, title: r.title, source_cluster_id: r.cluster, created_at: r.created_at })), { id: "n1", printed_on: "2026-11-03", edition_position: 1, title: "Next", source_cluster_id: "x", created_at: "2026-11-03T19:39:27.12+00:00" }];
     const ed = editionOf(archive, "2026-11-02");
@@ -215,6 +242,10 @@ describe("DVIDS by its documented fields (fixtures from api.dvidshub.net/docs, n
 
   it("takes a video's largest mp4", () => {
     const v = { results: { ...asset.results, id: "video:1", image: "https://d34w7g4gy10iej.cloudfront.net/frame.jpg", files: [{ src: "https://d34w7g4gy10iej.cloudfront.net/video/a-486.mp4", type: "video/mp4", height: 274, bitrate: 300 }, { src: "https://d34w7g4gy10iej.cloudfront.net/video/a.mp4", type: "video/mp4", height: 720, bitrate: 9173 }] } };
+    expect(dvids.parseDvids({ results: { ...asset.results, branch: "Joint", credit: [{ name: "Jane Roe", rank: "" }] } }, { ref: "image:1", capturedAt: AT }).candidate.licence).toBeNull();
+    expect(dvids.parseDvids({ results: { ...asset.results, branch: "Joint" } }, { ref: "image:1", capturedAt: AT }).candidate.licence).toBe("pd-us-federal");
+    for (const k of ["copyright", "restrictions", "license"]) expect(dvids.parseDvids({ results: { ...asset.results, [k]: "Public Domain" } }, { ref: "image:1", capturedAt: AT }).candidate.licence, k).toBeNull();
+    expect(dvids.parseDvids({ results: { ...asset.results, branch: "Coast Guard" } }, { ref: "image:1", capturedAt: AT }).candidate.basis).toMatch(/US federal government work/);
     expect(dvids.parseDvids(v, { ref: "video:1", capturedAt: AT }).candidate.media_url).toBe("https://d34w7g4gy10iej.cloudfront.net/video/a.mp4");
   });
 

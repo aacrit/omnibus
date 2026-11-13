@@ -24,16 +24,38 @@ READ = """() => {
   const box = (e) => { const r = e.getBoundingClientRect(); return { x: Math.round(r.left + scrollX), y: Math.round(r.top + scrollY), w: Math.round(r.width), h: Math.round(r.height) }; };
   const heads = [...document.querySelectorAll('h1, h2, h3')].map((e) => ({ tag: e.tagName.toLowerCase(), cls: e.className || '', text: e.textContent.trim().replace(/\\s+/g, ' '), href: (e.querySelector('a') || e.closest('a') || {}).href || null, box: box(e) }));
   const pics = [];
+  // Hidden elements (the overlays hidden below, or anything not drawn) are not in the screenshot, so they are not pictures in it.
+  const shown = (e) => e.checkVisibility ? e.checkVisibility({ visibilityProperty: true, opacityProperty: true }) : true;
   for (const e of document.querySelectorAll('img, picture, video, iframe, object, embed, canvas, svg image')) {
+    if (!shown(e)) continue;
     const src = e.currentSrc || e.src || e.data || e.getAttribute('href') || e.getAttribute('xlink:href') || '';
     pics.push({ tag: e.tagName.toLowerCase(), src: String(src).slice(0, 500), box: box(e) });
   }
   for (const e of document.querySelectorAll('*')) {
     const bg = getComputedStyle(e).backgroundImage;
-    if (bg && bg !== 'none' && bg.includes('url(')) pics.push({ tag: 'background', src: bg.slice(0, 500), box: box(e) });
+    if (bg && bg !== 'none' && bg.includes('url(') && shown(e)) pics.push({ tag: 'background', src: bg.slice(0, 500), box: box(e) });
   }
+  // An inline drawing outside the site's own header, nav and footer counts as a picture too: it may be someone else's mark.
+  for (const e of document.querySelectorAll('svg')) {
+    if (!shown(e) || (e.parentElement && e.parentElement.closest('svg'))) continue;
+    if (e.closest('header:not(.np-masthead), nav, footer, [role=banner], [role=contentinfo]')) continue;
+    pics.push({ tag: 'svg', src: 'inline svg' + (e.getAttribute('aria-label') ? ': ' + e.getAttribute('aria-label') : ''), box: box(e) });
+  }
+  // Bands no tour may rest on: the Brief, which a Paper build reads from the latest brief, not from the edition.
+  const noTour = [...document.querySelectorAll('section.np-brief, [aria-label="The Brief"]')].map((e) => ({ why: 'the Brief, built from the latest brief at build time, not from the edition', box: box(e) }));
   const time = document.querySelector('time');
-  return { title: document.title, width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight, heads, pics, time: time ? { text: time.textContent.trim(), datetime: time.getAttribute('datetime') } : null };
+  return { title: document.title, width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight, heads, pics, no_tour: noTour, time: time ? { text: time.textContent.trim(), datetime: time.getAttribute('datetime') } : null };
+}"""
+
+# Fixed and sticky elements (the audio player, a sticky nav, a viewport fade) repeat or float over a
+# full-page screenshot; they are hidden before anything is read, and counted.
+HIDE_OVERLAYS = """() => {
+  let n = 0;
+  for (const e of document.querySelectorAll('*')) {
+    const p = getComputedStyle(e).position;
+    if (p === 'fixed' || p === 'sticky') { e.style.setProperty('visibility', 'hidden', 'important'); n++; }
+  }
+  return n;
 }"""
 
 
@@ -50,7 +72,9 @@ def main(jobs_path, result_path):
                 try:
                     resp = page.goto(job["url"], wait_until="networkidle", timeout=120_000)
                     page.evaluate("document.fonts.ready")
+                    hidden = page.evaluate(HIDE_OVERLAYS)
                     info = page.evaluate(READ)
+                    info["overlays_hidden"] = hidden
                     clip = job.get("clip")
                     if clip:
                         page.screenshot(path=job["out"], full_page=True, clip={"x": clip["x"], "y": clip["y"], "width": clip["w"], "height": clip["h"]})
