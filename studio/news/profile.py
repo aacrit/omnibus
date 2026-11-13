@@ -55,6 +55,56 @@ _PROFILES = {
 }
 PROFILES = MappingProxyType({k: MappingProxyType(v) for k, v in _PROFILES.items()})
 
+# E9i: the licence map. omnibus's rights ledger (scripts/rights.mjs) writes canonical licence ids
+# (scripts/lib/rights/licences.mjs ALLOWED_IDS); the engine's allowlist (render.LICENCE_OK, LICENCE_SHARE_ALIKE) reads
+# document's words. This is the one place an id is read as the engine's semantics, on a news show only, so a document
+# film's licences are read exactly as before:
+#
+# - ``allowed``: the house allowlist (render.LICENCE_OK: public domain, CC0, CC BY);
+# - ``share_alike``: CC BY-SA, allowed only in a screenplay that declares ``share_alike`` with its DECISIONS entry
+#   (every omnibus episode is CC BY-SA 4.0, show bible f), journaled per asset as a decision.
+#
+# ``reads_as`` is the engine's word for the id, for the evidence; ``attribution`` whether the licence asks for the
+# credit wherever the work is shown (CC BY and BY-SA, and the EU's reuse decision, whose credit is mandatory).
+# own-property (void news's own printed pages, the same owner's publication: founder ruling 2026-11-12) is no
+# licence anyone granted; it is allowed as our own work, shown as printed.
+CC_VERSIONS = ("1.0", "2.0", "2.1", "2.5", "3.0", "4.0")      # as licences.mjs CC_VERSIONS
+_LICENCES = {
+    "pd-us-federal": {"as": "allowed", "reads_as": "public domain", "attribution": False,
+                      "basis": "a work of the US federal government (17 U.S.C. 105)"},
+    "pd-age": {"as": "allowed", "reads_as": "public domain", "attribution": False, "basis": "copyright expired"},
+    "pd-dedication": {"as": "allowed", "reads_as": "public domain", "attribution": False,
+                      "basis": "dedicated to the public domain by its author"},
+    "cc0-1.0": {"as": "allowed", "reads_as": "CC0 1.0", "attribution": False, "basis": "CC0 1.0"},
+    "eu-reuse-credit": {"as": "allowed", "reads_as": "CC BY 4.0", "attribution": True,
+                        "basis": "EU reuse with mandatory credit (Commission Decision 2011/833/EU)"},
+    "own-property": {"as": "allowed", "reads_as": None, "attribution": False,
+                     "basis": "void news's own printed page, the same owner's publication (no licence granted)"},
+    **{f"cc-by-{v}": {"as": "allowed", "reads_as": f"CC BY {v}", "attribution": True, "basis": f"CC BY {v}"}
+       for v in CC_VERSIONS},
+    **{f"cc-by-sa-{v}": {"as": "share_alike", "reads_as": f"CC BY-SA {v}", "attribution": True, "basis": f"CC BY-SA {v}"}
+       for v in CC_VERSIONS},
+}
+LICENCES = MappingProxyType({k: MappingProxyType(v) for k, v in _LICENCES.items()})
+LICENCE_SEMANTICS = ("allowed", "share_alike")
+
+
+def is_news(play: dict | None) -> bool:
+    """Whether the screenplay's show lints news (False for document, or for a show this module does not know)."""
+    try:
+        return bool(of(play)["news"])
+    except ShowError:
+        return False
+
+
+def licence_reading(play: dict | None, lic) -> MappingProxyType | None:
+    """How the screenplay's show reads a ledger licence id: the licence map's entry on a news show, None on document
+    (whose licences the engine reads as before) or for an id the map does not hold (left to the house allowlist, so a
+    studio-made item's "CC BY-SA 4.0" reads as it always has)."""
+    if not is_news(play):
+        return None
+    return LICENCES.get(str(lic or "").strip())
+
 
 class ShowError(ValueError):
     pass
