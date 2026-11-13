@@ -159,8 +159,8 @@ export async function runResolve({ root = repoRoot, issue, http = { getJson, get
 /** The capture pool for an issue: from R2, from the newest capture artifact holding it (gh), or from a file. */
 export function readPool(issue, where = "r2", { root = repoRoot } = {}) {
   if (where === "r2") {
-    return import("./capture-r2.mjs").then(({ captureR2Store }) => {
-      const text = captureR2Store().get(poolKey(issue));
+    return import("./capture-r2.mjs").then(({ captureStore }) => {
+      const text = captureStore().get(poolKey(issue));
       if (text == null) throw new Error(`r2://omnibus-capture/${poolKey(issue)} does not exist yet`);
       return JSON.parse(text);
     });

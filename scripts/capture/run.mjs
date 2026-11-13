@@ -14,7 +14,7 @@
 //   6. The heartbeat, last.
 //
 // Stores: --store r2 (the private bucket omnibus-capture) or --store dir,
-// the fallback when CLOUDFLARE_API_TOKEN is not set: the store is a
+// the fallback when the R2 secrets are not set: the store is a
 // directory kept as a workflow artifact for 14 days. Artifacts on a public
 // repo are public, so a dir store holds only public-domain and Creative
 // Commons proxies; an editorial-use item is kept as its URL and evidence.
@@ -253,10 +253,9 @@ async function main(argv) {
   let store;
   let reader;
   if (mode === "r2") {
-    const { captureR2Store } = await import("../capture-r2.mjs");
-    const { wranglerStore } = await import("../snapshot-r2.mjs");
-    store = captureR2Store();
-    reader = r2Reader(wranglerStore(), path.join(workDir, "snapshots-r2"));
+    const { captureStore, snapshotReadStore } = await import("../capture-r2.mjs");
+    store = captureStore();
+    reader = r2Reader(await snapshotReadStore(), path.join(workDir, "snapshots-r2"));
   } else if (mode === "dir") {
     const { dirStore } = await import("../capture-r2.mjs");
     const { runSnapshot } = await import("../snapshot.mjs");
