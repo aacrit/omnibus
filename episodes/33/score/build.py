@@ -33,6 +33,8 @@ import numpy as np
 import yaml
 
 HERE = Path(__file__).resolve().parent
+RUNDOWN = HERE.parent / "rundown.json"
+BED_AT_S = 715.1        # the bed's first sample on the programme clock: echo-x3's start (rundown.json)
 SCORE_TOOLS = Path(os.environ.get("SCORE_TOOLS", "C:/Users/aacri/document-work/score-tools"))
 sys.path.insert(0, str(SCORE_TOOLS))
 import whole as W  # noqa: E402  (humanise, ola_convolve; imports render.py and void-history score.py)
@@ -47,6 +49,79 @@ STING = {"tones_hz": [659.2551, 659.2551 * 1.5], "durs_s": [0.300, 0.500], "atta
          "release_s": [0.050, 0.110], "target_lufs": -20.0,
          "why": "E5 then the B a pure fifth above (3:2): the second tone sits in the broadcast line-up tone's register "
                 "(988.9 Hz, by 1 kHz); the theme is centred on E, so the sting is its open fifth and never clashes"}
+
+# Founder ruling (chat 2026-11-12): in the Echo, no music under any period quote. The bed plays only between quotations
+# and goes to silence under every reader line, for every speaker alike. The gate is NOT baked into the WAV: the reader
+# lines' times move with the screenplay and the narration, so the mix applies it, keyed to the reader's real word times
+# (E7's alignment). READER_GATE is that contract; reader_gate() is its reference implementation (audit.py uses it on the
+# planned windows below, E11 on the real ones).
+READER_GATE = {
+    "ruling": "founder, chat 2026-11-12: no music under any period quote; the bed plays only between quotations and "
+              "dips to silence under every reader line (Truman x3 and x6, Eisenhower x8, Stevenson x9 alike)",
+    "applies_to": "every Echo bed placement (echo-bed-150.wav and .mix.wav); never the theme, the credits or the sting",
+    "key": "each reader line (am_michael, the reader class) by its first and last word time from the narration's "
+           "alignment (E7); the planned windows below are the rundown's budgets, for the audit and as the fallback only",
+    "gain_closed": "0 (silence, not a duck), multiplied after the 9 dB narrator duck",
+    "lead_s": 0.25, "close_ramp_s": 0.6, "tail_s": 0.5, "open_ramp_s": 1.5,
+    "ramp_shape": "raised cosine",
+    "hold_closed_gap_s": 3.0, "min_open_s": 4.0,
+    "rule": "closed from (first word - lead_s) to (last word + tail_s); the close ramp ends at the closed window's start, "
+            "the open ramp (A29: an entry fade of at least 1.5 s) starts at its end; two reader lines less than "
+            "hold_closed_gap_s apart (the passages of one quotation, read with a pause at each cut) share one closed "
+            "window; an open stretch shorter than min_open_s between two closed windows stays closed (no flutter)",
+}
+PLAN_SLATE_S = 1.2      # the planned-voice model: the slate breathes first,
+PLAN_BREATH_S = 0.7     # a breath between the narrator and the reader and between passages
+
+
+def planned_voice(rundown: dict) -> list[dict]:
+    """The Echo's voice as the rundown plans it (no narration exists yet): in each beat the narrator's seconds first,
+    from PLAN_SLATE_S after the cut, then the reader's passages in order, their seconds split by word count, a breath
+    between each. Programme times. E11 replaces these with E7's word times."""
+    echo = next(p for p in rundown["parts"] if p["id"] == "the-echo")
+    out, t = [], float(echo["start_s"])
+    for b in echo["beats"]:
+        bud = b.get("budget") or {}
+        rd = float(bud.get("reader_s") or 0.0)
+        narr = float(bud.get("voiced_s") or 0.0) - rd
+        at = t + PLAN_SLATE_S
+        if narr > 0:
+            out.append({"beat": b["id"], "who": "narrator", "start_s": round(at, 2), "end_s": round(at + narr, 2)})
+            at += narr + PLAN_BREATH_S
+        texts = [r["text"] for r in b.get("reader") or []]
+        words = [len(x.split()) for x in texts] or [1]
+        for i, w in enumerate(words):
+            d = rd * w / sum(words)
+            if d <= 0:
+                continue
+            out.append({"beat": b["id"], "who": "reader", "passage": i + 1, "words": w,
+                        "start_s": round(at, 2), "end_s": round(at + d, 2)})
+            at += d + PLAN_BREATH_S
+        t += float(b["dur_s"])
+    return out
+
+
+def reader_gate(n: int, lines: list[tuple[float, float]], rate: int = RATE, g: dict = READER_GATE) -> tuple[np.ndarray, list]:
+    """The gain READER_GATE asks for, sample by sample on the bed's own clock (0 at its first sample); `lines` are the
+    reader lines' (first word, last word) on that clock."""
+    win = []
+    for a, b in sorted(lines):
+        a, b = a - g["lead_s"], b + g["tail_s"]
+        if win:
+            gap = a - win[-1][1]
+            if gap < g["hold_closed_gap_s"] or gap - g["open_ramp_s"] - g["close_ramp_s"] < g["min_open_s"]:
+                win[-1][1] = max(win[-1][1], b)
+                continue
+        win.append([a, b])
+    x = np.ones(n)
+    t = np.arange(n) / rate
+    for a, b in win:
+        x[(t >= a) & (t < b)] = 0.0
+        c = (t >= a - g["close_ramp_s"]) & (t < a)
+        x[c] = np.minimum(x[c], 0.5 + 0.5 * np.cos(np.pi * (t[c] - (a - g["close_ramp_s"])) / g["close_ramp_s"]))
+        o = (t >= b) & (t < b + g["open_ramp_s"])
+        x[o] = np.minimum(x[o], 0.5 - 0.5 * np.cos(np.pi * (t[o] - b) / g["open_ramp_s"]))
+    return x, win
 
 
 def sha_file(p: Path) -> str:
@@ -258,6 +333,12 @@ def main(argv=None) -> int:
         "samples": samples, "sample_files": len(used),
         "rooms": {k: {**v, "kind": "synthesised by build.py synth_room (no measured impulse response)"}
                   for k, v in m["rooms"].items()},
+        "reader_gate": {**READER_GATE, "planned_voice_model": {"slate_s": PLAN_SLATE_S, "breath_s": PLAN_BREATH_S},
+                        "planned_reader_windows": [
+                            {**v, "bed_clock_start_s": round(v["start_s"] - BED_AT_S, 2),
+                             "bed_clock_end_s": round(v["end_s"] - BED_AT_S, 2),
+                             "under_bed": 0 <= v["start_s"] - BED_AT_S < 150.0}
+                            for v in planned_voice(json.loads(RUNDOWN.read_text(encoding="utf-8"))) if v["who"] == "reader"]},
         "room_tone": "none baked in: each cue is music only; the programme's room comes from the picture's own sound "
                      "and the title's CC0 room (E5)",
         "render_s": round(time.time() - t_start, 1),

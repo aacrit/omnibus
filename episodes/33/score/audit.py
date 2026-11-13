@@ -34,6 +34,8 @@ EP = HERE.parent
 SCORE_TOOLS = Path(os.environ.get("SCORE_TOOLS", "C:/Users/aacri/document-work/score-tools"))
 sys.path.insert(0, str(SCORE_TOOLS))
 import whole as W  # noqa: E402  (short_term: BS.1770 3 s windows)
+sys.path.insert(0, str(HERE))
+import build as B  # noqa: E402  (planned_voice, READER_GATE, reader_gate)
 import wio  # noqa: E402
 
 RATE = 48000
@@ -121,36 +123,34 @@ def spectral(SC, x) -> dict:
     return {"lufs": lufs, "rms_dbfs": rms_db(x), "centroid_hz_over_100": round(cen), "band_share_db": out}
 
 
-def stand_in_voice(SC, beats: list[dict], t0: float) -> tuple[np.ndarray, list[tuple[float, float]], list[dict]]:
-    """Real Kokoro lines, each levelled to the dialogue target, laid on each bed beat's voiced budget: the narrator
-    first, then the reader for the beat's reader seconds, a 0.7 s breath between lines."""
+def stand_in_voice(SC, planned: list[dict], t0: float) -> tuple[np.ndarray, list, list, list[dict]]:
+    """Real Kokoro lines, each levelled to the dialogue target, laid in the planned voice windows (build.planned_voice:
+    the rundown's budgets) that fall under the bed: af_aoede in the narrator's, am_michael in the reader's, a 0.7 s
+    breath between lines inside a window. Returns the voice, every line's span, the reader lines' spans, the layout."""
     lines = {k: [read(p) for p in v] for k, v in STAND_IN.items()}
     lines = {k: [y * 10 ** ((SC.DIALOGUE_LUFS - SC.integrated_lufs(y)) / 20) for y in v] for k, v in lines.items()}
     n = int(150.0 * RATE)
     v = np.zeros(n)
-    spans, layout, t = [], [], 0.0
+    spans, reader, layout = [], [], []
     k = {"narrator": 0, "reader": 0}
-    for b in beats:
-        start = b["start_s"] - t0
-        reader_s = float(b["budget"].get("reader_s") or 0.0)
-        narr_s = float(b["budget"]["voiced_s"]) - reader_s
-        t = start + 1.2                                  # the slate breathes first
-        for who, need in (("narrator", narr_s), ("reader", reader_s)):
-            got = 0.0
-            while got < need - 0.5:
-                y = lines[who][k[who] % len(lines[who])]
-                k[who] += 1
-                y = y[: int(min(len(y), (need - got) * RATE))]
-                i0 = int(t * RATE)
-                if i0 + len(y) > int((b["start_s"] - t0 + b["dur_s"]) * RATE) or i0 + len(y) > n:
-                    break
-                v[i0:i0 + len(y)] += y
-                spans.append((round(t, 2), round(t + len(y) / RATE, 2)))
-                got += len(y) / RATE
-                t += len(y) / RATE + 0.7
-        layout.append({"beat": b["id"], "voiced_s_budget": b["budget"]["voiced_s"], "reader_s_budget": reader_s,
-                       "laid_s": round(sum(e - s for s, e in spans if start <= s < start + b["dur_s"]), 1)})
-    return v, spans, layout
+    for w in planned:
+        a, b = w["start_s"] - t0, w["end_s"] - t0
+        if not (0 <= a < 150.0):
+            continue
+        t, laid = a, 0.0
+        while t < b - 0.5:
+            y = lines[w["who"]][k[w["who"]] % len(lines[w["who"]])]
+            k[w["who"]] += 1
+            y = y[: int(min(len(y), (b - t) * RATE, n - int(t * RATE)))]
+            i0 = int(t * RATE)
+            v[i0:i0 + len(y)] += y
+            spans.append((round(t, 2), round(t + len(y) / RATE, 2)))
+            if w["who"] == "reader":
+                reader.append(spans[-1])
+            laid += len(y) / RATE
+            t += len(y) / RATE + 0.7
+        layout.append({"beat": w["beat"], "who": w["who"], "planned_s": [round(a, 2), round(b, 2)], "laid_s": round(laid, 1)})
+    return v, spans, reader, layout
 
 
 def duck_curve(n: int, spans, depth_db: float, hold_s: float, ramp_s: float = 0.25) -> np.ndarray:
@@ -263,17 +263,37 @@ def main(argv=None) -> int:
     t = float(echo["start_s"])
     for b in echo["beats"]:
         b["start_s"], t = t, t + float(b["dur_s"])
-    bed_beats = [b for b in echo["beats"] if b["id"] in echo["music"]["under"]]
-    t0 = bed_beats[0]["start_s"]
-    voice, spans, layout = stand_in_voice(SC, bed_beats, t0)
+    t0 = B.BED_AT_S
+    planned = B.planned_voice(rundown)
+    voice, spans, reader, layout = stand_in_voice(SC, planned, t0)
     duck, merged = duck_curve(len(voice), spans, SC.DUCK_DB, float(std["duck_hold_s"]))
+    # the founder's reader gate (2026-11-12), keyed here to the planned reader windows, as the mix keys it to E7's
+    planned_reader = [(w["start_s"] - t0, w["end_s"] - t0) for w in planned
+                      if w["who"] == "reader" and 0 <= w["start_s"] - t0 < 150.0]
+    gate, closed = B.reader_gate(len(voice), planned_reader)
     bed = wav["echo-bed-150.mix.wav"]
-    ducked = bed * duck
+    ducked = bed * duck * gate
+    under = []
+    for a_, b_ in planned_reader:
+        seg = ducked[int(a_ * RATE): int(b_ * RATE)]
+        edge = ducked[int((a_ - B.READER_GATE["lead_s"]) * RATE): int((b_ + B.READER_GATE["tail_s"]) * RATE)]
+        under.append({"line_s": [round(a_, 2), round(b_, 2)], "max_abs": float(np.max(np.abs(seg))),
+                      "with_lead_and_tail_max_abs": float(np.max(np.abs(edge)))})
+    check("no-music-under-quote", all(u["max_abs"] == 0.0 and u["with_lead_and_tail_max_abs"] <= SC.DIGITAL_ZERO
+                                         for u in under), "echo-bed-150 (gated)",
+          measure="exactly 0 under the words; at or under the engine's digital zero (1e-6, -120 dBFS) with the lead and tail",
+          ruling=B.READER_GATE["ruling"], lines=under, closed_windows=[[round(a_, 2), round(b_, 2)] for a_, b_ in closed],
+          open_ramp_s=B.READER_GATE["open_ramp_s"], min_open_ramp_s=std["entry_fade_min_s"],
+          not_under_bed="x2, x8 and x9 readings: no bed plays there at all")
+    check("gate-reentry", B.READER_GATE["open_ramp_s"] >= std["entry_fade_min_s"], "echo-bed-150 (gated)",
+          open_ramp_s=B.READER_GATE["open_ramp_s"], min_s=std["entry_fade_min_s"],
+          what="every return of the bed after a quotation is an entry from no music (A29: at least 1.5 s)")
     ph = SC.phone_check(voice.astype(np.float32), ducked.astype(np.float32), spans)
     ev = ph["checks"][0]["evidence"]
     check("phone-check", ph["checks"][0]["ok"], "stand-in voice over the ducked bed",
           **{k: ev[k] for k in ("lines", "windows", "min_margin_db", "p10_margin_db", "median_margin_db",
-                                "min_margin_required_db", "under", "worst")}, layout=layout, spans=spans)
+                                "min_margin_required_db", "under", "worst")}, layout=layout, spans=spans,
+          bed="as the mix places it: ducked 9 dB under every line and gated to silence under the reader's")
     # the worst case: the voice band of the stand-in lines (their speech windows' median) against the ducked bed's
     # loudest one-second window anywhere, as if a line fell on it
     lo, hi = SC.VOICE_BAND_HZ
@@ -290,10 +310,11 @@ def main(argv=None) -> int:
     gap = np.ones(len(voice), bool)
     for a_, b_ in merged:
         gap[int(a_ * RATE): int(b_ * RATE)] = False
-    gaps = bed[gap]
+    gaps = (bed * gate)[gap & (gate > 0.999)]
     gl = SC.integrated_lufs(gaps)
     check("bed-under-voice", gl is None or gl <= SC.bed_lufs(std) + SC.TOL_DB, "echo-bed-150.mix.wav",
-          gaps_lufs=gl, gaps_s=round(gap.sum() / RATE, 1), max_lufs=SC.bed_lufs(std) + SC.TOL_DB)
+          gaps_lufs=gl, gaps_s=round(float((gap & (gate > 0.999)).sum()) / RATE, 1), max_lufs=SC.bed_lufs(std) + SC.TOL_DB,
+          measured_on="the gated bed where no voice speaks and the gate is open")
     # ---- the sting
     st = wav["sting.wav"]
     tones = []
@@ -323,11 +344,13 @@ def main(argv=None) -> int:
     out = {"engine": {"file": str(a.engine), "used": "analyse_cue, bed_shape, integrated_lufs, rep_features, "
                       "self_repetition, cross_repetition, phone_check, phone_mag, STANDARD"},
            "ok": all(c["ok"] for c in checks), "checks": checks, "cues": rep, "spectral_summary": summary,
-           "phone_simulation": phone_lufs, "stand_in_voice": STAND_IN, "duck": {"depth_db": SC.DUCK_DB, "ramp_s": 0.25,
+           "phone_simulation": phone_lufs, "reader_gate": {"contract": B.READER_GATE, "planned_voice": planned,
+                                                           "closed_windows_bed_clock": closed}, "stand_in_voice": STAND_IN, "duck": {"depth_db": SC.DUCK_DB, "ramp_s": 0.25,
                                                                                  "hold_s": std["duck_hold_s"]}}
     (a.media / "audit.json").write_text(json.dumps(out, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
     for c in checks:
-        ev = {k: v for k, v in c["evidence"].items() if k not in ("matrix", "layout", "max_self_similarity", "tones", "spans")}
+        ev = {k: v for k, v in c["evidence"].items() if k not in ("matrix", "layout", "max_self_similarity", "tones", "spans",
+                                                                 "worst", "lines", "ruling")}
         print(f"  {'PASS' if c['ok'] else 'FAIL'}  {c['rule']:24} {c['unit']:34} {json.dumps(ev, default=float)[:150]}")
     print("ALL PASS" if out["ok"] else "FAILURES")
     return 0 if out["ok"] else 1

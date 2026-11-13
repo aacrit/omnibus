@@ -20,15 +20,15 @@
    "cue": "credits"
   },
   "echo-bed-150.wav": {
-   "sha256": "b5ee5f96f5b072c1cd6af58a5e53946a20fa08844d8d3bbcc7d108753d01d243",
-   "decoded_sha256": "8b84824fb577b5b6dcfc220ffe840e9dc399421c936a64ec2b22b492ad65bd8a",
+   "sha256": "4ef74371928efe39b1a02715c05cacd65edb6db840fdb3a1e086603e92bbcdfa",
+   "decoded_sha256": "6f91497038664f451797d2bdbe6b559350fdb4d6c7d59564e10cbb9747131d1b",
    "samples": 7200000,
    "seconds": 150.0,
    "cue": "echo-bed-150"
   },
   "echo-bed-150.mix.wav": {
-   "sha256": "871fc115b987ded36e255bb2f80742638bef68087da877d49ec2f4c7d5e5bcf7",
-   "decoded_sha256": "f6641eb71dac8fb7a8001632e4a89669d4d88db45c10929a2146745925edb02c",
+   "sha256": "b82e2dfd80d3e6ab57c5a1603406b06de1eceabca02bdd16044c5f63aa38885a",
+   "decoded_sha256": "5b6035e27b013efe93dd66a709f9f9e3bc3aaecf46deb3459793369355a00984",
    "samples": 7200000,
    "seconds": 150.0,
    "cue": "echo-bed-150"
@@ -83,17 +83,17 @@
    "length_s": 150.0,
    "room": "hall",
    "seed": 3313,
-   "notes": 77,
+   "notes": 76,
    "sampler_loops": 0,
    "looped_notes": [],
    "max_shift_semitones": 3,
    "shift_histogram": {
-    "0": 15,
+    "0": 14,
     "1": 11,
     "2": 49,
     "3": 2
    },
-   "gain_db": 9.72,
+   "gain_db": 9.78,
    "target_lufs": -32.0,
    "files": {
     "echo-bed-150.wav": "unshaped: the engine's bed input (it band-shapes and levels at the mix)",
@@ -151,10 +151,10 @@
    "used": "bed_shape, integrated_lufs (levelling)"
   },
   "build.py": {
-   "sha256": "aa09df4701132350437921a3d006847b32779d09e1f2e7c25f6db2164bf279ea"
+   "sha256": "921a5bdbc00f03470f5e3724479d8dc7a164a45a606edc4b1cabb800a969f1a6"
   },
   "score.yaml": {
-   "sha256": "d9fcca654bc5984b05760d700e9e299f5f6ea0cc8eb5094428fe9dd1b19d762b"
+   "sha256": "465150be41f0a7aabe0152c8484561419cba9b83f17a8d10299ce0845525cbca"
   }
  },
  "samples": [
@@ -454,6 +454,125 @@
    "kind": "synthesised by build.py synth_room (no measured impulse response)"
   }
  },
+ "reader_gate": {
+  "ruling": "founder, chat 2026-11-12: no music under any period quote; the bed plays only between quotations and dips to silence under every reader line (Truman x3 and x6, Eisenhower x8, Stevenson x9 alike)",
+  "applies_to": "every Echo bed placement (echo-bed-150.wav and .mix.wav); never the theme, the credits or the sting",
+  "key": "each reader line (am_michael, the reader class) by its first and last word time from the narration's alignment (E7); the planned windows below are the rundown's budgets, for the audit and as the fallback only",
+  "gain_closed": "0 (silence, not a duck), multiplied after the 9 dB narrator duck",
+  "lead_s": 0.25,
+  "close_ramp_s": 0.6,
+  "tail_s": 0.5,
+  "open_ramp_s": 1.5,
+  "ramp_shape": "raised cosine",
+  "hold_closed_gap_s": 3.0,
+  "min_open_s": 4.0,
+  "rule": "closed from (first word - lead_s) to (last word + tail_s); the close ramp ends at the closed window's start, the open ramp (A29: an entry fade of at least 1.5 s) starts at its end; two reader lines less than hold_closed_gap_s apart (the passages of one quotation, read with a pause at each cut) share one closed window; an open stretch shorter than min_open_s between two closed windows stays closed (no flutter)",
+  "planned_voice_model": {
+   "slate_s": 1.2,
+   "breath_s": 0.7
+  },
+  "planned_reader_windows": [
+   {
+    "beat": "echo-x2",
+    "who": "reader",
+    "passage": 1,
+    "words": 29,
+    "start_s": 685.2,
+    "end_s": 697.0,
+    "bed_clock_start_s": -29.9,
+    "bed_clock_end_s": -18.1,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x3",
+    "who": "reader",
+    "passage": 1,
+    "words": 9,
+    "start_s": 725.0,
+    "end_s": 728.67,
+    "bed_clock_start_s": 9.9,
+    "bed_clock_end_s": 13.57,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x3",
+    "who": "reader",
+    "passage": 2,
+    "words": 24,
+    "start_s": 729.37,
+    "end_s": 739.15,
+    "bed_clock_start_s": 14.27,
+    "bed_clock_end_s": 24.05,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x3",
+    "who": "reader",
+    "passage": 3,
+    "words": 58,
+    "start_s": 739.85,
+    "end_s": 763.5,
+    "bed_clock_start_s": 24.75,
+    "bed_clock_end_s": 48.4,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x6",
+    "who": "reader",
+    "passage": 1,
+    "words": 8,
+    "start_s": 841.2,
+    "end_s": 844.5,
+    "bed_clock_start_s": 126.1,
+    "bed_clock_end_s": 129.4,
+    "under_bed": true
+   },
+   {
+    "beat": "echo-x8",
+    "who": "reader",
+    "passage": 1,
+    "words": 16,
+    "start_s": 897.7,
+    "end_s": 904.21,
+    "bed_clock_start_s": 182.6,
+    "bed_clock_end_s": 189.11,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x8",
+    "who": "reader",
+    "passage": 2,
+    "words": 8,
+    "start_s": 904.91,
+    "end_s": 908.17,
+    "bed_clock_start_s": 189.81,
+    "bed_clock_end_s": 193.07,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x8",
+    "who": "reader",
+    "passage": 3,
+    "words": 5,
+    "start_s": 908.87,
+    "end_s": 910.9,
+    "bed_clock_start_s": 193.77,
+    "bed_clock_end_s": 195.8,
+    "under_bed": false
+   },
+   {
+    "beat": "echo-x9",
+    "who": "reader",
+    "passage": 1,
+    "words": 27,
+    "start_s": 942.0,
+    "end_s": 953.0,
+    "bed_clock_start_s": 226.9,
+    "bed_clock_end_s": 237.9,
+    "under_bed": false
+   }
+  ]
+ },
  "room_tone": "none baked in: each cue is music only; the programme's room comes from the picture's own sound and the title's CC0 room (E5)",
- "render_s": 10.1
+ "render_s": 10.0
 }

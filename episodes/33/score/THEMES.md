@@ -16,14 +16,15 @@ One theme, one motif and one signal. The theme and the sting are the show's: wri
 - **What it stands for.** What a war cost at home, told as account entries: a fall, then a further fall.
 - **Intervals.** D5 C5 G4: a falling major second, then a falling perfect fourth. This is the theme's cell in retrograde inversion (up a fourth then a step, reversed and turned over). It is kin to the theme by construction, but it never quotes it. The theme plays nowhere but the title and the credits (bible b).
 - **Mode.** D Aeolian over a D pedal, a tone below the theme's E: another time, another floor. There are B-flat and C colours (bVI, bVII), and one Phrygian E-flat in x4.
+- **Never under a quotation** (founder, 2026-11-12). The bed sounds under the narrator and between readings only; the mix gates it to silence under every reader line (SPOTTING, the reader gate).
 - **Orchestration.** The umber register: a contrabass pedal in two octaves, D1 felt and D2 bowed, with cellos in their tenor register and violas (VSCO 2 CE, CC0). There is no period colour, no march, no hymn, no folk instrument, no brass and no drum. The strings' fundamentals sit above 400 Hz and the pedal below 100 Hz, so the reader's voice owns 150 to 400 Hz (A29 refined).
 
 | Beat | Harmony | Orchestration | The account |
 |---|---|---|---|
-| x3 White House | D minor, B-flat and C colours | pedal; cellos alone, then violas a phrase at a time; pp | stated once, in the cellos, after the readings (46.6 s), landing on the x4 cut |
+| x3 White House | D minor, B-flat and C colours | pedal; cellos under the narrator, pp; silent under Truman's readings (the reader gate) | stated once, in the cellos, as the bed returns after the readings (49.4 s), landing on the x4 cut |
 | x4 Kumsong front | B-flat over D, then G minor | one voice under the words, then both sections | transposed up a third, its step flattened: F5 E-flat5 B-flat4 (Phrygian), the first widening |
 | x5 New Hampshire | D, open fifths | one cello line, rests | fragmented: the falling step alone (A4 G4, B-flat4 A4); no fall of a fourth, nothing that says why |
-| x6 the Armory | D minor to an open fifth | the cellos fall, the violas answer each fall with a rising step | augmented (D5 C5 G4 at 3 to 4 s a note); after the withdrawal line, the bed's one high F5; at the end the last fall is withheld: the cellos stop on D and never fall to A |
+| x6 the Armory | D minor to an open fifth | the cellos fall, the violas answer each fall with a rising step; silent under the withdrawal line | augmented (D5 C5 G4 at 3 to 4 s a note); after the withdrawal line, the bed's one high F5; at the end the last fall is withheld: the cellos stop on D and never fall to A |
 
 ## The signal: the sting
 
