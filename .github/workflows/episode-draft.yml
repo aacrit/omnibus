@@ -193,7 +193,10 @@ jobs:
           set -eu
           bash scripts/ci/meter.sh mark narration
           out=/home/runner/stage/narration
-          python -m studio.news.voice_episode "episodes/$ISSUE" --media-root "$out/media" --threads 4 | tee "$out/reports/narration.json"
+          # the takes are voiced where the render job lays them out: voice.json records that folder as its media root
+          python -m studio.news.voice_episode "episodes/$ISSUE" --media-root "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice" --threads 4 \
+            | tee "$out/reports/narration.json"
+          cp -r "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice" "$out/media"
           cp "episodes/$ISSUE/audio/voice.json" "$out/voice.json"
           du -sh "$out"
       - name: hand-off (artifact)

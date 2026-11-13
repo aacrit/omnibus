@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { pullLedger, summarise } from "../scripts/lib/rights/pull.mjs";
 import { Refused } from "../scripts/lib/rights/http.mjs";
 import { buildManifest, manifestProblems, notPublic, outputsRoute, sha256File, statOrNull, verifyFiles } from "../scripts/lib/draft-outputs.mjs";
-import { dirtyRefusal, pickRun } from "../scripts/pull-render.mjs";
+import { dirtyRefusal, localLedger, pickRun } from "../scripts/pull-render.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
@@ -125,5 +125,13 @@ describe("pull-render", () => {
     expect(dirtyRefusal("D:/omnibus-media/33/render", { platform: "win32", env, run: () => "Volume - D: is Dirty" })).toMatch(/chkdsk/);
     expect(dirtyRefusal("D:/x", { platform: "win32", env, run: () => { throw new Error("denied"); } })).toMatch(/failed/);
     expect(dirtyRefusal("/home/x", { platform: "linux" })).toBe(null);
+  });
+
+  it("writes the run's graphics ledger for the laptop, changing only each output_path", () => {
+    const text = '[\n  {\n    "id": "credits",\n    "output_path": "/home/runner/stage/graphics/media/credits.mov",\n    "hold_s": 12.0\n  }\n]\n';
+    const { text: out, rows } = localLedger(text, "D:\\omnibus-media\\33\\graphics", { win: true });
+    expect(rows[0].output_path).toBe("D:\\omnibus-media\\33\\graphics\\credits.mov");
+    expect(out).toContain('"hold_s": 12.0');
+    expect(out.replace(/"output_path": "[^"]*"/, "")).toBe(text.replace(/"output_path": "[^"]*"/, ""));
   });
 });

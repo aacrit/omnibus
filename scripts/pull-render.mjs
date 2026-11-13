@@ -3,7 +3,7 @@
 // build, and checks every file against the run's render-manifest.json (bytes and sha256) before it takes the
 // destination's place. Net-new.
 //
-//   node scripts/pull-render.mjs <issue> [--run <id>] [--from artifact|r2] [--dest <dir>] [--replace]
+//   node scripts/pull-render.mjs <issue> [--run <id>] [--from artifact|r2] [--dest <dir>] [--replace] [--graphics [--repo <checkout>] [--commit]]
 //
 // --from artifact (the default): the run's workflow artifact episode-draft-<issue>, through `gh run download`
 //   (the newest successful episode-draft run for that issue unless --run names one).
@@ -13,9 +13,14 @@
 //   (<dest>.incoming), is verified there, and only then replaces <dest> (which must be absent or empty unless
 //   --replace). A destination on a non-system Windows volume is refused when its dirty bit is set or cannot be read
 //   (the exFAT D: of 2026-10-10).
+// --graphics: the run's graphics are the authoritative ones (Actions renders every week-<n> graphic afresh): its
+//   .mov files are copied into <root>/<issue>/graphics (where the screenplay's graphics ledger reference points), and
+//   its graphics-ledger.json is written to episodes/<issue>/graphics-ledger.json in this checkout, each output_path
+//   naming the laptop's copy. --repo names the checkout to write it into (default this one: e.g. an e4d/pilot-cut
+//   worktree); --commit then commits that one file on that checkout's current branch.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { BUCKET, MANIFEST, manifestProblems, sha256File, statOrNull, verifyFiles } from "./lib/draft-outputs.mjs";
@@ -45,6 +50,42 @@ export function dirtyRefusal(dir, { platform = process.platform, env = process.e
     return `fsutil dirty query ${drive} failed (${e.message.split("\n")[0]}): not writing to ${drive}`;
   }
   return /NOT Dirty/.test(text) ? null : `${drive} is dirty or could not be read (${text.trim().slice(0, 120)}): run chkdsk ${drive} /f first`;
+}
+
+/**
+ * The run's graphics ledger text with each output_path naming the laptop's copy under `graphicsDir` (pure). Only
+ * those strings change: the rest keeps the renderer's own bytes (Python's json prints 12.0, JSON.stringify 12).
+ */
+export function localLedger(text, graphicsDir, { win = process.platform === "win32" } = {}) {
+  const join = win ? path.win32.join : path.posix.join;
+  let out = text;
+  for (const r of JSON.parse(text)) {
+    const local = join(graphicsDir, path.posix.basename(String(r.output_path).replace(/\\/g, "/")));
+    out = out.split(`"output_path": ${JSON.stringify(r.output_path)}`).join(`"output_path": ${JSON.stringify(local)}`);
+  }
+  return { text: out, rows: JSON.parse(out) };
+}
+
+function installGraphics(issue, dest, root, commit, runLabel, repo = repoRoot) {
+  const src = path.join(dest, "graphics");
+  const ledgerFile = path.join(dest, "graphics-ledger.json");
+  if (!existsSync(ledgerFile) || !existsSync(src)) throw new Error("the run carries no graphics or graphics-ledger.json");
+  const graphicsDir = path.resolve(root, String(issue), "graphics");
+  mkdirSync(graphicsDir, { recursive: true });
+  const { text, rows } = localLedger(readFileSync(ledgerFile, "utf8"), graphicsDir);
+  for (const r of rows) {
+    const name = path.basename(r.output_path);
+    if (!existsSync(path.join(src, name))) throw new Error(`the ledger's ${name} is not in the run's graphics`);
+    copyFileSync(path.join(src, name), path.join(graphicsDir, name));
+  }
+  const target = path.join(repo, "episodes", String(issue), "graphics-ledger.json");
+  if (!existsSync(path.dirname(target))) throw new Error(`${repo} has no episodes/${issue}: --repo names a checkout of omnibus`);
+  writeFileSync(target, text);
+  console.log(`pull-render: ${rows.length} graphics -> ${graphicsDir}; ledger -> ${target}`);
+  if (commit) {
+    execFileSync("git", ["add", target], { cwd: repo, stdio: "inherit" });
+    execFileSync("git", ["commit", "-m", `graphics-ledger: issue ${issue}, rendered on Actions (${runLabel})`], { cwd: repo, stdio: "inherit" });
+  }
 }
 
 function gh(args) {
@@ -112,6 +153,7 @@ async function main(argv) {
   renameSync(incoming, dest);
   const bytes = m.files.reduce((a, f) => a + f.bytes, 0);
   console.log(`pull-render: ${checked.length} files (${(bytes / 1024 ** 2).toFixed(1)} MiB) verified -> ${dest}`);
+  if (argv.includes("--graphics")) installGraphics(issue, dest, root, argv.includes("--commit"), `episode-draft run ${m.run ?? "?"}`, flag("repo") ? path.resolve(flag("repo")) : repoRoot);
   return 0;
 }
 
