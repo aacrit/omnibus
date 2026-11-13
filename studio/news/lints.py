@@ -23,6 +23,11 @@ label is out of the spine's order is linted as news.
   the horizon in its narration or text. A date-time with no zone is every instant it can be in the world's zones,
   never UTC. A whole-day date on the horizon's own day is a review item; a part's horizon is an instant or a day
   before the episode's, never after it or a whole day straddling it.
+- ``picture_published_by_edition`` (founder ruling A, 2026-11-13): a news part's picture (a shot's or overlay's
+  ledger item with a ``published_at``) is public by the part's horizon; in The Week only, a picture of the day's own
+  event (its ``date`` on or before the day's horizon) may be published by the edition cutoff (the episode's
+  ``as_of``) instead, and then its ledger item and the shot both carry the dot label ``FILMED {date} · PUBLISHED
+  {date}``. Facts and narration stay at the day's horizon (``as-of``).
 - ``never-tell`` and ``hindsight-language``: the bible's news list (studio/news/lexicon.json) on the narration and
   our own on-screen text, quotations exempt; and no narration line paraphrases a headline the board on screen shows.
 - ``no-outlet-characterisation``: no characterising word next to an outlet's name (in any case) or a media noun (a
@@ -558,6 +563,76 @@ def as_of_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
                 found.append(_check("as-of", False, unit=srf["unit"], evidence=dict(
                     base, text=srf["text"], years=late, why="names a year after the part's horizon")))
     return _summary("as-of", found, checked)
+
+
+PUBLISHED_BY_EDITION = "picture_published_by_edition"
+_MONTHS = ("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+
+
+def dot_day(value) -> str | None:
+    """"2 NOV 2026": an ISO day as written, an instant by its UTC day (scripts/lib/rights/fetcher.mjs dotDay)."""
+    sp = instant(value)
+    if sp is None:
+        return None
+    d = sp[0].date() if sp[2] else (sp[0].date() if (sp[1] - sp[0]) <= dt.timedelta(days=1) else None)
+    return None if d is None else f"{d.day} {_MONTHS[d.month - 1]} {d.year}"
+
+
+def edition_dot_label(event_date, published_at) -> str | None:
+    a, b = dot_day(event_date), dot_day(published_at)
+    return None if a is None or b is None else f"FILMED {a} \u00b7 PUBLISHED {b}"
+
+
+def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
+    """Ruling A: every news picture public by its part's horizon, or, in The Week, a picture of the day's own event
+    published by the edition cutoff and carrying its FILMED/PUBLISHED dot label on its ledger item and its shot."""
+    found, checked = [], 0
+    episode = instant(play.get("as_of"))
+    if episode is None:
+        return []                             # as-of names the unreadable horizon
+    for p, seg in parts(play):
+        if seg in SC.AS_OF_EXEMPT or seg in ("title", "echo", "question"):
+            continue                          # news parts only, the checked order deciding (a mislabelled part is news)
+        own = instant(p.get("as_of")) if p.get("as_of") else episode
+        if own is None:
+            continue
+        hz = own if own[1] <= episode[1] else episode
+        for x in (p.get("shots") or []) + (p.get("text") or []):
+            item = assets.get(x.get("asset")) if x.get("asset") else None
+            if item is None or item.get("test_fixture") or G.is_graphic(x) or item.get("generator") or item.get("synthetic"):
+                continue
+            if item.get("published_at") is None:
+                continue                      # the fetcher refuses a news picture with no publication time
+            checked += 1
+            base = {"part": p.get("id"), "asset": x.get("asset"), "published_at": item.get("published_at"),
+                    "as_of": _fmt(hz)}
+            pub = instant(item.get("published_at"))
+            if pub is None:
+                found.append(_check(PUBLISHED_BY_EDITION, False, unit=x.get("id"), evidence=dict(
+                    base, why="the item's publication time does not read")))
+                continue
+            if against(pub, hz) == "ok":
+                continue
+            probs = []
+            if seg != "week":
+                probs.append("published after the part's horizon; only The Week's days may show a picture published "
+                             "later, by the edition cutoff")
+            else:
+                ev = instant(item.get("date"))
+                if ev is None or not (ev[1] - ev[0]) <= dt.timedelta(days=1) or against(ev, hz) not in ("ok", "same-day"):
+                    probs.append("published after the day's horizon, and its event is not dated to a day on or before it")
+                if against(pub, episode) != "ok":
+                    probs.append(f"published after the edition cutoff {_fmt(episode)}")
+                want = edition_dot_label(item.get("date"), item.get("published_at"))
+                lab = item.get("dot_label")
+                got = lab.get("text") if isinstance(lab, dict) else lab
+                if want and got != want:
+                    probs.append(f"its ledger item carries the dot label {got!r}, not {want!r}")
+                if want and x.get("dot_label") != want:
+                    probs.append(f"the shot carries the dot label {x.get('dot_label')!r}, not {want!r}")
+            if probs:
+                found.append(_check(PUBLISHED_BY_EDITION, False, unit=x.get("id"), evidence=dict(base, problems=probs)))
+    return _summary(PUBLISHED_BY_EDITION, found, checked)
 
 
 def _extract_dates(inputs: dict) -> dict:
@@ -1414,6 +1489,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     if inputs.get("record") is None:
         return out + deferred_checks()
     out += _guarded("as-of", as_of_checks, play, assets, inputs)
+    out += _guarded(PUBLISHED_BY_EDITION, published_by_edition_checks, play, assets)
     out += _guarded("never-tell", language_checks, play, inputs, durations)
     out += _guarded("no-outlet-characterisation", outlet_checks, play, inputs)
     out += _guarded("no-bridge", bridge_checks, play, inputs)
@@ -1431,7 +1507,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
 
 
 RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
-         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", "never-tell", "hindsight-language",
+         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "never-tell", "hindsight-language",
          "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
          "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
          "ending-question", "black-share", "tour-window-inside", "tour-no-claim-before-board", *DEFERRED)

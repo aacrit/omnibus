@@ -144,6 +144,11 @@ async function resolvePin(pin, step, { http, echoPick }) {
     c.fit = pin.fit;
   }
   if (pin.fair_use !== undefined) c.fair_use = pin.fair_use;
+  // A dot label the shot must carry wherever the item airs (a sourcing pass's requirement: another place or day than the line names).
+  if (pin.dot_label !== undefined) {
+    if (!String(pin.dot_label?.text ?? "").trim() || !String(pin.dot_label?.why ?? "").trim()) throw new Error(`pin ${pin.ref}: dot_label must be { text, why }`);
+    c.dot_label = { text: clip(String(pin.dot_label.text), 120), why: clip(String(pin.dot_label.why), 600) };
+  }
   // A second catalogue record that states the item's day (the fetcher reads it and refines the date).
   if (pin.date_record !== undefined) {
     if (!String(pin.date_record?.adapter ?? "").trim() || !String(pin.date_record?.ref ?? "").trim()) throw new Error(`pin ${pin.ref}: date_record must be { adapter, ref }`);
@@ -294,7 +299,9 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
     });
     log(`${req.id}: ${unique.length} candidate(s), ${notFetched.length} step(s) not fetched`);
   }
-  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", requests };
+  // The edition cutoff (the rundown's as_of): ruling A admits a Week day's own picture published by it.
+  const cutoff = typeof rundown.as_of === "string" && /^\d{4}-\d{2}-\d{2}/.test(rundown.as_of) ? { edition_cutoff: rundown.as_of } : {};
+  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...cutoff, requests };
 }
 
 export const CANDIDATES_SCHEMA_ID = "omnibus.asset-candidates/1";

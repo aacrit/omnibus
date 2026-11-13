@@ -337,6 +337,30 @@
             "horizon": { "type": "string", "maxLength": 64 }
           }
         },
+        "published_by_edition": {
+          "description": "Ruling A (founder, 2026-11-13): a Week day's own picture published after the day's horizon and by the edition cutoff; facts stay at the day's horizon.",
+          "type": "object",
+          "required": ["rule", "event_date", "published_at", "day_horizon", "edition_cutoff", "dot_label"],
+          "additionalProperties": false,
+          "properties": {
+            "rule": { "enum": ["picture_published_by_edition"] },
+            "event_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+            "published_at": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "day_horizon": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "edition_cutoff": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "dot_label": { "type": "string", "minLength": 1, "maxLength": 120 }
+          }
+        },
+        "dot_label": {
+          "description": "A dot label the shot must carry wherever the item airs: ruling A's FILMED/PUBLISHED line, or a sourcing pass's (another place or day than the line names).",
+          "type": "object",
+          "required": ["text", "why"],
+          "additionalProperties": false,
+          "properties": {
+            "text": { "type": "string", "minLength": 1, "maxLength": 120 },
+            "why": { "type": "string", "minLength": 1, "maxLength": 600 }
+          }
+        },
         "terms": {
           "description": "An editorial-use item's terms (founder ruling, 2026-11-13): the terms page, its quoted text, the credit it requires and the restrictions it sets.",
           "type": "object",

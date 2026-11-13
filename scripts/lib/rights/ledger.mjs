@@ -54,6 +54,7 @@ export function validateRequests(doc) {
   const out = [];
   if (doc?.schema !== REQUESTS_SCHEMA_ID) out.push(`schema must be ${REQUESTS_SCHEMA_ID}`);
   if (!Number.isInteger(doc?.issue) || doc.issue < 1) out.push("issue must be a positive integer");
+  if (doc?.edition_cutoff !== undefined && !DATEISH.test(String(doc.edition_cutoff))) out.push("edition_cutoff must be a date or an instant");
   if (!Array.isArray(doc?.requests)) return [...out, "requests must be an array"];
   const seen = new Set();
   doc.requests.forEach((r, i) => {
@@ -77,6 +78,7 @@ export function validateRequests(doc) {
       if (c?.sha256 !== undefined && !/^[0-9a-f]{64}$/.test(String(c.sha256))) out.push(`${cat}.sha256 must be 64 hex digits`);
       if (c?.pinned !== undefined && typeof c.pinned !== "boolean") out.push(`${cat}.pinned must be true or false`);
       if (c?.audio !== undefined && !(c.audio?.mode === "muted" && typeof c.audio?.reason === "string" && c.audio.reason.trim())) out.push(`${cat}.audio must be { mode: "muted", reason }`);
+      if (c?.dot_label !== undefined && !(typeof c.dot_label?.text === "string" && c.dot_label.text.trim() && typeof c.dot_label?.why === "string" && c.dot_label.why.trim())) out.push(`${cat}.dot_label must be { text, why }`);
       if (c?.date_record !== undefined && !(ADAPTERS.includes(c.date_record?.adapter) && typeof c.date_record?.ref === "string" && c.date_record.ref.trim() && c.date_record.ref.length <= 400)) out.push(`${cat}.date_record must be { adapter, ref } naming an adapter the fetcher has`);
     });
     (r?.not_fetched ?? []).forEach((s, j) => {

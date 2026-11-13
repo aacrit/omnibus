@@ -54,14 +54,19 @@ export function dateSpan(d) {
  * cannot be read refuses an item found by search (it could be from any year);
  * an item the rundown pinned by name keeps its own dated record.
  */
-export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false } = {}) {
+export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false, editionCutoff = null } = {}) {
   if (!window) return null;
   // A news part's picture must be public by the part's horizon: a later upload or post was not there to show.
   if (requirePublished) {
     const pub = Date.parse(String(publishedAt ?? ""));
     const end = Date.parse(/T/.test(String(window.to)) ? String(window.to) : `${window.to}T23:59:59Z`);
     if (!Number.isFinite(pub)) return `no publication time on the item, so it cannot be shown public by ${window.to}`;
-    if (Number.isFinite(end) && pub > end) return `published ${isoSecond(new Date(pub).toISOString())}, after its window ends ${window.to}`;
+    if (Number.isFinite(end) && pub > end) {
+      // Ruling A (founder, 2026-11-13): in The Week a picture of the day's own event may be published by the edition cutoff.
+      const by = editionCutoff ? publishedByEdition({ date, publishedAt, window, editionCutoff }) : null;
+      if (!by) return `published ${isoSecond(new Date(pub).toISOString())}, after its window ends ${window.to}`;
+      if (by.problem) return by.problem;
+    }
   }
   const span = dateSpan(date);
   if (!span) return pinned ? null : `no date on the item, so it cannot be placed inside ${window.from} to ${window.to}`;
@@ -72,6 +77,62 @@ export function windowProblem(date, window, { pinned = false, publishedAt = null
   const days = (a, b) => (Date.parse(b) - Date.parse(a)) / 86_400_000;
   if (!pinned && from && to && days(span[0], span[1]) > days(from, to)) return `dated only ${date}, too coarse to place inside its window ${window.from} to ${window.to}`;
   return null;
+}
+
+/** The rule a Week picture published after its day's horizon is admitted under (ruling A, founder 2026-11-13). */
+export const PUBLISHED_BY_EDITION = "picture_published_by_edition";
+/** The Week's day beats, whose pictures ruling A covers (never the cold open, The Weight or The Margins). */
+export const WEEK_DAY = /^week-day-\d+$/;
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+/** "2 NOV 2026" for an ISO day, or an instant's UTC day. */
+export function dotDay(d) {
+  const s = String(d ?? "");
+  const t = /T/.test(s) ? Date.parse(s) : NaN;
+  if (Number.isFinite(t)) {
+    const x = new Date(t);
+    return `${x.getUTCDate()} ${MONTHS[x.getUTCMonth()]} ${x.getUTCFullYear()}`;
+  }
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}` : null;
+}
+
+/** The dot label such a shot carries on screen: "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026". */
+export function editionDotLabel(eventDate, publishedAt) {
+  return `FILMED ${dotDay(eventDate)} \u00b7 PUBLISHED ${dotDay(publishedAt)}`;
+}
+
+/**
+ * Ruling A (founder, 2026-11-13): a picture of a Week day's own event, published after that
+ * day's horizon, is admitted when the event's own day lies inside the day's window (on or
+ * before the horizon's day) and it was published by the edition cutoff. Facts and narration
+ * stay at the day's horizon; the shot carries a dot label saying when it was filmed and
+ * published. Pure. Returns null (published by the horizon: the ordinary rule applies),
+ * { problem }, or { record } for the ledger.
+ */
+export function publishedByEdition({ date, publishedAt, window, editionCutoff }) {
+  const pub = Date.parse(String(publishedAt ?? ""));
+  const end = Date.parse(/T/.test(String(window?.to)) ? String(window.to) : `${window?.to}T23:59:59Z`);
+  if (!Number.isFinite(pub) || !Number.isFinite(end) || pub <= end) return null;
+  const cutoff = Date.parse(/T/.test(String(editionCutoff)) ? String(editionCutoff) : `${editionCutoff}T23:59:59Z`);
+  const at = isoSecond(new Date(pub).toISOString());
+  if (!Number.isFinite(cutoff)) return { problem: `published ${at}, after its window ends ${window.to}, and the edition cutoff does not read` };
+  if (pub > cutoff) return { problem: `published ${at}, after its window ends ${window.to} and after the edition cutoff ${editionCutoff}` };
+  const span = dateSpan(date);
+  if (!span || span[0] !== span[1]) return { problem: `published ${at}, after its window ends ${window.to}; ${PUBLISHED_BY_EDITION} needs the event's own day, and the item is dated ${date ?? "nowhere"}` };
+  const dayTo = new Date(end).toISOString().slice(0, 10);
+  const dayFrom = dateSpan(window.from)?.[0];
+  if (span[0] > dayTo || (dayFrom && span[0] < dayFrom)) return { problem: `published ${at}, after its window ends ${window.to}, and its event date ${span[0]} is not the day's (${window.from} to ${window.to})` };
+  return {
+    record: {
+      rule: PUBLISHED_BY_EDITION,
+      event_date: span[0],
+      published_at: at,
+      day_horizon: String(window.to),
+      edition_cutoff: String(editionCutoff),
+      dot_label: editionDotLabel(span[0], at),
+    },
+  };
 }
 
 /**
@@ -156,6 +217,10 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     // An editorial-use item's captured terms; a fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13).
     ...(c.terms ? { terms: { url: c.terms.url, captured_text: clip(c.terms.captured_text, 4000), captured_at: c.terms.captured_at, credit_required: clip(c.terms.credit_required, 400), restrictions: (c.terms.restrictions ?? []).map((r) => clip(r, 400)) } } : {}),
     ...(c.fair_use ? { fair_use: { ...c.fair_use, rationale: clip(c.fair_use.rationale, 2000) } } : {}),
+    // Ruling A: a Week picture published after its day's horizon, by the edition cutoff.
+    ...(c.published_by_edition ? { published_by_edition: { ...c.published_by_edition } } : {}),
+    // A dot label the shot must carry wherever the item airs (ruling A's, or a sourcing pass's: an Echo film of another place and day).
+    ...(c.dot_label ? { dot_label: { text: clip(c.dot_label.text, 120), why: clip(c.dot_label.why, 600) } } : {}),
   };
 }
 
@@ -274,9 +339,20 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         reasons.push(...(c.own_problems ?? ["no capture record"]));
       } else if (c.media_url && !isAllowedUrl(c.media_url)) reasons.push(`media host of ${clip(c.media_url, 200)} is not on the fetcher's domain allowlist`);
       const requirePublished = !own && NEWS_PART.test(String(request.for ?? "")) && (request.kind === "still" || request.kind === "footage");
+      // Ruling A covers The Week's day beats only, against the edition cutoff assets.json carries.
+      const editionCutoff = WEEK_DAY.test(String(request.for ?? "")) ? requestsDoc.edition_cutoff ?? null : null;
       // A sourcing pass's pin (it states a fit) keeps no undated exemption: its date must be on the record and inside the window.
-      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished });
+      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished, editionCutoff });
       if (outside) reasons.push(outside);
+      else if (requirePublished && editionCutoff && cand.window) {
+        const by = publishedByEdition({ date: c.date, publishedAt: c.published_at, window: cand.window, editionCutoff });
+        if (by?.record) {
+          c.published_by_edition = by.record;
+          c.dot_label = { text: by.record.dot_label, why: `${PUBLISHED_BY_EDITION} (founder ruling, 2026-11-13): published after the day's horizon ${cand.window.to}, by the edition cutoff ${editionCutoff}` };
+        }
+      }
+      // A pin's own dot label (a sourcing pass's requirement), when ruling A has not set one.
+      if (cand.dot_label && !c.dot_label) c.dot_label = cand.dot_label;
       const check = checkCandidate(c);
       reasons.push(...check.reasons);
       if (reasons.length) {
