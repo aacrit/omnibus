@@ -766,7 +766,7 @@ def file_sha256(item: dict) -> str | None:
 
 
 _FILE_CUTS: dict = {}
-SCENE_THRESHOLD = 0.3
+SCENE_THRESHOLD = 0.2
 
 
 def scene_cuts(path: Path, span) -> list[float]:
@@ -3323,6 +3323,18 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
             lint("ledger-cited", ok, unit=s["id"], evidence={"asset": s.get("asset")}, grammar="11.1")
             if not ok:
                 continue
+            # Rights fix 4 review: a rights-ledger item airs only as the exact bytes its ledger names (sha256 on disk,
+            # cached by path, size and mtime), before any cut, fit-span or bodies check is read against the file.
+            if item.get("_rights_ledger") and item.get("sha256"):
+                on_disk = file_sha256(item)
+                same = on_disk == item["sha256"]
+                lint("asset-sha", same, unit=s["id"], grammar="11.1",
+                     evidence=None if same else {"asset": s.get("asset"), "file": item.get("_path"),
+                                                 "ledger_sha256": item["sha256"], "file_sha256": on_disk,
+                                                 "fix": "fetch the item again (node scripts/rights.mjs fetch --redo): "
+                                                        "the file is not the one the ledger checked"})
+                if not same:
+                    continue
             lic = str(item.get("licence") or "")
             lic_ok, sa = licence_allowed(lic, play, item=item)
             reading = SHOW.licence_reading(play, item)   # E9i: the show's licence map, named in the evidence

@@ -9,7 +9,7 @@
 import path from "node:path";
 import { renameSync, rmSync } from "node:fs";
 import { hashLocal, isAllowedUrl, isOwnUrl } from "./http.mjs";
-import { OWN_ADAPTER } from "./licences.mjs";
+import { OWN_ADAPTER, reviewProblems } from "./licences.mjs";
 import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
@@ -25,6 +25,7 @@ function marksReviewed(r = {}) {
     ...(r.duration_s !== undefined ? { duration_s: r.duration_s } : {}),
     // The cuts in a video, the scene threshold and the method that found them (S4 review round 3).
     // The fetcher writes them from the file itself (rights fix round 4), with the ffmpeg that found them and the span it read.
+    ...(r.resign_required !== undefined ? { resign_required: clip(r.resign_required, 1000) } : {}),
     ...(r.cuts !== undefined ? { cuts: r.cuts && typeof r.cuts === "object" ? { times: Array.isArray(r.cuts.times) ? r.cuts.times.slice(0, 2000) : r.cuts.times, threshold: r.cuts.threshold, method: clip(r.cuts.method, 200), ...(r.cuts.ffmpeg !== undefined ? { ffmpeg: clip(r.cuts.ffmpeg, 200) } : {}), ...(r.cuts.span !== undefined ? { span: r.cuts.span } : {}) } : r.cuts } : {}),
   };
 }
@@ -502,7 +503,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       if (cand.dot_label && !c.dot_label) c.dot_label = cand.dot_label;
       // A video's cuts are found in the file after the download (below); before it, the reported list counts for nothing.
       const videoReview = c.marks_checked?.reviewed && (request.kind === "footage" || /^video\//i.test(String(c.mime ?? "")));
-      const check = checkCandidate(videoReview ? { ...c, marks_checked: { ...c.marks_checked, reviewed: { ...c.marks_checked.reviewed, cuts: { times: [], threshold: 0.3, method: "found after the download", ffmpeg: "pending" } } } } : c);
+      const check = checkCandidate(videoReview ? { ...c, marks_checked: { ...c.marks_checked, reviewed: { ...c.marks_checked.reviewed, resign_required: "pending: the review is held to the file's own cuts after the download" } } } : c);
       reasons.push(...check.reasons);
       if (reasons.length) {
         // A refused Wayback capture is still kept as a date witness (hashed, never a licence, never on screen).
@@ -551,7 +552,15 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
             const d = cutsDisagree(reported, found.times, found.span);
             if (d.missing.length || d.extra.length) cutNote = `the reported cuts differ from the file's (missing ${d.missing.join(", ") || "none"}; not in the file ${d.extra.join(", ") || "none"}): the file's are recorded`;
           }
-          c.marks_checked = { ...c.marks_checked, reviewed: { ...c.marks_checked.reviewed, cuts: { times: found.times, threshold: found.threshold, method: found.method, ffmpeg: found.ffmpeg, span: found.span } } };
+          const { resign_required: _was, ...signed } = c.marks_checked.reviewed;
+          const reviewed = { ...signed, cuts: { times: found.times, threshold: found.threshold, method: found.method, ffmpeg: found.ffmpeg, span: found.span } };
+          // A review whose frames do not cover the file's own shots (or whose reported cuts are not the file's) is ledgered
+          // marked for a re-sign: it stands for nothing, the rights lint fails, and only the checking role clears it.
+          // Only a coverage shortfall is held for a re-sign; any other fault in the review (the role, the sheet) refuses the item.
+          const probs = reviewProblems(reviewed, { ...c, kind: request.kind });
+          const coverage = probs.filter((p) => /\.frames must (hold|be at most)/.test(p));
+          const wanting = probs.length === coverage.length ? [...(cutNote ? [cutNote] : []), ...coverage] : [];
+          c.marks_checked = { ...c.marks_checked, reviewed: wanting.length ? { ...reviewed, resign_required: clip(`found by the fetch step ${isoSecond(now().toISOString())}: ${wanting.join("; ")}`, 1000) } : reviewed };
         } catch (err) {
           fileProblems.push(`the video's cuts could not be found in the file: ${clip(err.message, 300)}`);
         }

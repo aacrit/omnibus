@@ -13,6 +13,8 @@ import { lintLicenceAllowlist, lintPublishedByEdition, publishRefusals } from ".
 import { declaredVideo, foreignCreditParts, pageVideos, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
 const AT = "2026-11-13T12:00:00Z";
+/** Frames every `step` s over [a, b], b included: a review that looks at every shot at most 2.5 s apart. */
+const grid = (a: number, b: number, step = 2) => [...Array.from({ length: Math.floor((b - a) / step) + 1 }, (_, i) => +(a + i * step).toFixed(3)), b];
 const VOA_TERMS = "<p>All text, audio and video material produced exclusively by the Voice of America is in the public domain.</p>";
 const voaPage = (credit: string, extra = "") =>
   `<title>VOA clip</title><p>Voice of America</p><script>{"datePublished":"2026-11-03 10:00:00Z"}</script><span class="credit">Credit: ${credit}</span>${extra}<a href="https://voa-video-ns.akamaized.net/x/a.mp4">mp4</a>`;
@@ -168,7 +170,7 @@ describe("S4 review 5: ruling A needs the day's own event, evidenced apart from 
 });
 
 describe("S4 review 1: on-screen marks", () => {
-  const reviewed = { by: "verifier", at: AT, frames: [0, 25, 50], contact_sheet: { path: "sheets/x.jpg", sha256: "a".repeat(64) }, duration_s: 60, cuts: { times: [], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)", ffmpeg: "ffmpeg version 9.0.1" } };
+  const reviewed = { by: "verifier", at: AT, frames: grid(0, 60), contact_sheet: { path: "sheets/x.jpg", sha256: "a".repeat(64) }, duration_s: 60, cuts: { times: [], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)", ffmpeg: "ffmpeg version 9.0.1", span: [0, null] } };
   it("a VOA item and a YouTube copy need a reviewed marks_checked record", () => {
     expect(marksProblems({ adapter: "voa", kind: "footage" }).join()).toMatch(/VOA item needs a reviewed marks_checked/);
     expect(marksProblems({ adapter: "commons", kind: "footage", youtube_source: 'category "Uploaded with video2commons"' }).join()).toMatch(/YouTube copy/);
@@ -238,7 +240,7 @@ describe("S4 review, non-blocking", () => {
 
 describe("S4 review round 2: who checks marks, which frames, and calls to action", () => {
   const sheet = { path: "sheets/e33-day6-pic.jpg", sha256: "b".repeat(64) };
-  const rv = (o: any = {}) => ({ by: "verifier", at: AT, frames: [0, 12, 24, 33], contact_sheet: sheet, cuts: { times: [], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)", ffmpeg: "ffmpeg version 9.0.1" }, ...o });
+  const rv = (o: any = {}) => ({ by: "verifier", at: AT, frames: grid(0, 33), contact_sheet: sheet, cuts: { times: [], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)", ffmpeg: "ffmpeg version 9.0.1", span: [0, 33] }, ...o });
   const item = (mc: any, fit: any = { beat: "week-day-6", why: "w", in_s: 0, out_s: 33 }) => ({ adapter: "commons", kind: "footage", youtube_source: "x", fit, marks_checked: mc });
   it("refuses a review by the builder, the sourcer, or no named role", () => {
     for (const by of ["Forge builder (Claude Opus 5.5)", "sourcer", "t", "E10 test", "verifier and builder", ""]) {
@@ -256,10 +258,10 @@ describe("S4 review round 2: who checks marks, which frames, and calls to action
     expect(marksProblems(item({ marks: [], reviewed: rv({ frames: undefined, frames_checked: 8 }) })).join()).toMatch(/frames must list/);
     expect(marksProblems(item({ marks: [], reviewed: rv({ contact_sheet: undefined }) })).join()).toMatch(/contact_sheet/);
     expect(marksProblems(item({ marks: [], reviewed: rv({ contact_sheet: { path: "x.jpg", sha256: "nope" } }) })).join()).toMatch(/contact_sheet/);
-    const whole = (r: any) => marksProblems(item({ marks: [], reviewed: r }, { beat: "b", why: "w" })).join();
+    const whole = (r: any) => marksProblems(item({ marks: [], reviewed: { ...r, cuts: { ...r.cuts, span: [0, null] } } }, { beat: "b", why: "w" })).join();
     expect(whole(rv())).toMatch(/duration_s must state/);
     expect(whole(rv({ frames: [0, 14.5, 30], duration_s: 61 }))).toMatch(/none in 40.67..61 s/);
-    expect(whole(rv({ frames: [0, 14.5, 30, 45.8, 60], duration_s: 61 }))).toBe("");
+    expect(whole(rv({ frames: grid(0, 61), duration_s: 61 }))).toBe("");
   });
   it("refuses a call to action (a QR code, TEXT ... TO 45470) unless a mask covers it", () => {
     const cta = 'The White House lower third throughout: TEXT "POTUS" TO 45470 FOR WHITE HOUSE UPDATES, a QR code and APP.GOV';
@@ -302,7 +304,7 @@ describe("S4 review round 2: who checks marks, which frames, and calls to action
 describe("S4 review round 3: a video's marks review covers every shot of the aired span", () => {
   const sheet = { path: "sheets/e33-day6-pic.jpg", sha256: "c".repeat(64) };
   const METHOD = "ffmpeg select=gt(scene,0.3)";
-  const rv = (times: any, o: any = {}, c: any = {}) => ({ by: "verifier", at: AT, contact_sheet: sheet, cuts: { times, threshold: 0.3, method: METHOD, ffmpeg: "ffmpeg version 9.0.1", ...c }, ...o });
+  const rv = (times: any, o: any = {}, c: any = {}) => ({ by: "verifier", at: AT, contact_sheet: sheet, cuts: { times, threshold: 0.3, method: METHOD, ffmpeg: "ffmpeg version 9.0.1", span: [0, 33], ...c }, ...o });
   const clip = (r: any, fit: any = { beat: "week-day-6", why: "w", in_s: 0, out_s: 33 }) => ({ adapter: "commons", kind: "footage", youtube_source: "x", fit, marks_checked: { marks: [], reviewed: r } });
   // A 33 s montage of 13 shots: 12 cuts.
   const cuts = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30];
@@ -318,14 +320,17 @@ describe("S4 review round 3: a video's marks review covers every shot of the air
     expect(unseenShots([2.5], [2.5], [0, 10])).toEqual([[0, 2.5]]);
   });
   it("passes the verifier's per-shot record of e33-day6-pic (13 shots, 13 frames)", () => {
-    const r = { by: "verifier: claude-sonnet-5", at: "2026-11-13T19:34:09Z", frames: [0.647, 3.608, 7.487, 11.011, 13.764, 15.703, 18.665, 21.376, 23.211, 25.901, 28.696, 30.51, 32.141], cuts: { times: [1.293, 5.923, 9.051, 12.971, 14.556, 16.85, 20.479, 22.272, 24.149, 27.653, 29.738, 31.281], threshold: 0.3, method: METHOD, ffmpeg: "ffmpeg version 9.0.1" }, contact_sheet: sheet, duration_s: 38.021 };
+    const r = { by: "verifier: claude-sonnet-5", at: "2026-11-13T19:34:09Z", frames: [0.647, 3.608, 7.487, 11.011, 13.764, 15.703, 18.665, 21.376, 23.211, 25.901, 28.696, 30.51, 32.141], cuts: { times: [1.293, 5.923, 9.051, 12.971, 14.556, 16.85, 20.479, 22.272, 24.149, 27.653, 29.738, 31.281], threshold: 0.3, method: METHOD, ffmpeg: "ffmpeg version 9.0.1", span: [0, 33] }, contact_sheet: sheet, duration_s: 38.021 };
     expect(marksProblems(clip(r))).toEqual([]);
     expect(marksProblems(clip({ ...r, frames: [0, 1.3, 12, 24.1, 33] })).join()).toMatch(/8 shot\(s\) unseen/);
   });
-  it("passes a single long shot with a frame every 30 s, and still holds the 30 s floor", () => {
+  it("a single long shot needs frames at most 2.5 s apart (rights fix 4 review), and still holds the 30 s floor", () => {
     const whole = { beat: "b", why: "w" };
-    expect(marksProblems(clip(rv([], { frames: [0, 30, 60, 90, 120], duration_s: 120 }), whole))).toEqual([]);
-    expect(marksProblems(clip(rv([], { frames: [0, 120], duration_s: 120 }), whole)).join()).toMatch(/one frame in every 30 s/);
+    const file = { span: [0, null] };
+    expect(marksProblems(clip(rv([], { frames: grid(0, 120, 2.5), duration_s: 120 }, file), whole))).toEqual([]);
+    expect(marksProblems(clip(rv([], { frames: [0, 30, 60, 90, 120], duration_s: 120 }, file), whole)).join()).toMatch(/at most 2.5 s apart/);
+    expect(marksProblems(clip(rv([], { frames: [0, 120], duration_s: 120 }, file), whole)).join()).toMatch(/one frame in every 30 s/);
+    expect(marksProblems(clip(rv([], { frames: grid(0, 33) }, { span: [0, 20] }))).join()).toMatch(/cuts.span must be the span the fetch step read, the aired 0..33 s/);
   });
   it("refuses a video review without cuts, threshold or method; a still needs none", () => {
     const frames = [0, 12, 24, 33];

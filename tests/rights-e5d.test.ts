@@ -20,6 +20,8 @@ import { buildCoverage } from "../scripts/lib/rights/coverage.mjs";
 
 const XSS = '"><img src=x onerror=alert(1)>';
 const AT = "2026-11-13T12:00:00Z";
+/** Frames every `step` s over [a, b], b included: a review that looks at every shot at most 2.5 s apart. */
+const grid = (a: number, b: number, step = 2) => [...Array.from({ length: Math.floor((b - a) / step) + 1 }, (_, i) => +(a + i * step).toFixed(3)), b];
 const DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures", "rights");
 const text = (n: string) => readFileSync(path.join(DIR, n), "utf8");
 const PAGE = text("voa-page-8218325.html");
@@ -100,7 +102,7 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
     expect(c.credit).toMatch(/^Voice of America/);
     // Until a frame reader exists a VOA item needs a reviewed marks check (S4 review).
     expect(checkCandidate({ ...c, kind: "footage" }).reasons.join()).toMatch(/marks_checked/);
-    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "verifier", at: AT, frames: [0, 20], contact_sheet: { path: "sheets/voa.jpg", sha256: "a".repeat(64) }, duration_s: 40, cuts: { times: [12], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)", ffmpeg: "ffmpeg version 9.0.1" } } } }).reasons).toEqual([]);
+    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "verifier", at: AT, frames: grid(0, 40), contact_sheet: { path: "sheets/voa.jpg", sha256: "a".repeat(64) }, duration_s: 40, cuts: { times: [12], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)", ffmpeg: "ffmpeg version 9.0.1", span: [0, null] } } } }).reasons).toEqual([]);
   });
 
   it("refuses an item crediting an agency, a page without the terms statement, and a page with no file of its own", () => {

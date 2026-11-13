@@ -15,10 +15,10 @@
       "title_key": "destructions in komyshuvakha after russian attack 2026 11 02 001",
       "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d",
       "span": {
-        "from_s": 20.3,
-        "to_s": 26.8
+        "from_s": 14.533,
+        "to_s": 29.2
       },
-      "why": "covered remains carried from the rubble, ~20.3–26.8 s — excluded, never aired"
+      "why": "covered remains carried from the rubble: a white sheet or bag at frame right from about 17.0 s, carried through 18 to 20 s; excluded from the first cut after the out point (14.533 s) to the first cut after 27.0 s (29.2 s), never aired"
     }
   ],
   "requests": [
@@ -431,13 +431,13 @@
           },
           "shows_bodies": true,
           "bodies_excluded": {
-            "from_s": 20.3,
-            "to_s": 26.8,
-            "note": "covered remains carried from the rubble, ~20.3–26.8 s — excluded, never aired"
+            "from_s": 14.533,
+            "to_s": 29.2,
+            "note": "covered remains carried from the rubble: a white sheet or bag at frame right from about 17.0 s, carried through 18 to 20 s; excluded from the first cut after the out point (14.533 s) to the first cut after 27.0 s (29.2 s), never aired"
           },
           "marks_checked": {
             "marks": [
-              "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, all 6 shots — matches the credited CC BY 4.0 source"
+              "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, in every frame the verifier looked at: matches the credited CC BY 4.0 source"
             ],
             "reviewed": {
               "by": "verifier: claude-sonnet-5",

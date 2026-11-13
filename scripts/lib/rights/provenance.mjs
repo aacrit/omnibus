@@ -107,7 +107,7 @@ export function checkCandidate(c) {
   if (laundering.status === "suspect") reasons.push(...laundering.findings.map((f) => `laundering suspicion: ${f}`));
   reasons.push(...(c.restriction_reasons ?? []));
   // On-screen marks: a VOA item or a YouTube copy needs a reviewed frame check; a denied party's mark refuses any item.
-  reasons.push(...marksProblems(c));
+  reasons.push(...marksProblems(c, { resignPending: true }));
   if (!c.media_url) reasons.push("no media address");
   return { ok: reasons.length === 0, reasons: [...new Set(reasons)], ai_provenance_check: ai, laundering_check: laundering };
 }
