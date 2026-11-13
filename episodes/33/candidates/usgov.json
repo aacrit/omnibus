@@ -16,6 +16,19 @@
           "in_s": 0,
           "out_s": 33,
           "horizon": "2026-11-07T17:30:11Z"
+        },
+        "marks_checked": {
+          "marks": ["venue signage 'THE GOLDEN AGE / PRESIDENT DONALD J. TRUMP' on podium skirt, visible at 1.3s and 33s", "presidential seal on podium front, 1.3s and 33s", "blurred green/neon text on object bottom-right at 24.1s, illegible, likely background signage not a broadcaster bug"],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-13T19:17:52Z",
+            "frames": [0, 1.3, 12, 24.1, 33],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day6-pic.png",
+              "sha256": "cad55b0928037c572c6348515a9c10bcd11904424e463e18a82861e090fc7383"
+            },
+            "duration_s": 38.021
+          }
         }
       },
       {

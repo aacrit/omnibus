@@ -416,6 +416,29 @@
             "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
             "horizon": "2026-11-03T19:39:27Z",
             "shows_days_event": true
+          },
+          "marks_checked": {
+            "marks": [
+              "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, present in all sampled frames — matches the credited CC BY 4.0 source"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-13T19:17:52Z",
+              "frames": [
+                0,
+                14.5,
+                30,
+                38.3,
+                45.8,
+                60,
+                67.8
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic.png",
+                "sha256": "9bbc64e33379faffc76173543e16569cbd4e7e1d9b6087684679ceb8899ae7ac"
+              },
+              "duration_s": 67.868
+            }
           }
         },
         {
@@ -449,7 +472,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -458,7 +481,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -1104,6 +1127,29 @@
             "in_s": 0,
             "out_s": 33,
             "horizon": "2026-11-07T17:30:11Z"
+          },
+          "marks_checked": {
+            "marks": [
+              "venue signage 'THE GOLDEN AGE / PRESIDENT DONALD J. TRUMP' on podium skirt, visible at 1.3s and 33s",
+              "presidential seal on podium front, 1.3s and 33s",
+              "blurred green/neon text on object bottom-right at 24.1s, illegible, likely background signage not a broadcaster bug"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-13T19:17:52Z",
+              "frames": [
+                0,
+                1.3,
+                12,
+                24.1,
+                33
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day6-pic.png",
+                "sha256": "cad55b0928037c572c6348515a9c10bcd11904424e463e18a82861e090fc7383"
+              },
+              "duration_s": 38.021
+            }
           }
         },
         {
@@ -1454,59 +1500,14 @@
         "tier": null,
         "text": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
           "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
+          "host": "web.archive.org",
+          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=x.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261108221650&output=json&filter=statuscode%3A200&limit=200 answered 503"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-weight-03",

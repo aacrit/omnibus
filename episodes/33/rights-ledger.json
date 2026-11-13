@@ -1935,6 +1935,181 @@
         "text": "FILMED UIJONGBU · 2 JAN 1951",
         "why": "S4 (CoS, 2026-11-13): the film shows the withdrawal near Uijongbu on 2 Jan 1951, and the line it plays under (L-X1) names Kangnung on 8 Jan; it is usable only with this label on screen"
       }
+    },
+    {
+      "id": "e33-day2-pic",
+      "request_id": "e33-day2-pic",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)",
+      "licence": "cc-by-4.0",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
+        "captured_at": "2026-11-13T19:24:45Z"
+      },
+      "basis": "Wikimedia Commons file page: CC BY 4.0 (Creative Commons Attribution 4.0)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Destructions_in_Komyshuvakha_after_Russian_attack%2C_2026-11-02_%28001%29.webm",
+      "file": "e33-day2-pic.webm",
+      "mime": "video/webm",
+      "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d",
+      "bytes": 20913714,
+      "credit": "State Emergency Service of Ukraine, via Wikimedia Commons",
+      "date": "2026-11-02",
+      "published_at": "2026-11-05T04:06:35Z",
+      "content_date": null,
+      "source_tier": 2,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
+      },
+      "fit": {
+        "beat": "week-day-2",
+        "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
+        "horizon": "2026-11-03T19:39:27Z",
+        "shows_days_event": true
+      },
+      "youtube_source": "wikitext |source= https://www.youtube.com/watch?v=SUFuE0pfO0c",
+      "marks_checked": {
+        "marks": [
+          "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, present in all sampled frames — matches the credited CC BY 4.0 source"
+        ],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-13T19:17:52Z",
+          "frames": [
+            0,
+            14.5,
+            30,
+            38.3,
+            45.8,
+            60,
+            67.8
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic.png",
+            "sha256": "9bbc64e33379faffc76173543e16569cbd4e7e1d9b6087684679ceb8899ae7ac"
+          },
+          "duration_s": 67.868
+        }
+      },
+      "published_by_edition": {
+        "rule": "picture_published_by_edition",
+        "event_date": "2026-11-02",
+        "published_at": "2026-11-05T04:06:35Z",
+        "day_horizon": "2026-11-03T19:39:27.128203+00:00",
+        "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
+        "dot_label": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026",
+        "day_from": "2026-11-02",
+        "event_evidence": "its own title or description names the day: \"2026-11-02\""
+      },
+      "dot_label": {
+        "text": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026",
+        "why": "picture_published_by_edition (founder ruling, 2026-11-13): published after the day's horizon 2026-11-03T19:39:27.128203+00:00, by the edition cutoff 2026-11-08T22:16:50.309638+00:00"
+      }
+    },
+    {
+      "id": "e33-day6-pic",
+      "request_id": "e33-day6-pic",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "White House Chief of Staff, Stephen Miller",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: White House Chief of Staff, Stephen Miller – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T19:24:53Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/White_House_Chief_of_Staff%2C_Stephen_Miller.webm",
+      "file": "e33-day6-pic.webm",
+      "mime": "video/webm",
+      "sha256": "a9431293346f266371109b32f382384b7b4dd01417b059d4ef63d84e4cdbedbb",
+      "bytes": 29561421,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-06",
+      "published_at": "2026-11-06T22:50:08Z",
+      "content_date": null,
+      "source_tier": 2,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "fit": {
+        "beat": "week-day-6",
+        "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
+        "in_s": 0,
+        "out_s": 33,
+        "horizon": "2026-11-07T17:30:11Z"
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [
+          "venue signage 'THE GOLDEN AGE / PRESIDENT DONALD J. TRUMP' on podium skirt, visible at 1.3s and 33s",
+          "presidential seal on podium front, 1.3s and 33s",
+          "blurred green/neon text on object bottom-right at 24.1s, illegible, likely background signage not a broadcaster bug"
+        ],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-13T19:17:52Z",
+          "frames": [
+            0,
+            1.3,
+            12,
+            24.1,
+            33
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day6-pic.png",
+            "sha256": "cad55b0928037c572c6348515a9c10bcd11904424e463e18a82861e090fc7383"
+          },
+          "duration_s": 38.021
+        }
+      }
     }
   ],
   "rejected": [
@@ -1943,7 +2118,7 @@
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
       "reasons": [
-        "deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
+        "voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first"
       ]
     },
     {
@@ -2011,6 +2186,24 @@
       ]
     },
     {
+      "request_id": "e33-day5-pic2",
+      "adapter": "commons",
+      "ref": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+      "reasons": [
+        "published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day",
+        "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
+      ]
+    },
+    {
+      "request_id": "e33-day6-pic",
+      "adapter": "gov",
+      "ref": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "reasons": [
+        "licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own)",
+        "no media address"
+      ]
+    },
+    {
       "request_id": "e33-day7-pic",
       "adapter": "dvids",
       "ref": "video:1029004",
@@ -2061,7 +2254,7 @@
     {
       "request_id": "e33-day7-pic",
       "adapter": "commons",
-      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
       "reasons": [
         "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
       ]
@@ -2069,7 +2262,7 @@
     {
       "request_id": "e33-day7-pic",
       "adapter": "commons",
-      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+      "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
       "reasons": [
         "dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00"
       ]
@@ -2083,51 +2276,11 @@
       ]
     },
     {
-      "request_id": "e33-weight-02",
-      "adapter": "wayback",
-      "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
-      "reasons": [
-        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-07T02:25:01Z, https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141))"
-      ]
-    },
-    {
-      "request_id": "e33-weight-02",
-      "adapter": "wayback",
-      "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
-      "reasons": [
-        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T12:37:03Z, https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email))"
-      ]
-    },
-    {
-      "request_id": "e33-weight-02",
-      "adapter": "wayback",
-      "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
-      "reasons": [
-        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T08:05:02Z, https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835))"
-      ]
-    },
-    {
-      "request_id": "e33-weight-02",
-      "adapter": "wayback",
-      "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
-      "reasons": [
-        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T18:48:58Z, https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624))"
-      ]
-    },
-    {
-      "request_id": "e33-weight-02",
-      "adapter": "wayback",
-      "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
-      "reasons": [
-        "licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T11:08:40Z, https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email))"
-      ]
-    },
-    {
       "request_id": "e33-weight-page-02",
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
       "reasons": [
-        "deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
+        "voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first"
       ]
     },
     {
@@ -2222,218 +2375,6 @@
       "reasons": [
         "dated 1951, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00",
         "licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")"
-      ]
-    },
-    {
-      "request_id": "e33-day5-pic2",
-      "adapter": "commons",
-      "ref": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
-      "reasons": [
-        "published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
-      "reasons": [
-        "a YouTube copy (wikitext |source= https://www.youtube.com/watch?v=SUFuE0pfO0c) needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (002).webm",
-      "reasons": [
-        "a YouTube copy (wikitext |source= https://www.youtube.com/watch?v=z-QFiPjQRc8) needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp",
-      "reasons": [
-        "published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "adapter": "commons",
-      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
-      "reasons": [
-        "published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "gov",
-      "ref": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
-      "reasons": [
-        "licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own)",
-        "no media address"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:White House Chief of Staff, Stephen Miller.webm",
-      "reasons": [
-        "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm",
-      "reasons": [
-        "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:P20260109MR-1291 President Donald Trump attends a roundtable with energy officials and executives from the oil industry in the East Room of the White House.jpg",
-      "reasons": [
-        "dated 2026-01-09, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 4.jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 2.jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1.jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:VP20261008AH-0002.jpg",
-      "reasons": [
-        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:VP20261008AH-0503.jpg",
-      "reasons": [
-        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:VP20261008AH-0160.jpg",
-      "reasons": [
-        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452387554.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452444173.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452194811.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452195036.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
       ]
     }
   ],
@@ -2545,8 +2486,17 @@
       "fallback_tier": 4,
       "fallback": "none needed (tier 4 is always satisfiable)",
       "reasons": [
-        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z",
+        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first",
         "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-04 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
+      ]
+    },
+    {
+      "request_id": "e33-day3-pic2",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)",
+      "reasons": [
+        "tier 2 commons: excluded on review: File:President Trump Delivers Remarks, Nov. 4, 2026.webm: CoS ruling (a) of 2026-11-13: its White House lower third carries a QR code and \"TEXT POTUS TO 45470\", a call to action (an engagement mechanic against void's values); dropped, never aired"
       ]
     },
     {
@@ -2555,7 +2505,7 @@
       "fallback_tier": null,
       "fallback": "no desk item; the narrator says only what was printed and counted",
       "reasons": [
-        "tier 5 web.archive.org: the Wayback index could not be read for x.com/JDVance/status/*: The operation was aborted due to timeout"
+        "tier 5 web.archive.org: the Wayback index could not be read for x.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=x.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261104193906&output=json&filter=statuscode%3A200&limit=200 answered 503"
       ]
     },
     {
@@ -2586,6 +2536,15 @@
       ]
     },
     {
+      "request_id": "e33-day5-pic2",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4: the printed page alone carries the beat (e33-day5-pic's DVIDS clip stays)",
+      "reasons": [
+        "tier 2 commons File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm: published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day; a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
+      ]
+    },
+    {
       "request_id": "e33-day5-doc",
       "kind": "document",
       "fallback_tier": null,
@@ -2606,8 +2565,8 @@
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821002).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821000).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820997).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
-        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
+        "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 3 commons File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821004).jpg: dated only 2026, too coarse to place inside its window 2026-11-01 to 2026-11-08T11:51:04.026416+00:00",
         "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Videos by DVIDS\" CENTCOM November 2026",
         "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: Iran and its land borders, with the region named in the CENTCOM release (Natural Earth 1:10m, no relief)"
@@ -2639,11 +2598,7 @@
       "fallback_tier": null,
       "fallback": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted",
       "reasons": [
-        "tier 5 wayback https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-07T02:25:01Z, https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141))",
-        "tier 5 wayback https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T12:37:03Z, https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email))",
-        "tier 5 wayback https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-06T08:05:02Z, https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835))",
-        "tier 5 wayback https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T18:48:58Z, https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624))",
-        "tier 5 wayback https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email: licence \"x.com page seen through a Wayback capture\" is not on the allowlist (the Wayback Machine is a date witness, never a licence; x.com is not a federal publisher, so the original carries no licence on the allowlist (captured 2026-11-05T11:08:40Z, https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email))"
+        "tier 5 web.archive.org: the Wayback index could not be read for x.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=x.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261108221650&output=json&filter=statuscode%3A200&limit=200 answered 503"
       ]
     },
     {
@@ -2682,7 +2637,7 @@
       "fallback_tier": null,
       "fallback": "none: the beat runs on its other pictures and graphics",
       "reasons": [
-        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
+        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first"
       ]
     },
     {
@@ -2797,68 +2752,6 @@
       "reasons": [
         "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Adlai Stevenson II 1952 presidential campaign\" filetype:bitmap",
         "tier 3 www.loc.gov: the search found nothing: q=Adlai Stevenson Springfield 1952; dates=1952/1952; fo=json"
-      ]
-    },
-    {
-      "request_id": "e33-day5-pic2",
-      "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the printed page alone carries the beat (e33-day5-pic's DVIDS clip stays)",
-      "reasons": [
-        "tier 2 commons File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm: published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day"
-      ]
-    },
-    {
-      "request_id": "e33-day2-pic",
-      "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4 locator map",
-      "reasons": [
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm: a YouTube copy (wikitext |source= https://www.youtube.com/watch?v=SUFuE0pfO0c) needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (002).webm: a YouTube copy (wikitext |source= https://www.youtube.com/watch?v=z-QFiPjQRc8) needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp: published 2026-11-03T21:00:12Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp: published 2026-11-05T03:43:33Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp: published 2026-11-05T03:43:40Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp: published 2026-11-05T03:43:53Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp: published 2026-11-05T03:43:54Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 2 commons File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp: published 2026-11-05T03:43:46Z, after its window ends 2026-11-03T19:39:27.128203+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)",
-        "tier 1 api.dvidshub.net: the search found nothing: q=Ukraine humanitarian aid facility strike; type=image",
-        "tier 3 commons.wikimedia.org: the search found nothing: missile strike humanitarian aid Ukraine November 2026 filetype:bitmap",
-        "tier 4 naturalearthdata.com: drawn by E6 from naturalearthdata.com data, not fetched: locator map: the place named in the State Emergency Service report (Natural Earth + GeoNames, country=UA)"
-      ]
-    },
-    {
-      "request_id": "e33-day3-pic2",
-      "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)",
-      "reasons": [
-        "tier 2 commons: excluded on review: File:President Trump Delivers Remarks, Nov. 4, 2026.webm: CoS ruling (a) of 2026-11-13: its White House lower third carries a QR code and \"TEXT POTUS TO 45470\", a call to action (an engagement mechanic against void's values); dropped, never aired"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources",
-      "reasons": [
-        "tier 1 gov https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/: licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own); no media address",
-        "tier 2 commons File:White House Chief of Staff, Stephen Miller.webm: a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists",
-        "tier 2 commons File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm: a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists",
-        "tier 2 commons File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:P20260109MR-1291 President Donald Trump attends a roundtable with energy officials and executives from the oil industry in the East Room of the White House.jpg: dated 2026-01-09, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 4.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 2.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:VP20261008AH-0002.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 2 commons File:VP20261008AH-0503.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 2 commons File:VP20261008AH-0160.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452387554.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452444173.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452194811.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452195036.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
       ]
     }
   ],

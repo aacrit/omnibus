@@ -18,6 +18,19 @@
         "audio": {
           "mode": "muted",
           "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
+        },
+        "marks_checked": {
+          "marks": ["ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, present in all sampled frames — matches the credited CC BY 4.0 source"],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-13T19:17:52Z",
+            "frames": [0, 14.5, 30, 38.3, 45.8, 60, 67.8],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic.png",
+              "sha256": "9bbc64e33379faffc76173543e16569cbd4e7e1d9b6087684679ceb8899ae7ac"
+            },
+            "duration_s": 67.868
+          }
         }
       },
       {
