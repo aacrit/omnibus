@@ -133,6 +133,17 @@ jobs:
             --report "$out/reports/graphics-compare.json"
           cp "$led" "$out/graphics-ledger.json"
           du -sh "$out"
+      # The authoritative ledger on its own (a few KB, no media), for a local commit: pull-render --graphics, or
+      # `gh run download <id> -n graphics-ledger-<issue>`.
+      - name: the graphics ledger (for a local commit)
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphics-ledger-${{ env.ISSUE }}
+          path: |
+            /home/runner/stage/graphics/graphics-ledger.json
+            /home/runner/stage/graphics/reports/graphics-compare.json
+          retention-days: 14
+          if-no-files-found: error
       - name: hand-off (artifact)
         if: needs.route.outputs.route == 'artifact'
         uses: actions/upload-artifact@v4
