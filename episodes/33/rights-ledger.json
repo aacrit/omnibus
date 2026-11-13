@@ -1946,7 +1946,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
-        "captured_at": "2026-11-13T23:40:45Z"
+        "captured_at": "2026-11-13T23:58:06Z"
       },
       "basis": "Wikimedia Commons file page: CC BY 4.0 (Creative Commons Attribution 4.0)",
       "rights_checked": {
@@ -2002,21 +2002,20 @@
         ],
         "reviewed": {
           "by": "verifier: claude-sonnet-5",
-          "at": "2026-11-13T19:34:09Z",
+          "at": "2026-11-14T00:05:00Z",
           "frames": [
-            2.95,
+            1.517,
+            4.467,
             7.2,
             9.967,
             12.967,
-            41.6,
-            45.35
+            14.4
           ],
           "contact_sheet": {
-            "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-shots.png",
-            "sha256": "4f1bea3ce1f8dba1572540445bef478252f1b022ed28f95cbf41f76369e96dba"
+            "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-resign/e33-day2-pic-resign-contact-sheet.png",
+            "sha256": "95ef0921330a838e36a4bb479c97b6414730f4978478a5917b2cafbef725180c"
           },
           "duration_s": 67.868,
-          "resign_required": "found by the fetch step 2026-11-13T23:40:56Z: the reported cuts differ from the file's (missing 3.033; not in the file none): the file's are recorded; marks_checked.reviewed.frames must hold a frame in every shot of the aired span 0..14.5 s (4 cuts at threshold 0.2); 1 shot(s) unseen: 3.03..5.9 s; marks_checked.reviewed.frames must be at most 2.5 s apart inside every shot of the aired span (its edges included), so a dissolve or soft cut is still looked at; 2 gap(s): 0..2.95 s, 3.033..5.9 s",
           "cuts": {
             "times": [
               3.033,
@@ -2176,6 +2175,15 @@
   ],
   "rejected": [
     {
+      "request_id": "e33-day6-pic",
+      "adapter": "gov",
+      "ref": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
+      "reasons": [
+        "licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own)",
+        "no media address"
+      ]
+    },
+    {
       "request_id": "e33-day3-page",
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
@@ -2254,15 +2262,6 @@
       "reasons": [
         "published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day",
         "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "gov",
-      "ref": "https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/",
-      "reasons": [
-        "licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own)",
-        "no media address"
       ]
     },
     {

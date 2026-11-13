@@ -3,7 +3,7 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "61e2ae37d4f4efef48dfb01ddf153e65d064b0039eead3c6f1c464985c295851",
+  "ledger_sha256": "c058d7155ae105c2e3e1913fdaa7a4cb8d7637009a1ab5643c69a789cea1ef2a",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -695,7 +695,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
-        "captured_at": "2026-11-13T23:40:45Z"
+        "captured_at": "2026-11-13T23:58:06Z"
       },
       "audio": {
         "mode": "muted",
