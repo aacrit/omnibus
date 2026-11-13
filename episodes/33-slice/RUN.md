@@ -1,31 +1,41 @@
-# E11a slice: run later (not run by this ticket)
+# Slice of issue 33: engine to loom to Resolve (E11a plan, E11b run)
 
-This slice (`episodes/33-slice/screenplay.json`) plan/lint-checks clean in `--draft`
-(`python -m studio.news.lints episodes/33-slice`: 38 checks, 0 blocking; `render.build_plan(...,
-draft=True)`: OK). It has **not** been rendered. Its media (`episodes/33-slice/ledger.json`'s
-items) are synthetic test stand-ins held at `D:/omnibus-media/33-slice/media`, never committed and
-never for air (see the ledger's own `note`).
+A 42 s draft of issue 33 for the loom handoff rehearsal, never for air. Its media are synthetic
+stand-ins (`ledger.json`, at `D:/omnibus-media/33-slice/media`; the two voice lines' test tones at
+`D:/omnibus-media/33-slice/audio`), except the Echo's lower third, which is episode 33's own
+`lt-echo-x2` through `../33/ledgers/graphics-e4b.json`. None of it is committed.
 
-## To render the draft (loom/omnibus handoff rehearsal only)
+## Before it runs
+
+- `npm ci` at the repo root (the engine reads its fonts from `node_modules/@fontsource/...`).
+- The stand-ins must be on disk at the paths above.
+- Take the heavy slot for the render (HEAVY.lock); loom's first build takes it itself.
+
+## Render (engine, from the repo root)
 
 ```
-python -m studio.engine.render episodes/33-slice --draft --layers --stems --out D:/omnibus-media/33-slice/render
+python -m studio.engine.render episodes/33-slice --draft --layers --stems --fit-voices --out D:/omnibus-media/33-slice/render
 ```
 
-## To hand the render to loom (first build, dry run)
+`--layers` runs the dot's probes on the overlay alone over black, on every frame. A graphic that
+paints the label zone (bottom right, y 1004 to 1043 at 1080p) while the label is off fails them:
+E11a's full-frame opaque `g-lt.mov` stand-in did, at 15.0 s. A real E6 lower third stays above it.
+
+## Hand to loom (from the loom checkout, its venv)
 
 ```
-python -m loom.firstbuild --dry-run --profile omnibus episodes/33-slice/screenplay.json D:/omnibus-media/33-slice/render
+python -u -m loom.firstbuild --dry-run --profile omnibus --render D:/omnibus-media/33-slice/render --screenplay <omnibus>/episodes/33-slice/screenplay.json --out D:/loom-work/omnibus/33-slice-dry
+python -u -m loom.firstbuild --profile omnibus --render D:/omnibus-media/33-slice/render --screenplay <omnibus>/episodes/33-slice/screenplay.json --out D:/loom-work/omnibus/33-slice
 ```
 
-Then the real build per loom's own README (`loom/profiles/omnibus/profile.yaml`, merged to loom's
-`main` at `012f9c3`): drop `--dry-run` once the dry run's plan looks right.
+The real build waits for HEAVY.lock to be free for 20 minutes (the house cool-down), takes it,
+builds the timeline in Resolve 21.2, exports the .drp and `build-report.json` to `--out`, quits
+Resolve and releases the lock. Keep system audio muted while Resolve is open.
 
-## Before any of this runs for real
+## The full episode
 
-- Regenerate the synthetic media first (it is not committed): see
-  `episodes/33-slice/ledger.json`'s items for the five stand-in ids (`g-board`, `g-lt`,
-  `g-testcard`, `dr-title`, `st-weight-tour`, `st-echo`) and their `file` paths under
-  `D:/omnibus-media/33-slice/media/`.
-- `npm install` at the repo root first (the engine's card/lower-third layout reads font files from
-  `node_modules/@fontsource/...`).
+The same three commands with `episodes/33`, `--out D:/omnibus-media/33/render` and loom's
+`--out D:/loom-work/omnibus/33`. Episode 33 also needs, merged first: E9i (PR #19, the engine reads
+the rights ledger's licence ids such as `pd-us-federal`; without it `build_plan` refuses
+`licence-allowlist`) and E7's voicing (PR #20: takes under `D:/omnibus-media/33/voice`, copied to
+`episodes/33/audio/<line id>.wav`, where the engine reads a line with no `wav`).
