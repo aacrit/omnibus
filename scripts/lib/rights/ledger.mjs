@@ -54,6 +54,7 @@ export function validateRequests(doc) {
   const out = [];
   if (doc?.schema !== REQUESTS_SCHEMA_ID) out.push(`schema must be ${REQUESTS_SCHEMA_ID}`);
   if (!Number.isInteger(doc?.issue) || doc.issue < 1) out.push("issue must be a positive integer");
+  if (doc?.dignity !== undefined && !(Array.isArray(doc.dignity) && doc.dignity.every((d) => typeof d?.title_key === "string" && d.title_key && typeof d?.why === "string" && (d.sha1 === undefined || /^[0-9a-f]{40}$/.test(d.sha1))))) out.push("dignity must list { title_key, why, sha1? }");
   if (doc?.edition_cutoff !== undefined && !DATEISH.test(String(doc.edition_cutoff))) out.push("edition_cutoff must be a date or an instant");
   if (!Array.isArray(doc?.requests)) return [...out, "requests must be an array"];
   const seen = new Set();

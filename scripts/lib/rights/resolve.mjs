@@ -22,6 +22,7 @@
 // Net-new. Network only through the injected http.
 
 import { hostRefusal, isOwnUrl } from "./http.mjs";
+import { titleKey } from "./fetcher.mjs";
 import { REQUESTS_SCHEMA_ID } from "./ledger.mjs";
 import { findCaptures } from "./adapters/wayback.mjs";
 import { queryAlternatives as dvidsAlternatives, redact as dvidsRedact, searchResults as dvidsResults, searchUrl as dvidsSearchUrl } from "./adapters/dvids.mjs";
@@ -306,7 +307,12 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
     });
     log(`${req.id}: ${unique.length} candidate(s), ${notFetched.length} step(s) not fetched`);
   }
-  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...(editionCutoff ? { edition_cutoff: editionCutoff } : {}), requests };
+  // The episode-wide dignity list: every exclude pin marked dignity, by normalised title and sha (S4 review).
+  const dignity = Object.values(pins)
+    .flat()
+    .filter((p) => p?.dignity === true && typeof p.exclude === "string" && p.exclude !== "*")
+    .map((p) => ({ ref: clip(p.exclude, 400), title_key: titleKey(p.exclude), ...(p.sha1 ? { sha1: String(p.sha1) } : {}), ...(p.sha256 ? { sha256: String(p.sha256) } : {}), why: clip(p.why ?? "dignity", 600) }));
+  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...(editionCutoff ? { edition_cutoff: editionCutoff } : {}), ...(dignity.length ? { dignity } : {}), requests };
 }
 
 export const CANDIDATES_SCHEMA_ID = "omnibus.asset-candidates/1";

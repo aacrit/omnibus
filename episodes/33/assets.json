@@ -3,6 +3,14 @@
   "issue": 33,
   "source": "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve",
   "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
+  "dignity": [
+    {
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm",
+      "title_key": "destructions in komyshuvakha after russian attack 2026 11 02 000",
+      "sha1": "b9fb7a464751fd83c368826e0b3a4d5c76a73af5",
+      "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence"
+    }
+  ],
   "requests": [
     {
       "id": "e33-cold-01",
@@ -477,7 +485,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -486,7 +494,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -1482,14 +1490,59 @@
         "tier": null,
         "text": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
       },
-      "candidates": [],
-      "not_fetched": [
+      "candidates": [
         {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
           "tier": 5,
-          "host": "web.archive.org",
-          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: The operation was aborted due to timeout"
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
         }
-      ]
+      ],
+      "not_fetched": []
     },
     {
       "id": "e33-weight-03",

@@ -53,7 +53,23 @@ export function pageVideos(html) {
     const h = url.match(/_(\d{3,4})p\.mp4$/);
     out.set(url, { url, height: h ? Number(h[1]) : Infinity });
   }
-  return [...out.values()].sort((a, b) => b.height - a.height);
+  const all = [...out.values()].sort((a, b) => b.height - a.height);
+  // The page's own video is the one it declares (og:video, or JSON-LD contentUrl); a related clip's mp4 is not it (S4 review).
+  const declared = declaredVideo(html);
+  if (!declared) return all;
+  const base = (u) => u.replace(/_\d{3,4}p\.mp4$/, ".mp4");
+  const own = all.filter((v) => base(v.url) === base(declared));
+  return own.length ? own : [{ url: declared, height: Infinity }];
+}
+
+/** The mp4 the page declares as its own video: og:video (or og:video:url / secure_url), else JSON-LD contentUrl, on VOA's host. */
+export function declaredVideo(html) {
+  const s = String(html);
+  const host = "https:\\/\\/voa-video-ns\\.akamaized\\.net\\/[^\"'?]+\\.mp4";
+  const og = s.match(new RegExp(`<meta[^>]+property=["']og:video(?::url|:secure_url)?["'][^>]+content=["'](${host})`, "i")) ?? s.match(new RegExp(`<meta[^>]+content=["'](${host})[^>]+property=["']og:video(?::url|:secure_url)?["']`, "i"));
+  if (og) return decodeEntities(og[1]);
+  const ld = s.match(new RegExp(`"contentUrl"\\s*:\\s*"(${host})`));
+  return ld ? decodeEntities(ld[1].replace(/\\\//g, "/")) : null;
 }
 
 function published(html) {

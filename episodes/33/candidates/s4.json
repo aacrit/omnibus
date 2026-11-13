@@ -38,7 +38,9 @@
       {
         "adapter": "commons",
         "exclude": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm",
-        "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence"
+        "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence",
+        "dignity": true,
+        "sha1": "b9fb7a464751fd83c368826e0b3a4d5c76a73af5"
       }
     ],
     "e33-day3-pic2": [

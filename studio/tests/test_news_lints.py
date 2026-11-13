@@ -333,3 +333,15 @@ def test_a_later_week_day_starts_its_window_at_the_previous_days_horizon():
         bad = [c for c in _bad(NL.published_by_edition_checks(play, assets)) if c.get("unit") == "S-TUE-PIC"
                or c.get("evidence", {}).get("part") == "p-tue"]
         assert (not bad) == ok, (date, bad)
+
+
+def test_a_fair_use_excerpt_is_summed_over_every_shot_of_it():
+    """S4 review: two 6 s shots of one excerpt are 12 s on the timeline, over its 10 s."""
+    play, assets, inputs = EP.episode()
+    assets["fu"] = {"id": "fu", "licence": "fair-use-excerpt", "kind": "footage", "title": "clip"}
+    w = EP.part(play, "p-weight")
+    w["shots"] += [{"id": "S-FU-1", "kind": "archive_video", "asset": "fu", "start_s": 0.0, "dur_s": 6.0}]
+    assert not [c for c in NL.fair_use_timeline_checks(play, assets) if not c["ok"]]
+    w["shots"] += [{"id": "S-FU-2", "kind": "archive_video", "asset": "fu", "start_s": 8.0, "dur_s": 6.0}]
+    bad = [c for c in NL.fair_use_timeline_checks(play, assets) if not c["ok"]]
+    assert bad and bad[0]["evidence"]["seconds"] == 12.0

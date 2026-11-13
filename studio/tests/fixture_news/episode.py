@@ -451,6 +451,8 @@ FAIL = {
     # -- S4: founder ruling A (2026-11-13) ---------------------------------------------------------------------------
     "a Margins picture published after its horizon": (
         lambda p, a, i: a["st-margin"].update(published_at="2026-03-09T08:00:00+00:00"), {"picture_published_by_edition"}),
+    "fair-use excerpt over 10 s and outside The Weight": (
+        lambda p, a, i: a["st-q"].update(licence="fair-use-excerpt"), {"fair-use-on-timeline"}),
 }
 
 

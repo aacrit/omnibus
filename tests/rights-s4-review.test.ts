@@ -6,9 +6,11 @@ import { youtubeSource } from "../scripts/lib/rights/adapters/commons.mjs";
 import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
-import { fetchRequests, namesDay, publishedByEdition, refineDate } from "../scripts/lib/rights/fetcher.mjs";
-import { lintLicenceAllowlist, lintPublishedByEdition } from "../scripts/lib/rights/lints.mjs";
-import { foreignCreditParts, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
+import { dignityHit, fetchRequests, namesDay, publishedByEdition, refineDate, titleKey } from "../scripts/lib/rights/fetcher.mjs";
+import { validateRequests } from "../scripts/lib/rights/ledger.mjs";
+import { resolveRequests } from "../scripts/lib/rights/resolve.mjs";
+import { lintLicenceAllowlist, lintPublishedByEdition, publishRefusals } from "../scripts/lib/rights/lints.mjs";
+import { declaredVideo, foreignCreditParts, pageVideos, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
 const AT = "2026-11-13T12:00:00Z";
 const VOA_TERMS = "<p>All text, audio and video material produced exclusively by the Voice of America is in the public domain.</p>";
@@ -197,5 +199,38 @@ describe("S4 review 1: on-screen marks", () => {
     expect(youtubeSource(["Videos from YouTube"])).toMatch(/category/);
     expect(youtubeSource([], "{{From YouTube|1=LHT-znOQXkA|2=Remarks}}")).toMatch(/From YouTube/);
     expect(youtubeSource(["PD-USGov"], "")).toBeNull();
+  });
+});
+
+describe("S4 review, non-blocking", () => {
+  it("the dignity list refuses a picture episode-wide by normalised title or sha1", async () => {
+    const list = [{ ref: "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm", title_key: titleKey("File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm"), sha1: "b9fb7a464751fd83c368826e0b3a4d5c76a73af5", why: "a death on camera (dignity)" }];
+    expect(dignityHit({ ref: "File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(000).webm" }, list)).toBeTruthy();
+    expect(dignityHit({ ref: "File:Renamed.webm", sha1: "b9fb7a464751fd83c368826e0b3a4d5c76a73af5" }, list)).toBeTruthy();
+    expect(dignityHit({ ref: "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm", sha1: "x" }, list)).toBeNull();
+    const cand = { status: "ok", candidate: { adapter: "commons", ref: "File:Other name.webm", kind_hint: "footage", title: "Other name", sha1: list[0].sha1, item_url: "https://commons.wikimedia.org/wiki/File:O.webm", media_url: "https://upload.wikimedia.org/o.webm", licence: "cc-by-4.0", basis: "CC BY 4.0", credit: "SES", evidence: { url: "https://commons.wikimedia.org/wiki/File:O.webm", captured_text: "Creative Commons Attribution 4.0", captured_at: AT }, date: "2026-11-02", published_at: "2026-11-02T10:00:00Z", categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] } };
+    const doc = { schema: "omnibus.asset-requests/1", issue: 33, dignity: list, requests: [{ id: "e33-other", kind: "footage", for: "echo", title: "t", fallback: { tier: 4, text: "map" }, candidates: [{ adapter: "commons", ref: "File:Other name.webm", tier: 2 }] }] };
+    const r = await fetchRequests(doc, null, { adapters: { commons: { lookup: async () => cand } }, http: {}, mediaDir: null, checkedBy: "t", dryRun: true, now: () => new Date(AT) });
+    expect(JSON.stringify(r.ledger.rejected)).toMatch(/dignity list/);
+    expect(validateRequests(doc)).toEqual([]);
+  });
+
+  it("the episode's dignity list is resolved from every dignity exclude pin", async () => {
+    const out = await resolveRequests({ issue: 33, asset_requests: [] }, { pins: { a: [{ adapter: "commons", exclude: "File:X (000).webm", dignity: true, sha1: "b9fb7a464751fd83c368826e0b3a4d5c76a73af5", why: "dignity" }] }, http: {}, env: {} });
+    expect(out.dignity).toEqual([{ ref: "File:X (000).webm", title_key: "x 000", sha1: "b9fb7a464751fd83c368826e0b3a4d5c76a73af5", why: "dignity" }]);
+  });
+
+  it("VOA takes the video the page declares (og:video or JSON-LD contentUrl), not a related clip", () => {
+    const own = "https://voa-video-ns.akamaized.net/p/own_720p.mp4";
+    const html = `<meta property="og:video" content="${own}"><a href="https://voa-video-ns.akamaized.net/p/related_1080p.mp4">x</a><a href="https://voa-video-ns.akamaized.net/p/own_1080p.mp4">y</a>`;
+    expect(pageVideos(html)[0].url).toBe("https://voa-video-ns.akamaized.net/p/own_1080p.mp4");
+    expect(declaredVideo(`<script>{"contentUrl":"${own}"}</script>`)).toBe(own);
+    expect(pageVideos(`<a href="https://voa-video-ns.akamaized.net/p/a_240p.mp4">x</a><a href="https://voa-video-ns.akamaized.net/p/a.mp4">y</a>`)[0].url).toMatch(/a\.mp4$/);
+  });
+
+  it("a publish to YouTube is refused for an episode carrying a fair-use excerpt", () => {
+    expect(publishRefusals({ items: [{ id: "f", licence: "fair-use-excerpt", fair_use: { no_youtube: true } }] }, "youtube")).toHaveLength(1);
+    expect(publishRefusals({ items: [{ id: "f", licence: "fair-use-excerpt" }] }, "site")).toEqual([]);
+    expect(publishRefusals({ items: [{ id: "p", licence: "pd-us-federal" }] }, "youtube")).toEqual([]);
   });
 });

@@ -237,3 +237,15 @@ export function lintEpisode({ ledger, ledgerText, disputesText, now, shots }) {
   }
   return out;
 }
+
+/**
+ * The publish step's refusal (S4 review, 2026-11-13; a stub until a publish step exists): an
+ * episode whose ledger carries any fair-use excerpt (no_youtube) is never uploaded to YouTube.
+ * Returns the reasons a publish to `target` ("youtube", "site", ...) is refused.
+ */
+export function publishRefusals(ledger, target) {
+  if (String(target).toLowerCase() !== "youtube") return [];
+  return (ledger?.items ?? [])
+    .filter((it) => it.licence === FAIR_USE || it.fair_use?.no_youtube === true)
+    .map((it) => `${it.id}: a fair-use excerpt (no_youtube); an episode carrying it is never uploaded to YouTube`);
+}

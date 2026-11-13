@@ -28,6 +28,9 @@ label is out of the spine's order is linted as news.
   event (its ``date`` on or before the day's horizon) may be published by the edition cutoff (the episode's
   ``as_of``) instead, and then its ledger item and the shot both carry the dot label ``FILMED {date} · PUBLISHED
   {date}``. Facts and narration stay at the day's horizon (``as-of``).
+- ``fair-use-on-timeline`` (S4 review, 2026-11-13): a fair-use excerpt (ledger licence ``fair-use-excerpt``) airs
+  only in The Weight, at most 10 s on the timeline per item (every shot of it summed) and 45 s per episode, the
+  bounds scripts/lib/rights/lints.mjs lintFairUse holds the ledger's in and out points to.
 - ``never-tell`` and ``hindsight-language``: the bible's news list (studio/news/lexicon.json) on the narration and
   our own on-screen text, quotations exempt; and no narration line paraphrases a headline the board on screen shows.
 - ``no-outlet-characterisation``: no characterising word next to an outlet's name (in any case) or a media noun (a
@@ -646,6 +649,38 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
             if probs:
                 found.append(_check(PUBLISHED_BY_EDITION, False, unit=x.get("id"), evidence=dict(base, problems=probs)))
     return _summary(PUBLISHED_BY_EDITION, found, checked)
+
+
+FAIR_USE = "fair-use-excerpt"
+FAIR_USE_CLIP_MAX_S, FAIR_USE_TOTAL_MAX_S = 10.0, 45.0
+
+
+def fair_use_timeline_checks(play: dict, assets: dict) -> list[dict]:
+    """``fair-use-on-timeline``: the seconds each fair-use excerpt is on screen, every shot of it summed, within the
+    ledger's bounds; and only in The Weight."""
+    found, per, where = [], {}, {}
+    for p, seg in parts(play):
+        for x in p.get("shots") or []:
+            item = assets.get(x.get("asset")) if x.get("asset") else None
+            if not item or item.get("licence") != FAIR_USE:
+                continue
+            per[x["asset"]] = per.get(x["asset"], 0.0) + float(x.get("dur_s") or 0.0)
+            if seg != "weight":
+                where.setdefault(x["asset"], []).append(p.get("id"))
+    for aid, secs in per.items():
+        probs = []
+        if secs > FAIR_USE_CLIP_MAX_S + 1e-6:
+            probs.append(f"on the timeline {secs:.1f} s in all, over {FAIR_USE_CLIP_MAX_S:.0f} s")
+        if where.get(aid):
+            probs.append(f"shown outside The Weight ({', '.join(where[aid])})")
+        if probs:
+            found.append(_check("fair-use-on-timeline", False, unit=aid, evidence={"asset": aid, "seconds": round(secs, 2),
+                                                                                 "problems": probs}))
+    total = sum(per.values())
+    if total > FAIR_USE_TOTAL_MAX_S + 1e-6:
+        found.append(_check("fair-use-on-timeline", False, unit="episode", evidence={
+            "seconds": round(total, 2), "problems": [f"fair-use excerpts run {total:.1f} s, over {FAIR_USE_TOTAL_MAX_S:.0f} s"]}))
+    return _summary("fair-use-on-timeline", found, len(per))
 
 
 def _extract_dates(inputs: dict) -> dict:
@@ -1503,6 +1538,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
         return out + deferred_checks()
     out += _guarded("as-of", as_of_checks, play, assets, inputs)
     out += _guarded(PUBLISHED_BY_EDITION, published_by_edition_checks, play, assets)
+    out += _guarded("fair-use-on-timeline", fair_use_timeline_checks, play, assets)
     out += _guarded("never-tell", language_checks, play, inputs, durations)
     out += _guarded("no-outlet-characterisation", outlet_checks, play, inputs)
     out += _guarded("no-bridge", bridge_checks, play, inputs)
@@ -1520,7 +1556,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
 
 
 RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
-         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "never-tell", "hindsight-language",
+         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "fair-use-on-timeline", "never-tell", "hindsight-language",
          "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
          "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
          "ending-question", "black-share", "tour-window-inside", "tour-no-claim-before-board", *DEFERRED)

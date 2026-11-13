@@ -263,6 +263,27 @@ export function dropOf(request, rejections) {
   };
 }
 
+/** A title as the dignity list compares it: no "File:", no extension, lower case, one space between words. */
+export function titleKey(t) {
+  return String(t ?? "")
+    .replace(/^File:/i, "")
+    .replace(/\.[a-z0-9]{2,5}$/i, "")
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/**
+ * The episode's dignity list (S4 review, 2026-11-13): a picture refused on dignity (a death on
+ * camera) is refused for every request of the episode, matched by its normalised title or its
+ * file's sha1/sha256, so a renamed or re-requested copy cannot slip in. Returns the entry or null.
+ */
+export function dignityHit(c, list = []) {
+  const keys = new Set([titleKey(c?.ref), titleKey(c?.ref_requested), titleKey(c?.title)].filter(Boolean));
+  return list.find((d) => (d.title_key && keys.has(d.title_key)) || (d.sha1 && c?.sha1 === d.sha1) || (d.sha256 && c?.sha256 === d.sha256)) ?? null;
+}
+
 /** The rundown parts about the week's news, whose pictures must be public by the part's horizon. */
 export const NEWS_PART = /^(cold-open|week-|weight-|margins-)/;
 
@@ -423,6 +444,8 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
           c.evidence_also = [...(c.evidence_also ?? []), refined.evidence];
         }
       }
+      const dignity = dignityHit(c, requestsDoc.dignity ?? []);
+      if (dignity) reasons.push(`on the episode's dignity list (${clip(dignity.ref ?? dignity.title_key, 200)}): ${clip(dignity.why, 300)}`);
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);
       const own = c.adapter === OWN_ADAPTER;
