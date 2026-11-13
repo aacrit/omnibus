@@ -347,7 +347,9 @@
                   "properties": {
                     "times": { "type": "array", "maxItems": 2000, "items": { "type": "number", "minimum": 0 } },
                     "threshold": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
-                    "method": { "type": "string", "minLength": 1, "maxLength": 200 }
+                    "method": { "type": "string", "minLength": 1, "maxLength": 200 },
+                    "ffmpeg": { "description": "The ffmpeg that found the cuts in the file itself (the fetcher writes them; a reported list is never trusted).", "type": "string", "minLength": 1, "maxLength": 200 },
+                    "span": { "description": "The seconds of the file the detector read: the aired span [in_s, out_s] (out null: to the end).", "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": ["number", "null"] } }
                   }
                 }
               }
@@ -397,6 +399,21 @@
             "out_s": { "type": "number", "minimum": 0 },
             "horizon": { "type": "string", "maxLength": 64 },
             "shows_days_event": { "type": "boolean" }
+          }
+        },
+        "shows_bodies": {
+          "description": "Whether the file shows bodies (GRAMMAR 1.6): true with bodies_excluded when the seconds that do lie outside the fit and never air (CoS ruling, rights fix round 4).",
+          "type": "boolean"
+        },
+        "bodies_excluded": {
+          "description": "The seconds of the file that show bodies, left out of the fit and never aired; the episode's dignity list carries the same span.",
+          "type": "object",
+          "required": ["from_s", "to_s", "note"],
+          "additionalProperties": false,
+          "properties": {
+            "from_s": { "type": "number", "minimum": 0 },
+            "to_s": { "type": "number", "minimum": 0 },
+            "note": { "type": "string", "minLength": 1, "maxLength": 400 }
           }
         },
         "published_by_edition": {

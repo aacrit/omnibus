@@ -1946,7 +1946,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
-        "captured_at": "2026-11-13T19:40:04Z"
+        "captured_at": "2026-11-13T23:11:24Z"
       },
       "basis": "Wikimedia Commons file page: CC BY 4.0 (Creative Commons Attribution 4.0)",
       "rights_checked": {
@@ -1989,7 +1989,9 @@
       },
       "fit": {
         "beat": "week-day-2",
-        "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
+        "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator. It airs 0 to 14.5 s only (CoS ruling, 2026-11-13): the rest of the file is never aired.",
+        "in_s": 0,
+        "out_s": 14.5,
         "horizon": "2026-11-03T19:39:27Z",
         "shows_days_event": true
       },
@@ -2018,13 +2020,23 @@
             "times": [
               5.9,
               8.5,
-              11.433,
-              44.9
+              11.433
             ],
             "threshold": 0.3,
-            "method": "ffmpeg select=gt(scene,0.3)"
+            "method": "ffmpeg select=gt(scene,0.3) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              0,
+              14.5
+            ]
           }
         }
+      },
+      "shows_bodies": true,
+      "bodies_excluded": {
+        "from_s": 20.3,
+        "to_s": 26.8,
+        "note": "covered remains carried from the rubble, ~20.3–26.8 s — excluded, never aired"
       },
       "published_by_edition": {
         "rule": "picture_published_by_edition",
@@ -2051,7 +2063,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: White House Chief of Staff, Stephen Miller – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T19:40:09Z"
+        "captured_at": "2026-11-13T23:11:36Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
@@ -2145,7 +2157,12 @@
               31.281
             ],
             "threshold": 0.3,
-            "method": "ffmpeg select=gt(scene,0.3)"
+            "method": "ffmpeg select=gt(scene,0.3) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              0,
+              33
+            ]
           }
         }
       },
@@ -2161,7 +2178,7 @@
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
       "reasons": [
-        "voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first"
+        "deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
       ]
     },
     {
@@ -2323,7 +2340,7 @@
       "adapter": "voidnews",
       "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
       "reasons": [
-        "voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first"
+        "deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
       ]
     },
     {
@@ -2529,7 +2546,7 @@
       "fallback_tier": 4,
       "fallback": "none needed (tier 4 is always satisfiable)",
       "reasons": [
-        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first",
+        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z",
         "tier 4 github.com/aacrit/void--news: drawn by E6 from github.com/aacrit/void--news data, not fetched: printed edition 2026-11-04 from frontend/build-data/archive.json at dcffaaf, rendered by E6 in the edition's own layout"
       ]
     },
@@ -2680,7 +2697,7 @@
       "fallback_tier": null,
       "fallback": "none: the beat runs on its other pictures and graphics",
       "reasons": [
-        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: voidnews-captures.json is not in the media directory; run node scripts/rights.mjs capture first"
+        "tier 3 voidnews https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d: deployed 2026-11-05T00:33:00Z, more than an hour after the edition was printed 2026-11-04T19:39:06Z"
       ]
     },
     {
