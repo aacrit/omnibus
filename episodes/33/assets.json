@@ -439,7 +439,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -449,6 +449,24 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -467,24 +485,6 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -567,25 +567,6 @@
         "text": "tier 4: the printed page alone carries the beat; count card of the day's sources"
       },
       "candidates": [
-        {
-          "adapter": "commons",
-          "ref": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
-          "tier": 2,
-          "pinned": true,
-          "window": {
-            "from": "2026-10-26",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "audio": {
-            "mode": "muted",
-            "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
-          },
-          "fit": {
-            "beat": "week-day-3",
-            "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. No in/out: the 368 MB file is not viewed in this pass.",
-            "horizon": "2026-11-04T19:39:06Z"
-          }
-        },
         {
           "adapter": "commons",
           "ref": "File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
@@ -683,6 +664,38 @@
       ]
     },
     {
+      "id": "e33-day3-pic2",
+      "kind": "footage",
+      "for": "week-day-3",
+      "title": "S4 (2026-11-13): the White House's video of the President's remarks on 4 Nov, the day after the vote, published after the 4 Nov print and by the edition cutoff (ruling A); muted under the narration, never as the Vice President's post or as the President's reply",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)"
+      },
+      "candidates": [
+        {
+          "adapter": "commons",
+          "ref": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "audio": {
+            "mode": "muted",
+            "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
+          },
+          "fit": {
+            "beat": "week-day-3",
+            "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file is not viewed in this pass.",
+            "horizon": "2026-11-04T19:39:06Z"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
       "id": "e33-day3-doc",
       "kind": "document",
       "for": "week-day-3",
@@ -691,29 +704,14 @@
         "tier": null,
         "text": "no desk item; the narrator says only what was printed and counted"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835",
           "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "pinned": true
+          "host": "web.archive.org",
+          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: The operation was aborted due to timeout"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-day4-page",
@@ -1460,14 +1458,59 @@
         "tier": null,
         "text": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
       },
-      "candidates": [],
-      "not_fetched": [
+      "candidates": [
         {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
           "tier": 5,
-          "host": "web.archive.org",
-          "reason": "the Wayback index could not be read for twitter.com/JDVance/status/*: The operation was aborted due to timeout"
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          },
+          "pinned": true
         }
-      ]
+      ],
+      "not_fetched": []
     },
     {
       "id": "e33-weight-03",

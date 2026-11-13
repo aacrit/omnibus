@@ -3,7 +3,7 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "3933c4d10325c7d8c5f9b3cbe5f934b3fae23559c94c1680c285a4c7a5df042f",
+  "ledger_sha256": "9db027b98ec418d7ca56e330befccfc2859fe241c5fae91a3cc184b0462cf94a",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -630,11 +630,11 @@
     },
     {
       "id": "e33-day3-pic",
-      "title": "President Trump Delivers Remarks, Nov. 4, 2026",
-      "source_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/President_Trump_Delivers_Remarks%2C_Nov._4%2C_2026.webm",
-      "sha256": "85bb01bfcc7bccfedf5e31b21260d8e22ddd48a0e9bc0d06185ad8d0dbdd0c18",
-      "credit": "The White House, via Wikimedia Commons",
+      "title": "March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_%28medium_crop%29_%282%29.jpg",
+      "sha256": "f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6",
+      "credit": "Emily J. Higgins, via Wikimedia Commons",
       "licence": {
         "id": "pd-us-federal",
         "name": "Public domain (US federal government work)",
@@ -643,19 +643,15 @@
         "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
       },
       "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump Delivers Remarks, Nov. 4, 2026 – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T17:07:01Z"
-      },
-      "audio": {
-        "mode": "muted",
-        "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
+        "url": "https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Emily J. Higgins\nCredit: The White House (direct download)\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T17:16:00Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"President Trump Delivers Remarks, Nov. 4, 2026\" from https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 85bb01bfcc7bccfedf5e31b21260d8e22ddd48a0e9bc0d06185ad8d0dbdd0c18. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+      "dispute": "This episode uses \"March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)\" from https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-echo-req-12",
@@ -764,6 +760,35 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"White House Chief of Staff, Stephen Miller\" from https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint a9431293346f266371109b32f382384b7b4dd01417b059d4ef63d84e4cdbedbb. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day3-pic2",
+      "title": "President Trump Delivers Remarks, Nov. 4, 2026",
+      "source_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/President_Trump_Delivers_Remarks%2C_Nov._4%2C_2026.webm",
+      "sha256": "85bb01bfcc7bccfedf5e31b21260d8e22ddd48a0e9bc0d06185ad8d0dbdd0c18",
+      "credit": "The White House, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump Delivers Remarks, Nov. 4, 2026 – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T17:16:04Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"President Trump Delivers Remarks, Nov. 4, 2026\" from https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:President_Trump_Delivers_Remarks,_Nov._4,_2026.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 85bb01bfcc7bccfedf5e31b21260d8e22ddd48a0e9bc0d06185ad8d0dbdd0c18. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }
