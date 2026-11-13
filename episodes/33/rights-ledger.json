@@ -1831,6 +1831,61 @@
         "status": "clear",
         "findings": []
       }
+    },
+    {
+      "id": "e33-day6-pic",
+      "request_id": "e33-day6-pic",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "White House Chief of Staff, Stephen Miller",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: White House Chief of Staff, Stephen Miller – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-13T16:38:41Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/White_House_Chief_of_Staff%2C_Stephen_Miller.webm",
+      "file": "e33-day6-pic.webm",
+      "mime": "video/webm",
+      "sha256": "a9431293346f266371109b32f382384b7b4dd01417b059d4ef63d84e4cdbedbb",
+      "bytes": 29561421,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-06",
+      "published_at": "2026-11-06T22:50:08Z",
+      "content_date": null,
+      "source_tier": 2,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "fit": {
+        "beat": "week-day-6",
+        "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
+        "in_s": 0,
+        "out_s": 33,
+        "horizon": "2026-11-07T17:30:11Z"
+      }
     }
   ],
   "rejected": [
@@ -1993,113 +2048,6 @@
       "reasons": [
         "licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own)",
         "no media address"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:P20260109MR-1291 President Donald Trump attends a roundtable with energy officials and executives from the oil industry in the East Room of the White House.jpg",
-      "reasons": [
-        "dated 2026-01-09, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 4.jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 2.jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1.jpg",
-      "reasons": [
-        "dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:VP20261008AH-0002.jpg",
-      "reasons": [
-        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:VP20261008AH-0503.jpg",
-      "reasons": [
-        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:VP20261008AH-0160.jpg",
-      "reasons": [
-        "dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452387554.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452444173.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452194811.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:The White House - 54452195036.jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "adapter": "commons",
-      "ref": "File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg",
-      "reasons": [
-        "licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
       ]
     },
     {
@@ -2501,28 +2449,6 @@
       "fallback": "no desk item; the narrator says only what was printed and counted",
       "reasons": [
         "tier 5 www.congress.gov: https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D: https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D answered 403 (a Cloudflare bot challenge, which is not answered): the host refused...; congress.gov puts its search behind a bot challenge, which is not answered. The official Congress.gov API (api.congress.gov, read 2026-11-12 with the public DEMO_KEY) lists two House resolutions impeaching Peter B. Hegseth: H.Res. 1177, introduced 2026-04-15, before the step window, and H.Res. 1655, introduced 2026-11-10, after the horizon; none was introduced inside the window, so there is no desk item"
-      ]
-    },
-    {
-      "request_id": "e33-day6-pic",
-      "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources",
-      "reasons": [
-        "tier 1 gov https://www.whitehouse.gov/releases/2026/11/president-trump-names-stephen-miller-as-33rd-white-house-chief-of-staff/: licence \"www.whitehouse.gov page, federal authorship not proven\" is not on the allowlist (the page holds no video file of its own); no media address",
-        "tier 2 commons File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:P20260109MR-1291 President Donald Trump attends a roundtable with energy officials and executives from the oil industry in the East Room of the White House.jpg: dated 2026-01-09, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 4.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 2.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1.jpg: dated 2026-08-27, outside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00",
-        "tier 2 commons File:VP20261008AH-0002.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 2 commons File:VP20261008AH-0503.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 2 commons File:VP20261008AH-0160.jpg: dated only 2026, too coarse to place inside its window 2026-11-06 to 2026-11-07T17:30:11.094818+00:00; licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452387554.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452444173.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452194811.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:The White House - 54452195036.jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))",
-        "tier 3 commons File:President Donald Trump meets with Canadian Prime Minister Mark Carney in the Oval Office (54502027536).jpg: licence \"Public domain\" is not on the allowlist (public domain with no basis category (US federal, by age or by dedication))"
       ]
     },
     {

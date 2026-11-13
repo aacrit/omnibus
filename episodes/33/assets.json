@@ -1016,6 +1016,40 @@
         },
         {
           "adapter": "commons",
+          "ref": "File:White House Chief of Staff, Stephen Miller.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "fit": {
+            "beat": "week-day-6",
+            "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
+            "in_s": 0,
+            "out_s": 33,
+            "horizon": "2026-11-07T17:30:11Z"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "fit": {
+            "beat": "week-day-6",
+            "why": "the President at the White House on 6 Nov, the day the appointment was announced, walking out in the rain and taking questions under an umbrella; what he says is not checked against the appointment here, so it plays under the narrator; 0 to 28 s (the walk out and the first answers).",
+            "in_s": 0,
+            "out_s": 28,
+            "horizon": "2026-11-07T17:30:11Z"
+          }
+        },
+        {
+          "adapter": "commons",
           "ref": "File:Map of Lake Ontario at the White House during Executive Order renaming Lake Ontario to Lake America, August 27, 2026 - 1 (cropped).jpg",
           "tier": 2,
           "window": {
