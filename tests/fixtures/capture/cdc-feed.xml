@@ -1,0 +1,39 @@
+<!-- recorded 2026-11-13T18:00:00Z from https://tools.cdc.gov/podcasts/feed.asp?feedid=183 with the honest UA; first 3 entries -->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[CDC Online Newsroom]]></title>
+  <subtitle><![CDATA[Welcome to the CDC Online Newsroom, a one-stop source for journalists seeking public health information. Global media and the general public can access current and archived press releases, media advis]]></subtitle>
+  <id>https://tools.cdc.gov/podcasts/feed.asp?feedid=183</id>
+  <link href="https://tools.cdc.gov/podcasts/feed.asp?feedid=183" rel="self" type="application/rss+xml" />
+  <link href="https://www.cdc.gov/media/index.html" rel="alternate" type="text/html" />
+  <updated>2015-11-20T23:09:00Z</updated>
+  <logo>https://www.cdc.gov/images/newsroom.jpg</logo>
+  <author>
+    <name></name>
+    <email>krc4@cdc.gov</email>
+  </author>
+  <category term="CDC Newsroom" />
+  <entry>
+    <title><![CDATA[Annual Report to the Nation: Progress Against Lung Cancer Drives Down Cancer Mortality]]></title>
+    <link href="https://tools.cdc.gov/podcasts/download.asp?m=132608&amp;c=766495" />
+    <id>https://www.cdc.gov/media/releases/2026/annual-report-to-the-nation-progress-against-lung-cancer-drives-down-cancer-mortality.html</id>
+    <updated>2026-09-22T04:00:00Z</updated>
+    <summary><![CDATA[Learn the latest U.S. cancer trends, including falling death rates and lung cancer progress.]]></summary>
+    <category term="CDC Newsroom" />
+  </entry>
+<entry>
+    <title><![CDATA[CDC Data Show Encouraging Progress in Youth Health]]></title>
+    <link href="https://tools.cdc.gov/podcasts/download.asp?m=132608&amp;c=766493" />
+    <id>https://www.cdc.gov/media/releases/2026/cdc-data-show-encouraging-progress-in-youth-health.html</id>
+    <updated>2026-09-21T12:00:00Z</updated>
+    <summary><![CDATA[CDC Data Show Encouraging Progress in Youth Health]]></summary>
+    <category term="CDC Newsroom" />
+  </entry>
+<entry>
+    <title><![CDATA[CDC Statement on Increases in Recent Animal Rabies Activity and Associated Human Exposures]]></title>
+    <link href="https://tools.cdc.gov/podcasts/download.asp?m=132608&amp;c=766411" />
+    <id>https://www.cdc.gov/media/releases/2026/cdc-statement-on-increases-in-recent-animal-rabies-activity-and-associated-human-exposures.html</id>
+    <updated>2026-09-10T13:50:00Z</updated>
+    <summary><![CDATA[CDC Statement on Increases in Recent Animal Rabies Activity and Associated Human Exposures]]></summary>
+    <category term="CDC Newsroom" />
+  </entry>
+</feed>

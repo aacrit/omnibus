@@ -1,0 +1,42 @@
+# C0 of the laptop-free footage capture: probe the capture job's 11 hosts once
+# from a GitHub Actions runner, with the fetcher's honest identity, before
+# capture.yml depends on any of them. One GET per URL, no retries; a host's
+# first 403 ends its probe (scripts/capture/probe-hosts.mjs). A refusal is
+# recorded in docs/DECISIONS.md and never worked around. Manual dispatch only.
+#
+# Rule 10 (Agentique CLAUDE.md) declaration:
+#   owner: Forge (omnibus)
+#   kill_after_idle_days: 30
+#   heartbeat_url: n/a (not declared): a manual, one-off probe has no schedule to miss and no served endpoint.
+name: probe-hosts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: probe-hosts
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Probe the capture hosts (honest UA, no retries)
+        run: node scripts/capture/probe-hosts.mjs --json probe-hosts.json --md probe-hosts.md
+      - name: Summary
+        run: cat probe-hosts.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: probe-hosts
+          path: |
+            probe-hosts.json
+            probe-hosts.md
+          retention-days: 14
