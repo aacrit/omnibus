@@ -1,0 +1,56 @@
+/* void omnibus broadcast generator: rules the G2 mocks never needed, over
+   design/mocks/broadcast/frame.css. Colours only through design/tokens.css
+   custom properties; no literal colour here (Ink & Momentum). Clean layers
+   only: nothing here may add a grain, glow or screen effect. */
+
+/* Overlays (lower thirds, clock hand layers): only the drawn marks keep
+   pixels; the frame, the field and the picture slot are transparent. */
+body.overlay, body.overlay .frame, body.overlay .field, body.overlay .slot { background: transparent; }
+
+/* Lower third (spec 3.5): tier 1 place then name, tier 2 role then date,
+   separated by the end board's middot. */
+.lt-t1, .lt-t2 { white-space: nowrap; }
+.lt .sep { color: var(--o-stair-4); margin: 0 18px; font-family: var(--font-caps); }
+.lt-t1 .sep { font-size: var(--bc-place); }
+.lt-t2 .sep { font-size: var(--bc-second); }
+.lt-role { font-size: var(--bc-second); color: var(--o-grey-2); line-height: 1; }
+/* The Echo's register (spec 3.10): umber rule and dot, Playfair italic slate. */
+.lt--echo .lt-rule, .lt--echo .lt-dot { background: var(--o-echo-accent); }
+.lt--echo .lt-place { font-family: var(--font-board); font-style: italic; font-weight: 600; text-transform: none; letter-spacing: 0; font-size: var(--bc-place); color: var(--o-white); }
+
+/* Framings board: the base page the rows flap over, and the untitled
+   occupied rung's outlet name, beneath its rung mark. */
+body.rows-hidden .rows { visibility: hidden; }
+/* A page with fewer than 4 rows (typically the board's last page) stacks
+   from the top instead of spreading with frame.css's space-between, which
+   on 1-2 rows left the page looking half-empty and unbalanced. */
+.rows.rows-top { justify-content: flex-start; gap: 64px; }
+.untitled-line { position: absolute; left: 144px; top: 948px; width: 1152px; height: 26px; }
+.untitled-line .outlet { top: 0; font-size: var(--bc-rung); }
+
+/* Credits (spec 3.11): one tall strip, measured, rolled 3 px a frame. */
+html.tall, html.tall body { height: auto; overflow: visible; }
+html.tall .frame { height: auto; overflow: visible; }
+html.tall .field { position: relative; height: auto; }
+.credits { padding: 1080px 144px; text-align: center; }
+.credit-line { font-family: var(--font-caps); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 30px; line-height: 1.3; color: var(--o-white); margin: 0 0 30px; }
+
+/* Title typed-paper macro (spec 3.2): full-frame paper, Plex Mono caps. */
+body.macro, body.macro .frame { background: var(--o-paper); }
+.macro-rows { position: absolute; left: 70px; top: 60px; font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 43px; line-height: 64px; color: var(--o-ink); white-space: pre; text-transform: uppercase; }
+.macro-row { height: 64px; }
+.macro-row span { display: inline; }
+
+/* A dot label that would cross the 16:9 action-safe edge (x 1824) grows
+   above the rule instead, right-aligned to the dot (render.py measures). */
+.lt-dot-label.above { left: auto !important; right: -40px; top: -44px !important; }
+
+/* A slate whose place name alone is long (e.g. a full venue address) can
+   still push tier 1 past the action-safe edge even with the dot label
+   moved above (spec 3.5: the lower third stays inside action-safe).
+   render.py measures the real box and adds this class as a last resort;
+   `typeset.lower_third_html(..., compact=True)` sets it up front. */
+.lt--compact .lt-place { font-size: calc(var(--bc-place) * 0.78); }
+.lt--compact .lt-name { font-size: calc(var(--bc-name) * 0.78); }
+.lt--compact .lt-role { font-size: calc(var(--bc-second) * 0.85); }
+.lt--compact .lt-date { font-size: calc(var(--bc-second) * 0.85); }

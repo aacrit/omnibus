@@ -111,7 +111,8 @@
             "gov",
             "nara",
             "wayback",
-            "voidnews"
+            "voidnews",
+            "voa"
           ]
         },
         "title": {
@@ -307,6 +308,70 @@
         "own_property": {
           "$ref": "#/$defs/own_property"
         },
+        "youtube_source": {
+          "description": "Why the Commons file is a YouTube copy ({{From YouTube}}, video2commons): its date is its upload day, and its frames need a marks check (S4 review).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "marks_checked": {
+          "description": "The on-screen marks a reviewer saw in the item's frames ([] for none): reviewed by the verifier, the CoS or the founder (never the builder or the sourcer), with the frames looked at (one in every 30 s of the aired span: fit in_s..out_s, else the whole file, duration_s; for a video, one in every shot between its cuts), the contact sheet, and the mask over any call to action (S4 review, 2026-11-13).",
+          "type": "object",
+          "required": ["marks", "reviewed"],
+          "additionalProperties": false,
+          "properties": {
+            "marks": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 200 } },
+            "reviewed": {
+              "type": "object",
+              "required": ["by", "at", "frames", "contact_sheet"],
+              "additionalProperties": false,
+              "properties": {
+                "by": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^ *([Vv]erifier|[Cc][Oo][Ss]|[Ff]ounder)([^A-Za-z]|$)" },
+                "at": { "type": "string", "minLength": 1, "maxLength": 64 },
+                "frames": { "type": "array", "minItems": 1, "maxItems": 400, "items": { "type": "number", "minimum": 0 } },
+                "contact_sheet": {
+                  "type": "object",
+                  "required": ["path", "sha256"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": { "type": "string", "minLength": 1, "maxLength": 300 },
+                    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+                  }
+                },
+                "duration_s": { "type": "number", "exclusiveMinimum": 0 },
+                "resign_required": { "description": "Why the fetch step found this review wanting against the file's own cuts (rights fix 4 review): it stands for nothing until the checking role signs again.", "type": "string", "minLength": 1, "maxLength": 1000 },
+                "cuts": {
+                  "description": "A video's cuts: their times (seconds into the file; [] for a single shot), the scene-change threshold and how they were found (ffmpeg select=gt(scene,0.3)); every shot of the aired span holds a frame (S4 review round 3).",
+                  "type": "object",
+                  "required": ["times", "threshold", "method"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "times": { "type": "array", "maxItems": 2000, "items": { "type": "number", "minimum": 0 } },
+                    "threshold": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+                    "method": { "type": "string", "minLength": 1, "maxLength": 200 },
+                    "ffmpeg": { "description": "The ffmpeg that found the cuts in the file itself (the fetcher writes them; a reported list is never trusted).", "type": "string", "minLength": 1, "maxLength": 200 },
+                    "span": { "description": "The seconds of the file the detector read: the aired span [in_s, out_s] (out null: to the end).", "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": ["number", "null"] } }
+                  }
+                }
+              }
+            },
+            "mask": {
+              "description": "The mask laid over a call to action (a QR code, a TEXT ... TO number): the marks it covers and where; the shot is alteration-marked.",
+              "type": "object",
+              "required": ["covers", "region"],
+              "additionalProperties": false,
+              "properties": {
+                "covers": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1, "maxLength": 200 } },
+                "region": {
+                  "type": "object",
+                  "required": ["x", "y", "w", "h"],
+                  "additionalProperties": false,
+                  "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "w": { "type": "number" }, "h": { "type": "number" } }
+                }
+              }
+            }
+          }
+        },
         "evidence_also": {
           "description": "Further sources read for the licence, beside licence_evidence (which names the source a claimant can read): for DVIDS, the API asset record, its address without the key.",
           "type": "array",
@@ -319,6 +384,115 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 400
+        },
+        "fit": {
+          "description": "Why the item shows its beat (the bible's no stock B-roll rule), the seconds that show it, and its publication time against the beat's horizon; written by the sourcing pass's candidate pin and carried by the fetcher.",
+          "type": "object",
+          "required": [
+            "beat",
+            "why"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "beat": { "type": "string", "minLength": 1, "maxLength": 80 },
+            "why": { "type": "string", "minLength": 1, "maxLength": 600 },
+            "in_s": { "type": "number", "minimum": 0 },
+            "out_s": { "type": "number", "minimum": 0 },
+            "horizon": { "type": "string", "maxLength": 64 },
+            "shows_days_event": { "type": "boolean" }
+          }
+        },
+        "shows_bodies": {
+          "description": "Whether the file shows bodies (GRAMMAR 1.6): true with bodies_excluded when the seconds that do lie outside the fit and never air (CoS ruling, rights fix round 4).",
+          "type": "boolean"
+        },
+        "bodies_excluded": {
+          "description": "The seconds of the file that show bodies, left out of the fit and never aired; the episode's dignity list carries the same span.",
+          "type": "object",
+          "required": ["from_s", "to_s", "note"],
+          "additionalProperties": false,
+          "properties": {
+            "from_s": { "type": "number", "minimum": 0 },
+            "to_s": { "type": "number", "minimum": 0 },
+            "note": { "type": "string", "minLength": 1, "maxLength": 400 }
+          }
+        },
+        "published_by_edition": {
+          "description": "Ruling A (founder, 2026-11-13): a Week day's own picture published after the day's horizon and by the edition cutoff; facts stay at the day's horizon.",
+          "type": "object",
+          "required": ["rule", "event_date", "published_at", "day_horizon", "edition_cutoff", "dot_label"],
+          "additionalProperties": false,
+          "properties": {
+            "rule": { "enum": ["picture_published_by_edition"] },
+            "event_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+            "published_at": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "day_horizon": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "edition_cutoff": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "dot_label": { "type": "string", "minLength": 1, "maxLength": 120 },
+            "day_from": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+            "event_evidence": { "type": "string", "minLength": 1, "maxLength": 400 }
+          }
+        },
+        "dot_label": {
+          "description": "A dot label the shot must carry wherever the item airs: ruling A's FILMED/PUBLISHED line, or a sourcing pass's (another place or day than the line names).",
+          "type": "object",
+          "required": ["text", "why"],
+          "additionalProperties": false,
+          "properties": {
+            "text": { "type": "string", "minLength": 1, "maxLength": 120 },
+            "why": { "type": "string", "minLength": 1, "maxLength": 600 }
+          }
+        },
+        "terms": {
+          "description": "An editorial-use item's terms (founder ruling, 2026-11-13): the terms page, its quoted text, the credit it requires and the restrictions it sets.",
+          "type": "object",
+          "required": [
+            "url",
+            "captured_text",
+            "captured_at",
+            "credit_required",
+            "restrictions"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "url": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 2048 },
+            "captured_text": { "type": "string", "minLength": 1, "maxLength": 4000 },
+            "captured_at": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "credit_required": { "type": "string", "minLength": 1, "maxLength": 400 },
+            "restrictions": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 400 } }
+          }
+        },
+        "fair_use": {
+          "description": "A fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13), held to the blocking fair-use lints in scripts/lib/rights/lints.mjs.",
+          "type": "object",
+          "required": [
+            "beat",
+            "outlet",
+            "rung",
+            "source_duration_s",
+            "in_s",
+            "out_s",
+            "audio",
+            "on_screen_outlet",
+            "no_recut",
+            "no_youtube",
+            "rationale"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "beat": { "type": "string", "minLength": 1, "maxLength": 80 },
+            "outlet": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "rung": { "type": "integer", "minimum": 0, "maximum": 6 },
+            "source_duration_s": { "type": "number", "minimum": 0.001 },
+            "in_s": { "type": "number", "minimum": 0 },
+            "out_s": { "type": "number", "minimum": 0 },
+            "audio": { "type": "string", "maxLength": 20 },
+            "on_screen_outlet": { "type": "boolean" },
+            "no_recut": { "type": "boolean" },
+            "no_youtube": { "type": "boolean" },
+            "rationale": { "type": "string", "minLength": 1, "maxLength": 2000 },
+            "counterpart": { "type": "string", "maxLength": 80 }
+          }
         },
         "audio": {
           "description": "How the item's own sound is used, set by its pin with the reason; the graphics (E6) and the render (E11) honour it.",

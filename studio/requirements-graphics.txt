@@ -1,0 +1,5 @@
+# E6 broadcast graphics renderer (python -m studio.graphics.render): the studio venv plus Playwright, the
+# typesetting engine (studio/graphics/shoot.py), then "python -m playwright install chromium". Never installed
+# by the gate or studio-full: the graphics tests are browser-free (docs/DECISIONS.md, E6).
+-r requirements-studio.txt
+playwright==1.63.0

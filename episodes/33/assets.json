@@ -2,6 +2,25 @@
   "schema": "omnibus.asset-requests/1",
   "issue": 33,
   "source": "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve",
+  "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
+  "dignity": [
+    {
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm",
+      "title_key": "destructions in komyshuvakha after russian attack 2026 11 02 000",
+      "sha1": "b9fb7a464751fd83c368826e0b3a4d5c76a73af5",
+      "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence"
+    },
+    {
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+      "title_key": "destructions in komyshuvakha after russian attack 2026 11 02 001",
+      "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d",
+      "span": {
+        "from_s": 14.533,
+        "to_s": 29.2
+      },
+      "why": "covered remains carried from the rubble: a white sheet or bag at frame right from about 17.0 s, carried through 18 to 20 s; excluded from the first cut after the out point (14.533 s) to the first cut after 27.0 s (29.2 s), never aired"
+    }
+  ],
   "requests": [
     {
       "id": "e33-cold-01",
@@ -306,9 +325,9 @@
     },
     {
       "id": "e33-day1-pic",
-      "kind": "still",
+      "kind": "footage",
       "for": "week-day-1",
-      "title": "the day's lead picture: Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit",
+      "title": "the day's lead picture: Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "tier 4 locator map"
@@ -393,9 +412,71 @@
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
           "tier": 2,
+          "pinned": true,
           "window": {
             "from": "2026-11-02",
             "to": "2026-11-03T19:39:27.128203+00:00"
+          },
+          "audio": {
+            "mode": "muted",
+            "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
+          },
+          "fit": {
+            "beat": "week-day-2",
+            "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator. It airs 0 to 14.5 s only (CoS ruling, 2026-11-13): the rest of the file is never aired.",
+            "in_s": 0,
+            "out_s": 14.5,
+            "horizon": "2026-11-03T19:39:27Z",
+            "shows_days_event": true
+          },
+          "shows_bodies": true,
+          "bodies_excluded": {
+            "from_s": 14.533,
+            "to_s": 29.2,
+            "note": "covered remains carried from the rubble: a white sheet or bag at frame right from about 17.0 s, carried through 18 to 20 s; excluded from the first cut after the out point (14.533 s) to the first cut after 27.0 s (29.2 s), never aired"
+          },
+          "marks_checked": {
+            "marks": [
+              "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, in every frame the verifier looked at: matches the credited CC BY 4.0 source"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-14T00:05:00Z",
+              "frames": [
+                1.517,
+                4.467,
+                7.2,
+                9.967,
+                12.967,
+                14.4
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-resign/e33-day2-pic-resign-contact-sheet.png",
+                "sha256": "95ef0921330a838e36a4bb479c97b6414730f4978478a5917b2cafbef725180c"
+              },
+              "duration_s": 67.868
+            }
+          },
+          "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d"
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (002).webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          },
+          "audio": {
+            "mode": "muted",
+            "reason": "the police's own sound is not checked against the day's printed lines; the picture plays under the narrator"
+          },
+          "fit": {
+            "beat": "week-day-2",
+            "why": "the National Police of Ukraine's video of the same site after the 2 Nov strike, the second choice if the State Emergency Service's is refused. CC BY 4.0; uploaded 5 Nov 04:39 UTC (ruling A).",
+            "horizon": "2026-11-03T19:39:27Z",
+            "shows_days_event": true
           }
         },
         {
@@ -418,7 +499,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -428,15 +509,6 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -455,6 +527,15 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -634,6 +715,24 @@
       ]
     },
     {
+      "id": "e33-day3-pic2",
+      "kind": "footage",
+      "for": "week-day-3",
+      "title": "S4 (2026-11-13): the White House's video of the President's remarks on 4 Nov, the day after the vote, published after the 4 Nov print and by the edition cutoff (ruling A); muted under the narration, never as the Vice President's post or as the President's reply",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)"
+      },
+      "candidates": [],
+      "not_fetched": [
+        {
+          "tier": 2,
+          "host": "commons",
+          "reason": "excluded on review: File:President Trump Delivers Remarks, Nov. 4, 2026.webm: CoS ruling (a) of 2026-11-13: its White House lower third carries a QR code and \"TEXT POTUS TO 45470\", a call to action (an engagement mechanic against void's values); dropped, never aired"
+        }
+      ]
+    },
+    {
       "id": "e33-day3-doc",
       "kind": "document",
       "for": "week-day-3",
@@ -642,29 +741,14 @@
         "tier": null,
         "text": "no desk item; the narrator says only what was printed and counted"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835",
           "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "pinned": true
+          "host": "web.archive.org",
+          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=x.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261104193906&output=json&filter=statuscode%3A200&limit=200 answered 503"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-day4-page",
@@ -697,9 +781,9 @@
     },
     {
       "id": "e33-day4-pic",
-      "kind": "still",
+      "kind": "footage",
       "for": "week-day-4",
-      "title": "the day's lead picture: British Healthcare Worker Infected With Ebola Is Evacuated From Congo",
+      "title": "the day's lead picture: British Healthcare Worker Infected With Ebola Is Evacuated From Congo (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "tier 4 locator map"
@@ -949,6 +1033,38 @@
       ]
     },
     {
+      "id": "e33-day5-pic2",
+      "kind": "footage",
+      "for": "week-day-5",
+      "title": "S4 (2026-11-13): the Secretary's own video of 6 Nov, published after the 6 Nov print and by the edition cutoff (ruling A); CoS ruling: it plays MUTED under the narration, never as the statement the deck reports",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the printed page alone carries the beat (e33-day5-pic's DVIDS clip stays)"
+      },
+      "candidates": [
+        {
+          "adapter": "commons",
+          "ref": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          },
+          "audio": {
+            "mode": "muted",
+            "reason": "CoS ruling 2026-11-13: the Secretary's own video plays muted under the narration, never as the statement the deck reports"
+          },
+          "fit": {
+            "beat": "week-day-5",
+            "why": "the White House's own video of the Secretary, published 6 Nov (uploaded 22:53 UTC) as the impeachment threat and his video statement were reported; after the 6 Nov print (19:18 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. CoS ruling (2026-11-13): it plays MUTED under the narration, never as the statement the deck reports.",
+            "horizon": "2026-11-06T19:18:18Z"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
       "id": "e33-day5-doc",
       "kind": "document",
       "for": "week-day-5",
@@ -1012,6 +1128,97 @@
           "window": {
             "from": "2026-11-06",
             "to": "2026-11-07T17:30:11.094818+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:White House Chief of Staff, Stephen Miller.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "audio": {
+            "mode": "muted",
+            "reason": "the White House's own edit carries music; no music under the news (bible g), so the montage plays muted under the narrator"
+          },
+          "fit": {
+            "beat": "week-day-6",
+            "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
+            "in_s": 0,
+            "out_s": 33,
+            "horizon": "2026-11-07T17:30:11Z"
+          },
+          "dot_label": {
+            "text": "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026",
+            "why": "S4 review round 3 (CoS, 2026-11-13): a White House montage of earlier occasions (Miller's desk nameplate still reads Deputy Chief of Staff), dated only by its upload day; the label says whose video it is and when it was published, not when it was filmed"
+          },
+          "marks_checked": {
+            "marks": [
+              "venue signage 'THE GOLDEN AGE / PRESIDENT DONALD J. TRUMP' + presidential seal, podium, shots at 3.6s and 32.1s",
+              "desk nameplates reading 'Stephen Miller / Deputy Chief of Staff for Policy & Homeland Security Advisor' w/ presidential seal, shots at 13.8s, 21.4s, 28.7s (in-scene WH signage, not an added graphic)",
+              "foreground press camera or mic flag, green 'TV…' logo, illegible, bottom-right, shot at 23.2s, in scene (subject, not source)"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-13T19:34:09Z",
+              "frames": [
+                0.647,
+                3.608,
+                7.487,
+                11.011,
+                13.764,
+                15.703,
+                18.665,
+                21.376,
+                23.211,
+                25.901,
+                28.696,
+                30.51,
+                32.141
+              ],
+              "cuts": {
+                "times": [
+                  1.293,
+                  5.923,
+                  9.051,
+                  12.971,
+                  14.556,
+                  16.85,
+                  20.479,
+                  22.272,
+                  24.149,
+                  27.653,
+                  29.738,
+                  31.281
+                ],
+                "threshold": 0.3,
+                "method": "ffmpeg select=gt(scene,0.3)"
+              },
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day6-pic-shots.png",
+                "sha256": "7aaebe54cb87f4b9d2e2263686bd8c73e3e43d42f006af882dd20217fd3dfdea"
+              },
+              "duration_s": 38.021
+            }
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:President Trump Gaggles with Press Upon Departure from the White House, Nov. 6, 2026.webm",
+          "tier": 2,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          },
+          "fit": {
+            "beat": "week-day-6",
+            "why": "the President at the White House on 6 Nov, the day the appointment was announced, walking out in the rain and taking questions under an umbrella; what he says is not checked against the appointment here, so it plays under the narrator; 0 to 28 s (the walk out and the first answers).",
+            "in_s": 0,
+            "out_s": 28,
+            "horizon": "2026-11-07T17:30:11Z"
           }
         },
         {
@@ -1251,7 +1458,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1260,7 +1467,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1310,9 +1517,9 @@
     },
     {
       "id": "e33-weight-01",
-      "kind": "still",
+      "kind": "footage",
       "for": "weight-known",
-      "title": "the Vice President campaigning on election eve, 2 Nov 2026 (ledger: Columbus Dispatch, NTD News, New York Post headlines name Ohio and New York rallies)",
+      "title": "the Vice President campaigning on election eve, 2 Nov 2026 (ledger: Columbus Dispatch, NTD News, New York Post headlines name Ohio and New York rallies) (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "tier 4 locator map"
@@ -1345,59 +1552,14 @@
         "tier": null,
         "text": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
           "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
+          "host": "web.archive.org",
+          "reason": "the Wayback index could not be read for twitter.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=twitter.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261108221650&output=json&filter=statuscode%3A200&limit=200 answered 503"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-weight-03",
@@ -1452,9 +1614,9 @@
     },
     {
       "id": "e33-weight-05",
-      "kind": "still",
+      "kind": "footage",
       "for": "weight-end",
-      "title": "the end frame: a second election-day picture from the same search as e33-cold-01 (not the same frame)",
+      "title": "the end frame: a second election-day picture from the same search as e33-cold-01 (not the same frame) (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "the board's last page held as the end frame"
@@ -1539,9 +1701,9 @@
     },
     {
       "id": "e33-margin1-pic",
-      "kind": "still",
+      "kind": "footage",
       "for": "margins-1",
-      "title": "Troy Jackson Defeats Susan Collins in Maine Senate Race",
+      "title": "Troy Jackson Defeats Susan Collins in Maine Senate Race (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "tier 4 locator map"
@@ -1580,9 +1742,9 @@
     },
     {
       "id": "e33-margin2-pic",
-      "kind": "still",
+      "kind": "footage",
       "for": "margins-2",
-      "title": "Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+      "title": "Federal Judge Orders Trump Administration to Stop Threatening State Officials (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "tier 4 locator map"
@@ -1616,9 +1778,9 @@
     },
     {
       "id": "e33-margin3-pic",
-      "kind": "still",
+      "kind": "footage",
       "for": "margins-3",
-      "title": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+      "title": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded (S4, 2026-11-13: footage of the beat preferred; a still from the same ladder fills it as a rostrum when no footage passes)",
       "fallback": {
         "tier": 4,
         "text": "tier 4 locator map"
@@ -1773,11 +1935,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record of it (NAID 338959044, Truman Library accession 73-3881, the NLT-AVC-PHT-(73)3881 that echo-pick names for old NAID 200382) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959044"
+          }
         }
       ],
       "not_fetched": []
@@ -1796,11 +1967,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the President receiving applause at the Armory. NARA's current record (NAID 338959024, Truman Library accession 73-3872, echo-pick's NLT-AVC-PHT-(73)3872 for old NAID 200380) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959024"
+          }
         }
       ],
       "not_fetched": []
@@ -1819,11 +1999,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record (NAID 338959048, Truman Library accession 73-3883, echo-pick's NLT-AVC-PHT-(73)3883 for old NAID 200383) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959048"
+          }
         }
       ],
       "not_fetched": []
@@ -1842,11 +2031,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: arrival at the Armory, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the Trumans greeted on arrival at the National Guard Armory. NARA's current record (NAID 338959010, Truman Library accession 73-3866, echo-pick's NLT-AVC-PHT-(73)3866 for old NAID 200379) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959010"
+          }
         }
       ],
       "not_fetched": []
@@ -2123,6 +2321,25 @@
         "text": "stills with rostrum tours (E1's 7 items); the Echo runs without footage. Any film of the fighting goes only where no music plays (x1, x7)"
       },
       "candidates": [
+        {
+          "adapter": "nara",
+          "ref": "22399",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "1951-01-01",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "fit": {
+            "beat": "echo-x1: the January 1951 withdrawal, refugees in snow",
+            "why": "Signal Corps film 111-ADC-8634, Uijongbu, 2 Jan 1951 (shot card 1, 4th scene): a 24th Division squad checks a file of refugees passing south, then two soldiers walk the snow-covered ground. The same withdrawal six days before the line's date, near Seoul, not Kangnung: the cut takes the refugee scene only. No in/out yet: the 839 ft silent reel is not viewed (no transcode in this pass); the editor sets in_s/out_s from the shot card's 4th scene. S4 read the shot card (111-ADC-8634.pdf, card 1 of 2): the refugee check is the 4th of 8 scenes in the Uijongbu story, which opens the reel, but the card gives no footage counts or times, so in/out stay unset.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "dot_label": {
+            "text": "FILMED UIJONGBU · 2 JAN 1951",
+            "why": "S4 (CoS, 2026-11-13): the film shows the withdrawal near Uijongbu on 2 Jan 1951, and the line it plays under (L-X1) names Kangnung on 8 Jan; it is usable only with this label on screen"
+          }
+        },
         {
           "adapter": "commons",
           "ref": "File:William Knowland, Edmund Brown Newsreel.ogv",
