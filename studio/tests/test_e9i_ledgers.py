@@ -519,7 +519,8 @@ def test_week_33s_credits_roll_carries_the_dow_line():
     rundown = json.loads((root / "rundown.json").read_text(encoding="utf-8"))
     ledger = json.loads((root / "rights-ledger.json").read_text(encoding="utf-8"))
     row = next(r for r in json.loads((root / "graphics-ledger.json").read_text(encoding="utf-8")) if r["id"] == "credits")
-    lines = GD.credits_spec(rundown, ledger).lines
+    week = json.loads((root.parents[1] / "data" / "week-33.json").read_text(encoding="utf-8"))
+    lines = GD.credits_spec(rundown, ledger, week).lines
     packet = json.loads((root / "disputes.json").read_text(encoding="utf-8"))
     assert row["lines"] == len(lines) and "items[].disclosure" in row["data_ref"]
     assert all(d["text"] in lines for d in packet["credit_disclosures"])
