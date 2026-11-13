@@ -2,3 +2,5 @@
 *.png binary
 *.jpg binary
 *.woff2 binary
+# the score folder is sha256-pinned in score.take.json: keep LF on every checkout so the pins hold
+episodes/*/score/** text eol=lf
