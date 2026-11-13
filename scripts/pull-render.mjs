@@ -3,11 +3,12 @@
 // build, and checks every file against the run's render-manifest.json (bytes and sha256) before it takes the
 // destination's place. Net-new.
 //
-//   node scripts/pull-render.mjs <issue> [--run <id>] [--from artifact|r2] [--dest <dir>] [--replace] [--graphics [--repo <checkout>] [--commit]]
+//   node scripts/pull-render.mjs <issue> [--run <id>] [--from artifact|r2] [--dest <dir>] [--replace] [--slice] [--graphics [--repo <checkout>] [--commit]]
 //
 // --from artifact (the default): the run's workflow artifact episode-draft-<issue>, through `gh run download`
 //   (the newest successful episode-draft run for that issue unless --run names one).
-// --from r2: render/<issue>/ in the private bucket omnibus-capture, through `npx wrangler r2 object get --remote`
+// --slice: let a check slice (--until) replace a whole-film render at <dest>.
+// --from r2: render/<issue>/<run>/ (--run required) in the private bucket omnibus-capture, through `npx wrangler r2 object get --remote`
 //   (needs CLOUDFLARE_API_TOKEN), the manifest first, then each file it lists.
 // --dest: default <OMNIBUS_MEDIA_ROOT or D:/omnibus-media>/<issue>/render. The download lands beside it
 //   (<dest>.incoming), is verified there, and only then replaces <dest> (which must be absent or empty unless
@@ -20,6 +21,7 @@
 //   worktree); --commit then commits that one file on that checkout's current branch.
 
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -36,6 +38,19 @@ export function artifactName(issue) {
 export function pickRun(rows, issue) {
   const want = new RegExp(`\\bissue ${issue}\\b`);
   return rows.find((r) => r.conclusion === "success" && want.test(String(r.displayTitle ?? "")))?.databaseId ?? null;
+}
+
+/** What a manifest says was rendered, in one line. */
+export function describe(m) {
+  return `run ${m.run ?? "?"}, commit ${String(m.sha ?? "?").slice(0, 12)}${m.ref ? ` (${m.ref})` : ""}, ${m.res ?? "?"}p, ${m.until != null ? `a ${m.until} s slice` : "the whole film"}; not usable: ${m.unusable?.length ? m.unusable.join(", ") : "none"}`;
+}
+
+/** A check slice never replaces a whole-film render unless --slice says so (pure). */
+export function sliceRefusal(prev, next, slice) {
+  if (prev && prev.until == null && next.until != null && !slice) {
+    return `this run is a ${next.until} s slice and ${prev.run ? `run ${prev.run}` : "the render there"} is the whole film: pass --slice to replace it anyway`;
+  }
+  return null;
 }
 
 /** Why writing under `dir` is refused on this machine, or null. */
@@ -66,6 +81,10 @@ export function localLedger(text, graphicsDir, { win = process.platform === "win
   return { text: out, rows: JSON.parse(out) };
 }
 
+function sha256Sync(p) {
+  return createHash("sha256").update(readFileSync(p)).digest("hex");
+}
+
 function installGraphics(issue, dest, root, commit, runLabel, repo = repoRoot) {
   const src = path.join(dest, "graphics");
   const ledgerFile = path.join(dest, "graphics-ledger.json");
@@ -75,9 +94,12 @@ function installGraphics(issue, dest, root, commit, runLabel, repo = repoRoot) {
   const { text, rows } = localLedger(readFileSync(ledgerFile, "utf8"), graphicsDir);
   for (const r of rows) {
     const name = path.basename(r.output_path);
-    if (!existsSync(path.join(src, name))) throw new Error(`the ledger's ${name} is not in the run's graphics`);
-    copyFileSync(path.join(src, name), path.join(graphicsDir, name));
+    const from = path.join(src, name);
+    if (!existsSync(from)) throw new Error(`the ledger's ${name} is not in the run's graphics`);
+    const got = sha256Sync(from);
+    if (got !== r.output_sha256) throw new Error(`${name} hashes to ${got.slice(0, 12)}, not the ledger's ${String(r.output_sha256).slice(0, 12)}: nothing installed`);
   }
+  for (const r of rows) copyFileSync(path.join(src, path.basename(r.output_path)), path.join(graphicsDir, path.basename(r.output_path)));
   const target = path.join(repo, "episodes", String(issue), "graphics-ledger.json");
   if (!existsSync(path.dirname(target))) throw new Error(`${repo} has no episodes/${issue}: --repo names a checkout of omnibus`);
   writeFileSync(target, text);
@@ -99,11 +121,12 @@ function pullArtifact(issue, run, incoming) {
   gh(["run", "download", String(id), "--name", artifactName(issue), "--dir", incoming]);
 }
 
-function pullR2(issue, incoming) {
+function pullR2(issue, run, incoming) {
+  if (!run) throw new Error("--from r2 needs --run <id>: the bucket keys each render by its run (render/<issue>/<run>/)");
   const get = (rel) => {
     const dest = path.join(incoming, ...rel.split("/"));
     mkdirSync(path.dirname(dest), { recursive: true });
-    execFileSync("npx", ["wrangler", "r2", "object", "get", `${BUCKET}/render/${issue}/${rel}`, "--file", dest, "--remote"],
+    execFileSync("npx", ["wrangler", "r2", "object", "get", `${BUCKET}/render/${issue}/${run}/${rel}`, "--file", dest, "--remote"],
       { cwd: repoRoot, stdio: ["ignore", "ignore", "inherit"], shell: process.platform === "win32" });
   };
   get(MANIFEST);
@@ -120,7 +143,7 @@ async function main(argv) {
     return i >= 0 ? argv[i + 1] : undefined;
   };
   if (!/^\d{1,4}$/.test(String(issueArg ?? ""))) {
-    console.error("usage: node scripts/pull-render.mjs <issue> [--run <id>] [--from artifact|r2] [--dest <dir>] [--replace]");
+    console.error("usage: node scripts/pull-render.mjs <issue> [--run <id>] [--from artifact|r2] [--dest <dir>] [--replace] [--slice] [--graphics [--repo <checkout>] [--commit]]");
     return 2;
   }
   const issue = Number(issueArg);
@@ -139,11 +162,15 @@ async function main(argv) {
   rmSync(incoming, { recursive: true, force: true });
   mkdirSync(incoming, { recursive: true });
   if (from === "artifact") pullArtifact(issue, flag("run"), incoming);
-  else pullR2(issue, incoming);
+  else pullR2(issue, flag("run"), incoming);
   const m = JSON.parse(readFileSync(path.join(incoming, MANIFEST), "utf8"));
   const problems = manifestProblems(m);
   if (problems.length) throw new Error(`render-manifest.json is invalid: ${problems.join("; ")}`);
   if (m.issue !== issue) throw new Error(`the manifest is for issue ${m.issue}, not ${issue}`);
+  console.log(`pull-render: ${describe(m)}`);
+  const prev = existsSync(path.join(dest, MANIFEST)) ? JSON.parse(readFileSync(path.join(dest, MANIFEST), "utf8")) : null;
+  const why2 = sliceRefusal(prev, m, argv.includes("--slice"));
+  if (why2) throw new Error(why2);
   const checked = await verifyFiles(m, incoming, { stat: statOrNull, sha: sha256File });
   const bad = checked.filter((c) => !c.ok);
   if (bad.length) {

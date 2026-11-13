@@ -30,7 +30,7 @@ export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log
   mkdirSync(mediaDir, { recursive: true });
   const report = [];
   for (const item of ledger.items ?? []) {
-    const row = { id: item.id, adapter: item.adapter, licence: item.licence, file: item.file ?? null, media_url: item.media_url ?? null };
+    const row = { id: item.id, adapter: item.adapter, licence: item.licence ?? null, credit: item.credit ?? null, file: item.file ?? null, media_url: item.media_url ?? null };
     const push = (outcome, detail = null) => {
       report.push({ ...row, outcome, detail });
       log(`${item.id}: ${outcome}${detail ? ` (${detail})` : ""}`);

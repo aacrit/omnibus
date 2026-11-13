@@ -2,24 +2,38 @@
 // The CI side of .github/workflows/episode-draft.yml (C8). Net-new.
 //
 //   node scripts/episode-draft.mjs route <issue>
-//       where the outputs may go (scripts/lib/draft-outputs.mjs): "r2" when the R2 secrets are set
-//       (HAS_R2=true), else "artifact" only when every rights-ledger item is PD, CC or our own property;
-//       otherwise exits 2 with the reason, before anything is rendered. Writes route=<r2|artifact> to
+//       where the files may go (scripts/lib/draft-outputs.mjs): "r2" when the R2 secrets are set (HAS_R2=true)
+//       and budget.yaml carries its row, else "artifact" only when every rights-ledger item is PD, CC or our own
+//       property; otherwise exits 2 with the reason, before anything is rendered. Writes route=<r2|artifact> to
 //       $GITHUB_OUTPUT when it is set.
-//   node scripts/episode-draft.mjs manifest <dir> --issue <n> [--run <id>]
-//       writes <dir>/render-manifest.json: every file under <dir> with its bytes and sha256, which
-//       scripts/pull-render.mjs checks on the laptop.
+//   node scripts/episode-draft.mjs r2-cap <dir> --listed <bytes>
+//       exits 2 when <dir>'s bytes plus what the bucket's render/ prefix already lists exceed budget.yaml's cap.
+//   node scripts/episode-draft.mjs unusable <sources report.json>
+//       the ledger items the sources job could not use, one line each, also to $GITHUB_STEP_SUMMARY.
+//   node scripts/episode-draft.mjs manifest <dir> --issue <n> --sha <commit> [--run <id>] [--ref <ref>]
+//       [--until <s>] [--res <h>] [--sources <sources report.json>]
+//       writes <dir>/render-manifest.json: what was rendered, the unusable item ids, and every file under <dir>
+//       with its bytes and sha256, which scripts/pull-render.mjs checks on the laptop.
 
-import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { MANIFEST, buildManifest, outputsRoute } from "./lib/draft-outputs.mjs";
+import { parse as parseYaml } from "yaml";
+import { MANIFEST, buildManifest, listFiles, outputsRoute, r2CapProblem } from "./lib/draft-outputs.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 function issueOf(s) {
   if (!/^\d{1,4}$/.test(String(s ?? ""))) throw new Error(`not an issue number: ${s}`);
   return Number(s);
+}
+
+const budget = () => parseYaml(readFileSync(path.join(repoRoot, "budget.yaml"), "utf8"));
+
+function unusableOf(file) {
+  if (!file) return [];
+  const r = JSON.parse(readFileSync(file, "utf8"));
+  return (r.items ?? []).filter((i) => r.unusable?.includes(i.id)).map((i) => ({ id: i.id, outcome: i.outcome, detail: i.detail ?? null }));
 }
 
 async function main(argv) {
@@ -31,21 +45,48 @@ async function main(argv) {
   if (cmd === "route") {
     const issue = issueOf(arg);
     const ledger = JSON.parse(readFileSync(path.join(repoRoot, "episodes", String(issue), "rights-ledger.json"), "utf8"));
-    const r = outputsRoute({ ledger, hasR2: process.env.HAS_R2 === "true" });
+    const r = outputsRoute({ ledger, hasR2: process.env.HAS_R2 === "true", budget: budget() });
     console.log(`episode-draft: ${r.message}`);
     if (r.refused) return 2;
     if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `route=${r.route}\n`);
     return 0;
   }
+  if (cmd === "r2-cap") {
+    const dir = path.resolve(arg);
+    const bytes = listFiles(dir).reduce((a, f) => a + statSync(path.join(dir, ...f.split("/"))).size, 0);
+    const why = r2CapProblem({ bytes, listed: Number(flag("listed")), budget: budget() });
+    if (why) {
+      console.error(`episode-draft: refused: ${why}`);
+      return 2;
+    }
+    console.log(`episode-draft: ${(bytes / 1024 ** 2).toFixed(1)} MiB fits under the R2 render cap`);
+    return 0;
+  }
+  if (cmd === "unusable") {
+    const rows = unusableOf(arg);
+    const lines = rows.length ? rows.map((r) => `- ${r.id}: ${r.outcome}${r.detail ? ` (${r.detail})` : ""}`) : ["- none"];
+    const text = ["### ledger items not usable on this run (reported, not worked around)", "", ...lines, ""].join("\n");
+    console.log(text);
+    if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`);
+    return 0;
+  }
   if (cmd === "manifest") {
     const dir = path.resolve(arg);
-    const m = await buildManifest(dir, { issue: issueOf(flag("issue")), run: flag("run") ?? null });
+    const m = await buildManifest(dir, {
+      issue: issueOf(flag("issue")),
+      run: flag("run") ?? null,
+      sha: flag("sha"),
+      ref: flag("ref") || null,
+      until: flag("until") ? Number(flag("until")) : null,
+      res: flag("res") ? Number(flag("res")) : null,
+      unusable: unusableOf(flag("sources")).map((r) => r.id),
+    });
     writeFileSync(path.join(dir, MANIFEST), `${JSON.stringify(m, null, 1)}\n`);
     const bytes = m.files.reduce((a, f) => a + f.bytes, 0);
     console.log(`episode-draft: ${m.files.length} files, ${(bytes / 1024 ** 2).toFixed(1)} MiB -> ${path.join(dir, MANIFEST)}`);
     return 0;
   }
-  console.error("usage: node scripts/episode-draft.mjs route <issue> | manifest <dir> --issue <n> [--run <id>]");
+  console.error("usage: node scripts/episode-draft.mjs route <issue> | r2-cap <dir> --listed <bytes> | unusable <report> | manifest <dir> --issue <n> --sha <commit> [...]");
   return 2;
 }
 

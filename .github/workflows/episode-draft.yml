@@ -1,5 +1,5 @@
 name: episode-draft
-run-name: episode draft, issue ${{ inputs.issue || '33' }}
+run-name: episode draft, issue ${{ inputs.issue }}${{ inputs.until != '' && format(' (a {0} s slice)', inputs.until) || '' }}
 
 # C8 (founder ruling 2026-11-13): the CPU-heavy half of an episode runs here, never on the laptop (two crashes that
 # day under CPU load with the GPU off). GPU work stays on the laptop: the loom/Resolve build and the Qwen vision pass.
@@ -12,10 +12,13 @@ run-name: episode draft, issue ${{ inputs.issue || '33' }}
 #
 # Rights. A workflow artifact on this public repo is public, the stage hand-offs included. So every artifact (the
 # hand-offs, 1 day; the outputs, 3 days) is allowed only when every rights-ledger item is public domain, CC or our
-# own property (scripts/lib/draft-outputs.mjs). When the R2 secrets exist, everything goes through the private R2
-# bucket omnibus-capture instead (render/<issue>/stage/<job>/ for the hand-offs, render/<issue>/ for the
-# outputs). Otherwise the run refuses in `route`, before anything is rendered. The laptop pulls the outputs with
-# `node scripts/pull-render.mjs <issue>`, which checks every sha256. Media never enter git.
+# own property (scripts/lib/draft-outputs.mjs). When the R2 secrets exist and budget.yaml carries its
+# r2_draft_render_gb row, everything goes through the private bucket omnibus-capture instead, under
+# render/<issue>/<run>/ (stage/<job>/ for the hand-offs, deleted once the run publishes or fails), each upload
+# refused past that row's cap. Otherwise the run refuses in `route`, before anything is rendered. The laptop pulls
+# the outputs with `node scripts/pull-render.mjs <issue>`, which checks every sha256. Media never enter git.
+#
+# Every run step is bash with -eo pipefail (defaults below): a failing command inside a pipe fails its step.
 #
 # Rule 10 (Agentique CLAUDE.md) declaration:
 #   owner: Forge (omnibus)
@@ -54,11 +57,16 @@ concurrency:
   group: episode-draft
   cancel-in-progress: false
 
+defaults:
+  run:
+    shell: bash
+
 env:
-  ISSUE: ${{ inputs.issue || '33' }}
+  ISSUE: ${{ inputs.issue }}
   OMNIBUS_MEDIA_ROOT: /home/runner/omnibus-media
   OMNIBUS_CHROMIUM_ARGS: --disable-gpu
   METER: /home/runner/meter.log
+  RUN_PREFIX: render/${{ inputs.issue }}/${{ github.run_id }}
 
 jobs:
   route:
@@ -76,7 +84,6 @@ jobs:
         env:
           UNTIL: ${{ inputs.until }}
         run: |
-          set -eu
           if ! printf '%s' "$ISSUE" | grep -qE '^[0-9]{1,4}$'; then echo "not an issue number: $ISSUE"; exit 2; fi
           if [ -n "$UNTIL" ] && ! printf '%s' "$UNTIL" | grep -qE '^[0-9]+(\.[0-9]+)?$'; then echo "until is seconds: $UNTIL"; exit 2; fi
           test -f "episodes/$ISSUE/screenplay.json"
@@ -85,12 +92,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - run: npm ci
       # Before any runner renders anything: where the hand-offs and outputs may go.
       - name: output route
         id: route
         env:
           HAS_R2: ${{ secrets.R2_ACCESS_KEY_ID != '' && secrets.R2_SECRET_ACCESS_KEY != '' && secrets.R2_ACCOUNT_ID != '' }}
         run: node scripts/episode-draft.mjs route "$ISSUE"
+      # R2 holds one render per issue: an earlier run's files go before this run's are counted against the cap.
+      - name: prune the issue's earlier R2 renders
+        if: steps.route.outputs.route == 'r2'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: bash scripts/ci/r2.sh rm "render/$ISSUE/"
 
   graphics:
     needs: route
@@ -109,14 +125,15 @@ jobs:
           python-version: "3.12"
       - name: install (ffmpeg, npm fonts, studio, Playwright Chromium)
         run: |
-          set -eu
           sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
           npm ci
           python -m pip install -r studio/requirements-draft.txt
           python -m playwright install --with-deps chromium
+      # The fresh ledger must carry the committed one's content: the same rows, templates and frame counts, with
+      # geometry within the tolerance verify.py states. Bytes may differ (Chromium and ffmpeg on Linux). Content drift
+      # fails the step; the run's ledger is still uploaded below, for a local commit once the change is intended.
       - name: render the broadcast graphics, compare the ledger
         run: |
-          set -eu
           bash scripts/ci/meter.sh mark graphics
           led="episodes/$ISSUE/graphics-ledger.json"
           out=/home/runner/stage/graphics
@@ -125,19 +142,28 @@ jobs:
           # shellcheck disable=SC2046
           python -m studio.graphics.render "week$ISSUE" --out "$out/media" \
             $(python -m studio.graphics.verify release /home/runner/graphics-ledger.committed.json)
+          cp "$led" "$out/graphics-ledger.json"
           python -m studio.graphics.verify compare /home/runner/graphics-ledger.committed.json "$led" \
             --report "$out/reports/graphics-compare.json"
-          cp "$led" "$out/graphics-ledger.json"
           du -sh "$out"
-      # The authoritative ledger on its own (a few KB, no media), for a local commit: pull-render --graphics, or
-      # `gh run download <id> -n graphics-ledger-<issue>`.
       - name: the graphics ledger (for a local commit)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: graphics-ledger-${{ env.ISSUE }}
           path: |
             /home/runner/stage/graphics/graphics-ledger.json
             /home/runner/stage/graphics/reports/graphics-compare.json
+          retention-days: 14
+          if-no-files-found: warn
+      # Brand lens: the first, middle and last frame of every ledgered graphic, sheeted (studio/graphics/framesheet.py).
+      - name: frame sheet
+        run: python -m studio.graphics.render framesheet --out /home/runner/framesheet
+      - name: frame sheet (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphics-framesheet-${{ env.ISSUE }}
+          path: /home/runner/framesheet
           retention-days: 14
           if-no-files-found: error
       - name: hand-off (artifact)
@@ -155,8 +181,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: auto
-        run: aws s3 sync /home/runner/stage/graphics "s3://omnibus-capture/render/$ISSUE/stage/graphics/" --delete --only-show-errors --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+        run: bash scripts/ci/r2.sh put /home/runner/stage/graphics "$RUN_PREFIX/stage/graphics/"
       - name: meter
         if: always()
         run: bash scripts/ci/meter.sh report graphics
@@ -175,12 +200,15 @@ jobs:
         with:
           ref: ${{ needs.route.outputs.sha }}
       - run: bash scripts/ci/meter.sh start setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: install (studio, Kokoro venv)
+      - name: install (npm for the R2 cap check, studio, Kokoro venv)
         run: |
-          set -eu
+          npm ci
           python -m pip install -r studio/requirements-studio.txt
           python -m venv /home/runner/tts
           /home/runner/tts/bin/python -m pip install -r studio/requirements-tts.txt
@@ -194,18 +222,10 @@ jobs:
       - name: Kokoro model (pinned, checked against studio/kokoro.lock.json)
         run: python -m studio.engine.narrator fetch
       # onnxruntime on Linux may voice a take with other bytes than the laptop's: this job writes its own voice.json,
-      # and the render uses this run's takes and manifest together, never mixed with the laptop's.
+      # and the render uses this run's takes and manifest together, never mixed with the laptop's. The committed
+      # manifest is removed first, so a voicing that fails can never hand the laptop's manifest on as this run's.
       - name: voice every narration and reader line
-        run: |
-          set -eu
-          bash scripts/ci/meter.sh mark narration
-          out=/home/runner/stage/narration
-          # the takes are voiced where the render job lays them out: voice.json records that folder as its media root
-          python -m studio.news.voice_episode "episodes/$ISSUE" --media-root "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice" --threads 4 \
-            | tee "$out/reports/narration.json"
-          cp -r "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice" "$out/media"
-          cp "episodes/$ISSUE/audio/voice.json" "$out/voice.json"
-          du -sh "$out"
+        run: bash scripts/ci/narration.sh
       - name: hand-off (artifact)
         if: needs.route.outputs.route == 'artifact'
         uses: actions/upload-artifact@v4
@@ -220,8 +240,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: auto
-        run: aws s3 sync /home/runner/stage/narration "s3://omnibus-capture/render/$ISSUE/stage/narration/" --delete --only-show-errors --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+        run: bash scripts/ci/r2.sh put /home/runner/stage/narration "$RUN_PREFIX/stage/narration/"
       - name: meter
         if: always()
         run: bash scripts/ci/meter.sh report narration
@@ -243,22 +262,24 @@ jobs:
           python-version: "3.12"
       - name: install (npm, Playwright Chromium for our own pages)
         run: |
-          set -eu
           npm ci
           python -m pip install -r studio/requirements-graphics.txt
           python -m playwright install --with-deps chromium
       # Our own pages are recaptured from their immutable deployments; every other item is downloaded from the
       # ledger's media_url with the honest User-Agent and checked against its sha256. A refusal is reported, never
-      # worked around; a third-party file that hashes otherwise is never used.
+      # worked around. A third-party file that hashes otherwise is never used, and is deleted here so no hand-off
+      # carries it.
       - name: fetch every ledger item from its origin
         run: |
-          set -eu
           bash scripts/ci/meter.sh mark sources
           out=/home/runner/stage/sources
           mkdir -p "$out/reports" "$out/media"
           git clone --quiet --filter=blob:none --no-checkout https://github.com/aacrit/void--news /home/runner/void--news
           PYTHON=python node scripts/rights.mjs capture "$ISSUE" --media "$out/media" --voidnews /home/runner/void--news
           node scripts/rights.mjs fetch "$ISSUE" --media "$out/media" --from-ledger --report "$out/reports/sources.json"
+          find "$out/media" -name '*.mismatch' -print -delete
+          rm -rf "$out/media/$ISSUE/.capture"
+          node scripts/episode-draft.mjs unusable "$out/reports/sources.json"
           du -sh "$out"
       - name: hand-off (artifact)
         if: needs.route.outputs.route == 'artifact'
@@ -275,8 +296,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: auto
-        run: aws s3 sync /home/runner/stage/sources "s3://omnibus-capture/render/$ISSUE/stage/sources/" --delete --only-show-errors --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+        run: bash scripts/ci/r2.sh put /home/runner/stage/sources "$RUN_PREFIX/stage/sources/"
       - name: meter
         if: always()
         run: bash scripts/ci/meter.sh report sources
@@ -305,7 +325,6 @@ jobs:
           python-version: "3.12"
       - name: install (ffmpeg, npm fonts, studio, PyMuPDF)
         run: |
-          set -eu
           sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
           npm ci
           python -m pip install -r studio/requirements-studio.txt pymupdf==1.28.2
@@ -321,17 +340,14 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: auto
         run: |
-          set -eu
           for s in graphics narration sources; do
-            aws s3 sync "s3://omnibus-capture/render/$ISSUE/stage/$s/" "/home/runner/stage-dl/stage-$s-$ISSUE/" --only-show-errors --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+            bash scripts/ci/r2.sh get "$RUN_PREFIX/stage/$s/" "/home/runner/stage-dl/stage-$s-$ISSUE/"
           done
       # Each stage's files where the screenplay's (remapped) media roots name them, and this run's graphics ledger and
       # voicing manifest in the checkout (never committed).
       - name: lay out the media
         run: |
-          set -eu
           bash scripts/ci/meter.sh mark layout
           dl=/home/runner/stage-dl; m="$OMNIBUS_MEDIA_ROOT/$ISSUE"
           mkdir -p "$m" "$PKG/reports" "$DOCUMENT_JOURNAL_DIR" "episodes/$ISSUE/audio"
@@ -343,12 +359,12 @@ jobs:
           for s in graphics narration sources; do cp -r "$dl/stage-$s-$ISSUE/reports/." "$PKG/reports/"; done
           cp "episodes/$ISSUE/graphics-ledger.json" "$PKG/graphics-ledger.json"
           cp "episodes/$ISSUE/audio/voice.json" "$PKG/voice.json"
+          node scripts/episode-draft.mjs unusable "$PKG/reports/sources.json"
           du -sh "$m"/*
       - name: studio items (typeset pages, the PDF page, the joined board, the title's first frame)
         run: python -m studio.news.studio_items "episodes/$ISSUE" --report "$PKG/reports/studio-items.json"
       - name: draft render
         run: |
-          set -eu
           bash scripts/ci/meter.sh mark render
           args="--draft --fit-voices --stems --res $RES --workers 4 --out $OUT"
           if [ -n "$UNTIL" ]; then args="$args --until $UNTIL"; else args="$args --layers"; fi
@@ -358,7 +374,6 @@ jobs:
           df -h /
       - name: package the outputs
         run: |
-          set -eu
           bash scripts/ci/meter.sh mark publish
           # the engine's intermediates (segments, work) stay behind: the master, its sources.json, layers and stems go
           mkdir -p "$PKG/render" "$PKG/graphics" "$PKG/voice" "$PKG/journal"
@@ -366,7 +381,9 @@ jobs:
           cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/graphics/"*.mov "$PKG/graphics/"
           cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice/"*.wav "$PKG/voice/"
           cp -r "$DOCUMENT_JOURNAL_DIR"/. "$PKG/journal/"
-          node scripts/episode-draft.mjs manifest "$PKG" --issue "$ISSUE" --run "${{ github.run_id }}"
+          node scripts/episode-draft.mjs manifest "$PKG" --issue "$ISSUE" --run "${{ github.run_id }}" \
+            --sha "${{ needs.route.outputs.sha }}" --ref "${{ inputs.ref || github.ref_name }}" --until "$UNTIL" --res "$RES" \
+            --sources "$PKG/reports/sources.json"
           du -sh "$PKG"
       - name: publish to R2 (private)
         if: needs.route.outputs.route == 'r2'
@@ -374,12 +391,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: auto
         run: |
-          set -eu
-          ep="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
-          aws s3 rm "s3://omnibus-capture/render/$ISSUE/stage/" --recursive --only-show-errors --endpoint-url "$ep"
-          aws s3 sync "$PKG" "s3://omnibus-capture/render/$ISSUE/" --delete --only-show-errors --endpoint-url "$ep"
+          bash scripts/ci/r2.sh rm "$RUN_PREFIX/stage/"
+          bash scripts/ci/r2.sh put "$PKG" "$RUN_PREFIX/"
       - name: publish to a workflow artifact (public; every ledger item is PD, CC or our own)
         if: needs.route.outputs.route == 'artifact'
         uses: actions/upload-artifact@v4
@@ -392,3 +406,20 @@ jobs:
       - name: meter
         if: always()
         run: bash scripts/ci/meter.sh report render
+
+  # Whatever happened upstream, this run's R2 hand-offs do not outlive it.
+  prune:
+    needs: [route, render]
+    if: always() && needs.route.outputs.route == 'r2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.route.outputs.sha }}
+      - name: delete render/<issue>/<run>/stage/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: bash scripts/ci/r2.sh rm "$RUN_PREFIX/stage/"
