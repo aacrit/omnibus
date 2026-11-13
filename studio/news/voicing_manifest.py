@@ -39,7 +39,7 @@ span (A26) plays its clip's own sound and a test tone is not judged. Until E7 wr
 from __future__ import annotations
 
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 SCHEMA = "omnibus-voicing/1"
 PATH = Path("audio") / "voice.json"         # = studio.engine.narrator.MANIFEST (a test holds them equal)
@@ -52,6 +52,13 @@ JUDGED = ("kokoro", "orpheus")              # = narrator.ENGINES
 
 def _num(v) -> bool:
     return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def relative_inside(w: str) -> bool:
+    """A path relative to the film folder that stays inside it, judged the same on every OS: absolute in neither the
+    Windows nor the POSIX sense (``C:/x``, ``\\\\host\\x``, ``/x``) and no ``..`` part."""
+    return not (PureWindowsPath(w).is_absolute() or PurePosixPath(w).is_absolute() or PureWindowsPath(w).drive
+                or ".." in PurePosixPath(w.replace("\\", "/")).parts)
 
 
 def voiced_lines(play: dict) -> list[dict]:
@@ -83,8 +90,8 @@ def line_problems(lid: str, rec, ident: dict | None) -> list[str]:
     extra = sorted(set(rec) - LINE_KEYS)
     if extra:
         out.append(f"lines.{lid} has unknown keys {extra} (known: {sorted(LINE_KEYS)})")
-    if not (isinstance(rec.get("wav"), str) and rec["wav"].strip()) or Path(str(rec.get("wav"))).is_absolute():
-        out.append(f"lines.{lid}.wav is the take's path relative to the film folder")
+    if not (isinstance(rec.get("wav"), str) and rec["wav"].strip()) or not relative_inside(rec["wav"]):
+        out.append(f"lines.{lid}.wav is the take's path relative to the film folder, inside it")
     for k in ("sha256", "text_sha256"):
         if not (isinstance(rec.get(k), str) and SHA256.match(rec[k])):
             out.append(f"lines.{lid}.{k} is a sha256 (64 hex)")
@@ -168,10 +175,11 @@ def problems(man, play: dict, *, exists=None, read_sha=None, text_sha=None) -> l
     return out
 
 
-def apply(play: dict, man) -> dict:
+def apply(play: dict, man, *, words: bool = True) -> dict:
     """The screenplay with each voiced line's ``wav`` and measured ``words`` from the manifest, where the line states
     neither (the screenplay's own wins). Words become the engine's {w, t}: film time, the line's start plus the
-    word's start in the take. A manifest that is not an object of lines changes nothing (problems() says why)."""
+    word's start in the take, so they are placed only once the line's start is final (``words=False`` places the take
+    alone, before --fit-voices moves the lines). A manifest that is not an object of lines changes nothing."""
     lines = (man or {}).get("lines") if isinstance(man, dict) else None
     if not isinstance(lines, dict):
         return play
@@ -183,7 +191,7 @@ def apply(play: dict, man) -> dict:
             if ln.get("kind") in VOICE_KINDS and isinstance(rec, dict) and not line_problems(ln["id"], rec, None):
                 ln = dict(ln)
                 ln.setdefault("wav", rec["wav"])
-                if not ln.get("words"):
+                if words and not ln.get("words"):
                     t0 = float(ln.get("start_s") or 0.0)
                     ln["words"] = [{"w": w["w"], "t": round(t0 + float(w["start_s"]), 4)} for w in rec["words"]]
             new.append(ln)

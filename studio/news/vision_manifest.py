@@ -61,7 +61,7 @@ def needs(item: dict | None, shot_kind: str) -> bool:
 def missing_fields(item: dict, shot_kind: str) -> list[str]:
     """The fields the item still lacks after the manifest: ``shows_bodies`` for any picture, ``people`` for a still."""
     out = []
-    if not isinstance(item.get("shows_bodies"), bool) and not isinstance(item.get("shows_violence_or_bodies"), bool):
+    if bodies_stated(item) is None:
         out.append("shows_bodies")
     if shot_kind == "archive_still" and "people" not in item:
         out.append("people")
@@ -128,47 +128,61 @@ def problems(man) -> list[str]:
     return out
 
 
-def overlay(item: dict, entry: dict) -> tuple[dict, list[str]]:
+def bodies_stated(item: dict):
+    """The ledger's own bodies flag: ``shows_bodies``, else the older ``shows_violence_or_bodies`` (policy.bodies_value
+    reads them in that order), or None when it states neither."""
+    v = item.get("shows_bodies", item.get("shows_violence_or_bodies"))
+    return v if isinstance(v, bool) else None
+
+
+def overlay(item: dict, entry: dict, file_sha: str | None = None) -> tuple[dict, list[str]]:
     """The item with the manifest entry's fields under the ledger's (the ledger wins), and why the entry cannot be used
-    for it (stale, or contradicting the ledger). An unusable entry adds nothing."""
+    for it (stale, or contradicting the ledger). ``file_sha`` is the sha256 of the file on disk: the entry is used only
+    when the file, the ledger and the entry all name the same bytes. An unusable entry adds nothing."""
     why = []
-    if entry.get("sha256") != item.get("sha256"):
-        why.append(f"{item.get('id')}: vision.json saw sha256 {str(entry.get('sha256'))[:12]}..., the ledger's file is "
-                   f"{str(item.get('sha256'))[:12]}...: see it again")
-    if isinstance(item.get("shows_bodies"), bool) and "shows_bodies" in entry and entry["shows_bodies"] != item["shows_bodies"]:
+    shas = {"file": file_sha, "ledger": item.get("sha256"), "vision.json": entry.get("sha256")}
+    if file_sha is None or len(set(shas.values())) != 1:
+        why.append(f"{item.get('id')}: the file, the ledger and vision.json do not name the same bytes ("
+                   + ", ".join(f"{k} {str(v)[:12] if v else 'unread'}" for k, v in shas.items()) + "): see it again")
+    led = bodies_stated(item)
+    if led is not None and "shows_bodies" in entry and entry["shows_bodies"] != led:
         why.append(f"{item.get('id')}: vision.json says shows_bodies {entry['shows_bodies']}, the ledger "
-                   f"{item['shows_bodies']}: one of them is wrong")
+                   f"{led}: one of them is wrong")
     if why:
         return item, why
     out = dict(item)
-    if "shows_bodies" in entry and not isinstance(item.get("shows_bodies"), bool):
+    if "shows_bodies" in entry and led is None:     # never beside the ledger's own (or legacy) flag
         out["shows_bodies"] = entry["shows_bodies"]
     if "people" in entry and "people" not in item:
         out["people"] = [dict(p) for p in entry["people"]]
     return out, []
 
 
-def apply(man, assets: dict, cited: dict[str, str]) -> dict:
-    """The manifest over the cited pictures. ``cited`` maps an asset id to the kind of the first shot showing it.
-    Returns {assets (a new dict, overlaid), problems (blocking always: unreadable, stale, contradicting), pending
-    ({asset id: [missing fields]}: pictures with no reading yet), used ([asset ids read from the manifest])}."""
+def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None) -> dict:
+    """The manifest over the cited pictures. ``cited`` maps an asset id to every kind of shot that shows it (a still's
+    needs and a clip's both apply). ``read_sha(item)`` is the sha256 of the item's file on disk (None when unread);
+    without it no entry is used. Returns {assets (a new dict, overlaid), problems (blocking always: unreadable, stale,
+    contradicting), pending ({asset id: [missing fields]}: pictures with no reading yet), used ([asset ids read from
+    the manifest])}."""
     out = dict(assets)
     probs = problems(man) if man is not None else []
     entries = (man or {}).get("items") if not probs else {}
     pending, used = {}, []
-    for aid, kind in cited.items():
+    for aid, kinds in cited.items():
+        kinds = [kinds] if isinstance(kinds, str) else list(kinds)
         item = out.get(aid)
-        if not needs(item, kind):
+        kinds = [k for k in kinds if needs(item, k)]
+        if not kinds:
             continue
         e = (entries or {}).get(aid)
         if e is not None:
-            new, why = overlay(item, e)
+            new, why = overlay(item, e, read_sha(item) if read_sha is not None else None)
             if why:
                 probs += why
             else:
                 out[aid] = new
                 used.append(aid)
-        miss = missing_fields(out[aid], kind)
+        miss = list(dict.fromkeys(f for k in kinds for f in missing_fields(out[aid], k)))
         if miss:
             pending[aid] = miss
     return {"assets": out, "problems": probs, "pending": pending, "used": used}

@@ -272,12 +272,14 @@ def share_alike_declared(play: dict | None) -> tuple[bool, list[str]]:
     return True, []
 
 
-def licence_allowed(lic: str, play: dict | None = None, *, kind: str = "picture") -> tuple[bool, bool]:
+def licence_allowed(lic: str, play: dict | None = None, *, kind: str = "picture",
+                    item: dict | None = None) -> tuple[bool, bool]:
     """(allowed, share_alike): the house allowlist, CC BY-SA in a film that declares it (share_alike_declared), or
     MIT when ``kind`` is "sound" or "non_picture" (founder ruling 2026-11-07). A picture input (the default
-    ``kind``) is never allowed under MIT."""
+    ``kind``) is never allowed under MIT. E9i: ``item``, the loaded ledger item the licence is read from, lets a news
+    show read a rights-ledger id through its licence map (studio/news/profile.py licence_reading)."""
     lic = str(lic or "").strip()
-    reading = SHOW.licence_reading(play, lic)   # E9i: a news show's rights-ledger ids (studio/news/profile.py)
+    reading = SHOW.licence_reading(play, dict(item, licence=lic)) if item is not None else None
     if reading is not None:
         if reading["as"] == "share_alike":
             return share_alike_declared(play)[0], True
@@ -669,13 +671,12 @@ def load_ledgers(film: Path, play: dict) -> dict:
         if not path.exists():
             raise Refused(f"ledger {name!r} not found at {path}")
         data = json.loads(path.read_text(encoding="utf-8"))
-        if isinstance(ref, dict) and ref.get("format") is not None:
+        if isinstance(ref, dict) and ref.get("format") is not None and SHOW.is_news(play):
             # E9i: E6's graphics ledger, read through its adapter (studio/news/graphics_ledger.py), on a news show only
+            # (a document film reads its ledger references exactly as before, a format key included)
             if not GL.is_e6(ref):
                 raise Refused(f"ledger {name!r}: format {ref.get('format')!r} is not one the engine reads "
                               f"({GL.FORMAT!r})")
-            if not SHOW.is_news(play):
-                raise Refused(f"ledger {name!r}: the {GL.FORMAT} format binds only on a show whose profile lints news")
             data, probs = GL.adapt(data, NL.load_inputs(play, film)[0], source=Path(path).name)
             if probs:
                 raise Refused(f"ledger {name!r} ({GL.FORMAT}): " + "; ".join(probs))
@@ -690,9 +691,10 @@ def load_ledgers(film: Path, play: dict) -> dict:
     return assets
 
 
-def news_voicing(film: Path, play: dict) -> dict:
+def news_voicing(film: Path, play: dict, *, words: bool = True) -> dict:
     """E9i: a news screenplay's voicing manifest (studio/news/voicing_manifest.py, at narrator.MANIFEST), read: the
-    screenplay with each voiced line's take and measured words from it, and why it cannot carry the plan."""
+    screenplay with each voiced line's take (and, with ``words``, its measured words placed at the line's start) from
+    it, and why it cannot carry the plan."""
     f = Path(film) / NVO.PATH
     man, problems = None, []
     if f.exists():
@@ -703,7 +705,7 @@ def news_voicing(film: Path, play: dict) -> dict:
     if not problems:
         problems = NVO.problems(man, play, exists=lambda rel: (Path(film) / rel).exists(),
                                 read_sha=lambda rel: NR.sha256_path(Path(film) / rel), text_sha=NR.sha256_text)
-    return {"play": NVO.apply(play, man) if not problems else play, "manifest": man, "path": str(f),
+    return {"play": NVO.apply(play, man, words=words) if not problems else play, "manifest": man, "path": str(f),
             "problems": problems}
 
 
@@ -723,18 +725,54 @@ def ledger_mute(item: dict | None) -> dict | None:
             "from": "rights ledger"}
 
 
+def muted_spans(lines: list[dict], assets: dict) -> list[dict]:
+    """E9i: the testimony lines that would play a span of a clip the rights ledger airs muted (refused)."""
+    return [ln for ln in lines if archival_span(ln) and ledger_mute(assets.get(ln.get("clip"))) is not None]
+
+
 def credit_disclosures(plan: dict) -> list[dict]:
     """E9i: the lines the credits carry whenever one of their assets airs (the rights ledger's ``disclosure``, which
     disputes.json lists as credit_disclosures[]: the DoW non-endorsement line), in the film's order, each with the
     aired assets that ask for it."""
     aired = [s.get("asset") for s in plan.get("shots") or [] if s.get("asset") and s.get("mark") != "CARD"]
     aired += [o.get("asset") for o in plan.get("graphic_overlays") or [] if isinstance(o, dict) and o.get("asset")]
+    aired += [ln.get("clip") for ln in plan.get("lines") or [] if archival_span(ln)]    # a clip heard is a clip aired
     by: dict[str, list[str]] = {}
     for aid in dict.fromkeys(a for a in aired if a):
         text = str((plan["assets"].get(aid) or {}).get("disclosure") or "").strip()
         if text:
             by.setdefault(text, []).append(aid)
     return [{"text": t, "assets": a} for t, a in by.items()]
+
+
+_FILE_SHA: dict[tuple, str] = {}
+
+
+def file_sha256(item: dict) -> str | None:
+    """E9i: the sha256 of a loaded item's file on disk, cached by (path, size, mtime) so a plan rehashes only a file
+    that changed; None when it cannot be read."""
+    p = item.get("_path")
+    try:
+        st = os.stat(p)
+    except (OSError, TypeError):
+        return None
+    key = (str(p), st.st_size, st.st_mtime_ns)
+    if key not in _FILE_SHA:
+        _FILE_SHA[key] = sha256_file(Path(p))
+    return _FILE_SHA[key]
+
+
+def credits_graphic_missing(plan: dict, rundown: dict | None) -> tuple[list[str] | None, list[str]]:
+    """E9i: (the credits graphics that air, the plan's credit disclosures they do not carry). E6 typesets the credits
+    roll from the rundown's credits part ``disclosures`` (studio/graphics/data.py credits_spec), so a disclosure the
+    rights ledger asks for is carried only when that list holds it verbatim. (None, []) when no credits graphic airs
+    (the engine's own credits block carries them)."""
+    rolls = [s.get("asset") for s in plan.get("shots") or [] if NG.is_graphic(s) and s.get("subtype") == "credits"]
+    if not rolls:
+        return None, []
+    part = next((p for p in (rundown or {}).get("parts") or [] if isinstance(p, dict) and p.get("id") == "credits"), {})
+    shown = {str(x).strip() for x in part.get("disclosures") or []}
+    return rolls, [d["text"] for d in plan.get("credit_disclosures") or [] if d["text"] not in shown]
 
 
 def news_vision(film: Path, play: dict, assets: dict) -> dict:
@@ -747,12 +785,12 @@ def news_vision(film: Path, play: dict, assets: dict) -> dict:
             man = json.loads(f.read_text(encoding="utf-8"))
         except ValueError as e:
             problems.append(f"{NVM.PATH.as_posix()} is not JSON ({e})")
-    cited: dict[str, str] = {}
+    cited: dict[str, list[str]] = {}
     for part in play.get("parts") or []:
         for s in part.get("shots") or []:
-            if s.get("asset"):
-                cited.setdefault(s["asset"], s.get("kind"))
-    r = NVM.apply(man if not problems else None, assets, cited)
+            if s.get("asset") and s.get("kind") not in cited.setdefault(s["asset"], []):
+                cited[s["asset"]].append(s.get("kind"))
+    r = NVM.apply(man if not problems else None, assets, cited, read_sha=file_sha256)
     return dict(r, problems=problems + r["problems"], manifest=str(f) if f.exists() else None)
 
 
@@ -3106,7 +3144,7 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
         lint("vision-manifest-readable", not vision["problems"], unit="vision", grammar="E9i, A21",
              evidence={"manifest": vision["manifest"], "problems": vision["problems"][:20]} if vision["problems"] else None)
         lint("vision-manifest", not vision["pending"], unit="vision", grammar="E9i, A21, A41", defer=True,
-             severity="warn" if draft or check else "block",
+             severity="warn" if draft else "block",      # only a draft (never released) plans without a reading
              evidence={"manifest": vision["manifest"], "pending": vision["pending"], "used": vision["used"],
                        "fix": f"run the vision pass (E10): it writes {NVM.PATH.as_posix()} (studio/news/vision_manifest.py)"}
              if vision["pending"] else {"manifest": vision["manifest"], "used": vision["used"]})
@@ -3196,6 +3234,13 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     cues += [dict(x, _part=None) for x in play.get("music", [])]     # A29(0): kind is stated, here as in a part
     if not shots:
         raise Refused("the screenplay has no shots")
+    if prof["news"]:
+        # E9i: a clip the rights ledger airs muted is never heard, through a testimony line's archival span either
+        for ln in muted_spans(lines, assets):
+            lint("ledger-audio-muted", False, unit=ln.get("id"), grammar="E9i, 11.1",
+                 evidence={"clip": ln.get("clip"), "ledger_audio": assets[ln["clip"]].get("audio"),
+                           "fix": "the rights ledger airs this clip muted: its sound is never played; read the "
+                                  "words with a reader voice, or drop the span"})
     ids = [s["id"] for s in shots]
     if len(set(ids)) != len(ids):
         raise Refused("shot ids are not unique")
@@ -3221,8 +3266,8 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
             if not ok:
                 continue
             lic = str(item.get("licence") or "")
-            lic_ok, sa = licence_allowed(lic, play)
-            reading = SHOW.licence_reading(play, lic)    # E9i: the show's licence map, named in the evidence
+            lic_ok, sa = licence_allowed(lic, play, item=item)
+            reading = SHOW.licence_reading(play, item)   # E9i: the show's licence map, named in the evidence
             lint("licence-allowlist", lic_ok, unit=s["id"], grammar="1.2",
                  evidence={"licence": lic, **({"reads_as": dict(reading)} if reading is not None else {}),
                            **({"share_alike": (play.get("share_alike") or {}).get("decision") if lic_ok else
@@ -3685,7 +3730,7 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
             # cited, licensed and flagged like any shot's item: what is drawn over a picture is on screen too
             lint("ledger-cited", True, unit=t.get("id"), evidence={"asset": t.get("asset")}, grammar="11.1")
             g_lic = str(g_item.get("licence") or "")
-            g_ok, g_sa = licence_allowed(g_lic, play)
+            g_ok, g_sa = licence_allowed(g_lic, play, item=g_item)
             lint("licence-allowlist", g_ok, unit=t.get("id"), grammar="1.2",
                  evidence={"licence": g_lic, **({"share_alike": (play.get("share_alike") or {}).get("decision") if g_ok else
                                                  "CC BY-SA needs the film's share_alike declaration (its DECISIONS entry)"}
@@ -3965,6 +4010,15 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     plan["dark_voice"] = dark_voice_runs(plan)          # A30: judged by black_dip_lints, printed in sources.json
     plan["dips"] = dip_list(plan)
     plan["credit_disclosures"] = credit_disclosures(plan) if prof["news"] else []
+    if plan["credit_disclosures"]:
+        rolls, unshown = credits_graphic_missing(plan, NL.load_inputs(play, film)[0].get("rundown"))
+        if rolls is not None:
+            lint("credit-disclosures-shown", not unshown, unit="credits", grammar="E9i, 11.1", defer=True,
+                 severity="warn" if draft else "block",
+                 evidence={"credits_graphics": rolls, "missing": unshown,
+                           "fix": "add each line to the rundown's credits disclosures and re-render E6's credits roll "
+                                  "(or have it read disputes.json credit_disclosures)"} if unshown else
+                 {"credits_graphics": rolls, "carried": len(plan["credit_disclosures"])})
     plan["credits"] = credits_blocks(plan)
     try:
         credits_lay = M.credits_layout(M.Layout(W, H), plan["credits"], M.Fonts())
@@ -4140,7 +4194,7 @@ def archival_lints(lint, film: Path, play: dict, shots: list[dict], lines: list[
             why.append(f"clip {ln['clip']!r} is in no ledger")
         else:
             lic = str(item.get("licence") or "")
-            if not licence_allowed(lic, play)[0]:
+            if not licence_allowed(lic, play, item=item)[0]:
                 why.append(f"licence {lic!r} is not on the allowlist")
             if not path or not Path(path).exists():
                 why.append("the clip's file is missing")
@@ -9758,11 +9812,14 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
         if missing:
             raise Refused(f"fonts not found ({missing[0]}); run npm ci in the repo")
         play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
-        if SHOW.is_news(play):       # E9i: each voiced line's take and words from the voicing manifest
-            play = news_voicing(film, play)["play"]
+        news = SHOW.is_news(play)
+        if news:       # E9i: each voiced line's take from the voicing manifest; its words once the lines are placed
+            play = news_voicing(film, play, words=False)["play"]
         if fit_voices_opt:
             journal.human("scout", "--fit-voices: voice lines may move later and their shots grow", override="--fit-voices")
             play = fit_voices(play, film, journal)
+        if news:       # E9i: the take's word timings on the film at each line's start (after --fit-voices moved it)
+            play = news_voicing(film, play)["play"]
             out.mkdir(parents=True, exist_ok=True)
             fitted = out / "screenplay.fitted.json"
             fitted.write_text(json.dumps(play, indent=2, ensure_ascii=False), encoding="utf-8")

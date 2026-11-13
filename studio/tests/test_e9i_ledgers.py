@@ -24,18 +24,53 @@ SHA2 = "b" * 64
 # --------------------------------------------------------------------------- licence map
 
 
-@pytest.mark.parametrize("lic", ["pd-us-federal", "pd-age", "pd-dedication", "cc0-1.0", "own-property",
-                                 "eu-reuse-credit", "cc-by-2.0", "cc-by-4.0"])
+def ritem(lic, adapter="commons", ledger="D:/x/episodes/33/rights-ledger.json"):
+    """A loaded ledger item as load_ledgers leaves it (its ledger file recorded)."""
+    return {"id": "r", "licence": lic, "adapter": adapter, "_ledger_file": ledger}
+
+
+def allowed(lic, play, **kw):
+    return R.licence_allowed(lic, play, item=ritem(lic, **kw))
+
+
+@pytest.mark.parametrize("lic", ["pd-us-federal", "pd-age", "pd-dedication", "cc0-1.0", "eu-reuse-credit",
+                                 "cc-by-1.0", "cc-by-2.0", "cc-by-4.0"])
 def test_each_allowed_id_reads_as_allowed_on_omnibus(lic):
-    assert SHOW.licence_reading(NEWS, lic)["as"] == "allowed"
-    assert R.licence_allowed(lic, NEWS) == (True, False)
+    assert SHOW.licence_reading(NEWS, ritem(lic))["as"] == "allowed"
+    assert allowed(lic, NEWS) == (True, False)
+
+
+def test_own_property_only_from_the_voidnews_adapter():
+    assert allowed("own-property", NEWS, adapter="voidnews") == (True, False)
+    assert SHOW.licence_reading(NEWS, ritem("own-property", adapter="commons"))["as"] == "refused"
+    assert allowed("own-property", NEWS, adapter="commons") == (False, False)
+    assert allowed("own-property", NEWS, adapter=None) == (False, False)
+
+
+def test_the_map_applies_only_to_rights_ledger_items():
+    for led in ("D:/x/ledgers/studio-e4b.json", "D:\\x\\graphics-ledger.json", None):
+        assert SHOW.licence_reading(NEWS, ritem("pd-us-federal", ledger=led)) is None
+        assert allowed("pd-us-federal", NEWS, ledger=led) == (False, False)
+    assert allowed("pd-us-federal", NEWS, ledger="D:\\x\\33\\rights-ledger.json") == (True, False)   # Windows path
+    assert R.licence_allowed("pd-us-federal", NEWS) == (False, False)          # no item: the house allowlist
 
 
 @pytest.mark.parametrize("lic", ["cc-by-sa-2.0", "cc-by-sa-4.0"])
 def test_share_alike_needs_the_declaration(lic):
-    assert SHOW.licence_reading(NEWS, lic)["as"] == "share_alike"
-    assert R.licence_allowed(lic, NEWS) == (False, True)
-    assert R.licence_allowed(lic, NEWS_SA) == (True, True)
+    assert SHOW.licence_reading(NEWS, ritem(lic))["as"] == "share_alike"
+    assert allowed(lic, NEWS) == (False, True)
+    assert allowed(lic, NEWS_SA) == (True, True)
+
+
+def test_by_sa_1_0_is_refused_for_a_by_sa_4_0_episode():
+    assert "cc-by-sa-1.0" not in SHOW.LICENCES and "1.0" not in SHOW.SA_VERSIONS
+    assert SHOW.licence_reading(NEWS_SA, ritem("cc-by-sa-1.0"))["as"] == "refused"
+    assert allowed("cc-by-sa-1.0", NEWS_SA) == (False, False)
+
+
+def test_eu_reuse_is_named_as_itself():
+    assert SHOW.LICENCES["eu-reuse-credit"]["reads_as"] == "EU reuse with credit (2011/833/EU)"
+    assert SHOW.LICENCES["eu-reuse-credit"]["attribution"] is True
 
 
 def test_every_rights_allowlist_id_is_mapped():
@@ -43,21 +78,24 @@ def test_every_rights_allowlist_id_is_mapped():
     for fixed in ("cc0-1.0", "eu-reuse-credit", "pd-us-federal", "pd-age", "pd-dedication", "own-property"):
         assert fixed in src and fixed in SHOW.LICENCES
     assert '["1.0", "2.0", "2.1", "2.5", "3.0", "4.0"]' in src
-    assert all(f"cc-by-{v}" in SHOW.LICENCES and f"cc-by-sa-{v}" in SHOW.LICENCES for v in SHOW.CC_VERSIONS)
+    assert 'SA_VERSIONS = CC_VERSIONS.filter((v) => v !== "1.0")' in src and "SA_VERSIONS.map((v) => `cc-by-sa-${v}`)" in src
+    assert all(f"cc-by-{v}" in SHOW.LICENCES for v in SHOW.CC_VERSIONS)
+    assert all(f"cc-by-sa-{v}" in SHOW.LICENCES for v in SHOW.SA_VERSIONS)
 
 
 @pytest.mark.parametrize("lic,before", [("pd-us-federal", (False, False)), ("own-property", (False, False)),
                                          ("eu-reuse-credit", (False, False)), ("cc-by-sa-4.0", (False, True))])
 def test_document_reads_licences_as_before(lic, before):
-    assert SHOW.licence_reading({}, lic) is None
+    assert SHOW.licence_reading({}, ritem(lic, adapter="voidnews")) is None
+    assert allowed(lic, {}, adapter="voidnews") == before
     assert R.licence_allowed(lic, {}) == before
 
 
 def test_document_house_words_unchanged():
     assert R.licence_allowed("Public domain", {}) == (True, False)
     assert R.licence_allowed("CC BY-SA 4.0", {}) == (False, True)
-    assert R.licence_allowed("CC BY 4.0", NEWS) == (True, False)       # an unmapped engine word: the house rule
-    assert R.licence_allowed("cc-by-nc-4.0", NEWS) == (False, False)  # never mapped, never allowed
+    assert allowed("CC BY 4.0", NEWS, ledger="x/studio-e4b.json") == (True, False)   # a studio item: the house words
+    assert allowed("CC BY-SA 4.0", NEWS_SA, ledger="x/studio-e4b.json") == (True, True)
 
 # --------------------------------------------------------------------------- E6's graphics ledger
 
@@ -82,8 +120,10 @@ def row(**kw):
 
 
 @pytest.mark.parametrize("ref,date", [
-    ("rundown:week testcard; week:bars", "2026-11-08T11:51:04+00:00"),       # a part dated per beat: its latest beat
-    ("rundown:echo testcard; week:bars", "1952-11-05T12:00:00-05:00"),       # the rundown entry wins over week:
+    ("rundown:week testcard", "2026-11-08T11:51:04+00:00"),                  # a part dated per beat: its latest beat
+    ("rundown:week testcard; week:bars", "2026-11-08T22:16:50+00:00"),       # the latest readable ref: the week's bars
+    ("rundown:echo testcard; week:bars", "1952-11-05T12:00:00-05:00"),       # the echo card's grey bars draw no data
+    ("week:bars; rundown:the-echo.beats[echo-x2]", "2026-11-08T22:16:50+00:00"),   # bars beside anything else: data
     ("rundown:the-echo.beats[echo-x2]; echo-pick", "1951-01-30"),            # a beat's own date
     ("rundown:the-weight.beats[weight-board]; week:lead.board", "2026-11-08T22:16:50+00:00"),   # undated beat: part
     ("rundown:title.title_lines, strike", "2026-11-08T22:16:50+00:00"),
@@ -95,6 +135,12 @@ def row(**kw):
 def test_content_date_rules(ref, date):
     d, basis = GL.content_date(ref, INPUTS)
     assert d == date and ref in basis
+
+
+def test_the_echo_cards_bars_are_named_as_no_data():
+    _, basis = GL.content_date("rundown:echo testcard; week:bars", INPUTS)
+    assert "week:bars draws no data" in basis
+    assert GL.non_data_refs(["rundown:week testcard", "week:bars"]) == set()
 
 
 @pytest.mark.parametrize("ref", ["echo-pick:counts_on_screen", "week:days[9].lead", "rundown:no-such-part.x", ""])
@@ -109,7 +155,7 @@ def test_adapter_fills_the_engine_fields():
     assert it["kind"] == "graphic" and it["file"] == "g.mov" and it["sha256"] == SHA2 and it["frames"] == 54
     assert it["fps"] == "30" and it["alpha"] == "straight" and it["shows_bodies"] is False
     assert it["licence"] == "CC BY-SA 4.0" and it["generator"] == GL.E6 and "output_path" not in it
-    assert it["content_date"] == "2026-11-08T11:51:04+00:00" and it["content_basis"]
+    assert it["content_date"] == "2026-11-08T22:16:50+00:00" and it["content_basis"]   # week:bars, the latest
     assert items[1]["subtype"] == "lower_third" and items[1]["content_date"] == "1951-01-30"
 
 
@@ -143,9 +189,16 @@ def test_load_ledgers_reads_e6_on_omnibus(tmp_path):
     assert a["g"]["kind"] == "graphic" and a["g"]["_path"].endswith("g.mov")
 
 
-def test_load_ledgers_refuses_the_format_on_document(tmp_path):
-    with pytest.raises(R.Refused, match="binds only"):
-        R.load_ledgers(tmp_path, _film(tmp_path, {}))
+def test_document_reads_a_format_key_as_before(tmp_path):
+    a = R.load_ledgers(tmp_path, _film(tmp_path, {}))       # no adapter: the raw rows, as document always read them
+    assert a["g"].get("kind") is None and a["g"]["_path"] is None
+
+
+def test_an_unknown_format_is_refused_on_omnibus(tmp_path):
+    play = _film(tmp_path, NEWS)
+    play["ledgers"]["graphics"]["format"] = "e7-something"
+    with pytest.raises(R.Refused, match="not one the engine reads"):
+        R.load_ledgers(tmp_path, play)
 
 # --------------------------------------------------------------------------- the vision manifest
 
@@ -159,33 +212,71 @@ def man(**entry):
             "items": {"p": dict({"sha256": SHA, "shows_bodies": False, "people": []}, **entry)}}
 
 
+def on_disk(sha=SHA):
+    return lambda it: sha
+
+
 def test_vision_overlays_bodies_and_people():
     r = NVM.apply(man(people=[{"x": 0.1, "y": 0.1, "w": 0.2, "h": 0.5, "kind": "person"}]), {"p": item()},
-                  {"p": "archive_still"})
+                  {"p": ["archive_still"]}, read_sha=on_disk())
     assert r["problems"] == [] and r["pending"] == {} and r["used"] == ["p"]
     assert r["assets"]["p"]["shows_bodies"] is False and r["assets"]["p"]["people"][0]["w"] == 0.2
 
 
 def test_no_manifest_leaves_pictures_pending():
-    r = NVM.apply(None, {"p": item(), "c": item(id="c")}, {"p": "archive_still", "c": "archive_video"})
+    r = NVM.apply(None, {"p": item(), "c": item(id="c")}, {"p": ["archive_still"], "c": ["archive_video"]})
     assert r["pending"] == {"p": ["shows_bodies", "people"], "c": ["shows_bodies"]} and r["problems"] == []
 
 
+def test_needs_come_from_every_kind_an_asset_is_cited_as():
+    r = NVM.apply(None, {"p": item(shows_bodies=False)}, {"p": ["archive_video", "archive_still"]})
+    assert r["pending"] == {"p": ["people"]}            # the still's need, though the clip came first
+
+
 def test_studio_made_and_drawn_need_no_vision():
-    r = NVM.apply(None, {"p": item(generator="studio.engine.pages"), "g": item(id="g")}, {"p": "archive_still", "g": "graphic"})
+    r = NVM.apply(None, {"p": item(generator="studio.engine.pages"), "g": item(id="g")},
+                  {"p": ["archive_still"], "g": ["graphic"]})
     assert r["pending"] == {}
 
 
 def test_the_ledger_wins_and_a_contradiction_is_refused():
-    r = NVM.apply(man(shows_bodies=True), {"p": item(shows_bodies=False)}, {"p": "archive_still"})
+    r = NVM.apply(man(shows_bodies=True), {"p": item(shows_bodies=False)}, {"p": ["archive_still"]}, read_sha=on_disk())
     assert any("one of them is wrong" in p for p in r["problems"])
-    keep = NVM.apply(man(people=[]), {"p": item(people="a crowd")}, {"p": "archive_still"})
+    keep = NVM.apply(man(people=[]), {"p": item(people="a crowd")}, {"p": ["archive_still"]}, read_sha=on_disk())
     assert keep["assets"]["p"]["people"] == "a crowd"
 
 
-def test_a_stale_entry_is_refused():
-    r = NVM.apply(man(sha256=SHA2), {"p": item()}, {"p": "archive_still"})
-    assert any("see it again" in p for p in r["problems"]) and "p" in r["pending"]
+def test_the_legacy_bodies_flag_counts_as_the_ledgers():
+    legacy = item(shows_violence_or_bodies=False)
+    r = NVM.apply(man(shows_bodies=True), {"p": legacy}, {"p": ["archive_still"]}, read_sha=on_disk())
+    assert any("one of them is wrong" in p for p in r["problems"])
+    ok = NVM.apply(man(shows_bodies=False), {"p": legacy}, {"p": ["archive_still"]}, read_sha=on_disk())
+    assert ok["problems"] == [] and "shows_bodies" not in ok["assets"]["p"]     # never added beside the legacy flag
+    assert ok["pending"] == {}
+
+
+@pytest.mark.parametrize("entry_sha,ledger_sha,file_sha", [(SHA2, SHA, SHA), (SHA, SHA2, SHA), (SHA, SHA, SHA2),
+                                                           (SHA, SHA, None)])
+def test_the_file_ledger_and_entry_must_name_the_same_bytes(entry_sha, ledger_sha, file_sha):
+    r = NVM.apply(man(sha256=entry_sha), {"p": item(sha256=ledger_sha)}, {"p": ["archive_still"]},
+                  read_sha=on_disk(file_sha))
+    assert any("see it again" in p for p in r["problems"]) and "p" in r["pending"] and r["used"] == []
+
+
+def test_without_a_file_reader_no_entry_is_used():
+    r = NVM.apply(man(), {"p": item()}, {"p": ["archive_still"]})
+    assert r["used"] == [] and any("see it again" in p for p in r["problems"])
+
+
+def test_render_hashes_the_file_on_disk(tmp_path):
+    import hashlib
+    f = tmp_path / "p.png"
+    f.write_bytes(b"picture")
+    want = hashlib.sha256(b"picture").hexdigest()
+    assert R.file_sha256({"_path": str(f)}) == want
+    f.write_bytes(b"another picture")                    # new size: rehashed, never the cached value
+    assert R.file_sha256({"_path": str(f)}) == hashlib.sha256(b"another picture").hexdigest()
+    assert R.file_sha256({"_path": str(tmp_path / "missing.png")}) is None
 
 
 @pytest.mark.parametrize("bad", [{"schema": "x"}, {"made_by": ""}, {"items": []}])
@@ -232,7 +323,9 @@ def test_a_complete_manifest_passes():
 @pytest.mark.parametrize("rec,why", [
     ({"sha256": SHA2}, "not the take"), ({"text_sha256": SHA2}, "text changed"), ({"voice": "v-other"}, "voiced by"),
     ({"words": [{"w": "x", "start_s": 1.0, "end_s": 0.5}]}, "in order"), ({"words": []}, "word timings"),
-    ({"wav": "C:/abs.wav"}, "relative"), ({"dur_s": 0}, "length")])
+    ({"wav": "C:/abs.wav"}, "relative"), ({"wav": "C:abs.wav"}, "relative"), ({"wav": "/abs.wav"}, "relative"),
+    ({"wav": "\\\\host\\share\\a.wav"}, "relative"), ({"wav": "audio/../../x.wav"}, "relative"),
+    ({"wav": "audio\\..\\..\\x.wav"}, "relative"), ({"dur_s": 0}, "length")])
 def test_voicing_mismatches(rec, why):
     p = NVO.problems(vman(**rec), PLAY, exists=lambda r: True, read_sha=lambda r: SHA, text_sha=NR.sha256_text)
     assert any(why in x for x in p), p
@@ -247,6 +340,19 @@ def test_a_line_missing_from_the_manifest():
 def test_a_test_tone_is_not_judged():
     tone = {"cast": {"voices": [dict(VOICE, engine="test-tone")]}, "parts": PLAY["parts"]}
     assert not NVO.judged(tone) and NVO.problems(None, tone) and NVO.judged(PLAY)
+
+
+def test_relative_inside_on_every_os():
+    assert NVO.relative_inside("audio/L1.wav") and NVO.relative_inside("audio\\L1.wav")
+    for bad in ("C:/a.wav", "C:a.wav", "/a.wav", "\\\\h\\s\\a.wav", "../a.wav", "audio/../../a.wav", "a\\..\\..\\b"):
+        assert not NVO.relative_inside(bad), bad
+
+
+def test_apply_without_words_places_the_take_only():
+    ln = NVO.apply(PLAY, vman(), words=False)["parts"][0]["lines"][0]
+    assert ln["wav"] == "audio/L1.wav" and "words" not in ln
+    moved = {"parts": [{"id": "p", "lines": [dict(ln, start_s=20.0)]}]}       # --fit-voices moved the line
+    assert NVO.apply(moved, vman())["parts"][0]["lines"][0]["words"][0] == {"w": "Tuesday,", "t": 20.1}
 
 
 def test_apply_places_words_on_the_film():
@@ -281,3 +387,43 @@ def test_the_rights_ledger_disclosure_matches_the_packet():
     plan = {"shots": [{"asset": i["id"], "mark": "ARCHIVE"} for i in ledger["items"]], "graphic_overlays": [],
             "assets": {i["id"]: i for i in ledger["items"]}}
     assert R.credit_disclosures(plan) == packet["credit_disclosures"]
+
+
+def test_a_muted_clip_is_never_heard_through_an_archival_span():
+    assets = {"dv": {"audio": {"mode": "muted", "reason": "airs under the narration"}}, "ok": {}}
+    lines = [{"id": "T1", "kind": "testimony", "archival_audio": True, "clip": "dv", "in_s": 0, "out_s": 2},
+             {"id": "T2", "kind": "testimony", "archival_audio": True, "clip": "ok", "in_s": 0, "out_s": 2},
+             {"id": "N1", "kind": "narration", "clip": "dv"}]          # names the clip but plays no span of it
+    assert [ln["id"] for ln in R.muted_spans(lines, assets)] == ["T1"]
+
+
+def test_a_clip_heard_through_a_span_carries_its_disclosure():
+    plan = {"shots": [], "graphic_overlays": [], "assets": {"dv": {"disclosure": "DoW line"}},
+            "lines": [{"id": "T1", "archival_audio": True, "clip": "dv"}]}
+    assert R.credit_disclosures(plan) == [{"text": "DoW line", "assets": ["dv"]}]
+
+
+def test_the_credits_graphic_must_carry_every_disclosure():
+    plan = {"shots": [{"kind": "graphic", "subtype": "credits", "asset": "credits"}],
+            "credit_disclosures": [{"text": "DoW line", "assets": ["dv"]}, {"text": "kept", "assets": ["x"]}]}
+    rundown = {"parts": [{"id": "credits", "disclosures": ["kept", "something else"]}]}
+    assert R.credits_graphic_missing(plan, rundown) == (["credits"], ["DoW line"])
+    assert R.credits_graphic_missing(dict(plan, shots=[]), rundown) == (None, [])   # the engine's roll carries them
+
+
+@pytest.mark.parametrize("lic", ["cc-by-nc-4.0", "Public domain", "CC BY-SA 4.0", "cc-by-sa-1.0", ""])
+def test_a_rights_ledger_id_off_the_map_is_refused(lic):
+    assert allowed(lic, NEWS_SA) == (False, False)        # never read by the house regexes on a rights-ledger item
+
+
+def test_a_testcards_bars_are_dated_by_the_field_they_draw():
+    rundown = {"parts": [
+        {"id": "the-week", "as_of": "per beat", "testcard": {"field": "sum over days[i].lead.buckets"},
+         "beats": [{"id": "d1", "as_of": "2026-11-02T00:59:28+00:00"}]},
+        {"id": "the-weight", "as_of": "2026-11-08T22:16:50+00:00", "beats": [{"id": "wc", "testcard": {"field": "lead.claim.rung_counts"}}]}]}
+    record = {"as_of": "2026-11-08T22:16:50+00:00", "days": [{"printed_at": "2026-11-02T00:59:28+00:00"},
+                                                             {"printed_at": "2026-11-08T11:51:04+00:00"}]}
+    inputs = {"rundown": rundown, "record": record}
+    d, basis = GL.content_date("rundown:week testcard; week:bars", inputs)
+    assert d == "2026-11-08T11:51:04+00:00" and "days[1].printed_at" in basis      # never the record's later close
+    assert GL.content_date("rundown:weight testcard; week:bars", inputs)[0] == "2026-11-08T22:16:50+00:00"

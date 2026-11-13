@@ -24,13 +24,16 @@ and each row becomes an item by these rules (a field the row states itself alway
   code: no photograph is in a graphic); licence ``CC BY-SA 4.0`` and credit ``void omnibus, drawn by code`` (the
   episode's own licence, show bible f, as the end board prints it);
 - ``content_date`` and ``content_basis``: the horizon of what the graphic draws, read from ``data_ref`` against the
-  episode's news inputs. The rundown entry E6 typesets dates it when ``data_ref`` names one (``rundown:<part id>`` or
-  ``rundown:<word> testcard``: that part's ``as_of``, or, when the part is dated per beat, its latest beat's;
-  ``rundown:<part id>.beats[<beat id>]``: the beat's own ``date`` or ``as_of``, else its part's), since E4 dated every
-  rundown entry under A0; else the week record (``week:days[i]...``: that day's ``printed_at``; any other ``week:``
-  field: the record's ``as_of``). ``release`` (the clock, which shows only the programme's airtime) is dated by the
-  record's ``as_of``. A ``data_ref`` none of these reads (``echo-pick:`` alone: echo-pick holds later printings) leaves
-  the item undated, so A0 refuses it if a shot cites it: a date is never guessed.
+  episode's news inputs: the LATEST date any of its ``;``-separated refs reads (a graphic is as late as the latest
+  data it draws). ``rundown:<part id>`` or ``rundown:<word> testcard``: that part's ``as_of``, or, when the part is
+  dated per beat, its latest beat's; ``rundown:<part id>.beats[<beat id>]``: the beat's own ``date`` or ``as_of``,
+  else its part's (E4 dated every rundown entry under A0); ``week:days[i]...``: that day's ``printed_at``; any other
+  ``week:`` field: the record's ``as_of``, except ``week:bars`` beside a ``rundown:<word> testcard``, which is the
+  bars that card draws, dated by the record field its rundown testcard names (``field``: summed over ``days[i]``, the
+  latest day's ``printed_at``; otherwise the record's ``as_of``); ``release`` (the clock, which shows only the programme's airtime): the
+  record's ``as_of``. A ref that names no data is skipped (non_data_refs: the Echo test card's decorative
+  ``week:bars``, CoS decision). A ``data_ref`` none of these reads (``echo-pick:`` alone: echo-pick holds later
+  printings) leaves the item undated, so A0 refuses it if a shot cites it: a date is never guessed.
 """
 
 from __future__ import annotations
@@ -117,22 +120,79 @@ def _week_date(path: str, record: dict) -> tuple[str | None, str]:
     return (v, "the week record's as_of") if v else (None, "")
 
 
+def _testcard(refs: list[str], rundown: dict) -> dict | None:
+    """The rundown testcard a data_ref's ``rundown:<word> testcard`` names (E6 data.py _find_testcard), or None."""
+    for r in refs:
+        m = re.match(r"^rundown:(\w+) testcard\b", r)
+        if m and m.group(1) in TESTCARD_PARTS:
+            part = _part(rundown, TESTCARD_PARTS[m.group(1)]) or {}
+            if isinstance(part.get("testcard"), dict):
+                return part["testcard"]
+            for b in part.get("beats") or []:
+                if isinstance(b, dict) and isinstance(b.get("testcard"), dict):
+                    return b["testcard"]
+    return None
+
+
+def _bars_date(tc: dict, record: dict) -> tuple[str | None, str]:
+    """``week:bars`` on a test card: the bars the card draws, from the record field its rundown testcard names
+    (``field``): summed over ``days[i]`` they are as late as the latest day's print; any other field, the record's
+    ``as_of``."""
+    field = str(tc.get("field") or "")
+    if "days[" in field:
+        from studio.news.lints import instant      # pure
+        days = [(d.get("printed_at"), i) for i, d in enumerate((record or {}).get("days") or [])
+                if isinstance(d, dict) and _iso(d.get("printed_at"))]
+        if days:
+            at, i = max(days, key=lambda x: instant(x[0])[1])
+            return at, f"week:bars, the testcard's field {field!r}: its latest day, days[{i}].printed_at"
+        return None, ""
+    d, how = _week_date("as_of", record)
+    return d, (f"week:bars, the testcard's field {field!r}: {how}" if d else "")
+
+
+def non_data_refs(refs: list[str]) -> set[str]:
+    """The refs in a data_ref that name no data the graphic draws. One, by CoS decision (E9i review, 2026-11-13): the
+    Echo's test card prints ``week:bars`` beside ``rundown:echo testcard``, but its bars are the grey test pattern
+    (spec 3.4; E6 studio/graphics/data.py testcard_spec sets ``bars`` to None for the echo card: "decorative, not
+    measured"), so they carry no week data and do not date it; it is dated by the Echo's own horizon. Every card that
+    truly draws the week's bars keeps ``week:bars`` and dates by the week."""
+    if "rundown:echo testcard" in refs:
+        return {"week:bars"}
+    return set()
+
+
 def content_date(data_ref, inputs: dict) -> tuple[str | None, str | None]:
-    """(content_date, content_basis) from E6's ``data_ref``, or (None, None) when no rule reads it."""
+    """(content_date, content_basis) from E6's ``data_ref``: the LATEST date any of its refs reads (a graphic is as
+    late as the latest data it draws), or (None, None) when none is read. A ref no rule reads adds nothing; one that
+    names no data (non_data_refs) is skipped and named in the basis."""
+    from studio.news.lints import instant      # pure
     refs = [r.strip() for r in str(data_ref or "").split(";") if r.strip()]
     rundown, record = inputs.get("rundown") or {}, inputs.get("record") or {}
-    for src, want in (("rundown", _rundown_date), ("week", _week_date)):
-        for r in refs:
-            if r.startswith(src + ":"):
-                d, how = want(r[len(src) + 1:], rundown if src == "rundown" else record)
-                if d:
-                    return d, f"E6 data_ref {data_ref!r}: dated by {how}"
-    if "release" in refs:
-        d, how = _week_date("as_of", record)
-        if d:
-            return d, (f"E6 data_ref {data_ref!r}: the clock shows only the programme's airtime (its release, clock-true "
-                       f"at release) and draws nothing from a record after {how}")
-    return None, None
+    skip = non_data_refs(refs)
+    found: list[tuple[str, str]] = []
+    for r in refs:
+        if r in skip:
+            continue
+        if r.startswith("rundown:"):
+            d, how = _rundown_date(r[len("rundown:"):], rundown)
+        elif r == "week:bars" and _testcard(refs, rundown) is not None:
+            d, how = _bars_date(_testcard(refs, rundown), record)
+        elif r.startswith("week:"):
+            d, how = _week_date(r[len("week:"):], record)
+        elif r == "release":
+            d, how = _week_date("as_of", record)
+            how = (f"{how} (the clock shows only the programme's airtime, its release, clock-true at release, and "
+                   "draws nothing from a later record)") if d else how
+        else:
+            d, how = None, ""
+        if d and instant(d) is not None:
+            found.append((d, how))
+    if not found:
+        return None, None
+    d, how = max(found, key=lambda x: instant(x[0])[1])
+    extra = f"; {', '.join(sorted(skip))} draws no data (non_data_refs)" if skip else ""
+    return d, f"E6 data_ref {data_ref!r}: dated by its latest ref, {how}{extra}"
 
 
 def file_name(output_path) -> str:

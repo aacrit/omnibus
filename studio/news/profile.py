@@ -69,6 +69,9 @@ PROFILES = MappingProxyType({k: MappingProxyType(v) for k, v in _PROFILES.items(
 # own-property (void news's own printed pages, the same owner's publication: founder ruling 2026-11-12) is no
 # licence anyone granted; it is allowed as our own work, shown as printed.
 CC_VERSIONS = ("1.0", "2.0", "2.1", "2.5", "3.0", "4.0")      # as licences.mjs CC_VERSIONS
+# CC BY-SA 1.0 has no "later version" clause, so an adaptation of it cannot be shared under the episode's CC BY-SA 4.0:
+# refused (licences.mjs SA_VERSIONS likewise). 2.0 and later allow a later version of the same licence.
+SA_VERSIONS = tuple(v for v in CC_VERSIONS if v != "1.0")
 _LICENCES = {
     "pd-us-federal": {"as": "allowed", "reads_as": "public domain", "attribution": False,
                       "basis": "a work of the US federal government (17 U.S.C. 105)"},
@@ -76,17 +79,21 @@ _LICENCES = {
     "pd-dedication": {"as": "allowed", "reads_as": "public domain", "attribution": False,
                       "basis": "dedicated to the public domain by its author"},
     "cc0-1.0": {"as": "allowed", "reads_as": "CC0 1.0", "attribution": False, "basis": "CC0 1.0"},
-    "eu-reuse-credit": {"as": "allowed", "reads_as": "CC BY 4.0", "attribution": True,
+    "eu-reuse-credit": {"as": "allowed", "reads_as": "EU reuse with credit (2011/833/EU)", "attribution": True,
                         "basis": "EU reuse with mandatory credit (Commission Decision 2011/833/EU)"},
     "own-property": {"as": "allowed", "reads_as": None, "attribution": False,
                      "basis": "void news's own printed page, the same owner's publication (no licence granted)"},
     **{f"cc-by-{v}": {"as": "allowed", "reads_as": f"CC BY {v}", "attribution": True, "basis": f"CC BY {v}"}
        for v in CC_VERSIONS},
     **{f"cc-by-sa-{v}": {"as": "share_alike", "reads_as": f"CC BY-SA {v}", "attribution": True, "basis": f"CC BY-SA {v}"}
-       for v in CC_VERSIONS},
+       for v in SA_VERSIONS},
 }
 LICENCES = MappingProxyType({k: MappingProxyType(v) for k, v in _LICENCES.items()})
-LICENCE_SEMANTICS = ("allowed", "share_alike")
+LICENCE_SEMANTICS = ("allowed", "share_alike", "refused")
+REFUSED = MappingProxyType({"as": "refused", "reads_as": None, "attribution": False,
+                            "basis": "not on the omnibus licence map (cc-by-sa-1.0 included: no later-version clause)"})
+REFUSED_OWN = MappingProxyType({"as": "refused", "reads_as": None, "attribution": False,
+                                "basis": "own-property is claimed only by the voidnews adapter (licences.mjs OWN_ADAPTER)"})
 
 
 def is_news(play: dict | None) -> bool:
@@ -97,13 +104,27 @@ def is_news(play: dict | None) -> bool:
         return False
 
 
-def licence_reading(play: dict | None, lic) -> MappingProxyType | None:
-    """How the screenplay's show reads a ledger licence id: the licence map's entry on a news show, None on document
-    (whose licences the engine reads as before) or for an id the map does not hold (left to the house allowlist, so a
-    studio-made item's "CC BY-SA 4.0" reads as it always has)."""
-    if not is_news(play):
+RIGHTS_LEDGER = "rights-ledger.json"      # the one ledger scripts/rights.mjs writes (CLAUDE.md, Rights)
+OWN_ADAPTER = "voidnews"                  # licences.mjs OWN_ADAPTER: the only adapter that may claim own-property
+
+
+def from_rights_ledger(item: dict | None) -> bool:
+    """Whether a loaded ledger item came from the rights ledger (render.load_ledgers records its file)."""
+    f = str((item or {}).get("_ledger_file") or "").replace("\\", "/")
+    return f.rsplit("/", 1)[-1] == RIGHTS_LEDGER
+
+
+def licence_reading(play: dict | None, item: dict | None) -> MappingProxyType | None:
+    """How the screenplay's show reads a ledger item's licence id: the licence map's entry, only on a news show and
+    only for an item from the rights ledger (whose ids scripts/rights.mjs checked); own-property only for an item the
+    voidnews adapter captured. None otherwise: document, any other ledger (a studio item keeps the house wording, so
+    its "CC BY-SA 4.0" reads as it always has), or an id the map does not hold."""
+    if not is_news(play) or not from_rights_ledger(item):
         return None
-    return LICENCES.get(str(lic or "").strip())
+    lic = str((item or {}).get("licence") or "").strip()
+    if lic == "own-property" and (item or {}).get("adapter") != OWN_ADAPTER:
+        return REFUSED_OWN
+    return LICENCES.get(lic, REFUSED)     # a rights-ledger id is judged by the map alone: never by the house regexes
 
 
 class ShowError(ValueError):
