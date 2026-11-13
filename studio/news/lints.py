@@ -52,6 +52,10 @@ label is out of the spine's order is linted as news.
   holds; and our own text that reproduces a record headline carries its ``headline_sha256``.
 - ``title-lines-verbatim``: the title part carries ``title_lines`` and ``week_line``; each printed day line is the
   day's rank-1 headline and count as the record holds them, and the week line is the edition's.
+- ``dot-label-carried`` (S4 review round 3): every shot of a ledger item that names a ``dot_label`` (a sourcing
+  pass's: another place or day than the line names, or a montage dated only by its upload day, "WHITE HOUSE VIDEO ·
+  PUBLISHED 6 NOV 2026") carries that label's text as its own ``dot_label``; ruling A's label is checked by
+  ``picture_published_by_edition``.
 - ``no-music-under-news``: no music cue over the cold open, The Week, The Weight or The Margins.
 - ``no-music-under-quote`` (founder ruling): no music cue under any reader line.
 - ``narration-ceiling``: at most 55% of the runtime voiced.
@@ -649,6 +653,29 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
             if probs:
                 found.append(_check(PUBLISHED_BY_EDITION, False, unit=x.get("id"), evidence=dict(base, problems=probs)))
     return _summary(PUBLISHED_BY_EDITION, found, checked)
+
+
+DOT_LABEL_CARRIED = "dot-label-carried"
+
+
+def dot_label_checks(play: dict, assets: dict) -> list[dict]:
+    """``dot-label-carried``: a shot of a ledger item with a sourcing dot label carries that label, word for word."""
+    found, checked = [], 0
+    for p, _seg in parts(play):
+        for x in p.get("shots") or []:
+            item = assets.get(x.get("asset")) if x.get("asset") else None
+            if not isinstance(item, dict) or item.get("published_by_edition"):
+                continue                      # ruling A's label: picture_published_by_edition holds it
+            lab = item.get("dot_label")
+            want = lab.get("text") if isinstance(lab, dict) else lab
+            if not (isinstance(want, str) and want.strip()):
+                continue
+            checked += 1
+            if x.get("dot_label") != want:
+                found.append(_check(DOT_LABEL_CARRIED, False, unit=x.get("id"), evidence={
+                    "part": p.get("id"), "asset": x.get("asset"), "want": want, "got": x.get("dot_label"),
+                    "why": "the ledger item airs only with its dot label on screen"}))
+    return _summary(DOT_LABEL_CARRIED, found, checked)
 
 
 FAIR_USE = "fair-use-excerpt"
@@ -1539,6 +1566,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out += _guarded("as-of", as_of_checks, play, assets, inputs)
     out += _guarded(PUBLISHED_BY_EDITION, published_by_edition_checks, play, assets)
     out += _guarded("fair-use-on-timeline", fair_use_timeline_checks, play, assets)
+    out += _guarded(DOT_LABEL_CARRIED, dot_label_checks, play, assets)
     out += _guarded("never-tell", language_checks, play, inputs, durations)
     out += _guarded("no-outlet-characterisation", outlet_checks, play, inputs)
     out += _guarded("no-bridge", bridge_checks, play, inputs)
@@ -1556,7 +1584,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
 
 
 RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
-         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "fair-use-on-timeline", "never-tell", "hindsight-language",
+         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "fair-use-on-timeline", DOT_LABEL_CARRIED, "never-tell", "hindsight-language",
          "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
          "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
          "ending-question", "black-share", "tour-window-inside", "tour-no-claim-before-board", *DEFERRED)

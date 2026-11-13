@@ -628,3 +628,35 @@ def test_a_call_to_action_refuses_the_picture_unless_masked():
                                  "mask": {"covers": [cta], "region": {"x": 0, "y": 0.8, "w": 1, "h": 0.2}}})
     ok = NVM.apply(man(marks=[cta]), {"p": masked}, {"p": ["archive_still"]}, read_sha=on_disk())
     assert ok["problems"] == []
+
+
+CUTS13 = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30]
+
+
+def _video_review(times, frames, **kw):
+    return dict(REVIEW, frames=frames, cuts={"times": times, "threshold": 0.3, "method": "ffmpeg select=gt(scene,0.3)"},
+                **kw)
+
+
+def test_a_video_review_covers_every_shot_of_the_aired_span():
+    clip = item(kind="footage", fit={"in_s": 0, "out_s": 33})
+    montage = NVM.review_problems(_video_review(CUTS13, [0, 1.3, 12, 24.1, 33]), "r", clip)
+    assert any("9 shot(s) unseen" in p for p in montage)
+    full = NVM.review_problems(_video_review(CUTS13, [0] + [c + 1 for c in CUTS13]), "r", clip)
+    assert full == []
+    long = item(kind="footage")
+    assert NVM.review_problems(_video_review([], [0, 30, 60, 90, 120], duration_s=120), "r", long) == []
+    assert any("one frame in every 30 s" in p
+               for p in NVM.review_problems(_video_review([], [0, 120], duration_s=120), "r", long))
+
+
+def test_a_video_review_without_cuts_is_refused_and_a_still_needs_none():
+    clip = item(kind="footage", fit={"in_s": 0, "out_s": 33})
+    for bad in (dict(REVIEW, frames=[0, 12, 24, 33]), _video_review("none", [0, 12, 24, 33]),
+                dict(_video_review([], [0, 12, 24, 33]), cuts={"times": [], "threshold": 0.3})):
+        assert any("cuts is {times, threshold, method}" in p for p in NVM.review_problems(bad, "r", clip))
+    assert NVM.review_problems(REVIEW, "r", item()) == []
+    # the ledger's own frame check stands only with every shot looked at
+    led = item(kind="footage", fit={"in_s": 0, "out_s": 33}, marks_checked={
+        "marks": [], "reviewed": _video_review(CUTS13, [0, 1.3, 12, 24.1, 33])})
+    assert NVM.ledger_marks(led) is None

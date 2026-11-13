@@ -20,14 +20,33 @@
           "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
         },
         "marks_checked": {
-          "marks": ["ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, present in all sampled frames — matches the credited CC BY 4.0 source"],
+          "marks": [
+            "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, all 6 shots — matches the credited CC BY 4.0 source"
+          ],
           "reviewed": {
             "by": "verifier: claude-sonnet-5",
-            "at": "2026-11-13T19:17:52Z",
-            "frames": [0, 14.5, 30, 38.3, 45.8, 60, 67.8],
+            "at": "2026-11-13T19:34:09Z",
+            "frames": [
+              2.95,
+              7.2,
+              9.967,
+              12.967,
+              41.6,
+              45.35
+            ],
+            "cuts": {
+              "times": [
+                5.9,
+                8.5,
+                11.433,
+                44.9
+              ],
+              "threshold": 0.3,
+              "method": "ffmpeg select=gt(scene,0.3)"
+            },
             "contact_sheet": {
-              "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic.png",
-              "sha256": "9bbc64e33379faffc76173543e16569cbd4e7e1d9b6087684679ceb8899ae7ac"
+              "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-shots.png",
+              "sha256": "4f1bea3ce1f8dba1572540445bef478252f1b022ed28f95cbf41f76369e96dba"
             },
             "duration_s": 67.868
           }

@@ -1,7 +1,7 @@
 // S4 review fixes (reviewer BLOCK, 2026-11-13): the reviewer's probe cases,
 // each a failing test before its fix. One describe block per finding.
 import { describe, expect, it } from "vitest";
-import { ALLOWED_IDS, CTA_MARK, EDITORIAL_USE, REVIEWED_TERMS_PAGES, airedSpan, deniedBy, editorialTermsProblems, licenceProblems, marksProblems, needsMarksCheck, uncoveredWindows, youtubeOrigin } from "../scripts/lib/rights/licences.mjs";
+import { ALLOWED_IDS, CTA_MARK, EDITORIAL_USE, REVIEWED_TERMS_PAGES, airedSpan, deniedBy, editorialTermsProblems, isVideo, licenceProblems, marksProblems, needsMarksCheck, uncoveredWindows, unseenShots, youtubeOrigin } from "../scripts/lib/rights/licences.mjs";
 import { youtubeSource } from "../scripts/lib/rights/adapters/commons.mjs";
 import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
@@ -168,7 +168,7 @@ describe("S4 review 5: ruling A needs the day's own event, evidenced apart from 
 });
 
 describe("S4 review 1: on-screen marks", () => {
-  const reviewed = { by: "verifier", at: AT, frames: [0, 25, 50], contact_sheet: { path: "sheets/x.jpg", sha256: "a".repeat(64) }, duration_s: 60 };
+  const reviewed = { by: "verifier", at: AT, frames: [0, 25, 50], contact_sheet: { path: "sheets/x.jpg", sha256: "a".repeat(64) }, duration_s: 60, cuts: { times: [], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)" } };
   it("a VOA item and a YouTube copy need a reviewed marks_checked record", () => {
     expect(marksProblems({ adapter: "voa", kind: "footage" }).join()).toMatch(/VOA item needs a reviewed marks_checked/);
     expect(marksProblems({ adapter: "commons", kind: "footage", youtube_source: 'category "Uploaded with video2commons"' }).join()).toMatch(/YouTube copy/);
@@ -238,7 +238,7 @@ describe("S4 review, non-blocking", () => {
 
 describe("S4 review round 2: who checks marks, which frames, and calls to action", () => {
   const sheet = { path: "sheets/e33-day6-pic.jpg", sha256: "b".repeat(64) };
-  const rv = (o: any = {}) => ({ by: "verifier", at: AT, frames: [0, 12, 24, 33], contact_sheet: sheet, ...o });
+  const rv = (o: any = {}) => ({ by: "verifier", at: AT, frames: [0, 12, 24, 33], contact_sheet: sheet, cuts: { times: [], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)" }, ...o });
   const item = (mc: any, fit: any = { beat: "week-day-6", why: "w", in_s: 0, out_s: 33 }) => ({ adapter: "commons", kind: "footage", youtube_source: "x", fit, marks_checked: mc });
   it("refuses a review by the builder, the sourcer, or no named role", () => {
     for (const by of ["Forge builder (Claude Opus 5.5)", "sourcer", "t", "E10 test", "verifier and builder", ""]) {
@@ -296,5 +296,50 @@ describe("S4 review round 2: who checks marks, which frames, and calls to action
     expect(lic("War Department. Office of the Chief Signal Officer. (1860 - 09/18/1947)", "Restricted - Possibly")).toBe("pd-us-federal");
     expect(nara.custodianOnly("Department of the Army. (1947 - 1964)", 1945)).toBe(true);
     expect(nara.custodianOnly("Department of the Army. (1947 - 1964)", 1950)).toBe(false);
+  });
+});
+
+describe("S4 review round 3: a video's marks review covers every shot of the aired span", () => {
+  const sheet = { path: "sheets/e33-day6-pic.jpg", sha256: "c".repeat(64) };
+  const METHOD = "ffmpeg select=gt(scene,0.3)";
+  const rv = (times: any, o: any = {}, c: any = {}) => ({ by: "verifier", at: AT, contact_sheet: sheet, cuts: { times, threshold: 0.3, method: METHOD, ...c }, ...o });
+  const clip = (r: any, fit: any = { beat: "week-day-6", why: "w", in_s: 0, out_s: 33 }) => ({ adapter: "commons", kind: "footage", youtube_source: "x", fit, marks_checked: { marks: [], reviewed: r } });
+  // A 33 s montage of 13 shots: 12 cuts.
+  const cuts = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30];
+  it("refuses a 13-shot montage looked at in 5 frames", () => {
+    const msg = marksProblems(clip(rv(cuts, { frames: [0, 1.3, 12, 24.1, 33] }))).join();
+    expect(msg).toMatch(/every shot of the aired span 0..33 s \(12 cuts at threshold 0.3\); 9 shot\(s\) unseen: 2.5..5 s/);
+  });
+  it("passes a montage with a frame in every shot (a frame at a cut is the next shot's first)", () => {
+    const frames = [0, ...cuts.map((c) => c + 1)];
+    expect(unseenShots(frames, cuts, [0, 33])).toEqual([]);
+    expect(marksProblems(clip(rv(cuts, { frames })))).toEqual([]);
+    expect(unseenShots([0, 2.5], [2.5], [0, 10])).toEqual([]);
+    expect(unseenShots([2.5], [2.5], [0, 10])).toEqual([[0, 2.5]]);
+  });
+  it("passes the verifier's per-shot record of e33-day6-pic (13 shots, 13 frames)", () => {
+    const r = { by: "verifier: claude-sonnet-5", at: "2026-11-13T19:34:09Z", frames: [0.647, 3.608, 7.487, 11.011, 13.764, 15.703, 18.665, 21.376, 23.211, 25.901, 28.696, 30.51, 32.141], cuts: { times: [1.293, 5.923, 9.051, 12.971, 14.556, 16.85, 20.479, 22.272, 24.149, 27.653, 29.738, 31.281], threshold: 0.3, method: METHOD }, contact_sheet: sheet, duration_s: 38.021 };
+    expect(marksProblems(clip(r))).toEqual([]);
+    expect(marksProblems(clip({ ...r, frames: [0, 1.3, 12, 24.1, 33] })).join()).toMatch(/8 shot\(s\) unseen/);
+  });
+  it("passes a single long shot with a frame every 30 s, and still holds the 30 s floor", () => {
+    const whole = { beat: "b", why: "w" };
+    expect(marksProblems(clip(rv([], { frames: [0, 30, 60, 90, 120], duration_s: 120 }), whole))).toEqual([]);
+    expect(marksProblems(clip(rv([], { frames: [0, 120], duration_s: 120 }), whole)).join()).toMatch(/one frame in every 30 s/);
+  });
+  it("refuses a video review without cuts, threshold or method; a still needs none", () => {
+    const frames = [0, 12, 24, 33];
+    expect(marksProblems(clip({ ...rv([], { frames }), cuts: undefined })).join()).toMatch(/cuts must be \{ times, threshold, method \}/);
+    expect(marksProblems(clip({ ...rv([], { frames }), cuts: [1.2] })).join()).toMatch(/cuts must be/);
+    for (const c of [{ threshold: undefined }, { method: "" }, { times: "none" }, { threshold: 30 }]) {
+      expect(marksProblems(clip(rv([], { frames }, c))).join(), JSON.stringify(c)).toMatch(/cuts must be/);
+    }
+    expect(isVideo({ kind: "still", mime: "video/webm" })).toBe(true);
+    const still = { adapter: "voa", kind: "still", marks_checked: { marks: [], reviewed: { by: "verifier", at: AT, frames: [0], contact_sheet: sheet, duration_s: 1 } } };
+    expect(marksProblems(still)).toEqual([]);
+  });
+  it("only cuts inside the aired span divide it", () => {
+    expect(unseenShots([5, 20], [1, 10, 40], [3, 30])).toEqual([]);
+    expect(unseenShots([5], [1, 10, 40], [3, 30])).toEqual([[10, 30]]);
   });
 });

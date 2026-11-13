@@ -345,3 +345,15 @@ def test_a_fair_use_excerpt_is_summed_over_every_shot_of_it():
     w["shots"] += [{"id": "S-FU-2", "kind": "archive_video", "asset": "fu", "start_s": 8.0, "dur_s": 6.0}]
     bad = [c for c in NL.fair_use_timeline_checks(play, assets) if not c["ok"]]
     assert bad and bad[0]["evidence"]["seconds"] == 12.0
+
+
+def test_a_shot_carries_its_items_sourcing_dot_label():
+    """S4 review round 3: e33-day6-pic, a White House montage dated by its upload day, airs with its label."""
+    play, assets, inputs = EP.episode()
+    lab = "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026"
+    assets["st-margin"]["dot_label"] = {"text": lab, "why": "a montage of earlier occasions, dated by its upload day"}
+    bad = _bad(NL.dot_label_checks(play, assets))
+    assert bad and bad[0]["unit"] == "S-MARGIN" and bad[0]["evidence"]["want"] == lab
+    EP.shot(play, "S-MARGIN")["dot_label"] = lab
+    res = NL.dot_label_checks(play, assets)
+    assert not _bad(res) and res[-1]["evidence"]["checked"] == 1

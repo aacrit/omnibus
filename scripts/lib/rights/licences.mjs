@@ -400,7 +400,11 @@ export function deniedBy({ urls = [], texts = [], tags = [], credits = [], allow
  *   builder or the sourcer who chose the item (CoS ruling (b), 2026-11-13);
  * - reviewed.frames lists the timestamps looked at (seconds into the file), at least one in every
  *   30 s of the aired span: the item's fit in_s..out_s, else the whole file (reviewed.duration_s);
- * - reviewed.contact_sheet { path, sha256 } names the sheet of those frames.
+ * - reviewed.contact_sheet { path, sha256 } names the sheet of those frames;
+ * - for a video, reviewed.cuts { times, threshold, method } lists every cut in the file (seconds; [] for
+ *   a single shot), the scene threshold and the method that found them (ffmpeg select=gt(scene,0.3)); every shot
+ *   inside the aired span (between consecutive cuts) holds at least one of the frames (S4 review
+ *   round 3: a montage is reviewed shot by shot, not one frame per 30 s).
  * Until a frame reader exists, a VOA item and a YouTube copy on Commons ({{From YouTube}},
  * video2commons) need a reviewed record; any item whose marks name a denied party (C-SPAN
  * included) is refused, and so is one whose marks carry a call to action (CTA_MARK) unless
@@ -446,6 +450,28 @@ export function airedSpan(item, reviewed = item?.marks_checked?.reviewed) {
   return Number.isFinite(d) && d > 0 ? [0, d] : null;
 }
 
+/** Whether the item is a moving picture (its marks review must name its cuts). */
+export function isVideo(item) {
+  return item?.kind === "footage" || /^video\//i.test(String(item?.mime ?? ""));
+}
+
+/**
+ * The shots of the aired span [a, b] that no frame falls in: the span cut at every cut inside it, each shot
+ * [from, to) holding a frame from its first frame up to the next cut (the last shot up to b, inclusive).
+ */
+export function unseenShots(frames, cuts, [a, b]) {
+  const inner = [...new Set(cuts.filter((c) => c > a + 1e-6 && c < b - 1e-6))].sort((x, y) => x - y);
+  const edges = [a, ...inner, b];
+  const out = [];
+  for (let k = 0; k < edges.length - 1; k++) {
+    const lo = edges[k];
+    const hi = edges[k + 1];
+    const last = k === edges.length - 2;
+    if (!frames.some((t) => t >= lo - 1e-6 && (last ? t <= hi + 1e-6 : t < hi - 1e-6))) out.push([+lo.toFixed(2), +hi.toFixed(2)]);
+  }
+  return out;
+}
+
 /** The 30 s windows of a span that no frame falls in (each window [from, to], inclusive). */
 export function uncoveredWindows(frames, [a, b], every = MARKS_FRAME_EVERY_S) {
   const n = Math.max(1, Math.ceil((b - a) / every - 1e-9));
@@ -475,6 +501,15 @@ export function reviewProblems(r, item, where = "marks_checked.reviewed") {
     else {
       const gaps = uncoveredWindows(frames, span);
       if (gaps.length) out.push(`${where}.frames must hold one frame in every ${MARKS_FRAME_EVERY_S} s of the aired span ${span[0]}..${span[1]} s; none in ${gaps.map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}`);
+    }
+    if (isVideo(item)) {
+      const cuts = r.cuts?.times;
+      if (!(Array.isArray(cuts) && cuts.every((t) => typeof t === "number" && Number.isFinite(t) && t >= 0) && typeof r.cuts.threshold === "number" && r.cuts.threshold > 0 && r.cuts.threshold <= 1 && String(r.cuts.method ?? "").trim())) {
+        out.push(`${where}.cuts must be { times, threshold, method }: every cut in the video (seconds; [] for a single shot), the scene threshold and the method that found them (ffmpeg select=gt(scene,0.3)), so every shot of the aired span is looked at`);
+      } else if (span) {
+        const unseen = unseenShots(frames, cuts, span);
+        if (unseen.length) out.push(`${where}.frames must hold a frame in every shot of the aired span ${span[0]}..${span[1]} s (${cuts.length} cuts at threshold ${r.cuts.threshold}); ${unseen.length} shot(s) unseen: ${unseen.slice(0, 12).map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}${unseen.length > 12 ? ", ..." : ""}`);
+      }
     }
   }
   const cs = r.contact_sheet;
