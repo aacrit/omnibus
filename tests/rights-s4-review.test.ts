@@ -5,7 +5,8 @@ import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTe
 import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
-import { refineDate } from "../scripts/lib/rights/fetcher.mjs";
+import { namesDay, publishedByEdition, refineDate } from "../scripts/lib/rights/fetcher.mjs";
+import { lintPublishedByEdition } from "../scripts/lib/rights/lints.mjs";
 import { foreignCreditParts, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
 const AT = "2026-11-13T12:00:00Z";
@@ -121,5 +122,43 @@ describe("S4 review 6: a date record refines a stated date and names an identifi
     }
     // A page naming the NAID itself (the Truman Library's own) passes on the NAID.
     expect(refineDate("1952", rec("338959044", "73-3881"), { capturedAt: AT, source: { source_text: truman } }).date).toBe("1952-03-29");
+  });
+});
+
+describe("S4 review 5: ruling A needs the day's own event, evidenced apart from the upload", () => {
+  const CUTOFF = "2026-11-08T22:16:50.309638+00:00";
+  const DAY5 = { from: "2026-11-06", to: "2026-11-06T19:18:18.407444+00:00" };
+  const DAY3 = { from: "2026-11-04", to: "2026-11-04T19:39:06.061256+00:00" };
+  const yt = 'category "Uploaded with video2commons"';
+  it("names a day in the forms titles use", () => {
+    expect(namesDay("President Trump Delivers Remarks, Nov. 4, 2026", "2026-11-04")).toBe("Nov. 4, 2026");
+    expect(namesDay("Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)", "2026-11-02")).toBe("2026-11-02");
+    expect(namesDay("on 4 November 2026 at the White House", "2026-11-04")).toBeTruthy();
+    expect(namesDay("Nov. 14, 2026", "2026-11-04")).toBeNull();
+    expect(namesDay("Secretary of War Pete Hegseth is delivering a stronger military, a safer America", "2026-11-06")).toBeNull();
+  });
+  it("refuses e33-day5-pic2: its date is the upload day of a YouTube copy and nothing names the day", () => {
+    const r = publishedByEdition({ date: "2026-11-06", publishedAt: "2026-11-06T22:53:09Z", window: DAY5, editionCutoff: CUTOFF, event: { shows_days_event: true, texts: ["Secretary of War Pete Hegseth is delivering a stronger military, a safer America"], youtube_source: yt } });
+    expect(r?.problem).toMatch(/upload day of a YouTube copy/);
+  });
+  it("refuses a picture whose fit does not state shows_days_event", () => {
+    const r = publishedByEdition({ date: "2026-11-04", publishedAt: "2026-11-04T21:27:34Z", window: DAY3, editionCutoff: CUTOFF, event: { texts: ["President Trump Delivers Remarks, Nov. 4, 2026"] } });
+    expect(r?.problem).toMatch(/shows_days_event/);
+  });
+  it("admits e33-day3-pic2 on its title naming 4 Nov, and records the evidence and the window start", () => {
+    const r = publishedByEdition({ date: "2026-11-04", publishedAt: "2026-11-04T21:27:34Z", window: DAY3, editionCutoff: CUTOFF, event: { shows_days_event: true, texts: ["President Trump Delivers Remarks, Nov. 4, 2026"], youtube_source: yt } });
+    expect(r?.record).toMatchObject({ event_date: "2026-11-04", day_from: "2026-11-04" });
+    expect(r?.record?.event_evidence).toMatch(/Nov\. 4, 2026/);
+  });
+  it("admits a day dated by the event's own record", () => {
+    const r = publishedByEdition({ date: "2026-11-04", publishedAt: "2026-11-05T01:00:00Z", window: DAY3, editionCutoff: CUTOFF, event: { shows_days_event: true, texts: [], record_date: "2026-11-04", record_url: "https://catalog.archives.gov/id/1" } });
+    expect(r?.record?.event_evidence).toMatch(/own record/);
+  });
+  it("the ledger lint refuses a ruling A item without the flag, the evidence, or inside the window", () => {
+    const item = (pbe: any, fit: any = { beat: "week-day-3", why: "w", shows_days_event: true }) => ({ id: "x", fit, published_by_edition: { rule: "picture_published_by_edition", event_date: "2026-11-04", published_at: "2026-11-04T21:27:34Z", day_horizon: DAY3.to, edition_cutoff: CUTOFF, dot_label: "d", day_from: "2026-11-04", event_evidence: "title", ...pbe } });
+    expect(lintPublishedByEdition({ items: [item({})] } as any)).toEqual([]);
+    expect(lintPublishedByEdition({ items: [item({}, { beat: "b", why: "w" })] } as any).map((x: any) => x.message).join()).toMatch(/shows_days_event/);
+    expect(lintPublishedByEdition({ items: [item({ event_evidence: undefined })] } as any).map((x: any) => x.message).join()).toMatch(/independent/);
+    expect(lintPublishedByEdition({ items: [item({ day_from: "2026-11-05" })] } as any).map((x: any) => x.message).join()).toMatch(/before the day's window/);
   });
 });

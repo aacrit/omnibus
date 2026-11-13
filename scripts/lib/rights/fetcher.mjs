@@ -54,7 +54,7 @@ export function dateSpan(d) {
  * cannot be read refuses an item found by search (it could be from any year);
  * an item the rundown pinned by name keeps its own dated record.
  */
-export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false, editionCutoff = null } = {}) {
+export function windowProblem(date, window, { pinned = false, publishedAt = null, requirePublished = false, editionCutoff = null, event = {} } = {}) {
   if (!window) return null;
   // A news part's picture must be public by the part's horizon: a later upload or post was not there to show.
   if (requirePublished) {
@@ -63,7 +63,7 @@ export function windowProblem(date, window, { pinned = false, publishedAt = null
     if (!Number.isFinite(pub)) return `no publication time on the item, so it cannot be shown public by ${window.to}`;
     if (Number.isFinite(end) && pub > end) {
       // Ruling A (founder, 2026-11-13): in The Week a picture of the day's own event may be published by the edition cutoff.
-      const by = editionCutoff ? publishedByEdition({ date, publishedAt, window, editionCutoff }) : null;
+      const by = editionCutoff ? publishedByEdition({ date, publishedAt, window, editionCutoff, event }) : null;
       if (!by) return `published ${isoSecond(new Date(pub).toISOString())}, after its window ends ${window.to}`;
       if (by.problem) return by.problem;
     }
@@ -110,7 +110,54 @@ export function editionDotLabel(eventDate, publishedAt) {
  * published. Pure. Returns null (published by the horizon: the ordinary rule applies),
  * { problem }, or { record } for the ledger.
  */
-export function publishedByEdition({ date, publishedAt, window, editionCutoff }) {
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** Whether a text names an ISO day: "2026-11-02", "Nov. 2, 2026", "November 2, 2026", "2 November 2026", "2 Nov 2026", "11/2/2026". */
+export function namesDay(text, day) {
+  const m = String(day ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return null;
+  const [, y, mm, dd] = m;
+  const d = Number(dd);
+  const full = MONTH_NAMES[Number(mm) - 1];
+  const mon = `(?:${full}|${full.slice(0, 3)}\\.?${full.length > 4 ? `|${full.slice(0, 4)}\\.?` : ""})`;
+  const forms = [
+    `${y}-${mm}-${dd}`,
+    `${mon}\\s+0?${d}(?:st|nd|rd|th)?,?\\s+${y}`,
+    `0?${d}(?:st|nd|rd|th)?\\s+${mon},?\\s+${y}`,
+    `0?${Number(mm)}/0?${d}/${y}`,
+  ];
+  const re = new RegExp(`(?<![0-9])(?:${forms.join("|")})(?![0-9])`, "i");
+  return String(text ?? "").match(re)?.[0] ?? null;
+}
+
+/**
+ * Ruling A's event-date evidence (S4 review, 2026-11-13): the sourcing pass's fit must state
+ * shows_days_event: true, and the event's day must be shown independently of the item's
+ * publication or upload: its title or description names the day, or the event's own record
+ * (a date record) dates it. The date field of a YouTube copy ({{From YouTube}}, video2commons)
+ * is its upload day, never evidence. Returns { evidence } or { problem }.
+ */
+export function eventDateEvidence(day, event = {}) {
+  const why = [];
+  if (event?.shows_days_event !== true) why.push("its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event)");
+  let evidence = null;
+  if (event?.record_date === day) evidence = `the event's own record dates it ${day}${event.record_url ? ` (${clip(event.record_url, 200)})` : ""}`;
+  for (const t of event?.texts ?? []) {
+    if (evidence) break;
+    const hit = namesDay(t, day);
+    if (hit) evidence = `its own title or description names the day: "${clip(hit, 60)}"`;
+  }
+  if (!evidence) {
+    why.push(
+      event?.youtube_source
+        ? `its date ${day} is the upload day of a YouTube copy (${clip(event.youtube_source, 120)}), and no title, description or record names the event's day`
+        : `nothing independent of its publication dates the event to ${day} (no title, description or record names the day)`,
+    );
+  }
+  return why.length ? { problem: why.join("; ") } : { evidence };
+}
+
+export function publishedByEdition({ date, publishedAt, window, editionCutoff, event = {} }) {
   const pub = Date.parse(String(publishedAt ?? ""));
   const end = Date.parse(/T/.test(String(window?.to)) ? String(window.to) : `${window?.to}T23:59:59Z`);
   if (!Number.isFinite(pub) || !Number.isFinite(end) || pub <= end) return null;
@@ -123,6 +170,8 @@ export function publishedByEdition({ date, publishedAt, window, editionCutoff })
   const dayTo = new Date(end).toISOString().slice(0, 10);
   const dayFrom = dateSpan(window.from)?.[0];
   if (span[0] > dayTo || (dayFrom && span[0] < dayFrom)) return { problem: `published ${at}, after its window ends ${window.to}, and its event date ${span[0]} is not the day's (${window.from} to ${window.to})` };
+  const ev = eventDateEvidence(span[0], event);
+  if (ev.problem) return { problem: `published ${at}, after its window ends ${window.to}; ${PUBLISHED_BY_EDITION} needs the day's own event: ${ev.problem}` };
   return {
     record: {
       rule: PUBLISHED_BY_EDITION,
@@ -131,7 +180,20 @@ export function publishedByEdition({ date, publishedAt, window, editionCutoff })
       day_horizon: String(window.to),
       edition_cutoff: String(editionCutoff),
       dot_label: editionDotLabel(span[0], at),
+      ...(dayFrom ? { day_from: dayFrom } : {}),
+      event_evidence: clip(ev.evidence, 400),
     },
+  };
+}
+
+/** The event evidence a fetched candidate offers ruling A: its fit's flag, its own title and description, its date record, its YouTube source. */
+export function eventOf(c) {
+  return {
+    shows_days_event: c?.fit?.shows_days_event === true,
+    texts: [c?.title, c?.description].filter(Boolean),
+    record_date: c?.event_record?.date ?? null,
+    record_url: c?.event_record?.url ?? null,
+    youtube_source: c?.youtube_source ?? null,
   };
 }
 
@@ -254,6 +316,8 @@ export function fitRecord(fit, request) {
   const out = { beat: clip(fit.beat ?? request.for ?? request.id, 80), why: clip(fit.why, 600) };
   for (const k of ["in_s", "out_s"]) if (Number.isFinite(fit[k]) && fit[k] >= 0) out[k] = fit[k];
   if (fit.horizon) out.horizon = clip(fit.horizon, 64);
+  // The sourcing pass's finding that the item shows the day's own event (ruling A needs it, S4 review).
+  if (fit.shows_days_event === true) out.shows_days_event = true;
   return out;
 }
 
@@ -352,6 +416,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         if (refined.problem) reasons.push(refined.problem);
         else {
           c.date = refined.date;
+          c.event_record = { date: refined.date, url: refined.evidence.url };
           c.evidence_also = [...(c.evidence_also ?? []), refined.evidence];
         }
       }
@@ -367,10 +432,10 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       // Ruling A covers The Week's day beats only, against the edition cutoff assets.json carries.
       const editionCutoff = WEEK_DAY.test(String(request.for ?? "")) ? requestsDoc.edition_cutoff ?? null : null;
       // A sourcing pass's pin (it states a fit) keeps no undated exemption: its date must be on the record and inside the window.
-      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished, editionCutoff });
+      const outside = windowProblem(c.date, cand.window, { pinned: cand.pinned === true && !cand.fit, publishedAt: c.published_at, requirePublished, editionCutoff, event: eventOf(c) });
       if (outside) reasons.push(outside);
       else if (requirePublished && editionCutoff && cand.window) {
-        const by = publishedByEdition({ date: c.date, publishedAt: c.published_at, window: cand.window, editionCutoff });
+        const by = publishedByEdition({ date: c.date, publishedAt: c.published_at, window: cand.window, editionCutoff, event: eventOf(c) });
         if (by?.record) {
           c.published_by_edition = by.record;
           c.dot_label = { text: by.record.dot_label, why: `${PUBLISHED_BY_EDITION} (founder ruling, 2026-11-13): published after the day's horizon ${cand.window.to}, by the edition cutoff ${editionCutoff}` };

@@ -406,7 +406,8 @@
           "fit": {
             "beat": "week-day-2",
             "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
-            "horizon": "2026-11-03T19:39:27Z"
+            "horizon": "2026-11-03T19:39:27Z",
+            "shows_days_event": true
           }
         },
         {
@@ -425,21 +426,13 @@
           "fit": {
             "beat": "week-day-2",
             "why": "the National Police of Ukraine's video of the same site after the 2 Nov strike, the second choice if the State Emergency Service's is refused. CC BY 4.0; uploaded 5 Nov 04:39 UTC (ruling A).",
-            "horizon": "2026-11-03T19:39:27Z"
+            "horizon": "2026-11-03T19:39:27Z",
+            "shows_days_event": true
           }
         },
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (50).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -466,15 +459,6 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
           "tier": 2,
           "window": {
@@ -485,6 +469,24 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -689,7 +691,8 @@
           "fit": {
             "beat": "week-day-3",
             "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file is not viewed in this pass.",
-            "horizon": "2026-11-04T19:39:06Z"
+            "horizon": "2026-11-04T19:39:06Z",
+            "shows_days_event": true
           }
         }
       ],
@@ -704,14 +707,29 @@
         "tier": null,
         "text": "no desk item; the narrator says only what was printed and counted"
       },
-      "candidates": [],
-      "not_fetched": [
+      "candidates": [
         {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261104170707/https://x.com/JDVance/status/2118004988433641835",
           "tier": 5,
-          "host": "web.archive.org",
-          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: The operation was aborted due to timeout"
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "pinned": true
+        },
+        {
+          "adapter": "wayback",
+          "ref": "https://web.archive.org/web/20261104155039/https://x.com/JDVance/status/2118004988433641835",
+          "tier": 5,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          },
+          "pinned": true
         }
-      ]
+      ],
+      "not_fetched": []
     },
     {
       "id": "e33-day4-page",
@@ -1364,7 +1382,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1373,7 +1391,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",

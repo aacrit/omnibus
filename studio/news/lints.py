@@ -590,6 +590,7 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
     episode = instant(play.get("as_of"))
     if episode is None:
         return []                             # as-of names the unreadable horizon
+    week_hz = []                              # the horizons of The Week's parts so far: a day's window starts at the last
     for p, seg in parts(play):
         if seg in SC.AS_OF_EXEMPT or seg in ("title", "echo", "question"):
             continue                          # news parts only, the checked order deciding (a mislabelled part is news)
@@ -597,6 +598,10 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
         if own is None:
             continue
         hz = own if own[1] <= episode[1] else episode
+        earlier = [h for h in week_hz if h[1] < hz[0]] if seg == "week" else []
+        day_start = max(earlier, key=lambda h: h[1]) if earlier else None
+        if seg == "week":
+            week_hz.append(hz)
         for x in (p.get("shots") or []) + (p.get("text") or []):
             item = assets.get(x.get("asset")) if x.get("asset") else None
             if item is None or item.get("test_fixture") or G.is_graphic(x) or item.get("generator") or item.get("synthetic"):
@@ -623,6 +628,12 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
                 ev = instant(item.get("date"))
                 if ev is None or not (ev[1] - ev[0]) <= dt.timedelta(days=1) or against(ev, hz) not in ("ok", "same-day"):
                     probs.append("published after the day's horizon, and its event is not dated to a day on or before it")
+                # The window's start (S4 review): the ledger's day_from, else the previous Week day's horizon day.
+                pbe = item.get("published_by_edition") if isinstance(item.get("published_by_edition"), dict) else {}
+                start = instant(pbe.get("day_from")) if pbe.get("day_from") else day_start
+                if ev is not None and start is not None and ev[0].date() < start[0].date():
+                    probs.append(f"its event ({item.get('date')}) is dated before the day's window starts "
+                                 f"({start[0].date().isoformat()})")
                 if against(pub, episode) != "ok":
                     probs.append(f"published after the edition cutoff {_fmt(episode)}")
                 want = edition_dot_label(item.get("date"), item.get("published_at"))

@@ -12,7 +12,8 @@
         "fit": {
           "beat": "week-day-2",
           "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
-          "horizon": "2026-11-03T19:39:27Z"
+          "horizon": "2026-11-03T19:39:27Z",
+          "shows_days_event": true
         },
         "audio": {
           "mode": "muted",
@@ -26,7 +27,8 @@
         "fit": {
           "beat": "week-day-2",
           "why": "the National Police of Ukraine's video of the same site after the 2 Nov strike, the second choice if the State Emergency Service's is refused. CC BY 4.0; uploaded 5 Nov 04:39 UTC (ruling A).",
-          "horizon": "2026-11-03T19:39:27Z"
+          "horizon": "2026-11-03T19:39:27Z",
+          "shows_days_event": true
         },
         "audio": {
           "mode": "muted",
@@ -47,7 +49,8 @@
         "fit": {
           "beat": "week-day-3",
           "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file is not viewed in this pass.",
-          "horizon": "2026-11-04T19:39:06Z"
+          "horizon": "2026-11-04T19:39:06Z",
+          "shows_days_event": true
         },
         "audio": {
           "mode": "muted",

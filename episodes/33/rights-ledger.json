@@ -1990,7 +1990,8 @@
       "fit": {
         "beat": "week-day-2",
         "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
-        "horizon": "2026-11-03T19:39:27Z"
+        "horizon": "2026-11-03T19:39:27Z",
+        "shows_days_event": true
       },
       "published_by_edition": {
         "rule": "picture_published_by_edition",
@@ -1998,80 +1999,13 @@
         "published_at": "2026-11-05T04:06:35Z",
         "day_horizon": "2026-11-03T19:39:27.128203+00:00",
         "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
-        "dot_label": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026"
+        "dot_label": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026",
+        "day_from": "2026-11-02",
+        "event_evidence": "its own title or description names the day: \"2026-11-02\""
       },
       "dot_label": {
         "text": "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026",
         "why": "picture_published_by_edition (founder ruling, 2026-11-13): published after the day's horizon 2026-11-03T19:39:27.128203+00:00, by the edition cutoff 2026-11-08T22:16:50.309638+00:00"
-      }
-    },
-    {
-      "id": "e33-day5-pic2",
-      "request_id": "e33-day5-pic2",
-      "kind": "footage",
-      "adapter": "commons",
-      "title": "Secretary of War Pete Hegseth is delivering a stronger military, a safer America",
-      "licence": "pd-us-federal",
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: Secretary of War Pete Hegseth is delivering a stronger military, a safer America – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T17:08:51Z"
-      },
-      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
-      "rights_checked": {
-        "date": "2026-11-13",
-        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
-      },
-      "item_url": "https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military%2C_a_safer_America.webm",
-      "file": "e33-day5-pic2.webm",
-      "mime": "video/webm",
-      "sha256": "adc06e069e1a2fc8fad0cefa78d9b465e354b033f8a7de44309d28ca495c0d49",
-      "bytes": 73398226,
-      "credit": "The White House, via Wikimedia Commons",
-      "date": "2026-11-06",
-      "published_at": "2026-11-06T22:53:09Z",
-      "content_date": null,
-      "source_tier": 2,
-      "ai_provenance_check": {
-        "status": "clear",
-        "method": "metadata",
-        "checked": [
-          "commons-categories",
-          "title",
-          "description",
-          "credit",
-          "licence",
-          "xmp-digital-source-type",
-          "c2pa-label"
-        ],
-        "findings": [],
-        "vision": "pending"
-      },
-      "laundering_check": {
-        "status": "clear",
-        "findings": []
-      },
-      "audio": {
-        "mode": "muted",
-        "reason": "CoS ruling 2026-11-13: the Secretary's own video plays muted under the narration, never as the statement the deck reports"
-      },
-      "fit": {
-        "beat": "week-day-5",
-        "why": "the White House's own video of the Secretary, published 6 Nov (uploaded 22:53 UTC) as the impeachment threat and his video statement were reported; after the 6 Nov print (19:18 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. CoS ruling (2026-11-13): it plays MUTED under the narration, never as the statement the deck reports.",
-        "horizon": "2026-11-06T19:18:18Z"
-      },
-      "published_by_edition": {
-        "rule": "picture_published_by_edition",
-        "event_date": "2026-11-06",
-        "published_at": "2026-11-06T22:53:09Z",
-        "day_horizon": "2026-11-06T19:18:18.407444+00:00",
-        "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
-        "dot_label": "FILMED 6 NOV 2026 · PUBLISHED 6 NOV 2026"
-      },
-      "dot_label": {
-        "text": "FILMED 6 NOV 2026 · PUBLISHED 6 NOV 2026",
-        "why": "picture_published_by_edition (founder ruling, 2026-11-13): published after the day's horizon 2026-11-06T19:18:18.407444+00:00, by the edition cutoff 2026-11-08T22:16:50.309638+00:00"
       }
     },
     {
@@ -2183,7 +2117,8 @@
       "fit": {
         "beat": "week-day-3",
         "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file...",
-        "horizon": "2026-11-04T19:39:06Z"
+        "horizon": "2026-11-04T19:39:06Z",
+        "shows_days_event": true
       },
       "published_by_edition": {
         "rule": "picture_published_by_edition",
@@ -2191,7 +2126,9 @@
         "published_at": "2026-11-04T21:27:34Z",
         "day_horizon": "2026-11-04T19:39:06.061256+00:00",
         "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
-        "dot_label": "FILMED 4 NOV 2026 · PUBLISHED 4 NOV 2026"
+        "dot_label": "FILMED 4 NOV 2026 · PUBLISHED 4 NOV 2026",
+        "day_from": "2026-11-04",
+        "event_evidence": "its own title or description names the day: \"Nov. 4, 2026\""
       },
       "dot_label": {
         "text": "FILMED 4 NOV 2026 · PUBLISHED 4 NOV 2026",
@@ -2493,6 +2430,14 @@
       "reasons": [
         "dated 1951, outside its window 1952-10-24 to 1952-10-25T23:59:59-05:00",
         "licence \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in other collections in the custody of the Library of Congress is reserved. For info...\" is not on the allowlist (the rights text says \"Copyright in the unpublished writings of the NAACP Legal Defense and Educational Fund (LDF) in these records and in o...\")"
+      ]
+    },
+    {
+      "request_id": "e33-day5-pic2",
+      "adapter": "commons",
+      "ref": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+      "reasons": [
+        "published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day"
       ]
     }
   ],
@@ -2856,6 +2801,15 @@
       "reasons": [
         "tier 2 commons.wikimedia.org: the search found nothing: incategory:\"Adlai Stevenson II 1952 presidential campaign\" filetype:bitmap",
         "tier 3 www.loc.gov: the search found nothing: q=Adlai Stevenson Springfield 1952; dates=1952/1952; fo=json"
+      ]
+    },
+    {
+      "request_id": "e33-day5-pic2",
+      "kind": "footage",
+      "fallback_tier": 4,
+      "fallback": "tier 4: the printed page alone carries the beat (e33-day5-pic's DVIDS clip stays)",
+      "reasons": [
+        "tier 2 commons File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm: published 2026-11-06T22:53:09Z, after its window ends 2026-11-06T19:18:18.407444+00:00; picture_published_by_edition needs the day's own event: its fit does not state shows_days_event: true (the sourcing pass's finding that it shows the day's own event); its date 2026-11-06 is the upload day of a YouTube copy (category \"Uploaded with video2commons\"), and no title, description or record names the event's day"
       ]
     }
   ],

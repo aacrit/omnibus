@@ -14,6 +14,8 @@ import { resolveRequests } from "../scripts/lib/rights/resolve.mjs";
 const AT = "2026-11-13T12:00:00Z";
 const CUTOFF = "2026-11-08T22:16:50.309638+00:00";
 const DAY2 = { from: "2026-11-02", to: "2026-11-03T19:39:27.128203+00:00" };
+// Ruling A's event evidence (S4 review): the fit's flag and a title naming the day.
+const EVENT = { shows_days_event: true, texts: ["Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)"] };
 
 describe("ruling A: picture_published_by_edition", () => {
   it("formats the dot label", () => {
@@ -23,9 +25,9 @@ describe("ruling A: picture_published_by_edition", () => {
   });
 
   it("admits a day's own picture published after the day's horizon and by the cutoff", () => {
-    const r = publishedByEdition({ date: "2026-11-02", publishedAt: "2026-11-05T04:06:35Z", window: DAY2, editionCutoff: CUTOFF });
+    const r = publishedByEdition({ date: "2026-11-02", publishedAt: "2026-11-05T04:06:35Z", window: DAY2, editionCutoff: CUTOFF, event: EVENT });
     expect(r?.record).toMatchObject({ rule: PUBLISHED_BY_EDITION, event_date: "2026-11-02", published_at: "2026-11-05T04:06:35Z", dot_label: "FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026" });
-    expect(windowProblem("2026-11-02", DAY2, { publishedAt: "2026-11-05T04:06:35Z", requirePublished: true, editionCutoff: CUTOFF })).toBeNull();
+    expect(windowProblem("2026-11-02", DAY2, { publishedAt: "2026-11-05T04:06:35Z", requirePublished: true, editionCutoff: CUTOFF, event: EVENT })).toBeNull();
     // published by the horizon: the ordinary rule, no record
     expect(publishedByEdition({ date: "2026-11-02", publishedAt: "2026-11-03T08:00:00Z", window: DAY2, editionCutoff: CUTOFF })).toBeNull();
   });
@@ -49,9 +51,9 @@ describe("ruling A: picture_published_by_edition", () => {
 
   const still = (date: string, published_at: string) => ({
     status: "ok",
-    candidate: { adapter: "commons", ref: "File:K.webm", kind_hint: "footage", title: "Destructions in Komyshuvakha", item_url: "https://commons.wikimedia.org/wiki/File:K.webm", media_url: "https://upload.wikimedia.org/k.webm", licence: "cc-by-4.0", basis: "CC BY 4.0", credit: "State Emergency Service of Ukraine", evidence: { url: "https://commons.wikimedia.org/wiki/File:K.webm", captured_text: "Creative Commons Attribution 4.0", captured_at: AT }, date, published_at, categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] },
+    candidate: { adapter: "commons", ref: "File:K.webm", kind_hint: "footage", title: "Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)", item_url: "https://commons.wikimedia.org/wiki/File:K.webm", media_url: "https://upload.wikimedia.org/k.webm", licence: "cc-by-4.0", basis: "CC BY 4.0", credit: "State Emergency Service of Ukraine", evidence: { url: "https://commons.wikimedia.org/wiki/File:K.webm", captured_text: "Creative Commons Attribution 4.0", captured_at: AT }, date, published_at, categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] },
   });
-  const doc = (forPart: string, cutoff: string | null = CUTOFF) => ({ schema: "omnibus.asset-requests/1", issue: 33, ...(cutoff ? { edition_cutoff: cutoff } : {}), requests: [{ id: "e33-day2-pic", kind: "footage", for: forPart, title: "t", fallback: { tier: 4, text: "tier 4 locator map" }, candidates: [{ adapter: "commons", ref: "File:K.webm", tier: 2, window: DAY2 }] }] });
+  const doc = (forPart: string, cutoff: string | null = CUTOFF) => ({ schema: "omnibus.asset-requests/1", issue: 33, ...(cutoff ? { edition_cutoff: cutoff } : {}), requests: [{ id: "e33-day2-pic", kind: "footage", for: forPart, title: "t", fallback: { tier: 4, text: "tier 4 locator map" }, candidates: [{ adapter: "commons", ref: "File:K.webm", tier: 2, window: DAY2, fit: { beat: forPart, why: "the day's strike", shows_days_event: true } }] }] });
   const http = { getMedia: async (_u: string, dest: string) => { writeFileSync(dest, "x"); return { status: "ok", sha256: "a".repeat(64), sha1: "b".repeat(40), bytes: 1, mime: "video/webm", generator_tags: [] }; } };
   const opts = () => ({ adapters: { commons: { lookup: async () => still("2026-11-02", "2026-11-05T04:06:35Z") } }, http, mediaDir: mkdtempSync(path.join(os.tmpdir(), "omnibus-s4-")), checkedBy: "t", now: () => new Date(AT) });
 

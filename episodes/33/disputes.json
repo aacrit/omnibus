@@ -3,7 +3,7 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "9db027b98ec418d7ca56e330befccfc2859fe241c5fae91a3cc184b0462cf94a",
+  "ledger_sha256": "358181673826d5c06fed4e6e99abc8055a1855393687b15f9f6d094434ac1990",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -706,35 +706,6 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)\" from https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"State Emergency Service of Ukraine, via Wikimedia Commons\". The licence was read at https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
-    },
-    {
-      "id": "e33-day5-pic2",
-      "title": "Secretary of War Pete Hegseth is delivering a stronger military, a safer America",
-      "source_url": "https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm",
-      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military%2C_a_safer_America.webm",
-      "sha256": "adc06e069e1a2fc8fad0cefa78d9b465e354b033f8a7de44309d28ca495c0d49",
-      "credit": "The White House, via Wikimedia Commons",
-      "licence": {
-        "id": "pd-us-federal",
-        "name": "Public domain (US federal government work)",
-        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
-        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
-        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
-      },
-      "licence_evidence": {
-        "url": "https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm",
-        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: Secretary of War Pete Hegseth is delivering a stronger military, a safer America – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T17:08:51Z"
-      },
-      "audio": {
-        "mode": "muted",
-        "reason": "CoS ruling 2026-11-13: the Secretary's own video plays muted under the narration, never as the statement the deck reports"
-      },
-      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
-      "in_point": null,
-      "out_point": null,
-      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"Secretary of War Pete Hegseth is delivering a stronger military, a safer America\" from https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Secretary_of_War_Pete_Hegseth_is_delivering_a_stronger_military,_a_safer_America.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint adc06e069e1a2fc8fad0cefa78d9b465e354b033f8a7de44309d28ca495c0d49. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-day6-pic",
