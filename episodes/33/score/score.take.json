@@ -151,10 +151,10 @@
    "used": "bed_shape, integrated_lufs (levelling)"
   },
   "build.py": {
-   "sha256": "921a5bdbc00f03470f5e3724479d8dc7a164a45a606edc4b1cabb800a969f1a6"
+   "sha256": "e33477a6f7ec6754b0d4ef6fb7c21dec2d2302d990a35c5c9e46f86c965ece2e"
   },
   "score.yaml": {
-   "sha256": "465150be41f0a7aabe0152c8484561419cba9b83f17a8d10299ce0845525cbca"
+   "sha256": "095bb5a7d08503e6b5f730ff79e4bd7ab7bfc120aeec835ea2bc6bda0bbce56d"
   }
  },
  "samples": [
@@ -574,5 +574,5 @@
   ]
  },
  "room_tone": "none baked in: each cue is music only; the programme's room comes from the picture's own sound and the title's CC0 room (E5)",
- "render_s": 10.0
+ "render_s": 7.6
 }
