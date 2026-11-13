@@ -385,6 +385,65 @@ def test_apply_places_words_on_the_film():
     kept = NVO.apply(own, vman())["parts"][0]["lines"][0]
     assert kept["wav"] == "audio/x.wav" and kept["words"] == [{"w": "a", "t": 1}]
 
+
+def test_check_with_fit_voices_plans_the_fitted_lines_and_writes_nothing(tmp_path, monkeypatch):
+    (tmp_path / "audio").mkdir()
+    (tmp_path / "audio" / "voice.json").write_text(json.dumps(vman()), encoding="utf-8")
+    (tmp_path / "audio" / "L1.wav").write_bytes(b"take")
+    play = dict(PLAY, show="omnibus", issue=33)
+    (tmp_path / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    monkeypatch.setattr(R.NR, "sha256_path", lambda p: SHA)
+    monkeypatch.setattr(R, "preflight_sources", lambda film, play, journal, draft: [])
+    monkeypatch.setattr(R, "fit_voices", lambda p, film, journal: dict(
+        p, parts=[dict(pt, lines=[dict(ln, start_s=20.0) for ln in pt["lines"]]) for pt in p["parts"]]))
+    planned = []
+    monkeypatch.setattr(R, "build_plan", lambda film, **kw: planned.append(kw["play"]) or {"shots": []})
+    before = sorted(p.name for p in tmp_path.rglob("*"))
+    assert R.check_plan(tmp_path, draft=True, fit=True)["ok"]
+    assert planned[-1]["parts"][0]["lines"][0]["words"][0] == {"w": "Tuesday,", "t": 20.1}   # words after the fit
+    assert R.check_plan(tmp_path, draft=True)["ok"]
+    assert planned[-1]["parts"][0]["lines"][0]["words"][0] == {"w": "Tuesday,", "t": 10.1}   # unfitted by default
+    assert sorted(p.name for p in tmp_path.rglob("*")) == before
+
+
+MEDIA = "D:/omnibus-media/33/voice"
+
+
+def test_a_media_root_is_where_the_takes_are():
+    m = dict(vman(), media=MEDIA)             # E7 writes the takes to the media root, never into the repo
+    assert NVO.take(m, "audio/L1.wav") == f"{MEDIA}/L1.wav" and NVO.take(vman(), "audio/L1.wav") == "audio/L1.wav"
+    asked = []
+    ok = dict(exists=lambda r: asked.append(r) or True, read_sha=lambda r: SHA, text_sha=NR.sha256_text)
+    assert NVO.problems(m, PLAY, **ok) == [] and asked == [f"{MEDIA}/L1.wav"]
+    placed = NVO.apply(PLAY, m, words=False)
+    assert placed["parts"][0]["lines"][0]["wav"] == f"{MEDIA}/L1.wav"
+    assert NVO.problems(m, placed, **ok) == []                    # a second pass (place_voices) reads it again
+    other = {"parts": [{"id": "p", "lines": [dict(PLAY["parts"][0]["lines"][0], wav="audio/x.wav")]}],
+             "cast": PLAY["cast"]}
+    assert any("the screenplay plays" in p for p in NVO.problems(m, other, **ok))
+
+
+@pytest.mark.parametrize("media", [5, "", "  ", ["D:/x"]])
+def test_a_media_root_must_be_a_folder_name(media):
+    assert any("media" in p for p in NVO.problems(dict(vman(), media=media), PLAY, exists=lambda r: True,
+                                                  read_sha=lambda r: SHA, text_sha=NR.sha256_text))
+
+
+def test_a_news_film_reads_its_takes_from_the_media_root(tmp_path, monkeypatch):
+    from studio.engine import journal as J
+    film, media = tmp_path / "film", tmp_path / "media" / "voice"
+    (film / "audio").mkdir(parents=True)
+    media.mkdir(parents=True)
+    (film / "audio" / "voice.json").write_text(json.dumps(dict(vman(), media=media.as_posix())), encoding="utf-8")
+    (media / "L1.wav").write_bytes(b"take")                       # the film folder holds no WAV at all
+    monkeypatch.setattr(R.NR, "sha256_path", lambda p: SHA if Path(p).exists() else None)
+    play = dict(PLAY, show="omnibus", issue=33)
+    v = R.news_voicing(film, play)
+    assert v["problems"] == []
+    got = R.place_voices(film, play, J.Journal(film="media"), tmp_path / "out", fit=False)
+    ln = got["parts"][0]["lines"][0]
+    assert R.voice_wav(film, ln) == media / "L1.wav" and ln["words"][0] == {"w": "Tuesday,", "t": 10.1}
+
 # --------------------------------------------------------------------------- muted audio and disclosures
 
 
@@ -432,6 +491,32 @@ def test_the_credits_graphic_must_carry_every_disclosure():
     rundown = {"parts": [{"id": "credits", "disclosures": ["kept", "something else"]}]}
     assert R.credits_graphic_missing(plan, rundown) == (["credits"], ["DoW line"])
     assert R.credits_graphic_missing(dict(plan, shots=[]), rundown) == (None, [])   # the engine's roll carries them
+
+
+def test_a_credits_roll_that_reads_the_rights_ledger_carries_its_disclosures():
+    # E6's credits_spec (studio/graphics/data.py) typesets every rights-ledger item's own disclosure, and says so in
+    # its row's data_ref; the rundown's hand-kept list need not repeat the DoW line
+    reads = "rights-ledger:items[].credit, items[].disclosure; rundown:voices, credits.disclosures"
+    plan = {"shots": [{"kind": "graphic", "subtype": "credits", "asset": "credits"}],
+            "credit_disclosures": [{"text": "DoW line", "assets": ["dv"]}, {"text": "kept", "assets": ["x"]}],
+            "assets": {"credits": {"data_ref": reads}, "dv": {"disclosure": "DoW line", "_rights_ledger": True},
+                       "pg": {"disclosure": "kept", "_rights_ledger": False}}}
+    rundown = {"parts": [{"id": "credits", "disclosures": []}]}
+    assert R.credits_graphic_missing(plan, rundown) == (["credits"], ["kept"])   # a non-rights-ledger line is not
+    older = dict(plan, assets=dict(plan["assets"], credits={"data_ref": "rundown:voices, credits.disclosures"}))
+    assert R.credits_graphic_missing(older, rundown) == (["credits"], ["DoW line", "kept"])   # a roll that never read it
+
+
+def test_week_33s_credits_roll_carries_the_dow_line():
+    from studio.graphics import data as GD
+    root = Path(__file__).resolve().parents[2] / "episodes" / "33"
+    rundown = json.loads((root / "rundown.json").read_text(encoding="utf-8"))
+    ledger = json.loads((root / "rights-ledger.json").read_text(encoding="utf-8"))
+    row = next(r for r in json.loads((root / "graphics-ledger.json").read_text(encoding="utf-8")) if r["id"] == "credits")
+    lines = GD.credits_spec(rundown, ledger).lines
+    packet = json.loads((root / "disputes.json").read_text(encoding="utf-8"))
+    assert row["lines"] == len(lines) and "items[].disclosure" in row["data_ref"]
+    assert all(d["text"] in lines for d in packet["credit_disclosures"])
 
 
 @pytest.mark.parametrize("lic", ["cc-by-nc-4.0", "Public domain", "CC BY-SA 4.0", "cc-by-sa-1.0", ""])
