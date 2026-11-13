@@ -1,6 +1,6 @@
 {
   "schema": "omnibus.ledger/1",
-  "note": "TEST MEDIA ONLY (E11a slice, no air): every item below is a synthetic stand-in generated for the plan/lint check, held at D:/omnibus-media/33-slice/media, never committed and never rendered for broadcast. test_fixture is set on each so placeholder-media stays a draft warning, not a block; shows_bodies: false and drawn_kind: image are set for the same reason the engine's own news fixture sets them (studio/tests/fixture_news/film.py): every picture here is a test pattern, not a real body or map, so every shot is marked DRAWN (see each shot's mark in screenplay.json).",
+  "note": "TEST MEDIA ONLY (E11a slice, no air; E11b: the lower third is now episode 33's own lt-echo-x2 (an opaque full-frame stand-in painted the dot's label zone and failed --layers' overlay probes), through its graphics ledger, so the full-frame g-lt stand-in is gone): every item below is a synthetic stand-in generated for the plan/lint check, held at D:/omnibus-media/33-slice/media, never committed and never rendered for broadcast. test_fixture is set on each so placeholder-media stays a draft warning, not a block; shows_bodies: false and drawn_kind: image are set for the same reason the engine's own news fixture sets them (studio/tests/fixture_news/film.py): every picture here is a test pattern, not a real body or map, so every shot is marked DRAWN (see each shot's mark in screenplay.json).",
   "items": [
     {
       "id": "g-board",
@@ -12,21 +12,6 @@
       "generator": "studio/graphics (E6, test stand-in)",
       "content_date": "2026-11-05T16:12:35+00:00",
       "content_basis": "drawn from the week record's lead.board (data_ref)",
-      "licence": "CC0",
-      "test_fixture": true,
-      "shows_bodies": false,
-      "drawn_kind": "image"
-    },
-    {
-      "id": "g-lt",
-      "file": "g-lt.mov",
-      "kind": "graphic",
-      "fps": "30",
-      "frames": 120,
-      "alpha": "straight",
-      "generator": "studio/graphics (E6, test stand-in)",
-      "content_date": "2026-11-05T00:00:00+00:00",
-      "content_basis": "names the part (no record figures)",
       "licence": "CC0",
       "test_fixture": true,
       "shows_bodies": false,
