@@ -82,6 +82,36 @@ def test_a_label_that_would_reach_the_lower_third_measure_is_refused():
 
 
 # --------------------------------------------------------------------------
+# The lower third's own measure stays inside graphics-safe (spec 3.5): LT["max_w"] is a constant chosen
+# independently of CINE["graphics_safe"], so nothing but this check stops the two from drifting apart.
+# --------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("W, H", SIZES)
+def test_the_lower_thirds_measure_is_inside_graphics_safe(W, H):
+    L = M.Layout(W, H)
+    assert M.lower_third_graphics_safe_right(L) == round((1.0 - M.CINE["graphics_safe"]) * W)
+    M.lower_third_action_safe(L)                                       # the house constants today: no refusal
+    x0, measure_w = L.w(M.LT["x"]), L.w(M.LT["max_w"])
+    assert x0 + measure_w <= M.lower_third_graphics_safe_right(L)
+
+
+def test_a_lower_third_measure_widened_past_graphics_safe_is_refused(monkeypatch):
+    L = M.Layout(1920, 1080)
+    safe_right = M.lower_third_graphics_safe_right(L)
+    assert safe_right == 1824.0                                        # 95% of 1920 (spec 3.5)
+    # Widen LT["max_w"] until the measure's own right edge would land past graphics-safe (e.g. x 1874), the
+    # drift lower_third_action_safe exists to catch before any specific string ever overflows.
+    over_max_w = (1874.0 - L.w(M.LT["x"])) / L.W * 100.0
+    patched = dict(M.LT, max_w=over_max_w)
+    monkeypatch.setattr(M, "LT", patched)
+    with pytest.raises(M.TextOverflow, match="graphics-safe"):
+        M.lower_third_action_safe(L)
+    with pytest.raises(M.TextOverflow, match="graphics-safe"):
+        M.lower_third_layout(L, ["Name", "Role, 2026"], FONTS)
+
+
+# --------------------------------------------------------------------------
 # Behaviour: only on a change of class or year; AI-GENERATED always labelled
 # --------------------------------------------------------------------------
 
