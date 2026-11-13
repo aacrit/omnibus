@@ -24,9 +24,9 @@ SHA2 = "b" * 64
 # --------------------------------------------------------------------------- licence map
 
 
-def ritem(lic, adapter="commons", ledger="D:/x/episodes/33/rights-ledger.json"):
-    """A loaded ledger item as load_ledgers leaves it (its ledger file recorded)."""
-    return {"id": "r", "licence": lic, "adapter": adapter, "_ledger_file": ledger}
+def ritem(lic, adapter="commons", rights=True):
+    """A loaded ledger item as load_ledgers leaves it (``_rights_ledger``: from the episode's rights ledger)."""
+    return {"id": "r", "licence": lic, "adapter": adapter, "_rights_ledger": rights}
 
 
 def allowed(lic, play, **kw):
@@ -48,11 +48,34 @@ def test_own_property_only_from_the_voidnews_adapter():
 
 
 def test_the_map_applies_only_to_rights_ledger_items():
-    for led in ("D:/x/ledgers/studio-e4b.json", "D:\\x\\graphics-ledger.json", None):
-        assert SHOW.licence_reading(NEWS, ritem("pd-us-federal", ledger=led)) is None
-        assert allowed("pd-us-federal", NEWS, ledger=led) == (False, False)
-    assert allowed("pd-us-federal", NEWS, ledger="D:\\x\\33\\rights-ledger.json") == (True, False)   # Windows path
+    assert SHOW.licence_reading(NEWS, ritem("pd-us-federal", rights=False)) is None
+    assert allowed("pd-us-federal", NEWS, rights=False) == (False, False)
+    assert allowed("pd-us-federal", NEWS) == (True, False)
     assert R.licence_allowed("pd-us-federal", NEWS) == (False, False)          # no item: the house allowlist
+
+
+def _rights_film(tmp_path, refs):
+    for rel in {r if isinstance(r, str) else r["path"] for r in refs.values()}:
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"items": [{"id": f"i-{p.parent.name}-{p.stem}", "licence": "pd-us-federal"}]}),
+                     encoding="utf-8")
+    return R.load_ledgers(tmp_path, dict(NEWS, ledgers=refs))
+
+
+def test_only_the_episodes_rights_ledger_is_marked(tmp_path):
+    a = _rights_film(tmp_path, {"rights": "rights-ledger.json", "other": "copies/rights-ledger.json",
+                                "studio": "ledgers/studio.json"})
+    assert a["i-" + tmp_path.name + "-rights-ledger"]["_rights_ledger"] is True
+    assert a["i-copies-rights-ledger"]["_rights_ledger"] is False       # same name, another file: never the rights
+    assert a["i-ledgers-studio"]["_rights_ledger"] is False
+
+
+def test_the_screenplays_rights_ref_is_the_rights_ledger(tmp_path):
+    a = _rights_film(tmp_path, {"rights": "elsewhere/ledger.json"})
+    assert a["i-elsewhere-ledger"]["_rights_ledger"] is True
+    b = _rights_film(tmp_path / "f2", {"media": "rights-ledger.json"})    # <film>/rights-ledger.json by its path
+    assert b["i-f2-rights-ledger"]["_rights_ledger"] is True
 
 
 @pytest.mark.parametrize("lic", ["cc-by-sa-2.0", "cc-by-sa-4.0"])
@@ -94,8 +117,8 @@ def test_document_reads_licences_as_before(lic, before):
 def test_document_house_words_unchanged():
     assert R.licence_allowed("Public domain", {}) == (True, False)
     assert R.licence_allowed("CC BY-SA 4.0", {}) == (False, True)
-    assert allowed("CC BY 4.0", NEWS, ledger="x/studio-e4b.json") == (True, False)   # a studio item: the house words
-    assert allowed("CC BY-SA 4.0", NEWS_SA, ledger="x/studio-e4b.json") == (True, True)
+    assert allowed("CC BY 4.0", NEWS, rights=False) == (True, False)   # a studio item: the house words
+    assert allowed("CC BY-SA 4.0", NEWS_SA, rights=False) == (True, True)
 
 # --------------------------------------------------------------------------- E6's graphics ledger
 
@@ -427,3 +450,33 @@ def test_a_testcards_bars_are_dated_by_the_field_they_draw():
     d, basis = GL.content_date("rundown:week testcard; week:bars", inputs)
     assert d == "2026-11-08T11:51:04+00:00" and "days[1].printed_at" in basis      # never the record's later close
     assert GL.content_date("rundown:weight testcard; week:bars", inputs)[0] == "2026-11-08T22:16:50+00:00"
+
+
+
+def test_a_document_film_with_fit_voices_still_writes_its_fitted_screenplay(tmp_path, monkeypatch):
+    from studio.engine import journal as J
+    moved = {"parts": [{"id": "p", "lines": [{"id": "L1", "kind": "narration", "start_s": 12.0, "text": "x"}]}]}
+    monkeypatch.setattr(R, "fit_voices", lambda play, film, journal: moved)
+    out = tmp_path / "out"
+    j = J.Journal(film="fit")
+    got = R.place_voices(tmp_path, {"parts": []}, j, out, fit=True)
+    assert got == moved
+    assert json.loads((out / "screenplay.fitted.json").read_text(encoding="utf-8")) == moved
+    assert R.place_voices(tmp_path, {"parts": []}, j, tmp_path / "out2", fit=False) == {"parts": []}
+    assert not (tmp_path / "out2").exists()
+
+
+def test_a_news_film_with_fit_voices_writes_it_and_places_words_after(tmp_path, monkeypatch):
+    from studio.engine import journal as J
+    (tmp_path / "audio").mkdir()
+    (tmp_path / "audio" / "voice.json").write_text(json.dumps(vman()), encoding="utf-8")
+    (tmp_path / "audio" / "L1.wav").write_bytes(b"take")
+    monkeypatch.setattr(R.NR, "sha256_path", lambda p: SHA)
+    play = dict(PLAY, show="omnibus", issue=33)
+
+    def fit(p, film, journal):           # --fit-voices moves the line to 20 s
+        return dict(p, parts=[dict(pt, lines=[dict(ln, start_s=20.0) for ln in pt["lines"]]) for pt in p["parts"]])
+    monkeypatch.setattr(R, "fit_voices", fit)
+    got = R.place_voices(tmp_path, play, J.Journal(film="fit"), tmp_path / "out", fit=True)
+    assert (tmp_path / "out" / "screenplay.fitted.json").exists()
+    assert got["parts"][0]["lines"][0]["words"][0] == {"w": "Tuesday,", "t": 20.1}

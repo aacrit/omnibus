@@ -109,9 +109,10 @@ OWN_ADAPTER = "voidnews"                  # licences.mjs OWN_ADAPTER: the only a
 
 
 def from_rights_ledger(item: dict | None) -> bool:
-    """Whether a loaded ledger item came from the rights ledger (render.load_ledgers records its file)."""
-    f = str((item or {}).get("_ledger_file") or "").replace("\\", "/")
-    return f.rsplit("/", 1)[-1] == RIGHTS_LEDGER
+    """Whether a loaded ledger item came from the episode's rights ledger: render.load_ledgers marks it
+    (``_rights_ledger``) only for the screenplay's ``ledgers.rights`` reference or exactly
+    ``<film>/rights-ledger.json``, so another file that happens to share the name never reads as it."""
+    return (item or {}).get("_rights_ledger") is True
 
 
 def licence_reading(play: dict | None, item: dict | None) -> MappingProxyType | None:

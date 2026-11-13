@@ -686,6 +686,9 @@ def load_ledgers(film: Path, play: dict) -> dict:
             it["_private_keys"] = private_keys(it)       # refused in build_plan: "_" keys belong to the engine
             it["_ledger"] = name
             it["_ledger_file"] = str(path)
+            # E9i: the rights ledger is the screenplay's ``ledgers.rights`` or <film>/rights-ledger.json exactly, never
+            # another file of that name (studio/news/profile.py from_rights_ledger reads only this)
+            it["_rights_ledger"] = name == "rights" or path.resolve() == (film / SHOW.RIGHTS_LEDGER).resolve()
             it["_path"] = str((media / it["file"]).resolve()) if it.get("file") else None
             assets[it["id"]] = it
     return assets
@@ -9812,18 +9815,7 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
         if missing:
             raise Refused(f"fonts not found ({missing[0]}); run npm ci in the repo")
         play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
-        news = SHOW.is_news(play)
-        if news:       # E9i: each voiced line's take from the voicing manifest; its words once the lines are placed
-            play = news_voicing(film, play, words=False)["play"]
-        if fit_voices_opt:
-            journal.human("scout", "--fit-voices: voice lines may move later and their shots grow", override="--fit-voices")
-            play = fit_voices(play, film, journal)
-        if news:       # E9i: the take's word timings on the film at each line's start (after --fit-voices moved it)
-            play = news_voicing(film, play)["play"]
-            out.mkdir(parents=True, exist_ok=True)
-            fitted = out / "screenplay.fitted.json"
-            fitted.write_text(json.dumps(play, indent=2, ensure_ascii=False), encoding="utf-8")
-            journal.artifact("scout", fitted, role="screenplay-fitted")
+        play = place_voices(film, play, journal, out, fit=fit_voices_opt)
         with journal.unit("scout", "sources", size={"driver": "items", "value": 0}) as u:
             bad_sources = preflight_sources(film, play, journal, draft=draft)
             u.extra.update(problems=len(bad_sources))
@@ -10427,6 +10419,25 @@ def sources_only(film: Path | str, out: Path | str | None = None, *, journal: Jo
     journal.lint("description-external", not external, stage="assembly", phase="sources-only", grammar="A56",
                  severity="warn", evidence={"problems": external})
     return {"sources": str(path), "frames": plan["frames"], "duration_s": plan["duration_s"], "master_sha256": extra["master_sha256"]}
+
+
+def place_voices(film: Path, play: dict, journal: Journal, out: Path, *, fit: bool) -> dict:
+    """The screenplay with its voice lines placed, as render() runs it: --fit-voices (``fit``) moves them and writes
+    ``<out>/screenplay.fitted.json`` (journaled, any show, as before); E9i: a news show first takes each line's take
+    from the voicing manifest, then, once the lines are where they play, its word timings."""
+    news = SHOW.is_news(play)
+    if news:
+        play = news_voicing(film, play, words=False)["play"]
+    if fit:
+        journal.human("scout", "--fit-voices: voice lines may move later and their shots grow", override="--fit-voices")
+        play = fit_voices(play, film, journal)
+        out.mkdir(parents=True, exist_ok=True)
+        fitted = out / "screenplay.fitted.json"
+        fitted.write_text(json.dumps(play, indent=2, ensure_ascii=False), encoding="utf-8")
+        journal.artifact("scout", fitted, role="screenplay-fitted")
+    if news:
+        play = news_voicing(film, play)["play"]
+    return play
 
 
 def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, journal: Journal | None = None) -> dict:
