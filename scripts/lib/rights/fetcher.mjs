@@ -172,8 +172,12 @@ export async function recordWitness(ledger, { request, c, http, mediaDir, used, 
  * Returns { ledger, report }: report lists what was taken, refused or skipped.
  */
 export async function fetchRequests(requestsDoc, ledgerIn, opts) {
-  const { adapters, http, mediaDir, checkedBy, now = () => new Date(), env = process.env, dryRun = false, log = () => {} } = opts;
+  const { adapters, http, mediaDir, checkedBy, now = () => new Date(), env = process.env, dryRun = false, redo = [], log = () => {} } = opts;
   const ledger = structuredClone(ledgerIn ?? emptyLedger(requestsDoc.issue));
+  // --redo: a held request is filled again from its whole ladder (a better tier became reachable, e.g. DVIDS with a key).
+  const unknown = redo.filter((id) => !requestsDoc.requests.some((r) => r.id === id));
+  if (unknown.length) throw new Error(`--redo names no request in assets.json: ${unknown.map((id) => clip(id, 80)).join(", ")}`);
+  if (redo.length) ledger.items = ledger.items.filter((i) => !redo.includes(i.request_id));
   const today = now().toISOString().slice(0, 10);
   const filled = new Set(ledger.items.map((i) => i.request_id));
   const report = [];
