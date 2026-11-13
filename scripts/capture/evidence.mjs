@@ -19,7 +19,8 @@ import * as dvids from "../lib/rights/adapters/dvids.mjs";
 import * as gov from "../lib/rights/adapters/gov.mjs";
 import * as nasa from "../lib/rights/adapters/nasa.mjs";
 import * as voa from "../lib/rights/adapters/voa.mjs";
-import { isAllowedUrl } from "../lib/rights/http.mjs";
+import { Refused, isAllowedUrl } from "../lib/rights/http.mjs";
+import { isRefusedHost } from "./listers/wayback.mjs";
 import { checkCandidate } from "../lib/rights/provenance.mjs";
 import { isoSecond } from "../lib/rights/text.mjs";
 
@@ -41,7 +42,11 @@ export const SOURCES = {
   // adapter reads; the governing terms are NASA's media usage guidelines on www.nasa.gov (C6, DECISIONS 2026-11-13).
   nasa: { adapter: nasa, ref: (it) => it.id, page: (it) => nasa.searchUrl(it.id), terms: NASA_TERMS },
   cdc: { adapter: gov, ref: (it) => it.url, page: (it) => it.url, terms: "https://www.cdc.gov/other/agencymaterials.html", kind: "still" },
-  noaa: { adapter: gov, ref: (it) => it.url, page: (it) => it.url, terms: "https://www.noaa.gov/disclaimer", kind: "still" },
+  // NOAA's pages refuse the honest identity (C0): the item is judged from the RSS item's own text
+  // (item_html, adapters/gov.mjs parseFederalPage), which is also the page evidence kept, and no NOAA
+  // page is asked. Its terms page is on the same refused host, so it is stated missing and lintMedia
+  // refuses the media: metadata and evidence only, honestly.
+  noaa: { adapter: gov, feedText: true, ref: (it) => it.url, page: (it) => it.url, terms: null, terms_missing: "NOAA's disclaimer page (www.noaa.gov) refuses the fetcher's honest identity (C0), so no governing terms page could be kept", kind: "still" },
   // The White House is a locator: its videos are YouTube embeds, never downloaded; the matching Commons upload is the media.
   whitehouse: { adapter: null, ref: (it) => it.url, page: (it) => it.url, terms: "https://www.whitehouse.gov/copyright/" },
 };
@@ -72,16 +77,50 @@ export function readBlob(gz) {
   return gunzipSync(gz).toString("utf8");
 }
 
-async function readPage(http, url) {
+const hostOf = (url) => {
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+};
+
+/**
+ * Reads a page, never asking a host C0 recorded as refusing us (isRefusedHost) or
+ * one that refused us earlier in this run (`refused`, a Set the run shares).
+ */
+async function readPage(http, url, refused = new Set()) {
   if (!url) return { missing: "no page address" };
   if (!isAllowedUrl(url)) return { missing: `${url} is not on the fetcher's allowlist` };
+  const host = hostOf(url);
+  if (isRefusedHost(host)) return { missing: `${host} refuses the fetcher's honest identity (C0); not asked` };
+  if (refused.has(host)) return { missing: `${host} refused the fetcher earlier in this run; not asked again` };
   try {
     const r = await http.getText(url);
     if (r.status !== "ok") return { missing: `${url} answered ${r.status}` };
     return { text: r.text, contentType: r.contentType ?? null, url: r.url ?? url };
   } catch (err) {
+    if (err instanceof Refused || /answered 403/.test(String(err?.message))) refused.add(host);
     return { missing: String(err?.message ?? err) };
   }
+}
+
+/** The adapters' http, refusing before any request to a host that refuses us (C0) or refused us this run. */
+export function guardRefused(http, refused) {
+  const check = (url) => {
+    const h = hostOf(url);
+    if (isRefusedHost(h) || refused.has(h)) throw new Refused(`${h} refuses the fetcher's honest identity; not asked`);
+  };
+  const wrap = (fn) => async (url, ...rest) => {
+    check(url);
+    try {
+      return await fn(url, ...rest);
+    } catch (err) {
+      if (err instanceof Refused || /answered 403/.test(String(err?.message))) refused.add(hostOf(url));
+      throw err;
+    }
+  };
+  return { ...http, getText: wrap(http.getText), getJson: wrap(http.getJson) };
 }
 
 /** Pure: the verdict a lookup answer and checkCandidate give. */
@@ -109,7 +148,7 @@ export function verdictOf(found, adapterName) {
  * run so a terms page is fetched once. Returns { record, blobs, candidate }:
  * blobs are { sha256, bytes, gz, kind, url } to store at evidenceKey(sha256).
  */
-export async function captureEvidence(item, { http, env = process.env, now = () => new Date(), termsCache = new Map(), sources = SOURCES }) {
+export async function captureEvidence(item, { http, env = process.env, now = () => new Date(), termsCache = new Map(), refused = new Set(), sources = SOURCES }) {
   const src = sources[item.source];
   if (!src) throw new Error(`no evidence rule for source ${item.source}`);
   const secrets = secretsOf(env);
@@ -120,9 +159,13 @@ export async function captureEvidence(item, { http, env = process.env, now = () 
   let verdict;
   if (!src.adapter) {
     verdict = { adapter: null, status: "locator", licence: null, basis: null, reasons: ["a locator only: its media is the matching upload elsewhere"] };
+  } else if (src.feedText) {
+    // Judged from the feed's own text for the item: the page itself is never asked.
+    found = item.item_html ? gov.parseFederalPage(item.item_html, { pageUrl: item.url, kind: src.kind, capturedAt }) : { status: "not_found", reason: "the feed item carries no text to judge" };
+    verdict = verdictOf(found, "gov");
   } else {
     try {
-      found = await src.adapter.lookup(src.ref(item), { http, env, now, kind: src.kind });
+      found = await src.adapter.lookup(src.ref(item), { http: guardRefused(http, refused), env, now, kind: src.kind });
       verdict = verdictOf(found, item.source === "cdc" || item.source === "noaa" ? "gov" : item.source);
     } catch (err) {
       verdict = { adapter: item.source, status: "error", licence: null, basis: null, reasons: [String(err?.message ?? err)] };
@@ -130,7 +173,11 @@ export async function captureEvidence(item, { http, env = process.env, now = () 
   }
 
   const pageUrl = src.page(item);
-  const page = await readPage(http, pageUrl);
+  const page = src.feedText
+    ? item.item_html
+      ? { text: item.item_html, contentType: "text/html; the RSS item's own text", url: pageUrl }
+      : { missing: "the feed item carries no text" }
+    : await readPage(http, pageUrl, refused);
   let pageRef;
   if (page.text != null) {
     const b = blobOf(scrub(page.text, secrets), { kind: "page", url: scrub(pageUrl, secrets) });
@@ -143,7 +190,7 @@ export async function captureEvidence(item, { http, env = process.env, now = () 
   else {
     let b = termsCache.get(src.terms);
     if (!b) {
-      const t = await readPage(http, src.terms);
+      const t = await readPage(http, src.terms, refused);
       b = t.text != null ? blobOf(scrub(t.text, secrets), { kind: "terms", url: src.terms }) : { missing: t.missing };
       termsCache.set(src.terms, b);
     }

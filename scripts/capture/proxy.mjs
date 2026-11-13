@@ -14,6 +14,7 @@
 
 import { PD_BASES } from "../lib/rights/licences.mjs";
 import { isAllowedUrl } from "../lib/rights/http.mjs";
+import { isRefusedHost } from "./listers/wayback.mjs";
 
 export const PROXY_MAX_HEIGHT = 480;
 const COMMONS = /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+)$/;
@@ -40,8 +41,9 @@ export function proxyCandidates(source, candidate) {
     if (!IMAGE_EXT.test(media.split("?")[0])) return { urls: [], reason: "the agency page offers no still of its own" };
     out.push({ url: media, ext: extOf(media) });
   } else return { urls: [], reason: `${source} is a locator; its media is the matching upload elsewhere` };
-  const urls = out.filter((u) => isAllowedUrl(u.url) && /^[a-z0-9]{2,5}$/.test(u.ext));
-  return urls.length ? { urls, reason: null } : { urls: [], reason: "no proxy address is on the fetcher's allowlist" };
+  // A host that refuses the honest identity (C0) is never asked, not even for a still.
+  const urls = out.filter((u) => isAllowedUrl(u.url) && !isRefusedHost(new URL(u.url).hostname) && /^[a-z0-9]{2,5}$/.test(u.ext));
+  return urls.length ? { urls, reason: null } : { urls: [], reason: "no proxy address is on the fetcher's allowlist and on a host that answers us" };
 }
 
 function extOf(u) {

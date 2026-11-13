@@ -148,6 +148,7 @@ export async function runCapture({
   const mediaFiles = new Map();
   const results = [];
   const termsCache = new Map();
+  const refused = new Set(); // hosts that refused the honest identity this run: never asked again
   let deferred = 0;
   for (const [sid, { item, reason }] of chosen) {
     if (index.items[sid]) continue; // dedupe by source id: a held item is never fetched again
@@ -155,15 +156,17 @@ export async function runCapture({
       deferred++;
       continue;
     }
-    const ev = await evidenceFor(item, { http, env, now, termsCache });
+    const ev = await evidenceFor(item, { http, env, now, termsCache, refused });
     let media = null;
     let note = null;
     if (ev.record.verdict.status === "ok") {
-      if (mode === "dir" && !artifactMayHoldMedia(ev.record.verdict)) note = `kept as URL and evidence only: a ${ev.record.verdict.licence ?? "unlicensed"} item never goes in a public artifact`;
+      if (!ev.record.terms?.sha256) note = `no proxy: ${ev.record.terms?.missing ?? "no governing terms page"} (the evidence lint refuses media without it)`;
+      else if (mode === "dir" && !artifactMayHoldMedia(ev.record.verdict)) note = `kept as URL and evidence only: a ${ev.record.verdict.licence ?? "unlicensed"} item never goes in a public artifact`;
       else {
         const { urls, reason: none } = proxyCandidates(item.source, ev.candidate);
         note = none;
         for (const u of urls) {
+          if (refused.has(new URL(u.url).hostname)) continue;
           const file = path.join(workDir, `proxy-${results.length}.${u.ext}`);
           try {
             const got = await fetchMedia(u.url, file, { maxBytes: CAPS.maxFileBytes });
@@ -173,6 +176,7 @@ export async function runCapture({
             note = null;
             break;
           } catch (err) {
+            if (/answered 403/.test(String(err?.message))) refused.add(new URL(u.url).hostname);
             note = `proxy ${u.url}: ${String(err?.message ?? err).slice(0, 200)}`;
           }
         }
