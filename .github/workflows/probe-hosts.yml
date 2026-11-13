@@ -12,11 +12,6 @@ name: probe-hosts
 
 on:
   workflow_dispatch:
-  # TEMPORARY (removed in the next commit): workflow_dispatch needs the file on the default branch, so the
-  # one C0 run is started by this push on the ticket branch.
-  push:
-    branches: [cap/c0-c2]
-    paths: [.github/workflows/probe-hosts.yml]
 
 permissions:
   contents: read
