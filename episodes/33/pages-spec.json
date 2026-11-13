@@ -1,0 +1,15 @@
+{"film": "week-33",
+ "pages": [
+  {"id": "e33-echo-pg-truman-19510614",
+   "title": [{"text": "Radio and Television Report to the American People on the Need for Extending Inflation Controls", "verbatim": true}, "Broadcast from the White House, 14 June 1951"],
+   "body": ["This is the problem of inflation and high prices.", "[…]", "Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea.", "[…]", "Some people have the idea that if the fighting stopped in Korea we could cut down our defense effort enough to do away with the danger of inflation. That is not true. We would need controls even if the fighting in Korea stopped tomorrow. The threat of Communist aggression is worldwide, and must be met with worldwide defenses."],
+   "source": "Harry S. Truman, Public Papers of the Presidents, printed later; text from The American Presidency Project",
+   "reads": ["This is the problem of inflation and high prices.", "Now we are in a great mobilization effort. Requiring 20 percent of our national production is defense. Now our men are fighting in Korea.", "Some people have the idea that if the fighting stopped in Korea we could cut down our defense effort enough to do away with the danger of inflation. That is not true. We would need controls even if the fighting in Korea stopped tomorrow. The threat of Communist aggression is worldwide, and must be met with worldwide defenses."],
+   "read_from": "src-truman-19510614 (echo-pick quote, also, counter; sha256 there)"},
+  {"id": "e33-echo-pg-truman-19520329",
+   "title": [{"text": "Address at the Jefferson-Jackson Day Dinner", "verbatim": true}, "National Guard Armory, Washington, 29 March 1952"],
+   "body": ["I shall not be a candidate for reelection. I have served my country long, and I think efficiently and honestly. I shall not accept a renomination. I do not feel that it is my duty to spend another 4 years in the White House."],
+   "source": "Harry S. Truman, Public Papers of the Presidents, printed later; text from the Truman Library",
+   "reads": ["I shall not be a candidate for reelection."],
+   "read_from": "e33-echo-req-14 (rights ledger, sha256 0ab64aba...), the paragraph holding src-truman-19520329's quote"}
+ ]}

@@ -1,0 +1,77 @@
+{
+ "_note": "Studio items the writer derived for week 33 (E4 part 2): typeset pages (studio.engine.pages, spec episodes/33/pages-spec.json), one Federal Register page rasterised from its ledgered PDF, the board's two pages joined, and the board's settled last frame. Media under D:/omnibus-media/33/studio.",
+ "items": [
+  {
+   "id": "e33-echo-fr-p16",
+   "file": "e33-echo-fr-p16.png",
+   "kind": "still",
+   "licence": "pd-us-federal",
+   "credit": "US Government Publishing Office",
+   "date": "1951-01-30",
+   "title": "Federal Register, vol. 16, no. 20, 30 January 1951, printed page 808 (PDF page 16)",
+   "derived_from": "e33-echo-req-13 (rights ledger, sha256 84213c6e...), PDF page 16 rasterised at 300 dpi by PyMuPDF",
+   "licence_evidence": "as e33-echo-req-13",
+   "shows_bodies": false,
+   "sha256": "3254b57ed7af3ec54e10db187defcc26fe31849824642ad3672effb6d7285c70"
+  },
+  {
+   "id": "e33-echo-pg-truman-19510614",
+   "file": "e33-echo-pg-truman-19510614.png",
+   "kind": "still",
+   "generator": "studio.engine.pages",
+   "drawn_kind": "page",
+   "licence": "pd-us-federal",
+   "credit": "typeset by void omnibus from the Public Papers (The American Presidency Project)",
+   "content_date": "1951-06-14",
+   "content_basis": "src-truman-19510614, three passages verbatim (echo-pick)",
+   "spec": "episodes/33/pages-spec.json",
+   "shows_bodies": false,
+   "sha256": "8c9d964350cb255a3c31168271a5cfaf5b7baf913f7bec130fb0315aac97b0df"
+  },
+  {
+   "id": "e33-echo-pg-truman-19520329",
+   "file": "e33-echo-pg-truman-19520329.png",
+   "kind": "still",
+   "generator": "studio.engine.pages",
+   "drawn_kind": "page",
+   "licence": "pd-us-federal",
+   "credit": "typeset by void omnibus from the Public Papers (Truman Library)",
+   "content_date": "1952-03-29",
+   "content_basis": "e33-echo-req-14, the withdrawal paragraph verbatim",
+   "spec": "episodes/33/pages-spec.json",
+   "shows_bodies": false,
+   "sha256": "a02a586cc595d06ec55a9be48c0b3e2dccb0d49c2a27c48803e9f982d77c1ba9"
+  },
+  {
+   "id": "board-all",
+   "file": "board-all.mov",
+   "kind": "graphic",
+   "subtype": "board",
+   "fps": "30",
+   "frames": 604,
+   "alpha": "straight",
+   "generator": "studio/graphics (E6), joined by ffmpeg concat",
+   "content_date": "2026-11-08T22:16:50.309638+00:00",
+   "content_basis": "lead.board: the claim's six titled rows on two pages",
+   "licence": "CC BY-SA 4.0",
+   "credit": "void omnibus, drawn by code",
+   "derived_from": "board-page-1.mov then board-page-2.mov (E6), stream copy",
+   "shows_bodies": false,
+   "sha256": "187aaa8afc8db56c4bef87a53b770d05a0fee17aeee454337f4a8eafb9287ea6"
+  },
+  {
+   "id": "board-end",
+   "file": "board-end.png",
+   "kind": "still",
+   "generator": "studio/graphics (E6), last frame",
+   "drawn_kind": "image",
+   "content_date": "2026-11-08T22:16:50.309638+00:00",
+   "content_basis": "the board's second page, settled (lead.board rows right, far-right)",
+   "licence": "CC BY-SA 4.0",
+   "credit": "void omnibus, drawn by code",
+   "derived_from": "board-page-2.mov (E6), its last frame",
+   "shows_bodies": false,
+   "sha256": "d0502e912d8ee8558c3dd63b45c1535cfafb3815b04377d71c96f53777ec7c73"
+  }
+ ]
+}
