@@ -3,7 +3,7 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "dbb86e72cb7a6ad63fe06c65c8acc537515aadcd6cba53e61e9b1da1c90c83a4",
+  "ledger_sha256": "6893090f34d7dc527bbac74b13e329d5390eddb4cbb41faa7ab9c0e077d8b6ca",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -80,13 +80,20 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:25Z"
+        "captured_at": "2026-11-13T16:39:06Z"
       },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959044",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"President and Bess Truman at Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959044), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959044).\nnaId: 338959044; local identifier: 73-3881\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:06Z"
+        }
+      ],
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint bd7ca7bd5215a41ff553cf688b5470e303afefdcf08ee25be9840f3a02ab7439. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+      "dispute": "This episode uses \"Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_at_the_Jefferson-Jackson_Day_Dinner,_during_which_the_President_announced..._-_NARA_-_200382.jpg on 2026-11-13 (its source record also, at https://catalog.archives.gov/id/338959044 on 2026-11-13), and the text read is kept with this packet. The file used has the SHA-256 fingerprint bd7ca7bd5215a41ff553cf688b5470e303afefdcf08ee25be9840f3a02ab7439. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-echo-02",
@@ -105,13 +112,20 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:26Z"
+        "captured_at": "2026-11-13T16:39:07Z"
       },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959024",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"President Truman at the Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959024), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959024).\nnaId: 338959024; local identifier: 73-3872\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:07Z"
+        }
+      ],
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard Armory in Washington.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 470e2e3adf9ba403e2ff723d29a6bcb90a16f239e7338ac063fc0f97f6ce7da6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+      "dispute": "This episode uses \"Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard Armory in Washington.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_receiving_applause_at_the_annual_Jefferson-Jackson_Day_dinner_at_the_National_Guard..._-_NARA_-_200380.jpg on 2026-11-13 (its source record also, at https://catalog.archives.gov/id/338959024 on 2026-11-13), and the text read is kept with this packet. The file used has the SHA-256 fingerprint 470e2e3adf9ba403e2ff723d29a6bcb90a16f239e7338ac063fc0f97f6ce7da6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-echo-03",
@@ -130,13 +144,20 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:26Z"
+        "captured_at": "2026-11-13T16:39:08Z"
       },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959048",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"President and Bess Truman at Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959048), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959048).\nnaId: 338959048; local identifier: 73-3883\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:08Z"
+        }
+      ],
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b6d0750136f39b168b911b6455c0872ded719d61963f26ad7dd8c87e6be8355e. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+      "dispute": "This episode uses \"Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President announced that he would not be a candidate for reelection in 1952.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_President_Truman_and_Mrs._Truman_at_the_annual_Jefferson-Jackson_Day_Dinner,_during_which_the_President..._-_NARA_-_200383.jpg on 2026-11-13 (its source record also, at https://catalog.archives.gov/id/338959048 on 2026-11-13), and the text read is kept with this packet. The file used has the SHA-256 fingerprint b6d0750136f39b168b911b6455c0872ded719d61963f26ad7dd8c87e6be8355e. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-echo-04",
@@ -155,13 +176,20 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Abbie Rowe\nCredit: U.S. National Archives and Records Administration\nBasis category: PD US Government",
-        "captured_at": "2026-11-13T00:20:27Z"
+        "captured_at": "2026-11-13T16:39:09Z"
       },
+      "evidence_also": [
+        {
+          "url": "https://catalog.archives.gov/id/338959010",
+          "captured_text": "Date of the item read from a second catalogue record of it: \"Trumans Arriving at Jefferson-Jackson Day Dinner\" (https://catalog.archives.gov/id/338959010), production date 1952-03-29.\nRead from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=338959010).\nnaId: 338959010; local identifier: 73-3866\nrecord group: (none)\ncreators: National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 - 07/31/2011)\nuse restriction: Unrestricted; access restriction: Unrestricted\nRefused: the federal body named (National Archives and Records Administration. Office of Presidential Libraries. Harry S. Truman Library. (04/01/1985 ...) began after the record was made, so it holds the record and did not make it.",
+          "captured_at": "2026-11-13T16:39:09Z"
+        }
+      ],
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
-      "dispute": "This episode uses \"Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in Washington for the annual Jefferson-Jackson Day Dinner.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0fd470223a11942972ddc3e8a932795ce42ab4b29729fab46b024b37ebca89bf. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+      "dispute": "This episode uses \"Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in Washington for the annual Jefferson-Jackson Day Dinner.\" from https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Photograph_of_the_President_and_Mrs._Truman_being_greeted_upon_their_arrival_at_the_National_Guard_Armory_in..._-_NARA_-_200379.jpg on 2026-11-13 (its source record also, at https://catalog.archives.gov/id/338959010 on 2026-11-13), and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0fd470223a11942972ddc3e8a932795ce42ab4b29729fab46b024b37ebca89bf. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     },
     {
       "id": "e33-echo-05",
@@ -624,6 +652,31 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"March 2026 Official Vice Presidential Portrait of JD Vance (medium crop) (2)\" from https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:March_2026_Official_Vice_Presidential_Portrait_of_JD_Vance_(medium_crop)_(2).jpg on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint f62664af7cf062a97fd4b07f8f51159d48a6edfef80a7cf4c7f5b57cfefed0f6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-echo-req-12",
+      "title": "KOREAN WAR, UIJONGBU; REFUGEES, PUSAN, KOREA; EVACUATION, HUNGNAM AREA, KOREA, BOKU-DO",
+      "source_url": "https://catalog.archives.gov/id/22399",
+      "media_url": "https://catalog.archives.gov/medialz/mopix/111/adc/111-adc-8634.mp4",
+      "sha256": "6d073ffb0bb0c1332df736d763633588d116272ee303e3e415b81b273fa2ec87",
+      "credit": "Department of Defense. Department of the Army. Office of the Chief Signal Officer., via the National Archives (NAID 22399, 111-ADC-8634)",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://catalog.archives.gov/id/22399",
+        "captured_text": "Read from the National Archives catalogue (https://catalog.archives.gov/proxy/records/search?naId=22399).\nnaId: 22399; local identifier: 111-ADC-8634\nrecord group: 111 Records of the Office of the Chief Signal Officer\ncreators: Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964)\nuse restriction: Restricted - Possibly; access restriction: Unrestricted\nNARA flags the record \"Restricted - Possibly\" (Copyright), a blanket caution on the series; its maker, Department of Defense. Department of the Army. Office of the Chief Signal Officer. (09/18/1947 - 03/01/1964), is a US federal agency named on the record, so it is a work of the US government: public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-13T16:39:13Z"
+      },
+      "basis": "National Archives identifier 22399 (111-ADC-8634): a record created by Department of Defense. Department of the Army. Office of the Chief Signal Officer., a US federal agency (17 U.S.C. 105); use restriction Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"KOREAN WAR, UIJONGBU; REFUGEES, PUSAN, KOREA; EVACUATION, HUNGNAM AREA, KOREA, BOKU-DO\" from https://catalog.archives.gov/id/22399. It is in the public domain: National Archives identifier 22399 (111-ADC-8634): a record created by Department of Defense. Department of the Army. Office of the Chief Signal Officer., a US federal agency (17 U.S.C. 105); use restriction Restricted - Possibly (Copyright), NARA's series caution, passed on the federal maker the record names. The licence was read at https://catalog.archives.gov/id/22399 on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 6d073ffb0bb0c1332df736d763633588d116272ee303e3e415b81b273fa2ec87. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }
