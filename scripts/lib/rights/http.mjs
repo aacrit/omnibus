@@ -90,6 +90,8 @@ export const FEDERAL_HOSTS = [
   // The Pentagon's own host since the Department of War name (S4, DECISIONS 2026-11-13); State's own pages.
   "war.gov",
   "state.gov",
+  // NOAA's newsroom (C1 of the footage capture, DECISIONS 2026-11-13): its RSS and its own pages.
+  "noaa.gov",
   "archives.gov",
   "trumanlibrary.gov",
   "eisenhowerlibrary.gov",

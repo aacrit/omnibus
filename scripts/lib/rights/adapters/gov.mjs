@@ -22,6 +22,7 @@ export const AGENCIES = [
   { host: "defense.gov", agency: "the US Department of Defense", re: /\b(?:U\.S\. )?Department of (?:Defense|War)\b/ },
   { host: "war.gov", agency: "the US Department of War", re: /\b(?:U\.S\. )?(?:Department|Secretary) of (?:War|Defense)\b/ },
   { host: "state.gov", agency: "the US Department of State", re: /\b(?:U\.S\. )?Department of State\b/ },
+  { host: "noaa.gov", agency: "the National Oceanic and Atmospheric Administration", re: /\bNational Oceanic and Atmospheric Administration\b|\bNOAA\b/ },
   { host: "archives.gov", agency: "the National Archives", re: /\bNational Archives\b/ },
   { host: "trumanlibrary.gov", agency: "the Harry S. Truman Library (National Archives)", re: /\bTruman (?:Presidential )?Library\b/ },
   { host: "eisenhowerlibrary.gov", agency: "the Eisenhower Presidential Library (National Archives)", re: /\bEisenhower (?:Presidential )?Library\b/ },
