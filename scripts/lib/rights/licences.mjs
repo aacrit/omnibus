@@ -390,6 +390,37 @@ export function deniedBy({ urls = [], texts = [], tags = [], credits = [], allow
   return [...new Set(reasons)];
 }
 
+/**
+ * On-screen marks (S4 review, 2026-11-13). A picture's frames can carry another party's bug
+ * (a C-SPAN or network logo, an agency's lower third) that no metadata states. The record of
+ * a frame check is marks_checked: { marks: [the marks seen, [] for none], reviewed: { by, at,
+ * frames_checked } }. Until a frame reader exists, a VOA item and a YouTube copy on Commons
+ * ({{From YouTube}}, video2commons) need a reviewed record; any item whose marks name a denied
+ * party (C-SPAN included) is refused.
+ */
+export function needsMarksCheck(item) {
+  return item?.adapter === "voa" || (item?.kind === "footage" && Boolean(item?.youtube_source));
+}
+
+/** Why an item's marks_checked record is missing, malformed, or names a denied party. */
+export function marksProblems(item) {
+  const out = [];
+  const m = item?.marks_checked;
+  if (m === undefined || m === null) {
+    if (needsMarksCheck(item)) out.push(`${item.adapter === "voa" ? "a VOA item" : `a YouTube copy (${String(item.youtube_source).slice(0, 120)})`} needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists`);
+    return out;
+  }
+  const marks = Array.isArray(m.marks) ? m.marks : null;
+  if (!marks || marks.some((x) => typeof x !== "string" || !x.trim())) out.push("marks_checked.marks must list the marks seen (strings; [] for none)");
+  const r = m.reviewed ?? {};
+  if (!String(r.by ?? "").trim() || !Number.isFinite(Date.parse(String(r.at ?? ""))) || !(Number.isInteger(r.frames_checked) && r.frames_checked >= 1)) {
+    out.push("marks_checked.reviewed must name who checked (by), when (at) and how many frames (frames_checked, at least 1)");
+  }
+  // A mark is described in words ("White House logo, lower left"): only the parties it names count, not the word logo.
+  for (const reason of deniedBy({ credits: marks ?? [] }).filter((x) => x !== "a logo is never used")) out.push(`an on-screen mark names a denied party: ${reason}`);
+  return out;
+}
+
 /** Every AI signal found in the given text fields and tags (empty when none). */
 export function aiSignals(fields, { categories = [] } = {}) {
   const found = [];

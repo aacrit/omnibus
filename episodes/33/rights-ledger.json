@@ -2061,6 +2061,18 @@
         "in_s": 0,
         "out_s": 33,
         "horizon": "2026-11-07T17:30:11Z"
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [
+          "THE WHITE HOUSE end card (final seconds)",
+          "THE GOLDEN AGE podium banner (in the scene)"
+        ],
+        "reviewed": {
+          "by": "Forge builder (Claude Opus 5.5), S4 review fix round: 8 frames sampled evenly across the file at 640 px",
+          "at": "2026-11-13T18:30:00Z",
+          "frames_checked": 8
+        }
       }
     },
     {
@@ -2133,6 +2145,17 @@
       "dot_label": {
         "text": "FILMED 4 NOV 2026 · PUBLISHED 4 NOV 2026",
         "why": "picture_published_by_edition (founder ruling, 2026-11-13): published after the day's horizon 2026-11-04T19:39:06.061256+00:00, by the edition cutoff 2026-11-08T22:16:50.309638+00:00"
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [
+          "The White House lower third throughout: TEXT \"POTUS\" TO 45470 FOR WHITE HOUSE UPDATES, a QR code and APP.GOV"
+        ],
+        "reviewed": {
+          "by": "Forge builder (Claude Opus 5.5), S4 review fix round: 8 frames sampled evenly across the file at 640 px",
+          "at": "2026-11-13T18:30:00Z",
+          "frames_checked": 8
+        }
       }
     }
   ],

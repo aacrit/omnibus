@@ -10,7 +10,7 @@
 // alone, before any render exists, and to count a metadata flag as generated.
 
 import { isAllowedUrl, isOwnUrl } from "./http.mjs";
-import { EDITORIAL_USE, FAIR_USE, OWN_ADAPTER, OWN_PROPERTY, aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
+import { EDITORIAL_USE, FAIR_USE, OWN_ADAPTER, OWN_PROPERTY, aiSignals, deniedBy, licenceProblems, marksProblems } from "./licences.mjs";
 import { validateLedger } from "./ledger.mjs";
 import { captureProblems } from "./own-pages.mjs";
 import { buildDisputePacket, serialisePacket } from "./disputes.mjs";
@@ -114,6 +114,7 @@ export function lintLicenceAllowlist(ledger) {
     }
     // The capture record is re-checked, never trusted: deployed in the edition's own window, its headlines, no picture in the region.
     if (own) for (const p of it.own_property ? captureProblems(it.own_property) : ["no capture record"]) out.push(f("licence-allowlist", it.id, p));
+    for (const p of marksProblems(it)) out.push(f("licence-allowlist", it.id, p));
     if (it.licence === OWN_PROPERTY && !own) out.push(f("licence-allowlist", it.id, `own-property is claimed by adapter ${it.adapter}, not ${OWN_ADAPTER}`));
   }
   return out;

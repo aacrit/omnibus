@@ -304,6 +304,9 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     // An editorial-use item's captured terms; a fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13).
     ...(c.terms ? { terms: { url: c.terms.url, captured_text: clip(c.terms.captured_text, 4000), captured_at: c.terms.captured_at, credit_required: clip(c.terms.credit_required, 400), restrictions: (c.terms.restrictions ?? []).map((r) => clip(r, 400)) } } : {}),
     ...(c.fair_use ? { fair_use: { ...c.fair_use, rationale: clip(c.fair_use.rationale, 2000) } } : {}),
+    // A YouTube copy on Commons, and the record of the frame check its on-screen marks had (S4 review).
+    ...(c.youtube_source ? { youtube_source: clip(c.youtube_source, 200) } : {}),
+    ...(c.marks_checked ? { marks_checked: { marks: (c.marks_checked.marks ?? []).map((x) => clip(x, 200)), reviewed: { by: clip(c.marks_checked.reviewed?.by, 200), at: String(c.marks_checked.reviewed?.at ?? ""), frames_checked: c.marks_checked.reviewed?.frames_checked } } } : {}),
     // Ruling A: a Week picture published after its day's horizon, by the edition cutoff.
     ...(c.published_by_edition ? { published_by_edition: { ...c.published_by_edition } } : {}),
     // A dot label the shot must carry wherever the item airs (ruling A's, or a sourcing pass's: an Echo film of another place and day).
@@ -402,7 +405,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         continue;
       }
       // A pin's fit and fair-use record travel with the candidate; the source's own record never sets them.
-      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}) };
+      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}), ...(cand.marks_checked ? { marks_checked: cand.marks_checked } : {}) };
       const reasons = [];
       // A pin's date record states the item's day where the source gives only its year (a NARA record of a Commons file).
       if (cand.date_record) {

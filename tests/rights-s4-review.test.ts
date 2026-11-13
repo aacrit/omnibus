@@ -1,12 +1,13 @@
 // S4 review fixes (reviewer BLOCK, 2026-11-13): the reviewer's probe cases,
 // each a failing test before its fix. One describe block per finding.
 import { describe, expect, it } from "vitest";
-import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTermsProblems, licenceProblems } from "../scripts/lib/rights/licences.mjs";
+import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTermsProblems, licenceProblems, marksProblems } from "../scripts/lib/rights/licences.mjs";
+import { youtubeSource } from "../scripts/lib/rights/adapters/commons.mjs";
 import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
-import { namesDay, publishedByEdition, refineDate } from "../scripts/lib/rights/fetcher.mjs";
-import { lintPublishedByEdition } from "../scripts/lib/rights/lints.mjs";
+import { fetchRequests, namesDay, publishedByEdition, refineDate } from "../scripts/lib/rights/fetcher.mjs";
+import { lintLicenceAllowlist, lintPublishedByEdition } from "../scripts/lib/rights/lints.mjs";
 import { foreignCreditParts, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
 const AT = "2026-11-13T12:00:00Z";
@@ -160,5 +161,41 @@ describe("S4 review 5: ruling A needs the day's own event, evidenced apart from 
     expect(lintPublishedByEdition({ items: [item({}, { beat: "b", why: "w" })] } as any).map((x: any) => x.message).join()).toMatch(/shows_days_event/);
     expect(lintPublishedByEdition({ items: [item({ event_evidence: undefined })] } as any).map((x: any) => x.message).join()).toMatch(/independent/);
     expect(lintPublishedByEdition({ items: [item({ day_from: "2026-11-05" })] } as any).map((x: any) => x.message).join()).toMatch(/before the day's window/);
+  });
+});
+
+describe("S4 review 1: on-screen marks", () => {
+  const reviewed = { by: "t", at: AT, frames_checked: 10 };
+  it("a VOA item and a YouTube copy need a reviewed marks_checked record", () => {
+    expect(marksProblems({ adapter: "voa", kind: "footage" }).join()).toMatch(/VOA item needs a reviewed marks_checked/);
+    expect(marksProblems({ adapter: "commons", kind: "footage", youtube_source: 'category "Uploaded with video2commons"' }).join()).toMatch(/YouTube copy/);
+    expect(marksProblems({ adapter: "commons", kind: "footage" })).toEqual([]);
+    expect(marksProblems({ adapter: "voa", kind: "footage", marks_checked: { marks: [], reviewed } })).toEqual([]);
+    expect(marksProblems({ adapter: "voa", kind: "footage", marks_checked: { marks: [], reviewed: { by: "t", at: AT } } }).join()).toMatch(/frames_checked/);
+  });
+  it("refuses any item whose marks name a denied party or C-SPAN", () => {
+    for (const mk of ["C-SPAN bug, top right", "CNN lower third", "Reuters watermark", "APTN slate", "POOL"]) {
+      expect(marksProblems({ adapter: "commons", kind: "footage", marks_checked: { marks: [mk], reviewed } }).join(), mk).toMatch(/denied party/);
+    }
+    expect(marksProblems({ adapter: "commons", kind: "footage", marks_checked: { marks: ["The White House logo, lower left"], reviewed } })).toEqual([]);
+  });
+  it("the fetcher refuses a YouTube copy with no marks check, and takes it with one; the lint holds the ledger to it", async () => {
+    const cand = (marks?: any) => ({ status: "ok", candidate: { adapter: "commons", ref: "File:Y.webm", kind_hint: "footage", title: "Remarks", item_url: "https://commons.wikimedia.org/wiki/File:Y.webm", media_url: "https://upload.wikimedia.org/y.webm", licence: "pd-us-federal", basis: "PD-USGov", credit: "The White House", evidence: { url: "https://commons.wikimedia.org/wiki/File:Y.webm", captured_text: "Public domain", captured_at: AT }, date: "2026-11-04", published_at: "2026-11-04T10:00:00Z", categories: ["Uploaded with video2commons"], keywords: [], own_work: false, ai_fields_checked: ["title"], youtube_source: 'category "Uploaded with video2commons"' } });
+    const doc = (mc?: any) => ({ schema: "omnibus.asset-requests/1", issue: 33, requests: [{ id: "e33-x", kind: "footage", for: "echo", title: "t", fallback: { tier: 4, text: "map" }, candidates: [{ adapter: "commons", ref: "File:Y.webm", tier: 2, ...(mc ? { marks_checked: mc } : {}) }] }] });
+    const opts = { adapters: { commons: { lookup: async () => cand() } }, http: {}, mediaDir: null, checkedBy: "t", dryRun: true, now: () => new Date(AT) };
+    const no = await fetchRequests(doc(), null, opts);
+    expect(JSON.stringify(no.ledger.rejected)).toMatch(/marks_checked/);
+    const yes = await fetchRequests(doc({ marks: [], reviewed }), null, opts);
+    expect(yes.report[0].outcome).toBe("would take");
+    const bad = await fetchRequests(doc({ marks: ["C-SPAN"], reviewed }), null, opts);
+    expect(JSON.stringify(bad.ledger.rejected)).toMatch(/C-SPAN/);
+    const item = { id: "e33-x", adapter: "commons", kind: "footage", youtube_source: "x", licence: "pd-us-federal", basis: "b", credit: "c", item_url: "https://commons.wikimedia.org/wiki/File:Y.webm", media_url: "https://upload.wikimedia.org/y.webm", licence_evidence: { url: "https://commons.wikimedia.org/wiki/File:Y.webm" } };
+    expect(lintLicenceAllowlist({ items: [item] } as any).map((x: any) => x.message).join()).toMatch(/marks_checked/);
+    expect(lintLicenceAllowlist({ items: [{ ...item, marks_checked: { marks: [], reviewed } }] } as any)).toEqual([]);
+  });
+  it("Commons names a YouTube copy by its category or its wikitext", () => {
+    expect(youtubeSource(["Videos from YouTube"])).toMatch(/category/);
+    expect(youtubeSource([], "{{From YouTube|1=LHT-znOQXkA|2=Remarks}}")).toMatch(/From YouTube/);
+    expect(youtubeSource(["PD-USGov"], "")).toBeNull();
   });
 });

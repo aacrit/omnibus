@@ -98,7 +98,9 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
     expect(c.media_url).toBe("https://voa-video-ns.akamaized.net/pangeavideo/2026/11/a/a5/a593565c-d47e-4060-3e64-08df13be6539.mp4");
     expect(c.evidence.captured_text).toContain(voa.PD_STATEMENT);
     expect(c.credit).toMatch(/^Voice of America/);
-    expect(checkCandidate({ ...c, kind: "footage" }).ok).toBe(true);
+    // Until a frame reader exists a VOA item needs a reviewed marks check (S4 review).
+    expect(checkCandidate({ ...c, kind: "footage" }).reasons.join()).toMatch(/marks_checked/);
+    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "t", at: AT, frames_checked: 12 } } }).reasons).toEqual([]);
   });
 
   it("refuses an item crediting an agency, a page without the terms statement, and a page with no file of its own", () => {

@@ -232,7 +232,9 @@ def item(**kw):
 
 def man(**entry):
     return {"schema": NVM.SCHEMA, "issue": 33, "made_by": "E10 test",
-            "items": {"p": dict({"sha256": SHA, "shows_bodies": False, "people": []}, **entry)}}
+            "items": {"p": dict({"sha256": SHA, "shows_bodies": False, "people": [], "marks": [],
+                                 "reviewed": {"by": "E10 test", "at": "2026-11-13T12:00:00Z", "frames_checked": 8}},
+                                **entry)}}
 
 
 def on_disk(sha=SHA):
@@ -248,12 +250,12 @@ def test_vision_overlays_bodies_and_people():
 
 def test_no_manifest_leaves_pictures_pending():
     r = NVM.apply(None, {"p": item(), "c": item(id="c")}, {"p": ["archive_still"], "c": ["archive_video"]})
-    assert r["pending"] == {"p": ["shows_bodies", "people"], "c": ["shows_bodies"]} and r["problems"] == []
+    assert r["pending"] == {"p": ["shows_bodies", "people", "marks"], "c": ["shows_bodies", "marks"]} and r["problems"] == []
 
 
 def test_needs_come_from_every_kind_an_asset_is_cited_as():
     r = NVM.apply(None, {"p": item(shows_bodies=False)}, {"p": ["archive_video", "archive_still"]})
-    assert r["pending"] == {"p": ["people"]}            # the still's need, though the clip came first
+    assert r["pending"] == {"p": ["marks", "people"]}   # the still's need, though the clip came first
 
 
 def test_studio_made_and_drawn_need_no_vision():
@@ -480,3 +482,31 @@ def test_a_news_film_with_fit_voices_writes_it_and_places_words_after(tmp_path, 
     got = R.place_voices(tmp_path, play, J.Journal(film="fit"), tmp_path / "out", fit=True)
     assert (tmp_path / "out" / "screenplay.fitted.json").exists()
     assert got["parts"][0]["lines"][0]["words"][0] == {"w": "Tuesday,", "t": 20.1}
+
+
+# --------------------------------------------------------------------------- on-screen marks (S4 review, 2026-11-13)
+
+
+def test_marks_are_required_of_every_archive_picture_and_overlaid():
+    r = NVM.apply(None, {"c": item(id="c", shows_bodies=False)}, {"c": ["archive_video"]})
+    assert r["pending"] == {"c": ["marks"]}
+    led = NVM.apply(None, {"c": item(id="c", shows_bodies=False, marks_checked={"marks": []})}, {"c": ["archive_video"]})
+    assert led["pending"] == {}                          # the ledger's frame check counts as stated
+    ok = NVM.apply(man(marks=["The White House logo, lower left"]), {"p": item()}, {"p": ["archive_still"]},
+                   read_sha=on_disk())
+    assert ok["problems"] == [] and ok["assets"]["p"]["marks"] == ["The White House logo, lower left"]
+
+
+def test_a_mark_naming_a_denied_party_or_c_span_refuses_the_picture():
+    for mk in ("C-SPAN bug, top right", "CNN lower third", "Reuters watermark"):
+        r = NVM.apply(man(marks=[mk]), {"p": item()}, {"p": ["archive_still"]}, read_sha=on_disk())
+        assert any("denied party" in p for p in r["problems"]) and r["used"] == [], mk
+    r = NVM.apply(None, {"c": item(id="c", shows_bodies=False, marks_checked={"marks": ["C-SPAN"]})},
+                  {"c": ["archive_video"]})
+    assert any("denied party" in p for p in r["problems"])   # the ledger's own frame check, refused here too
+
+
+@pytest.mark.parametrize("entry", [{"marks": "none"}, {"marks": [""]}, {"reviewed": {"by": "x", "at": "t"}},
+                                   {"reviewed": {"by": "x", "at": "t", "frames_checked": 0}}, {"reviewed": None}])
+def test_marks_need_a_review_with_frames_checked(entry):
+    assert NVM.problems(man(**entry))

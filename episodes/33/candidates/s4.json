@@ -55,6 +55,16 @@
         "audio": {
           "mode": "muted",
           "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
+        },
+        "marks_checked": {
+          "marks": [
+            "The White House lower third throughout: TEXT \"POTUS\" TO 45470 FOR WHITE HOUSE UPDATES, a QR code and APP.GOV"
+          ],
+          "reviewed": {
+            "by": "Forge builder (Claude Opus 5.5), S4 review fix round: 8 frames sampled evenly across the file at 640 px",
+            "at": "2026-11-13T18:30:00Z",
+            "frames_checked": 8
+          }
         }
       }
     ],

@@ -308,6 +308,31 @@
         "own_property": {
           "$ref": "#/$defs/own_property"
         },
+        "youtube_source": {
+          "description": "Why the Commons file is a YouTube copy ({{From YouTube}}, video2commons): its date is its upload day, and its frames need a marks check (S4 review).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "marks_checked": {
+          "description": "The on-screen marks a reviewer saw in the item's frames ([] for none), who checked, when and how many frames (S4 review, 2026-11-13).",
+          "type": "object",
+          "required": ["marks", "reviewed"],
+          "additionalProperties": false,
+          "properties": {
+            "marks": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 200 } },
+            "reviewed": {
+              "type": "object",
+              "required": ["by", "at", "frames_checked"],
+              "additionalProperties": false,
+              "properties": {
+                "by": { "type": "string", "minLength": 1, "maxLength": 200 },
+                "at": { "type": "string", "minLength": 1, "maxLength": 64 },
+                "frames_checked": { "type": "integer", "minimum": 1 }
+              }
+            }
+          }
+        },
         "evidence_also": {
           "description": "Further sources read for the licence, beside licence_evidence (which names the source a claimant can read): for DVIDS, the API asset record, its address without the key.",
           "type": "array",

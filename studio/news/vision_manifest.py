@@ -13,7 +13,8 @@
           "sha256": "<the item's file sha256, exactly the ledger's>",
           "shows_bodies": false,
           "people": [{"x": 0.41, "y": 0.18, "w": 0.12, "h": 0.55, "name": null, "kind": "person"}],
-          "reviewed": {"by": "<who confirmed it>", "at": "<ISO date-time>"}
+          "marks": ["<an on-screen mark seen in the frames: a logo, a bug, a lower third, a watermark>"],
+          "reviewed": {"by": "<who confirmed it>", "at": "<ISO date-time>", "frames_checked": 12}
         }
       }
     }
@@ -25,7 +26,12 @@
   ``{x, y, w, h}`` (picture fractions, x and y the top-left corner), ``kind`` "person" or "face", ``name`` only where
   the item's own caption names that person. ``[]`` is nobody. A still needs it (the camera frames people, A7, A41, A51);
   a clip states ``shows_bodies`` and may omit ``people``.
-- ``reviewed`` is optional: who confirmed the machine's reading.
+- ``marks`` (S4 review, 2026-11-13) is every on-screen mark seen in the picture's frames (a broadcaster's bug, an
+  agency's lower third, a watermark), ``[]`` for none. Every archive still and clip needs it; a mark naming a denied
+  party (C-SPAN, an agency, a network: scripts/lib/rights/licences.mjs DENIED_NAMES) refuses the picture. A ledger
+  item's own ``marks_checked.marks`` (the rights lint's frame check) counts as stated.
+- ``reviewed``: who confirmed the machine's reading. With ``marks`` it is required and names ``frames_checked``
+  (how many frames were looked at, at least 1).
 
 The ledger wins: a field the rights ledger states is never replaced, and a manifest entry that contradicts it
 (``shows_bodies``) is refused, since one of them is wrong. A picture that needs vision data is a ledger item shown as
@@ -46,7 +52,14 @@ PATH = Path("vision.json")
 PICTURE_KINDS = ("archive_still", "archive_video")
 PEOPLE_KINDS = ("person", "face")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
-ENTRY_KEYS = {"sha256", "shows_bodies", "people", "reviewed"}
+ENTRY_KEYS = {"sha256", "shows_bodies", "people", "marks", "reviewed"}
+# A mark naming a denied party (mirrors scripts/lib/rights/licences.mjs DENIED_NAMES; C-SPAN by the S4 review).
+DENIED_MARK = re.compile(
+    r"\bC-?SPAN\b|\bAssociated Press\b|\bAP(?: Photo| Images| Video| Archive| Newsroom)?\b|\bAPTN\b|\bReuters\b|\bAFP\b"
+    r"|\bGetty\b|\biStock|\bShutterstock\b|\bAlamy\b|\bEPA\b|\bBloomberg\b|\bRuptly\b|\bStoryful\b|\bXinhua\b|\bCCTV\b"
+    r"|\bpool\b|\bUN Web TV\b|\bAl Jazeera\b|\bBBC\b|\bCNN\b|\bNBC\b|\bCBS\b|\bABC News\b|\bFox News\b|\bFOX\b"
+    r"|\bSky News\b|\bDW\b|\bDeutsche Welle\b|\bFrance ?24\b|\bEuronews\b|\bRT\b|\bCGTN\b|\bMSNBC\b|\bNPR\b|\bPBS\b",
+    re.I)
 
 
 def studio_made(item: dict) -> bool:
@@ -58,13 +71,29 @@ def needs(item: dict | None, shot_kind: str) -> bool:
     return bool(item) and shot_kind in PICTURE_KINDS and not studio_made(item)
 
 
+def marks_stated(item: dict):
+    """The item's on-screen marks: the manifest's ``marks`` overlaid, else the ledger's ``marks_checked.marks``."""
+    if isinstance(item.get("marks"), list):
+        return item["marks"]
+    mc = item.get("marks_checked")
+    return mc.get("marks") if isinstance(mc, dict) and isinstance(mc.get("marks"), list) else None
+
+
+def denied_marks(marks) -> list[str]:
+    """The marks that name a denied party."""
+    return [m for m in marks or [] if isinstance(m, str) and DENIED_MARK.search(m)]
+
+
 def missing_fields(item: dict, shot_kind: str) -> list[str]:
-    """The fields the item still lacks after the manifest: ``shows_bodies`` for any picture, ``people`` for a still."""
+    """The fields the item still lacks after the manifest: ``shows_bodies`` and ``marks`` for any picture, ``people``
+    for a still."""
     out = []
     if bodies_stated(item) is None:
         out.append("shows_bodies")
     if shot_kind == "archive_still" and "people" not in item:
         out.append("people")
+    if marks_stated(item) is None:
+        out.append("marks")
     return out
 
 
@@ -101,6 +130,15 @@ def entry_problems(aid: str, e) -> list[str]:
         out.append(f"items.{aid}.sha256 is the file's sha256 (64 hex)")
     if "shows_bodies" in e and not isinstance(e["shows_bodies"], bool):
         out.append(f"items.{aid}.shows_bodies is true or false (never unknown)")
+    if "marks" in e:
+        if not (isinstance(e["marks"], list) and all(isinstance(m, str) and m.strip() for m in e["marks"])):
+            out.append(f"items.{aid}.marks lists the on-screen marks seen ([] is none)")
+        r = e.get("reviewed")
+        fc = r.get("frames_checked") if isinstance(r, dict) else None
+        if not (isinstance(r, dict) and isinstance(r.get("by"), str) and r["by"].strip() and isinstance(r.get("at"), str)
+                and r["at"].strip() and isinstance(fc, int) and not isinstance(fc, bool) and fc >= 1):
+            out.append(f"items.{aid}.reviewed names who checked the marks (by), when (at) and how many frames "
+                       "(frames_checked, at least 1)")
     if "people" in e:
         if not isinstance(e["people"], list):
             out.append(f"items.{aid}.people is a list ([] is nobody)")
@@ -148,6 +186,11 @@ def overlay(item: dict, entry: dict, file_sha: str | None = None) -> tuple[dict,
     if led is not None and "shows_bodies" in entry and entry["shows_bodies"] != led:
         why.append(f"{item.get('id')}: vision.json says shows_bodies {entry['shows_bodies']}, the ledger "
                    f"{led}: one of them is wrong")
+    bad = denied_marks(entry.get("marks")) + denied_marks((item.get("marks_checked") or {}).get("marks")
+                                                          if isinstance(item.get("marks_checked"), dict) else None)
+    if bad:
+        why.append(f"{item.get('id')}: its on-screen marks name a denied party ({'; '.join(bad)}): the picture is "
+                   "never used")
     if why:
         return item, why
     out = dict(item)
@@ -155,6 +198,8 @@ def overlay(item: dict, entry: dict, file_sha: str | None = None) -> tuple[dict,
         out["shows_bodies"] = entry["shows_bodies"]
     if "people" in entry and "people" not in item:
         out["people"] = [dict(p) for p in entry["people"]]
+    if "marks" in entry and "marks" not in item:
+        out["marks"] = list(entry["marks"])
     return out, []
 
 
@@ -175,6 +220,9 @@ def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None) -
         if not kinds:
             continue
         e = (entries or {}).get(aid)
+        if e is None and denied_marks(marks_stated(item)):
+            probs.append(f"{aid}: its on-screen marks name a denied party ({'; '.join(denied_marks(marks_stated(item)))}):"
+                         " the picture is never used")
         if e is not None:
             new, why = overlay(item, e, read_sha(item) if read_sha is not None else None)
             if why:

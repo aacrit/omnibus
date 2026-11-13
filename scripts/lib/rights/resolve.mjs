@@ -149,6 +149,8 @@ async function resolvePin(pin, step, { http, echoPick }) {
     if (!String(pin.dot_label?.text ?? "").trim() || !String(pin.dot_label?.why ?? "").trim()) throw new Error(`pin ${pin.ref}: dot_label must be { text, why }`);
     c.dot_label = { text: clip(String(pin.dot_label.text), 120), why: clip(String(pin.dot_label.why), 600) };
   }
+  // The record of a frame check of the item's on-screen marks (S4 review): the fetcher and the lint hold it to marksProblems.
+  if (pin.marks_checked !== undefined) c.marks_checked = pin.marks_checked;
   // A second catalogue record that states the item's day (the fetcher reads it and refines the date).
   if (pin.date_record !== undefined) {
     if (!String(pin.date_record?.adapter ?? "").trim() || !String(pin.date_record?.ref ?? "").trim()) throw new Error(`pin ${pin.ref}: date_record must be { adapter, ref }`);
