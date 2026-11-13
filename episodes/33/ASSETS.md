@@ -82,6 +82,12 @@ Thin pictures (no footage, and under half the picture requests fetched): Cold op
 | e33-echo-req-13 | The Echo | document | Federal Register (gov) | 5 | Public domain (US federal government work) | - | D:/omnibus-media/33/media/33/e33-echo-req-13.pdf |
 | e33-echo-req-14 | The Echo | document | Address at the Jefferson-Jackson Day Dinner \| Harry S. Truman (gov) | 5 | Public domain (US federal government work) | - | D:/omnibus-media/33/media/33/e33-echo-req-14.html |
 
+## Footage fit
+
+Why each footage item shows its beat, the seconds that show it, and its publication time against the beat's horizon (from the sourcing pass's pin).
+
+No item records a fit yet.
+
 ## Why each drop
 
 - **e33-cold-01** (to tier 4):
