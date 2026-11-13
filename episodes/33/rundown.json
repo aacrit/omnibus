@@ -2216,6 +2216,26 @@
       "fallback": "tier 4: the printed page alone carries the beat; count card of the day's sources"
     },
     {
+      "id": "e33-day3-pic2",
+      "for": "week-day-3",
+      "kind": "footage",
+      "purpose": "S4 (2026-11-13): the White House's video of the President's remarks on 4 Nov, the day after the vote, published after the 4 Nov print and by the edition cutoff (ruling A); muted under the narration, never as the Vice President's post or as the President's reply",
+      "must_show": "the President speaking on 4 Nov 2026, in the White House's own video",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          }
+        }
+      ],
+      "fallback": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)"
+    },
+    {
       "id": "e33-day3-doc",
       "for": "week-day-3",
       "kind": "document",
@@ -3399,17 +3419,17 @@
     }
   ],
   "asset_request_tally": {
-    "requests": 60,
+    "requests": 61,
     "by_first_tier": {
       "1": 11,
-      "2": 12,
+      "2": 13,
       "3": 10,
       "4": 8,
       "5": 13
     },
     "searches_by_tier": {
       "1": 11,
-      "2": 21,
+      "2": 22,
       "3": 24,
       "4": 16,
       "5": 15

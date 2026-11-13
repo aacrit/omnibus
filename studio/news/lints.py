@@ -603,6 +603,8 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
                 continue
             if item.get("published_at") is None:
                 continue                      # the fetcher refuses a news picture with no publication time
+            if item.get("own_property") or item.get("adapter") == "voidnews":
+                continue                      # void news's own printed page: held to the capture rules, not publication
             checked += 1
             base = {"part": p.get("id"), "asset": x.get("asset"), "published_at": item.get("published_at"),
                     "as_of": _fmt(hz)}

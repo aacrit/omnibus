@@ -293,3 +293,10 @@ def test_a_week_picture_without_its_dot_label_fails_on_the_item_and_the_shot():
     assert any("ledger item" in pr for pr in probs) and any("the shot" in pr for pr in probs)
     probs = _bad(_week_pic("2026-03-05T09:00:00+00:00", shot_label="FILMED 2 MAR 2026"))[0]["evidence"]["problems"]
     assert probs == [next(pr for pr in probs if "the shot" in pr)]
+
+
+def test_an_own_printed_page_is_held_to_its_capture_not_its_publication():
+    play, assets, inputs = EP.episode()
+    assets["st-margin"]["published_at"] = "2026-03-09T08:00:00+00:00"
+    assets["st-margin"]["own_property"] = {"publication": "fixture"}
+    assert not _bad(NL.published_by_edition_checks(play, assets))
