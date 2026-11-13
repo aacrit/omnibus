@@ -289,7 +289,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://25edd2e7.void-news.pages.dev/paper/#c9247d2e-fb45-4f94-8649-875e5323e71b",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-02T00:59:28.821707+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -353,7 +364,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://c454bc83.void-news.pages.dev/paper/#56c546bd-c26e-4d7d-8189-31f58b90f2cd",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -428,15 +450,6 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
@@ -446,7 +459,16 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (24).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -494,7 +516,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-04T19:39:06.061256+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -655,7 +688,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://b2256762.void-news.pages.dev/paper/#001e9b8d-cc1b-4e21-aa5d-4feae8f08e8a",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-05T20:55:22.285232+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -787,7 +831,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://f2de6e0a.void-news.pages.dev/paper/#7299b61b-515c-4607-924e-b2cd0b60479d",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-06",
+            "to": "2026-11-06T19:18:18.407444+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -910,7 +965,7 @@
         {
           "tier": 5,
           "host": "www.congress.gov",
-          "reason": "https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D: https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D answered 403; congress.gov's search answered, but no parser reads it; not resolved"
+          "reason": "https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D: https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D answered 403 (a Cloudflare bot challenge, which is not answered): the host refused...; congress.gov puts its search behind a bot challenge, which is not answered. The official Congress.gov API (api.congress.gov, read 2026-11-12 with the public DEMO_KEY) lists two House resolutions impeaching Peter B. Hegseth: H.Res. 1177, introduced 2026-04-15, before the step window, and H.Res. 1655, introduced 2026-11-10, after the horizon; none was introduced inside the window, so there is no desk item"
         }
       ]
     },
@@ -923,7 +978,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://20a471a2.void-news.pages.dev/paper/#1f4fc267-47da-4a67-93b1-3c7820e10539",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-07",
+            "to": "2026-11-07T17:30:11.094818+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -1102,7 +1168,18 @@
         "tier": 4,
         "text": "none needed (tier 4 is always satisfiable)"
       },
-      "candidates": [],
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://6b2ebff5.void-news.pages.dev/paper/#bcdf31dd-db59-4b6c-94b5-cd6883d042f0",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-08",
+            "to": "2026-11-08T11:51:04.026416+00:00"
+          }
+        }
+      ],
       "not_fetched": [
         {
           "tier": 4,
@@ -1230,7 +1307,7 @@
         {
           "tier": 5,
           "host": "www.centcom.mil",
-          "reason": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/: https://www.centcom.mil/MEDIA/PRESS-RELEASES/ answered 403; centcom.mil's press-release list answered, but no parser reads it; not resolved"
+          "reason": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/: https://www.centcom.mil/MEDIA/PRESS-RELEASES/ answered 403 (Akamai \"Access Denied\"): the host refused the fetcher's honest request (void omnibus, with its contact URL); not retried, and no bot prot...; centcom.mil refuses the fetcher; its press releases were not read, and the step is not resolved"
         }
       ]
     },
@@ -1395,6 +1472,75 @@
       ]
     },
     {
+      "id": "e33-weight-page-01",
+      "kind": "still",
+      "for": "weight-known",
+      "title": "void news's printed edition of 2026-11-03, toured to the context record 'JD Vance Rallies Conservative Voters in Rome Ahead of Midterms' (position 20)",
+      "fallback": {
+        "tier": null,
+        "text": "none: the beat runs on its other pictures and graphics"
+      },
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://c454bc83.void-news.pages.dev/paper/#61390359-0c41-4778-8b62-2c6a9c742157",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-03",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e33-weight-page-02",
+      "kind": "still",
+      "for": "weight-known",
+      "title": "void news's story page of the claim's first record, the 2026-11-04 lead 'JD Vance Blames Iran War for Republican Midterm Defeat', as first served (no Paper page of the 4 Nov edition was served)",
+      "fallback": {
+        "tier": null,
+        "text": "none: the beat runs on its other pictures and graphics"
+      },
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://b792c962.void-news.pages.dev/story/bbd33fd3-9ddb-49f1-a54a-abae5d35432d/#bbd33fd3-9ddb-49f1-a54a-abae5d35432d",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-04",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e33-weight-page-03",
+      "kind": "still",
+      "for": "weight-known",
+      "title": "void news's printed edition of 2026-11-05, toured to the claim's second record 'JD Vance Blames Midterm Losses on Iran War in Social Media Post' (position 3)",
+      "fallback": {
+        "tier": null,
+        "text": "none: the beat runs on its other pictures and graphics"
+      },
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://b2256762.void-news.pages.dev/paper/#8bb14953-67a9-43fa-bd39-fad4b0e43122",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
       "id": "e33-margin1-pic",
       "kind": "still",
       "for": "margins-1",
@@ -1546,6 +1692,75 @@
           "reason": "the is outside the fetcher's allowlist and its federal extension"
         }
       ]
+    },
+    {
+      "id": "e33-margin1-page",
+      "kind": "still",
+      "for": "margins-1",
+      "title": "void news's printed edition of 2026-11-05, toured to 'Troy Jackson Defeats Susan Collins in Maine Senate Race' (position 12)",
+      "fallback": {
+        "tier": null,
+        "text": "none: the beat runs on its other pictures and graphics"
+      },
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://b2256762.void-news.pages.dev/paper/#2fff3422-5df6-4ed7-954d-9397070b93b3",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-05",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e33-margin2-page",
+      "kind": "still",
+      "for": "margins-2",
+      "title": "void news's printed edition of 2026-11-02, toured to 'Federal Judge Orders Trump Administration to Stop Threatening State Officials' (position 6)",
+      "fallback": {
+        "tier": null,
+        "text": "none: the beat runs on its other pictures and graphics"
+      },
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://25edd2e7.void-news.pages.dev/paper/#2bd27665-18ec-4ba3-8402-99e78a967ec6",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e33-margin3-page",
+      "kind": "still",
+      "for": "margins-3",
+      "title": "void news's printed edition of 2026-11-02, toured to 'Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded' (position 15)",
+      "fallback": {
+        "tier": null,
+        "text": "none: the beat runs on its other pictures and graphics"
+      },
+      "candidates": [
+        {
+          "adapter": "voidnews",
+          "ref": "https://25edd2e7.void-news.pages.dev/paper/#9a44cc02-db57-47bc-9750-da7db4665024",
+          "tier": 3,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-08T22:16:50.309638+00:00"
+          }
+        }
+      ],
+      "not_fetched": []
     },
     {
       "id": "e33-echo-01",

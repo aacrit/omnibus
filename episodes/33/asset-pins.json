@@ -91,7 +91,7 @@
         "tier": 5,
         "finder": "probe",
         "url": "https://www.congress.gov/search?q=%7B%22congress%22%3A%5B%22119%22%5D%2C%22search%22%3A%22impeaching+Hegseth%22%7D",
-        "why": "congress.gov's search answered, but no parser reads it; not resolved"
+        "why": "congress.gov puts its search behind a bot challenge, which is not answered. The official Congress.gov API (api.congress.gov, read 2026-11-12 with the public DEMO_KEY) lists two House resolutions impeaching Peter B. Hegseth: H.Res. 1177, introduced 2026-04-15, before the step window, and H.Res. 1655, introduced 2026-11-10, after the horizon; none was introduced inside the window, so there is no desk item"
       }
     ],
     "e33-day6-pic": [
@@ -117,7 +117,7 @@
         "tier": 5,
         "finder": "probe",
         "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/",
-        "why": "centcom.mil's press-release list answered, but no parser reads it; not resolved"
+        "why": "centcom.mil refuses the fetcher; its press releases were not read, and the step is not resolved"
       }
     ],
     "e33-weight-03": [

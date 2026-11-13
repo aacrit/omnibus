@@ -3,7 +3,7 @@
   "issue": 33,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "33da1d49b76ae5238ace131e8dec908b74198f051edd27b3773931bc4f9b17b3",
+  "ledger_sha256": "51a74577bb541a244421ac33b00034143d610ce108159290f567fef26dab8d58",
   "assets": [
     {
       "id": "e33-title-01",
@@ -329,6 +329,281 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"Address at the Jefferson-Jackson Day Dinner | Harry S. Truman\" from https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner. It is in the public domain: Published on www.trumanlibrary.gov by the Harry S. Truman Library (National Archives), a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it. The licence was read at https://www.trumanlibrary.gov/library/public-papers/69/address-jefferson-jackson-day-dinner on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 0ab64abac915d13cae4a5470df67b393c2b33f47622c0d1f154601202290a5f4. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day1-page",
+      "title": "void news, printed edition of 2 Nov 2026 (Paper), toured to \"Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit\"",
+      "source_url": "https://25edd2e7.void-news.pages.dev/paper/",
+      "media_url": "https://25edd2e7.void-news.pages.dev/paper/",
+      "sha256": "597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202",
+      "credit": "void news, printed edition of 2 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://25edd2e7.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://25edd2e7.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 2 Nov 2026 (Paper), toured to \"Antigua Prime Minister Demands Slavery Reparations During King Charles Royal Visit\"\" from https://25edd2e7.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served. The licence was read at https://25edd2e7.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day2-page",
+      "title": "void news, printed edition of 3 Nov 2026 (Paper), toured to \"Russian Missile and Bomb Strikes Kill Dozens at Ukrainian Aid Facility\"",
+      "source_url": "https://c454bc83.void-news.pages.dev/paper/",
+      "media_url": "https://c454bc83.void-news.pages.dev/paper/",
+      "sha256": "7eaa3e82b3625cf5b10d331ec43ae521ffca028c6fd890861409cbd0a2e762a2",
+      "credit": "void news, printed edition of 3 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://c454bc83.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://c454bc83.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://c454bc83.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc at https://c454bc83.void-news.pages.dev, deployed 2026-11-03T19:49:40Z.\nBuilt from void news commit b78793a9227a53d39b985d42712bcb2c230dae64, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-03, printed 2026-11-03T19:39:27Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5762 of a 5762-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc, built from commit b78793a9227a, as the edition of 2026-11-03 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 3 Nov 2026 (Paper), toured to \"Russian Missile and Bomb Strikes Kill Dozens at Ukrainian Aid Facility\"\" from https://c454bc83.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc, built from commit b78793a9227a, as the edition of 2026-11-03 was served. The licence was read at https://c454bc83.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 7eaa3e82b3625cf5b10d331ec43ae521ffca028c6fd890861409cbd0a2e762a2. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day4-page",
+      "title": "void news, printed edition of 5 Nov 2026 (Paper), toured to \"British Healthcare Worker Infected With Ebola Is Evacuated From Congo\"",
+      "source_url": "https://b2256762.void-news.pages.dev/paper/",
+      "media_url": "https://b2256762.void-news.pages.dev/paper/",
+      "sha256": "e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0",
+      "credit": "void news, printed edition of 5 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://b2256762.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://b2256762.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 5 Nov 2026 (Paper), toured to \"British Healthcare Worker Infected With Ebola Is Evacuated From Congo\"\" from https://b2256762.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served. The licence was read at https://b2256762.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day5-page",
+      "title": "void news, printed edition of 6 Nov 2026 (Paper), toured to \"Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout\"",
+      "source_url": "https://f2de6e0a.void-news.pages.dev/paper/",
+      "media_url": "https://f2de6e0a.void-news.pages.dev/paper/",
+      "sha256": "344aa72fbc2e758e6b49d9fdf9102f1cb2dfeafa5a8cbce035e034c54a1739b4",
+      "credit": "void news, printed edition of 6 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://f2de6e0a.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://f2de6e0a.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://f2de6e0a.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment f2de6e0a-bd82-4027-97ca-04a88e4fd379 at https://f2de6e0a.void-news.pages.dev, deployed 2026-11-06T19:37:27Z.\nBuilt from void news commit 0589ebad00665664f1cac41f89ef7894172678b1, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-06, printed 2026-11-06T19:18:18Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5312 of a 5312-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment f2de6e0a-bd82-4027-97ca-04a88e4fd379, built from commit 0589ebad0066, as the edition of 2026-11-06 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 6 Nov 2026 (Paper), toured to \"Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout\"\" from https://f2de6e0a.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment f2de6e0a-bd82-4027-97ca-04a88e4fd379, built from commit 0589ebad0066, as the edition of 2026-11-06 was served. The licence was read at https://f2de6e0a.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 344aa72fbc2e758e6b49d9fdf9102f1cb2dfeafa5a8cbce035e034c54a1739b4. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day6-page",
+      "title": "void news, printed edition of 7 Nov 2026 (Paper), toured to \"Trump Names Stephen Miller White House Chief of Staff Replacing Susie Wiles\"",
+      "source_url": "https://20a471a2.void-news.pages.dev/paper/",
+      "media_url": "https://20a471a2.void-news.pages.dev/paper/",
+      "sha256": "979325fe1f22ad6b66d671d568fe9c3284a5b0cc14d8dd317932c5cf0237287c",
+      "credit": "void news, printed edition of 7 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://20a471a2.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://20a471a2.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://20a471a2.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 20a471a2-8e16-46ab-b838-d30459f7ba05 at https://20a471a2.void-news.pages.dev, deployed 2026-11-07T17:49:46Z.\nBuilt from void news commit 1db8348f2603dbb576e298966806af62c05dffc4, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-07, printed 2026-11-07T17:30:11Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 6002 of a 6002-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 20a471a2-8e16-46ab-b838-d30459f7ba05, built from commit 1db8348f2603, as the edition of 2026-11-07 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 7 Nov 2026 (Paper), toured to \"Trump Names Stephen Miller White House Chief of Staff Replacing Susie Wiles\"\" from https://20a471a2.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 20a471a2-8e16-46ab-b838-d30459f7ba05, built from commit 1db8348f2603, as the edition of 2026-11-07 was served. The licence was read at https://20a471a2.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 979325fe1f22ad6b66d671d568fe9c3284a5b0cc14d8dd317932c5cf0237287c. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-day7-page",
+      "title": "void news, printed edition of 8 Nov 2026 (Paper), toured to \"US Military Forms New Task Force to Target Iranian Land Routes\"",
+      "source_url": "https://6b2ebff5.void-news.pages.dev/paper/",
+      "media_url": "https://6b2ebff5.void-news.pages.dev/paper/",
+      "sha256": "1690dff19a6523fa2de4f4812fb6de3172a2c3e688c7ff841edeacfa67af4f9f",
+      "credit": "void news, printed edition of 8 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://6b2ebff5.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://6b2ebff5.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://6b2ebff5.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 6b2ebff5-b688-4cf1-895f-dbe35ac4fc91 at https://6b2ebff5.void-news.pages.dev, deployed 2026-11-08T12:02:59Z.\nBuilt from void news commit bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-08, printed 2026-11-08T11:51:04Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5656 of a 5656-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 6b2ebff5-b688-4cf1-895f-dbe35ac4fc91, built from commit bdb6e7d4d6cf, as the edition of 2026-11-08 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 8 Nov 2026 (Paper), toured to \"US Military Forms New Task Force to Target Iranian Land Routes\"\" from https://6b2ebff5.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 6b2ebff5-b688-4cf1-895f-dbe35ac4fc91, built from commit bdb6e7d4d6cf, as the edition of 2026-11-08 was served. The licence was read at https://6b2ebff5.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 1690dff19a6523fa2de4f4812fb6de3172a2c3e688c7ff841edeacfa67af4f9f. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-weight-page-01",
+      "title": "void news, printed edition of 3 Nov 2026 (Paper), toured to \"JD Vance Rallies Conservative Voters in Rome Ahead of Midterms\"",
+      "source_url": "https://c454bc83.void-news.pages.dev/paper/",
+      "media_url": "https://c454bc83.void-news.pages.dev/paper/",
+      "sha256": "7eaa3e82b3625cf5b10d331ec43ae521ffca028c6fd890861409cbd0a2e762a2",
+      "credit": "void news, printed edition of 3 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://c454bc83.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://c454bc83.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://c454bc83.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc at https://c454bc83.void-news.pages.dev, deployed 2026-11-03T19:49:40Z.\nBuilt from void news commit b78793a9227a53d39b985d42712bcb2c230dae64, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-03, printed 2026-11-03T19:39:27Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5762 of a 5762-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc, built from commit b78793a9227a, as the edition of 2026-11-03 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 3 Nov 2026 (Paper), toured to \"JD Vance Rallies Conservative Voters in Rome Ahead of Midterms\"\" from https://c454bc83.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment c454bc83-9423-4632-9f19-fddc114476dc, built from commit b78793a9227a, as the edition of 2026-11-03 was served. The licence was read at https://c454bc83.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 7eaa3e82b3625cf5b10d331ec43ae521ffca028c6fd890861409cbd0a2e762a2. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-weight-page-03",
+      "title": "void news, printed edition of 5 Nov 2026 (Paper), toured to \"JD Vance Blames Midterm Losses on Iran War in Social Media Post\"",
+      "source_url": "https://b2256762.void-news.pages.dev/paper/",
+      "media_url": "https://b2256762.void-news.pages.dev/paper/",
+      "sha256": "e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0",
+      "credit": "void news, printed edition of 5 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://b2256762.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://b2256762.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 5 Nov 2026 (Paper), toured to \"JD Vance Blames Midterm Losses on Iran War in Social Media Post\"\" from https://b2256762.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served. The licence was read at https://b2256762.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-margin1-page",
+      "title": "void news, printed edition of 5 Nov 2026 (Paper), toured to \"Troy Jackson Defeats Susan Collins in Maine Senate Race\"",
+      "source_url": "https://b2256762.void-news.pages.dev/paper/",
+      "media_url": "https://b2256762.void-news.pages.dev/paper/",
+      "sha256": "e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0",
+      "credit": "void news, printed edition of 5 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://b2256762.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://b2256762.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://b2256762.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9 at https://b2256762.void-news.pages.dev, deployed 2026-11-05T21:18:11Z.\nBuilt from void news commit 93e0e539213b52342f7df56b0bbbfad0d0acf0d6, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-05, printed 2026-11-05T20:55:22Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5401 of a 5401-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 5 Nov 2026 (Paper), toured to \"Troy Jackson Defeats Susan Collins in Maine Senate Race\"\" from https://b2256762.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment b2256762-d149-4b20-ac1a-2f644fadf4a9, built from commit 93e0e539213b, as the edition of 2026-11-05 was served. The licence was read at https://b2256762.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint e645f81fd2fb41743ce70aec388ca2b8a8173a95f2dc5d6bf2a66074eeeff0f0. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-margin2-page",
+      "title": "void news, printed edition of 2 Nov 2026 (Paper), toured to \"Federal Judge Orders Trump Administration to Stop Threatening State Officials\"",
+      "source_url": "https://25edd2e7.void-news.pages.dev/paper/",
+      "media_url": "https://25edd2e7.void-news.pages.dev/paper/",
+      "sha256": "597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202",
+      "credit": "void news, printed edition of 2 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://25edd2e7.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://25edd2e7.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 2 Nov 2026 (Paper), toured to \"Federal Judge Orders Trump Administration to Stop Threatening State Officials\"\" from https://25edd2e7.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served. The licence was read at https://25edd2e7.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e33-margin3-page",
+      "title": "void news, printed edition of 2 Nov 2026 (Paper), toured to \"Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded\"",
+      "source_url": "https://25edd2e7.void-news.pages.dev/paper/",
+      "media_url": "https://25edd2e7.void-news.pages.dev/paper/",
+      "sha256": "597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202",
+      "credit": "void news, printed edition of 2 Nov 2026",
+      "licence": {
+        "id": "own-property",
+        "name": "Own property (void news, the same owner's publication)",
+        "deed_url": "https://25edd2e7.void-news.pages.dev/paper/",
+        "legalcode_url": null,
+        "terms": "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture."
+      },
+      "licence_evidence": {
+        "url": "https://25edd2e7.void-news.pages.dev/paper/",
+        "captured_text": "void news (news.voidvision.org; https://github.com/aacrit/void--news) is published by the same owner as void omnibus: its pages are our own property, and no licence is needed or claimed.\nPage: https://25edd2e7.void-news.pages.dev/paper/ (Paper), from Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711 at https://25edd2e7.void-news.pages.dev, deployed 2026-11-02T01:21:29Z.\nBuilt from void news commit fd44da84eca56d90f6d9661f9bc8f818b2773db9, whose printed-edition record (frontend/build-data/archive.json) holds the edition of 2026-11-02, printed 2026-11-02T00:59:28Z; the next edition was printed (none in the record).\nEdition check: 20 of 20 headline(s) on the page are the edition's rows, in its order (first at position 1).\nCaptured 1920 pixels wide in headless Chromium, colour scheme light; the still is the band y 0 to 5699 of a 5699-pixel page.\n0 picture element(s) on the page are left out of the still (none is ours to show); nothing is blurred.",
+        "captured_at": "2026-11-13T00:51:25Z"
+      },
+      "basis": "void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served.",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"void news, printed edition of 2 Nov 2026 (Paper), toured to \"Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded\"\" from https://25edd2e7.void-news.pages.dev/paper/. It is in the public domain: void news is published by the same owner as void omnibus, so the page is our own property (ledger class own_property). Captured from its Cloudflare Pages deployment 25edd2e7-2556-4559-a789-83a947f1b711, built from commit fd44da84eca5, as the edition of 2026-11-02 was served. The licence was read at https://25edd2e7.void-news.pages.dev/paper/ on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 597e2fdaf729b8e4382be7fb875611c733f8c146bdb54f7cc1666cc950679202. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }
