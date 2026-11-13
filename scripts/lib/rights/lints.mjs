@@ -10,13 +10,71 @@
 // alone, before any render exists, and to count a metadata flag as generated.
 
 import { isAllowedUrl, isOwnUrl } from "./http.mjs";
-import { OWN_ADAPTER, OWN_PROPERTY, aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
+import { EDITORIAL_USE, FAIR_USE, OWN_ADAPTER, OWN_PROPERTY, aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
 import { validateLedger } from "./ledger.mjs";
 import { captureProblems } from "./own-pages.mjs";
 import { buildDisputePacket, serialisePacket } from "./disputes.mjs";
 import { DOW_DISCLOSURE, RESTRICTIONS_PAGE } from "./adapters/dvids.mjs";
 
-export const RULES = ["rights-ledger-schema", "licence-allowlist", "licence-evidence", "ai-generated-share-zero", "disputes-generated"];
+export const RULES = ["rights-ledger-schema", "licence-allowlist", "licence-evidence", "ai-generated-share-zero", "fair-use-excerpt", "disputes-generated"];
+
+/** The fair-use bounds (founder ruling, 2026-11-13). */
+export const FAIR_USE_LIMITS = { clipMaxS: 10, sourceShareMax: 0.02, perEpisodeMax: 4, totalMaxS: 45, rationaleMinChars: 120 };
+
+/** The side of void news's seven-rung ladder (0 to 6) a rung sits on: left, centre (3) or right. */
+export function rungSide(rung) {
+  return rung < 3 ? "left" : rung > 3 ? "right" : "centre";
+}
+
+/**
+ * The blocking fair-use lints: a fair-use excerpt is evidence of coverage in
+ * The Weight only, beside the board; each at most 10 s and 2% of its source;
+ * at most 4 and 45 s per episode; its outlet named on screen; its own sound;
+ * never recut to change its meaning; a written rationale; flagged no_youtube;
+ * and balanced across the ladder (as many clips left of centre as right, each
+ * naming its counterpart on the other side). Agencies are refused by the
+ * allowlist lint whatever the class.
+ */
+export function lintFairUse(ledger) {
+  const out = [];
+  const L = FAIR_USE_LIMITS;
+  const clips = ledger.items.filter((it) => it.licence === FAIR_USE);
+  const byId = new Map(clips.map((c) => [c.id, c]));
+  let total = 0;
+  for (const it of clips) {
+    const u = it.fair_use;
+    const bad = (m) => out.push(f("fair-use-excerpt", it.id, m));
+    if (!u) {
+      bad("no fair_use record");
+      continue;
+    }
+    if (it.kind !== "footage" && it.kind !== "sound") bad(`a fair-use excerpt is footage or sound, not ${it.kind}`);
+    if (!/^weight-/.test(String(u.beat))) bad(`a fair-use excerpt airs only in The Weight beside the board, not in ${u.beat}`);
+    const len = Number(u.out_s) - Number(u.in_s);
+    if (!(len > 0)) bad(`out_s ${u.out_s} is not after in_s ${u.in_s}`);
+    else {
+      total += len;
+      if (len > L.clipMaxS) bad(`the excerpt runs ${len.toFixed(1)} s, over ${L.clipMaxS} s`);
+      if (len > L.sourceShareMax * Number(u.source_duration_s)) bad(`the excerpt is ${((100 * len) / u.source_duration_s).toFixed(1)}% of its ${u.source_duration_s} s source, over ${L.sourceShareMax * 100}%`);
+      if (Number(u.out_s) > Number(u.source_duration_s)) bad(`out_s ${u.out_s} is past the source's end (${u.source_duration_s} s)`);
+    }
+    if (!String(u.outlet ?? "").trim() || u.on_screen_outlet !== true) bad("the outlet must be named on screen (on_screen_outlet: true)");
+    if (u.audio !== "own" || it.audio) bad("a fair-use excerpt plays its own sound, unmuted");
+    if (u.no_recut !== true) bad("a fair-use excerpt is never recut (no_recut: true)");
+    if (u.no_youtube !== true) bad("an episode carrying a fair-use excerpt is not uploaded to YouTube (no_youtube: true)");
+    if (String(u.rationale ?? "").trim().length < L.rationaleMinChars) bad(`the fair-use rationale must be written out (at least ${L.rationaleMinChars} characters)`);
+    if (rungSide(u.rung) !== "centre") {
+      const other = byId.get(u.counterpart);
+      if (!other) bad(`a clip from rung ${u.rung} needs its counterpart on the other side of the ladder, and counterpart "${u.counterpart ?? ""}" is no fair-use item`);
+      else if (rungSide(other.fair_use?.rung) === rungSide(u.rung) || rungSide(other.fair_use?.rung) === "centre") bad(`its counterpart ${other.id} sits on the same side of the ladder or at its centre`);
+    }
+  }
+  if (clips.length > L.perEpisodeMax) out.push(f("fair-use-excerpt", "-", `${clips.length} fair-use excerpts, over ${L.perEpisodeMax} per episode`));
+  if (total > L.totalMaxS) out.push(f("fair-use-excerpt", "-", `fair-use excerpts run ${total.toFixed(1)} s in all, over ${L.totalMaxS} s per episode`));
+  const sides = clips.reduce((a, c) => ({ ...a, [rungSide(c.fair_use?.rung)]: (a[rungSide(c.fair_use?.rung)] ?? 0) + 1 }), {});
+  if ((sides.left ?? 0) !== (sides.right ?? 0)) out.push(f("fair-use-excerpt", "-", `unbalanced: ${sides.left ?? 0} clip(s) left of centre against ${sides.right ?? 0} right`));
+  return out;
+}
 
 const f = (rule, item, message) => ({ rule, item, message });
 
@@ -24,7 +82,7 @@ export function lintLicenceAllowlist(ledger) {
   const out = [];
   for (const it of ledger.items) {
     for (const p of licenceProblems(it)) out.push(f("licence-allowlist", it.id, p));
-    for (const p of deniedBy({ urls: [it.item_url, it.media_url, it.licence_evidence?.url], texts: [it.title, it.basis], credits: [it.credit, it.licence_evidence?.captured_text], tags: [] })) {
+    for (const p of deniedBy({ urls: [it.item_url, it.media_url, it.licence_evidence?.url], texts: [it.title, it.basis], credits: [it.credit, it.licence_evidence?.captured_text], tags: [], allowOutlets: it.licence === FAIR_USE })) {
       out.push(f("licence-allowlist", it.id, p));
     }
     // void news's own pages come from its own hosts, never from a fetcher host; anything else must be on the fetcher's allowlist.
@@ -58,6 +116,8 @@ export function evidenceMarker(id) {
   if (id === "cc0-1.0") return /\bcc0\b|cc-zero|publicdomain\/zero/i;
   if (id === "eu-reuse-credit") return /European Union/i;
   if (id === OWN_PROPERTY) return /\bown property\b[\s\S]*\bsame owner\b|\bsame owner\b[\s\S]*\bown property\b/i;
+  if (id === EDITORIAL_USE) return /\b(?:news|editorial)\b/i;
+  if (id === FAIR_USE) return /\bfair use\b|17 U\.S\.C\. 107/i;
   if (String(id).startsWith("pd-")) return /public domain|\bPD\b|17 U\.S\.C\. 105|no field credits anyone outside/i;
   return /$^/;
 }
@@ -146,7 +206,7 @@ export function lintAiGeneratedShareZero(ledger, { shots = [] } = {}) {
 export function lintEpisode({ ledger, ledgerText, disputesText, now, shots }) {
   const schema = validateLedger(ledger).map((p) => f("rights-ledger-schema", "-", p));
   if (schema.length) return schema;
-  const out = [...lintLicenceAllowlist(ledger), ...lintLicenceEvidence(ledger, { now }), ...lintAiGeneratedShareZero(ledger, { shots })];
+  const out = [...lintLicenceAllowlist(ledger), ...lintLicenceEvidence(ledger, { now }), ...lintAiGeneratedShareZero(ledger, { shots }), ...lintFairUse(ledger)];
   const expected = serialisePacket(buildDisputePacket(ledger, ledgerText));
   if (disputesText == null) out.push(f("disputes-generated", "-", "disputes.json is missing; run node scripts/rights.mjs packet <issue>"));
   else if (disputesText.replace(/\r\n/g, "\n") !== expected) {

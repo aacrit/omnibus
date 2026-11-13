@@ -409,24 +409,6 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
@@ -445,6 +427,15 @@
         },
         {
           "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (42).webp",
           "tier": 2,
           "window": {
@@ -455,6 +446,15 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (41).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -1251,7 +1251,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1260,7 +1260,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1773,11 +1773,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of the President and Mrs. Truman at the Jefferson-Jackson Day Dinner, during which the President announced... - NARA - 200382.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record of it (NAID 338959044, Truman Library accession 73-3881, the NLT-AVC-PHT-(73)3881 that echo-pick names for old NAID 200382) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959044"
+          }
         }
       ],
       "not_fetched": []
@@ -1796,11 +1805,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of President Truman receiving applause at the annual Jefferson-Jackson Day dinner at the National Guard... - NARA - 200380.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the President receiving applause at the Armory. NARA's current record (NAID 338959024, Truman Library accession 73-3872, echo-pick's NLT-AVC-PHT-(73)3872 for old NAID 200380) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959024"
+          }
         }
       ],
       "not_fetched": []
@@ -1819,11 +1837,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of President Truman and Mrs. Truman at the annual Jefferson-Jackson Day Dinner, during which the President... - NARA - 200383.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: the Jefferson-Jackson Day Dinner, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the Trumans at the dinner. NARA's current record (NAID 338959048, Truman Library accession 73-3883, echo-pick's NLT-AVC-PHT-(73)3883 for old NAID 200383) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959048"
+          }
         }
       ],
       "not_fetched": []
@@ -1842,11 +1869,20 @@
           "adapter": "commons",
           "ref": "File:Photograph of the President and Mrs. Truman being greeted upon their arrival at the National Guard Armory in... - NARA - 200379.jpg",
           "tier": 3,
+          "pinned": true,
           "window": {
             "from": "1952-03-29",
             "to": "1952-11-05T12:00:00-05:00"
           },
-          "pinned": true
+          "fit": {
+            "beat": "echo-x6: arrival at the Armory, 29 March 1952",
+            "why": "Abbie Rowe's photograph of the Trumans greeted on arrival at the National Guard Armory. NARA's current record (NAID 338959010, Truman Library accession 73-3866, echo-pick's NLT-AVC-PHT-(73)3866 for old NAID 200379) dates it 29 March 1952; Commons gives the year only.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          },
+          "date_record": {
+            "adapter": "nara",
+            "ref": "338959010"
+          }
         }
       ],
       "not_fetched": []
@@ -2123,6 +2159,21 @@
         "text": "stills with rostrum tours (E1's 7 items); the Echo runs without footage. Any film of the fighting goes only where no music plays (x1, x7)"
       },
       "candidates": [
+        {
+          "adapter": "nara",
+          "ref": "22399",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "1951-01-01",
+            "to": "1952-11-05T12:00:00-05:00"
+          },
+          "fit": {
+            "beat": "echo-x1: the January 1951 withdrawal, refugees in snow",
+            "why": "Signal Corps film 111-ADC-8634, Uijongbu, 2 Jan 1951 (shot card 1, 4th scene): a 24th Division squad checks a file of refugees passing south, then two soldiers walk the snow-covered ground. The same withdrawal six days before the line's date, near Seoul, not Kangnung: the cut takes the refugee scene only. No in/out yet: the 839 ft silent reel is not viewed (no transcode in this pass); the editor sets in_s/out_s from the shot card's 4th scene.",
+            "horizon": "1952-11-05T12:00:00-05:00"
+          }
+        },
         {
           "adapter": "commons",
           "ref": "File:William Knowland, Edmund Brown Newsreel.ogv",

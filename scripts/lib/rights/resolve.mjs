@@ -138,6 +138,17 @@ async function resolvePin(pin, step, { http, echoPick }) {
     if (pin.audio?.mode !== "muted" || !String(pin.audio?.reason ?? "").trim()) throw new Error(`pin ${pin.ref}: audio must be { mode: "muted", reason }`);
     c.audio = { mode: "muted", reason: clip(String(pin.audio.reason), 600) };
   }
+  // The sourcing pass's fit (why the item shows the beat, its in and out seconds) and a fair-use record ride with the candidate.
+  if (pin.fit !== undefined) {
+    if (!String(pin.fit?.why ?? "").trim()) throw new Error(`pin ${pin.ref}: fit must state why the item shows its beat`);
+    c.fit = pin.fit;
+  }
+  if (pin.fair_use !== undefined) c.fair_use = pin.fair_use;
+  // A second catalogue record that states the item's day (the fetcher reads it and refines the date).
+  if (pin.date_record !== undefined) {
+    if (!String(pin.date_record?.adapter ?? "").trim() || !String(pin.date_record?.ref ?? "").trim()) throw new Error(`pin ${pin.ref}: date_record must be { adapter, ref }`);
+    c.date_record = { adapter: String(pin.date_record.adapter), ref: String(pin.date_record.ref) };
+  }
   const sha = pin.sha256 ?? (pin.sha256_from ? echoPick?.sources?.find((s) => `echo-pick:${s.id}` === pin.sha256_from)?.sha256 : undefined);
   if (pin.sha256_from && !sha) throw new Error(`pin ${pin.ref}: ${pin.sha256_from} names no source with a sha256`);
   if (sha) c.sha256 = sha;
@@ -248,6 +259,17 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
       else if (!found.length) notFetched.push({ tier: step.tier, host, reason: `the search found nothing: ${clip(step.query ?? step.ref, 300)}` });
       else candidates.push(...(req.kind === "footage" ? videoFirst(found) : found));
     }
+    // A sourcing pass's pin on an adapter no ladder step names (NARA film for a Commons ladder) is
+    // not dropped: it joins at its own tier and window, which it must state, then ladder order holds.
+    const stepAdapters = new Set((req.ladder ?? []).map((s) => String(s.adapter ?? "")));
+    const extra = (pins[req.id] ?? []).filter((p) => p.from_file && !p.exclude && !stepAdapters.has(p.adapter) && !/^gov-federal|^wayback/.test(String(p.adapter)));
+    for (const pin of extra) {
+      if (!Number.isInteger(pin.tier) || !pin.window?.from || !pin.window?.to) throw new Error(`pin ${pin.ref} (${pin.from_file}): a pin on an adapter outside the ladder must state its tier and window`);
+      const found = (await resolvePin(pin, { tier: pin.tier, window: pin.window }, { http, echoPick })).candidates;
+      // Before the first ladder candidate of a later tier; the ladder's own order is never changed.
+      const at = candidates.findIndex((c) => c.tier > pin.tier);
+      candidates.splice(at < 0 ? candidates.length : at, 0, ...found);
+    }
     const seen = new Set();
     const excludes = (pins[req.id] ?? []).filter((p) => p.exclude);
     const unique = candidates.filter((c) => {
@@ -273,6 +295,35 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
     log(`${req.id}: ${unique.length} candidate(s), ${notFetched.length} step(s) not fetched`);
   }
   return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", requests };
+}
+
+export const CANDIDATES_SCHEMA_ID = "omnibus.asset-candidates/1";
+
+/**
+ * Merges the sourcing passes' candidate-pin files (episodes/<issue>/candidates/<source>.json,
+ * schema omnibus.asset-candidates/1) into the episode's pins, after the hand pins, in file-name
+ * order. Each file names its issue and source, and every pin it adds must state a fit (beat and
+ * why) and name a request the rundown has. Pure: returns { pins, problems }.
+ */
+export function mergeCandidatePins(pins, files, { issue, requestIds }) {
+  const out = Object.fromEntries(Object.entries(pins ?? {}).map(([k, v]) => [k, [...v]]));
+  const problems = [];
+  for (const { name, doc } of [...files].sort((a, b) => a.name.localeCompare(b.name))) {
+    if (doc?.schema !== CANDIDATES_SCHEMA_ID) problems.push(`${name}: schema must be ${CANDIDATES_SCHEMA_ID}`);
+    if (doc?.issue !== issue) problems.push(`${name}: issue ${doc?.issue} is not ${issue}`);
+    if (!String(doc?.source ?? "").trim()) problems.push(`${name}: names no source`);
+    for (const [id, list] of Object.entries(doc?.pins ?? {})) {
+      if (!requestIds.has(id)) {
+        problems.push(`${name}: ${clip(id, 80)} is not a request in the rundown`);
+        continue;
+      }
+      for (const p of list) {
+        if (!p.exclude && (!String(p.fit?.beat ?? "").trim() || !String(p.fit?.why ?? "").trim())) problems.push(`${name}: ${id} ${clip(p.ref, 120)} states no fit (beat and why)`);
+        (out[id] ??= []).push({ ...p, from_file: name });
+      }
+    }
+  }
+  return { pins: out, problems };
 }
 
 /** Every pinned address must be one the fetcher may reach (a pins file cannot widen the allowlist). */

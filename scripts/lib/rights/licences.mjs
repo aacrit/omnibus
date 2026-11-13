@@ -30,6 +30,24 @@ export const PD_BASES = ["pd-us-federal", "pd-age", "pd-dedication"];
 export const OWN_PROPERTY = "own-property";
 export const OWN_ADAPTER = "voidnews";
 
+/**
+ * Ledger class editorial-use (founder ruling, 2026-11-13): footage an
+ * institution publishes free for news or editorial use, under terms whose
+ * page is captured as the evidence, with the credit those terms require.
+ * The item keeps its own terms (it is not relicensed under the episode's
+ * CC BY-SA 4.0); terms that exclude our use refuse it (editorialTermsProblems).
+ */
+export const EDITORIAL_USE = "editorial-use";
+
+/**
+ * Ledger class fair-use-excerpt (founder ruling, 2026-11-13): a broadcast or
+ * outlet clip, only as evidence of coverage in The Weight beside the board,
+ * bounded by the fair-use lints (scripts/lib/rights/lints.mjs lintFairUse).
+ * It is the only class that may carry an outlet's material; agencies
+ * (AP, Reuters, AFP, Getty) stay refused whatever the class.
+ */
+export const FAIR_USE = "fair-use-excerpt";
+
 /** Every canonical licence id that passes. Anything else fails the gate. */
 export const ALLOWED_IDS = new Set([
   ...PD_BASES,
@@ -38,6 +56,8 @@ export const ALLOWED_IDS = new Set([
   ...SA_VERSIONS.map((v) => `cc-by-sa-${v}`),
   "eu-reuse-credit",
   OWN_PROPERTY,
+  EDITORIAL_USE,
+  FAIR_USE,
 ]);
 
 /** The credit the EU's reuse decision makes mandatory: "© European Union, 2026". */
@@ -113,6 +133,8 @@ function fromCanonical(id) {
   if (id === "cc0-1.0") return { family: "cc0", kind: null, version: "1.0", port: null, id, raw: id };
   if (id === "eu-reuse-credit") return { family: "eu", kind: null, version: null, port: null, id, raw: id };
   if (id === OWN_PROPERTY) return { family: "own", kind: null, version: null, port: null, id, raw: id };
+  if (id === EDITORIAL_USE) return { family: "editorial", kind: null, version: null, port: null, id, raw: id };
+  if (id === FAIR_USE) return { family: "fair-use", kind: null, version: null, port: null, id, raw: id };
   const m = id.match(/^cc-(by|by-sa)-(\d\.\d)$/);
   return { family: "cc", kind: m[1], version: m[2], port: null, id, raw: id };
 }
@@ -125,6 +147,8 @@ export function licenceName(id) {
   if (id === "cc0-1.0") return "CC0 1.0";
   if (id === "eu-reuse-credit") return "EU reuse with credit (Commission Decision 2011/833/EU)";
   if (id === OWN_PROPERTY) return "Own property (void news, the same owner's publication)";
+  if (id === EDITORIAL_USE) return "Editorial use under the publisher's stated terms";
+  if (id === FAIR_USE) return "Fair-use excerpt (evidence of coverage, The Weight only)";
   const m = String(id).match(/^cc-(by|by-sa)-(\d\.\d)$/);
   if (m) return `CC ${m[1].toUpperCase()} ${m[2]}`;
   return String(id);
@@ -202,6 +226,25 @@ export function licenceTerms(id, item = null) {
       terms: "void news is published by the same owner as void omnibus. Its printed pages are our own work, shown as they were served, cropped to regions holding no other publisher's picture.",
     };
   }
+  if (id === EDITORIAL_USE) {
+    // The publisher's own terms page is the deed; its text and restrictions are quoted in the item's terms record.
+    return {
+      id,
+      name: licenceName(id),
+      deed_url: item?.terms?.url ?? item?.licence_evidence?.url ?? null,
+      legalcode_url: null,
+      terms: `Published free for news or editorial use under the publisher's terms, quoted in the licence evidence; the required credit is carried${item?.terms?.restrictions?.length ? `; restrictions: ${item.terms.restrictions.join("; ")}` : ""}. Not relicensed under the episode's CC BY-SA 4.0.`,
+    };
+  }
+  if (id === FAIR_USE) {
+    return {
+      id,
+      name: licenceName(id),
+      deed_url: "https://www.copyright.gov/fair-use/",
+      legalcode_url: "https://www.law.cornell.edu/uscode/text/17/107",
+      terms: "A short excerpt shown as evidence of how an outlet covered the story (17 U.S.C. 107), with the outlet named on screen and its own sound; the item's rationale states the four factors. Not relicensed under the episode's CC BY-SA 4.0, and the episode carrying it is not uploaded to YouTube.",
+    };
+  }
   return { id, name: String(id), deed_url: null, legalcode_url: null, terms: null };
 }
 
@@ -217,11 +260,20 @@ export const DENIED_HOSTS = [
   // networks and outlets: outlet photographs are never used (bible section f)
   "aljazeera.com", "aljazeera.net", "bbc.co.uk", "bbc.com", "bbci.co.uk", "cnn.com", "nbcnews.com", "nbc.com",
   "cbsnews.com", "cbs.com", "abcnews.go.com", "abc.net.au", "foxnews.com", "fox.com", "news.sky.com", "sky.com",
-  "dw.com", "france24.com", "voanews.com", "rferl.org", "euronews.com", "rt.com", "cgtn.com", "nytimes.com",
+  "dw.com", "france24.com", "rferl.org", "euronews.com", "rt.com", "cgtn.com", "nytimes.com",
   "washingtonpost.com", "theguardian.com", "msnbc.com", "npr.org", "pbs.org",
   // UN Web TV
   "webtv.un.org", "media.un.org",
 ];
+
+/** The networks and outlets among DENIED_HOSTS: the only hosts a fair-use excerpt may come from. */
+export const OUTLET_HOSTS = [
+  "aljazeera.com", "aljazeera.net", "bbc.co.uk", "bbc.com", "bbci.co.uk", "cnn.com", "nbcnews.com", "nbc.com",
+  "cbsnews.com", "cbs.com", "abcnews.go.com", "abc.net.au", "foxnews.com", "fox.com", "news.sky.com", "sky.com",
+  "dw.com", "france24.com", "rferl.org", "euronews.com", "rt.com", "cgtn.com", "nytimes.com",
+  "washingtonpost.com", "theguardian.com", "msnbc.com", "npr.org", "pbs.org",
+];
+const OUTLET_NAME = "a news network or outlet";
 
 /** Names in a credit, author, title or description that mark agency, stock or outlet material. */
 export const DENIED_NAMES = [
@@ -232,9 +284,9 @@ export const DENIED_NAMES = [
   { name: "stock library", re: /\b(Shutterstock|Alamy|Unsplash|Pexels|Pixabay)\b/i },
   { name: "UN Web TV", re: /\bUN Web TV\b|\bwebtv\.un\.org\b/i },
   {
-    name: "a news network or outlet",
+    name: OUTLET_NAME,
     creditOnly: true,
-    re: /\b(Al Jazeera|BBC|CNN|NBC( News)?|CBS( News)?|ABC News|Fox News|FOX|Sky News|Deutsche Welle|DW News|France ?24|Voice of America|VOA|Radio Free Europe|RFE\/RL|Euronews|RT|CGTN|MSNBC|NPR|PBS|New York Times|Washington Post|The Guardian)\b/,
+    re: /\b(Al Jazeera|BBC|CNN|NBC( News)?|CBS( News)?|ABC News|Fox News|FOX|Sky News|Deutsche Welle|DW News|France ?24|Radio Free Europe|RFE\/RL|Euronews|RT|CGTN|MSNBC|NPR|PBS|New York Times|Washington Post|The Guardian)\b/,
   },
 ];
 
@@ -293,15 +345,17 @@ export function hostMatches(host, list) {
 }
 
 /** Every reason a candidate's text fields put it on the denylist. */
-export function deniedBy({ urls = [], texts = [], tags = [], credits = [] }) {
+export function deniedBy({ urls = [], texts = [], tags = [], credits = [], allowOutlets = false }) {
   const reasons = [];
   for (const u of urls) {
     const host = hostOf(u);
-    if (host && hostMatches(host, DENIED_HOSTS)) reasons.push(`denied source host ${host}`);
+    // A fair-use excerpt is an outlet's own clip: its host is the outlet's; agencies and stock stay refused.
+    if (host && hostMatches(host, DENIED_HOSTS) && !(allowOutlets && hostMatches(host, OUTLET_HOSTS))) reasons.push(`denied source host ${host}`);
   }
   const creditTexts = credits.filter(Boolean).map(String);
   const joined = [...texts.filter(Boolean).map(String), ...creditTexts];
   for (const { name, re, creditOnly } of DENIED_NAMES) {
+    if (allowOutlets && name === OUTLET_NAME) continue;
     // An outlet named in a title or description is a subject; named in a credit, it is the source.
     if ((creditOnly ? creditTexts : joined).some((t) => re.test(t))) reasons.push(`denied source: ${name} material`);
   }
@@ -355,9 +409,47 @@ export function licenceProblems(item) {
     // Only a capture of void news's own page may claim it; the adapter is always known by the ledger and the fetcher.
     if (item.adapter !== OWN_ADAPTER) out.push(`licence "${id}" is claimed only by void news's own pages (adapter ${OWN_ADAPTER}), not by ${item.adapter ?? "an unnamed adapter"}`);
   }
+  if (id === EDITORIAL_USE) {
+    if (!String(item.basis ?? "").trim()) out.push(`licence "${id}" has no basis`);
+    out.push(...editorialTermsProblems(item.terms, credit));
+  }
+  if (id === FAIR_USE && !item.fair_use) out.push(`licence "${id}" needs its fair_use record (rationale, excerpt bounds, outlet, rung)`);
   if (/^cc-by/.test(id) && !credit) out.push(`licence "${id}" requires a credit, and the item has none`);
   if (id === "eu-reuse-credit" && !EU_CREDIT.test(credit)) {
     out.push(`EU reuse requires the credit "© European Union, <year>"; the item's credit is "${credit}"`);
   }
+  return out;
+}
+
+/**
+ * Terms wording that excludes our use (a free, online news episode): fees,
+ * a licence or prior permission to obtain, or a bar on news, online or
+ * broadcast use. A restriction we can honour (credit, no commercial resale,
+ * no alteration of meaning) is recorded, never a refusal.
+ */
+export const TERMS_EXCLUDE = [
+  { why: "the terms charge a fee", re: /\b(?:licen[cs]ing|service) fees?\b|\bfor a fee\b|\bfees? (?:apply|will be charged)|\bthere will be (?:service and )?licensing fees\b/i },
+  { why: "the terms require prior permission or a licence", re: /\b(?:prior|express|written) (?:written )?(?:permission|authori[sz]ation|consent)\b|\bmust (?:first )?(?:obtain|request) (?:a )?(?:licen[cs]e|permission)\b/i },
+  { why: "the terms bar news, online or broadcast use", re: /\bnot (?:be )?(?:used|permitted|available) for (?:news|editorial|online|internet|broadcast)\b|\bpersonal use only\b|\bno (?:online|internet|broadcast) use\b/i },
+];
+
+/**
+ * Why an editorial-use item's terms record does not let it in: the terms page
+ * must be captured (https url, quoted text), must allow news or editorial use,
+ * must name the credit the item carries, must list its restrictions (an empty
+ * list states there are none), and must not exclude our use.
+ */
+export function editorialTermsProblems(terms, credit = "") {
+  const out = [];
+  if (!terms || typeof terms !== "object") return ["editorial-use needs its terms record (the terms page, its text, the required credit, the restrictions)"];
+  if (!/^https:\/\//.test(String(terms.url ?? ""))) out.push("the terms page address must be https");
+  const text = String(terms.captured_text ?? "");
+  if (!text.trim()) out.push("the terms page text is not captured");
+  else if (!/\b(?:news|editorial|current affairs|information(?:al)? purposes)\b/i.test(text)) out.push("the captured terms do not allow news or editorial use");
+  for (const { why, re } of TERMS_EXCLUDE) if (re.test(text)) out.push(`${why}: "${(text.match(re) ?? [""])[0]}"`);
+  const req = String(terms.credit_required ?? "").trim();
+  if (!req) out.push("the terms record names no required credit");
+  else if (!String(credit).includes(req)) out.push(`the item's credit "${credit}" does not carry the required credit "${req}"`);
+  if (!Array.isArray(terms.restrictions)) out.push("the terms record lists no restrictions (an empty list states there are none)");
   return out;
 }

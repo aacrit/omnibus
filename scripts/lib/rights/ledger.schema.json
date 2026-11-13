@@ -111,7 +111,8 @@
             "gov",
             "nara",
             "wayback",
-            "voidnews"
+            "voidnews",
+            "voa"
           ]
         },
         "title": {
@@ -319,6 +320,73 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 400
+        },
+        "fit": {
+          "description": "Why the item shows its beat (the bible's no stock B-roll rule), the seconds that show it, and its publication time against the beat's horizon; written by the sourcing pass's candidate pin and carried by the fetcher.",
+          "type": "object",
+          "required": [
+            "beat",
+            "why"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "beat": { "type": "string", "minLength": 1, "maxLength": 80 },
+            "why": { "type": "string", "minLength": 1, "maxLength": 600 },
+            "in_s": { "type": "number", "minimum": 0 },
+            "out_s": { "type": "number", "minimum": 0 },
+            "horizon": { "type": "string", "maxLength": 64 }
+          }
+        },
+        "terms": {
+          "description": "An editorial-use item's terms (founder ruling, 2026-11-13): the terms page, its quoted text, the credit it requires and the restrictions it sets.",
+          "type": "object",
+          "required": [
+            "url",
+            "captured_text",
+            "captured_at",
+            "credit_required",
+            "restrictions"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "url": { "type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 2048 },
+            "captured_text": { "type": "string", "minLength": 1, "maxLength": 4000 },
+            "captured_at": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "credit_required": { "type": "string", "minLength": 1, "maxLength": 400 },
+            "restrictions": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 400 } }
+          }
+        },
+        "fair_use": {
+          "description": "A fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13), held to the blocking fair-use lints in scripts/lib/rights/lints.mjs.",
+          "type": "object",
+          "required": [
+            "beat",
+            "outlet",
+            "rung",
+            "source_duration_s",
+            "in_s",
+            "out_s",
+            "audio",
+            "on_screen_outlet",
+            "no_recut",
+            "no_youtube",
+            "rationale"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "beat": { "type": "string", "minLength": 1, "maxLength": 80 },
+            "outlet": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "rung": { "type": "integer", "minimum": 0, "maximum": 6 },
+            "source_duration_s": { "type": "number", "minimum": 0.001 },
+            "in_s": { "type": "number", "minimum": 0 },
+            "out_s": { "type": "number", "minimum": 0 },
+            "audio": { "type": "string", "maxLength": 20 },
+            "on_screen_outlet": { "type": "boolean" },
+            "no_recut": { "type": "boolean" },
+            "no_youtube": { "type": "boolean" },
+            "rationale": { "type": "string", "minLength": 1, "maxLength": 2000 },
+            "counterpart": { "type": "string", "maxLength": 80 }
+          }
         },
         "audio": {
           "description": "How the item's own sound is used, set by its pin with the reason; the graphics (E6) and the render (E11) honour it.",
