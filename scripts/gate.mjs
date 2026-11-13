@@ -46,13 +46,13 @@ const STEPS = [
         cwd: repoRoot,
       }),
   },
-  // A fast subset of the lifted engine's suite (docs/TRANSPLANT-document-engine.md), chosen by measured local
-  // time (coordinator ruling 2026-11-12, after PR omnibus#10's gate took 20+ minutes): the areas omnibus's own
+  // A fast subset of the lifted engine's suite (docs/TRANSPLANT-document-engine.md), chosen by measured time
+  // (coordinator ruling 2026-11-12, after PR omnibus#10's gate took 20+ minutes): the areas omnibus's own
   // tickets read from directly (aswas/A0 show-as-was, clips/A44 conform, pages, disclosure/A56, counts/A31 and
-  // maps/A56, 597 cases, ~90s here), none of which need the session-scoped ``rendered``/``plan`` fixture that
-  // makes render core, layers/stems, narrator and the titles/score audio checks slow (test_render.py alone:
-  // ~4 min locally). Those run in full in .github/workflows/studio-full.yml instead (docs/DECISIONS.md).
-  // pytest exits non-zero on 0 tests, so a typo'd path here fails loudly rather than silently passing.
+  // maps/A56 and a net-new palette-vs-tokens guard, 601 cases, measured 187s on CI for the 597 before it), none of which need the session-scoped ``rendered``/``plan``
+  // fixture that makes render core, layers/stems, narrator and the titles/score audio checks slow
+  // (test_render.py alone: ~4 min locally). Those run in full in .github/workflows/studio-full.yml instead
+  // (docs/DECISIONS.md). pytest exits non-zero on 0 tests, so a typo'd path here fails loudly, not silently.
   {
     label: "studio-test",
     run: () =>
@@ -67,6 +67,7 @@ const STEPS = [
           "studio/tests/test_counts.py",
           "studio/tests/test_maps.py",
           "studio/tests/test_a56_map_credit.py",
+          "studio/tests/test_house_tokens_match_palette.py",
           "-q", "-p", "no:cacheprovider",
         ],
         { cwd: repoRoot, stdio: "inherit", shell: false },

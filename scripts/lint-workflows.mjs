@@ -5,13 +5,22 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { walk } from "./lib/walk.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const FORBIDDEN_WORKFLOW_PATTERNS = [/continue-on-error:\s*true/, /\|\|\s*true\b/, /\|\|\s*echo\b/];
 
+// "issue #N" is this repo's own issue; "issue <owner>/<repo>#N" cites another repo's (e.g. a mark lifted
+// unchanged from document, which keeps document's own issue number rather than a renumbered local one).
+const ISSUE_REF = "issue\\s+(?:[\\w.-]+/[\\w.-]+)?#\\d+";
 const SKIP_PATTERN = /\b(it\.skip|test\.skip|describe\.skip|xit)\s*\(/;
-const EXPIRY_PATTERN = /\/\/\s*expires\s+(\d{4}-\d{2}-\d{2})\s+issue\s+#\d+/;
+const EXPIRY_PATTERN = new RegExp(`//\\s*expires\\s+(\\d{4}-\\d{2}-\\d{2})\\s+${ISSUE_REF}`);
+// Transplanted from document@b62c4fa:scripts/lint-workflows.mjs (lift): pytest (studio/tests, every .py file,
+// conftest.py included) marks a skip, skipif or xfail however imported (pytest.mark.x, mark.x), a pytest.skip/
+// xfail() call and importorskip, need the same "# expires ..." comment the JS skip patterns do (rule 14).
+const PY_SKIP_PATTERN = /\bmark\.(skip|skipif|xfail)\b|\bpytest\.(skip|xfail)\s*\(|\bimportorskip\b/;
+const PY_EXPIRY_PATTERN = new RegExp(`#\\s*expires\\s+(\\d{4}-\\d{2}-\\d{2})\\s+${ISSUE_REF}`);
 const MAX_EXPIRY_DAYS = 14;
 
 export function checkWorkflowText(filename, text) {
@@ -31,11 +40,12 @@ export function checkGateJobPresent(text) {
   return /^\s*jobs:\s*$/m.test(text) && /^\s{2}gate:\s*$/m.test(text);
 }
 
-export function checkSkippedTestLine(line, now = new Date()) {
-  if (!SKIP_PATTERN.test(line)) return null;
-  const match = line.match(EXPIRY_PATTERN);
+export function checkSkippedTestLine(line, now = new Date(), lang = "js") {
+  const py = lang === "py";
+  if (!(py ? PY_SKIP_PATTERN : SKIP_PATTERN).test(line)) return null;
+  const match = line.match(py ? PY_EXPIRY_PATTERN : EXPIRY_PATTERN);
   if (!match) {
-    return `skipped test with no "// expires YYYY-MM-DD issue #N" annotation: "${line.trim()}"`;
+    return `skipped test with no "${py ? "#" : "//"} expires YYYY-MM-DD issue #N" annotation: "${line.trim()}"`;
   }
   const expiry = new Date(`${match[1]}T00:00:00Z`);
   if (Number.isNaN(expiry.getTime())) {
@@ -67,6 +77,12 @@ function listTestFiles() {
     .map((f) => path.join(dir, f));
 }
 
+function listPythonTestFiles() {
+  const dir = path.join(repoRoot, "studio", "tests");
+  if (!existsSync(dir)) return [];
+  return [...walk(dir, new Set(["__pycache__"]))].filter((f) => f.endsWith(".py"));
+}
+
 function main() {
   const violations = [];
 
@@ -90,6 +106,14 @@ function main() {
     const text = readFileSync(file, "utf8");
     text.split("\n").forEach((line, i) => {
       const problem = checkSkippedTestLine(line);
+      if (problem) violations.push(`${path.relative(repoRoot, file)}:${i + 1}: ${problem}`);
+    });
+  }
+
+  for (const file of listPythonTestFiles()) {
+    const text = readFileSync(file, "utf8");
+    text.split("\n").forEach((line, i) => {
+      const problem = checkSkippedTestLine(line, new Date(), "py");
       if (problem) violations.push(`${path.relative(repoRoot, file)}:${i + 1}: ${problem}`);
     });
   }

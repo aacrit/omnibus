@@ -1,7 +1,9 @@
 # Transplanted from document@b62c4fa:studio/tests/test_render.py (tweak:
 # test_brand_kit_reexports_the_engine_motion reads studio/house/document/brand-kit/motion.py
 # (studio/engine/house.HOUSE_ROOT) instead of design/brand-kit/motion.py, since that folder is document's own
-# and was never transplanted whole; coordinator ruling 2026-11-12. Every other case is unchanged.)
+# and was never transplanted whole; coordinator ruling 2026-11-12. The five xfail marks' "issue #9" is now
+# "issue aacrit/document#9": that founder ruling and issue are document's own, not an omnibus one (reviewer
+# finding, PR omnibus#10). Every other case is unchanged.)
 import json
 import subprocess
 import sys
@@ -3296,7 +3298,7 @@ def _verdict(x, name):
     return rep, out, lints(evs, "voice-clean")[-1], lints(evs, "voice-chop")[-1]
 
 
-@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue #9, expires 2026-11-22")  # expires 2026-11-22 issue #9
+@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue aacrit/document#9, expires 2026-11-22")  # expires 2026-11-22 issue aacrit/document#9
 @pytest.mark.parametrize("quiet_s,burst_db", [(0.4, -55), (0.4, -62), (0.5, -55)])
 def test_t1f_open_hiss_on_an_unsteady_floor_is_caught(quiet_s, burst_db):
     """attack2.py: the hiss runs on from the words, so it joins the speech
@@ -3306,7 +3308,7 @@ def test_t1f_open_hiss_on_an_unsteady_floor_is_caught(quiet_s, burst_db):
     assert out
 
 
-@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue #9, expires 2026-11-22")  # expires 2026-11-22 issue #9
+@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue aacrit/document#9, expires 2026-11-22")  # expires 2026-11-22 issue aacrit/document#9
 @pytest.mark.parametrize("burst_db", [-55, -60, -65])
 def test_t1f_open_hiss_in_every_pause_is_caught(burst_db):
     """attack.py with hiss in all six pauses, starting 120 ms after each word.
@@ -3317,7 +3319,7 @@ def test_t1f_open_hiss_in_every_pause_is_caught(burst_db):
     assert out
 
 
-@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue #9, expires 2026-11-22")  # expires 2026-11-22 issue #9
+@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue aacrit/document#9, expires 2026-11-22")  # expires 2026-11-22 issue aacrit/document#9
 @pytest.mark.parametrize("gaps", [3, 1])
 @pytest.mark.parametrize("burst_db", [-55, -60, -65])
 def test_t1f_open_hiss_in_some_pauses_is_caught(burst_db, gaps):
@@ -3507,13 +3509,13 @@ def _hiss_beside_words(h_db, dropout=False):
     return x
 
 
-@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue #9, expires 2026-11-22")  # expires 2026-11-22 issue #9
+@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue aacrit/document#9, expires 2026-11-22")  # expires 2026-11-22 issue aacrit/document#9
 def test_t1f_open_hiss_beside_words_on_the_denoise_only_path_is_caught():
     rep, out, vc, ch = _verdict(_hiss_beside_words(-60.0, True), "beside-60-dn")
     assert out
 
 
-@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue #9, expires 2026-11-22")  # expires 2026-11-22 issue #9
+@pytest.mark.xfail(strict=True, reason="founder ruling 2026-11-08: decide spectral vs neural on the founder's own takes from Nov 18; renew on Nov 21 if still undecided; issue aacrit/document#9, expires 2026-11-22")  # expires 2026-11-22 issue aacrit/document#9
 def test_t1f_open_hiss_beside_words_on_the_expander_path_is_caught():
     rep, out, vc, ch = _verdict(_hiss_beside_words(-60.0, False), "beside-60-exp")
     assert rep["path"] == "expander" and out

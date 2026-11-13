@@ -88,11 +88,12 @@ yet).
 | `design/tokens.css` | lift, namespaced | Found on CI (PR omnibus#10): `maps.py`'s palette reads named custom properties beyond the base Ink & Momentum set (`--color-letterbox`, `--mark-text`, `--mark-generated`, `--color-generated-text`, `--scrim-strong`, `--color-border`, `--color-cream-faint`). Carried unchanged under `studio/house/document/`, read through one constant (`studio/engine/house.HOUSE_ROOT`), never merged into omnibus's own `design/tokens.css` (docs/DECISIONS.md, 2026-11-12). | `studio/house/document/tokens.css` |
 | `design/brand-kit/{motion.py,watermark.svg,logomark.svg,watermark-youtube.svg,wordmark.svg}` | lift, namespaced (`motion.py` also tweaked: `parents[2]` to `parents[4]`, the new depth) | Same reason, found the same way: three tests (`test_e15.py`, `test_render.py`) load these files directly to check the engine's watermark/logomark/lockup against the authored brand-kit assets. `design/brand-kit/BRAND-KIT.md` and `preview.html` are not opened by any code or test (only cited in comments) and are not carried over. | `studio/house/document/brand-kit/*` |
 | `studio/engine/house.py` | net-new | One constant, `HOUSE_ROOT`, so every lifted module or test that needs a document design file reads it from the same place. | `studio/engine/house.py` |
+| `studio/tests/test_house_tokens_match_palette.py` | net-new | Guards against drift: `motion.py`'s hard-coded `PALETTE` tuples (bone, safelight, cold, ink, the derived `--mark-text`) are checked against `studio/house/document/tokens.css` via `maps.resolve()` (reviewer finding, PR omnibus#10). In the fast gate subset. | `studio/tests/test_house_tokens_match_palette.py` |
 
 ## Gate
 
 `npm run gate`'s `studio-test` step runs a **fast subset** of the lifted suite (aswas, clips, pages,
-disclosure, counts, maps: 597 cases, ~90s measured locally), chosen because it needs no real render or audio
+disclosure, counts, maps, and a net-new palette-vs-tokens guard: 601 cases, measured 187s on CI for the 597 before the guard), chosen because it needs no real render or audio
 measurement; render core, layers/stems, narrator and the titles/score audio checks are slow (`test_render.py`
 alone: ~4 min locally) and run only in `.github/workflows/studio-full.yml` (every PR, but only executes when
 `studio/**` changed; always on push to `main` and nightly). See `docs/DECISIONS.md` (2026-11-12) for the exact
