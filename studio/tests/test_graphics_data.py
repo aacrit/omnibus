@@ -206,8 +206,8 @@ def test_release_must_carry_an_offset_and_a_whole_second():
 
 # ---- credits ------------------------------------------------------------
 
-def test_credits_use_each_items_credit_then_voice_then_disclosures(rundown, rights):
-    cs = data.credits_spec(rundown, rights)
+def test_credits_use_each_items_credit_then_voice_then_disclosures(rundown, rights, week):
+    cs = data.credits_spec(rundown, rights, week)
     credits = []
     for item in rights["items"]:
         if item["credit"] not in credits:
@@ -224,15 +224,18 @@ def test_credits_use_each_items_credit_then_voice_then_disclosures(rundown, righ
         if d and d not in ledger_disclosures:
             ledger_disclosures.append(d)
     rundown_disclosures = next(p for p in rundown["parts"] if p["id"] == "credits")["disclosures"]
+    claim_line = data._claim_terms_disclosure(week)
+    rundown_disclosures = [claim_line if d.startswith("the reason words counted on the consensus card") else d
+                            for d in rundown_disclosures]
     tail = ledger_disclosures + [d for d in rundown_disclosures if d not in ledger_disclosures]
     assert list(cs.lines[len(credits) + 1:]) == tail
 
 
-def test_credits_carry_every_rights_ledger_disclosure(rundown, rights):
+def test_credits_carry_every_rights_ledger_disclosure(rundown, rights, week):
     """E6 review: the DoW non-endorsement line must air whenever a DVIDS
     item airs (episodes/33/rights-ledger.json items[].disclosure, the
     same text disputes.json aggregates into credit_disclosures[])."""
-    cs = data.credits_spec(rundown, rights)
+    cs = data.credits_spec(rundown, rights, week)
     ledger_disclosures = {item["disclosure"] for item in rights["items"] if item.get("disclosure")}
     assert ledger_disclosures, "fixture must carry at least one disclosure to test this"
     assert ledger_disclosures <= set(cs.lines)
@@ -241,10 +244,25 @@ def test_credits_carry_every_rights_ledger_disclosure(rundown, rights):
         assert entry["text"] in cs.lines
 
 
-def test_credits_raise_rather_than_slice(rundown):
+def test_credits_reason_words_disclosure_is_built_from_the_claim_terms(rundown, rights, week):
+    """E6 review: the 'reason words' disclosure's term list must come
+    from lead.claim.terms (never hand-kept in the rundown, which still
+    read "(Iran, Israel, inflation)" after migration became a fourth
+    term) and must say plainly that the card lower-cases migration while
+    the record keeps "Migration"."""
+    cs = data.credits_spec(rundown, rights, week)
+    line = next(l for l in cs.lines if l.startswith("the reason words counted on the consensus card"))
+    terms = [t["term"] for t in week["lead"]["claim"]["terms"]]
+    shown = [data._claim_term_label(t) for t in terms]
+    assert shown == ["Iran", "Israel", "inflation", "migration"]
+    assert f"({', '.join(shown)})" in line
+    assert "lower-cases migration while the record keeps 'Migration'" in line
+
+
+def test_credits_raise_rather_than_slice(rundown, week):
     many = {"items": [{"id": f"i{n}", "credit": f"Credit {n}"} for n in range(41)]}
     with pytest.raises(ValueError):
-        data.credits_spec(rundown, many)
+        data.credits_spec(rundown, many, week)
 
 
 def test_voice_credit_line_for_the_founder():

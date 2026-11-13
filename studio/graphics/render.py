@@ -251,7 +251,7 @@ def render_week33(out_dir: Path, *, release: str, release_nominal: bool) -> list
                  compose.second_hand_frames(layers["second"][1], seconds, typeset.CLOCK_PIVOT), extra=extra)
 
         # ---- credits: one tall strip, measured, rolled 3 px a frame --------
-        credits = data.credits_spec(rundown, rights)
+        credits = data.credits_spec(rundown, rights, week)
         t = typeset.credits_html(credits, **PH)
         with run.session(t, where="credits") as shot:
             if shot.texts(".credit-line") != list(credits.lines):
