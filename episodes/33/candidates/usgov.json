@@ -16,6 +16,63 @@
           "in_s": 0,
           "out_s": 33,
           "horizon": "2026-11-07T17:30:11Z"
+        },
+        "marks_checked": {
+          "marks": [
+            "venue signage 'THE GOLDEN AGE / PRESIDENT DONALD J. TRUMP' + presidential seal, podium, shots at 3.6s and 32.1s",
+            "desk nameplates reading 'Stephen Miller / Deputy Chief of Staff for Policy & Homeland Security Advisor' w/ presidential seal, shots at 13.8s, 21.4s, 28.7s (in-scene WH signage, not an added graphic)",
+            "foreground press camera or mic flag, green 'TV…' logo, illegible, bottom-right, shot at 23.2s, in scene (subject, not source)"
+          ],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-13T19:34:09Z",
+            "frames": [
+              0.647,
+              3.608,
+              7.487,
+              11.011,
+              13.764,
+              15.703,
+              18.665,
+              21.376,
+              23.211,
+              25.901,
+              28.696,
+              30.51,
+              32.141
+            ],
+            "cuts": {
+              "times": [
+                1.293,
+                5.923,
+                9.051,
+                12.971,
+                14.556,
+                16.85,
+                20.479,
+                22.272,
+                24.149,
+                27.653,
+                29.738,
+                31.281
+              ],
+              "threshold": 0.3,
+              "method": "ffmpeg select=gt(scene,0.3)"
+            },
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day6-pic-shots.png",
+              "sha256": "7aaebe54cb87f4b9d2e2263686bd8c73e3e43d42f006af882dd20217fd3dfdea"
+            },
+            "duration_s": 38.021
+          }
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "the White House's own edit carries music; no music under the news (bible g), so the montage plays muted under the narrator"
+        },
+        "dot_label": {
+          "text": "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026",
+          "why": "S4 review round 3 (CoS, 2026-11-13): a White House montage of earlier occasions (Miller's desk nameplate still reads Deputy Chief of Staff), dated only by its upload day; the label says whose video it is and when it was published, not when it was filmed"
         }
       },
       {

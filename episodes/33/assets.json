@@ -3,6 +3,14 @@
   "issue": 33,
   "source": "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve",
   "edition_cutoff": "2026-11-08T22:16:50.309638+00:00",
+  "dignity": [
+    {
+      "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm",
+      "title_key": "destructions in komyshuvakha after russian attack 2026 11 02 000",
+      "sha1": "b9fb7a464751fd83c368826e0b3a4d5c76a73af5",
+      "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence"
+    }
+  ],
   "requests": [
     {
       "id": "e33-cold-01",
@@ -406,7 +414,40 @@
           "fit": {
             "beat": "week-day-2",
             "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator.",
-            "horizon": "2026-11-03T19:39:27Z"
+            "horizon": "2026-11-03T19:39:27Z",
+            "shows_days_event": true
+          },
+          "marks_checked": {
+            "marks": [
+              "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, all 6 shots — matches the credited CC BY 4.0 source"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-13T19:34:09Z",
+              "frames": [
+                2.95,
+                7.2,
+                9.967,
+                12.967,
+                41.6,
+                45.35
+              ],
+              "cuts": {
+                "times": [
+                  5.9,
+                  8.5,
+                  11.433,
+                  44.9
+                ],
+                "threshold": 0.3,
+                "method": "ffmpeg select=gt(scene,0.3)"
+              },
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-shots.png",
+                "sha256": "4f1bea3ce1f8dba1572540445bef478252f1b022ed28f95cbf41f76369e96dba"
+              },
+              "duration_s": 67.868
+            }
           }
         },
         {
@@ -425,7 +466,8 @@
           "fit": {
             "beat": "week-day-2",
             "why": "the National Police of Ukraine's video of the same site after the 2 Nov strike, the second choice if the State Emergency Service's is refused. CC BY 4.0; uploaded 5 Nov 04:39 UTC (ruling A).",
-            "horizon": "2026-11-03T19:39:27Z"
+            "horizon": "2026-11-03T19:39:27Z",
+            "shows_days_event": true
           }
         },
         {
@@ -448,15 +490,6 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
-          "tier": 2,
-          "window": {
-            "from": "2026-11-02",
-            "to": "2026-11-03T19:39:27.128203+00:00"
-          }
-        },
-        {
-          "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (25).webp",
           "tier": 2,
           "window": {
@@ -466,7 +499,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (21).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -485,6 +518,15 @@
         {
           "adapter": "commons",
           "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (43).webp",
+          "tier": 2,
+          "window": {
+            "from": "2026-11-02",
+            "to": "2026-11-03T19:39:27.128203+00:00"
+          }
+        },
+        {
+          "adapter": "commons",
+          "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (27).webp",
           "tier": 2,
           "window": {
             "from": "2026-11-02",
@@ -672,28 +714,14 @@
         "tier": 4,
         "text": "tier 4: the printed page alone carries the beat (e33-day3-pic's portrait stays)"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "commons",
-          "ref": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
           "tier": 2,
-          "pinned": true,
-          "window": {
-            "from": "2026-11-04",
-            "to": "2026-11-04T19:39:06.061256+00:00"
-          },
-          "audio": {
-            "mode": "muted",
-            "reason": "the President's words are not checked against the day's printed lines; the picture plays under the narrator (CoS ruling for the day's own footage, 2026-11-13)"
-          },
-          "fit": {
-            "beat": "week-day-3",
-            "why": "the White House's own video of the President's remarks on 4 Nov, the day after the vote and the day the Vice President's post appeared; uploaded 4 Nov 21:27 UTC, after the 4 Nov print (19:39 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. It shows the President, not the post the day's lead reports: it plays muted under the narrator and never as the post or as the President's reply (The Weight's e33-weight-04). What he says is not checked here. Its own request, so the day's portrait (e33-day3-pic, the screenplay's S-WED-PIC) stays. No in/out: the 368 MB file is not viewed in this pass.",
-            "horizon": "2026-11-04T19:39:06Z"
-          }
+          "host": "commons",
+          "reason": "excluded on review: File:President Trump Delivers Remarks, Nov. 4, 2026.webm: CoS ruling (a) of 2026-11-13: its White House lower third carries a QR code and \"TEXT POTUS TO 45470\", a call to action (an engagement mechanic against void's values); dropped, never aired"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-day3-doc",
@@ -709,7 +737,7 @@
         {
           "tier": 5,
           "host": "web.archive.org",
-          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: The operation was aborted due to timeout"
+          "reason": "the Wayback index could not be read for x.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=x.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261104193906&output=json&filter=statuscode%3A200&limit=200 answered 503"
         }
       ]
     },
@@ -1102,12 +1130,69 @@
             "from": "2026-11-06",
             "to": "2026-11-07T17:30:11.094818+00:00"
           },
+          "audio": {
+            "mode": "muted",
+            "reason": "the White House's own edit carries music; no music under the news (bible g), so the montage plays muted under the narrator"
+          },
           "fit": {
             "beat": "week-day-6",
             "why": "the White House's own video of Stephen Miller, published the day he was named chief of staff: Miller with the President at a Golden Age podium, in the State Dining Room, at a table and on camera; 0 to 33 s, before the end card at 34 s. Its own sound is the White House's edit (music likely), to be checked by the vision and sound pass.",
             "in_s": 0,
             "out_s": 33,
             "horizon": "2026-11-07T17:30:11Z"
+          },
+          "dot_label": {
+            "text": "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026",
+            "why": "S4 review round 3 (CoS, 2026-11-13): a White House montage of earlier occasions (Miller's desk nameplate still reads Deputy Chief of Staff), dated only by its upload day; the label says whose video it is and when it was published, not when it was filmed"
+          },
+          "marks_checked": {
+            "marks": [
+              "venue signage 'THE GOLDEN AGE / PRESIDENT DONALD J. TRUMP' + presidential seal, podium, shots at 3.6s and 32.1s",
+              "desk nameplates reading 'Stephen Miller / Deputy Chief of Staff for Policy & Homeland Security Advisor' w/ presidential seal, shots at 13.8s, 21.4s, 28.7s (in-scene WH signage, not an added graphic)",
+              "foreground press camera or mic flag, green 'TV…' logo, illegible, bottom-right, shot at 23.2s, in scene (subject, not source)"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-13T19:34:09Z",
+              "frames": [
+                0.647,
+                3.608,
+                7.487,
+                11.011,
+                13.764,
+                15.703,
+                18.665,
+                21.376,
+                23.211,
+                25.901,
+                28.696,
+                30.51,
+                32.141
+              ],
+              "cuts": {
+                "times": [
+                  1.293,
+                  5.923,
+                  9.051,
+                  12.971,
+                  14.556,
+                  16.85,
+                  20.479,
+                  22.272,
+                  24.149,
+                  27.653,
+                  29.738,
+                  31.281
+                ],
+                "threshold": 0.3,
+                "method": "ffmpeg select=gt(scene,0.3)"
+              },
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day6-pic-shots.png",
+                "sha256": "7aaebe54cb87f4b9d2e2263686bd8c73e3e43d42f006af882dd20217fd3dfdea"
+              },
+              "duration_s": 38.021
+            }
           }
         },
         {
@@ -1364,7 +1449,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1373,7 +1458,7 @@
         },
         {
           "adapter": "commons",
-          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9820998).jpg",
+          "ref": "File:MARCENT Task Force leadership visits U S Marines and Sailors in the U S Central Command Area of Responsibility (9821011).jpg",
           "tier": 3,
           "window": {
             "from": "2026-11-01",
@@ -1458,59 +1543,14 @@
         "tier": null,
         "text": "GAP: if no dated capture exists, the post is never voiced; the board carries the outlets' words and the narrator says only that the Vice President posted"
       },
-      "candidates": [
+      "candidates": [],
+      "not_fetched": [
         {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261107022501/https://x.com/JDVance/status/2118789426813821141",
           "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106123703/https://x.com/JDVance/status/2118004988433641835?a=sPdFKZ03hTepruczm5A&s=20&utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261106080502/https://x.com/JDVance/status/2118004988433641835",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105184858/https://x.com/JDVance/status/1966505862656094624",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
-        },
-        {
-          "adapter": "wayback",
-          "ref": "https://web.archive.org/web/20261105110840/https://x.com/JDVance/status/2118004988433641835?utm_source=substack&utm_medium=email",
-          "tier": 5,
-          "window": {
-            "from": "2026-11-03",
-            "to": "2026-11-08T22:16:50.309638+00:00"
-          },
-          "pinned": true
+          "host": "web.archive.org",
+          "reason": "the Wayback index could not be read for twitter.com/JDVance/status/*: https://web.archive.org/cdx/search/cdx?url=twitter.com%2FJDVance%2Fstatus%2F*&from=20261103000000&to=20261108221650&output=json&filter=statuscode%3A200&limit=200 answered 503"
         }
-      ],
-      "not_fetched": []
+      ]
     },
     {
       "id": "e33-weight-03",

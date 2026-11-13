@@ -1375,6 +1375,7 @@
       "mode": "mute",
       "reason": "its own sound is the White House's edit (music likely) and is not checked; no music under news, so it plays muted under the narrator"
      },
+     "dot_label": "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026",
      "frame_check": {
       "by": "E4d, 2026-11-13",
       "frames": "every 3 s over 0-33 s",

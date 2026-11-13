@@ -78,7 +78,8 @@ describe("Wikimedia Commons adapter", () => {
   it("fails an own-work file in the AI-generated categories, and asks for the uploader", async () => {
     const http = fixtureHttp("commons-ai-own-work.json", "commons-user-ai-uploader.json");
     const r = await commons.lookup("File:2023-03 AI images ZvD 01.png", { http, now });
-    expect(http.asked).toHaveLength(2);
+    expect(http.asked).toHaveLength(3); // imageinfo, the page's wikitext (unrecorded here, so read as none), the uploader
+    expect(http.asked[1]).toBe(commons.wikitextUrl("File:2023-03 AI images ZvD 01.png"));
     expect(r.candidate.own_work).toBe(true);
     expect(r.candidate.uploader).toMatchObject({ name: "Ziko" });
     const chk = checkCandidate({ ...r.candidate, kind: "still" });

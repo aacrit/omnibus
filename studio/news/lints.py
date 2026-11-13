@@ -28,6 +28,9 @@ label is out of the spine's order is linted as news.
   event (its ``date`` on or before the day's horizon) may be published by the edition cutoff (the episode's
   ``as_of``) instead, and then its ledger item and the shot both carry the dot label ``FILMED {date} · PUBLISHED
   {date}``. Facts and narration stay at the day's horizon (``as-of``).
+- ``fair-use-on-timeline`` (S4 review, 2026-11-13): a fair-use excerpt (ledger licence ``fair-use-excerpt``) airs
+  only in The Weight, at most 10 s on the timeline per item (every shot of it summed) and 45 s per episode, the
+  bounds scripts/lib/rights/lints.mjs lintFairUse holds the ledger's in and out points to.
 - ``never-tell`` and ``hindsight-language``: the bible's news list (studio/news/lexicon.json) on the narration and
   our own on-screen text, quotations exempt; and no narration line paraphrases a headline the board on screen shows.
 - ``no-outlet-characterisation``: no characterising word next to an outlet's name (in any case) or a media noun (a
@@ -49,6 +52,10 @@ label is out of the spine's order is linted as news.
   holds; and our own text that reproduces a record headline carries its ``headline_sha256``.
 - ``title-lines-verbatim``: the title part carries ``title_lines`` and ``week_line``; each printed day line is the
   day's rank-1 headline and count as the record holds them, and the week line is the edition's.
+- ``dot-label-carried`` (S4 review round 3): every shot of a ledger item that names a ``dot_label`` (a sourcing
+  pass's: another place or day than the line names, or a montage dated only by its upload day, "WHITE HOUSE VIDEO ·
+  PUBLISHED 6 NOV 2026") carries that label's text as its own ``dot_label``; ruling A's label is checked by
+  ``picture_published_by_edition``.
 - ``no-music-under-news``: no music cue over the cold open, The Week, The Weight or The Margins.
 - ``no-music-under-quote`` (founder ruling): no music cue under any reader line.
 - ``narration-ceiling``: at most 55% of the runtime voiced.
@@ -590,6 +597,7 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
     episode = instant(play.get("as_of"))
     if episode is None:
         return []                             # as-of names the unreadable horizon
+    week_hz = []                              # the horizons of The Week's parts so far: a day's window starts at the last
     for p, seg in parts(play):
         if seg in SC.AS_OF_EXEMPT or seg in ("title", "echo", "question"):
             continue                          # news parts only, the checked order deciding (a mislabelled part is news)
@@ -597,6 +605,10 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
         if own is None:
             continue
         hz = own if own[1] <= episode[1] else episode
+        earlier = [h for h in week_hz if h[1] < hz[0]] if seg == "week" else []
+        day_start = max(earlier, key=lambda h: h[1]) if earlier else None
+        if seg == "week":
+            week_hz.append(hz)
         for x in (p.get("shots") or []) + (p.get("text") or []):
             item = assets.get(x.get("asset")) if x.get("asset") else None
             if item is None or item.get("test_fixture") or G.is_graphic(x) or item.get("generator") or item.get("synthetic"):
@@ -623,6 +635,12 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
                 ev = instant(item.get("date"))
                 if ev is None or not (ev[1] - ev[0]) <= dt.timedelta(days=1) or against(ev, hz) not in ("ok", "same-day"):
                     probs.append("published after the day's horizon, and its event is not dated to a day on or before it")
+                # The window's start (S4 review): the ledger's day_from, else the previous Week day's horizon day.
+                pbe = item.get("published_by_edition") if isinstance(item.get("published_by_edition"), dict) else {}
+                start = instant(pbe.get("day_from")) if pbe.get("day_from") else day_start
+                if ev is not None and start is not None and ev[0].date() < start[0].date():
+                    probs.append(f"its event ({item.get('date')}) is dated before the day's window starts "
+                                 f"({start[0].date().isoformat()})")
                 if against(pub, episode) != "ok":
                     probs.append(f"published after the edition cutoff {_fmt(episode)}")
                 want = edition_dot_label(item.get("date"), item.get("published_at"))
@@ -635,6 +653,61 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
             if probs:
                 found.append(_check(PUBLISHED_BY_EDITION, False, unit=x.get("id"), evidence=dict(base, problems=probs)))
     return _summary(PUBLISHED_BY_EDITION, found, checked)
+
+
+DOT_LABEL_CARRIED = "dot-label-carried"
+
+
+def dot_label_checks(play: dict, assets: dict) -> list[dict]:
+    """``dot-label-carried``: a shot of a ledger item with a sourcing dot label carries that label, word for word."""
+    found, checked = [], 0
+    for p, _seg in parts(play):
+        for x in p.get("shots") or []:
+            item = assets.get(x.get("asset")) if x.get("asset") else None
+            if not isinstance(item, dict) or item.get("published_by_edition"):
+                continue                      # ruling A's label: picture_published_by_edition holds it
+            lab = item.get("dot_label")
+            want = lab.get("text") if isinstance(lab, dict) else lab
+            if not (isinstance(want, str) and want.strip()):
+                continue
+            checked += 1
+            if x.get("dot_label") != want:
+                found.append(_check(DOT_LABEL_CARRIED, False, unit=x.get("id"), evidence={
+                    "part": p.get("id"), "asset": x.get("asset"), "want": want, "got": x.get("dot_label"),
+                    "why": "the ledger item airs only with its dot label on screen"}))
+    return _summary(DOT_LABEL_CARRIED, found, checked)
+
+
+FAIR_USE = "fair-use-excerpt"
+FAIR_USE_CLIP_MAX_S, FAIR_USE_TOTAL_MAX_S = 10.0, 45.0
+
+
+def fair_use_timeline_checks(play: dict, assets: dict) -> list[dict]:
+    """``fair-use-on-timeline``: the seconds each fair-use excerpt is on screen, every shot of it summed, within the
+    ledger's bounds; and only in The Weight."""
+    found, per, where = [], {}, {}
+    for p, seg in parts(play):
+        for x in p.get("shots") or []:
+            item = assets.get(x.get("asset")) if x.get("asset") else None
+            if not item or item.get("licence") != FAIR_USE:
+                continue
+            per[x["asset"]] = per.get(x["asset"], 0.0) + float(x.get("dur_s") or 0.0)
+            if seg != "weight":
+                where.setdefault(x["asset"], []).append(p.get("id"))
+    for aid, secs in per.items():
+        probs = []
+        if secs > FAIR_USE_CLIP_MAX_S + 1e-6:
+            probs.append(f"on the timeline {secs:.1f} s in all, over {FAIR_USE_CLIP_MAX_S:.0f} s")
+        if where.get(aid):
+            probs.append(f"shown outside The Weight ({', '.join(where[aid])})")
+        if probs:
+            found.append(_check("fair-use-on-timeline", False, unit=aid, evidence={"asset": aid, "seconds": round(secs, 2),
+                                                                                 "problems": probs}))
+    total = sum(per.values())
+    if total > FAIR_USE_TOTAL_MAX_S + 1e-6:
+        found.append(_check("fair-use-on-timeline", False, unit="episode", evidence={
+            "seconds": round(total, 2), "problems": [f"fair-use excerpts run {total:.1f} s, over {FAIR_USE_TOTAL_MAX_S:.0f} s"]}))
+    return _summary("fair-use-on-timeline", found, len(per))
 
 
 def _extract_dates(inputs: dict) -> dict:
@@ -1492,6 +1565,8 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
         return out + deferred_checks()
     out += _guarded("as-of", as_of_checks, play, assets, inputs)
     out += _guarded(PUBLISHED_BY_EDITION, published_by_edition_checks, play, assets)
+    out += _guarded("fair-use-on-timeline", fair_use_timeline_checks, play, assets)
+    out += _guarded(DOT_LABEL_CARRIED, dot_label_checks, play, assets)
     out += _guarded("never-tell", language_checks, play, inputs, durations)
     out += _guarded("no-outlet-characterisation", outlet_checks, play, inputs)
     out += _guarded("no-bridge", bridge_checks, play, inputs)
@@ -1509,7 +1584,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
 
 
 RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
-         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "never-tell", "hindsight-language",
+         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "fair-use-on-timeline", DOT_LABEL_CARRIED, "never-tell", "hindsight-language",
          "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
          "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
          "ending-question", "black-share", "tour-window-inside", "tour-no-claim-before-board", *DEFERRED)
