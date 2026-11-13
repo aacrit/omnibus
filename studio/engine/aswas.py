@@ -1,4 +1,5 @@
-# Transplanted from document@b62c4fa:studio/engine/aswas.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/aswas.py (tweak: a graphic shot's ledger item is dated like the
+# series titles' master, by its content, E3; see docs/TRANSPLANT-document-engine.md)
 """GRAMMAR A0, the founding principle: show as was, not as is, and never tell.
 
     python -m studio.engine.aswas <film dir> [--as-of DATE] [--json]
@@ -434,7 +435,7 @@ def as_of_checks(play: dict, assets: dict, horizon) -> list[dict]:
         for k, s in enumerate(part.get("shots") or []):
             item = assets.get(s.get("asset")) if s.get("asset") else None
             # A40: the series titles' master is dated by its content (content_date: the latest record it shows)
-            if s.get("kind") in ("archive_video", "archive_still", "drawn", "title_sequence") and item is not None:
+            if s.get("kind") in ("archive_video", "archive_still", "drawn", "title_sequence", "graphic") and item is not None:
                 checked += 1
                 judge(s.get("id"), *item_date(item, horizon))
             for mk in s.get("marks") or []:

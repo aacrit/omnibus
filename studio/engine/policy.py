@@ -1,4 +1,5 @@
-# Transplanted from document@b62c4fa:studio/engine/policy.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/policy.py (tweak: settings.master_fps is read against the
+# screenplay's show profile's masters, E3; see docs/TRANSPLANT-document-engine.md)
 """Per-film policy: the imagery rule (GRAMMAR A21, ticket E3), the policy
 settings and stated shortfalls (A25, ticket E9). Pure functions, no I/O:
 render.py lints with them and publish.py reads the same rule for the poster.
@@ -513,8 +514,9 @@ def film_settings(play: dict) -> tuple[dict, dict, list[str]]:
     for k, v in declared.items():
         if k == "master_fps":             # A44: a rate, not a number in bounds (studio/engine/cadence.py), kept exact
             from studio.engine import cadence as CAD
+            from studio.news import profile as SHOW
             try:
-                stated[k] = CAD.rate_str(CAD.parse_rate(v))
+                stated[k] = CAD.rate_str(CAD.parse_rate(v, SHOW.masters(play)))
             except CAD.RateError as e:
                 problems.append(str(e))
             continue

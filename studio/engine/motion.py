@@ -1,4 +1,6 @@
-# Transplanted from document@b62c4fa:studio/engine/motion.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/motion.py (tweak: the title card's wordmark and the lockup's
+# words take the show's brand, E3; defaults are document's own, so a document film draws exactly what it did;
+# see docs/TRANSPLANT-document-engine.md)
 """void document: the on-film motion system, frame-exact in pure Python.
 
 Everything here is a function of time. Nothing keeps state, nothing writes a
@@ -2101,19 +2103,24 @@ def silent_card_frame(img: Image.Image, t: float, *, start: float, end: float, s
     return Image.alpha_composite(base, layer)
 
 
-def wordmark_width(L: Layout, px: int, fonts: Fonts) -> float:
+WORDMARK = ("void", "document")     # the house's; a show profile names its own (studio/news/profile.py, E3)
+
+
+def wordmark_width(L: Layout, px: int, fonts: Fonts, wordmark: tuple[str, str] = WORDMARK) -> float:
     f_v, f_d = _font(fonts.data, px), _font(fonts.display, px)
-    return f_v.getlength("void") + 0.45 * px + f_d.getlength("document")
+    return f_v.getlength(wordmark[0]) + 0.45 * px + f_d.getlength(wordmark[1])
 
 
-def draw_wordmark(d: ImageDraw.ImageDraw, x: float, baseline: float, px: int, fonts: Fonts, alpha: float = 1.0):
-    """``void`` in the data face, ``document`` in the display face (BRAND.md)."""
+def draw_wordmark(d: ImageDraw.ImageDraw, x: float, baseline: float, px: int, fonts: Fonts, alpha: float = 1.0,
+                  wordmark: tuple[str, str] = WORDMARK):
+    """``void`` in the data face, ``document`` (or the show's own second word) in the display face (BRAND.md)."""
     f_v, f_d = _font(fonts.data, px), _font(fonts.display, px)
-    d.text((x, baseline), "void", font=f_v, fill=_rgba(PALETTE["bone"], alpha), anchor="ls")
-    d.text((x + f_v.getlength("void") + 0.45 * px, baseline), "document", font=f_d, fill=_rgba(PALETTE["bone"], alpha), anchor="ls")
+    d.text((x, baseline), wordmark[0], font=f_v, fill=_rgba(PALETTE["bone"], alpha), anchor="ls")
+    d.text((x + f_v.getlength(wordmark[0]) + 0.45 * px, baseline), wordmark[1], font=f_d,
+           fill=_rgba(PALETTE["bone"], alpha), anchor="ls")
 
 
-def title_card_layout(L: Layout, title: str, fonts: Fonts) -> dict:
+def title_card_layout(L: Layout, title: str, fonts: Fonts, wordmark: tuple[str, str] = WORDMARK) -> dict:
     """The title card's line as drawn (E15): one line inside SAFE_W, every glyph
     present, or TextOverflow; the wordmark beneath is fixed (its words hold no
     numeral). Every digit run of the title ("1906", "11 September 2001") is
@@ -2125,10 +2132,11 @@ def title_card_layout(L: Layout, title: str, fonts: Fonts) -> dict:
     x = (L.W - w) / 2.0
     return {"font": f_t, "data_font": f_n,
             "lines": [{"role": "title", "text": title, "x": x, "w": w, "spans": text_spans(x, title, f_t, f_n)},
-                      {"role": "wordmark", "text": "void document"}]}
+                      {"role": "wordmark", "text": " ".join(wordmark)}]}
 
 
-def title_card_frame(img: Image.Image, t: float, *, start: float, end: float, title: str, fonts: Fonts) -> Image.Image:
+def title_card_frame(img: Image.Image, t: float, *, start: float, end: float, title: str, fonts: Fonts,
+                     wordmark: tuple[str, str] = WORDMARK) -> Image.Image:
     """Film title on one line, ``void document`` beneath (GRAMMAR 9), 5 s, CARD.
     In: the title arrives on ARRIVE (rise 0.6% of H); the wordmark on SETTLE
     0.4 s later. Out: a 0.67 s ease-in fade."""
@@ -2137,7 +2145,7 @@ def title_card_frame(img: Image.Image, t: float, *, start: float, end: float, ti
         return base
     L = Layout(*base.size)
     exit_k = fade_out(t, end, TITLE["exit"])
-    lay = title_card_layout(L, title, fonts)
+    lay = title_card_layout(L, title, fonts, wordmark)
     layer = Image.new("RGBA", base.size, (0, 0, 0, 0))
     p = ARRIVE.progress(t - start)
     sub = Image.new("RGBA", base.size, (0, 0, 0, 0))
@@ -2149,17 +2157,24 @@ def title_card_frame(img: Image.Image, t: float, *, start: float, end: float, ti
         px = L.px(TITLE["wordmark"])
         sub = Image.new("RGBA", base.size, (0, 0, 0, 0))
         sd = ImageDraw.Draw(sub)
-        ww = wordmark_width(L, px, fonts)
-        draw_wordmark(sd, (L.W - ww) / 2.0, by + L.h(TITLE["gap"]) + px, px, fonts, clamp01(wp) * exit_k)
+        ww = wordmark_width(L, px, fonts, wordmark)
+        draw_wordmark(sd, (L.W - ww) / 2.0, by + L.h(TITLE["gap"]) + px, px, fonts, clamp01(wp) * exit_k, wordmark)
         layer.alpha_composite(_shift(sub, (1.0 - clamp01(wp)) * L.h(CHAPTER["rise"])))
     return Image.alpha_composite(base, layer)
 
 
 LOCKUP = dict(size=5.6, space=0.45, baseline=0.33)   # BRAND-KIT 15: the series lockup, 5.6% of the height
 LOCKUP_TEXT = "void document · As It Was"
+LOCKUP_BRAND = (WORDMARK, "As It Was")   # (wordmark, tagline): the house's; a show profile names its own (E3)
 
 
-def lockup_layout(L: Layout, fonts: Fonts) -> dict:
+def lockup_text(brand: tuple[tuple[str, str], str] = LOCKUP_BRAND) -> str:
+    """The lockup's words as one line (document's is LOCKUP_TEXT)."""
+    (w0, w1), tag = brand
+    return f"{w0} {w1} · {tag}"
+
+
+def lockup_layout(L: Layout, fonts: Fonts, brand: tuple[tuple[str, str], str] = LOCKUP_BRAND) -> dict:
     """BRAND-KIT 15's series lockup as drawn (GRAMMAR A40 lockup card): ``void`` in JetBrains Mono 500, ``document``
     in Fraunces 300, a middle dot, ``As It Was`` in Fraunces 300 italic, at 5.6% of the height, after the logomark and
     one ring diameter of clear space, the whole centred (design/title-sequence/blender/assemble.py's geometry)."""
@@ -2167,11 +2182,12 @@ def lockup_layout(L: Layout, fonts: Fonts) -> dict:
     f_v, f_d, f_i = _font(fonts.data, px), _font(fonts.display, px), _font(fonts.display_italic, px)
     sp = LOCKUP["space"] * px
     ring_d = 2 * LOGOMARK_RING[1] / 24.0 * px
-    words = [("void", f_v), ("document", f_d), ("·", f_d), ("As It Was", f_i)]
+    (w0, w1), tag = brand
+    words = [(w0, f_v), (w1, f_d), ("·", f_d), (tag, f_i)]
     widths = [f.getlength(s) for s, f in words]
     total = px + ring_d + sum(widths) + 3 * sp
     return {"px": px, "x0": (L.W - total) / 2, "baseline": L.H / 2 + LOCKUP["baseline"] * px, "ring_d": ring_d,
-            "space": sp, "words": words, "widths": widths, "text": LOCKUP_TEXT}
+            "space": sp, "words": words, "widths": widths, "text": lockup_text(brand)}
 
 
 def lockup_paper(paper: Image.Image, size: tuple[int, int]) -> Image.Image:
@@ -2181,7 +2197,8 @@ def lockup_paper(paper: Image.Image, size: tuple[int, int]) -> Image.Image:
 
 
 def lockup_card_frame(img: Image.Image, t: float, *, start: float, end: float, fonts: Fonts,
-                      paper: Image.Image | None = None) -> Image.Image:
+                      paper: Image.Image | None = None,
+                      brand: tuple[tuple[str, str], str] = LOCKUP_BRAND) -> Image.Image:
     """The series lockup card (GRAMMAR A40 lockup card, BRAND-KIT 15), cut in and cut out: the words are whole from
     the first frame (no ARRIVE, no fade, no exit); the logomark's corners close on ``drift`` and its ember comes in
     over the last tenth of that motion. No second wordmark.
@@ -2195,7 +2212,7 @@ def lockup_card_frame(img: Image.Image, t: float, *, start: float, end: float, f
     if t < start or t >= end:
         return base
     L = Layout(*base.size)
-    lay = lockup_layout(L, fonts)
+    lay = lockup_layout(L, fonts, brand)
     px, x0, baseline = lay["px"], lay["x0"], lay["baseline"]
     p = clamp01(DRIFT.progress(t - start))
     box = round(px * 24 / 17)                    # the corners span 17 of the mark's 24 units: the type's height

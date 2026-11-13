@@ -14,13 +14,13 @@ instead. JSON and other non-commentable files carry their provenance only in thi
 | Source path | Disposition | Why | Target path |
 |---|---|---|---|
 | `studio/engine/__init__.py` | lift | Empty; makes `studio.engine` a package. | same |
-| `studio/engine/aswas.py` | lift | A0 show-as-was text and date rules. | same |
+| `studio/engine/aswas.py` | **tweak (E3)** | A0 show-as-was text and date rules. A `graphic` shot's ledger item is dated like the series titles' master (one kind added to one tuple). | same |
 | `studio/engine/bracket.py` | lift | Fill-detail and crop bracketing. | same |
-| `studio/engine/cadence.py` | lift | A44 master frame rate (24 or 30000/1001) per film. | same |
+| `studio/engine/cadence.py` | **tweak (E3)** | A44 master frame rate per film. `parse_rate`, `native_master`, `majority`, `resolve` take `masters` (default document's 24 and 30000/1001, wording unchanged); `BROADCAST` 30/1 added, allowed only by a show profile that lists it (omnibus). | same |
 | `studio/engine/captions.py` | lift | Subtitle fill and burn-in. | same |
 | `studio/engine/clips.py` | lift | A44 clip conform (frame drop/repeat), source frame tolerances. | same |
 | `studio/engine/counts.py` | lift | Card numeral checks. | same |
-| `studio/engine/description.py` | lift | A56 description block; reads `web/src/cc-licences.json` (see below). | same |
+| `studio/engine/description.py` | **tweak (E3)** | A56 description block; reads `web/src/cc-licences.json` (see below). The sources and corrections links and the CARD legend's brand come from sources.json's `show` record when present (omnibus: `/e/<issue>/sources`, `/e/<issue>/correct`); `void omnibus` counts as the studio's own name. Without a show record, byte-identical output. | same |
 | `studio/engine/disclosure.py` | lift | A56 per-film disclosure text. | same |
 | `studio/engine/georef.py` | lift | Map georeferencing helpers. | same |
 | `studio/engine/journal.py` | lift | `Journal`, `sha256_file`: the run's own audit log. | same |
@@ -28,14 +28,14 @@ instead. JSON and other non-commentable files carry their provenance only in thi
 | `studio/engine/layers.py` | lift | `--layers` compositing. | same |
 | `studio/engine/levels.py` | lift | Loudness measurement and gain. | same |
 | `studio/engine/maps.py` | **tweak** | Natural Earth maps (named by `reports/briefs/omnibus-engine-plan.md` as the E6 graphics source). `TOKENS` now reads `studio/house/document/tokens.css` via `studio/engine/house.HOUSE_ROOT` instead of `design/tokens.css` directly (one line; see below). Everything else unchanged. | same |
-| `studio/engine/motion.py` | lift | Every graphic draw (cards, lockup, marks). | same |
+| `studio/engine/motion.py` | **tweak (E3)** | Every graphic draw (cards, lockup, marks). The title card's wordmark and the lockup's words are parameters (`WORDMARK`, `LOCKUP_BRAND` defaults are document's). | same |
 | `studio/engine/moves.py` | lift | Camera move primitives. | same |
 | `studio/engine/narrator.py` | lift | Kokoro voice/lock lookups; reads `studio/kokoro.lock.json`. | same |
 | `studio/engine/overlays.py` | lift | Lower thirds and overlay text. | same |
 | `studio/engine/pages.py` | lift | Screenplay page helpers. | same |
-| `studio/engine/policy.py` | lift | Per-film settings, imagery rule, shortfall statements. | same |
+| `studio/engine/policy.py` | **tweak (E3)** | Per-film settings, imagery rule, shortfall statements. `settings.master_fps` is parsed against the show's masters. | same |
 | `studio/engine/publish.py` | **leave behind** | Web encode and poster packet; no web publish surface exists yet for omnibus episodes (the charter's own Episode/Sources pages are net-new, not this). Its tests (`test_publish.py`, and the one case in `test_films.py` that calls it) leave with it. | none |
-| `studio/engine/render.py` | lift | The render engine itself: `TARGET_LUFS = -18.0` at line 117 (unchanged; census item). | same |
+| `studio/engine/render.py` | **tweak (E3)** | The render engine itself. See the E3 section below. | same |
 | `studio/engine/rulebook.py` | lift | A45/A52 subject and caption rules for stills. | same |
 | `studio/engine/score.py` | lift | A29 score standard, cue kinds and roles. | same |
 | `studio/engine/sheets.py` | lift | Contact-sheet helpers for the camera. | same |
@@ -111,3 +111,29 @@ passes; see this ticket's PR evidence for the exact count.
 None found: the lifted modules describe only behaviour they have (no "future enhancement" comments were carried
 over unexamined). The `--draft` CLI flag's own claims (silence for missing voice WAVs, a relaxed limiter) are
 exercised, not assumed, in `episodes/skeleton/census.md`.
+
+## E3: the news extensions (omnibus)
+
+Net-new code lives in `studio/news/`: `profile.py` (show profiles: document, omnibus), `graphic.py` (the `graphic`
+kind, generalised from `titles.py`'s A40 master: a pre-rendered DRAWN clip at its own rate, optional straight alpha,
+as a full-frame shot or a part `text[]` element over a picture), `schema.py` (part `segment` and `as_of`, graphic
+shape, `quote_sha256` on reader lines, `text composited` marked RECONSTRUCTED, `silence: intended` with a reason),
+`lints.py` with `lexicon.json` (show bible j's blocking lints; `clock-true`, `sources-last`, `no-youtube` declared
+`not_implemented` until the release step). Tests: `studio/tests/test_news_lints.py` (fast gate) and
+`studio/tests/test_news_render.py` (studio-full), fixtures in `studio/tests/fixture_news/`.
+
+Tweaks to lifted modules, each the smallest that lets an omnibus screenplay be linted and rendered while a document
+film plans and renders exactly as before (every default is document's):
+
+| Module | Tweak |
+|---|---|
+| `render.py` | `build_plan` reads the screenplay's `show` (refused if unknown) and `apply_show` sets `TARGET_LUFS`/`TARGET_TP` (omnibus -16 / -1.5, document -18 / -1.5) and the derived `VOICE_TP` and `VOICE_TP_FLOOR` (2.2 dB under it: document's -7.0 unchanged) for that plan's mix; `_archival_total` reads `VOICE_TP` at call time, not at import; the master rate uses the show's masters; `KIND_CLASSES` adds `graphic` (DRAWN) and `ALTERATIONS` adds `text composited`, both refused on a show whose profile does not lint news (so a document film plans as before); graphics, full-frame and over a picture, are cited, licensed, imagery-flagged, dated and preflighted like clips (`graphic-length` warns past a 2 s hold); the wordmark, lockup and credits studio line are a news show's only (`news_show`); `Pictures.shot` plays a graphic over film black and `draw_overlays` composites graphic overlays first; title and lockup cards draw the show's wordmark (`card-drawn` checks it); the credits' studio line is the show's; sources.json carries the `show` record, each graphic's subtype/data_ref, and `graphics_over`; an omnibus plan journals `studio/news/lints.checks` with each line's measured length. |
+| `cadence.py`, `policy.py` | The show's masters (30/1 for omnibus). |
+| `motion.py` | Wordmark and lockup words as parameters. |
+| `description.py` | Links and CARD legend from sources.json's `show` record. |
+| `aswas.py` | `graphic` items dated by content. |
+
+Not changed: `maps.py` and `counts.py` still write `void document studio, drawn from ...` into the ledger credit of a
+map or count card they draw; omnibus's graphics come from E6's pipeline, not these, so their credit is E6's to set.
+The description's release check still reads document's `films.json` registry (absent here), so a release that
+leaves credits to the sources page is refused until omnibus's sources page is registered (release step, later).
