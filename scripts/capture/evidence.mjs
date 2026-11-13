@@ -9,7 +9,7 @@
 // tightened rights rule reaches the capture without a change here.
 //
 // Secrets never reach evidence: every stored text and the record are scrubbed
-// of DVIDS_API_KEY and CLOUDFLARE_API_TOKEN, the DVIDS page is its public
+// of DVIDS_API_KEY, CLOUDFLARE_API_TOKEN and the R2 keys, the DVIDS page is its public
 // page (no key), and a record that still holds a secret throws.
 
 import { createHash } from "node:crypto";
@@ -26,7 +26,7 @@ import { isoSecond } from "../lib/rights/text.mjs";
 
 export const NASA_TERMS = "https://www.nasa.gov/nasa-brand-center/images-and-media/";
 export const EVIDENCE_SCHEMA = "omnibus.capture-evidence/1";
-export const SECRET_ENV = ["DVIDS_API_KEY", "CLOUDFLARE_API_TOKEN"];
+export const SECRET_ENV = ["DVIDS_API_KEY", "CLOUDFLARE_API_TOKEN", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY"];
 const HEX64 = /^[0-9a-f]{64}$/;
 
 /**

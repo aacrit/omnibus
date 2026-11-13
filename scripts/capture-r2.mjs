@@ -2,8 +2,10 @@
 // C6: the stores the footage capture writes through (scripts/lib/capture-store.mjs
 // holds every key, cap and plan). Two stores, one interface
 // { get(key) -> text | null, put(key, body), delete(key) }:
-//   captureR2Store()  the private R2 bucket `omnibus-capture`, through wrangler
-//                     (CLOUDFLARE_API_TOKEN on Actions, `wrangler login` locally)
+//   captureStore()    the private R2 bucket `omnibus-capture`: through R2's S3 API
+//                     with the bucket-scoped secrets R2_ACCOUNT_ID, R2_ACCESS_KEY_ID
+//                     and R2_SECRET_ACCESS_KEY (scripts/lib/r2-s3.mjs) when they are
+//                     set (Actions), else through wrangler's own login (a laptop)
 //   dirStore(root)    a directory laid out by the same keys: the workflow
 //                     artifact a run keeps when R2 is not configured
 //
@@ -24,6 +26,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveBinPath } from "./lib/run-bin.mjs";
 import { BUCKET, INDEX_KEY, PREFIX, commit, planPut, readIndex } from "./lib/capture-store.mjs";
+import { r2Config, readOnly, syncS3 } from "./lib/r2-s3.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -37,8 +40,44 @@ export function assertKey(key) {
   return k;
 }
 
-/** The R2 bucket through wrangler. get() is null only for a key that does not exist. */
-export function captureR2Store(bucket = BUCKET) {
+/** The capture bucket through R2's S3 API (bucket-scoped keys): get, put, conditional put, delete, list. */
+export function captureS3Store(cfg, { bucket = BUCKET, client = syncS3(cfg) } = {}) {
+  return {
+    label: `r2://${bucket}`,
+    conditional: true,
+    get: (key) => client.get(bucket, assertKey(key))?.body.toString("utf8") ?? null,
+    getBytes: (key) => client.get(bucket, assertKey(key))?.body ?? null,
+    getWithEtag(key) {
+      const r = client.get(bucket, assertKey(key));
+      return r ? { text: r.body.toString("utf8"), etag: r.etag } : { text: null, etag: null };
+    },
+    put: (key, body) => void client.put(bucket, assertKey(key), body, { contentType: contentType(key) }),
+    /** Writes only if the object is still the one read (etag), or absent (null). False when another writer got there first. */
+    putIfMatch: (key, body, etag) => client.put(bucket, assertKey(key), body, { contentType: contentType(key), ...(etag ? { ifMatch: etag } : { ifNoneMatch: "*" }) }).ok,
+    delete: (key) => client.delete(bucket, assertKey(key)),
+    list(prefix) {
+      if (!String(prefix).startsWith(`${PREFIX}/`)) throw new Error(`not a capture prefix: ${prefix}`);
+      return client.list(bucket, prefix);
+    },
+  };
+}
+
+/** The capture store for this environment: S3 with the R2 secrets, else wrangler's login. */
+export function captureStore(env = process.env) {
+  const cfg = r2Config(env);
+  return cfg ? captureS3Store(cfg) : captureWranglerStore();
+}
+
+/** The snapshot bucket `omnibus`, read only: S3 with the R2 secrets, else wrangler's login. */
+export async function snapshotReadStore(env = process.env) {
+  const cfg = r2Config(env);
+  if (cfg) return readOnly(syncS3(cfg), "omnibus");
+  const { wranglerStore } = await import("./snapshot-r2.mjs");
+  return wranglerStore();
+}
+
+/** The R2 bucket through wrangler (a laptop's `wrangler login`). get() is null only for a key that does not exist. */
+export function captureWranglerStore(bucket = BUCKET) {
   const bin = resolveBinPath("wrangler", "wrangler");
   const once = (args) => {
     const r = spawnSync(process.execPath, [bin, ...args], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, cwd: repoRoot, timeout: 300_000 });
@@ -179,7 +218,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     process.exit(2);
   }
   try {
-    backfill({ root: path.resolve(root), store: captureR2Store() });
+    backfill({ root: path.resolve(root), store: captureStore() });
   } catch (err) {
     console.error(`capture-r2: ${err.message}`);
     process.exit(1);

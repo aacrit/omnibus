@@ -246,10 +246,11 @@ describe(".github/workflows/capture.yml", () => {
   it("passes each secret only to the steps that use it, and keeps a 14-day artifact", () => {
     for (const step of job.steps) {
       const env = JSON.stringify(step.env ?? {});
-      if (/CLOUDFLARE_API_TOKEN/.test(env)) expect(step.run).toMatch(/--store r2/);
+      expect(env).not.toMatch(/CLOUDFLARE_API_TOKEN/);
+      if (/R2_SECRET_ACCESS_KEY/.test(env)) expect(step.run).toMatch(/--store r2/);
       if (/DVIDS_API_KEY/.test(env)) expect(step.run).toMatch(/scripts\/capture\/run\.mjs/);
     }
-    expect(job.env).toEqual({ HAS_R2: "${{ secrets.CLOUDFLARE_API_TOKEN != '' }}", HAS_DVIDS: "${{ secrets.DVIDS_API_KEY != '' }}" });
+    expect(job.env).toEqual({ HAS_R2: "${{ secrets.R2_ACCESS_KEY_ID != '' && secrets.R2_SECRET_ACCESS_KEY != '' && secrets.R2_ACCOUNT_ID != '' }}", HAS_DVIDS: "${{ secrets.DVIDS_API_KEY != '' }}" });
     const art = job.steps.find((s: any) => String(s.uses).startsWith("actions/upload-artifact"));
     expect(art.with["retention-days"]).toBe(14);
     const red = job.steps.find((s: any) => /capture-red/.test(String(s.run)));
