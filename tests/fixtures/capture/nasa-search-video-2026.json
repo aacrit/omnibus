@@ -1,0 +1,120 @@
+{
+ "_recorded": {
+  "url": "https://images-api.nasa.gov/search?media_type=video&year_start=2026&page_size=3",
+  "at": "2026-11-13T18:00:00Z",
+  "by": "C2 fixture recording: API metadata only, no media; descriptions clipped to 300 chars, links cut to one"
+ },
+ "response": {
+  "collection": {
+   "version": "1.1",
+   "href": "http://images-api.nasa.gov/search?media_type=video&year_start=2026&page_size=3",
+   "items": [
+    {
+     "href": "https://images-assets.nasa.gov/video/KSC-20260324-MH-GEB01-0001-Artemis_II_Sunrise_Timelapse-M18703/collection.json",
+     "data": [
+      {
+       "album": [
+        "Artemis_II",
+        "Artemis_II_Launch"
+       ],
+       "center": "KSC",
+       "date_created": "2026-03-25T00:00:00Z",
+       "description": "The rising Sun illuminates the sky on Tuesday, March 24, 2026, as NASA’s Artemis II SLS (Space Launch System) rocket and Orion spacecraft stand vertical at Launch Complex 39B at NASA’s Kennedy Space Center in Florida. The Artemis II test flight will take Commander Reid Wiseman, Pilot Victor Glover, ",
+       "keywords": [
+        "Artemis II",
+        "Artemis 2",
+        "SLS",
+        "Space Launch System",
+        "Orion",
+        "Launch Complex 39B"
+       ],
+       "location": "Max Brewer Bridge, Titusville FL",
+       "media_type": "video",
+       "nasa_id": "KSC-20260324-MH-GEB01-0001-Artemis_II_Sunrise_Timelapse-M18703",
+       "photographer": "NASA/Glenn Benson",
+       "title": "Artemis II - Sunrise"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/video/KSC-20260324-MH-GEB01-0001-Artemis_II_Sunrise_Timelapse-M18703/KSC-20260324-MH-GEB01-0001-Artemis_II_Sunrise_Timelapse-M18703~large.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 800,
+       "size": 18517,
+       "height": 450
+      }
+     ]
+    },
+    {
+     "href": "https://images-assets.nasa.gov/video/MAF_20260420_CS3_Rollout_v2/collection.json",
+     "data": [
+      {
+       "center": "MAF",
+       "date_created": "2026-04-20T00:00:00Z",
+       "description": "NASA moved the core stage, or the largest section, of the SLS (Space Launch System) rocket that will launch the crewed Artemis III mission in 2027 from the agency’s Michoud Assembly Facility to the agency’s Pegasus barge in New Orleans on April 20. The barge will ferry the top four-fifths – the sect",
+       "description_508": "NASA moved the core stage, or the largest section, of the SLS (Space Launch System) rocket that will launch the crewed Artemis III mission in 2027 from the agency’s Michoud Assembly Facility to the agency’s Pegasus barge in New Orleans on April 20. The barge will ferry the top four-fifths – the section containing the liquid hydrogen tank, liquid oxygen tank, intertank, and forward skirt – of the SLS core stage to NASA’s Kennedy Space Center in Florida to complete outfitting and vertical integration.",
+       "keywords": [
+        "Artemis",
+        "NASA",
+        "Artemis III",
+        "Moon",
+        "Space Launch System",
+        "Orion",
+        "Michoud Assembly Facility"
+       ],
+       "location": "NASA Michoud",
+       "media_type": "video",
+       "nasa_id": "MAF_20260420_CS3_Rollout_v2",
+       "photographer": "NASA/Evan Deroche/Michael DeMocker/Sam Lott/Brandon Hancock",
+       "title": "NASA Rolls Out Artemis III Moon Rocket Core Stage",
+       "album": [
+        "Artemis_III_Core_Stage_Rollout"
+       ]
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/video/MAF_20260420_CS3_Rollout_v2/MAF_20260420_CS3_Rollout_v2~large.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 800,
+       "size": 32327,
+       "height": 450
+      }
+     ]
+    },
+    {
+     "href": "https://images-assets.nasa.gov/video/iss075m262151559_NASA’s_SpaceX_Crew-13_Leaders_Discuss_Mission_Overview_260803/collection.json",
+     "data": [
+      {
+       "center": "JSC",
+       "date_created": "2026-08-04T00:00:00Z",
+       "description": "Leaders from NASA, SpaceX, and CSA (Canadian Space Agency) presented an overview of NASA’s SpaceX Crew-13 mission to the International Space Station during a mission overview briefing from NASA’s Johnson Space Center in Houston on Aug. 3. The mission will carry NASA’s Jessica Watkins and Luke Delane",
+       "keywords": [
+        "Expedition 75",
+        "NASA's SpaceX Crew-13 Mission Overview"
+       ],
+       "media_type": "video",
+       "nasa_id": "iss075m262151559_NASA’s_SpaceX_Crew-13_Leaders_Discuss_Mission_Overview_260803",
+       "title": "NASA’s SpaceX Crew-13 Leaders Discuss Mission Overview – Monday, August 3, 2026"
+      }
+     ],
+     "links": [
+      {
+       "href": "https://images-assets.nasa.gov/video/iss075m262151559_NASA’s_SpaceX_Crew-13_Leaders_Discuss_Mission_Overview_260803/iss075m262151559_NASA’s_SpaceX_Crew-13_Leaders_Discuss_Mission_Overview_260803~large.jpg",
+       "rel": "alternate",
+       "render": "image",
+       "width": 800,
+       "height": 450,
+       "size": 34724
+      }
+     ]
+    }
+   ],
+   "metadata": {
+    "total_hits": 661
+   }
+  }
+ }
+}
