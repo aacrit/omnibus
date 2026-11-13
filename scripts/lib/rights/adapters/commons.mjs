@@ -44,6 +44,29 @@ export function infoUrl(ref) {
   return `${API}?${q}`;
 }
 
+/** The file page's wikitext (its {{Information}} block, its source templates), read beside imageinfo. */
+export function wikitextUrl(ref) {
+  const q = new URLSearchParams({ action: "query", format: "json", formatversion: "2", prop: "revisions", rvprop: "content", rvslots: "main", titles: fileTitle(ref) });
+  return `${API}?${q}`;
+}
+
+/** The wikitext a revisions response holds, or "". */
+export function parseWikitext(json) {
+  return String(json?.query?.pages?.[0]?.revisions?.[0]?.slots?.main?.content ?? "");
+}
+
+/**
+ * Why a Commons file is a YouTube copy (S4 review, 2026-11-13): the {{From YouTube}} template,
+ * a video2commons upload, or the "Videos from YouTube" category. A YouTube copy's upload day is
+ * not its event's day, and its frames may carry a broadcaster's bug; null when none.
+ */
+export function youtubeSource(categories = [], wikitext = "") {
+  const cat = categories.find((c) => /^(?:Videos from YouTube|Uploaded with video2commons)$/i.test(String(c)));
+  if (cat) return `category "${cat}"`;
+  const t = String(wikitext).match(/\{\{\s*From YouTube\b[^}]*\}\}|video2commons/i);
+  return t ? `wikitext ${t[0].slice(0, 120)}` : null;
+}
+
 export function userUrl(name) {
   const q = new URLSearchParams({ action: "query", format: "json", formatversion: "2", list: "users", ususers: name, usprop: "registration|editcount" });
   return `${API}?${q}`;
@@ -90,7 +113,7 @@ const BASIS_WORDS = {
 };
 
 /** Pure: the candidate a recorded imageinfo response (and optional user record) describes. */
-export function parseInfo(json, { ref, user = null, capturedAt }) {
+export function parseInfo(json, { ref, user = null, capturedAt, wikitext = "" }) {
   const page = json?.query?.pages?.[0];
   if (!page || page.missing || page.invalid || !page.imageinfo?.length) return { status: "not_found" };
   const history = page.imageinfo;
@@ -168,6 +191,9 @@ export function parseInfo(json, { ref, user = null, capturedAt }) {
       restriction_reasons: restrictionReasons(plain(em.Restrictions)),
       ai_fields_checked: ["commons-categories", "title", "description", "credit", "licence"],
       ref_requested: ref,
+      // The file page's own text, for a date record's identifier (S4 review); never copied into the ledger.
+      source_text: clip(String(wikitext ?? ""), 20000),
+      youtube_source: youtubeSource(categories, wikitext),
     },
   };
 }
@@ -187,11 +213,13 @@ export async function lookup(ref, { http, now = () => new Date() }) {
   const page = info.json?.query?.pages?.[0];
   const firstUser = page?.imageinfo?.[page.imageinfo.length - 1]?.user;
   let user = null;
-  const draft = parseInfo(info.json, { ref, capturedAt });
+  const wt = await http.getJson(wikitextUrl(ref)).catch(() => ({ status: "error" }));
+  const wikitext = wt?.status === "ok" ? parseWikitext(wt.json) : "";
+  const draft = parseInfo(info.json, { ref, capturedAt, wikitext });
   if (draft.status === "ok" && draft.candidate.own_work && firstUser) {
     const u = await http.getJson(userUrl(firstUser));
     user = u.status === "ok" ? u.json : null;
-    return parseInfo(info.json, { ref, user, capturedAt });
+    return parseInfo(info.json, { ref, user, capturedAt, wikitext });
   }
   return draft;
 }

@@ -5,6 +5,7 @@ import { ALLOWED_IDS, EDITORIAL_USE, REVIEWED_TERMS_PAGES, deniedBy, editorialTe
 import { readFileSync } from "node:fs";
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import * as nara from "../scripts/lib/rights/adapters/nara.mjs";
+import { refineDate } from "../scripts/lib/rights/fetcher.mjs";
 import { foreignCreditParts, parseVoaPage } from "../scripts/lib/rights/adapters/voa.mjs";
 
 const AT = "2026-11-13T12:00:00Z";
@@ -89,5 +90,36 @@ describe("S4 review 4: NARA's flagged path needs a maker from the explicit agenc
     expect((nara.parseNara(j, { ref: "22399", capturedAt: AT, kind: "footage" }) as any).candidate.licence).toBe("pd-us-federal");
     expect(nara.flaggedFederalMaker("Department of Defense. Department of the Navy. Naval Photographic Center. (12/01/1959 - ca. 1998)")).toBe(true);
     expect(nara.flaggedFederalMaker("United States Information Agency. (08/01/1953 - 10/01/1999)")).toBe(true);
+  });
+});
+
+describe("S4 review 6: a date record refines a stated date and names an identifier the source states", () => {
+  // The Truman Library's page for 73-3881 (trimmed fixture) names NAID 338959044; Commons's copy names NLT-AVC-PHT-(73)3881.
+  const truman = readFileSync(new URL("./fixtures/rights/truman-photo-73-3881.html", import.meta.url), "utf8");
+  const rec = (naid: string, local: string) => ({ date: "1952-03-29", record_ids: [naid, local], title: "Truman at the dinner", item_url: `https://catalog.archives.gov/id/${naid}`, evidence: { url: `https://catalog.archives.gov/id/${naid}`, captured_text: `naId: ${naid}` } });
+  const commonsCopy = (n: string) => ({ ref: "File:Photograph... - NARA - 2003xx.jpg", title: "Photograph", source_text: `| ARC = 2003xx\n| Variant control numbers = NAIL Control Number: NLT-AVC-PHT-(73)${n}` });
+
+  it("the trimmed Truman fixture is the record block, naming the accession and the NAID", () => {
+    expect(truman.length).toBeLessThan(20_000);
+    expect(truman).toMatch(/73-3881/);
+    expect(truman).toMatch(/338959044/);
+  });
+
+  it("refuses a null source date (a record sets nothing)", () => {
+    expect(refineDate(null, rec("338959044", "73-3881"), { capturedAt: AT, source: commonsCopy("3881") }).problem).toMatch(/states no date of its own/);
+  });
+
+  it("refuses a record whose identifiers the source does not state", () => {
+    expect(refineDate("1952", rec("338959044", "73-3881"), { capturedAt: AT, source: commonsCopy("3872") }).problem).toMatch(/not shown to be a record of this item/);
+    expect(refineDate("1952", { ...rec("338959044", "73-3881"), record_ids: undefined, ref: "1" }, { capturedAt: AT, source: { title: "1952 photo 1" } }).problem).toMatch(/not shown/);
+  });
+
+  it("Truman 73-3881, 73-3872, 73-3883 and 73-3866 still pass", () => {
+    for (const [naid, n] of [["338959044", "3881"], ["338959024", "3872"], ["338959048", "3883"], ["338959010", "3866"]]) {
+      const r = refineDate("1952", rec(naid, `73-${n}`), { capturedAt: AT, source: commonsCopy(n) });
+      expect(r.date, n).toBe("1952-03-29");
+    }
+    // A page naming the NAID itself (the Truman Library's own) passes on the NAID.
+    expect(refineDate("1952", rec("338959044", "73-3881"), { capturedAt: AT, source: { source_text: truman } }).date).toBe("1952-03-29");
   });
 });

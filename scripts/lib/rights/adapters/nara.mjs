@@ -188,6 +188,8 @@ export function parseNara(json, { ref, capturedAt, kind = "still" }) {
       own_work: false,
       uploader: null,
       ai_fields_checked: ["title", "scopeAndContentNote", "subjects", "creators"],
+      // The record's own identifiers: a date record's must appear in the source it dates (S4 review).
+      record_ids: [String(hit.naId), ...(local ? [local] : [])],
     },
   };
 }

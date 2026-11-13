@@ -135,17 +135,42 @@ export function publishedByEdition({ date, publishedAt, window, editionCutoff })
   };
 }
 
+/** A pattern for one record identifier: its letter and digit groups in order, any short separator between ("73-3881" finds "NLT-AVC-PHT-(73)3881"). */
+export function idPattern(id) {
+  const groups = String(id ?? "").match(/[A-Za-z0-9]+/g) ?? [];
+  // An identifier of fewer than 4 letters and digits would be found anywhere: it proves nothing.
+  if (groups.join("").length < 4) return null;
+  return new RegExp(`(?<![A-Za-z0-9])${groups.join("[^A-Za-z0-9]{0,3}")}(?![A-Za-z0-9])`, "i");
+}
+
+/** Every text a source states about itself: its ref, title, description, addresses, credit fields, page text and licence evidence. */
+export function sourceMetadata(c) {
+  return [c?.ref, c?.ref_requested, c?.title, c?.description, c?.item_url, c?.media_url, ...(c?.credit_fields ?? []), c?.source_text, c?.evidence?.captured_text]
+    .filter(Boolean)
+    .map(String)
+    .join("\n");
+}
+
 /**
  * A pin's date record (a sourcing pass's finding): another catalogue record of the
- * same item that states its day. Pure. The record's date must be a full day and
- * must lie inside the date the source itself gives (it refines, never moves, the
- * date). Returns { date, evidence } or { problem }.
+ * same item that states its day. Pure. The source must state a date of its own (a
+ * record refines it, never sets it); the record's date must be a full day inside
+ * it (it refines, never moves, the date); and one of the record's own identifiers
+ * (NAID, local id) must appear in the source's own metadata, so the record is
+ * shown to be of this item (S4 review, 2026-11-13). Returns { date, evidence } or
+ * { problem }.
  */
-export function refineDate(sourceDate, record, { capturedAt }) {
+export function refineDate(sourceDate, record, { capturedAt, source = null }) {
   const d = String(record?.date ?? "");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return { problem: `the date record ${clip(record?.item_url ?? "", 200)} states no full day (${d || "none"})` };
   const own = dateSpan(sourceDate);
-  if (own && (d < own[0] || d > own[1])) return { problem: `the date record's ${d} lies outside the source's own date ${sourceDate}` };
+  if (!own) return { problem: `the source states no date of its own (${sourceDate ?? "null"}), so the date record ${clip(record?.item_url ?? "", 200)} would set its date, not refine it` };
+  const ids = (record?.record_ids ?? [record?.ref]).filter((x) => x != null && String(x).trim());
+  const meta = sourceMetadata(source);
+  if (!ids.some((id) => idPattern(id)?.test(meta))) {
+    return { problem: `none of the date record's identifiers (${ids.map((x) => clip(String(x), 40)).join(", ") || "none"}) appears in the source's own metadata, so it is not shown to be a record of this item` };
+  }
+  if (d < own[0] || d > own[1]) return { problem: `the date record's ${d} lies outside the source's own date ${sourceDate}` };
   return {
     date: d,
     evidence: {
@@ -323,7 +348,7 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         } catch (err) {
           rec = { status: "error", reason: clip(err.message, 300) };
         }
-        const refined = rec?.status === "ok" ? refineDate(c.date, rec.candidate, { capturedAt: isoSecond(now().toISOString()) }) : { problem: `the date record ${cand.date_record.adapter} ${clip(cand.date_record.ref, 80)} could not be read${rec?.reason ? `: ${rec.reason}` : ""}` };
+        const refined = rec?.status === "ok" ? refineDate(c.date, rec.candidate, { capturedAt: isoSecond(now().toISOString()), source: c }) : { problem: `the date record ${cand.date_record.adapter} ${clip(cand.date_record.ref, 80)} could not be read${rec?.reason ? `: ${rec.reason}` : ""}` };
         if (refined.problem) reasons.push(refined.problem);
         else {
           c.date = refined.date;

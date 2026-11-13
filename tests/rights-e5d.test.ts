@@ -266,19 +266,20 @@ describe("candidate-pin files from the sourcing passes", () => {
   });
 
   it("a date record refines a year to its day, never moves it, and a fit pin keeps no undated exemption", () => {
-    const rec = { date: "1952-03-29", title: "President and Bess Truman at Jefferson-Jackson Day Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId: 338959044" } };
-    const ok = refineDate("1952", rec, { capturedAt: AT });
+    const src = { title: "Photograph of the President", source_text: "| Variant control numbers = NAIL Control Number: NLT-AVC-PHT-(73)3881" };
+    const rec = { date: "1952-03-29", record_ids: ["338959044", "73-3881"], title: "President and Bess Truman at Jefferson-Jackson Day Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId: 338959044" } };
+    const ok = refineDate("1952", rec, { capturedAt: AT, source: src });
     expect(ok.date).toBe("1952-03-29");
     expect(ok.evidence.captured_text).toMatch(/production date 1952-03-29/);
-    expect(refineDate("1951", rec, { capturedAt: AT }).problem).toMatch(/outside the source's own date 1951/);
-    expect(refineDate("1952", { ...rec, date: "1952" }, { capturedAt: AT }).problem).toMatch(/no full day/);
+    expect(refineDate("1951", rec, { capturedAt: AT, source: src }).problem).toMatch(/outside the source's own date 1951/);
+    expect(refineDate("1952", { ...rec, date: "1952" }, { capturedAt: AT, source: src }).problem).toMatch(/no full day/);
     expect(windowProblem(null, { from: "1951-01-01", to: "1952-11-05" }, { pinned: true })).toBeNull();
     expect(windowProblem(null, { from: "1951-01-01", to: "1952-11-05" }, { pinned: false })).toMatch(/no date/);
   });
 
   it("the fetcher dates a pinned Commons still from its NARA record and refuses an undated fit pin", async () => {
-    const still = (date: string | null) => ({ status: "ok", candidate: { adapter: "commons", ref: "File:A.jpg", kind_hint: "still", title: "A", item_url: "https://commons.wikimedia.org/wiki/File:A.jpg", media_url: "https://upload.wikimedia.org/a.jpg", licence: "pd-us-federal", basis: "PD US Government (17 U.S.C. 105)", credit: "NARA", evidence: { url: "https://commons.wikimedia.org/wiki/File:A.jpg", captured_text: "public domain, PD US Government", captured_at: AT }, date, published_at: "2011-10-21T10:10:59Z", categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] } });
-    const naraRec = { status: "ok", candidate: { date: "1952-03-29", title: "Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId 338959044" } } };
+    const still = (date: string | null) => ({ status: "ok", candidate: { adapter: "commons", ref: "File:A.jpg", kind_hint: "still", title: "A", source_text: "NAIL Control Number: NLT-AVC-PHT-(73)3881", item_url: "https://commons.wikimedia.org/wiki/File:A.jpg", media_url: "https://upload.wikimedia.org/a.jpg", licence: "pd-us-federal", basis: "PD US Government (17 U.S.C. 105)", credit: "NARA", evidence: { url: "https://commons.wikimedia.org/wiki/File:A.jpg", captured_text: "public domain, PD US Government", captured_at: AT }, date, published_at: "2011-10-21T10:10:59Z", categories: [], keywords: [], own_work: false, ai_fields_checked: ["title"] } });
+    const naraRec = { status: "ok", candidate: { date: "1952-03-29", record_ids: ["338959044", "73-3881"], title: "Dinner", item_url: "https://catalog.archives.gov/id/338959044", evidence: { url: "https://catalog.archives.gov/id/338959044", captured_text: "naId 338959044" } } };
     const adapters = { commons: { lookup: async () => still("1952") }, nara: { lookup: async () => naraRec } };
     const fit = { beat: "echo-x6", why: "the dinner" };
     const req = (cand: any) => ({ schema: "x", issue: 33, requests: [{ id: "e33-echo-01", kind: "still", for: "echo", title: "t", fallback: { tier: 5, text: "typeset" }, candidates: [cand] }] });
