@@ -1,5 +1,5 @@
 name: episode-draft
-run-name: episode draft, issue ${{ inputs.issue || '33' }}${{ github.event_name == 'push' && ' (measurement slice)' || '' }}
+run-name: episode draft, issue ${{ inputs.issue || '33' }}
 
 # C8 (founder ruling 2026-11-13): the CPU-heavy half of an episode runs here, never on the laptop (two crashes that
 # day under CPU load with the GPU off). GPU work stays on the laptop: the loom/Resolve build and the Qwen vision pass.
@@ -46,10 +46,6 @@ on:
         type: choice
         options: ["720", "1080"]
         default: "720"
-  # TEMPORARY (C8 measurement): one run of a 120 s slice on push to the ticket branch, since a dispatch needs the
-  # workflow on the default branch. Removed before the PR merges.
-  push:
-    branches: [c8/actions-render]
 
 permissions:
   contents: read
@@ -78,7 +74,7 @@ jobs:
       - name: pin the commit, check the inputs
         id: pin
         env:
-          UNTIL: ${{ github.event_name == 'push' && '120' || inputs.until }}
+          UNTIL: ${{ inputs.until }}
         run: |
           set -eu
           if ! printf '%s' "$ISSUE" | grep -qE '^[0-9]{1,4}$'; then echo "not an issue number: $ISSUE"; exit 2; fi
@@ -290,7 +286,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 345
     env:
-      UNTIL: ${{ github.event_name == 'push' && '120' || inputs.until }}
+      UNTIL: ${{ inputs.until }}
       RES: ${{ inputs.res || '720' }}
       DOCUMENT_JOURNAL_DIR: /home/runner/journal
       DOCUMENT_TIMINGS: /home/runner/journal/timings.jsonl
