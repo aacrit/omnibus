@@ -38,6 +38,13 @@ const IMAGE = /\.(jpe?g|png|webp|gif|tiff?)$|^image:\d+$/i;
 // The rights adapter a captured source's pin names (whitehouse is a locator: never pinned).
 export const PIN_ADAPTER = { commons: "commons", dvids: "dvids", nasa: "nasa", voa: "voa", cdc: "gov", noaa: "gov" };
 
+/** Pure: the first dignity exclude (capture/channels.json exclude) an item's title or description matches, as a reason, or null. */
+export function excludedBy(item, excludes = []) {
+  const text = [item.title, item.description].filter(Boolean).join(" \n ");
+  for (const ex of excludes) if (new RegExp(ex.pattern, "i").test(text)) return `dignity exclude ${ex.id}: ${ex.why}; never pinned automatically`;
+  return null;
+}
+
 /** footage, still or null, from the item's id, its media or the source's media address. */
 export function kindOf(entry) {
   const names = [entry.id, entry.media?.key, entry.evidence?.media_url].map((x) => String(x ?? "").split("?")[0]);
@@ -151,6 +158,7 @@ export function buildPool({ issue, record, index, editions = [], channels, now, 
         media: e.media ? { key: e.media.key, sha256: e.media.sha256, ext: e.media.ext, bytes: e.media.bytes } : null,
         evidence_keys: (e.evidence_keys ?? []).map(evidenceKey),
         refused: e.refused ?? null,
+        excluded: excludedBy(e, channels.exclude ?? []),
       });
     }
     items.sort((a, b) => b.score - a.score || String(a.published_at).localeCompare(String(b.published_at)) || a.sid.localeCompare(b.sid));
@@ -227,7 +235,7 @@ function placeOnLadder(req, adapter, story, horizon) {
 function pinsFor(req, story, beat, maxPins) {
   const want = req.kind === "footage" ? ["footage", "still"] : req.kind === "still" ? ["still"] : [];
   if (!want.length) return [];
-  const items = story.items.filter((it) => it.verdict?.status === "ok" && PIN_ADAPTER[it.source] && want.includes(it.kind));
+  const items = story.items.filter((it) => it.verdict?.status === "ok" && PIN_ADAPTER[it.source] && want.includes(it.kind) && !it.excluded);
   const horizon = beat?.as_of ?? story.horizon ?? null;
   const placed = items.map((it) => ({ it, place: placeOnLadder(req, PIN_ADAPTER[it.source], story, horizon) }));
   // The ladder's own order first (on-ladder before off, lower tier first), then score.
@@ -261,6 +269,7 @@ export function candidatesFromPool(pool, rundown, { maxPins = MAX_PINS_PER_REQUE
   const problems = poolProblems(pool);
   if (rundown?.issue !== pool?.issue) problems.push(`the rundown is for issue ${rundown?.issue}, the pool for ${pool?.issue}`);
   const pins = {};
+  const excluded = [];
   if (!problems.length) {
     const beats = beatsById(rundown);
     for (const req of rundown.asset_requests ?? []) {
@@ -269,6 +278,7 @@ export function candidatesFromPool(pool, rundown, { maxPins = MAX_PINS_PER_REQUE
       if (!story) continue;
       const list = pinsFor(req, { ...story, issue: pool.issue }, beats.get(String(req.for)), maxPins);
       if (list.length) pins[req.id] = list;
+      for (const it of story.items) if (it.excluded) excluded.push({ request: req.id, sid: it.sid, title: it.title, why: it.excluded });
     }
   }
   const at = now ? (now instanceof Date ? now : new Date(now)).toISOString().replace(/\.\d{3}Z$/, "Z") : pool?.built_at;
@@ -279,6 +289,7 @@ export function candidatesFromPool(pool, rundown, { maxPins = MAX_PINS_PER_REQUE
       source: "capture",
       note: `Automatic candidates from the capture pool (capture/weekly/${pool?.issue}/pool.json, built ${pool?.built_at}), written ${at} by node scripts/rights.mjs candidates. Every fit is automatic (fit.auto, fit.why starting "${AUTO_WHY}"): the render lint capture-fit-confirmed refuses a final render until a Claude session replaces fit.why with what the picture shows and sets fit.confirmed_by. Nothing here is a rights decision; the fetcher checks every candidate.`,
       pins,
+      excluded,
     },
     problems,
   };

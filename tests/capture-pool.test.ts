@@ -9,15 +9,15 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, copyFileSync, existsSync 
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadChannels, selectItems } from "../scripts/capture/relevance.mjs";
+import { channelProblems, loadChannels, selectItems } from "../scripts/capture/relevance.mjs";
 import { CATEGORIES, parseCategory } from "../scripts/capture/listers/commons.mjs";
 import { parseSearch } from "../scripts/capture/listers/dvids.mjs";
 import { INDEX_KEY, emptyIndex, planPut, readIndex, serialiseIndex, sourceId, sweep } from "../scripts/lib/capture-store.mjs";
 import { applyPins, pinCaptured, pinRequestKey, readPinRequests } from "../scripts/capture-r2.mjs";
-import { AUTO_WHY, POOL_SCHEMA, buildPool, candidatesFromPool, kindOf, poolKey, poolProblems, unconfirmedFit, weekStories } from "../scripts/capture/pool.mjs";
+import { AUTO_WHY, POOL_SCHEMA, buildPool, excludedBy, candidatesFromPool, kindOf, poolKey, poolProblems, unconfirmedFit, weekStories } from "../scripts/capture/pool.mjs";
 import { CANDIDATES_SCHEMA_ID, mergeCandidatePins, pinProblems, resolveRequests } from "../scripts/lib/rights/resolve.mjs";
 import { fitRecord } from "../scripts/lib/rights/fetcher.mjs";
-import { capturedSids, writeCaptureCandidates } from "../scripts/rights.mjs";
+import { artifactPoolProblem, capturedSids, writeCaptureCandidates } from "../scripts/rights.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fixture = (p: string) => JSON.parse(readFileSync(path.join(root, "tests/fixtures", p), "utf8"));
@@ -198,5 +198,29 @@ describe("pinning what candidates names (review of cap/c6-c7)", () => {
     expect(idx.items[millerSid]).toMatchObject({ pinned: { issue: 33, airs_on: null }, media: { ext: "webm" } });
     expect(idx.items["commons:File:Other.webm"].media).toBeNull();
     rmSync(base, { recursive: true, force: true });
+  });
+});
+
+describe("dignity excludes and the artifact pool check (review of cap/c6-c7)", () => {
+  it("never pins an item a dignity exclude matches, and says why", () => {
+    expect(channelProblems(channels)).toEqual([]);
+    expect(channels.exclude.map((e: any) => e.id)).toEqual(expect.arrayContaining(["body-cam", "casualty", "graphic", "corpse", "killed-on-camera"]));
+    expect(excludedBy({ title: "Bodycam video of the arrest" }, channels.exclude)).toMatch(/body-cam/);
+    expect(excludedBy({ title: "Remarks on the economy" }, channels.exclude)).toBeNull();
+    expect(channelProblems({ ...channels, exclude: [{ id: "x", pattern: "(", why: "y" }] }).join()).toMatch(/exclude x/);
+    const graphic = { ...pool, stories: pool.stories.map((s: any) => (s.key === "day-6" ? { ...s, items: s.items.map((i: any) => (i.id === MILLER ? { ...i, excluded: excludedBy({ title: "Graphic content: casualties" }, channels.exclude) } : i)) } : s)) };
+    const { doc } = candidatesFromPool(graphic, rundown);
+    expect((doc.pins["e33-day6-pic"] ?? []).some((p: any) => p.ref === MILLER)).toBe(false);
+    expect(doc.excluded.find((x: any) => x.request === "e33-day6-pic" && x.sid === `commons:${MILLER}`).why).toMatch(/dignity exclude/);
+  });
+
+  it("an artifact's pool must be the one its own run wrote for this issue", () => {
+    const report = { ran_at: "2026-11-09T05:23:00Z", pool: { issue: 33, status: "written", built_at: pool.built_at } };
+    expect(artifactPoolProblem(pool, report, 33)).toBeNull();
+    expect(artifactPoolProblem(pool, report, 34)).toMatch(/not 34/);
+    expect(artifactPoolProblem(pool, null, 33)).toMatch(/no report/);
+    expect(artifactPoolProblem(pool, { ...report, pool: { issue: 33, status: "already written" } }, 33)).toMatch(/not written by this run/);
+    expect(artifactPoolProblem(pool, { ...report, pool: { ...report.pool, built_at: "2026-11-01T00:00:00Z" } }, 33)).toMatch(/built at/);
+    expect(artifactPoolProblem(pool, { ran_at: "2026-11-01T00:00:00Z", pool: { issue: 33, status: "written" } }, 33)).toMatch(/outside the run/);
   });
 });

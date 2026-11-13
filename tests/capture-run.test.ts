@@ -269,3 +269,64 @@ describe(".github/workflows/capture.yml", () => {
     expect(wr).toMatch(/\{ "binding": "CAPTURE", "bucket_name": "omnibus-capture" \}/);
   });
 });
+
+describe("review follow-ups: bytes, reconcile, retries, labels", () => {
+  it("counts the index, pools, pins and heartbeat against the bucket cap", async () => {
+    const { overheadBytes, storedBytes, emptyIndex, planPut, CAPS } = await import("../scripts/lib/capture-store.mjs");
+    const idx = { ...emptyIndex(), overhead_bytes: CAPS.bucketCapBytes - 5 };
+    expect(overheadBytes(idx)).toBe(CAPS.bucketCapBytes - 5);
+    expect(storedBytes(idx)).toBe(CAPS.bucketCapBytes - 5);
+    const ev = { record: { captured_at: AT, published_at: AT, page: { sha256: hex("p") }, terms: { sha256: hex("t") }, verdict: { status: "ok" } }, blobs: [] };
+    const r = planPut({ index: idx, item: { source: "commons", id: "File:A.webm", url: "u" }, evidence: ev, media: { sha256: hex("m"), ext: "webm", bytes: 10 }, now: AT });
+    expect(r.refused.join()).toMatch(/bucket cap/);
+  });
+
+  it("fetches a held item again only when the day or bucket cap alone refused it", async () => {
+    const { retriesHeld } = await import("../scripts/capture/run.mjs");
+    expect(retriesHeld({ media: null, refused: ["media: over the 104857600-byte day cap"] })).toBe(true);
+    expect(retriesHeld({ media: null, refused: ["media: over the 1610612736-byte bucket cap"] })).toBe(true);
+    expect(retriesHeld({ media: null, refused: ["media: over the 104857600-byte day cap", "media: without an ok adapter verdict"] })).toBe(false);
+    expect(retriesHeld({ media: { sha256: "x" }, refused: null })).toBe(false);
+    expect(retriesHeld({ media: null, refused: null })).toBe(false);
+  });
+
+  it("reconciles weekly: deletes media and evidence the index does not name, and sets overhead from the rest", async () => {
+    const { reconcile, OVERHEAD_RESERVE_BYTES, fitPool } = await import("../scripts/capture/run.mjs");
+    const { emptyIndex, mediaKey } = await import("../scripts/lib/capture-store.mjs");
+    const idx = { ...emptyIndex(), media: { [hex("keep")]: { bytes: 4, ext: "webm" } } };
+    const objects = [
+      { key: mediaKey(hex("keep"), "webm"), size: 4 },
+      { key: mediaKey(hex("orphan"), "webm"), size: 9 },
+      { key: `capture/evidence/${hex("e")}.gz`, size: 3 },
+      { key: "capture/index.json", size: 100 },
+      { key: "capture/weekly/33/pool.json", size: 50 },
+    ];
+    const deleted: string[] = [];
+    const out = reconcile({ list: () => objects, delete: (k: string) => deleted.push(k) }, idx, { now: new Date(AT) });
+    expect(deleted.sort()).toEqual([mediaKey(hex("orphan"), "webm"), `capture/evidence/${hex("e")}.gz`].sort());
+    expect(out.overhead_bytes).toBe(150 + OVERHEAD_RESERVE_BYTES);
+    expect(out.reconcile).toMatchObject({ objects: 5, listed_bytes: 166, orphans_deleted: 2, orphan_bytes: 12 });
+    // The pool is trimmed to its cap, and refused when even three items a story do not fit.
+    const build = (n: number) => ({ items: "x".repeat(n * 100) });
+    expect(fitPool(build, 700)?.maxItems).toBe(5);
+    expect(fitPool(build, 100)).toBeNull();
+  });
+
+  it("a run reconciles a listable store once a week and reports it", async () => {
+    const { base, outDir, workDir } = dirs();
+    const store = dirStore(path.join(outDir, "store"));
+    const one = await runCapture({ store, mode: "dir", outDir, workDir, editions, now, env: {}, listers: listers([]), log: () => {} });
+    expect(one.reconcile).toMatchObject({ objects: 0 });
+    const two = await runCapture({ store, mode: "dir", outDir, workDir, editions, now, env: {}, listers: listers([]), log: () => {} });
+    expect(two.reconcile).toBeNull();
+    rmSync(base, { recursive: true, force: true });
+  });
+
+  it("creates the issue labels only when missing, and states when the heartbeat is live", () => {
+    const text = readFileSync(path.join(root, ".github/workflows/capture.yml"), "utf8");
+    expect(text).not.toMatch(/gh label create[^\n]*--force/);
+    expect(text).toMatch(/grep -qx prod-red; then gh label create prod-red/);
+    expect(text).toMatch(/heartbeat_url: https:\/\/omnibus\.voidvision\.org\/api\/capture\/heartbeat\n#\s+\(live only once CAPTURE_R2_ENABLED is "true"/);
+    expect(readFileSync(path.join(root, "budget.yaml"), "utf8")).toMatch(/3 x 25 x 30 = 2,250 minutes a month, which a public repo is not billed for/);
+  });
+});

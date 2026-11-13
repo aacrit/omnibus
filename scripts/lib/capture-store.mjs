@@ -80,7 +80,11 @@ export function serialiseIndex(index) {
 const sum = (m) => Object.values(m).reduce((n, x) => n + (Number.isFinite(x?.bytes) ? x.bytes : 0), 0);
 export const mediaBytes = (index) => sum(index.media);
 export const evidenceBytes = (index) => sum(index.evidence);
-export const storedBytes = (index) => mediaBytes(index) + evidenceBytes(index);
+// Everything else the bucket holds (the index itself, weekly pools, pin requests, the heartbeat) counts too:
+// the run keeps index.overhead_bytes at least the index's own size plus a reserve, and the weekly reconcile
+// (scripts/capture/run.mjs) sets it from the objects R2 actually lists.
+export const overheadBytes = (index) => (Number.isFinite(index?.overhead_bytes) && index.overhead_bytes > 0 ? index.overhead_bytes : 0);
+export const storedBytes = (index) => mediaBytes(index) + evidenceBytes(index) + overheadBytes(index);
 const dayOf = (iso) => String(iso).slice(0, 10);
 
 /**
