@@ -69,6 +69,21 @@ const STEPS = [
           "studio/tests/test_a56_map_credit.py",
           "studio/tests/test_house_tokens_match_palette.py",
           "studio/tests/test_news_lints.py",   // E3: the news lints, pure (a pass and a fail fixture per lint)
+          // E6: broadcast graphics (studio/graphics/*). Fast and browser-free by design (layout math, motion
+          // timing, the ledger, counts-match, graphics-clean, HTML building on fixtures): the actual Chromium
+          // render (studio/graphics/render.py) is a separate script, never part of the gate (docs/DECISIONS.md).
+          "studio/tests/test_graphics_layout.py",
+          "studio/tests/test_graphics_svgparts.py",
+          "studio/tests/test_graphics_motion.py",
+          "studio/tests/test_graphics_ledger.py",
+          "studio/tests/test_graphics_countsmatch.py",
+          "studio/tests/test_graphics_clean.py",
+          "studio/tests/test_graphics_compose.py",
+          "studio/tests/test_graphics_data.py",
+          "studio/tests/test_graphics_typeset.py",
+          "studio/tests/test_graphics_fixtures.py",
+          "studio/tests/test_graphics_expected.py",
+          "studio/tests/test_graphics_framesheet.py",
           "-q", "-p", "no:cacheprovider",
         ],
         { cwd: repoRoot, stdio: "inherit", shell: false },
