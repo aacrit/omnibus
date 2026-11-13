@@ -264,6 +264,8 @@ export const DENIED_HOSTS = [
   "washingtonpost.com", "theguardian.com", "msnbc.com", "npr.org", "pbs.org",
   // UN Web TV
   "webtv.un.org", "media.un.org",
+  // agency video, pool and syndication feeds (S4 review, 2026-11-13): C-SPAN, AP Archive, EPA, Bloomberg, Ruptly, Storyful, Xinhua, CCTV
+  "c-span.org", "aparchive.com", "epa.eu", "epaimages.com", "bloomberg.com", "ruptly.tv", "storyful.com", "xinhuanet.com", "news.cn", "cctv.com", "cntv.cn",
 ];
 
 /** The networks and outlets among DENIED_HOSTS: the only hosts a fair-use excerpt may come from. */
@@ -277,12 +279,25 @@ const OUTLET_NAME = "a news network or outlet";
 
 /** Names in a credit, author, title or description that mark agency, stock or outlet material. */
 export const DENIED_NAMES = [
-  { name: "AP", re: /\bAssociated Press\b|\bAP (Photo|Images|Video)\b|\(AP\)|©\s*AP\b|\b(photo|credit|source|image|video)[:\s]+AP\b/i },
+  { name: "AP", re: /\bAssociated Press\b|\bAP (Photo|Images|Video|Archive|Newsroom)\b|\bAPTN\b|\(AP\)|©\s*AP\b|\b(photo|credit|source|image|video)[:\s]+AP\b/i },
+  { name: "AP", creditOnly: true, re: /^\s*AP\s*$/ },
   { name: "Reuters", re: /\bReuters\b/i },
   { name: "Getty Images", re: /\bGetty\b|\biStock(photo)?\b/i },
   { name: "AFP", re: /\bAFP\b|Agence France[- ]Presse/i },
   { name: "stock library", re: /\b(Shutterstock|Alamy|Unsplash|Pexels|Pixabay)\b/i },
   { name: "UN Web TV", re: /\bUN Web TV\b|\bwebtv\.un\.org\b/i },
+  // S4 review (2026-11-13): a broadcaster's or agency's feed carried inside a federal or Commons item.
+  { name: "C-SPAN", re: /\bC-?SPAN\b|\bc-span\.org\b/i },
+  { name: "Ruptly", re: /\bRuptly\b/i },
+  { name: "Storyful", re: /\bStoryful\b/i },
+  { name: "Xinhua", re: /\bXinhua\b/i },
+  // EPA the photo agency (EPA-EFE, "EPA/", "© EPA", "Photo: EPA", a bare "EPA" credit), never the US Environmental Protection Agency spelt out.
+  { name: "EPA (European Pressphoto Agency)", re: /\bEPA[-‐ ]?EFE\b|\bEPA\s*\/|\/\s*EPA\b|©\s*EPA\b|\b(photo|credit|source|image|video)[:\s]+EPA\b|European Pressphoto Agency/i },
+  { name: "EPA (European Pressphoto Agency)", creditOnly: true, re: /^\s*EPA\s*$/i },
+  // Named as a subject (Michael Bloomberg, a CCTV camera, a swimming pool) these are not a source: credits only.
+  { name: "Bloomberg", creditOnly: true, re: /\bBloomberg\b/i },
+  { name: "CCTV", creditOnly: true, re: /\bCCTV\b|China Central Television/ },
+  { name: "a pool feed", creditOnly: true, re: /\bpool\b/i },
   {
     name: OUTLET_NAME,
     creditOnly: true,
