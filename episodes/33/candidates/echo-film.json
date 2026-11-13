@@ -1,0 +1,20 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 33,
+  "source": "S3 sourcing pass for The Echo: NARA moving images (federal makers proven on the record) and NARA dates for the Armory stills",
+  "pins": {
+    "e33-echo-req-12": [
+      {
+        "adapter": "nara",
+        "ref": "22399",
+        "tier": 1,
+        "window": { "from": "1951-01-01", "to": "1952-11-05T12:00:00-05:00" },
+        "fit": {
+          "beat": "echo-x1: the January 1951 withdrawal, refugees in snow",
+          "why": "Signal Corps film 111-ADC-8634, Uijongbu, 2 Jan 1951 (shot card 1, 4th scene): a 24th Division squad checks a file of refugees passing south, then two soldiers walk the snow-covered ground. The same withdrawal six days before the line's date, near Seoul, not Kangnung: the cut takes the refugee scene only. No in/out yet: the 839 ft silent reel is not viewed (no transcode in this pass); the editor sets in_s/out_s from the shot card's 4th scene.",
+          "horizon": "1952-11-05T12:00:00-05:00"
+        }
+      }
+    ]
+  }
+}
