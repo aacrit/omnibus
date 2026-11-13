@@ -70,6 +70,7 @@ const STEPS = [
           "studio/tests/test_house_tokens_match_palette.py",
           "studio/tests/test_news_lints.py",   // E3: the news lints, pure (a pass and a fail fixture per lint)
           "studio/tests/test_e9i_ledgers.py",  // E9i: licence map, E6 adapter, vision/voicing manifests (pure, <1 s)
+          "studio/tests/test_c7_capture_fit.py", // C7: capture-fit-confirmed (pure, <1 s)
           "-q", "-p", "no:cacheprovider",
         ],
         { cwd: repoRoot, stdio: "inherit", shell: false },

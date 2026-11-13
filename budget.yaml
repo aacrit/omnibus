@@ -55,4 +55,4 @@ quotas:
     ceiling: 2000
     estimate_at_1000_users_per_day: 1040
     capture_minutes: 800
-    notes: "Footage capture (capture.yml, 3 runs a day, 25-minute timeout) adds about 800 minutes a month. gate on every PR/push, verify-production every 6 hours, weekly branch-prune, and the snapshot twice a day (about 3 minutes a run, about 180 minutes a month). Public repos are not billed for minutes; the figure is kept as the check."
+    notes: "Footage capture (capture.yml, 3 runs a day, 25-minute timeout) adds about 800 minutes a month; its worst case, every run hitting the timeout, is 3 x 25 x 30 = 2,250 minutes a month, which a public repo is not billed for (the 2,000-minute ceiling is a private repo's free allowance, not a bill here). gate on every PR/push, verify-production every 6 hours, weekly branch-prune, and the snapshot twice a day (about 3 minutes a run, about 180 minutes a month). Public repos are not billed for minutes; the figure is kept as the check."

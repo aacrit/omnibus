@@ -924,6 +924,38 @@ def placeholder_media(play: dict, assets: dict) -> list[dict]:
     return found
 
 
+CAPTURE_AUTO_WHY = "auto:"     # scripts/capture/pool.mjs AUTO_WHY: the capture pool's automatic fit
+
+
+def capture_fit_why(item: dict | None) -> str | None:
+    """C7: why a rights-ledger item's fit cannot reach a final render: the capture pool wrote it automatically
+    (``fit.auto``) and no session has confirmed it (``fit.confirmed_by`` set, ``fit.why`` no longer starting
+    "auto:"). None when the item has no automatic fit or it is confirmed. Pure (scripts/capture/pool.mjs
+    unconfirmedFit says the same)."""
+    fit = (item or {}).get("fit")
+    if not isinstance(fit, dict) or fit.get("auto") is not True:
+        return None
+    if not str(fit.get("confirmed_by") or "").strip():
+        return "an automatic fit nobody has confirmed (fit.confirmed_by is not set)"
+    if str(fit.get("why") or "").strip().startswith(CAPTURE_AUTO_WHY):
+        return "an automatic fit whose why was never replaced"
+    return None
+
+
+def capture_fit_unconfirmed(play: dict, assets: dict) -> list[dict]:
+    """C7 (capture-fit-confirmed): every shot and every line heard from a clip that cites an item with an
+    unconfirmed automatic fit, in screenplay order: ``{"unit", "where", "asset", "why"}``. Pure."""
+    found = []
+    for part in play.get("parts") or []:
+        for where, coll, key in (("shot", "shots", "asset"), ("line", "lines", "clip")):
+            for x in part.get(coll) or []:
+                aid = x.get(key)
+                why = capture_fit_why(assets.get(aid)) if aid else None
+                if why:
+                    found.append({"unit": x.get("id"), "where": where, "asset": aid, "why": why})
+    return found
+
+
 def neutralise_cast(shot: dict, item: dict | None) -> bool:
     """A14: the shot's ``neutralise_cast`` when it states one, else its
     ledger item's (a whole derivative carries a transfer cast)."""
@@ -3203,6 +3235,14 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
                                    "items": sorted({x["asset"] for x in placeholders}),
                                    "fix": "make the media and cite it, or render with --draft (a draft is never released)"}
          if placeholders else {"placeholder_media": []})
+    # C7: a picture the footage capture's pool matched to its beat automatically reaches a final render only once a
+    # Claude session has looked at it, replaced fit.why and set fit.confirmed_by; a draft or a check render warns
+    unconfirmed = capture_fit_unconfirmed(play, assets)
+    lint("capture-fit-confirmed", not unconfirmed, unit="ledger", severity="warn" if draft or check else "block",
+         grammar="C7", evidence={"unconfirmed": unconfirmed, "items": sorted({x["asset"] for x in unconfirmed}),
+                                 "fix": "look at each item, replace its fit.why with what it shows and set "
+                                        "fit.confirmed_by in episodes/<issue>/candidates/capture.json, then fetch again"}
+         if unconfirmed else {"unconfirmed": []})
     if lint_fail:
         raise Refused("lint failed: " + "; ".join(lint_fail))
 

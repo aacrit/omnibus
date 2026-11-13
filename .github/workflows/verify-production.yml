@@ -37,6 +37,22 @@ jobs:
             echo "::error title=Snapshot heartbeat::/api/snapshots/heartbeat answered $code"
             exit 1
           fi
+      # The footage capture's heartbeat (.github/workflows/capture.yml), checked
+      # only when the repo variable CAPTURE_R2_ENABLED is "true": set it once
+      # CLOUDFLARE_API_TOKEN reaches the capture, the bucket omnibus-capture
+      # exists and the release carrying /api/capture/heartbeat is live. A
+      # stale or missing heartbeat (503) then fails this job and opens prod-red.
+      - name: Check the footage capture's heartbeat
+        if: ${{ !cancelled() && vars.CAPTURE_R2_ENABLED == 'true' }}
+        run: |
+          set -e
+          code=$(curl -sS -o capture-heartbeat.json -w '%{http_code}' --max-time 30 https://omnibus.voidvision.org/api/capture/heartbeat)
+          cat capture-heartbeat.json
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error title=Capture heartbeat::/api/capture/heartbeat answered $code"
+            exit 1
+          fi
       - name: Open or update the prod-red issue on failure
         if: failure()
         env:
@@ -44,7 +60,7 @@ jobs:
         run: |
           set -e
           EXISTING=$(gh issue list --label prod-red --state open --json number --jq '.[0].number')
-          BODY="The served-page contract or the daily snapshot heartbeat failed against https://omnibus.voidvision.org at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The Agentique Watch routine also reads this label weekly; closing this issue does not require a code change if the maintainer confirms the site is healthy again."
+          BODY="The served-page contract, the daily snapshot heartbeat or the footage capture heartbeat failed against https://omnibus.voidvision.org at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The Agentique Watch routine also reads this label weekly; closing this issue does not require a code change if the maintainer confirms the site is healthy again."
           if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
             gh issue comment "$EXISTING" --body "$BODY"
           else

@@ -61,7 +61,8 @@ export function parseVoaPage(html, { pageUrl, termsHtml, capturedAt }) {
   if (agencyInText) reasons.push(`the page names an agency whose material VOA only licenses: "${clip(text.match(agencyInText)[0], 60)}"`);
   const statement = termsHtml ? termsStatement(termsHtml) : null;
   if (!statement) reasons.push(`VOA's terms page (${TERMS_URL}) could not be read for its public-domain statement`);
-  const video = pageVideos(html)[0] ?? null;
+  const videos = pageVideos(html);
+  const video = videos[0] ?? null;
   if (!video) reasons.push(`the page offers no mp4 of its own on ${VIDEO_HOST}`);
   const byline = plain(String(html).match(/<a[^>]+class="[^"]*links__item-link[^"]*"[^>]*>([^<]+)<\/a>/)?.[1] ?? "") || null;
   const pub = published(html);
@@ -83,6 +84,8 @@ export function parseVoaPage(html, { pageUrl, termsHtml, capturedAt }) {
       kind_hint: video ? "footage" : null,
       item_url: pageUrl,
       media_url: video?.url ?? null,
+      // The capture's proxy (scripts/capture/proxy.mjs): the largest file at or under 480p; never used by the fetcher.
+      proxy_url: videos.find((v) => v.height <= 480)?.url ?? null,
       mime: video ? "video/mp4" : null,
       bytes_expected: null,
       sha1: null,
