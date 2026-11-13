@@ -560,7 +560,10 @@ def test_a_video_review_covers_every_shot_of_the_aired_span():
     full = NVM.review_problems(_video_review(CUTS13, [0] + [c + 1 for c in CUTS13]), "r", clip)
     assert full == []
     long = item(kind="footage")
-    assert NVM.review_problems(_video_review([], [0, 30, 60, 90, 120], duration_s=120), "r", long) == []
+    every = [i * 2.5 for i in range(49)]                     # a long single shot: frames at most 2.5 s apart
+    assert NVM.review_problems(_video_review([], every, duration_s=120), "r", long) == []
+    assert any("at most 2.5 s apart" in p
+               for p in NVM.review_problems(_video_review([], [0, 30, 60, 90, 120], duration_s=120), "r", long))
     assert any("one frame in every 30 s" in p
                for p in NVM.review_problems(_video_review([], [0, 120], duration_s=120), "r", long))
 
@@ -579,8 +582,8 @@ def test_a_video_review_without_cuts_is_refused_and_a_still_needs_none():
 
 # --------------------------------------------------------------------------- rights fix 4: cuts found again, bodies left out
 
-DAY2_CUTS = [5.9, 8.5, 11.433]
-DAY2_FRAMES = [2.95, 7.2, 9.967, 12.967, 41.6, 45.35]
+DAY2_CUTS = [3.033, 5.9, 8.5, 11.433]          # 0..14.5 s at threshold 0.2 (3.033 scores 0.294)
+DAY2_FRAMES = [1.517, 4.467, 7.2, 9.967, 12.967]  # one per shot, at most 2.5 s apart with each shot's edges
 
 
 def _day2(**kw):
@@ -600,9 +603,9 @@ def test_the_render_finds_the_cuts_again_and_refuses_a_review_that_disagrees():
     def cuts(times):
         return lambda it, span: (asked.append(span), times)[1]
 
-    ok = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=cuts([5.92, 8.5, 11.433, 14.533]))
+    ok = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=cuts([3.04, 5.92, 8.5, 11.433, 14.533]))
     assert ok["problems"] == [] and asked == [(0.0, 14.5)] and ok["pending"] == {}
-    bad = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=cuts([5.9, 8.5, 11.433, 13.2]))
+    bad = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=cuts([*DAY2_CUTS, 13.2]))
     assert any("disagree with the file's own over 0..14.5 s" in p and "13.2" in p for p in bad["problems"])
     assert bad["pending"] == {"p": ["marks"]}                    # the refused review stands for nothing
     unread = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=lambda it, span: None)
@@ -641,12 +644,33 @@ def test_render_scene_cuts_on_a_synthetic_clip(tmp_path, monkeypatch):
 
 def test_a_file_with_bodies_airs_only_clear_of_them():
     from studio.engine import policy as POL
-    it = _day2(shows_bodies=True, bodies_excluded={"from_s": 20.3, "to_s": 26.8, "note": "covered remains"})
+    it = _day2(shows_bodies=True, bodies_excluded={"from_s": 14.533, "to_s": 29.2, "note": "covered remains"})
     seen = POL.aired_bodies(it, (0.0, 14.5))
-    assert seen["shows_bodies"] is False and seen["bodies_left_out"]["from_s"] == 20.3
+    assert seen["shows_bodies"] is False and seen["bodies_left_out"]["from_s"] == 14.533
     assert POL.aired_bodies(it, (10.0, 21.0)) is it                    # outside the fit, and into the bodies
     assert POL.aired_bodies(dict(it, fit={"in_s": 0, "out_s": 30}), (0.0, 30.0))["shows_bodies"] is True
     assert POL.aired_bodies(item(shows_bodies=True), (0.0, 1.0))["shows_bodies"] is True
     rule = {"show_bodies": False, "declared": False}
     assert [c["ok"] for c in POL.asset_checks(seen, rule) if c["rule"] == "no-bodies"] == [True]
     assert [c["ok"] for c in POL.asset_checks(it, rule) if c["rule"] == "no-bodies"] == [False]
+
+
+def test_the_signed_day2_frames_miss_a_shot_and_a_re_sign_is_required():
+    old = _video_review(DAY2_CUTS, [2.95, 7.2, 9.967, 12.967])
+    probs = NVM.review_problems(old, "r", _day2())
+    assert any("1 shot(s) unseen: 3.03..5.9 s" in p for p in probs)
+    assert any("at most 2.5 s apart" in p and "0..2.95 s" in p for p in probs)
+    assert NVM.review_problems(_video_review(DAY2_CUTS, DAY2_FRAMES), "r", _day2()) == []
+    held = dict(_video_review(DAY2_CUTS, DAY2_FRAMES), resign_required="the fetch step found the cuts changed")
+    assert any("needs a re-sign" in p for p in NVM.review_problems(held, "r", _day2()))
+    assert NVM.sparse_shots([2], [], (0, 6)) == [(2, 6)] and NVM.sparse_shots([1, 3.4, 5.8], [], (0, 6)) == []
+
+
+def test_asset_sha_refuses_a_file_that_is_not_the_ledgers():
+    calls = []
+    r = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_sha=on_disk(SHA2),
+                  read_cuts=lambda it, span: calls.append(span) or DAY2_CUTS)
+    assert any("asset-sha" in p for p in r["problems"]) and calls == []      # no cut check against another file
+    ok = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_sha=on_disk(SHA),
+                   read_cuts=lambda it, span: DAY2_CUTS)
+    assert ok["problems"] == []

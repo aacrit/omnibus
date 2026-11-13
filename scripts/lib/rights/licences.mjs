@@ -413,6 +413,8 @@ export function deniedBy({ urls = [], texts = [], tags = [], credits = [], allow
  */
 export const MARKS_REVIEWERS = ["verifier", "cos", "founder"];
 export const MARKS_FRAME_EVERY_S = 30;
+/** Inside every shot of a video, the frames looked at are at most this far apart, the shot's edges included (rights fix 4 review: a dissolve or soft cut the detector misses is still looked at). */
+export const MARKS_SHOT_GAP_S = 2.5;
 const REVIEWER = /^\s*(verifier|cos|founder)\b/i;
 const NOT_REVIEWER = /\b(builder|sourcer|sourcing)\b/i;
 /** A call to action on screen: an engagement mechanic void never airs (values: no engagement mechanics). */
@@ -472,6 +474,23 @@ export function unseenShots(frames, cuts, [a, b]) {
   return out;
 }
 
+/**
+ * The stretches inside the shots of [a, b] longer than gap with no frame looked at: each shot's
+ * edges and its frames, consecutive gaps over gap (rights fix 4 review: frames at most 2.5 s apart).
+ */
+export function sparseShots(frames, cuts, [a, b], gap = MARKS_SHOT_GAP_S) {
+  const inner = [...new Set(cuts.filter((c) => c > a + 1e-6 && c < b - 1e-6))].sort((x, y) => x - y);
+  const edges = [a, ...inner, b];
+  const out = [];
+  for (let k = 0; k < edges.length - 1; k++) {
+    const lo = edges[k];
+    const hi = edges[k + 1];
+    const pts = [lo, ...frames.filter((t) => t >= lo - 1e-6 && t <= hi + 1e-6).sort((x, y) => x - y), hi];
+    for (let i = 0; i < pts.length - 1; i++) if (pts[i + 1] - pts[i] > gap + 1e-6) out.push([+pts[i].toFixed(3), +pts[i + 1].toFixed(3)]);
+  }
+  return out;
+}
+
 /** The 30 s windows of a span that no frame falls in (each window [from, to], inclusive). */
 export function uncoveredWindows(frames, [a, b], every = MARKS_FRAME_EVERY_S) {
   const n = Math.max(1, Math.ceil((b - a) / every - 1e-9));
@@ -483,6 +502,14 @@ export function uncoveredWindows(frames, [a, b], every = MARKS_FRAME_EVERY_S) {
     if (!frames.some((t) => t >= lo - 1e-6 && t <= hi + 1e-6)) out.push([+lo.toFixed(2), +hi.toFixed(2)]);
   }
   return out;
+}
+
+/** Whether a cut record's span is the aired one: [in_s, out_s] from the fit, else [0, null] (the whole file). */
+function spanMatches(rec, item, span) {
+  if (!(Array.isArray(rec) && rec.length === 2)) return false;
+  const f = item?.fit ?? {};
+  const fitted = Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s;
+  return Math.abs(rec[0] - span[0]) < 1e-6 && (fitted ? Number.isFinite(rec[1]) && Math.abs(rec[1] - span[1]) < 1e-6 : rec[1] === null || Math.abs(rec[1] - span[1]) < 1e-6);
 }
 
 /** Why a marks review cannot stand: the role, the time, the frames over the aired span, the contact sheet. */
@@ -508,14 +535,20 @@ export function reviewProblems(r, item, where = "marks_checked.reviewed") {
         out.push(`${where}.cuts must be { times, threshold, method }: every cut in the video (seconds; [] for a single shot), the scene threshold and the method that found them (ffmpeg select=gt(scene,0.3)), so every shot of the aired span is looked at`);
       } else if (!String(r.cuts.ffmpeg ?? "").trim()) {
         out.push(`${where}.cuts.ffmpeg must name the ffmpeg that found the cuts in the file: the fetch step finds them itself (scripts/lib/rights/scenes.mjs), a reported cut list is never trusted (rights fix round 4)`);
+      } else if (span && !spanMatches(r.cuts.span, item, span)) {
+        out.push(`${where}.cuts.span must be the span the fetch step read, the aired ${span[0]}..${span[1]} s: ${JSON.stringify(r.cuts.span ?? null).slice(0, 60)}`);
       } else if (span) {
         const unseen = unseenShots(frames, cuts, span);
         if (unseen.length) out.push(`${where}.frames must hold a frame in every shot of the aired span ${span[0]}..${span[1]} s (${cuts.length} cuts at threshold ${r.cuts.threshold}); ${unseen.length} shot(s) unseen: ${unseen.slice(0, 12).map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}${unseen.length > 12 ? ", ..." : ""}`);
+        const sparse = sparseShots(frames, cuts, span);
+        if (sparse.length) out.push(`${where}.frames must be at most ${MARKS_SHOT_GAP_S} s apart inside every shot of the aired span (its edges included), so a dissolve or soft cut is still looked at; ${sparse.length} gap(s): ${sparse.slice(0, 12).map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}${sparse.length > 12 ? ", ..." : ""}`);
       }
     }
   }
   const cs = r.contact_sheet;
   if (!(cs && typeof cs.path === "string" && cs.path.trim() && /^[0-9a-f]{64}$/.test(String(cs.sha256 ?? "")))) out.push(`${where}.contact_sheet must be { path, sha256 } naming the sheet of those frames`);
+  // A review the fetch step found wanting (its cuts or frames against the file's own) stands for nothing until the checking role signs again.
+  if (r.resign_required !== undefined) out.push(`${where} needs a re-sign by the checking role (${MARKS_REVIEWERS.join(", ")}): ${String(r.resign_required).slice(0, 400)}`);
   return out;
 }
 
@@ -543,7 +576,7 @@ export function unmaskedCtas(marks, mask) {
 }
 
 /** Why an item's marks_checked record is missing, malformed, or names a denied party or an unmasked call to action. */
-export function marksProblems(item) {
+export function marksProblems(item, { resignPending = false } = {}) {
   const out = [];
   const m = item?.marks_checked;
   if (m === undefined || m === null) {
@@ -552,7 +585,9 @@ export function marksProblems(item) {
   }
   const marks = Array.isArray(m.marks) ? m.marks : null;
   if (!marks || marks.some((x) => typeof x !== "string" || !x.trim())) out.push("marks_checked.marks must list the marks seen (strings; [] for none)");
-  out.push(...reviewProblems(m.reviewed, item));
+  // The fetch step may ledger an item whose review it marked for a re-sign (resignPending): the review's own problems
+  // then wait for the checking role, and the rights lint (never resignPending) holds the gate until it signs again.
+  if (!(resignPending && m.reviewed?.resign_required !== undefined)) out.push(...reviewProblems(m.reviewed, item));
   // A mark is described in words ("White House logo, lower left"): only the parties it names count, not the word logo.
   for (const reason of deniedBy({ credits: marks ?? [] }).filter((x) => x !== "a logo is never used")) out.push(`an on-screen mark names a denied party: ${reason}`);
   for (const cta of unmaskedCtas(marks, m.mask)) out.push(`an on-screen mark is a call to action (an engagement mechanic): "${cta.slice(0, 120)}"; refused unless marks_checked.mask { covers, region } records its mask and the shot is alteration-marked`);

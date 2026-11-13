@@ -1946,7 +1946,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: State Emergency Service of Ukraine\nCredit: Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено) (on Youtube)",
-        "captured_at": "2026-11-13T23:11:24Z"
+        "captured_at": "2026-11-13T23:40:45Z"
       },
       "basis": "Wikimedia Commons file page: CC BY 4.0 (Creative Commons Attribution 4.0)",
       "rights_checked": {
@@ -1998,7 +1998,7 @@
       "youtube_source": "wikitext |source= https://www.youtube.com/watch?v=SUFuE0pfO0c",
       "marks_checked": {
         "marks": [
-          "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, all 6 shots — matches the credited CC BY 4.0 source"
+          "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, in every frame the verifier looked at: matches the credited CC BY 4.0 source"
         ],
         "reviewed": {
           "by": "verifier: claude-sonnet-5",
@@ -2016,14 +2016,16 @@
             "sha256": "4f1bea3ce1f8dba1572540445bef478252f1b022ed28f95cbf41f76369e96dba"
           },
           "duration_s": 67.868,
+          "resign_required": "found by the fetch step 2026-11-13T23:40:56Z: the reported cuts differ from the file's (missing 3.033; not in the file none): the file's are recorded; marks_checked.reviewed.frames must hold a frame in every shot of the aired span 0..14.5 s (4 cuts at threshold 0.2); 1 shot(s) unseen: 3.03..5.9 s; marks_checked.reviewed.frames must be at most 2.5 s apart inside every shot of the aired span (its edges included), so a dissolve or soft cut is still looked at; 2 gap(s): 0..2.95 s, 3.033..5.9 s",
           "cuts": {
             "times": [
+              3.033,
               5.9,
               8.5,
               11.433
             ],
-            "threshold": 0.3,
-            "method": "ffmpeg select=gt(scene,0.3) over the aired span, null output",
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
             "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
             "span": [
               0,
@@ -2034,9 +2036,9 @@
       },
       "shows_bodies": true,
       "bodies_excluded": {
-        "from_s": 20.3,
-        "to_s": 26.8,
-        "note": "covered remains carried from the rubble, ~20.3–26.8 s — excluded, never aired"
+        "from_s": 14.533,
+        "to_s": 29.2,
+        "note": "covered remains carried from the rubble: a white sheet or bag at frame right from about 17.0 s, carried through 18 to 20 s; excluded from the first cut after the out point (14.533 s) to the first cut after 27.0 s (29.2 s), never aired"
       },
       "published_by_edition": {
         "rule": "picture_published_by_edition",
@@ -2063,7 +2065,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:White_House_Chief_of_Staff,_Stephen_Miller.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: White House Chief of Staff, Stephen Miller – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-13T23:11:36Z"
+        "captured_at": "2026-11-13T23:40:59Z"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
       "rights_checked": {
@@ -2156,8 +2158,8 @@
               29.738,
               31.281
             ],
-            "threshold": 0.3,
-            "method": "ffmpeg select=gt(scene,0.3) over the aired span, null output",
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
             "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
             "span": [
               0,
