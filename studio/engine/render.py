@@ -96,6 +96,7 @@ from studio.engine import description as DSC
 from studio.engine import disclosure as DS
 from studio.engine import levels as LV
 from studio.engine import maps as MP
+from studio.engine import mediaroot as MR
 from studio.engine import motion as M
 from studio.engine import overlays as OV
 from studio.engine import policy as POL
@@ -702,7 +703,7 @@ def news_voicing(film: Path, play: dict, *, words: bool = True) -> dict:
     man, problems = None, []
     if f.exists():
         try:
-            man = json.loads(f.read_text(encoding="utf-8"))
+            man = MR.remap_tree(json.loads(f.read_text(encoding="utf-8")))
         except ValueError as e:
             problems.append(f"{NVO.PATH.as_posix()} is not JSON ({e})")
     if not problems:
@@ -796,7 +797,7 @@ def news_vision(film: Path, play: dict, assets: dict) -> dict:
     man, problems = None, []
     if f.exists():
         try:
-            man = json.loads(f.read_text(encoding="utf-8"))
+            man = MR.remap_tree(json.loads(f.read_text(encoding="utf-8")))
         except ValueError as e:
             problems.append(f"{NVM.PATH.as_posix()} is not JSON ({e})")
     cited: dict[str, list[str]] = {}
@@ -3099,7 +3100,7 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     plan is the whole film's, and a refused take past the span is named so.
     ``check`` (a check render: --shots, --until, --audio-only) makes
     placeholder-media a warning, as ``draft`` does; it changes nothing else."""
-    play = play if play is not None else json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    play = play if play is not None else MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
     if "parts" not in play:
         raise Refused("screenplay.json has no parts: it is not format v2 (GRAMMAR 12); studio/sketch.py renders v1")
     try:
@@ -9781,7 +9782,7 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
              else "shots-" + "-".join(re.sub(r"[^A-Za-z0-9._]", "_", x) for x in pair) if pair else None)
     run_dir = out / check if check else out
     try:   # A44: the master rate the plan resolves (stated, or the majority of clip runtime), named at run.start
-        play0 = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+        play0 = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
         cad0 = master_rate(play0, load_ledgers(film, play0))
         rate0 = {"fps": cad0["fps"], "master_fps": cad0["name"], "master_fps_from": cad0["from"]}
     except Exception:          # the plan refuses what is wrong, with its own message
@@ -9825,7 +9826,7 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
         missing = [p for p in (fonts.display, fonts.structure, fonts.data, fonts.data_light) if not Path(p).exists()]
         if missing:
             raise Refused(f"fonts not found ({missing[0]}); run npm ci in the repo")
-        play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+        play = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
         play = place_voices(film, play, journal, out, fit=fit_voices_opt)
         with journal.unit("scout", "sources", size={"driver": "items", "value": 0}) as u:
             bad_sources = preflight_sources(film, play, journal, draft=draft)
@@ -10360,7 +10361,7 @@ def sources_only(film: Path | str, out: Path | str | None = None, *, journal: Jo
     if not master.exists():
         raise Refused(f"no master.mp4 in {out}: render the film first")
     fitted = out / "screenplay.fitted.json"
-    play = json.loads((fitted if fitted.exists() else film / "screenplay.json").read_text(encoding="utf-8"))
+    play = MR.remap_tree(json.loads((fitted if fitted.exists() else film / "screenplay.json").read_text(encoding="utf-8")))
     journal = journal or Journal(film=film.name, out_dir=out)
     pr = probe_video(master)
     with journal.unit("scout", "sources-only", size={"driver": "items", "value": 0}) as u:
@@ -10461,7 +10462,7 @@ def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, jou
     film = Path(film).resolve()
     W, H = frame_size(height)
     journal = journal or Journal(film=film.name)
-    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    play = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
     refusals: list[str] = []
     news = SHOW.is_news(play)
     voicing = news_voicing(film, play, words=not fit) if news else None

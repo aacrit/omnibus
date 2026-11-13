@@ -1,0 +1,216 @@
+name: episode-draft
+run-name: episode draft, issue ${{ inputs.issue || '33' }}${{ github.event_name == 'push' && ' (measurement slice)' || '' }}
+
+# C8 (founder ruling 2026-11-13): the CPU-heavy half of an episode runs here, never on the laptop (two crashes that
+# day under CPU load with the GPU off). GPU work stays on the laptop: the loom/Resolve build and the Qwen vision pass.
+# One job, its stages in order on one runner (4 vCPU, 16 GB): the broadcast graphics (headless Chromium, no GPU),
+# the narration (Kokoro on CPU), the sources (each ledger item from its own origin, checked against its sha256), the
+# engine's draft render, then the outputs. The intermediates never leave the runner: a workflow artifact on this
+# public repo is public, so only the finished outputs go out, and only by a route the rights allow
+# (scripts/lib/draft-outputs.mjs): the private R2 bucket when its secrets exist, else a short-lived artifact only
+# when every ledger item is public domain, CC or our own property. The laptop pulls them with
+# `node scripts/pull-render.mjs <issue>`, which checks every sha256. Media never enter git.
+#
+# Rule 10 (Agentique CLAUDE.md) declaration:
+#   owner: Forge (omnibus)
+#   kill_after_idle_days: 30
+#   heartbeat_url: n/a (not declared): dispatched by hand per episode, no schedule; a run that fails is red in the
+#     run list, which /pull-render reads before it pulls anything.
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "weekly issue number (episodes/<issue>)"
+        required: true
+        type: string
+      until:
+        description: "a check slice: only the shots that start before this many seconds (empty: the whole film, with layers)"
+        required: false
+        type: string
+        default: ""
+      res:
+        description: "draft height"
+        required: false
+        type: choice
+        options: ["720", "1080"]
+        default: "720"
+  # TEMPORARY (C8 measurement): one run of a 120 s slice on push to the ticket branch, since a dispatch needs the
+  # workflow on the default branch. Removed before the PR merges.
+  push:
+    branches: [c8/actions-render]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: episode-draft
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    env:
+      ISSUE: ${{ inputs.issue || '33' }}
+      UNTIL: ${{ github.event_name == 'push' && '120' || inputs.until }}
+      RES: ${{ inputs.res || '720' }}
+      OMNIBUS_MEDIA_ROOT: /home/runner/omnibus-media
+      OMNIBUS_CHROMIUM_ARGS: --disable-gpu
+      DOCUMENT_KOKORO_DIR: /home/runner/kokoro
+      DOCUMENT_KOKORO_PYTHON: /home/runner/tts/bin/python
+      DOCUMENT_VOICE_CACHE: /home/runner/voice-cache
+      DOCUMENT_HEAVY_LOCK: /home/runner/HEAVY.lock
+      DOCUMENT_JOURNAL_DIR: /home/runner/journal
+      DOCUMENT_TIMINGS: /home/runner/journal/timings.jsonl
+      OUT: /home/runner/render-out
+      PKG: /home/runner/outputs
+      METER: /home/runner/meter.log
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: issue number
+        run: |
+          set -eu
+          if ! printf '%s' "$ISSUE" | grep -qE '^[0-9]{1,4}$'; then echo "not an issue number: $ISSUE"; exit 2; fi
+          if [ -n "$UNTIL" ] && ! printf '%s' "$UNTIL" | grep -qE '^[0-9]+(\.[0-9]+)?$'; then echo "until is seconds: $UNTIL"; exit 2; fi
+          test -f "episodes/$ISSUE/screenplay.json"
+
+      # Before anything is installed or rendered: where the outputs may go (no R2 secrets and a non-public item refuses).
+      - name: output route
+        id: route
+        env:
+          HAS_R2: ${{ secrets.R2_ACCESS_KEY_ID != '' && secrets.R2_SECRET_ACCESS_KEY != '' && secrets.R2_ACCOUNT_ID != '' }}
+        run: node scripts/episode-draft.mjs route "$ISSUE"
+
+      # The runner image's unused toolchains hold about 25 GB of the root disk; the draft needs it.
+      - name: free disk, start the meter
+        run: |
+          set -eu
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force > /dev/null
+          df -h /
+          mkdir -p "$OMNIBUS_MEDIA_ROOT" "$OUT" "$PKG/reports" "$DOCUMENT_JOURNAL_DIR"
+          nohup bash -c 'while :; do echo "$(date +%s) $(free -m | awk "/^Mem:/{print \$3}") $(df -BM --output=used / | tail -1 | tr -dc 0-9)" >> "$METER"; sleep 5; done' > /dev/null 2>&1 &
+          echo "$(date +%s) STAGE setup" >> "$METER"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install (ffmpeg, npm, studio, Playwright Chromium, Kokoro venv)
+        run: |
+          set -eu
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          npm ci
+          python -m pip install -r studio/requirements-draft.txt
+          python -m playwright install --with-deps chromium
+          python -m venv /home/runner/tts
+          /home/runner/tts/bin/python -m pip install -r studio/requirements-tts.txt
+          { ffmpeg -version | head -1; python --version; /home/runner/tts/bin/python -m pip freeze; } | tee "$PKG/reports/toolchain.txt"
+
+      - name: Kokoro model cache
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/kokoro
+          key: kokoro-${{ hashFiles('studio/kokoro.lock.json') }}
+      - name: Kokoro model (pinned, checked against studio/kokoro.lock.json)
+        run: python -m studio.engine.narrator fetch
+
+      - name: "stage 1: graphics"
+        run: |
+          set -eu
+          echo "$(date +%s) STAGE graphics" >> "$METER"
+          led="episodes/$ISSUE/graphics-ledger.json"
+          cp "$led" /home/runner/graphics-ledger.committed.json
+          # shellcheck disable=SC2046
+          python -m studio.graphics.render "week$ISSUE" --out "$OMNIBUS_MEDIA_ROOT/$ISSUE/graphics" \
+            $(python -m studio.graphics.verify release /home/runner/graphics-ledger.committed.json)
+          python -m studio.graphics.verify compare /home/runner/graphics-ledger.committed.json "$led" \
+            --report "$PKG/reports/graphics-compare.json"
+          cp "$led" "$PKG/graphics-ledger.json"
+          du -sh "$OMNIBUS_MEDIA_ROOT/$ISSUE/graphics"
+
+      - name: "stage 2: narration"
+        run: |
+          set -eu
+          echo "$(date +%s) STAGE narration" >> "$METER"
+          python -m studio.news.voice_episode "episodes/$ISSUE" --media-root "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice" --threads 4 \
+            | tee "$PKG/reports/narration.json"
+          cp "episodes/$ISSUE/audio/voice.json" "$PKG/voice.json"
+
+      - name: "stage 3: sources"
+        run: |
+          set -eu
+          echo "$(date +%s) STAGE sources" >> "$METER"
+          git clone --quiet --filter=blob:none --no-checkout https://github.com/aacrit/void--news /home/runner/void--news
+          PYTHON=python node scripts/rights.mjs capture "$ISSUE" --media "$OMNIBUS_MEDIA_ROOT/$ISSUE/media" --voidnews /home/runner/void--news
+          node scripts/rights.mjs fetch "$ISSUE" --media "$OMNIBUS_MEDIA_ROOT/$ISSUE/media" --from-ledger \
+            --report "$PKG/reports/sources.json"
+          python -m studio.news.studio_items "episodes/$ISSUE" --report "$PKG/reports/studio-items.json"
+          rm -rf /home/runner/void--news ~/.cache/pip ~/.npm ~/.cache/ms-playwright
+          du -sh "$OMNIBUS_MEDIA_ROOT/$ISSUE"/*
+          df -h /
+
+      - name: "stage 4: draft render"
+        run: |
+          set -eu
+          echo "$(date +%s) STAGE render" >> "$METER"
+          args="--draft --fit-voices --stems --res $RES --workers 4 --out $OUT"
+          if [ -n "$UNTIL" ]; then args="$args --until $UNTIL"; else args="$args --layers"; fi
+          # shellcheck disable=SC2086
+          python -m studio.engine.render "episodes/$ISSUE" $args
+          du -sh "$OUT"
+          df -h /
+
+      - name: "stage 5: outputs"
+        run: |
+          set -eu
+          echo "$(date +%s) STAGE outputs" >> "$METER"
+          # the engine's intermediates (segments, work) stay behind: the master, its sources.json, layers and stems go
+          mkdir -p "$PKG/render" "$PKG/graphics" "$PKG/voice" "$PKG/journal"
+          rsync -a --exclude segments --exclude work "$OUT"/ "$PKG/render/"
+          cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/graphics/"*.mov "$PKG/graphics/"
+          cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice/"*.wav "$PKG/voice/"
+          cp -r "$DOCUMENT_JOURNAL_DIR"/. "$PKG/journal/"
+          node scripts/episode-draft.mjs manifest "$PKG" --issue "$ISSUE" --run "${{ github.run_id }}"
+          du -sh "$PKG"
+
+      - name: outputs to R2 (private)
+        if: steps.route.outputs.route == 'r2'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          set -eu
+          aws s3 sync "$PKG" "s3://omnibus-capture/render/$ISSUE/" --delete --only-show-errors \
+            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+
+      - name: outputs to a workflow artifact (public; every ledger item is PD, CC or our own)
+        if: steps.route.outputs.route == 'artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: episode-draft-${{ env.ISSUE }}
+          path: /home/runner/outputs
+          retention-days: 3
+          compression-level: 0
+          if-no-files-found: error
+
+      # Peaks and stage times, whatever happened: the run's own measurement (docs/DECISIONS.md, C8).
+      - name: meter
+        if: always()
+        run: |
+          set -u
+          [ -f "$METER" ] || exit 0
+          echo "$(date +%s) STAGE end" >> "$METER"
+          awk '$2=="STAGE"{ if (name!="") printf "| %s | %d s | %d MiB | %d MiB |\n", name, $1-t0, pm, pd; name=$3; t0=$1; pm=0; pd=0; next }
+               { if ($2>pm) pm=$2; if ($3>pd) pd=$3 }' "$METER" > /home/runner/meter.md
+          { echo "### episode-draft meter (issue $ISSUE${UNTIL:+, --until $UNTIL}, ${RES}p)"; echo;
+            echo "| stage | wall | peak RAM used | peak root disk used |"; echo "|---|--:|--:|--:|";
+            grep -v '^| end ' /home/runner/meter.md; } | tee -a "$GITHUB_STEP_SUMMARY"

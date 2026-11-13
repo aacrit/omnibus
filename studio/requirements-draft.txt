@@ -1,0 +1,5 @@
+# The Actions draft (.github/workflows/episode-draft.yml, C8): the graphics renderer's interpreter (studio engine plus
+# Playwright) and PyMuPDF, which studio/news/studio_items.py uses to rasterise a ledgered PDF page (the laptop's
+# version). Kokoro runs in its own venv (studio/requirements-tts.txt).
+-r requirements-graphics.txt
+pymupdf==1.28.2
