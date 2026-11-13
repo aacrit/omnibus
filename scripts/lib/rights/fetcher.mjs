@@ -130,7 +130,20 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     ...(c.disclosure ? { disclosure: clip(c.disclosure, 400) } : {}),
     // How the item's own sound is used, from the pin: E6 and E11 honour it.
     ...(c.audio ? { audio: { mode: c.audio.mode, reason: clip(c.audio.reason, 600) } } : {}),
+    // Why the item shows its beat and the seconds that do, from the sourcing pass's candidate pin.
+    ...(c.fit ? { fit: fitRecord(c.fit, request) } : {}),
+    // An editorial-use item's captured terms; a fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13).
+    ...(c.terms ? { terms: { url: c.terms.url, captured_text: clip(c.terms.captured_text, 4000), captured_at: c.terms.captured_at, credit_required: clip(c.terms.credit_required, 400), restrictions: (c.terms.restrictions ?? []).map((r) => clip(r, 400)) } } : {}),
+    ...(c.fair_use ? { fair_use: { ...c.fair_use, rationale: clip(c.fair_use.rationale, 2000) } } : {}),
   };
+}
+
+/** The fit record a pin states, held to its fields and lengths. */
+export function fitRecord(fit, request) {
+  const out = { beat: clip(fit.beat ?? request.for ?? request.id, 80), why: clip(fit.why, 600) };
+  for (const k of ["in_s", "out_s"]) if (Number.isFinite(fit[k]) && fit[k] >= 0) out[k] = fit[k];
+  if (fit.horizon) out.horizon = clip(fit.horizon, 64);
+  return out;
 }
 
 /** The file a witnessed capture is kept under: the request id, the capture's timestamp, .witness.html. */
@@ -213,7 +226,8 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
         refuse([found.reason ?? "not found at the source"]);
         continue;
       }
-      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}) };
+      // A pin's fit and fair-use record travel with the candidate; the source's own record never sets them.
+      const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}) };
       const reasons = [];
       const mismatch = kindMismatch(request.kind, c.kind_hint);
       if (mismatch) reasons.push(mismatch);

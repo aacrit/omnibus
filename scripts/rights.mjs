@@ -32,7 +32,7 @@
 // the repo, and the ledger records only a bare file name.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as commons from "./lib/rights/adapters/commons.mjs";
@@ -42,6 +42,7 @@ import * as loc from "./lib/rights/adapters/loc.mjs";
 import * as nara from "./lib/rights/adapters/nara.mjs";
 import * as nasa from "./lib/rights/adapters/nasa.mjs";
 import * as voidnews from "./lib/rights/adapters/voidnews.mjs";
+import * as voa from "./lib/rights/adapters/voa.mjs";
 import * as wayback from "./lib/rights/adapters/wayback.mjs";
 import { buildCoverage } from "./lib/rights/coverage.mjs";
 import { runCapture } from "./lib/rights/capture.mjs";
@@ -49,11 +50,11 @@ import { buildDisputePacket, serialisePacket } from "./lib/rights/disputes.mjs";
 import { fetchRequests } from "./lib/rights/fetcher.mjs";
 import { getJson, getMedia, getText } from "./lib/rights/http.mjs";
 import { emptyLedger, serialiseLedger, validateLedger, validateRequests } from "./lib/rights/ledger.mjs";
-import { pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
+import { mergeCandidatePins, pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
 import { lintAll } from "./lint-rights.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews };
+export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews, voa };
 export const CHECKED_BY = "void omnibus fetcher, metadata checks (scripts/rights.mjs)";
 
 export function episodeDir(root, issue) {
@@ -129,6 +130,12 @@ export async function runResolve({ root = repoRoot, issue, http = { getJson, get
   if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
   const pinsPath = path.join(dir, "asset-pins.json");
   const pinsDoc = existsSync(pinsPath) ? JSON.parse(readFileSync(pinsPath, "utf8")) : { pins: {} };
+  // The sourcing passes' candidate pins (episodes/<issue>/candidates/*.json) join the hand pins.
+  const candDir = path.join(dir, "candidates");
+  const files = existsSync(candDir) ? readdirSync(candDir).filter((n) => n.endsWith(".json")).map((name) => ({ name, doc: JSON.parse(readFileSync(path.join(candDir, name), "utf8")) })) : [];
+  const merged = mergeCandidatePins(pinsDoc.pins, files, { issue, requestIds: new Set((rundown.asset_requests ?? []).map((r) => r.id)) });
+  if (merged.problems.length) throw new Error(`candidate pins are invalid:\n  ${merged.problems.join("\n  ")}`);
+  pinsDoc.pins = merged.pins;
   const bad = pinProblems(pinsDoc.pins);
   if (bad.length) throw new Error(`asset-pins.json names addresses the fetcher may not reach:\n  ${bad.join("\n  ")}`);
   const echoPath = path.join(dir, "echo-pick.json");

@@ -8,7 +8,7 @@
 // from void document (aacrit/document@b62c4fa42017d5f3432bb3317b0fc03465bda193:
 // studio/engine/titles.py _provenance_problems()); the laundering checks are net-new.
 
-import { aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
+import { FAIR_USE, aiSignals, deniedBy, licenceProblems } from "./licences.mjs";
 
 /** An uploader account younger than this at upload time, with few edits, makes an own-work claim suspect. */
 export const NEW_ACCOUNT_DAYS = 30;
@@ -88,7 +88,7 @@ export function checkCandidate(c) {
   if (!c.licence) {
     reasons.push(c.licence_raw ? `licence "${c.licence_raw}" is not on the allowlist${c.licence_note ? ` (${c.licence_note})` : ""}` : "no licence stated");
   } else {
-    reasons.push(...licenceProblems({ licence: c.licence, basis: c.basis, credit: c.credit, adapter: c.adapter }));
+    reasons.push(...licenceProblems({ licence: c.licence, basis: c.basis, credit: c.credit, adapter: c.adapter, terms: c.terms, fair_use: c.fair_use }));
   }
   if (!c.evidence?.url || !String(c.evidence?.captured_text ?? "").trim()) reasons.push("no licence evidence captured");
   reasons.push(
@@ -97,6 +97,8 @@ export function checkCandidate(c) {
       texts: [c.title, c.description, c.basis],
       credits: [c.credit, ...(c.credit_fields ?? [])],
       tags: [...(c.categories ?? []), ...(c.keywords ?? [])],
+      // Only a fair-use excerpt may be an outlet's clip; agencies and stock stay refused for every class.
+      allowOutlets: c.licence === FAIR_USE,
     }),
   );
   const ai = aiProvenanceCheck(c);
