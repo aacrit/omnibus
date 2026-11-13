@@ -315,7 +315,7 @@
           "maxLength": 200
         },
         "marks_checked": {
-          "description": "The on-screen marks a reviewer saw in the item's frames ([] for none): reviewed by the verifier, the CoS or the founder (never the builder or the sourcer), with the frames looked at (one in every 30 s of the aired span: fit in_s..out_s, else the whole file, duration_s), the contact sheet, and the mask over any call to action (S4 review, 2026-11-13).",
+          "description": "The on-screen marks a reviewer saw in the item's frames ([] for none): reviewed by the verifier, the CoS or the founder (never the builder or the sourcer), with the frames looked at (one in every 30 s of the aired span: fit in_s..out_s, else the whole file, duration_s; for a video, one in every shot between its cuts), the contact sheet, and the mask over any call to action (S4 review, 2026-11-13).",
           "type": "object",
           "required": ["marks", "reviewed"],
           "additionalProperties": false,
@@ -338,7 +338,18 @@
                     "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
                   }
                 },
-                "duration_s": { "type": "number", "exclusiveMinimum": 0 }
+                "duration_s": { "type": "number", "exclusiveMinimum": 0 },
+                "cuts": {
+                  "description": "A video's cuts: their times (seconds into the file; [] for a single shot), the scene-change threshold and how they were found (ffmpeg select=gt(scene,0.3)); every shot of the aired span holds a frame (S4 review round 3).",
+                  "type": "object",
+                  "required": ["times", "threshold", "method"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "times": { "type": "array", "maxItems": 2000, "items": { "type": "number", "minimum": 0 } },
+                    "threshold": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+                    "method": { "type": "string", "minLength": 1, "maxLength": 200 }
+                  }
+                }
               }
             },
             "mask": {

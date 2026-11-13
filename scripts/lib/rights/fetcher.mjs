@@ -14,7 +14,7 @@ import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
 
-/** A marks review as the ledger keeps it: who (a role), when, the frames, the contact sheet, the file's length. */
+/** A marks review as the ledger keeps it: who (a role), when, the frames, the contact sheet, the file's length, a video's cuts. */
 function marksReviewed(r = {}) {
   return {
     by: clip(r.by, 200),
@@ -22,6 +22,8 @@ function marksReviewed(r = {}) {
     frames: Array.isArray(r.frames) ? r.frames.slice(0, 400) : r.frames,
     contact_sheet: r.contact_sheet ? { path: clip(r.contact_sheet.path, 300), sha256: String(r.contact_sheet.sha256 ?? "") } : r.contact_sheet,
     ...(r.duration_s !== undefined ? { duration_s: r.duration_s } : {}),
+    // The cuts in a video, the scene threshold and the method that found them (S4 review round 3).
+    ...(r.cuts !== undefined ? { cuts: r.cuts && typeof r.cuts === "object" ? { times: Array.isArray(r.cuts.times) ? r.cuts.times.slice(0, 2000) : r.cuts.times, threshold: r.cuts.threshold, method: clip(r.cuts.method, 200) } : r.cuts } : {}),
   };
 }
 

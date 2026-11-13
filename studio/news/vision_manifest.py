@@ -37,7 +37,10 @@
 - ``reviewed``: who confirmed the reading. With ``marks`` it is required: ``by`` names the checking role (verifier, cos
   or founder; never the builder or the sourcer, CoS ruling 2026-11-13), ``at``, ``frames`` (the timestamps looked at,
   one in every 30 s of the aired span: the item's ``fit`` in_s..out_s, else the whole file, ``duration_s``) and
-  ``contact_sheet`` ``{path, sha256}``.
+  ``contact_sheet`` ``{path, sha256}``. For a video (a ledger ``kind`` "footage" or a ``video/`` mime) it also names
+  ``cuts`` ``{times, threshold, method}`` (every cut in the file, seconds, ``[]`` for a single shot; the scene
+  threshold; how they were found, ffmpeg ``select=gt(scene,0.3)``), and every shot of the aired span between consecutive cuts holds a frame (S4 review
+  round 3).
 
 The ledger wins: a field the rights ledger states is never replaced, and a manifest entry that contradicts it
 (``shows_bodies``) is refused, since one of them is wrong. A picture that needs vision data is a ledger item shown as
@@ -96,6 +99,25 @@ def aired_span(item: dict, reviewed: dict | None):
     return (0.0, float(d)) if _num(d) and d > 0 else None
 
 
+def is_video(item: dict | None) -> bool:
+    """Whether the item is a moving picture (its marks review names its cuts; mirrors licences.mjs isVideo)."""
+    return bool(item) and (item.get("kind") == "footage" or str(item.get("mime") or "").lower().startswith("video/"))
+
+
+def unseen_shots(frames, cuts, span) -> list[tuple[float, float]]:
+    """The shots of the aired span no frame falls in: the span cut at every cut inside it, each shot [from, to) holding
+    a frame from its first frame up to the next cut (the last up to the span's end, inclusive)."""
+    a, b = span
+    inner = sorted({float(c) for c in cuts if a + 1e-6 < c < b - 1e-6})
+    edges = [a, *inner, b]
+    out = []
+    for k in range(len(edges) - 1):
+        lo, hi, last = edges[k], edges[k + 1], k == len(edges) - 2
+        if not any(lo - 1e-6 <= t and (t <= hi + 1e-6 if last else t < hi - 1e-6) for t in frames):
+            out.append((round(lo, 2), round(hi, 2)))
+    return out
+
+
 def uncovered(frames, span, every=FRAME_EVERY_S) -> list[tuple[float, float]]:
     """The 30 s windows of the span no frame falls in."""
     a, b = span
@@ -132,6 +154,20 @@ def review_problems(r, where: str, item: dict | None = None) -> list[str]:
             if gaps:
                 out.append(f"{where}.frames holds one frame in every {FRAME_EVERY_S} s of the aired span {span[0]:g}.."
                            f"{span[1]:g} s; none in " + ", ".join(f"{lo:g}..{hi:g} s" for lo, hi in gaps))
+        if is_video(item):
+            c = r.get("cuts") if isinstance(r.get("cuts"), dict) else {}
+            cuts, th, how = c.get("times"), c.get("threshold"), c.get("method")
+            if not (isinstance(cuts, list) and all(_num(t) and t >= 0 for t in cuts) and _num(th) and 0 < th <= 1
+                    and isinstance(how, str) and how.strip()):
+                out.append(f"{where}.frames holds a frame in every shot: {where}.cuts is {{times, threshold, method}}, "
+                           "every cut in the video (seconds; [] for a single shot), the scene threshold and the method "
+                           "that found them (ffmpeg select=gt(scene,0.3))")
+            elif span is not None:
+                unseen = unseen_shots(fr, cuts, span)
+                if unseen:
+                    out.append(f"{where}.frames holds a frame in every shot of the aired span {span[0]:g}..{span[1]:g} s "
+                               f"({len(cuts)} cuts at threshold {th:g}); {len(unseen)} shot(s) unseen: "
+                               + ", ".join(f"{lo:g}..{hi:g} s" for lo, hi in unseen[:12]) + (", ..." if len(unseen) > 12 else ""))
     cs = r.get("contact_sheet")
     if not (isinstance(cs, dict) and isinstance(cs.get("path"), str) and cs["path"].strip()
             and isinstance(cs.get("sha256"), str) and SHA256.match(cs["sha256"])):

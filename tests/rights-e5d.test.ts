@@ -100,7 +100,7 @@ describe("VOA (founder ruling 2026-11-13): own-crew material is a US federal wor
     expect(c.credit).toMatch(/^Voice of America/);
     // Until a frame reader exists a VOA item needs a reviewed marks check (S4 review).
     expect(checkCandidate({ ...c, kind: "footage" }).reasons.join()).toMatch(/marks_checked/);
-    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "verifier", at: AT, frames: [0, 20], contact_sheet: { path: "sheets/voa.jpg", sha256: "a".repeat(64) }, duration_s: 40 } } }).reasons).toEqual([]);
+    expect(checkCandidate({ ...c, kind: "footage", marks_checked: { marks: ["VOA lower third"], reviewed: { by: "verifier", at: AT, frames: [0, 20], contact_sheet: { path: "sheets/voa.jpg", sha256: "a".repeat(64) }, duration_s: 40, cuts: { times: [12], threshold: 0.3, method: "ffmpeg select=gt(scene,0.3)" } } } }).reasons).toEqual([]);
   });
 
   it("refuses an item crediting an agency, a page without the terms statement, and a page with no file of its own", () => {
