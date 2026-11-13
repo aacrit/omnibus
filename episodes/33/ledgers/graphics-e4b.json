@@ -32,7 +32,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "8f29623a3e2c52aeb8ec311c9b4a0efb7739b7955e27efbf26c2d67ead076862",
+   "sha256": "f834f177b51db622bb64598251ed690af4b2784a22709ff29c2502c746ef065e",
    "derived_from": "e6/graphics@446dd6a:episodes/33/graphics-ledger.json#tc-week (file read on D:)"
   },
   {
@@ -168,7 +168,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "97defce722a6787731b4d9f6d75359b936518a39f88dfb157042146b6b46371b",
+   "sha256": "c66954cb65e40d7dfaf893bd678d0709ba125c1cc9b20f421958d196f6c49049",
    "derived_from": "e6/graphics@446dd6a:episodes/33/graphics-ledger.json#tc-weight (file read on D:)"
   },
   {
@@ -236,7 +236,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "d1bf3872786deeb6392e27785046290e38033fe7fc482ef6e0c08d24eec3a867",
+   "sha256": "270f32f2637dc8d6511eb04ed52fcd64af9cf1a50fd403f2be27579449462a0b",
    "derived_from": "e6/graphics@446dd6a:episodes/33/graphics-ledger.json#tc-echo (file read on D:)"
   },
   {
@@ -253,7 +253,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "557bb729f773ea88309d8673b107393f0d8fdd3fa4a3047a3055ef822d5e5677",
+   "sha256": "d1b143f78e35750fd8e1701abc1dbb4fb6427245f757e433ee897bb959d25deb",
    "derived_from": "D:/omnibus-media/33/graphics/lt-echo-x2.mov (on disk, not in e6/graphics@446dd6a:episodes/33/graphics-ledger.json)"
   },
   {
@@ -270,7 +270,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "984e6afe782ab98404c3c9054091ee18b0ee2d04b0ef341fc6707877c5eb3b8d",
+   "sha256": "fd5622380dd4c75ed2f627608c968876f8701bc87e890f4f883f0af716ec8880",
    "derived_from": "e6/graphics@446dd6a:episodes/33/graphics-ledger.json#lt-echo-x3 (file read on D:)"
   },
   {
@@ -338,7 +338,7 @@
    "licence": "CC BY-SA 4.0",
    "credit": "void omnibus, drawn by code",
    "shows_bodies": false,
-   "sha256": "66d369e55d11e289a404b51adfa5d61385506dbc0b9b66fc2ca8b903f8cf81e8",
+   "sha256": "4c9f61ed8f6e435b8a0477f78165aeb76fb1793e6b2ceda6cecee2e81bdcaa66",
    "derived_from": "e6/graphics@446dd6a:episodes/33/graphics-ledger.json#tc-margins (file read on D:)"
   },
   {

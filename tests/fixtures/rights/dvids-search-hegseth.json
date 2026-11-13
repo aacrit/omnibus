@@ -1,0 +1,57 @@
+{
+ "_recorded": {
+  "url": "https://api.dvidshub.net/search?q=Hegseth&max_results=50&sort=date_published&sortdir=desc&type%5B%5D=image&type%5B%5D=video&from_date=2026-10-30T00%3A00%3A00Z&to_publishdate=2026-11-06T19%3A18%3A18Z",
+  "at": "2026-11-12T14:00:00Z",
+  "by": "E5c fixture recording: DVIDS API metadata only, no media; trimmed (hls_url and closed_caption_urls removed, they carry the key; files[] cut to three; long descriptions clipped); the api_key parameter is never recorded"
+ },
+ "response": {
+  "page_info": {
+   "total_results": 2,
+   "results_per_page": 50
+  },
+  "results": [
+   {
+    "publishdate": "2026-11-06T15:11:07Z",
+    "date": "2026-11-02T08:00:00Z",
+    "category": "Video Productions",
+    "aspect_ratio": "16:9",
+    "duration": 71,
+    "hd": true,
+    "title": "Send Me Enlistment Call to Service",
+    "id": "video:1028891",
+    "type": "video",
+    "keywords": "Secretary of War Pete Hegseth",
+    "credit": "SSG Daniel Proper",
+    "country": "United States",
+    "state": "District of Columbia",
+    "city": "Washington",
+    "unit_name": "Office of the Secretary of War Public Affairs",
+    "branch": "Joint",
+    "short_description": "President of the United States Donald Trump and Secretary of War Pete Hegseth highlights the importance in \"send me\" call to service at the Pentagon, Washington, D.C., Nov. 2, 2026. (DoW video by U.S. Army Staff Sgt. Daniel Proper)",
+    "url": "https://www.dvidshub.net/video/1028891/send-me-enlistment-call-service",
+    "date_published": "2026-11-06T15:11:07Z"
+   },
+   {
+    "publishdate": "2026-11-05T20:09:54Z",
+    "date": "2026-11-05T05:00:00Z",
+    "category": "Video Productions",
+    "aspect_ratio": "16:9",
+    "duration": 346,
+    "hd": true,
+    "title": "SECWAR Hegseth delivers message from the Pentagon",
+    "id": "video:1028785",
+    "type": "video",
+    "keywords": "Secretary of War Pete Hegseth",
+    "credit": "SSG Daniel Proper",
+    "country": "United States",
+    "state": "District of Columbia",
+    "city": "Washington",
+    "unit_name": "Office of the Secretary of War Public Affairs",
+    "branch": "Joint",
+    "short_description": "Secretary of War Pete Hegseth delivers message from the Pentagon, Washington, D.C., Nov. 05, 2026. (DoW video by U.S. Army Staff Sgt. Daniel Proper)",
+    "url": "https://www.dvidshub.net/video/1028785/secwar-hegseth-delivers-message-pentagon",
+    "date_published": "2026-11-05T20:09:54Z"
+   }
+  ]
+ }
+}

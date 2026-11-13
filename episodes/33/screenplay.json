@@ -1012,7 +1012,7 @@
       "pr": 17,
       "file": "e33-day5-pic.mp4",
       "sha256": "4da02779ce63ea8ad03632e6442c6a293fe462f45ec76d6ee444e8efa1c5ac12",
-      "note": "main's ledger holds the official portrait under this id until #17 merges"
+      "note": "merged to main in #17; main's rights ledger holds this item"
      },
      "why": "The Secretary speaking outside the Pentagon on 5 Nov, a message DVIDS published that day (VIRIN 261105-A-LE512-1001); muted, so none of his words sit under the narration, which reads his reply as the 6 Nov edition printed it."
     }

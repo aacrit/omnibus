@@ -1,0 +1,54 @@
+{
+ "_recorded": {
+  "url": "https://api.dvidshub.net/asset?id=video%3A1029004",
+  "at": "2026-11-12T14:00:00Z",
+  "by": "E5c fixture recording: DVIDS API metadata only, no media; trimmed (hls_url and closed_caption_urls removed, they carry the key; files[] cut to three; long descriptions clipped); the api_key parameter is never recorded"
+ },
+ "response": {
+  "results": {
+   "id": "video:1029004",
+   "type": "video",
+   "title": "U.S. Forces Disable Cargo Vessel Attempting to Violate Naval Blockade",
+   "description": "U.S. Central Command (CENTCOM) forces disabled a commercial vessel in the Gulf of Oman, Nov. 7, after the ship’s civilian crew ignored repeated warnings and attempted to violate the naval blockade against Iran multiple times. (U.S. Central Command Video)",
+   "keywords": "blockade, CENTCOM",
+   "date_published": "2026-11-07T15:32:09-05:00",
+   "date": "2026-11-07T00:00:00-05:00",
+   "category": "B-Roll",
+   "unit_id": "72",
+   "unit_name": "U.S. Central Command Public Affairs",
+   "branch": "Joint",
+   "image": "https://d1ldvf68ux039x.cloudfront.net/thumbs/frames/video/2611/1029004/DOD_112131177.0000001/2000w_q95.jpg",
+   "url": "https://www.dvidshub.net/video/1029004/us-forces-disable-cargo-vessel-attempting-violate-naval-blockade",
+   "credit": "Courtesy",
+   "location": {
+    "city": "Tampa",
+    "state": "Florida",
+    "country": "United States",
+    "state_abbreviation": "FL",
+    "country_abbreviation": "US"
+   },
+   "time_start": 0,
+   "virin": "261107-D-D0477-1010",
+   "duration": 17,
+   "aspect_ratio": "16:9",
+   "files": [
+    {
+     "src": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112131177/DOD_112131177.mp4",
+     "type": "video/mp4",
+     "height": 1080,
+     "width": 1920,
+     "size": 13641488,
+     "bitrate": 0
+    },
+    {
+     "src": "https://d34w7g4gy10iej.cloudfront.net/video/2611/DOD_112131177/DOD_112131177-1280x720-3000k.mp4",
+     "type": "video/mp4",
+     "height": 720,
+     "width": 1280,
+     "size": 5562258,
+     "bitrate": 0
+    }
+   ]
+  }
+ }
+}
