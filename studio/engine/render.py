@@ -766,6 +766,50 @@ def file_sha256(item: dict) -> str | None:
     return _FILE_SHA[key]
 
 
+_FILE_CUTS: dict = {}
+SCENE_THRESHOLD = 0.3
+
+
+def scene_cuts(path: Path, span) -> list[float]:
+    """The cuts ffmpeg's scene filter finds in a video over ``span`` [a, b] (b None: to the end), seconds into the file:
+    ``-to b -i file -vf trim=start=a,select='gt(scene,0.3)',showinfo -f null -``, nothing encoded (mirrors
+    scripts/lib/rights/scenes.mjs detectCuts). Raises Refused when ffmpeg fails."""
+    a, b = float(span[0]), span[1]
+    cmd = [ffmpeg(), "-hide_banner", "-nostats", "-v", "info", "-threads", "2"]   # gentle: two threads, one process
+    if b is not None:
+        cmd += ["-to", f"{float(b):g}"]
+    cmd += ["-i", str(path), "-an", "-sn", "-threads", "2", "-filter_threads", "1", "-vf", f"trim=start={a:g},select='gt(scene,{SCENE_THRESHOLD})',showinfo",
+            "-f", "null", "-"]
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600)
+    if r.returncode != 0:
+        raise Refused(f"ffmpeg scene detection failed on {path}: {(r.stderr or '').strip().splitlines()[-1:]}")
+    out = []
+    for line in (r.stderr or "").splitlines():
+        m = re.search(r"pts_time:\s*(-?[0-9.]+(?:e-?\d+)?)", line) if "showinfo" in line else None
+        if m:
+            t = round(float(m.group(1)), 3)
+            if t > a + 1e-6 and (b is None or t < float(b) - 1e-6):
+                out.append(t)
+    return out
+
+
+def file_cuts(item: dict, span) -> list[float] | None:
+    """Rights fix round 4: a cited video's cuts found again in its file on disk over the aired span, cached by (path,
+    size, mtime, span); None when the file or ffmpeg cannot be read."""
+    p = item.get("_path")
+    try:
+        st = os.stat(p)
+    except (OSError, TypeError):
+        return None
+    key = (str(p), st.st_size, st.st_mtime_ns, tuple(span))
+    if key not in _FILE_CUTS:
+        try:
+            _FILE_CUTS[key] = scene_cuts(Path(p), span)
+        except (Refused, OSError, subprocess.SubprocessError):
+            return None
+    return _FILE_CUTS[key]
+
+
 def credits_graphic_missing(plan: dict, rundown: dict | None) -> tuple[list[str] | None, list[str]]:
     """E9i: (the credits graphics that air, the plan's credit disclosures they do not carry). E6 typesets the credits
     roll from the rundown's credits part ``disclosures`` (studio/graphics/data.py credits_spec), so a disclosure the
@@ -805,7 +849,7 @@ def news_vision(film: Path, play: dict, assets: dict) -> dict:
         for s in part.get("shots") or []:
             if s.get("asset") and s.get("kind") not in cited.setdefault(s["asset"], []):
                 cited[s["asset"]].append(s.get("kind"))
-    r = NVM.apply(man if not problems else None, assets, cited, read_sha=file_sha256)
+    r = NVM.apply(man if not problems else None, assets, cited, read_sha=file_sha256, read_cuts=file_cuts)
     return dict(r, problems=problems + r["problems"], manifest=str(f) if f.exists() else None)
 
 
@@ -3294,7 +3338,21 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
                                  evidence={"asset": s["asset"], "licence": lic, "attribution": "ShareAlike, on the sources page"})
             # A21 (E3): the film's imagery rule on the asset's content flags. Under the default rule this is the
             # Partition lint exactly: no-bodies, shows_bodies (or the older shows_violence_or_bodies) stated false.
-            for c in POL.asset_checks(item, rule):
+            # Rights fix round 4: a clip plays only inside its ledger fit (the sourcing pass's in_s..out_s), and a file
+            # whose bodies lie outside that fit is judged on the seconds the shot airs.
+            seen_as = item
+            if kind == "archive_video":
+                sa = float(s.get("in_s", item.get("in_s", 0.0)))
+                sb = float(s.get("out_s", item.get("out_s", sa + float(s.get("dur_s", 0)))))
+                fit = item.get("fit") if isinstance(item.get("fit"), dict) else {}
+                if isinstance(fit.get("in_s"), (int, float)) and isinstance(fit.get("out_s"), (int, float)):
+                    inside = fit["in_s"] - 1e-6 <= sa and sb <= fit["out_s"] + 1e-6
+                    lint("fit-span", inside, unit=s["id"], grammar="11.1",
+                         evidence={"asset": s.get("asset"), "shot": [sa, sb], "fit": [fit["in_s"], fit["out_s"]],
+                                   "fix": None if inside else "the rights ledger airs only the fit's seconds of this "
+                                   "file: trim the shot inside them"})
+                seen_as = POL.aired_bodies(item, (sa, sb))
+            for c in POL.asset_checks(seen_as, rule):
                 sev = c["severity"]
                 if c["rule"] == "no-bodies" and "shows_bodies" in vision["pending"].get(s.get("asset"), ()):
                     sev = "warn"         # E9i: awaiting the vision pass; vision-manifest carries the refusal

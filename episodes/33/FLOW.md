@@ -6,11 +6,11 @@ Pilot cut, 2026-11-13 (founder ruling: issue 33 ships as a pipeline pilot on a R
 
 | picture | seconds | share |
 |---|--:|--:|
-| PAGE (printed pages, typeset documents) | 347.7 | 45.6% |
+| PAGE (printed pages, typeset documents) | 355.2 | 46.6% |
 | CARD | 130.5 | 17.1% |
 | GRAPHIC (clock, title, bars, test cards, board, credits) | 122.4 | 16.0% |
 | STILL (photographs) | 97.3 | 12.8% |
-| **FOOTAGE** | **64.9** | **8.5%** |
+| **FOOTAGE** | **57.4** | **7.5%** |
 
 | voice | seconds | share |
 |---|--:|--:|
@@ -19,14 +19,14 @@ Pilot cut, 2026-11-13 (founder ruling: issue 33 ships as a pipeline pilot on a R
 | **voiced** | **417.1** | **54.7%** (ceiling 55%) |
 | no voice | 345.7 | 45.3% |
 
-Footage comes in at 8.5%, not the ~13% planned, because two clips were dropped: e33-day5-pic2, on the rights review's finding (its "FILMED 6 NOV" is a YouTube posting date and it shows the person, not the day's event), and e33-day3-pic2, because no day-3 line is about the President's remarks.
+Footage comes in at 7.5%, not the ~13% planned, because two clips were dropped and day 2 airs its first 14.5 s only (CoS ruling, rights fix 4): e33-day5-pic2, on the rights review's finding (its "FILMED 6 NOV" is a YouTube posting date and it shows the person, not the day's event), and e33-day3-pic2, because no day-3 line is about the President's remarks.
 
 ## Strip (one character = 4 s)
 
 Picture: F footage, S still, P page, C card, G graphic. Voice: N narration, Q quote, . none (majority of each 4 s).
 
 ```
-GPPPPPPGGGGCGPPPPPPGPFFFFFFGCSSSSSSPPPPPGPPPPPPFPPFFFFFGPPPPPPPPPPPPCGGGGGGGCCCCCCCCCCCPGFFFFPPPPPPPPPPPPPPPPPPPPPPSSSSSPPPPPPPPSSSPSSSSSSSSSSSCCCCCCCCCCCCCCCCPPPPPPPPPPPCPPPPPPPPGGGGGGGGGGGG
+GPPPPPPGGGGCGPPPPPPGPFFFFPPGCSSSSSSPPPPPGPPPPPPFPPFFFFFGPPPPPPPPPPPPCGGGGGGGCCCCCCCCCCCPGFFFFPPPPPPPPPPPPPPPPPPPPPPSSSSSPPPPPPPPSSSPSSSSSSSSSSSCCCCCCCCCCCCCCCCPPPPPPPPPPPCPPPPPPPPGGGGGGGGGGGG
 ...N.N.......NNNNN..NNNNN..N..NNN..NNN..NNNNNNN.NNNNNN..NNNN...NN...NNN.....NNNN.........NNN.NNNQQQQ..NNQQQQQQQQQQQNNN..NNNN....NNNQ.......NNN.NNNQQQ..NNNNQQQ..NN..NNNNN..NNNN................
 ```
 
@@ -34,8 +34,8 @@ GPPPPPPGGGGCGPPPPPPGPFFFFFFGCSSSSSSPPPPPGPPPPPPFPPFFFFFGPPPPPPPPPPPPCGGGGGGGCCCC
 
 | shot | asset | in to out | on screen | dot label | frame check (E4d, ffmpeg tiles) |
 |---|---|---|---|---|---|
-| S-D2-FTG | e33-day2-pic (SES Ukraine, CC BY 4.0) | 0 to 14.533 s | 85.7 to 100.2 | FILMED 2 NOV 2026 Â· PUBLISHED 5 NOV 2026 | every 3 s over 0 to 67 s, every 1 s over 13 to 20 s: site, smoke, rescuers, a search dog, nobody harmed visible. 17 to 27 s shows a white sheet or bag carried out (possibly a body), so it is excluded. The only mark is SES Zaporizhzhia's own logo (the credited maker), with no network or agency bug |
-| S-D2-FTG2 | e33-day2-pic | 38.3 to 45.767 s | 100.2 to 107.7 | same | every 1 s over 38 to 45 s: excavators at the crater and rescuers walking the site; clear |
+| S-D2-FTG | e33-day2-pic (SES Ukraine, CC BY 4.0) | 0 to 14.5 s | 85.7 to 100.2 | FILMED 2 NOV 2026 Â· PUBLISHED 5 NOV 2026 | every 3 s over 0 to 67 s, every 1 s over 13 to 20 s: site, smoke, rescuers, a search dog, nobody harmed visible. 17 to 27 s shows a white sheet or bag carried out (possibly a body), so it is excluded. The only mark is SES Zaporizhzhia's own logo (the credited maker), with no network or agency bug |
+| (removed) | e33-day2-pic | 38.3 to 45.767 s | not aired | | CoS ruling (rights fix 4): the file airs 0 to 14.5 s only (it shows covered remains carried from the rubble at about 20.3 to 26.8 s); S-D2-PAGE2 returns the printed page for those 7.5 s |
 | S-D5-PIC | e33-day5-pic (DVIDS) | 40 to 44.3 s | 186.1 to 190.4 | none (published before the horizon) | unchanged from E4c: under the count line only |
 | S-D6-FTG | e33-day6-pic (White House) | 1.293 to 24.149 s | 198.9 to 221.8 | none (published 6 Nov, before the 7 Nov horizon) | every 3 s over 0 to 33 s: Miller with the President at a podium, with reporters, at a table, to camera; no network bug or lower third. Muted: its own sound is the White House's edit (music likely), not checked |
 | S-X1 | e33-echo-req-12 (Signal Corps 111-ADC-8634) | 137.783 to 153.483 s | 355.7 to 371.4 | FILMED UIJONGBU Â· 2 JAN 1951 | every 4 s over 0 to 240 s, every 1 s over 132 to 153 s: a file of refugees walks along the railway in snow (after the roll-2 slate), then passes the squad close. NARA's card is only at 0 to 4 s, outside the cut |
@@ -61,7 +61,7 @@ Not used: e33-day5-pic2 (dropped by the rights review) and e33-day3-pic2 (no lin
 | p-week-2 | G-DAY2 | 77.7 | 80.7 | GRAPHIC | day-bars-2 | 1.8 | 0.0 |  |
 | p-week-2 | S-D2-PAGE | 80.7 | 85.7 | PAGE | e33-day2-page | 4.4 | 0.0 |  |
 | p-week-2 | S-D2-FTG | 85.7 | 100.2 | FOOTAGE | e33-day2-pic | 13.5 | 0.0 | FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026 |
-| p-week-2 | S-D2-FTG2 | 100.2 | 107.7 | FOOTAGE | e33-day2-pic | 1.5 | 0.0 | FILMED 2 NOV 2026 · PUBLISHED 5 NOV 2026 |
+| p-week-2 | S-D2-PAGE2 | 100.2 | 107.7 | PAGE | e33-day2-page | 1.5 | 0.0 |  |
 | p-week-3 | G-DAY3 | 107.7 | 110.7 | GRAPHIC | day-bars-3 | 2.6 | 0.0 |  |
 | p-week-3 | C-WED-HEAD | 110.7 | 117.9 | CARD |  | 0.7 | 0.0 |  |
 | p-week-3 | S-WED-PIC | 117.9 | 138.1 | STILL | e33-day3-pic | 12.4 | 0.0 |  |

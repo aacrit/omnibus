@@ -635,7 +635,7 @@ CUTS13 = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30]
 
 
 def _video_review(times, frames, **kw):
-    return dict(REVIEW, frames=frames, cuts={"times": times, "threshold": 0.3, "method": "ffmpeg select=gt(scene,0.3)"},
+    return dict(REVIEW, frames=frames, cuts={"times": times, "threshold": 0.3, "method": "ffmpeg select=gt(scene,0.3)", "ffmpeg": "ffmpeg version 9.0.1"},
                 **kw)
 
 
@@ -661,3 +661,78 @@ def test_a_video_review_without_cuts_is_refused_and_a_still_needs_none():
     led = item(kind="footage", fit={"in_s": 0, "out_s": 33}, marks_checked={
         "marks": [], "reviewed": _video_review(CUTS13, [0, 1.3, 12, 24.1, 33])})
     assert NVM.ledger_marks(led) is None
+
+
+# --------------------------------------------------------------------------- rights fix 4: cuts found again, bodies left out
+
+DAY2_CUTS = [5.9, 8.5, 11.433]
+DAY2_FRAMES = [2.95, 7.2, 9.967, 12.967, 41.6, 45.35]
+
+
+def _day2(**kw):
+    return item(kind="footage", fit={"in_s": 0, "out_s": 14.5},
+                marks_checked={"marks": [], "reviewed": _video_review(DAY2_CUTS, DAY2_FRAMES)}, **kw)
+
+
+def test_a_review_needs_cuts_the_fetcher_found():
+    r = dict(_video_review(DAY2_CUTS, DAY2_FRAMES))
+    r["cuts"] = {k: v for k, v in r["cuts"].items() if k != "ffmpeg"}
+    assert any("cuts.ffmpeg names the ffmpeg" in p for p in NVM.review_problems(r, "r", _day2()))
+
+
+def test_the_render_finds_the_cuts_again_and_refuses_a_review_that_disagrees():
+    asked = []
+
+    def cuts(times):
+        return lambda it, span: (asked.append(span), times)[1]
+
+    ok = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=cuts([5.92, 8.5, 11.433, 14.533]))
+    assert ok["problems"] == [] and asked == [(0.0, 14.5)] and ok["pending"] == {}
+    bad = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=cuts([5.9, 8.5, 11.433, 13.2]))
+    assert any("disagree with the file's own over 0..14.5 s" in p and "13.2" in p for p in bad["problems"])
+    assert bad["pending"] == {"p": ["marks"]}                    # the refused review stands for nothing
+    unread = NVM.apply(None, {"p": _day2(shows_bodies=False)}, {"p": ["archive_video"]}, read_cuts=lambda it, span: None)
+    assert any("could not be found again" in p for p in unread["problems"])
+    assert NVM.cuts_disagree([5.9], [5.95], (0, 14.5)) == ([], [])
+
+
+def test_render_scene_cuts_on_a_synthetic_clip(tmp_path, monkeypatch):
+    """A tiny clip with hard cuts at 1 s and 2 s; where ffmpeg is absent (CI), the detector's ffmpeg is mocked with
+    the showinfo lines it would print, so the parse and the span filter are still checked."""
+    import shutil
+    import subprocess
+    import types
+    f = tmp_path / "three.mp4"
+    if shutil.which("ffmpeg"):
+        src = lambda s: ["-f", "lavfi", "-i", f"{s}s=64x48:r=10:d=1"]
+        subprocess.run(["ffmpeg", "-hide_banner", "-v", "error", "-y", *src("color=c=red:"), *src("color=c=blue:"),
+                        *src("testsrc="), "-filter_complex", "[0:v][1:v][2:v]concat=n=3:v=1:a=0", "-c:v", "mpeg4",
+                        "-threads", "1", str(f)], check=True)
+    else:
+        f.write_bytes(b"clip")
+        monkeypatch.setattr(R, "ffmpeg", lambda: "ffmpeg")
+
+        def fake(cmd, **kw):
+            start = float(next(a for a in cmd if str(a).startswith("trim=start=")).split("=")[2].split(",")[0])
+            end = float(cmd[cmd.index("-to") + 1]) if "-to" in cmd else 3.0
+            lines = [f"[Parsed_showinfo_2 @ 0x1] n: 0 pts: 10 pts_time:{t} pos: 1" for t in (1.0, 2.0) if start < t < end]
+            return types.SimpleNamespace(returncode=0, stderr=chr(10).join(lines), stdout="")
+        monkeypatch.setattr(R.subprocess, "run", fake)
+    got = R.scene_cuts(f, (0, None))
+    assert len(got) == 2 and abs(got[0] - 1) <= 0.1 and abs(got[1] - 2) <= 0.1
+    assert len(R.scene_cuts(f, (0, 1.5))) == 1
+    assert R.file_cuts({"_path": str(f)}, (1.5, 3.0)) == R.scene_cuts(f, (1.5, 3.0))
+    assert R.file_cuts({"_path": str(tmp_path / "missing.mp4")}, (0, 1)) is None
+
+
+def test_a_file_with_bodies_airs_only_clear_of_them():
+    from studio.engine import policy as POL
+    it = _day2(shows_bodies=True, bodies_excluded={"from_s": 20.3, "to_s": 26.8, "note": "covered remains"})
+    seen = POL.aired_bodies(it, (0.0, 14.5))
+    assert seen["shows_bodies"] is False and seen["bodies_left_out"]["from_s"] == 20.3
+    assert POL.aired_bodies(it, (10.0, 21.0)) is it                    # outside the fit, and into the bodies
+    assert POL.aired_bodies(dict(it, fit={"in_s": 0, "out_s": 30}), (0.0, 30.0))["shows_bodies"] is True
+    assert POL.aired_bodies(item(shows_bodies=True), (0.0, 1.0))["shows_bodies"] is True
+    rule = {"show_bodies": False, "declared": False}
+    assert [c["ok"] for c in POL.asset_checks(seen, rule) if c["rule"] == "no-bodies"] == [True]
+    assert [c["ok"] for c in POL.asset_checks(it, rule) if c["rule"] == "no-bodies"] == [False]

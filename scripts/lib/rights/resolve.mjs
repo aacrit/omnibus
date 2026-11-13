@@ -150,6 +150,18 @@ async function resolvePin(pin, step, { http, echoPick }) {
     if (!String(pin.dot_label?.text ?? "").trim() || !String(pin.dot_label?.why ?? "").trim()) throw new Error(`pin ${pin.ref}: dot_label must be { text, why }`);
     c.dot_label = { text: clip(String(pin.dot_label.text), 120), why: clip(String(pin.dot_label.why), 600) };
   }
+  // Whether the file shows bodies, and the seconds that do, which the fit must leave out (CoS ruling, rights fix round 4).
+  if (pin.shows_bodies !== undefined) {
+    if (typeof pin.shows_bodies !== "boolean") throw new Error(`pin ${pin.ref}: shows_bodies must be true or false`);
+    c.shows_bodies = pin.shows_bodies;
+  }
+  if (pin.bodies_excluded !== undefined) {
+    const b = pin.bodies_excluded;
+    if (pin.shows_bodies !== true || !(Number.isFinite(b?.from_s) && Number.isFinite(b?.to_s) && b.to_s > b.from_s) || !String(b?.note ?? "").trim()) throw new Error(`pin ${pin.ref}: bodies_excluded must be { from_s, to_s, note } beside shows_bodies: true`);
+    const f = pin.fit ?? {};
+    if (!(Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && (f.out_s <= b.from_s || f.in_s >= b.to_s))) throw new Error(`pin ${pin.ref}: its fit must name an in_s..out_s clear of the excluded ${b.from_s}..${b.to_s} s`);
+    c.bodies_excluded = { from_s: b.from_s, to_s: b.to_s, note: clip(String(b.note), 400) };
+  }
   // The record of a frame check of the item's on-screen marks (S4 review): the fetcher and the lint hold it to marksProblems.
   if (pin.marks_checked !== undefined) c.marks_checked = pin.marks_checked;
   // A second catalogue record that states the item's day (the fetcher reads it and refines the date).
@@ -311,7 +323,16 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
   const dignity = Object.values(pins)
     .flat()
     .filter((p) => p?.dignity === true && typeof p.exclude === "string" && p.exclude !== "*")
-    .map((p) => ({ ref: clip(p.exclude, 400), title_key: titleKey(p.exclude), ...(p.sha1 ? { sha1: String(p.sha1) } : {}), ...(p.sha256 ? { sha256: String(p.sha256) } : {}), why: clip(p.why ?? "dignity", 600) }));
+    .map((p) => ({ ref: clip(p.exclude, 400), title_key: titleKey(p.exclude), ...(p.sha1 ? { sha1: String(p.sha1) } : {}), ...(p.sha256 ? { sha256: String(p.sha256) } : {}), why: clip(p.why ?? "dignity", 600) }))
+    // A pin's excluded span (rights fix round 4): those seconds of that file never air, for any request, by title or sha.
+    .concat(Object.values(pins).flat().filter((p) => p?.shows_bodies === true && p.bodies_excluded && typeof p.ref === "string" && !p.exclude)
+      .map((p) => {
+        const b = p.bodies_excluded;
+        const f = p.fit ?? {};
+        if (!(Number.isFinite(b?.from_s) && Number.isFinite(b?.to_s) && b.to_s > b.from_s && Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && (f.out_s <= b.from_s || f.in_s >= b.to_s))) throw new Error(`pin ${p.ref}: its fit must name an in_s..out_s clear of the excluded ${b?.from_s}..${b?.to_s} s`);
+        return p;
+      })
+      .map((p) => ({ ref: clip(p.ref, 400), title_key: titleKey(p.ref), ...(p.sha1 ? { sha1: String(p.sha1) } : {}), ...(p.sha256 ? { sha256: String(p.sha256) } : {}), span: { from_s: p.bodies_excluded.from_s, to_s: p.bodies_excluded.to_s }, why: clip(p.bodies_excluded.note, 600) })));
   return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...(editionCutoff ? { edition_cutoff: editionCutoff } : {}), ...(dignity.length ? { dignity } : {}), requests };
 }
 

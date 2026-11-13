@@ -506,6 +506,8 @@ export function reviewProblems(r, item, where = "marks_checked.reviewed") {
       const cuts = r.cuts?.times;
       if (!(Array.isArray(cuts) && cuts.every((t) => typeof t === "number" && Number.isFinite(t) && t >= 0) && typeof r.cuts.threshold === "number" && r.cuts.threshold > 0 && r.cuts.threshold <= 1 && String(r.cuts.method ?? "").trim())) {
         out.push(`${where}.cuts must be { times, threshold, method }: every cut in the video (seconds; [] for a single shot), the scene threshold and the method that found them (ffmpeg select=gt(scene,0.3)), so every shot of the aired span is looked at`);
+      } else if (!String(r.cuts.ffmpeg ?? "").trim()) {
+        out.push(`${where}.cuts.ffmpeg must name the ffmpeg that found the cuts in the file: the fetch step finds them itself (scripts/lib/rights/scenes.mjs), a reported cut list is never trusted (rights fix round 4)`);
       } else if (span) {
         const unseen = unseenShots(frames, cuts, span);
         if (unseen.length) out.push(`${where}.frames must hold a frame in every shot of the aired span ${span[0]}..${span[1]} s (${cuts.length} cuts at threshold ${r.cuts.threshold}); ${unseen.length} shot(s) unseen: ${unseen.slice(0, 12).map(([lo, hi]) => `${lo}..${hi} s`).join(", ")}${unseen.length > 12 ? ", ..." : ""}`);
@@ -515,6 +517,21 @@ export function reviewProblems(r, item, where = "marks_checked.reviewed") {
   const cs = r.contact_sheet;
   if (!(cs && typeof cs.path === "string" && cs.path.trim() && /^[0-9a-f]{64}$/.test(String(cs.sha256 ?? "")))) out.push(`${where}.contact_sheet must be { path, sha256 } naming the sheet of those frames`);
   return out;
+}
+
+/**
+ * Why an item's bodies record cannot stand (GRAMMAR 1.6; CoS ruling, rights fix round 4): a file that
+ * shows bodies airs only with bodies_excluded { from_s, to_s, note } naming those seconds and a fit
+ * in_s..out_s clear of them; bodies_excluded beside anything but shows_bodies: true is refused.
+ */
+export function bodiesProblems(item) {
+  const b = item?.bodies_excluded;
+  if (item?.shows_bodies !== true) return b ? ["bodies_excluded is stated, and shows_bodies is not true"] : [];
+  if (!(b && Number.isFinite(b.from_s) && Number.isFinite(b.to_s) && b.to_s > b.from_s && String(b.note ?? "").trim())) return ["the file shows bodies and names no bodies_excluded { from_s, to_s, note }: it never airs"];
+  const f = item.fit ?? {};
+  if (!(Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && f.out_s > f.in_s)) return [`the file shows bodies at ${b.from_s}..${b.to_s} s and its fit names no in_s..out_s that leaves them out`];
+  if (!(f.out_s <= b.from_s || f.in_s >= b.to_s)) return [`its fit ${f.in_s}..${f.out_s} s overlaps the bodies at ${b.from_s}..${b.to_s} s`];
+  return [];
 }
 
 /** The CTA marks a mask does not cover. */
