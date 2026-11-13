@@ -1,4 +1,8 @@
-# Transplanted from document@b62c4fa:studio/engine/render.py (lift)
+# Transplanted from document@b62c4fa:studio/engine/render.py (tweak, E3: a show profile, studio/news/profile.py,
+# sets the programme loudness, the brand the cards and credits draw, the master rates and the public links; the
+# graphic kind and its overlays (studio/news/graphic.py); the alteration "text composited"; an omnibus
+# screenplay's news lints (studio/news/lints.py). A document film plans and renders exactly as before; see
+# docs/TRANSPLANT-document-engine.md)
 """Render a screenplay v2 into a 1080p24 master film.
 
     python -m studio.engine.render <film dir> [--out <dir>] [--res 1080|720]
@@ -101,6 +105,9 @@ from studio.engine import tourlint as TL
 from studio.engine import vision as VIS
 from studio.engine import voicing as VO
 from studio.engine.journal import Journal, sha256_file
+from studio.news import graphic as NG
+from studio.news import lints as NL
+from studio.news import profile as SHOW
 
 ENGINE_VERSION = "0.1.0"
 FPS = 24                            # the house rate; a film masters at plan["fps"] (A44: 24 or 30000/1001)
@@ -130,6 +137,15 @@ VOICE_TP_MARGIN = 1.3               # A15: room for the mix-to-master gain
 # A13 and A15: a synthetic voice line's true peak after levelling is at most the dialogue level plus the programme's
 # headroom (TARGET_TP - TARGET_LUFS, 16.5 dB) less the margin: -4.8 dBTP
 VOICE_TP = DIALOGUE_LUFS + (TARGET_TP - TARGET_LUFS) - VOICE_TP_MARGIN
+
+
+def apply_show(prof) -> None:
+    """E3: the show's programme loudness (show bible g: omnibus -16 LUFS, document -18, both -1.5 dBTP) and the
+    voice ceiling derived from it. build_plan applies the screenplay's show to every plan, so the mix and the master
+    of one render read one show's targets; a document film's are the values above, unchanged."""
+    global TARGET_LUFS, TARGET_TP, VOICE_TP
+    TARGET_LUFS, TARGET_TP = float(prof["target_lufs"]), float(prof["target_tp"])
+    VOICE_TP = DIALOGUE_LUFS + (TARGET_TP - TARGET_LUFS) - VOICE_TP_MARGIN
 # A15 refined (E14): when the pass-1 mix's master limiter would do more than catch peaks (limiter-peak-only), pass 2
 # peak-controls every synthetic line to the master limiter's own ceiling (TARGET_TP - LIMIT_MARGIN_DB) minus the measured
 # mix-to-master lift minus this safety margin, clamped between the floor (a near-silent film cannot crush its voices) and
@@ -216,9 +232,11 @@ KIND_CLASSES = {
     "card": {"CARD"},
     "black": {"CARD"},
     TS.KIND: {"DRAWN"},             # A40: the series titles, drawn by the studio; their own marks are burned in
+    NG.KIND: {"DRAWN"},             # E3: a pre-rendered graphic (studio/news/graphic.py), drawn by the studio
 }
 ALTERATIONS = {"colourised", "upscaled", "stabilised", "interpolated", "re-timed", "inpainted", "motion added", "tinted",
-               "audio synthesised", "colour cast removed"}   # the last by GRAMMAR A14
+               "audio synthesised", "colour cast removed",   # the last by GRAMMAR A14
+               "text composited"}   # E3: type laid over an archival picture (the title's teleprinter): RECONSTRUCTED
 LICENCE_OK = re.compile(r"^(public domain|cc0( 1\.0)?|cc[- ]?by([- ][1-4]\.0)?)$", re.I)
 # CC BY-SA (founder ruling 2026-10-16, "Real World"): never on the house allowlist; allowed only in a film whose
 # screenplay declares ``share_alike: {decision: "<its docs/DECISIONS.md entry>"}``, so the licence is scoped per film,
@@ -565,7 +583,7 @@ def preflight_sources(film: Path, play: dict, journal: Journal, *, draft: bool =
     checked = 0
     for part in play.get("parts", []):
         for s in part.get("shots", []):
-            if s.get("kind") not in ("archive_video", "archive_still", "drawn", TS.KIND) or not s.get("asset"):
+            if s.get("kind") not in ("archive_video", "archive_still", "drawn", TS.KIND, NG.KIND) or not s.get("asset"):
                 continue
             item = assets.get(s["asset"])
             if item is None:                              # build_plan's ledger-cited lint names it
@@ -580,12 +598,22 @@ def preflight_sources(film: Path, play: dict, journal: Journal, *, draft: bool =
             checked += 1
             if not Path(path).exists():
                 why = "missing"
-            elif s["kind"] in ("archive_video", TS.KIND):
+            elif s["kind"] in ("archive_video", TS.KIND, NG.KIND):
                 why = decodes_a_frame(path)
             else:
                 why = opens_as_image(path)
             if why:
                 problems.append({"unit": s["id"], "asset": s["asset"], "file": path, "why": why})
+        for t in part.get("text", []):                    # E3: a graphic over a picture is a clip too
+            item = assets.get(t.get("asset")) if NG.is_graphic(t) and t.get("asset") else None
+            path = (item or {}).get("_path")
+            if not path or path in seen:
+                continue
+            seen.add(path)
+            checked += 1
+            why = "missing" if not Path(path).exists() else decodes_a_frame(path)
+            if why:
+                problems.append({"unit": t.get("id"), "asset": t.get("asset"), "file": path, "why": why})
         for ln in part.get("lines", []):
             if ln.get("kind") not in VOICE_KINDS:
                 continue
@@ -869,7 +897,7 @@ def ai_label_lint(lint, shots) -> None:
                  evidence={"label": s.get("label"), "fix": "an AI-GENERATED shot carries its label (mark_label)"})
 
 
-def card_text_check(shot: dict, W: int, H: int, fonts: M.Fonts | None = None) -> dict:
+def card_text_check(shot: dict, W: int, H: int, fonts: M.Fonts | None = None, show: dict | None = None) -> dict:
     """E15: what a card shot draws of its ``text[]``, from the same layout the
     drawer uses. Returns ``fits`` (False with ``why`` when the text cannot be
     laid out in the card's safe area at a readable size), ``missing`` (the
@@ -898,12 +926,15 @@ def card_text_check(shot: dict, W: int, H: int, fonts: M.Fonts | None = None) ->
         out.update(fits=False, why=MARK_KEY_RETIRED, missing=drawn_as([]))
         return out
     if ck == "lockup":                      # A40: draws the series lockup, its fixed words, and nothing else
-        out["missing"] = drawn_as([M.LOCKUP_TEXT])
+        out["missing"] = drawn_as([SHOW.lockup_text(show) if show else M.LOCKUP_TEXT])
         return out
     if ck in ("title", "chapter"):
         try:
             if ck == "title":
-                lay = M.title_card_layout(L, texts[0] if texts else "", fonts)
+                # E3: a show's own wordmark; document's call is the lifted one, unchanged
+                lay = (M.title_card_layout(L, texts[0] if texts else "", fonts, wordmark=show_wordmark(show))
+                       if show and tuple(show["wordmark"]) != M.WORDMARK else
+                       M.title_card_layout(L, texts[0] if texts else "", fonts))
                 recs = lay["lines"][:1] + lay["lines"][1:] * (len(texts) > 1)     # the wordmark stands for text[1]
             else:
                 # drawn as Pictures.card draws it: the number and title from text[0], the dates from text[1]
@@ -935,8 +966,18 @@ def card_numerals_evidence(card: str, numerals: list[dict]) -> dict:
                                              "layout must set its digit runs in the data face"}
 
 
+def show_wordmark(show: dict | None) -> tuple[str, str]:
+    """E3: the wordmark a title card draws: the show's (studio/news/profile.py), else the house's."""
+    return tuple(show["wordmark"]) if show else M.WORDMARK
+
+
+def show_lockup(show: dict | None):
+    """E3: the lockup card's (wordmark, tagline): the show's, else the house's."""
+    return (tuple(show["wordmark"]), show["tagline"]) if show else M.LOCKUP_BRAND
+
+
 def card_lints(lint, shots: list[dict], W: int, H: int, *, rule_fits: str = "card-fits", rule_drawn: str = "card-drawn",
-               rule_numerals: str = "card-numerals-mono", stage: str = "scout", only=None) -> None:
+               rule_numerals: str = "card-numerals-mono", stage: str = "scout", only=None, show: dict | None = None) -> None:
     """E15: every card's text fits its safe area at a readable size, and every
     element of its ``text[]`` is drawn word for word (from the layout records).
     At plan time a shortfall card is checked with its placeholders as written,
@@ -947,7 +988,7 @@ def card_lints(lint, shots: list[dict], W: int, H: int, *, rule_fits: str = "car
     for s in shots:
         if s.get("kind") not in ("card", "black") or (only is not None and s["id"] not in only):
             continue
-        c = card_text_check(s, W, H, fonts)
+        c = card_text_check(s, W, H, fonts, show)
         lint(rule_fits, c["fits"], unit=s["id"], stage=stage, grammar="9, BRAND-KIT 6 and 11c",
              evidence={"card": c["card"], "why": c["why"], "scale": c.get("scale"), "lines": c.get("lines"),
                        "fix": None if c["fits"] else "shorten the text or split the card; the engine never cuts text"})
@@ -2420,9 +2461,10 @@ def master_rate(play: dict, assets: dict, probe=None) -> dict:
     st = play.get("settings")
     declared = st.get("master_fps") if isinstance(st, dict) else None
     clips = clip_rates(play, assets, probe)
-    cad = CAD.resolve(declared, clips)
+    masters = SHOW.masters(play)            # E3: the show's masters (omnibus adds 30/1)
+    cad = CAD.resolve(declared, clips, masters)
     cad["clips"] = [dict(c, rate=CAD.rate_str(c["rate"]) if c["rate"] else None,
-                         native=CAD.rate_str(m) if (m := CAD.native_master(c["rate"], c["telecined"])) else None)
+                         native=CAD.rate_str(m) if (m := CAD.native_master(c["rate"], c["telecined"], masters)) else None)
                     for c in clips]
     return cad
 
@@ -2631,7 +2673,8 @@ def credits_blocks(plan: dict) -> list:
     drawn = [w for ln in OV.credit_lines(plan["shots"]) for w in wrap(ln)]     # A32: every mark and its source
     if drawn:
         blocks.append(("Marks drawn", drawn))
-    blocks.append(("Studio", [f"void document studio engine {ENGINE_VERSION} ({ENGINE_HASH})"]))
+    studio = (plan.get("show") or {}).get("studio") or "void document studio"      # E3: the show's own name
+    blocks.append(("Studio", [f"{studio} engine {ENGINE_VERSION} ({ENGINE_HASH})"]))
     return [(h, [ln.replace(EM_DASH, ", ") for ln in lines]) for h, lines in blocks]
 
 
@@ -2903,6 +2946,11 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     play = play if play is not None else json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
     if "parts" not in play:
         raise Refused("screenplay.json has no parts: it is not format v2 (GRAMMAR 12); studio/sketch.py renders v1")
+    try:
+        prof = dict(SHOW.of(play))          # E3: the show this screenplay is (document's when it names none)
+    except SHOW.ShowError as e:
+        raise Refused(f"show: {e}")
+    apply_show(prof)
     assets = load_ledgers(film, play)
     lint_fail: list[str] = []
 
@@ -3030,7 +3078,7 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
         if kind == "drawn" and not s.get("asset"):
             lint("kind-supported", False, unit=s["id"], evidence="a drawn shot needs a pre-rendered image cited as its asset in T1")
             continue
-        if kind in ("archive_video", "archive_still", "drawn", TS.KIND):
+        if kind in ("archive_video", "archive_still", "drawn", TS.KIND, NG.KIND):
             ok = item is not None
             lint("ledger-cited", ok, unit=s["id"], evidence={"asset": s.get("asset")}, grammar="11.1")
             if not ok:
@@ -3097,6 +3145,14 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
             s["_dur"] = float(s.get("dur_s", 0.0))
         if s["_dur"] <= 0:
             lint("duration", False, unit=s["id"], evidence={"dur_s": s["_dur"]})
+        if NG.is_graphic(s) and item:
+            # E3: past its last frame a graphic holds it (7.1's hold); a hold longer than MAX_HOLD_S is a warning
+            g_rate, g_n = NG.rate_of(item), item.get("frames")
+            if g_rate and isinstance(g_n, int) and not isinstance(g_n, bool) and g_n > 0:
+                held = s["_dur"] - g_n / float(g_rate)
+                lint("graphic-length", held <= MAX_HOLD_S + 1e-9, unit=s["id"], severity="warn", grammar="7.1, E3",
+                     evidence={"dur_s": s["_dur"], "clip_s": round(g_n / float(g_rate), 4), "held_s": round(max(0.0, held), 4),
+                               "max_hold_s": MAX_HOLD_S})
         s["_item"] = {k: v for k, v in (item or {}).items()}
         s["detail"] = mark_detail(s, item)
         s["label"] = mark_label(s, item)
@@ -3458,11 +3514,17 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
                    "never a filler token padded to length")
             lint("black-reason", ok, unit=s["id"], grammar="A30 refined",
                  evidence={"kind": s["kind"], "black_reason": reason, "min_words": BLACK_REASON_MIN_WORDS, "fix": fix})
-    card_lints(lint, shots, W, H)            # E15: laid out at plan time; overflow refuses, nothing is cut
+    card_lints(lint, shots, W, H, show=prof)  # E15: laid out at plan time; overflow refuses, nothing is cut
     cast_name_set = {_ws(str(sp.get("name"))).lower() for sp in (play.get("cast") or {}).get("speakers", []) if sp.get("name")}
-    lower_thirds, subs, overlays = [], [], []
+    lower_thirds, subs, overlays, graphic_overlays = [], [], [], []
     for t in texts:
-        if t["kind"] == "lower_third":
+        if NG.is_graphic(t):                # E3: a pre-rendered graphic over the picture (studio/news/graphic.py)
+            g_item = assets.get(t.get("asset"))
+            if g_item is not None and g_item.get("_path"):
+                graphic_overlays.append(NG.overlay_entry(t, g_item))
+            else:
+                lint("ledger-cited", False, unit=t.get("id"), evidence={"asset": t.get("asset")}, grammar="11.1")
+        elif t["kind"] == "lower_third":
             ln = list(t.get("lines") or [])
             # A56: name and role, two lines; a speaker's (line 1 names a cast speaker) is drawn as a speaker's, any
             # other as a place and its date. A third line (a source, "original recording", "read by a computer
@@ -3634,6 +3696,10 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     gaps = gap_lints(lint, play, shots)
     film_notes = film_note_lints(lint, play)       # the house's dated notes, outside the horizon (founder, 2026-11-02)
     unnamed_speakers = descriptor_lints(lint, speakers)
+    # E3 (omnibus): the programme's lints (show bible j, studio/news/lints.py), each voice line timed by its WAV
+    if prof["news"]:
+        for c in NL.checks(play, assets, film=film, durations={v["id"]: v["dur"] for v in vl}):
+            lint(c["rule"], c["ok"], unit=c["unit"], severity=c["severity"], evidence=c["evidence"], grammar=c["grammar"])
     if lint_fail:
         raise Refused("lint failed: " + "; ".join(lint_fail))
 
@@ -3711,6 +3777,9 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
         "balance": play.get("balance"), "sides": film_sides(play),
         "clip_integrity": clip_integrity,
         "placeholder_media": placeholders,   # 11.1: the stand-ins a draft or check render kept (placeholder-media)
+        # E3: the show (its brand, loudness and links) and the graphics drawn over the picture
+        "show": prof, "show_record": SHOW.record(prof, play) if prof["show"] != SHOW.DEFAULT else None,
+        "graphic_overlays": graphic_overlays,
     }
     plan["dark_voice"] = dark_voice_runs(plan)          # A30: judged by black_dip_lints, printed in sources.json
     plan["dips"] = dip_list(plan)
@@ -4473,9 +4542,10 @@ class Pictures:
         if ck == "black":
             return blank
         if ck == "title":
-            img = M.title_card_frame(blank, t, start=0.0, end=dur, title=text[0] if text else "", fonts=f)
+            img = M.title_card_frame(blank, t, start=0.0, end=dur, title=text[0] if text else "", fonts=f,
+                                     wordmark=show_wordmark(self.plan.get("show")))
         elif ck == "lockup":                     # A40 lockup card: BRAND-KIT 15's series lockup, drawn whole
-            img = M.lockup_card_frame(blank, t, start=0.0, end=dur, fonts=f)
+            img = M.lockup_card_frame(blank, t, start=0.0, end=dur, fonts=f, brand=show_lockup(self.plan.get("show")))
         elif ck == "chapter":
             m = CHAPTER_RE.match(text[0]) if text else None
             img = M.chapter_card_frame(blank, t, start=0.0, end=dur, number=int(m.group(1)) if m else 0,
@@ -4497,6 +4567,9 @@ class Pictures:
             return self.video(s, t_local)
         if TS.is_title(s):
             return self.title(s, t_local)
+        if NG.is_graphic(s):                     # E3: the graphic's own frames over film black
+            return NG.shot_picture(s["_item"], t_local, self.plan["fps"], self.plan["W"], self.plan["H"], ffmpeg(),
+                                   M.PALETTE["black"])
         cam = s["_cam"]
         img = self.still(s)
         f = OV.framing_at(cam, t_local, s["_dur"])          # the opening framing, then the rostrum move
@@ -4522,6 +4595,7 @@ class Pictures:
         for r in self.titles.values():
             r.close()
         self.titles.clear()
+        NG.close_all()
 
 
 def picture_level(plan: dict, f: int, i: int) -> float:
@@ -4668,6 +4742,9 @@ def draw_overlays(rgba: Image.Image, plan: dict, pics, f: int, i: int, probe: di
     t = f / plan["fps"]
     title = plan["shots"][i].get("_title")
     lt_top = None
+    for g in plan.get("graphic_overlays") or ():     # E3: a graphic over the picture, its straight alpha composited
+        if g["start"] <= t < g["end"]:
+            rgba = NG.draw_overlay(rgba, g, t, plan["fps"], ffmpeg())
     for lt in plan["lower_thirds"]:
         if lt["start"] <= t < lt["end"]:
             # planned once, at plan time, from every shot its span touches (founder ruling 2026-11-07): the same
@@ -4799,7 +4876,7 @@ def fps_of(plan: dict) -> float:
 
 def master_rate_of(plan: dict):
     """The plan's master rate as an exact rational (A44); a plan made before A44 is at 24."""
-    return CAD.parse_rate(plan.get("fps_rate") or "24")
+    return CAD.parse_rate(plan.get("fps_rate") or "24", CAD.ALL_MASTERS)   # the plan's own rate, already chosen
 
 
 def master_timescale(plan: dict) -> int:
@@ -8654,7 +8731,7 @@ def card_fill_lints(journal: Journal, plan: dict) -> list[str]:
             out.append(f"{rule} ({unit}): {evidence}")
 
     card_lints(lint, plan["shots"], plan["W"], plan["H"], rule_fits="card-fills-fit", rule_drawn="card-fills-drawn",
-               rule_numerals="card-fills-numerals-mono", stage="assembly", only=set(fills))
+               rule_numerals="card-fills-numerals-mono", stage="assembly", only=set(fills), show=plan.get("show"))
     return out
 
 
@@ -9249,6 +9326,8 @@ def sources_doc(plan: dict, journal: Journal, extra: dict) -> dict:
             "placeholder": is_placeholder(it),          # 11.1: a stand-in (only a draft or check render keeps one)
             **OV.sources_fields(s),
             **title_sources_fields(s),
+            **({"graphic": {"subtype": s.get("subtype"), "data_ref": s.get("data_ref"), "alpha": it.get("alpha")}}
+               if NG.is_graphic(s) else {}),
             "text": s.get("text"),
         })
     # the mark track and the share by class, frame by frame: a series title (A40) by its own marks' spans
@@ -9287,6 +9366,10 @@ def sources_doc(plan: dict, journal: Journal, extra: dict) -> dict:
             "duration_s": round(total / fps_of(plan), 4),
             # A44: the master rate exactly, and the cadence: how it was chosen and every clip conformed to it
             "fps_rate": CAD.rate_str(master_rate_of(plan)), "cadence": plan.get("cadence"),
+            **({"show": plan["show_record"]} if plan.get("show_record") else {}),     # E3: description.py's links
+            **({"graphics_over": [{"id": g["id"], "subtype": g["subtype"], "start_s": g["start"], "end_s": g["end"],
+                                   "ledger_id": g["asset"]} for g in plan["graphic_overlays"]]}
+               if plan.get("graphic_overlays") else {}),
             "shots": shots, "marks": track, "share": share,
             "lower_thirds": [{"id": lt["id"], "start_s": lt["start"], "end_s": lt["end"], "lines": lt["lines"], "flag": lt["flag"]}
                              for lt in plan["lower_thirds"]],
