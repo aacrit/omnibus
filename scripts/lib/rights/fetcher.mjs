@@ -229,6 +229,9 @@ export function fitRecord(fit, request) {
   const out = { beat: clip(fit.beat ?? request.for ?? request.id, 80), why: clip(fit.why, 600) };
   for (const k of ["in_s", "out_s"]) if (Number.isFinite(fit[k]) && fit[k] >= 0) out[k] = fit[k];
   if (fit.horizon) out.horizon = clip(fit.horizon, 64);
+  // A capture pool's automatic fit (scripts/capture/pool.mjs) and the session that confirmed it: the render lint capture-fit-confirmed reads both.
+  if (fit.auto === true) out.auto = true;
+  if (String(fit.confirmed_by ?? "").trim()) out.confirmed_by = clip(fit.confirmed_by, 200);
   return out;
 }
 
