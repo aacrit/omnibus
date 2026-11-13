@@ -25,7 +25,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveBinPath } from "./lib/run-bin.mjs";
-import { BUCKET, INDEX_KEY, PREFIX, commit, planPut, readIndex } from "./lib/capture-store.mjs";
+import { BUCKET, INDEX_KEY, PREFIX, commit, pin, planPut, readIndex, serialiseIndex } from "./lib/capture-store.mjs";
 import { r2Config, readOnly, syncS3 } from "./lib/r2-s3.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -123,6 +123,72 @@ export function captureWranglerStore(bucket = BUCKET) {
   };
 }
 
+// ---- Pins ------------------------------------------------------------------------
+// An episode's pinned items stay past the 14-day sweep until it airs plus 30
+// days. `rights.mjs candidates` writes the pin request capture/pins/<issue>.json
+// and, where the store can write conditionally (R2's S3 API), pins the index
+// at once (If-Match, retried on a lost race); every capture run applies every
+// pin request before it sweeps, so a pin is never lost to a race with a run.
+
+export const PINS_PREFIX = `${PREFIX}/pins/`;
+export const PIN_SCHEMA = "omnibus.capture-pins/1";
+export const pinRequestKey = (issue) => {
+  if (!Number.isInteger(issue) || issue < 1) throw new Error(`not an issue: ${issue}`);
+  return `${PINS_PREFIX}${issue}.json`;
+};
+
+/** Pure: the index with every pin request applied; sids the index no longer holds are skipped and named. */
+export function applyPins(indexIn, requests) {
+  let index = indexIn;
+  const missing = [];
+  for (const r of requests) {
+    if (r?.schema !== PIN_SCHEMA || !Number.isInteger(r.issue) || !Array.isArray(r.sids)) continue;
+    for (const sid of r.sids) {
+      if (!index.items[sid]) {
+        missing.push(sid);
+        continue;
+      }
+      const cur = index.items[sid].pinned;
+      if (cur?.issue === r.issue && cur?.airs_on === (r.airs_on ?? null)) continue;
+      index = pin(index, sid, { issue: r.issue, airs_on: r.airs_on ?? null });
+    }
+  }
+  return { index, missing };
+}
+
+/** Every pin request the store holds (a store without list() holds none it can find). */
+export function readPinRequests(store) {
+  if (typeof store.list !== "function") return [];
+  return store
+    .list(PINS_PREFIX)
+    .filter((o) => /^capture\/pins\/\d+\.json$/.test(o.key))
+    .map((o) => {
+      try {
+        return JSON.parse(store.get(o.key) ?? "null");
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+}
+
+/**
+ * Pins an episode's captured items: writes the pin request, then (on a
+ * conditional store) pins the index itself, retrying a lost race. Returns
+ * { request, pinned_now, missing }.
+ */
+export function pinCaptured({ store, issue, sids, airsOn = null, now = () => new Date() }) {
+  const request = { schema: PIN_SCHEMA, issue, airs_on: airsOn, sids: [...new Set(sids)].sort(), written_at: now().toISOString() };
+  store.put(pinRequestKey(issue), `${JSON.stringify(request, null, 1)}\n`);
+  if (!store.conditional) return { request, pinned_now: false, missing: [] };
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const { text, etag } = store.getWithEtag(INDEX_KEY);
+    const { index, missing } = applyPins(readIndex(text), [request]);
+    if (store.putIfMatch(INDEX_KEY, serialiseIndex(index), etag)) return { request, pinned_now: true, missing };
+  }
+  return { request, pinned_now: false, missing: [] };
+}
+
 /** A directory laid out by the capture's keys (the workflow artifact). */
 export function dirStore(root) {
   const file = (key) => path.join(root, ...assertKey(key).split("/"));
@@ -143,6 +209,20 @@ export function dirStore(root) {
     },
     delete(key) {
       rmSync(file(key), { force: true });
+    },
+    list(prefix) {
+      const out = [];
+      const walk = (dir, rel) => {
+        if (!existsSync(dir)) return;
+        for (const name of readdirSync(dir)) {
+          const p = path.join(dir, name);
+          const k = rel ? `${rel}/${name}` : name;
+          if (statSync(p).isDirectory()) walk(p, k);
+          else if (k.startsWith(prefix)) out.push({ key: k, size: statSync(p).size });
+        }
+      };
+      walk(path.join(root, PREFIX), PREFIX);
+      return out;
     },
   };
 }

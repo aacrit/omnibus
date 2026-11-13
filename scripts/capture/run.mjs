@@ -30,6 +30,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { INDEX_KEY, CAPS, commit, planPut, readIndex, sourceId, sweep } from "../lib/capture-store.mjs";
+import { applyPins, readPinRequests } from "../capture-r2.mjs";
 import { getJson, getMedia, getText } from "../lib/rights/http.mjs";
 import { normaliseWeek } from "../lib/normalise.mjs";
 import { dirReader, r2Reader, snapshotSource } from "../lib/week-sources.mjs";
@@ -188,7 +189,9 @@ export async function runCapture({
     results.push({ sid, action: plan.action, why: reason, verdict: ev.record.verdict.status, licence: ev.record.verdict.licence, note, refused: plan.refused });
   }
 
-  // 4. Commit, with the sweep.
+  // 4. Commit, with every episode's pins applied before the sweep.
+  const pins = applyPins(index, readPinRequests(store));
+  index = pins.index;
   const swept = sweep({ index, now: now() });
   commit(store, { puts, deletes: swept.deletes, index: swept.index }, { mediaBody: (sha) => readFileSync(mediaFiles.get(sha)) });
   index = swept.index;
