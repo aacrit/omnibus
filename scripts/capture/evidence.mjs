@@ -26,7 +26,7 @@ import { isoSecond } from "../lib/rights/text.mjs";
 
 export const NASA_TERMS = "https://www.nasa.gov/nasa-brand-center/images-and-media/";
 export const EVIDENCE_SCHEMA = "omnibus.capture-evidence/1";
-export const SECRET_ENV = ["DVIDS_API_KEY", "CLOUDFLARE_API_TOKEN", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY"];
+export const SECRET_ENV = ["DVIDS_API_KEY", "CLOUDFLARE_API_TOKEN", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_ACCOUNT_ID"];
 const HEX64 = /^[0-9a-f]{64}$/;
 
 /**

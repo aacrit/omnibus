@@ -13,7 +13,8 @@ import { channelProblems, loadChannels, selectItems } from "../scripts/capture/r
 import { CATEGORIES, parseCategory } from "../scripts/capture/listers/commons.mjs";
 import { parseSearch } from "../scripts/capture/listers/dvids.mjs";
 import { INDEX_KEY, emptyIndex, planPut, readIndex, serialiseIndex, sourceId, sweep } from "../scripts/lib/capture-store.mjs";
-import { applyPins, pinCaptured, pinRequestKey, readPinRequests } from "../scripts/capture-r2.mjs";
+import { applyPins, expiredPinRequests, pinCaptured, pinRequestKey, readPinRequests } from "../scripts/capture-r2.mjs";
+import { mediaKept } from "../scripts/lib/capture-store.mjs";
 import { AUTO_WHY, POOL_SCHEMA, buildPool, excludedBy, candidatesFromPool, kindOf, poolKey, poolProblems, unconfirmedFit, weekStories } from "../scripts/capture/pool.mjs";
 import { CANDIDATES_SCHEMA_ID, mergeCandidatePins, pinProblems, resolveRequests } from "../scripts/lib/rights/resolve.mjs";
 import { fitRecord } from "../scripts/lib/rights/fetcher.mjs";
@@ -151,8 +152,14 @@ describe("pinning what candidates names (review of cap/c6-c7)", () => {
         o.set(k, { body: String(b), etag: `e${n++}` });
         return true;
       },
+      putIfMatchEtag(k: string, b: any, etag: string | null) {
+        if ((o.get(k)?.etag ?? null) !== etag) return false;
+        const e = `e${n++}`;
+        o.set(k, { body: String(b), etag: e });
+        return e;
+      },
       delete: (k: string) => void o.delete(k),
-      list: (p: string) => [...o.keys()].filter((k) => k.startsWith(p)).map((key) => ({ key, size: o.get(key)!.body.length })),
+      list: (p: string) => [...o.keys()].filter((k) => k.startsWith(p)).map((key) => ({ key, size: o.get(key)!.body.length, last_modified: T0 })),
     };
   };
   const millerSid = `commons:${MILLER}`;
@@ -195,7 +202,7 @@ describe("pinning what candidates names (review of cap/c6-c7)", () => {
     const base = mkdtempSync(path.join(os.tmpdir(), "omnibus-pin-run-"));
     await runCapture({ store, mode: "r2", outDir: path.join(base, "o"), workDir: path.join(base, "w"), editions, now: () => day15, env: {}, listers: { voa: async () => ({ source: "voa", items: [], skipped: null }) }, log: () => {} });
     const idx = readIndex(store.get(INDEX_KEY));
-    expect(idx.items[millerSid]).toMatchObject({ pinned: { issue: 33, airs_on: null }, media: { ext: "webm" } });
+    expect(idx.items[millerSid]).toMatchObject({ pinned: { issue: 33, airs_on: null, expires_on: "2027-01-06" }, media: { ext: "webm" } });
     expect(idx.items["commons:File:Other.webm"].media).toBeNull();
     rmSync(base, { recursive: true, force: true });
   });
@@ -222,5 +229,87 @@ describe("dignity excludes and the artifact pool check (review of cap/c6-c7)", (
     expect(artifactPoolProblem(pool, { ...report, pool: { issue: 33, status: "already written" } }, 33)).toMatch(/not written by this run/);
     expect(artifactPoolProblem(pool, { ...report, pool: { ...report.pool, built_at: "2026-11-01T00:00:00Z" } }, 33)).toMatch(/built at/);
     expect(artifactPoolProblem(pool, { ran_at: "2026-11-01T00:00:00Z", pool: { issue: 33, status: "written" } }, 33)).toMatch(/outside the run/);
+  });
+});
+
+describe("go-live fixes (re-review of 3b0a1d8)", () => {
+  const T0 = "2026-11-07T21:41:00Z";
+  const ev = (id: string) => ({ record: { captured_at: T0, published_at: T0, page: { sha256: hex(id) }, terms: { sha256: hex("t") }, verdict: { status: "ok", licence: "pd-us-federal" } }, blobs: [] });
+  const one = (id: string, idx = emptyIndex()) => planPut({ index: idx, item: { source: "commons", id, url: "u" }, evidence: ev(id), media: { sha256: hex(id), ext: "webm", bytes: 5 }, now: T0 }).index;
+
+  it("--airs-on must be a date; without one a pin lapses 60 days after it was made", () => {
+    const store = { conditional: false, put: () => {} } as any;
+    expect(() => pinCaptured({ store, issue: 33, sids: [], airsOn: "next week" })).toThrow(/YYYY-MM-DD/);
+    expect(() => pinCaptured({ store, issue: 33, sids: [], airsOn: "2026-02-30" })).toThrow(/YYYY-MM-DD/);
+    const r = pinCaptured({ store, issue: 33, sids: ["a"], now: () => new Date(T0) });
+    expect(r.request).toMatchObject({ airs_on: null, expires_on: "2027-01-06" });
+    expect(pinCaptured({ store, issue: 33, sids: ["a"], airsOn: "2026-11-20", now: () => new Date(T0) }).request.expires_on).toBeUndefined();
+    const idx = applyPins(one("File:A.webm"), [r.request].map((q) => ({ ...q, sids: ["commons:File:A.webm"] }))).index;
+    const e = idx.items["commons:File:A.webm"];
+    expect(mediaKept(e, Date.parse("2027-01-06T12:00:00Z"))).toBe(true);
+    expect(mediaKept(e, Date.parse("2027-01-07T00:00:01Z"))).toBe(false);
+    expect(mediaKept({ ...e, pinned: { issue: 33, airs_on: "2026-11-20" } }, Date.parse("2026-12-20T23:00:00Z"))).toBe(true);
+    expect(mediaKept({ ...e, pinned: { issue: 33, airs_on: "2026-11-20" } }, Date.parse("2026-12-21T00:00:01Z"))).toBe(false);
+  });
+
+  it("the run deletes pin requests whose window has passed", async () => {
+    const { runCapture } = await import("../scripts/capture/run.mjs");
+    const objects = new Map<string, string>();
+    const store = { get: (k: string) => objects.get(k) ?? null, put: (k: string, b: any) => void objects.set(k, String(b)), delete: (k: string) => void objects.delete(k), list: (p: string) => [...objects.keys()].filter((k) => k.startsWith(p)).map((key) => ({ key, size: 1, last_modified: T0 })) };
+    pinCaptured({ store: store as any, issue: 32, sids: [], airsOn: "2026-09-01", now: () => new Date(T0) });
+    pinCaptured({ store: store as any, issue: 33, sids: [], now: () => new Date(T0) });
+    expect(expiredPinRequests(readPinRequests(store as any), Date.parse(T0)).map((r: any) => r.issue)).toEqual([32]);
+    const base = mkdtempSync(path.join(os.tmpdir(), "omnibus-pinexp-"));
+    await runCapture({ store, mode: "r2", outDir: path.join(base, "o"), workDir: path.join(base, "w"), editions, now: () => new Date(T0), env: {}, listers: { voa: async () => ({ source: "voa", items: [], skipped: null }) }, log: () => {} });
+    expect(objects.has(pinRequestKey(32))).toBe(false);
+    expect(objects.has(pinRequestKey(33))).toBe(true);
+    rmSync(base, { recursive: true, force: true });
+  });
+
+  it("the run writes the index only over the version it read; a lost race re-reads, merges, re-pins, re-sweeps and retries", async () => {
+    const { writeIndex, mergeRemote, INDEX_WRITE_TRIES } = await import("../scripts/capture/run.mjs");
+    const ours = one("File:Ours.webm");
+    const remote = one("File:Backfilled.webm", one("File:Ours.webm"));
+    remote.items["commons:File:Ours.webm"].pinned = { issue: 33, airs_on: null, expires_on: "2027-01-06" };
+    const merged = mergeRemote(ours, remote);
+    expect(Object.keys(merged.items).sort()).toEqual(["commons:File:Backfilled.webm", "commons:File:Ours.webm"]);
+    expect(merged.items["commons:File:Ours.webm"].pinned).toMatchObject({ issue: 33 });
+    expect(merged.media[hex("File:Backfilled.webm")]).toBeTruthy();
+
+    let etag = "e1";
+    let body = serialiseIndex(remote);
+    const tries: (string | null)[] = [];
+    const store = {
+      conditional: true,
+      putIfMatchEtag: (_k: string, b: string, tag: string | null) => {
+        tries.push(tag);
+        if (tag !== etag) return false;
+        body = b;
+        etag = "e2";
+        return etag;
+      },
+      getWithEtag: () => ({ text: body, etag }),
+    };
+    let prepared = 0;
+    const out = writeIndex(store as any, { index: ours, deletes: [], etag: "stale", prepare: (ix: any) => (prepared++, { index: ix, deletes: ["x"] }) });
+    expect(tries).toEqual(["stale", "e1"]);
+    expect(prepared).toBe(1);
+    expect(out).toMatchObject({ etag: "e2", deletes: ["x"] });
+    expect(Object.keys(readIndex(body).items)).toContain("commons:File:Backfilled.webm");
+    const never = { conditional: true, putIfMatchEtag: () => false, getWithEtag: () => ({ text: serialiseIndex(ours), etag: "z" }) };
+    expect(() => writeIndex(never as any, { index: ours, deletes: [], etag: "a", prepare: (ix: any) => ({ index: ix, deletes: [] }) })).toThrow(new RegExp(`${INDEX_WRITE_TRIES} times`));
+  });
+
+  it("report.json never carries a secret's value, an R2 key id included", async () => {
+    const { runCapture } = await import("../scripts/capture/run.mjs");
+    const base = mkdtempSync(path.join(os.tmpdir(), "omnibus-scrub-"));
+    const env = { R2_ACCESS_KEY_ID: "R2KEYID0123456789", R2_SECRET_ACCESS_KEY: "R2SECRETVALUE", DVIDS_API_KEY: "DVIDSKEY99" };
+    const leaky = { voa: async () => { throw new Error("upstream said: bad key R2KEYID0123456789 / R2SECRETVALUE / DVIDSKEY99"); }, cdc: async () => ({ source: "cdc", items: [], skipped: null }) };
+    const store = { get: () => null, put: () => {}, delete: () => {} };
+    await runCapture({ store, mode: "r2", outDir: path.join(base, "o"), workDir: path.join(base, "w"), editions, now: () => new Date(T0), env, listers: leaky, log: () => {} });
+    const text = readFileSync(path.join(base, "o", "report.json"), "utf8");
+    expect(text).toMatch(/\[REDACTED\]/);
+    for (const v of Object.values(env)) expect(text).not.toContain(v);
+    rmSync(base, { recursive: true, force: true });
   });
 });

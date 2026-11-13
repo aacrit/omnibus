@@ -41,7 +41,8 @@ describe("signV4", () => {
 describe("the client", () => {
   it("parses a list page and its continuation", () => {
     const xml = "<ListBucketResult><IsTruncated>true</IsTruncated><Contents><Key>capture/a&amp;b.gz</Key><Size>12</Size></Contents><NextContinuationToken>t1</NextContinuationToken></ListBucketResult>";
-    expect(parseList(xml)).toEqual({ items: [{ key: "capture/a&b.gz", size: 12 }], next: "t1" });
+    expect(parseList(xml)).toEqual({ items: [{ key: "capture/a&b.gz", size: 12, last_modified: null }], next: "t1" });
+    expect(parseList("<Contents><Key>k</Key><Size>1</Size><LastModified>2026-11-13T10:00:00.000Z</LastModified></Contents>").items[0].last_modified).toBe("2026-11-13T10:00:00.000Z");
   });
 
   it("sends a conditional put and reports a lost race as ok: false; a network error never carries the secret", async () => {
@@ -57,6 +58,11 @@ describe("the client", () => {
     expect(JSON.stringify(seen)).not.toMatch(/S3CR3T/);
     const broken = s3Client({ accountId: "acc", accessKeyId: "AK", secretAccessKey: "S3CR3T" }, { fetchImpl: (async () => { throw new Error("socket closed near S3CR3T"); }) as any });
     await expect(broken.get("b", "capture/x")).rejects.toThrow(/\[REDACTED\]/);
+    // An error answer keeps its status and S3's code only, never the body (it can echo the key id).
+    const echo = s3Client({ accountId: "acc", accessKeyId: "AKECHO", secretAccessKey: "S" }, { fetchImpl: (async () => new Response("<Error><Code>AccessDenied</Code><Message>key AKECHO may not</Message></Error>", { status: 403 })) as any });
+    const err = await echo.put("b", "capture/x", "1").catch((e: Error) => e);
+    expect(String(err)).toMatch(/answered 403 \(AccessDenied\)$/);
+    expect(String(err)).not.toMatch(/AKECHO/);
   }, 20_000);
 });
 

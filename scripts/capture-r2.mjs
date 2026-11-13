@@ -25,7 +25,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveBinPath } from "./lib/run-bin.mjs";
-import { BUCKET, INDEX_KEY, PREFIX, commit, pin, planPut, readIndex, serialiseIndex } from "./lib/capture-store.mjs";
+import { BUCKET, INDEX_KEY, PIN_DEFAULT_DAYS, PREFIX, commit, isDay, pin, pinUntil, planPut, readIndex, serialiseIndex } from "./lib/capture-store.mjs";
 import { r2Config, readOnly, syncS3 } from "./lib/r2-s3.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -54,6 +54,11 @@ export function captureS3Store(cfg, { bucket = BUCKET, client = syncS3(cfg) } = 
     put: (key, body) => void client.put(bucket, assertKey(key), body, { contentType: contentType(key) }),
     /** Writes only if the object is still the one read (etag), or absent (null). False when another writer got there first. */
     putIfMatch: (key, body, etag) => client.put(bucket, assertKey(key), body, { contentType: contentType(key), ...(etag ? { ifMatch: etag } : { ifNoneMatch: "*" }) }).ok,
+    /** Like putIfMatch, but the new etag on success (false on a lost race). */
+    putIfMatchEtag(key, body, etag) {
+      const r = client.put(bucket, assertKey(key), body, { contentType: contentType(key), ...(etag ? { ifMatch: etag } : { ifNoneMatch: "*" }) });
+      return r.ok ? r.etag ?? true : false;
+    },
     delete: (key) => client.delete(bucket, assertKey(key)),
     list(prefix) {
       if (!String(prefix).startsWith(`${PREFIX}/`)) throw new Error(`not a capture prefix: ${prefix}`);
@@ -149,8 +154,8 @@ export function applyPins(indexIn, requests) {
         continue;
       }
       const cur = index.items[sid].pinned;
-      if (cur?.issue === r.issue && cur?.airs_on === (r.airs_on ?? null)) continue;
-      index = pin(index, sid, { issue: r.issue, airs_on: r.airs_on ?? null });
+      if (cur?.issue === r.issue && cur?.airs_on === (r.airs_on ?? null) && (cur?.expires_on ?? null) === (r.expires_on ?? null)) continue;
+      index = pin(index, sid, { issue: r.issue, airs_on: r.airs_on ?? null, expires_on: r.expires_on ?? null });
     }
   }
   return { index, missing };
@@ -164,12 +169,18 @@ export function readPinRequests(store) {
     .filter((o) => /^capture\/pins\/\d+\.json$/.test(o.key))
     .map((o) => {
       try {
-        return JSON.parse(store.get(o.key) ?? "null");
+        const r = JSON.parse(store.get(o.key) ?? "null");
+        return r ? { ...r, key: o.key } : null;
       } catch {
         return null;
       }
     })
     .filter(Boolean);
+}
+
+/** Pure: the pin requests whose window (air date plus 30 days, or the 60-day expiry) has passed at `t` (ms). */
+export function expiredPinRequests(requests, t) {
+  return requests.filter((r) => pinUntil({ airs_on: r.airs_on ?? null, expires_on: r.expires_on ?? null }) < t);
 }
 
 /**
@@ -178,7 +189,11 @@ export function readPinRequests(store) {
  * { request, pinned_now, missing }.
  */
 export function pinCaptured({ store, issue, sids, airsOn = null, now = () => new Date() }) {
-  const request = { schema: PIN_SCHEMA, issue, airs_on: airsOn, sids: [...new Set(sids)].sort(), written_at: now().toISOString() };
+  if (airsOn !== null && !isDay(airsOn)) throw new Error(`--airs-on must be a date, YYYY-MM-DD; got ${airsOn}`);
+  const at = now();
+  // Without an air date a pin lapses 60 days after it was made, so a forgotten episode never holds media for ever.
+  const expiresOn = airsOn ? null : new Date(at.getTime() + PIN_DEFAULT_DAYS * 86_400_000).toISOString().slice(0, 10);
+  const request = { schema: PIN_SCHEMA, issue, airs_on: airsOn, ...(expiresOn ? { expires_on: expiresOn } : {}), sids: [...new Set(sids)].sort(), written_at: at.toISOString() };
   store.put(pinRequestKey(issue), `${JSON.stringify(request, null, 1)}\n`);
   if (!store.conditional) return { request, pinned_now: false, missing: [] };
   for (let attempt = 0; attempt < 5; attempt++) {
@@ -218,7 +233,7 @@ export function dirStore(root) {
           const p = path.join(dir, name);
           const k = rel ? `${rel}/${name}` : name;
           if (statSync(p).isDirectory()) walk(p, k);
-          else if (k.startsWith(prefix)) out.push({ key: k, size: statSync(p).size });
+          else if (k.startsWith(prefix)) out.push({ key: k, size: statSync(p).size, last_modified: statSync(p).mtime.toISOString() });
         }
       };
       walk(path.join(root, PREFIX), PREFIX);
