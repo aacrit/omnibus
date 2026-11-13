@@ -1,0 +1,12 @@
+# The studio engine's interpreter (numpy, pillow, soundfile, pytest, fonttools), pinned to the exact versions
+# document@b62c4fa's gate installs for the same unchanged engine (.github/workflows/gate.yml there: "python -m pip
+# install numpy==2.5.3 pillow==12.3.0 soundfile==0.14.0 pytest==9.1.1 fonttools==4.66.1"). Install:
+#   python -m pip install -r studio/requirements-studio.txt
+# ffmpeg must also be on PATH (CI: apt-get install ffmpeg); the studio-test gate step renders the fixture film.
+# The narrator's TTS runtime (Kokoro) is a separate venv, out of scope for E2/E2a: see kokoro_worker.py's own
+# docstring once a later ticket carries studio/requirements-tts.txt over.
+numpy==2.5.3
+pillow==12.3.0
+soundfile==0.14.0
+pytest==9.1.1
+fonttools==4.66.1
