@@ -75,7 +75,7 @@
     "data_ref": "rundown:the-echo.beats[echo-x2]; echo-pick",
     "source_template_sha256": "c2932cd8886cd8bc0a87e7007926fdc7241b785ab6f601031d833e1fc9ed4527",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x2.mov",
-    "output_sha256": "ec02ad99dcceba964c67e6b42f41fe7f8d41054fc3e8e529a622ecdaabcd0185",
+    "output_sha256": "b643f0c2bac411029b5a4749bf07f6aa94da08e626b71522e1f07c96a1fe63f0",
     "frames": 112,
     "class": "DRAWN",
     "dot_labels": [
@@ -84,10 +84,14 @@
     "wipe_box": [
       312,
       825,
-      659,
+      683,
       167
     ],
-    "compact": false
+    "compact": false,
+    "dot_label_contrast": {
+      "bright": 6.54,
+      "dark": 8.19
+    }
   },
   {
     "id": "lt-echo-x3",
@@ -95,7 +99,7 @@
     "data_ref": "rundown:the-echo.beats[echo-x3]; echo-pick",
     "source_template_sha256": "d9b819dc8d653b768e997b1fbebb17c363d8a7760e9e04d7462288c2a92073a2",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x3.mov",
-    "output_sha256": "c20e228e040fa967c95566213e7abcd9b462dbe89f9dd4965c221a25e03d52fd",
+    "output_sha256": "28654fdeaa63cf8a13e30c977e5f844c6442509c976f86b7fcc27fc248b1eea1",
     "frames": 112,
     "class": "DRAWN",
     "dot_labels": [
@@ -104,10 +108,14 @@
     "wipe_box": [
       312,
       825,
-      1108,
+      1132,
       167
     ],
-    "compact": false
+    "compact": false,
+    "dot_label_contrast": {
+      "bright": 6.54,
+      "dark": 8.19
+    }
   },
   {
     "id": "lt-echo-x6",
@@ -115,7 +123,7 @@
     "data_ref": "rundown:the-echo.beats[echo-x6]; echo-pick",
     "source_template_sha256": "c2792ac61d0b9f3434eb3bfcdd74f5578328c6b59ab3aabdf701573bb071519d",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x6.mov",
-    "output_sha256": "5f89f964513b657a5a0e203380390a099e375f889ca5cfea6a28df9a9cd9a670",
+    "output_sha256": "a0c8ed7c3f8fd1afefe7b91e4384897cefcfd52572534b650bc4600fc7bba768",
     "frames": 112,
     "class": "DRAWN",
     "dot_labels": [
@@ -127,7 +135,11 @@
       1443,
       198
     ],
-    "compact": false
+    "compact": false,
+    "dot_label_contrast": {
+      "bright": 6.54,
+      "dark": 8.19
+    }
   },
   {
     "id": "lt-echo-x8",
@@ -135,7 +147,7 @@
     "data_ref": "rundown:the-echo.beats[echo-x8]; echo-pick",
     "source_template_sha256": "97ea6b5bd2d7111ea66417c1ab70cb27508d5b7c36fafab018923f0d3a81a2f9",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x8.mov",
-    "output_sha256": "87b0a2ea3dcd3e42277abf1840df839e7c516cc03dc42aedf1e4060be2c62bfb",
+    "output_sha256": "ce7465f64e1e93d2588535eedabb1920bb02ed5c718f31fe50694032a5497147",
     "frames": 112,
     "class": "DRAWN",
     "dot_labels": [
@@ -145,10 +157,14 @@
     "wipe_box": [
       312,
       825,
-      1443,
+      1467,
       167
     ],
-    "compact": false
+    "compact": false,
+    "dot_label_contrast": {
+      "bright": 6.54,
+      "dark": 8.19
+    }
   },
   {
     "id": "lt-echo-x9",
@@ -156,7 +172,7 @@
     "data_ref": "rundown:the-echo.beats[echo-x9]; echo-pick",
     "source_template_sha256": "461c855025537aa814099fc5eedcac3c353bd0c5f733697056bff234aa290805",
     "output_path": "D:\\omnibus-media\\33\\graphics\\lt-echo-x9.mov",
-    "output_sha256": "11f117cce686ddbd9851609b134262964d52166b2f9768996f4699538f239a5c",
+    "output_sha256": "704f0b9d76b5363b101889edce35a5c1b3cb2a096a6d25d293af7d8f9eb49591",
     "frames": 112,
     "class": "DRAWN",
     "dot_labels": [
@@ -165,10 +181,14 @@
     "wipe_box": [
       312,
       825,
-      1246,
+      1270,
       167
     ],
-    "compact": false
+    "compact": false,
+    "dot_label_contrast": {
+      "bright": 6.54,
+      "dark": 8.19
+    }
   },
   {
     "id": "cw-1",
@@ -318,9 +338,9 @@
     "id": "credits",
     "subtype": "credits",
     "data_ref": "rights-ledger:items[].credit, items[].disclosure; rundown:voices, credits.disclosures",
-    "source_template_sha256": "bc750c0549676ca68b2fc82e0396883be76e3bb9c79f5f4223998562b2086e98",
+    "source_template_sha256": "8f0c8faa48842e0370a8b49dce18d6f1614a093983797831b8d26afe2ae8904c",
     "output_path": "D:\\omnibus-media\\33\\graphics\\credits.mov",
-    "output_sha256": "bd33ed05ea03afa602ad9d830261b94f8a24968f4fc1a8a9f1e502ecca11f221",
+    "output_sha256": "ff5f46fe75d7ba14d5551c473de801ae22ad85a4c79c15a70173fa211e9cc5f5",
     "frames": 1259,
     "class": "DRAWN",
     "strip_px": 4854,
