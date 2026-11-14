@@ -339,6 +339,7 @@
                   }
                 },
                 "duration_s": { "type": "number", "exclusiveMinimum": 0 },
+                "resign_required": { "description": "Why the fetch step found this review wanting against the file's own cuts (rights fix 4 review): it stands for nothing until the checking role signs again.", "type": "string", "minLength": 1, "maxLength": 1000 },
                 "cuts": {
                   "description": "A video's cuts: their times (seconds into the file; [] for a single shot), the scene-change threshold and how they were found (ffmpeg select=gt(scene,0.3)); every shot of the aired span holds a frame (S4 review round 3).",
                   "type": "object",

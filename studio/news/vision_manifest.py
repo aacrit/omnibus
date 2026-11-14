@@ -78,6 +78,7 @@ REVIEWERS = ("verifier", "cos", "founder")
 REVIEWER = re.compile(r"^\s*(verifier|cos|founder)\b", re.I)
 NOT_REVIEWER = re.compile(r"\b(builder|sourcer|sourcing)\b", re.I)
 FRAME_EVERY_S = 30
+SHOT_GAP_S = 2.5               # frames at most this far apart inside every shot, edges included (rights fix 4 review)
 CUT_TOLERANCE_S = 0.1          # a recorded cut and the file's own agree within this (rights fix round 4)
 # A call to action on screen (mirrors licences.mjs CTA_MARK): an engagement mechanic void never airs.
 CTA_MARK = re.compile(r"QR code|TEXT .* TO \d{4,6}|scan (the|this)|text .* to \d{4,6}", re.I)
@@ -118,6 +119,21 @@ def unseen_shots(frames, cuts, span) -> list[tuple[float, float]]:
         lo, hi, last = edges[k], edges[k + 1], k == len(edges) - 2
         if not any(lo - 1e-6 <= t and (t <= hi + 1e-6 if last else t < hi - 1e-6) for t in frames):
             out.append((round(lo, 2), round(hi, 2)))
+    return out
+
+
+def sparse_shots(frames, cuts, span, gap=SHOT_GAP_S) -> list[tuple[float, float]]:
+    """The stretches inside the shots of the span longer than ``gap`` with no frame looked at (each shot's edges and its
+    frames, consecutive gaps over ``gap``; mirrors licences.mjs sparseShots): a dissolve or soft cut the scene filter
+    misses is still looked at."""
+    a, b = span
+    inner = sorted({float(c) for c in cuts if a + 1e-6 < c < b - 1e-6})
+    edges = [a, *inner, b]
+    out = []
+    for k in range(len(edges) - 1):
+        lo, hi = edges[k], edges[k + 1]
+        pts = [lo, *sorted(float(t) for t in frames if lo - 1e-6 <= t <= hi + 1e-6), hi]
+        out += [(round(x, 3), round(y, 3)) for x, y in zip(pts, pts[1:]) if y - x > gap + 1e-6]
     return out
 
 
@@ -174,10 +190,18 @@ def review_problems(r, where: str, item: dict | None = None) -> list[str]:
                     out.append(f"{where}.frames holds a frame in every shot of the aired span {span[0]:g}..{span[1]:g} s "
                                f"({len(cuts)} cuts at threshold {th:g}); {len(unseen)} shot(s) unseen: "
                                + ", ".join(f"{lo:g}..{hi:g} s" for lo, hi in unseen[:12]) + (", ..." if len(unseen) > 12 else ""))
+                sparse = sparse_shots(fr, cuts, span)
+                if sparse:
+                    out.append(f"{where}.frames holds frames at most {SHOT_GAP_S:g} s apart inside every shot of the aired "
+                               f"span, its edges included; {len(sparse)} gap(s): "
+                               + ", ".join(f"{lo:g}..{hi:g} s" for lo, hi in sparse[:12]) + (", ..." if len(sparse) > 12 else ""))
     cs = r.get("contact_sheet")
     if not (isinstance(cs, dict) and isinstance(cs.get("path"), str) and cs["path"].strip()
             and isinstance(cs.get("sha256"), str) and SHA256.match(cs["sha256"])):
         out.append(f"{where}.contact_sheet is {{path, sha256}} naming the sheet of those frames")
+    if "resign_required" in r:     # the fetch step found it wanting against the file's own cuts (rights fix 4 review)
+        out.append(f"{where} needs a re-sign by the checking role ({', '.join(REVIEWERS)}): "
+                   f"{str(r['resign_required'])[:400]}")
     return out
 
 
@@ -407,6 +431,15 @@ def apply(man, assets: dict, cited: dict[str, list[str] | str], read_sha=None, r
             else:
                 out[aid] = new
                 used.append(aid)
+        # Rights fix 4 review: the cuts are found only in the very file the ledger names (render lint asset-sha).
+        on_disk = read_sha(item) if read_sha is not None else None
+        if read_sha is not None and item.get("sha256") and on_disk != item.get("sha256"):
+            probs.append(f"{aid}: asset-sha: the file on disk ({str(on_disk)[:12] if on_disk else 'unread'}) is not the "
+                         f"ledger's {str(item.get('sha256'))[:12]}: its cuts and marks review are not checked against it")
+            miss = list(dict.fromkeys(f for k in kinds for f in missing_fields(out[aid], k)))
+            if miss:
+                pending[aid] = miss
+            continue
         reviews = [("marks_checked.reviewed", mc.get("reviewed"))]
         if isinstance(e, dict):
             reviews.append(("vision.json reviewed", e.get("reviewed")))

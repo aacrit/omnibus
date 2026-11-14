@@ -5,7 +5,7 @@
 
 import { spawnSync } from "node:child_process";
 
-export const SCENE_THRESHOLD = 0.3;
+export const SCENE_THRESHOLD = 0.2;
 export const CUT_TOLERANCE_S = 0.1;
 export const SCENE_METHOD = `ffmpeg select=gt(scene,${SCENE_THRESHOLD}) over the aired span, null output`;
 
