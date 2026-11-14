@@ -51,7 +51,14 @@ def music_cues(play: dict) -> list[dict]:
     return out
 
 
-def check(film: Path, env=None, sha=_sha) -> dict:
+def _decoded(p: Path) -> str:
+    import soundfile as sf
+    from studio.news.studio_items import decoded_sha
+    x, rate = sf.read(str(p), dtype="float32", always_2d=False)
+    return decoded_sha(x, rate)
+
+
+def check(film: Path, env=None, sha=_sha, decoded=_decoded, takes_only: bool = False) -> dict:
     film = Path(film)
     take = json.loads((film / "score" / "score.take.json").read_text(encoding="utf-8"))
     score_dir = Path(MR.remap(take["media_dir"], env))
@@ -63,21 +70,33 @@ def check(film: Path, env=None, sha=_sha) -> dict:
             problems.append(f"{name}: score.take.json records no sha256")
             continue
         got = sha(p) if p.is_file() else None
-        files.append({"file": name, "sha256": got, "ok": got == want})
+        row = {"file": name, "sha256": got, "ok": got == want}
+        files.append(row)
         if got is None:
             problems.append(f"{name}: missing from {score_dir}")
         elif got != want:
             problems.append(f"{name}: sha256 {got[:12]} is not the take's {want[:12]}")
+        elif decoded is not None and rec.get("decoded_sha256"):
+            row["decoded_sha256"] = d = decoded(p)
+            if d != rec["decoded_sha256"]:
+                problems.append(f"{name}: decoded samples {d[:12]} are not the take's {rec['decoded_sha256'][:12]}")
     if not take.get("outputs"):
         problems.append("score.take.json lists no outputs")
     play = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")), env)
     cues = []
+    if takes_only:
+        return {"ok": not problems, "score_dir": score_dir.as_posix(), "files": files, "cues": cues, "problems": problems}
+    hashed = {(score_dir / n).as_posix().lower() for n, r in (take.get("outputs") or {}).items() if r.get("sha256")}
     for c in music_cues(play):
         wav = Path(c["wav"]) if Path(c["wav"]).is_absolute() else film / c["wav"]
         ok = wav.is_file()
         cues.append({"cue": c.get("id"), "wav": wav.as_posix(), "exists": ok})
         if not ok:
             problems.append(f"music cue {c.get('id')}: {wav.as_posix()} is missing (the draft never plays a silent score)")
+        under = wav.as_posix().lower().startswith(score_dir.as_posix().lower().rstrip("/") + "/")
+        if under and wav.as_posix().lower() not in hashed:
+            problems.append(f"music cue {c.get('id')}: {wav.name} is in the score folder but is not an output "
+                            "score.take.json hashes")
     return {"ok": not problems, "score_dir": score_dir.as_posix(), "files": files, "cues": cues, "problems": problems}
 
 
@@ -85,16 +104,18 @@ REQUIRED_SILENCE = ("no-music-under-quote", "no-music-under-news")
 
 
 def journal_check(events: list[dict]) -> dict:
-    """The silence and duck lints in a render journal's events: each required one present and passing, and no duck or
-    silence lint failing at block severity."""
+    """The silence and duck lints in a render journal's events: each required one present, and every one of its events
+    'pass' (anything else, inconclusive and review included, is a problem); and no duck or silence lint failing at
+    block severity."""
     lints = [e for e in events if e.get("type") == "lint" or e.get("kind") == "lint" or "rule" in e]
     problems = []
     for rule in REQUIRED_SILENCE:
         got = [e for e in lints if e.get("rule") == rule]
         if not got:
             problems.append(f"{rule} never ran in this render")
-        elif any(e.get("status") == "fail" for e in got):
-            problems.append(f"{rule} failed")
+        for e in got:
+            if e.get("status") != "pass":     # fail, inconclusive, review, or any status this check does not know
+                problems.append(f"{rule} is {e.get('status')!r}, not 'pass' ({e.get('unit')})")
     for e in lints:
         r = str(e.get("rule") or "")
         if ("duck" in r or "silence" in r) and e.get("status") == "fail" and e.get("severity") == "block":
@@ -108,6 +129,7 @@ def main(argv=None) -> int:
     ap.add_argument("film", nargs="?")
     ap.add_argument("--report")
     ap.add_argument("--journal")
+    ap.add_argument("--takes-only", action="store_true", help="only the takes against score.take.json (before the cuts)")
     a = ap.parse_args(argv)
     if a.journal:
         events = [json.loads(ln) for ln in Path(a.journal).read_text(encoding="utf-8").splitlines() if ln.strip()]
@@ -118,7 +140,7 @@ def main(argv=None) -> int:
         return 0 if res["ok"] else 1
     if not a.film:
         ap.error("the film folder, or --journal")
-    res = check(Path(a.film))
+    res = check(Path(a.film), takes_only=a.takes_only)
     if a.report:
         Path(a.report).write_text(json.dumps(res, indent=1) + "\n", encoding="utf-8")
     for p in res["problems"]:

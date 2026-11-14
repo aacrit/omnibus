@@ -40,14 +40,17 @@ def assert_clean(source: str, *, where: str = "<layer>") -> None:
 
 
 # ---- on-screen copy: no internal ids (C8 review) ------------------------------------------------------------------
-# A graphic's visible words never carry the pipeline's own keys: a cluster or commit hash (an 8-hex-digit token with
-# both a digit and a letter, e.g. 2ec1fcb8) or a ledger index ("ledger [23]"). Outlets and records are named in
-# plain words. Only the page's text is read: style and script bodies, tags and attributes are not on screen.
+# A graphic's visible words never carry the pipeline's own keys: a cluster or commit hash (a 7- to 40-hex-digit token,
+# whole between word boundaries, with at least one letter a-f, so a plain number such as a date or a count never
+# matches, and at least one digit, so an English word spelt in a-f (DEFACED, ACCEDED) never matches; e.g. 2ec1fcb8,
+# a short sha 31f9a8a) or a ledger index ("ledger [23]"). A token joined by a hyphen to its neighbours is part of a
+# public record's own catalogue number (NARA's 342-AF-86335AC in a credit), not one of ours, and is left alone.
+# Outlets and records are named in plain words. Only the page's text is read: style and script bodies, tags and attributes are not on screen.
 
 from html.parser import HTMLParser  # noqa: E402
 
 INTERNAL_ID_PATTERNS = {
-    "hex id": re.compile(r"\b(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{8}\b", re.IGNORECASE),
+    "hex id": re.compile(r"(?<![\w-])(?=[0-9a-f]*[a-f])(?=[0-9a-f]*[0-9])[0-9a-f]{7,40}(?![\w-])", re.IGNORECASE),
     "ledger index": re.compile(r"\bledger\s*\[\s*\d+\s*\]", re.IGNORECASE),
 }
 

@@ -216,10 +216,10 @@ describe("pull-render", () => {
     const wf = parseYaml(readFileSync(path.join(ROOT, ".github/workflows/episode-draft.yml"), "utf8"));
     const runs = wf.jobs.render.steps.map((x: any) => String(x.run ?? "")).join("\n");
     expect(runs).toContain('gh release download "own-score-$ISSUE"');
-    expect(runs).toContain("python -m studio.news.score_check \"episodes/$ISSUE\"");
+    expect(runs).toContain('python -m studio.news.score_check "episodes/$ISSUE" --takes-only');
     expect(runs).toContain('python -m studio.news.score_check --journal "$journal"');
     const names = wf.jobs.render.steps.map((x: any) => x.name);
-    expect(names.indexOf("the score matches score.take.json, and every music cue is on disk")).toBeLessThan(names.indexOf("draft render"));
+    expect(names.indexOf("every music cue is on disk, and every score-folder cue is a hashed take")).toBeLessThan(names.indexOf("draft render"));
   });
 
   it("refuses a dirty or unreadable data volume, and never checks the system drive", () => {
@@ -303,3 +303,40 @@ describe("narration stage", () => {
     expect(Object.keys(wf.on)).toEqual(["workflow_dispatch"]);
   });
 });
+
+describe("unusable items and pull refusals", () => {
+  const cli = (args: string[], cwd = ROOT) => spawnSync(process.execPath, args, { cwd, encoding: "utf8" });
+
+  it("exits 1 only when the screenplay or studio ledger cites an unusable item", () => {
+    const dir = tmp();
+    const report = (ids: string[]) => {
+      const f = path.join(dir, `${ids.join("_") || "none"}.json`);
+      writeFileSync(f, JSON.stringify({ unusable: ids, items: ids.map((id) => ({ id, outcome: "sha-mismatch" })) }));
+      return f;
+    };
+    expect(cli(["scripts/episode-draft.mjs", "unusable", report(["e33-day6-doc"]), "--issue", "33"]).status).toBe(0);
+    const r = cli(["scripts/episode-draft.mjs", "unusable", report(["e33-day1-page"]), "--issue", "33"]);
+    expect(r.status).toBe(1);
+    expect(r.stderr).toMatch(/cites unusable item\(s\): e33-day1-page/);
+  });
+
+  it("the manifest must say which unusables are cited; pull-render refuses R2 until C9", () => {
+    expect(manifestProblems({ schema: MANIFEST_SCHEMA, sha: SHA40, unusable: [], files: [{ path: "a", bytes: 1, sha256: "a".repeat(64) }] }))
+      .toContain("unusable_cited is not a list");
+    const r = cli(["scripts/pull-render.mjs", "33", "--from", "r2", "--dest", path.join(tmp(), "render")]);
+    expect(r.status).toBe(1);
+    expect(r.stderr).toMatch(/C9-r2-route/);
+  });
+
+  it("a failed own-pages download fails the sources step (no warning fallback)", () => {
+    const wf = parseYaml(readFileSync(path.join(ROOT, ".github/workflows/episode-draft.yml"), "utf8"));
+    const run = wf.jobs.sources.steps.map((x: any) => String(x.run ?? "")).join("\n");
+    expect(run).toContain('gh release download "own-pages-$ISSUE"');
+    expect(run).not.toMatch(/::warning::|if ! gh release/);
+    const names = wf.jobs.render.steps.map((x: any) => x.name);
+    const at = (pre: string) => names.findIndex((n: string | undefined) => String(n ?? "").startsWith(pre));
+    expect(at("the score matches")).toBeGreaterThan(-1);
+    expect(at("the score matches")).toBeLessThan(at("studio items"));
+  });
+});
+

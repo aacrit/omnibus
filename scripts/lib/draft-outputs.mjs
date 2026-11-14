@@ -79,6 +79,7 @@ export function manifestProblems(m) {
   if (!/^[0-9a-f]{40}$/.test(String(m?.sha ?? ""))) p.push("sha is not a commit");
   if (!Array.isArray(m?.files) || !m.files.length) p.push("files is not a non-empty list");
   if (!Array.isArray(m?.unusable)) p.push("unusable is not a list");
+  if (!Array.isArray(m?.unusable_cited)) p.push("unusable_cited is not a list");
   for (const f of m?.files ?? []) {
     const rel = String(f?.path ?? "");
     if (!PATH_RE.test(rel) || rel.startsWith("/") || rel.split("/").some((s) => s === ".." || s === "." || s === "")) p.push(`bad path ${JSON.stringify(f?.path)}`);
@@ -139,13 +140,25 @@ export function listFiles(dir) {
   return out.filter((f) => f !== MANIFEST).sort();
 }
 
+/** Every string value in the given JSON documents (pure): the ids they cite. */
+export function citedIn(docs) {
+  const out = new Set();
+  const walk = (x) => {
+    if (typeof x === "string") out.add(x);
+    else if (Array.isArray(x)) x.forEach(walk);
+    else if (x && typeof x === "object") Object.values(x).forEach(walk);
+  };
+  docs.forEach(walk);
+  return out;
+}
+
 /** The manifest of `dir`: what was rendered (sha, ref, until, res), what could not be used, and every file. */
-export async function buildManifest(dir, { issue, run = null, sha, ref = null, until = null, res = null, unusable = [] }) {
+export async function buildManifest(dir, { issue, run = null, sha, ref = null, until = null, res = null, unusable = [], unusableCited = [] }) {
   const files = [];
   for (const rel of listFiles(dir)) {
     if (!PATH_RE.test(rel)) throw new Error(`${rel}: a file name outside ${PATH_RE} cannot be listed`);
     const p = path.join(dir, ...rel.split("/"));
     files.push({ path: rel, bytes: statSync(p).size, sha256: await sha256File(p) });
   }
-  return { schema: MANIFEST_SCHEMA, issue, run, sha, ref, until: until === "" ? null : until, res, unusable, files };
+  return { schema: MANIFEST_SCHEMA, issue, run, sha, ref, until: until === "" ? null : until, res, unusable, unusable_cited: unusableCited, files };
 }

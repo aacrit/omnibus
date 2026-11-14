@@ -240,12 +240,10 @@ jobs:
           mapfile -t own < <(node scripts/episode-draft.mjs own-files "$ISSUE")
           if [ "${#own[@]}" -gt 0 ]; then
             pats=(); for f in "${own[@]}"; do pats+=(--pattern "$f"); done
-            if ! gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"; then
-              echo "::warning::own-pages-$ISSUE could not be downloaded: its items are refused below"
-            fi
+            gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"
           fi
           node scripts/rights.mjs fetch "$ISSUE" --media "$out/media" --from-ledger --report "$out/reports/sources.json"
-          node scripts/episode-draft.mjs unusable "$out/reports/sources.json"
+          node scripts/episode-draft.mjs unusable "$out/reports/sources.json" --issue "$ISSUE"
           du -sh "$out"
       - name: hand-off (artifact)
         uses: actions/upload-artifact@v4
@@ -306,7 +304,7 @@ jobs:
           for s in graphics narration sources; do cp -r "$dl/stage-$s-$ISSUE/reports/." "$PKG/reports/"; done
           cp "episodes/$ISSUE/graphics-ledger.json" "$PKG/graphics-ledger.json"
           cp "episodes/$ISSUE/audio/voice.json" "$PKG/voice.json"
-          node scripts/episode-draft.mjs unusable "$PKG/reports/sources.json"
+          node scripts/episode-draft.mjs unusable "$PKG/reports/sources.json" --issue "$ISSUE"
           du -sh "$m"/*
       # The laptop's finished score (E8), unchanged, from the own-score-<issue> prerelease into the media root's score/
       # folder, where the screenplay's music cues name it. Never re-composed here; a missing or changed file fails the
@@ -317,9 +315,11 @@ jobs:
         run: |
           mkdir -p "$OMNIBUS_MEDIA_ROOT/$ISSUE/score"
           gh release download "own-score-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$OMNIBUS_MEDIA_ROOT/$ISSUE/score" --pattern '*.wav'
+      - name: the score matches score.take.json (each file and its decoded samples)
+        run: python -m studio.news.score_check "episodes/$ISSUE" --takes-only --report "$PKG/reports/score-takes.json"
       - name: studio items (typeset pages, the PDF page, the joined board, the title's first frame, the Echo bed's spans)
         run: python -m studio.news.studio_items "episodes/$ISSUE" --report "$PKG/reports/studio-items.json"
-      - name: the score matches score.take.json, and every music cue is on disk
+      - name: every music cue is on disk, and every score-folder cue is a hashed take
         run: python -m studio.news.score_check "episodes/$ISSUE" --report "$PKG/reports/score.json"
       - name: draft render
         run: |

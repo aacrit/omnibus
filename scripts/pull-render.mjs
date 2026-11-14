@@ -170,6 +170,7 @@ async function main(argv) {
   const issue = Number(issueArg);
   const from = flag("from") ?? "artifact";
   if (!["artifact", "r2"].includes(from)) throw new Error(`--from is artifact or r2, not ${from}`);
+  if (from === "r2") throw new Error("--from r2 is refused: the R2 route is off until docs/tickets/C9-r2-route.md is done");
   const root = process.env.OMNIBUS_MEDIA_ROOT || "D:/omnibus-media";
   const dest = path.resolve(flag("dest") ?? path.join(root, String(issue), "render"));
   const rel = path.relative(repoRoot, dest);
@@ -191,6 +192,7 @@ async function main(argv) {
   console.log(`pull-render: ${describe(m)}`);
   const whole = wholeFilmRefusal(m, argv.includes("--slice"));
   if (whole) throw new Error(whole);
+  if (m.unusable_cited.length) throw new Error(`run ${m.run ?? "?"} lists cited items it could not use (${m.unusable_cited.join(", ")}): not pulled`);
   const prev = existsSync(path.join(dest, MANIFEST)) ? JSON.parse(readFileSync(path.join(dest, MANIFEST), "utf8")) : null;
   const why2 = sliceRefusal(prev, m, argv.includes("--slice"));
   if (why2) throw new Error(why2);

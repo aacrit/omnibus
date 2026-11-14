@@ -164,6 +164,7 @@ def test_score_check_refuses_a_missing_or_changed_take_and_a_missing_cue(tmp_pat
     media = tmp_path / "media"
     (media / "33/score").mkdir(parents=True)
     take = {"media_dir": "D:/omnibus-media/33/score", "outputs": {"theme.wav": {"sha256": "1" * 64}, "credits.wav": {"sha256": "2" * 64}}}
+    nodec = None
     (film / "score/score.take.json").write_text(json.dumps(take), encoding="utf-8")
     play = {"parts": [{"cues": [{"id": "M1", "kind": "music", "wav": "D:/omnibus-media/33/score/theme.wav"},
                                 {"id": "M2", "kind": "music", "wav": "D:/omnibus-media/33/studio/score/bed.1.wav"}]}]}
@@ -171,17 +172,17 @@ def test_score_check_refuses_a_missing_or_changed_take_and_a_missing_cue(tmp_pat
     env = {"OMNIBUS_MEDIA_ROOT": media.as_posix()}
     (media / "33/score/theme.wav").write_bytes(b"t")
     fake = {"theme.wav": "1" * 64, "credits.wav": "9" * 64}
-    res = SC.check(film, env=env, sha=lambda p: fake[p.name])
+    res = SC.check(film, env=env, sha=lambda p: fake[p.name], decoded=nodec)
     assert not res["ok"]
     assert any("credits.wav: missing" in p for p in res["problems"])
     assert any("music cue M2" in p for p in res["problems"])
     (media / "33/score/credits.wav").write_bytes(b"c")
-    res = SC.check(film, env=env, sha=lambda p: fake[p.name])
+    res = SC.check(film, env=env, sha=lambda p: fake[p.name], decoded=nodec)
     assert any("credits.wav: sha256 999999999999 is not the take's 222222222222" in p for p in res["problems"])
     fake["credits.wav"] = "2" * 64
     (media / "33/studio/score").mkdir(parents=True)
     (media / "33/studio/score/bed.1.wav").write_bytes(b"b")
-    assert SC.check(film, env=env, sha=lambda p: fake[p.name])["ok"]
+    assert SC.check(film, env=env, sha=lambda p: fake[p.name], decoded=nodec)["ok"]
 
 
 def test_week_33_score_take_records_a_sha256_for_every_output():
@@ -200,5 +201,95 @@ def test_the_journal_check_requires_the_silence_rules_to_have_run_and_passed():
     assert SC.journal_check(ok)["ok"]
     assert not SC.journal_check(ok[1:])["ok"]                                          # never ran
     bad = [dict(ok[0], status="fail")] + ok[1:]
-    assert "no-music-under-quote failed" in SC.journal_check(bad)["problems"]
+    assert any(p.startswith("no-music-under-quote is 'fail'") for p in SC.journal_check(bad)["problems"])
     assert not SC.journal_check(ok + [{"kind": "lint", "rule": "silence-rests", "status": "fail", "severity": "block"}])["ok"]
+
+
+def test_the_journal_check_takes_only_pass_inconclusive_and_review_are_problems():
+    from studio.news import score_check as SC
+    base = [{"kind": "lint", "rule": "no-music-under-quote", "status": "pass", "severity": "block"},
+            {"kind": "lint", "rule": "no-music-under-news", "status": "pass", "severity": "block"}]
+    assert SC.journal_check(base)["ok"]
+    for status in ("inconclusive", "review", "PASS", None):
+        res = SC.journal_check([dict(base[0], status=status)] + base[1:])
+        assert not res["ok"] and any("no-music-under-quote is" in p for p in res["problems"])
+    two = base + [dict(base[0], status="inconclusive", unit="L-X1")]          # every event, not just one, must pass
+    assert not SC.journal_check(two)["ok"]
+
+
+def _wav(path, samples, rate=48000):
+    import numpy as np
+    import soundfile as sf
+    sf.write(str(path), np.asarray(samples, dtype=np.int32) << 8, rate, subtype="PCM_24")
+
+
+def test_a_score_cut_is_the_source_samples_exactly(tmp_path):
+    import numpy as np
+    import soundfile as sf
+    from studio.news import studio_items as SI
+    rng = np.random.default_rng(7)
+    src = tmp_path / "bed.wav"
+    _wav(src, rng.integers(-(1 << 23), 1 << 23, 48000 * 3), rate=48000)
+    out = tmp_path / "cut.wav"
+    r = SI.score_cut(src, out, 1.25, 0.5)
+    assert r["samples"] == 24000 and r["start_sample"] == 60000 and r["decoded_sha256"] == r["expected_decoded_sha256"]
+    a, _ = sf.read(str(src), dtype="int32")
+    b, _ = sf.read(str(out), dtype="int32")
+    assert (a[60000:84000] == b).all()
+    import pytest
+    with pytest.raises(ValueError):
+        SI.score_cut(src, tmp_path / "x.wav", 2.9, 0.5)                       # past the end: refused, never padded
+
+
+def test_a_score_cut_without_bed_in_s_is_refused(tmp_path):
+    import shutil
+    from studio.news import studio_items as SI
+    film = tmp_path / "33"
+    shutil.copytree(ROOT / "episodes/33", film, ignore=shutil.ignore_patterns("score"))
+    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+
+    def strip(x):
+        if isinstance(x, dict):
+            if x.get("ledger_item") == "echo-bed-150.2":
+                x.pop("bed_in_s", None)
+            for v in x.values():
+                strip(v)
+        elif isinstance(x, list):
+            for v in x:
+                strip(v)
+    strip(play)
+    (film / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    rows = {r["id"]: r for r in SI.run(film, dry_run=True)}
+    assert rows["echo-bed-150.2"]["outcome"] == "failed" and "bed_in_s" in rows["echo-bed-150.2"]["why"]
+    assert rows["echo-bed-150.1"]["outcome"] == "planned"
+
+
+def test_score_check_refuses_changed_samples_and_an_unhashed_cue_in_the_score_folder(tmp_path):
+    from studio.news import score_check as SC
+    film = tmp_path / "ep"
+    (film / "score").mkdir(parents=True)
+    media = tmp_path / "media"
+    (media / "33/score").mkdir(parents=True)
+    take = {"media_dir": "D:/omnibus-media/33/score", "outputs": {"theme.wav": {"sha256": "1" * 64, "decoded_sha256": "a" * 64}}}
+    (film / "score/score.take.json").write_text(json.dumps(take), encoding="utf-8")
+    play = {"parts": [{"cues": [{"id": "M1", "kind": "music", "wav": "D:/omnibus-media/33/score/theme.wav"},
+                                {"id": "M9", "kind": "music", "wav": "D:/omnibus-media/33/score/extra.wav"}]}]}
+    (film / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    for n in ("theme.wav", "extra.wav"):
+        (media / "33/score" / n).write_bytes(b"x")
+    env = {"OMNIBUS_MEDIA_ROOT": media.as_posix()}
+    res = SC.check(film, env=env, sha=lambda p: "1" * 64, decoded=lambda p: "b" * 64)
+    assert any("theme.wav: decoded samples" in p for p in res["problems"])
+    assert any("M9: extra.wav is in the score folder but is not an output" in p for p in res["problems"])
+    only = SC.check(film, env=env, sha=lambda p: "1" * 64, decoded=lambda p: "a" * 64, takes_only=True)
+    assert only["ok"] and only["cues"] == []
+
+
+def test_internal_ids_are_7_to_40_hex_with_a_letter_and_numbers_never_match():
+    from studio.graphics import clean as CL
+    hits = lambda t: CL.find_internal_ids(f"<p>{t}</p>")  # noqa: E731
+    assert hits("commit 31f9a8a") == ["hex id: 31f9a8a"]
+    assert hits("a" * 7 + "1") and hits("e862bb0542fdc89e7d380f3a4d976cf2c56d246f")
+    assert hits("2ec1fcb8's members") == ["hex id: 2ec1fcb8"]
+    for ok in ("342-AF-86335AC", "111-ADC-8634", "20261104", "1234567", "76 outlets", "MMXXVI", "DEFACED", "ACCEDED", "1951-01-30", "e862bb0542fdc89e7d380f3a4d976cf2c56d246f0"):
+        assert hits(ok) == [], ok

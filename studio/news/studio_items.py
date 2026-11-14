@@ -13,7 +13,8 @@ The recipes are read from the row, never guessed from its id:
 - ``derived_from: "<a>.mov (E6), frame 0"``: that graphic's first frame as a PNG.
 - ``derived_from: "<score>.wav (E8, score.take.json), cut at the cue's bed_in_s"``: the finished score's file (the
   laptop's E8 take, placed from the own-score-<issue> release and checked by ``studio.news.score_check``), cut from
-  the cue's ``bed_in_s`` for the cue's length (ffmpeg, pcm_s24le). The score is never re-composed here.
+  the cue's ``bed_in_s`` (required: a cue without one is refused) for the cue's length, sample-exact, and proved by
+  the decoded sha256 of the cut against the source's samples at that offset. The score is never re-composed here.
 
 A remade file whose sha256 differs from the ledger's is kept for the draft and reported (a different Chromium,
 ffmpeg or font rasteriser on Linux changes bytes, not content); the report says so per item, and nothing is ever
@@ -80,9 +81,14 @@ def plan(film: Path, env=None) -> list[dict]:
             row.update(recipe="concat", sources=[(graphics_dir / f).as_posix() for f in m["files"].split(" then ")])
         elif (m := FIRST.match(der)) and graphics_dir is not None:
             row.update(recipe="first-frame", source=(graphics_dir / m["file"]).as_posix())
-        elif (m := SCORE_CUT.match(der)) and (cue := cues.get(it["id"])) is not None:
-            row.update(recipe="score-cut", source=MR.remap(m["src"], env), start_s=float(cue.get("bed_in_s") or 0.0),
-                       dur_s=round(float(cue["end_s"]) - float(cue["start_s"]), 6))
+        elif m := SCORE_CUT.match(der):
+            cue = cues.get(it["id"])
+            if cue is None or not isinstance(cue.get("bed_in_s"), (int, float)) or isinstance(cue.get("bed_in_s"), bool):
+                row.update(recipe="score-cut", refuse="no music cue names this item with a numeric bed_in_s: the cut "
+                                                      "point is never guessed")
+            else:
+                row.update(recipe="score-cut", source=MR.remap(m["src"], env), start_s=float(cue["bed_in_s"]),
+                           dur_s=round(float(cue["end_s"]) - float(cue["start_s"]), 6))
         else:
             row["why"] = "no recipe this script knows states how the row was made"
         rows.append(row)
@@ -127,18 +133,46 @@ def make(row: dict, film: Path, done_specs: set) -> None:
         # same samples the laptop's span holds, never re-composed
         if not Path(row["source"]).is_file():
             raise FileNotFoundError(f"{row['source']}: the score is not on this machine (own-score release)")
-        subprocess.run([_ffmpeg(), "-v", "error", "-y", "-ss", f"{row['start_s']:.6f}", "-t", f"{row['dur_s']:.6f}",
-                        "-i", row["source"], "-map_metadata", "-1", "-c:a", "pcm_s24le", "-bitexact", str(out)],
-                       check=True, stdin=subprocess.DEVNULL)
+        row.update(score_cut(Path(row["source"]), out, row["start_s"], row["dur_s"]))
     elif row["recipe"] == "first-frame":
         subprocess.run([_ffmpeg(), "-v", "error", "-y", "-i", row["source"], "-frames:v", "1", str(out)], check=True,
                        stdin=subprocess.DEVNULL)
+
+
+def decoded_sha(x, rate: int) -> str:
+    """The score's decoded hash, as episodes/<n>/score/build.py records it in score.take.json (``decoded_sha256``):
+    sha256 of "<rate>:1:" and the mono samples as float32."""
+    import numpy as np
+    return hashlib.sha256(f"{rate}:1:".encode() + np.ascontiguousarray(np.asarray(x, dtype=np.float32)).tobytes()).hexdigest()
+
+
+def score_cut(src: Path, out: Path, start_s: float, dur_s: float) -> dict:
+    """Cuts ``dur_s`` from ``start_s`` of a checked score WAV, sample-exact (soundfile, integers in and out, PCM 24-bit,
+    so no sample is re-quantised), and proves it: the cut, read back, must hold exactly the source's samples at that
+    offset (their decoded sha256, the score.take.json measure). Raises ValueError otherwise."""
+    import soundfile as sf
+    x, rate = sf.read(str(src), dtype="int32", always_2d=False)
+    a = int(round(start_s * rate))
+    n = int(round(dur_s * rate))
+    if a < 0 or n <= 0 or a + n > len(x):
+        raise ValueError(f"{src.name}: a cut of {n} samples at {a} runs past its {len(x)} samples")
+    seg = x[a:a + n]
+    sf.write(str(out), seg, rate, subtype="PCM_24")
+    expected = decoded_sha(sf.read(str(src), dtype="float32", always_2d=False, start=a, stop=a + n)[0], rate)
+    back, r2 = sf.read(str(out), dtype="float32", always_2d=False)
+    got = decoded_sha(back, r2)
+    if r2 != rate or len(back) != n or got != expected:
+        raise ValueError(f"{out.name}: its samples (decoded {got[:12]}) are not the source's {n} at {a} ({expected[:12]})")
+    return {"decoded_sha256": got, "expected_decoded_sha256": expected, "samples": n, "start_sample": a}
 
 
 def run(film: Path, *, dry_run: bool = False) -> list[dict]:
     rows = plan(film)
     done: set = set()
     for row in rows:
+        if row.get("refuse"):
+            row.update(outcome="failed", why=row["refuse"])
+            continue
         if row["recipe"] is None:
             row["outcome"] = "not-made"
             continue

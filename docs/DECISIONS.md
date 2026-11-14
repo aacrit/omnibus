@@ -163,3 +163,25 @@ Founder ruling: CPU work runs on GitHub; GPU work (Resolve/loom, the Qwen vision
 
 ## 2026-11-14: C8: the draft mixes the laptop's finished score (own-score-<issue> release; CoS decision)
 loom ingests only the engine's baked music stems (`stems/music_preduck.wav`, `stems/music_ducked.wav`), so the Actions draft has to mix the score itself. The laptop's finished E8 takes are published unchanged as prerelease assets of `own-score-33`: theme, sting, echo-bed-150, echo-bed-150.mix and credits. They are our own work (CC BY-SA 4.0, CC0 samples and our own synthesis), the same footing as the own-pages release. The render job downloads them into the media root's `score/` folder, where the screenplay's music cues name them. The score is never re-composed. The Echo bed's three spans are cut from `echo-bed-150.wav` at each cue's `bed_in_s`, for the cue's length (`studio/news/studio_items.py`, ffmpeg pcm_s24le), as the laptop cut them. `studio/news/score_check.py` fails the run before any frame when a file is missing or does not hash to the sha256 the committed `episodes/<n>/score/score.take.json` records, or when any music cue's WAV is not on disk. The draft never falls back to a silent score. After the render, it reads the run's journal: `no-music-under-quote` (founder ruling: the score is silent under every quote) and `no-music-under-news` must have run and passed, and no duck or silence lint may fail at block severity. **Pulling.** `scripts/pull-render.mjs` picks a whole-film run unless `--slice` is given, and refuses a slice's manifest without it. The package root is now the engine's render folder, so a pull lands the master at `<root>/<n>/render/master.mp4`, not `render/render/` (tested).
+
+## 2026-11-14: C8 review hardening (after the first full draft, run 43540458640)
+**Silence rules, read strictly.** `studio/news/score_check.py --journal` now requires every event of `no-music-under-quote` and `no-music-under-news` to be `pass`. `fail`, `inconclusive`, `review` or any other status is named as a problem. The full draft's own journal (r-20261114-014102-1631002a) was read event by event:
+- `no-music-under-quote`: 1 event, pass.
+- `no-music-under-news`: 1 event, pass.
+- `duck-pumping`: 1 event, pass (warn severity).
+- `duck-slope`: 1 event, pass (warn severity).
+- `silence-reason`: 8 events, all pass.
+- `digital-silence`: 1 event, **fail**, at warn severity, so the render went on. It found 16 runs of digital silence over 4 s, 104.9 s in all, outside the declared intended silences: 0.0–6.0, 15.2–20.0, 24.8–29.7, 72.6–78.1, 102.7–108.1, 111.4–118.7, 133.0–138.5, 155.0–160.4, 216.7–222.2, 242.8–250.2, 261.6–266.3, 318.3–335.6, 337.9–347.7, 649.8–654.8, 677.3–682.4 and 698.6–703.7 s.
+
+The coordinator decides; there is no re-render until then. **Score.**
+- `score_check` runs before the studio items and checks each take's decoded samples against `score.take.json`'s `decoded_sha256`.
+- A music cue in the score folder must be one of its hashed outputs.
+- The Echo bed's spans are cut sample-exact (soundfile, integers in and out). Each cut's decoded sha256 must equal the source's samples at the same offset.
+- A cue without a numeric `bed_in_s` refuses its span.
+
+**Sources.**
+- A failed own-pages download fails the step.
+- `episode-draft.mjs unusable` exits 1 when the screenplay or studio ledger cites an unusable item. The manifest records those as `unusable_cited`, and `pull-render` refuses a run that lists any.
+- `pull-render --from r2` is refused until C9.
+
+**On-screen ids.** `clean.assert_no_internal_ids` flags a 7- to 40-hex-digit token with at least one letter and at least one digit, standing alone. The digit keeps English words spelt in a to f (DEFACED) out. A hyphen-joined catalogue number (NARA's 342-AF-86335AC in a credit) is left alone.
