@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
-import { pullLedger, summarise } from "../scripts/lib/rights/pull.mjs";
+import { ownFiles, ownRelease, pullLedger, summarise } from "../scripts/lib/rights/pull.mjs";
 import { Refused } from "../scripts/lib/rights/http.mjs";
 import {
   BUCKET, MANIFEST_SCHEMA, buildManifest, manifestProblems, notPublic, outputsRoute, renderBudget,
@@ -73,16 +73,40 @@ describe("rights fetch --from-ledger (pull.mjs)", () => {
     expect(http.calls).toEqual(["https://upload.wikimedia.org/a.webm"]);
   });
 
-  it("leaves a file already there when it matches, and never downloads our own pages", async () => {
+  it("leaves a file already there when it matches, and never downloads or recaptures our own property", async () => {
     const dir = tmp();
     writeFileSync(path.join(dir, "a.webm"), "a");
-    writeFileSync(path.join(dir, "p.png"), "recaptured on linux");
-    const own = item("p", { adapter: "voidnews", licence: "own-property", file: "p.png", media_url: "https://x.void-news.pages.dev/paper/" });
+    writeFileSync(path.join(dir, "p.png"), "p");                 // the release's exact bytes: the ledger's sha256
+    const own = (id: string, over: any = {}) => item(id, { adapter: "voidnews", licence: "own-property", file: `${id}.png`, media_url: "https://x.void-news.pages.dev/paper/", ...over });
     const http = fakeHttp({});
-    const report = await pullLedger({ ledger: { items: [item("a"), own, item("q", { adapter: "voidnews", file: "q.png" })] }, mediaDir: dir, http, log: () => {} });
-    expect(report.map((r: any) => r.outcome)).toEqual(["present", "recaptured-differs", "missing"]);
+    const report = await pullLedger({ ledger: { items: [item("a"), own("p"), own("q")] }, mediaDir: dir, http, log: () => {}, discard: false });
+    expect(report.map((r: any) => r.outcome)).toEqual(["present", "present", "missing"]);
     expect(http.calls).toEqual([]);
     expect(summarise(report).unusable).toEqual(["q"]);
+  });
+
+  it("refuses an own-property file whose sha256 is not the ledger's, and never replaces it", async () => {
+    const dir = tmp();
+    writeFileSync(path.join(dir, "p.png"), "recaptured on linux");
+    const own = item("p", { adapter: "voidnews", licence: "own-property", file: "p.png", media_url: "https://x.void-news.pages.dev/paper/" });
+    const http = fakeHttp({ "https://x.void-news.pages.dev/paper/": "p" });
+    const [r] = await pullLedger({ ledger: { items: [own] }, mediaDir: dir, http, log: () => {}, discard: false });
+    expect(r.outcome).toBe("sha-mismatch");
+    expect(r.detail).toMatch(/never recaptured/);
+    expect(http.calls).toEqual([]);
+    expect(existsSync(path.join(dir, "p.png"))).toBe(false);
+    expect(summarise([r]).unusable).toEqual(["p"]);
+  });
+
+  it("names the own-property files the sources job places from own-pages-<issue>", () => {
+    expect(ownRelease(33)).toBe("own-pages-33");
+    const files = ownFiles(LEDGER33());
+    expect(files).toHaveLength(11);
+    expect(files).toContain("e33-day1-page.png");
+    expect(ownFiles({ items: [item("x", { licence: "own-property", file: "../x.png" }), item("y", { licence: "own-property", file: "a b.png" })] })).toEqual([]);
+    const wf = readFileSync(path.join(ROOT, ".github/workflows/episode-draft.yml"), "utf8");
+    expect(wf).toContain('gh release download "own-pages-$ISSUE"');
+    expect(JSON.stringify(parseYaml(wf).jobs.sources)).not.toMatch(/rights\.mjs capture|void--news/);
   });
 
   it("refuses a ledger file that is not a bare name", async () => {

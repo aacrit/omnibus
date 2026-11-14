@@ -11,10 +11,12 @@
 //   and reported.
 // - A host that refuses the request (403, a bot challenge) is reported with
 //   its answer; it is never retried from elsewhere or worked around.
-// - void news's own pages are captures, not downloads (scripts/rights.mjs
-//   capture renders them first); here they are only hashed. A recapture whose
-//   bytes differ (another machine's Chromium) is own property and is kept for
-//   a draft, reported as such.
+// - Our own property (licence own-property: void news's page captures) is
+//   never fetched or recaptured here: rights fix 4's asset-sha airs only the
+//   exact bytes the ledger checked, and another machine's Chromium cannot
+//   reproduce them. The workflow places those files from the issue's
+//   own-pages-<issue> release (the laptop's captures, unchanged); here they
+//   are only hashed. A missing or mismatched one is refused, never replaced.
 //
 // Writes no ledger. Net-new.
 
@@ -22,10 +24,21 @@ import { existsSync, mkdirSync, renameSync, rmSync } from "node:fs";
 import path from "node:path";
 import { Refused, RefusedHost, hashLocal } from "./http.mjs";
 
-export const OWN_ADAPTER = "voidnews";
+export const OWN_PROPERTY = "own-property";
 
-/** The outcomes a draft can render from (a recapture of our own page included). */
-export const USABLE = new Set(["ok", "present", "recaptured-differs"]);
+/** The outcomes a draft can render from: only the exact bytes the ledger names. */
+export const USABLE = new Set(["ok", "present"]);
+
+/** The release whose assets carry an issue's own-property files, byte for byte as the laptop captured them. */
+export const ownRelease = (issue) => `own-pages-${issue}`;
+
+/** The ledger items placed from the own-pages release, never fetched or recaptured: our own property. */
+export const isOwn = (item) => item.licence === OWN_PROPERTY;
+
+/** The bare file names of the ledger's own-property items (pure); a name that is not bare, or not [\w.-], is left out and so refused. */
+export function ownFiles(ledger) {
+  return (ledger?.items ?? []).filter(isOwn).map((i) => String(i.file ?? "")).filter((f) => /^[\w.-]+$/.test(f) && path.basename(f) === f);
+}
 
 /** `discard`: delete a mismatched download instead of keeping it as <file>.mismatch (default on GitHub Actions, where no person looks at it and every artifact is public). */
 export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log = console.log, discard = process.env.GITHUB_ACTIONS === "true" }) {
@@ -52,14 +65,14 @@ export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log
         push("present");
         continue;
       }
-      if (item.adapter === OWN_ADAPTER) {
-        push("recaptured-differs", `sha256 ${sha256.slice(0, 12)} is not the ledger's ${item.sha256.slice(0, 12)}: our own page, recaptured on this machine; kept for a draft`);
+      rmSync(dest, { force: true });
+      if (isOwn(item)) {
+        push("sha-mismatch", `sha256 ${sha256.slice(0, 12)} is not the ledger's ${item.sha256.slice(0, 12)}: discarded, never used (an own-property file airs only as the bytes the ledger checked; it is never recaptured)`);
         continue;
       }
-      rmSync(dest, { force: true });
     }
-    if (item.adapter === OWN_ADAPTER) {
-      push("missing", "void news's own page is captured, not downloaded: run scripts/rights.mjs capture first");
+    if (isOwn(item)) {
+      push("missing", "an own-property file is placed from its own-pages release (gh release download), never fetched or recaptured, and it is not there");
       continue;
     }
     if (!item.media_url) {

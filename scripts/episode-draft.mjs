@@ -8,6 +8,9 @@
 //       $GITHUB_OUTPUT when it is set.
 //   node scripts/episode-draft.mjs r2-cap <dir> --listed <bytes>
 //       (unreachable while the R2 route is off, C9) exits 2 when <dir>'s bytes plus what render/ lists exceed the row.
+//   node scripts/episode-draft.mjs own-files <issue>
+//       the ledger file names of the issue's own-property items, one a line: what the sources job places from the
+//       own-pages-<issue> release (each a bare name, so it is a safe --pattern).
 //   node scripts/episode-draft.mjs unusable <sources report.json>
 //       the ledger items the sources job could not use, one line each, also to $GITHUB_STEP_SUMMARY.
 //   node scripts/episode-draft.mjs manifest <dir> --issue <n> --sha <commit> [--run <id>] [--ref <ref>]
@@ -20,6 +23,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
 import { MANIFEST, buildManifest, listFiles, outputsRoute, r2CapProblem } from "./lib/draft-outputs.mjs";
+import { ownFiles } from "./lib/rights/pull.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -60,6 +64,12 @@ async function main(argv) {
       return 2;
     }
     console.log(`episode-draft: ${(bytes / 1024 ** 2).toFixed(1)} MiB fits under the R2 render cap`);
+    return 0;
+  }
+  if (cmd === "own-files") {
+    const issue = issueOf(arg);
+    const ledger = JSON.parse(readFileSync(path.join(repoRoot, "episodes", String(issue), "rights-ledger.json"), "utf8"));
+    for (const f of ownFiles(ledger)) console.log(f);
     return 0;
   }
   if (cmd === "unusable") {

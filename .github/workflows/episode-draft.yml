@@ -223,27 +223,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: install (npm, Playwright Chromium for our own pages)
-        run: |
-          npm ci
-          python -m pip install -r studio/requirements-graphics.txt
-          python -m playwright install --with-deps chromium
-      # Our own pages are recaptured from their immutable deployments; every other item is downloaded from the
-      # ledger's media_url with the honest User-Agent and checked against its sha256. A refusal is reported, never
-      # worked around. A third-party file that hashes otherwise is never used: on Actions it is discarded at once
-      # (pull.mjs), so no hand-off carries it.
-      - name: fetch every ledger item from its origin
+      - run: npm ci
+      # Our own property (void news's page captures) is never recaptured: rights fix 4's asset-sha airs only the
+      # bytes the ledger checked, which another machine's Chromium cannot reproduce. Those files come unchanged from
+      # the issue's own-pages-<issue> prerelease (the laptop's captures, named by their ledger file). Every other
+      # item is downloaded from the ledger's media_url with the honest User-Agent. Each file is checked against its
+      # ledger sha256; a missing or mismatched one is refused and reported, never replaced or worked around, and a
+      # mismatched download is discarded at once (pull.mjs), so no hand-off carries it.
+      - name: place our own pages from their release, fetch every other item from its origin
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           bash scripts/ci/meter.sh mark sources
           out=/home/runner/stage/sources
-          mkdir -p "$out/reports" "$out/media"
-          git clone --quiet --filter=blob:none --no-checkout https://github.com/aacrit/void--news /home/runner/void--news
-          PYTHON=python node scripts/rights.mjs capture "$ISSUE" --media "$out/media" --voidnews /home/runner/void--news
+          mkdir -p "$out/reports" "$out/media/$ISSUE"
+          mapfile -t own < <(node scripts/episode-draft.mjs own-files "$ISSUE")
+          if [ "${#own[@]}" -gt 0 ]; then
+            pats=(); for f in "${own[@]}"; do pats+=(--pattern "$f"); done
+            if ! gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"; then
+              echo "::warning::own-pages-$ISSUE could not be downloaded: its items are refused below"
+            fi
+          fi
           node scripts/rights.mjs fetch "$ISSUE" --media "$out/media" --from-ledger --report "$out/reports/sources.json"
-          rm -rf "$out/media/$ISSUE/.capture"
           node scripts/episode-draft.mjs unusable "$out/reports/sources.json"
           du -sh "$out"
       - name: hand-off (artifact)
