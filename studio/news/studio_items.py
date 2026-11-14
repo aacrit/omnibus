@@ -11,9 +11,9 @@ The recipes are read from the row, never guessed from its id:
   ledger's PDF, rasterised.
 - ``derived_from: "<a>.mov then <b>.mov (E6), stream copy"``: the graphics joined by ffmpeg concat, stream copy.
 - ``derived_from: "<a>.mov (E6), frame 0"``: that graphic's first frame as a PNG.
-- a ``sound`` row cut from the score (``derived_from`` names a score file): the score is made on the laptop (E8,
-  ``episodes/<n>/score/build.py``, which needs score-tools and its sample libraries), so it is reported, never made
-  here; the engine plays a missing music cue as silence and warns.
+- ``derived_from: "<score>.wav (E8, score.take.json), cut at the cue's bed_in_s"``: the finished score's file (the
+  laptop's E8 take, placed from the own-score-<issue> release and checked by ``studio.news.score_check``), cut from
+  the cue's ``bed_in_s`` for the cue's length (ffmpeg, pcm_s24le). The score is never re-composed here.
 
 A remade file whose sha256 differs from the ledger's is kept for the draft and reported (a different Chromium,
 ffmpeg or font rasteriser on Linux changes bytes, not content); the report says so per item, and nothing is ever
@@ -39,6 +39,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PDF_PAGE = re.compile(r"^(?P<src>[\w.-]+) .*?PDF page (?P<page>\d+) rasterised at (?P<dpi>\d+) dpi", re.S)
 CONCAT = re.compile(r"^(?P<files>[\w.-]+\.mov(?: then [\w.-]+\.mov)+) \(E6\), stream copy")
 FIRST = re.compile(r"^(?P<file>[\w.-]+\.mov) \(E6\), frame 0")
+SCORE_CUT = re.compile(r"^(?P<src>\S+\.wav) \(E8, score\.take\.json\), cut at the cue's bed_in_s")
 
 
 def _media(film: Path, ref) -> Path:
@@ -61,6 +62,8 @@ def plan(film: Path, env=None) -> list[dict]:
     if "rights" in refs:
         rp = film / (refs["rights"] if isinstance(refs["rights"], str) else refs["rights"]["path"])
         rights = {i["id"]: i for i in json.loads(rp.read_text(encoding="utf-8")).get("items") or []}
+    from studio.news.score_check import music_cues
+    cues = {c["ledger_item"]: c for c in music_cues(play) if c.get("ledger_item")}
     sp = film / (refs["studio"] if isinstance(refs["studio"], str) else refs["studio"]["path"])
     items = json.loads(sp.read_text(encoding="utf-8")).get("items") or []
     rows = []
@@ -77,8 +80,9 @@ def plan(film: Path, env=None) -> list[dict]:
             row.update(recipe="concat", sources=[(graphics_dir / f).as_posix() for f in m["files"].split(" then ")])
         elif (m := FIRST.match(der)) and graphics_dir is not None:
             row.update(recipe="first-frame", source=(graphics_dir / m["file"]).as_posix())
-        elif it.get("kind") == "sound" and "score" in der:
-            row["why"] = "cut from the score, which the laptop makes (E8); a missing music cue plays as silence"
+        elif (m := SCORE_CUT.match(der)) and (cue := cues.get(it["id"])) is not None:
+            row.update(recipe="score-cut", source=MR.remap(m["src"], env), start_s=float(cue.get("bed_in_s") or 0.0),
+                       dur_s=round(float(cue["end_s"]) - float(cue["start_s"]), 6))
         else:
             row["why"] = "no recipe this script knows states how the row was made"
         rows.append(row)
@@ -118,6 +122,14 @@ def make(row: dict, film: Path, done_specs: set) -> None:
             lst.write_text("".join(f"file '{s}'\n" for s in row["sources"]), encoding="utf-8")
             subprocess.run([_ffmpeg(), "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy",
                             str(out)], check=True, stdin=subprocess.DEVNULL)
+    elif row["recipe"] == "score-cut":
+        # the finished score's bed (own-score-<issue>, checked by score_check), cut where the cue enters it: the
+        # same samples the laptop's span holds, never re-composed
+        if not Path(row["source"]).is_file():
+            raise FileNotFoundError(f"{row['source']}: the score is not on this machine (own-score release)")
+        subprocess.run([_ffmpeg(), "-v", "error", "-y", "-ss", f"{row['start_s']:.6f}", "-t", f"{row['dur_s']:.6f}",
+                        "-i", row["source"], "-map_metadata", "-1", "-c:a", "pcm_s24le", "-bitexact", str(out)],
+                       check=True, stdin=subprocess.DEVNULL)
     elif row["recipe"] == "first-frame":
         subprocess.run([_ffmpeg(), "-v", "error", "-y", "-i", row["source"], "-frames:v", "1", str(out)], check=True,
                        stdin=subprocess.DEVNULL)

@@ -308,8 +308,19 @@ jobs:
           cp "episodes/$ISSUE/audio/voice.json" "$PKG/voice.json"
           node scripts/episode-draft.mjs unusable "$PKG/reports/sources.json"
           du -sh "$m"/*
-      - name: studio items (typeset pages, the PDF page, the joined board, the title's first frame)
+      # The laptop's finished score (E8), unchanged, from the own-score-<issue> prerelease into the media root's score/
+      # folder, where the screenplay's music cues name it. Never re-composed here; a missing or changed file fails the
+      # run (score_check below), so the draft never falls back to a silent score.
+      - name: the finished score (own-score release)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$OMNIBUS_MEDIA_ROOT/$ISSUE/score"
+          gh release download "own-score-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$OMNIBUS_MEDIA_ROOT/$ISSUE/score" --pattern '*.wav'
+      - name: studio items (typeset pages, the PDF page, the joined board, the title's first frame, the Echo bed's spans)
         run: python -m studio.news.studio_items "episodes/$ISSUE" --report "$PKG/reports/studio-items.json"
+      - name: the score matches score.take.json, and every music cue is on disk
+        run: python -m studio.news.score_check "episodes/$ISSUE" --report "$PKG/reports/score.json"
       - name: draft render
         run: |
           bash scripts/ci/meter.sh mark render
@@ -317,14 +328,18 @@ jobs:
           if [ -n "$UNTIL" ]; then args="$args --until $UNTIL"; else args="$args --layers"; fi
           # shellcheck disable=SC2086
           python -m studio.engine.render "episodes/$ISSUE" $args
+          # the founder's silence rules ran and passed in this render: no music under any quote or news line
+          journal=$(ls -t "$DOCUMENT_JOURNAL_DIR"/r-*.jsonl | head -1)
+          python -m studio.news.score_check --journal "$journal"
           du -sh "$OUT"
           df -h /
       - name: package the outputs
         run: |
           bash scripts/ci/meter.sh mark publish
-          # the engine's intermediates (segments, work) stay behind: the master, its sources.json, layers and stems go
-          mkdir -p "$PKG/render" "$PKG/graphics" "$PKG/voice" "$PKG/journal"
-          rsync -a --exclude segments --exclude work "$OUT"/ "$PKG/render/"
+          # The package root is the render folder itself: pull-render lands it at <root>/<issue>/render, so the master
+          # is render/master.mp4 (never render/render/). The engine's intermediates (segments, work) stay behind.
+          mkdir -p "$PKG/graphics" "$PKG/voice" "$PKG/journal"
+          rsync -a --exclude segments --exclude work "$OUT"/ "$PKG/"
           cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/graphics/"*.mov "$PKG/graphics/"
           cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice/"*.wav "$PKG/voice/"
           cp -r "$DOCUMENT_JOURNAL_DIR"/. "$PKG/journal/"

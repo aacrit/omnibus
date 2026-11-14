@@ -7,7 +7,8 @@
 //
 // --from artifact (the default): the run's workflow artifact episode-draft-<issue>, through `gh run download`
 //   (the newest successful episode-draft run for that issue unless --run names one).
-// --slice: let a check slice (--until) replace a whole-film render at <dest>.
+// --slice: pull a check slice (--until) at all (by default only a whole-film run is picked and accepted), and let it
+//   replace a whole-film render at <dest>.
 // --from r2: render/<issue>/<run>/ (--run required) in the private bucket omnibus-capture, through `npx wrangler r2 object get --remote`
 //   (needs CLOUDFLARE_API_TOKEN), the manifest first, then each file it lists.
 // --dest: default <OMNIBUS_MEDIA_ROOT or D:/omnibus-media>/<issue>/render. The download lands beside it
@@ -34,10 +35,30 @@ export function artifactName(issue) {
   return `episode-draft-${issue}`;
 }
 
-/** The newest successful run for the issue, from `gh run list --json databaseId,displayTitle,conclusion` rows. */
-export function pickRun(rows, issue) {
+/**
+ * The newest successful run for the issue, from `gh run list --json databaseId,displayTitle,conclusion` rows: a
+ * whole-film run (its title carries no "slice", episode-draft.yml's run-name) unless `slice` is set. The pulled
+ * manifest's own `until` is checked again after the download (wholeFilmRefusal).
+ */
+export function pickRun(rows, issue, { slice = false } = {}) {
   const want = new RegExp(`\\bissue ${issue}\\b`);
-  return rows.find((r) => r.conclusion === "success" && want.test(String(r.displayTitle ?? "")))?.databaseId ?? null;
+  return rows.find((r) => r.conclusion === "success" && want.test(String(r.displayTitle ?? ""))
+    && (slice || !/\bslice\b/.test(String(r.displayTitle ?? ""))))?.databaseId ?? null;
+}
+
+/** A pull without --slice takes only a whole film: a manifest whose `until` is set is refused (pure). */
+export function wholeFilmRefusal(m, slice) {
+  return m.until != null && !slice ? `run ${m.run ?? "?"} is a ${m.until} s slice, not the whole film: pass --slice to pull a slice` : null;
+}
+
+/**
+ * Where a manifest path lands on the laptop: the package root is the render folder itself (episode-draft.yml syncs
+ * the engine's output folder to the package root), so the master is <root>/<issue>/render/master.mp4, never
+ * render/render (pure).
+ */
+export function landing(root, issue, rel, { win = process.platform === "win32" } = {}) {
+  const p = win ? path.win32 : path.posix;
+  return p.join(root, String(issue), "render", ...rel.split("/"));
 }
 
 /** What a manifest says was rendered, in one line. */
@@ -114,8 +135,8 @@ function gh(args) {
   return execFileSync("gh", args, { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] });
 }
 
-function pullArtifact(issue, run, incoming) {
-  const id = run ?? pickRun(JSON.parse(gh(["run", "list", "--workflow", WORKFLOW, "--limit", "50", "--json", "databaseId,displayTitle,conclusion"])), issue);
+function pullArtifact(issue, run, incoming, slice) {
+  const id = run ?? pickRun(JSON.parse(gh(["run", "list", "--workflow", WORKFLOW, "--limit", "50", "--json", "databaseId,displayTitle,conclusion"])), issue, { slice });
   if (!id) throw new Error(`no successful ${WORKFLOW} run for issue ${issue}: pass --run <id>`);
   console.log(`pull-render: run ${id}, artifact ${artifactName(issue)}`);
   gh(["run", "download", String(id), "--name", artifactName(issue), "--dir", incoming]);
@@ -161,13 +182,15 @@ async function main(argv) {
   const incoming = `${dest}.incoming`;
   rmSync(incoming, { recursive: true, force: true });
   mkdirSync(incoming, { recursive: true });
-  if (from === "artifact") pullArtifact(issue, flag("run"), incoming);
+  if (from === "artifact") pullArtifact(issue, flag("run"), incoming, argv.includes("--slice"));
   else pullR2(issue, flag("run"), incoming);
   const m = JSON.parse(readFileSync(path.join(incoming, MANIFEST), "utf8"));
   const problems = manifestProblems(m);
   if (problems.length) throw new Error(`render-manifest.json is invalid: ${problems.join("; ")}`);
   if (m.issue !== issue) throw new Error(`the manifest is for issue ${m.issue}, not ${issue}`);
   console.log(`pull-render: ${describe(m)}`);
+  const whole = wholeFilmRefusal(m, argv.includes("--slice"));
+  if (whole) throw new Error(whole);
   const prev = existsSync(path.join(dest, MANIFEST)) ? JSON.parse(readFileSync(path.join(dest, MANIFEST), "utf8")) : null;
   const why2 = sliceRefusal(prev, m, argv.includes("--slice"));
   if (why2) throw new Error(why2);

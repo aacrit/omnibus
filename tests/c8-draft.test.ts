@@ -13,7 +13,7 @@ import {
   BUCKET, MANIFEST_SCHEMA, buildManifest, manifestProblems, notPublic, outputsRoute, renderBudget,
   sha256File, statOrNull, verifyFiles,
 } from "../scripts/lib/draft-outputs.mjs";
-import { describe as describeRun, dirtyRefusal, localLedger, pickRun, sliceRefusal } from "../scripts/pull-render.mjs";
+import { describe as describeRun, dirtyRefusal, landing, localLedger, pickRun, sliceRefusal, wholeFilmRefusal } from "../scripts/pull-render.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
@@ -194,8 +194,32 @@ describe("pull-render", () => {
       { databaseId: 2, displayTitle: "episode draft, issue 334", conclusion: "success" },
       { databaseId: 1, displayTitle: "episode draft, issue 33 (a 120 s slice)", conclusion: "success" },
     ];
-    expect(pickRun(rows, 33)).toBe(1);
+    expect(pickRun(rows, 33)).toBe(null);                    // the only success for 33 is a slice
+    expect(pickRun(rows, 33, { slice: true })).toBe(1);
+    expect(pickRun([{ databaseId: 5, displayTitle: "episode draft, issue 33", conclusion: "success" }, ...rows], 33)).toBe(5);
     expect(pickRun(rows, 34)).toBe(null);
+  });
+
+  it("refuses a slice's manifest unless --slice, and lands the master at <root>/<n>/render/master.mp4", () => {
+    expect(wholeFilmRefusal({ run: "1", until: 120 }, false)).toMatch(/--slice/);
+    expect(wholeFilmRefusal({ run: "1", until: 120 }, true)).toBe(null);
+    expect(wholeFilmRefusal({ run: "1", until: null }, false)).toBe(null);
+    expect(landing("D:/omnibus-media", 33, "master.mp4", { win: true })).toBe(String.raw`D:\omnibus-media\33\render\master.mp4`);
+    expect(landing("/m", 33, "stems/music_ducked.wav", { win: false })).toBe("/m/33/render/stems/music_ducked.wav");
+    const wf = parseYaml(readFileSync(path.join(ROOT, ".github/workflows/episode-draft.yml"), "utf8"));
+    const pkg = wf.jobs.render.steps.find((x: any) => x.name === "package the outputs").run;
+    expect(pkg).toContain('rsync -a --exclude segments --exclude work "$OUT"/ "$PKG/"');
+    expect(pkg).not.toMatch(/\$PKG\/render/);
+  });
+
+  it("the render job takes the finished score from its release and checks it before and after the render", () => {
+    const wf = parseYaml(readFileSync(path.join(ROOT, ".github/workflows/episode-draft.yml"), "utf8"));
+    const runs = wf.jobs.render.steps.map((x: any) => String(x.run ?? "")).join("\n");
+    expect(runs).toContain('gh release download "own-score-$ISSUE"');
+    expect(runs).toContain("python -m studio.news.score_check \"episodes/$ISSUE\"");
+    expect(runs).toContain('python -m studio.news.score_check --journal "$journal"');
+    const names = wf.jobs.render.steps.map((x: any) => x.name);
+    expect(names.indexOf("the score matches score.take.json, and every music cue is on disk")).toBeLessThan(names.indexOf("draft render"));
   });
 
   it("refuses a dirty or unreadable data volume, and never checks the system drive", () => {

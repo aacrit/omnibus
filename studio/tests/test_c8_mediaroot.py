@@ -60,8 +60,11 @@ def test_week_33_studio_items_each_have_a_recipe_or_a_stated_reason():
     assert by["board-all"]["recipe"] == "concat"
     assert [Path(s).name for s in by["board-all"]["sources"]] == ["board-page-1.mov", "board-page-2.mov"]
     assert by["title-macro-f0"]["recipe"] == "first-frame"
-    for i in (1, 2, 3):   # the score is made on the laptop (E8): never synthesised here, only reported
-        assert by[f"echo-bed-150.{i}"]["recipe"] is None and "laptop" in by[f"echo-bed-150.{i}"]["why"]
+    # the Echo bed's spans are cut from the finished score (own-score release), at each cue's bed_in_s, for its length
+    for i, (start, dur) in zip((1, 2, 3), ((0.0, 12.35), (53.5, 66.15), (123.4, 26.6))):
+        row = by[f"echo-bed-150.{i}"]
+        assert row["recipe"] == "score-cut" and row["source"] == "/mnt/omnibus-media/33/score/echo-bed-150.wav"
+        assert row["start_s"] == start and abs(row["dur_s"] - dur) < 1e-6
     assert all(p["out"].startswith("/mnt/omnibus-media/33/studio/") for p in plan)
 
 
@@ -152,3 +155,50 @@ def test_the_frame_sheet_shows_each_frame_over_both_plates():
     out = FS.sheet([("lt", [("first", frame)])], thumb=(64, 36), plates=C.PLATES)
     assert out.getpixel((8 + 10, 8 + 22 + 10)) == C.PLATES["bright"]
     assert out.getpixel((8 + 64 + 8 + 10, 8 + 22 + 10)) == C.PLATES["dark"]
+
+
+def test_score_check_refuses_a_missing_or_changed_take_and_a_missing_cue(tmp_path):
+    from studio.news import score_check as SC
+    film = tmp_path / "ep"
+    (film / "score").mkdir(parents=True)
+    media = tmp_path / "media"
+    (media / "33/score").mkdir(parents=True)
+    take = {"media_dir": "D:/omnibus-media/33/score", "outputs": {"theme.wav": {"sha256": "1" * 64}, "credits.wav": {"sha256": "2" * 64}}}
+    (film / "score/score.take.json").write_text(json.dumps(take), encoding="utf-8")
+    play = {"parts": [{"cues": [{"id": "M1", "kind": "music", "wav": "D:/omnibus-media/33/score/theme.wav"},
+                                {"id": "M2", "kind": "music", "wav": "D:/omnibus-media/33/studio/score/bed.1.wav"}]}]}
+    (film / "screenplay.json").write_text(json.dumps(play), encoding="utf-8")
+    env = {"OMNIBUS_MEDIA_ROOT": media.as_posix()}
+    (media / "33/score/theme.wav").write_bytes(b"t")
+    fake = {"theme.wav": "1" * 64, "credits.wav": "9" * 64}
+    res = SC.check(film, env=env, sha=lambda p: fake[p.name])
+    assert not res["ok"]
+    assert any("credits.wav: missing" in p for p in res["problems"])
+    assert any("music cue M2" in p for p in res["problems"])
+    (media / "33/score/credits.wav").write_bytes(b"c")
+    res = SC.check(film, env=env, sha=lambda p: fake[p.name])
+    assert any("credits.wav: sha256 999999999999 is not the take's 222222222222" in p for p in res["problems"])
+    fake["credits.wav"] = "2" * 64
+    (media / "33/studio/score").mkdir(parents=True)
+    (media / "33/studio/score/bed.1.wav").write_bytes(b"b")
+    assert SC.check(film, env=env, sha=lambda p: fake[p.name])["ok"]
+
+
+def test_week_33_score_take_records_a_sha256_for_every_output():
+    take = json.loads((ROOT / "episodes/33/score/score.take.json").read_text(encoding="utf-8"))
+    names = set(take["outputs"])
+    assert {"theme.wav", "credits.wav", "echo-bed-150.wav", "echo-bed-150.mix.wav", "sting.wav"} <= names
+    assert all(len(r["sha256"]) == 64 for r in take["outputs"].values())
+    assert take["outputs"]["theme.wav"]["sha256"].startswith("0d3e2fc3")
+
+
+def test_the_journal_check_requires_the_silence_rules_to_have_run_and_passed():
+    from studio.news import score_check as SC
+    ok = [{"kind": "lint", "rule": "no-music-under-quote", "status": "pass", "severity": "block"},
+          {"kind": "lint", "rule": "no-music-under-news", "status": "pass", "severity": "block"},
+          {"kind": "lint", "rule": "duck-slope", "status": "fail", "severity": "warn"}]
+    assert SC.journal_check(ok)["ok"]
+    assert not SC.journal_check(ok[1:])["ok"]                                          # never ran
+    bad = [dict(ok[0], status="fail")] + ok[1:]
+    assert "no-music-under-quote failed" in SC.journal_check(bad)["problems"]
+    assert not SC.journal_check(ok + [{"kind": "lint", "rule": "silence-rests", "status": "fail", "severity": "block"}])["ok"]
