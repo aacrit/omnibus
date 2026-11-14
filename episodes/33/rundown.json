@@ -1721,7 +1721,7 @@
       "disclosures": [
         "void news ratings are shown as printed: each outlet's rung on void news's seven-rung ladder (since 2026-11-04), read from data/sources.json at the pin; void news placed them, this programme did not",
         "board rows come only from the claim's own records; the 2 Nov election-eve record is context",
-        "the claim's counts include 2ec1fcb8's untitled printed members published on 3 Nov, before the 4 Nov print (ledger [23] The National, ledger [24] Raw Story): void news printed them in the claim's cluster; they carry no headline, so they count as outlets and never as board rows",
+        "the claim's counts include two untitled printed members of its cluster, The National and Raw Story, published on 3 Nov, before the 4 Nov print: void news printed them in the claim's cluster; they carry no headline, so they count as outlets and never as board rows",
         "the Weight's test card and count cards measure the claim (76 outlets, 11 unplaced); the pooled lead record, context included, is 86 outlets and 71 titled headlines of 114 articles",
         "board pick rule: tier, then article count, then name; no reach figure is claimed",
         "untitled occupied rung: far-left (Tehran Times)",

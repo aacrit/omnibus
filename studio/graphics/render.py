@@ -43,7 +43,8 @@ PLACEHOLDERS = {k: f"@@{k.upper()}@@" for k in STYLESHEETS}
 sys.path.insert(0, str(ROOT))
 
 from studio.graphics import (  # noqa: E402
-    clean, compose, countsmatch, data, encode, expected, fixtures, framesheet, layout, ledger, motion, shoot, typeset,
+    clean, compose, contrast, countsmatch, data, encode, expected, fixtures, framesheet, layout, ledger, motion, shoot,
+    typeset,
 )
 
 FPS = motion.FPS
@@ -88,6 +89,7 @@ class Run:
 
     def session(self, template: str, *, where: str, transparent: bool = False, **kw):
         clean.assert_clean(template, where=where)
+        clean.assert_no_internal_ids(template, where=where)
         return shoot.session_html(self.browser, inject(template), transparent=transparent, **kw)
 
     def emit(self, gid: str, subtype: str, data_ref: str, template: str, frames, *, extra: dict | None = None):
@@ -195,12 +197,19 @@ def render_week33(out_dir: Path, *, release: str, release_nominal: bool) -> list
                         label = shot.text(".lt-dot-label")
                         if label != " · ".join(lt.dot_labels):
                             raise ValueError(f"{lt.id}: dot label {label!r}")
+                        styles = shot.evaluate("""() => { const cs = getComputedStyle(document.querySelector('.lt-dot-label'));
+                            return [cs.color, cs.backgroundColor]; }""")
+                        dot_contrast = contrast.label_contrast(*styles)
+                        if not dot_contrast["ok"]:
+                            raise ValueError(f"{lt.id}: dot label contrast {dot_contrast['by_plate']} is under "
+                                             f"{contrast.AA}:1 over the bright or the dark plate")
                         static = compose.load_rgba(shot.screenshot())
                         break
             frames = (f for seq in (compose.wipe_frames(static, box), compose.step_frames(static, frames_for(3.5)))
                       for f in seq)
             run.emit(lt.id, "lower-third", f"rundown:the-echo.beats[{lt.id[3:]}]; echo-pick", t, frames,
-                     extra={"dot_labels": list(lt.dot_labels), "wipe_box": list(box), "compact": compact})
+                     extra={"dot_labels": list(lt.dot_labels), "wipe_box": list(box), "compact": compact,
+                            "dot_label_contrast": dot_contrast["by_plate"]})
 
         # ---- count cards ---------------------------------------------------
         weight_date = data.as_of_line(week["as_of"])
@@ -352,7 +361,7 @@ def render_regression32(out_dir: Path) -> dict:
     return results
 
 
-def render_framesheet(ledger_path: Path, out_dir: Path, *, per_page: int = 5) -> list[Path]:
+def render_framesheet(ledger_path: Path, out_dir: Path, *, per_page: int = 3) -> list[Path]:
     import tempfile
     from PIL import Image
     entries = ledger.read_ledger(ledger_path)
@@ -371,7 +380,7 @@ def render_framesheet(ledger_path: Path, out_dir: Path, *, per_page: int = 5) ->
     pages = []
     for p in range(0, len(rows), per_page):
         path = out_dir / f"frame-sheet-{p // per_page + 1:02d}.png"
-        framesheet.sheet(rows[p:p + per_page]).save(path)
+        framesheet.sheet(rows[p:p + per_page], plates=contrast.PLATES).save(path)
         pages.append(path)
     return pages
 

@@ -1,0 +1,7 @@
+# The narrator's text-to-speech runtime (Kokoro, studio/kokoro.lock.json "runtime"), in its own interpreter
+# (narrator.py DOCUMENT_KOKORO_PYTHON): kokoro-onnx needs numpy 2 on its own terms, so it never shares the studio venv.
+# The ranges are the lock's own; the resolved versions are part of every take's cache key (narrator.take_key) and
+# are recorded by the worker's probe, so a take made under other versions is never mistaken for this one.
+#   python -m venv <dir> && <dir>/bin/python -m pip install -r studio/requirements-tts.txt
+kokoro-onnx==0.6.1
+onnxruntime>=1.20.1,<2

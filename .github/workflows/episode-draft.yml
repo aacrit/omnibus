@@ -1,0 +1,360 @@
+name: episode-draft
+run-name: episode draft, issue ${{ inputs.issue }}${{ inputs.until != '' && format(' (a {0} s slice)', inputs.until) || '' }}
+
+# C8 (founder ruling 2026-11-13): the CPU-heavy half of an episode runs here, never on the laptop (two crashes that
+# day under CPU load with the GPU off). GPU work stays on the laptop: the loom/Resolve build and the Qwen vision pass.
+#
+# Jobs: `route` pins the commit and decides where anything may go; `graphics` (headless Chromium, no GPU),
+# `narration` (Kokoro on CPU) and `sources` (each rights-ledger item from its own origin, checked against its
+# sha256) run at once on three runners; `render` needs all three, remakes the studio items, renders the engine's
+# draft and publishes the outputs. The publish is the render job's last steps, not a job of its own, so the
+# master, layers and stems (GBs) are not carried to a fourth runner and back.
+#
+# Rights. A workflow artifact on this public repo is public, the stage hand-offs included. So every artifact (the
+# hand-offs, 1 day; the outputs, 3 days) is allowed only when every rights-ledger item is public domain, CC or our
+# own property (scripts/lib/draft-outputs.mjs); otherwise the run refuses in `route`, before any stage work. The
+# private R2 route is off (CoS decision 2026-11-13: its cap could be passed by the three stage jobs uploading at
+# once, and it never ran); scripts/ci/r2.sh stays, unreachable, for docs/tickets/C9-r2-route.md. The laptop pulls
+# the outputs with `node scripts/pull-render.mjs <issue>`, which checks every sha256. Media never enter git.
+#
+# Every run step is bash with -eo pipefail (defaults below): a failing command inside a pipe fails its step.
+#
+# Rule 10 (Agentique CLAUDE.md) declaration:
+#   owner: Forge (omnibus)
+#   kill_after_idle_days: 30
+#   heartbeat_url: n/a (not declared): dispatched by hand per episode, with no schedule; a failed run shows red in
+#     the run list, and scripts/pull-render.mjs takes only a successful one.
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "weekly issue number (episodes/<issue>)"
+        required: true
+        type: string
+      ref:
+        description: "the branch, tag or commit to render (empty: the branch this runs on)"
+        required: false
+        type: string
+        default: ""
+      until:
+        description: "a check slice: only the shots that start before this many seconds (empty: the whole film, with layers)"
+        required: false
+        type: string
+        default: ""
+      res:
+        description: "draft height"
+        required: false
+        type: choice
+        options: ["720", "1080"]
+        default: "720"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: episode-draft
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  ISSUE: ${{ inputs.issue }}
+  OMNIBUS_MEDIA_ROOT: /home/runner/omnibus-media
+  OMNIBUS_CHROMIUM_ARGS: --disable-gpu
+  METER: /home/runner/meter.log
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      sha: ${{ steps.pin.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - name: pin the commit, check the inputs
+        id: pin
+        env:
+          UNTIL: ${{ inputs.until }}
+        run: |
+          if ! printf '%s' "$ISSUE" | grep -qE '^[0-9]{1,4}$'; then echo "not an issue number: $ISSUE"; exit 2; fi
+          if [ -n "$UNTIL" ] && ! printf '%s' "$UNTIL" | grep -qE '^[0-9]+(\.[0-9]+)?$'; then echo "until is seconds: $UNTIL"; exit 2; fi
+          test -f "episodes/$ISSUE/screenplay.json"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "rendering $(git rev-parse HEAD) ($(git log -1 --format=%s))"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      # Before any runner renders anything: where the hand-offs and outputs may go.
+      - name: output route
+        id: route
+        run: node scripts/episode-draft.mjs route "$ISSUE"
+  graphics:
+    needs: route
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.route.outputs.sha }}
+      - run: bash scripts/ci/meter.sh start setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install (ffmpeg, npm fonts, studio, Playwright Chromium)
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+          npm ci
+          python -m pip install -r studio/requirements-draft.txt
+          python -m playwright install --with-deps chromium
+      # The fresh ledger must carry the committed one's content: the same rows, templates and frame counts, with
+      # geometry within the tolerance verify.py states. Bytes may differ (Chromium and ffmpeg on Linux). Content drift
+      # fails the step; the run's ledger is still uploaded below, for a local commit once the change is intended.
+      - name: render the broadcast graphics, compare the ledger
+        run: |
+          bash scripts/ci/meter.sh mark graphics
+          led="episodes/$ISSUE/graphics-ledger.json"
+          out=/home/runner/stage/graphics
+          mkdir -p "$out/reports"
+          cp "$led" /home/runner/graphics-ledger.committed.json
+          rel=$(python -m studio.graphics.verify release /home/runner/graphics-ledger.committed.json)
+          # shellcheck disable=SC2086
+          python -m studio.graphics.render "week$ISSUE" --out "$out/media" $rel
+          cp "$led" "$out/graphics-ledger.json"
+          python -m studio.graphics.verify compare /home/runner/graphics-ledger.committed.json "$led" \
+            --report "$out/reports/graphics-compare.json"
+          du -sh "$out"
+      - name: the graphics ledger (for a local commit)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphics-ledger-${{ env.ISSUE }}
+          path: |
+            /home/runner/stage/graphics/graphics-ledger.json
+            /home/runner/stage/graphics/reports/graphics-compare.json
+          retention-days: 14
+          if-no-files-found: warn
+      # Brand lens: the first, middle and last frame of every ledgered graphic, sheeted (studio/graphics/framesheet.py).
+      - name: frame sheet
+        run: python -m studio.graphics.render framesheet --out /home/runner/framesheet
+      - name: frame sheet (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: graphics-framesheet-${{ env.ISSUE }}
+          path: /home/runner/framesheet
+          retention-days: 14
+          if-no-files-found: error
+      - name: hand-off (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-graphics-${{ env.ISSUE }}
+          path: /home/runner/stage/graphics
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+      - name: meter
+        if: always()
+        run: bash scripts/ci/meter.sh report graphics
+
+  narration:
+    needs: route
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCUMENT_KOKORO_DIR: /home/runner/kokoro
+      DOCUMENT_KOKORO_PYTHON: /home/runner/tts/bin/python
+      DOCUMENT_VOICE_CACHE: /home/runner/voice-cache
+      DOCUMENT_HEAVY_LOCK: /home/runner/HEAVY.lock
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.route.outputs.sha }}
+      - run: bash scripts/ci/meter.sh start setup
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install (studio, Kokoro venv)
+        run: |
+          python -m pip install -r studio/requirements-studio.txt
+          python -m venv /home/runner/tts
+          /home/runner/tts/bin/python -m pip install -r studio/requirements-tts.txt
+          mkdir -p /home/runner/stage/narration/reports
+          { python --version; /home/runner/tts/bin/python -m pip freeze; } | tee /home/runner/stage/narration/reports/tts-runtime.txt
+      - name: Kokoro model cache
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/kokoro
+          key: kokoro-${{ hashFiles('studio/kokoro.lock.json') }}
+      - name: Kokoro model (pinned, checked against studio/kokoro.lock.json)
+        run: python -m studio.engine.narrator fetch
+      # onnxruntime on Linux may voice a take with other bytes than the laptop's: this job writes its own voice.json,
+      # and the render uses this run's takes and manifest together, never mixed with the laptop's. The committed
+      # manifest is removed first, so a voicing that fails can never hand the laptop's manifest on as this run's.
+      - name: voice every narration and reader line
+        run: bash scripts/ci/narration.sh
+      - name: hand-off (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-narration-${{ env.ISSUE }}
+          path: /home/runner/stage/narration
+          retention-days: 1
+          if-no-files-found: error
+      - name: meter
+        if: always()
+        run: bash scripts/ci/meter.sh report narration
+
+  sources:
+    needs: route
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.route.outputs.sha }}
+      - run: bash scripts/ci/meter.sh start setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      # Our own property (void news's page captures) is never recaptured: rights fix 4's asset-sha airs only the
+      # bytes the ledger checked, which another machine's Chromium cannot reproduce. Those files come unchanged from
+      # the issue's own-pages-<issue> prerelease (the laptop's captures, named by their ledger file). Every other
+      # item is downloaded from the ledger's media_url with the honest User-Agent. Each file is checked against its
+      # ledger sha256; a missing or mismatched one is refused and reported, never replaced or worked around, and a
+      # mismatched download is discarded at once (pull.mjs), so no hand-off carries it.
+      - name: place our own pages from their release, fetch every other item from its origin
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash scripts/ci/meter.sh mark sources
+          out=/home/runner/stage/sources
+          mkdir -p "$out/reports" "$out/media/$ISSUE"
+          mapfile -t own < <(node scripts/episode-draft.mjs own-files "$ISSUE")
+          if [ "${#own[@]}" -gt 0 ]; then
+            pats=(); for f in "${own[@]}"; do pats+=(--pattern "$f"); done
+            gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"
+          fi
+          node scripts/rights.mjs fetch "$ISSUE" --media "$out/media" --from-ledger --report "$out/reports/sources.json"
+          node scripts/episode-draft.mjs unusable "$out/reports/sources.json" --issue "$ISSUE"
+          du -sh "$out"
+      - name: hand-off (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-sources-${{ env.ISSUE }}
+          path: /home/runner/stage/sources
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+      - name: meter
+        if: always()
+        run: bash scripts/ci/meter.sh report sources
+
+  render:
+    needs: [route, graphics, narration, sources]
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    env:
+      UNTIL: ${{ inputs.until }}
+      RES: ${{ inputs.res || '720' }}
+      DOCUMENT_JOURNAL_DIR: /home/runner/journal
+      DOCUMENT_TIMINGS: /home/runner/journal/timings.jsonl
+      OUT: /home/runner/render-out
+      PKG: /home/runner/outputs
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.route.outputs.sha }}
+      - run: bash scripts/ci/meter.sh start setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install (ffmpeg, npm fonts, studio, PyMuPDF)
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+          npm ci
+          python -m pip install -r studio/requirements-studio.txt pymupdf==1.28.2
+      - name: hand-offs (artifact)
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage-*-${{ env.ISSUE }}
+          path: /home/runner/stage-dl
+      # Each stage's files where the screenplay's (remapped) media roots name them, and this run's graphics ledger and
+      # voicing manifest in the checkout (never committed).
+      - name: lay out the media
+        run: |
+          bash scripts/ci/meter.sh mark layout
+          dl=/home/runner/stage-dl; m="$OMNIBUS_MEDIA_ROOT/$ISSUE"
+          mkdir -p "$m" "$PKG/reports" "$DOCUMENT_JOURNAL_DIR" "episodes/$ISSUE/audio"
+          mv "$dl/stage-graphics-$ISSUE/media" "$m/graphics"
+          mv "$dl/stage-narration-$ISSUE/media" "$m/voice"
+          mv "$dl/stage-sources-$ISSUE/media" "$m/media"
+          cp "$dl/stage-graphics-$ISSUE/graphics-ledger.json" "episodes/$ISSUE/graphics-ledger.json"
+          cp "$dl/stage-narration-$ISSUE/voice.json" "episodes/$ISSUE/audio/voice.json"
+          for s in graphics narration sources; do cp -r "$dl/stage-$s-$ISSUE/reports/." "$PKG/reports/"; done
+          cp "episodes/$ISSUE/graphics-ledger.json" "$PKG/graphics-ledger.json"
+          cp "episodes/$ISSUE/audio/voice.json" "$PKG/voice.json"
+          node scripts/episode-draft.mjs unusable "$PKG/reports/sources.json" --issue "$ISSUE"
+          du -sh "$m"/*
+      # The laptop's finished score (E8), unchanged, from the own-score-<issue> prerelease into the media root's score/
+      # folder, where the screenplay's music cues name it. Never re-composed here; a missing or changed file fails the
+      # run (score_check below), so the draft never falls back to a silent score.
+      - name: the finished score (own-score release)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$OMNIBUS_MEDIA_ROOT/$ISSUE/score"
+          gh release download "own-score-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$OMNIBUS_MEDIA_ROOT/$ISSUE/score" --pattern '*.wav'
+      - name: the score matches score.take.json (each file and its decoded samples)
+        run: python -m studio.news.score_check "episodes/$ISSUE" --takes-only --report "$PKG/reports/score-takes.json"
+      - name: studio items (typeset pages, the PDF page, the joined board, the title's first frame, the Echo bed's spans)
+        run: python -m studio.news.studio_items "episodes/$ISSUE" --report "$PKG/reports/studio-items.json"
+      - name: every music cue is on disk, and every score-folder cue is a hashed take
+        run: python -m studio.news.score_check "episodes/$ISSUE" --report "$PKG/reports/score.json"
+      - name: draft render
+        run: |
+          bash scripts/ci/meter.sh mark render
+          args="--draft --fit-voices --stems --res $RES --workers 4 --out $OUT"
+          if [ -n "$UNTIL" ]; then args="$args --until $UNTIL"; else args="$args --layers"; fi
+          # shellcheck disable=SC2086
+          python -m studio.engine.render "episodes/$ISSUE" $args
+          # the founder's silence rules ran and passed in this render: no music under any quote or news line
+          journal=$(ls -t "$DOCUMENT_JOURNAL_DIR"/r-*.jsonl | head -1)
+          python -m studio.news.score_check --journal "$journal"
+          du -sh "$OUT"
+          df -h /
+      - name: package the outputs
+        run: |
+          bash scripts/ci/meter.sh mark publish
+          # The package root is the render folder itself: pull-render lands it at <root>/<issue>/render, so the master
+          # is render/master.mp4 (never render/render/). The engine's intermediates (segments, work) stay behind.
+          mkdir -p "$PKG/graphics" "$PKG/voice" "$PKG/journal"
+          rsync -a --exclude segments --exclude work "$OUT"/ "$PKG/"
+          cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/graphics/"*.mov "$PKG/graphics/"
+          cp "$OMNIBUS_MEDIA_ROOT/$ISSUE/voice/"*.wav "$PKG/voice/"
+          cp -r "$DOCUMENT_JOURNAL_DIR"/. "$PKG/journal/"
+          node scripts/episode-draft.mjs manifest "$PKG" --issue "$ISSUE" --run "${{ github.run_id }}" \
+            --sha "${{ needs.route.outputs.sha }}" --ref "${{ inputs.ref || github.ref_name }}" --until "$UNTIL" --res "$RES" \
+            --sources "$PKG/reports/sources.json"
+          du -sh "$PKG"
+      - name: publish (a workflow artifact, public, so every ledger item is PD, CC or our own)
+        uses: actions/upload-artifact@v4
+        with:
+          name: episode-draft-${{ env.ISSUE }}
+          path: /home/runner/outputs
+          retention-days: 3
+          compression-level: 0
+          if-no-files-found: error
+      - name: meter
+        if: always()
+        run: bash scripts/ci/meter.sh report render

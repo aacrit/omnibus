@@ -1,6 +1,8 @@
 """Frame sheets: the first, middle and last frame of every rendered layer,
 each composited over a checkerboard so transparency shows (an overlay's
-empty frame reads as checker, not as black). Pure PIL; the frames
+empty frame reads as checker, not as black), or, with ``plates``, over
+each plate in turn (the release sheet: a bright and a dark plate, so an
+alpha graphic's text is seen at its worst over both; contrast.PLATES). Pure PIL; the frames
 themselves are decoded from the encoded .mov files by `encode.extract_frame`
 in `render.py`, so the sheet shows what was actually written.
 """
@@ -27,10 +29,23 @@ def over_checker(frame: Image.Image, *, cell: int = 24) -> Image.Image:
     return bg.convert("RGB")
 
 
+def over_plate(frame: Image.Image, rgb: tuple[int, int, int]) -> Image.Image:
+    bg = Image.new("RGBA", frame.size, (*rgb, 255))
+    bg.alpha_composite(frame.convert("RGBA"))
+    return bg.convert("RGB")
+
+
 def sheet(rows: list[tuple[str, list[tuple[str, Image.Image]]]], *, thumb: tuple[int, int] = (640, 360),
-          label_h: int = 22, gap: int = 8) -> Image.Image:
+          label_h: int = 22, gap: int = 8, plates: dict[str, tuple[int, int, int]] | None = None) -> Image.Image:
     """`rows`: (layer name, [(frame caption, RGBA frame), ...]). Each frame
-    is put over a checker at full size, then scaled to `thumb`."""
+    is put over a checker at full size (or over each of `plates`, one thumb
+    per plate), then scaled to `thumb`."""
+    def views(caption, frame):
+        if not plates:
+            return [(caption, over_checker(frame))]
+        return [(f"{caption}, {name} plate", over_plate(frame, rgb)) for name, rgb in plates.items()]
+
+    rows = [(name, [v for caption, frame in frames for v in views(caption, frame)]) for name, frames in rows]
     cols = max(len(frames) for _, frames in rows)
     tw, th = thumb
     w = cols * tw + (cols + 1) * gap
@@ -40,9 +55,9 @@ def sheet(rows: list[tuple[str, list[tuple[str, Image.Image]]]], *, thumb: tuple
     y = gap
     for name, frames in rows:
         draw.text((gap, y + 4), name, fill=(240, 240, 240))
-        for c, (caption, frame) in enumerate(frames):
+        for c, (caption, flat) in enumerate(frames):
             x = gap + c * (tw + gap)
-            out.paste(over_checker(frame).resize(thumb, Image.LANCZOS), (x, y + label_h))
+            out.paste(flat.resize(thumb, Image.LANCZOS), (x, y + label_h))
             draw.text((x, y + label_h + th + 4), caption, fill=(220, 220, 220))
         y += th + label_h * 2 + gap
     return out

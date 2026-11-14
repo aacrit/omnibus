@@ -38,6 +38,14 @@ quotas:
     estimate_at_1000_users_per_day: 1
     notes: "Account-wide (the document product's document-media holds about 0.9 GB). This product's bucket `omnibus` holds the daily snapshots of void news's printed day: about 2.5 MB a day, about 0.9 GB a year, independent of visitors. R2 bills past its free tier, so sizes are capped in code: 2 MiB a file and 8 MiB a day (scripts/lib/snapshot.mjs LIMITS, under 3 GB a year at the cap), and the uploader refuses to grow the bucket past 3 GiB (scripts/lib/snapshot-store.mjs BUCKET_CAP_BYTES), 30% of the account's 10 GB. tests/snapshot.test.ts checks both against this row. Episode media will add its own line when the player ships."
 
+  - name: r2_draft_render_gb
+    ceiling: 10
+    estimate_at_1000_users_per_day: 1
+    cap_gib: 1
+    bucket: omnibus-capture
+    prefix: render/
+    notes: "A planned share, not enforced: the Actions draft render's R2 route is off (CoS decision 2026-11-13, docs/DECISIONS.md C8), so episode-draft.yml writes nothing to R2 today and its files go to short-lived workflow artifacts. When docs/tickets/C9-r2-route.md turns the route on, it gets an enforced cap: one writer, or per-stage shares of cap_gib, against sizes listed from the bucket. Account worst case with the other shares: 3 GiB snapshots + 1.5 GiB capture + 1 GiB render + 0.9 GB document = 6.8 GB, under the 7 GB alert. A whole film with --layers, or the 2.5 GiB slice, is far over 1 GiB, so C9 also has to decide what goes to R2 at all."
+
   - name: r2_class_a_ops_per_month
     ceiling: 1000000
     estimate_at_1000_users_per_day: 2200
@@ -50,5 +58,6 @@ quotas:
 
   - name: github_actions_minutes_per_month
     ceiling: 2000
-    estimate_at_1000_users_per_day: 240
-    notes: "gate on every PR/push, verify-production every 6 hours, weekly branch-prune, and the snapshot twice a day (about 3 minutes a run, about 180 minutes a month). Public repos are not billed for minutes; the figure is kept as the check."
+    estimate_at_1000_users_per_day: 480
+    notes: "gate on every PR/push, verify-production every 6 hours, weekly branch-prune, and the snapshot twice a day (about 3 minutes a run, about 180 minutes a month). episode-draft (C8) is dispatched by hand, at most a few runs a week: a 120 s slice measured 23 runner-minutes across its five jobs (route, graphics 10, narration 3, sources 2, render 8; 18 min wall), and a whole film is estimated at about 60 runner-minutes, so 4 drafts a month add about 240. Public repos are not billed for minutes; the figure is kept as the check."
+    episode_draft_minutes_per_run: 60
