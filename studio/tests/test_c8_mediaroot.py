@@ -99,3 +99,56 @@ def test_the_committed_credits_row_is_the_browser_free_template_build():
     row = next(r for r in load(ep / "graphics-ledger.json") if r["id"] == "credits")
     assert row["lines"] == len(spec.lines)
     assert row["source_template_sha256"] == GL.sha256_text(TY.credits_html(spec, **PLACEHOLDERS))
+
+
+def test_graphics_verify_main_exits_1_on_a_drifted_ledger(tmp_path):
+    from studio.graphics import verify as GV
+    committed = json.loads((ROOT / "episodes/33/graphics-ledger.json").read_text(encoding="utf-8"))
+    drifted = [dict(r, frames=r["frames"] + 1) if r["id"] == "credits" else r for r in committed]
+    a, b = tmp_path / "committed.json", tmp_path / "fresh.json"
+    a.write_text(json.dumps(committed), encoding="utf-8")
+    b.write_text(json.dumps(drifted), encoding="utf-8")
+    report = tmp_path / "report.json"
+    assert GV.main(["compare", str(a), str(b), "--report", str(report)]) == 1
+    assert not json.loads(report.read_text(encoding="utf-8"))["ok"]
+    assert GV.main(["compare", str(a), str(a)]) == 0
+
+
+def test_no_internal_id_reaches_on_screen_graphic_text():
+    from studio.graphics import clean as CL, data as GD, typeset as TY
+    from studio.graphics.render import PLACEHOLDERS
+    bad = "<style>.x{color:var(--o-ink)}</style><p>the claim's counts include 2ec1fcb8's members (ledger [23] The National)</p>"
+    found = CL.find_internal_ids(bad)
+    assert "hex id: 2ec1fcb8" in found and "ledger index: ledger [23]" in found
+    assert CL.find_internal_ids('<p data-k="2ec1fcb8">20261104 · ARMORY · DEADBEEF</p>') == []   # attrs, dates, words
+    ep = ROOT / "episodes/33"
+    load = lambda p: json.loads(p.read_text(encoding="utf-8"))  # noqa: E731
+    spec = GD.credits_spec(load(ep / "rundown.json"), load(ep / "rights-ledger.json"), load(ROOT / "data/week-33.json"))
+    CL.assert_no_internal_ids(TY.credits_html(spec, **PLACEHOLDERS), where="credits")
+    for lt in GD.lower_thirds(load(ep / "rundown.json"), load(ep / "echo-pick.json")):
+        CL.assert_no_internal_ids(TY.lower_third_html(lt, **PLACEHOLDERS), where=lt.id)
+
+
+def test_the_dot_label_is_readable_over_both_plates():
+    from studio.graphics import contrast as C
+    assert C.parse("rgb(184, 176, 165)") == (184.0, 176.0, 165.0, 1.0)
+    assert C.parse("rgba(28, 26, 23, 0.92)")[3] == 0.92
+    r, g, b, a = C.parse("oklab(0.2 0.003 0.01 / 0.92)")
+    assert a == 0.92 and 15 < r < 35
+    assert round(C.ratio((255, 255, 255), (0, 0, 0)), 1) == 21.0
+    # the old label: pale grey text on no plate fails over a bright picture
+    assert not C.label_contrast("rgb(184, 176, 165)", "rgba(0, 0, 0, 0)")["ok"]
+    # on its own bar plate (graphics.css: var(--color-bar), walnut at 0.92) it clears AA over both
+    ok = C.label_contrast("rgb(184, 176, 165)", "rgba(28, 26, 23, 0.92)")
+    assert ok["ok"] and ok["worst"] >= C.AA and set(ok["by_plate"]) == {"bright", "dark"}
+    css = (ROOT / "studio/graphics/graphics.css").read_text(encoding="utf-8")
+    assert ".lt-dot-label { background: var(--color-bar)" in css
+
+
+def test_the_frame_sheet_shows_each_frame_over_both_plates():
+    from PIL import Image
+    from studio.graphics import contrast as C, framesheet as FS
+    frame = Image.new("RGBA", (64, 36), (0, 0, 0, 0))
+    out = FS.sheet([("lt", [("first", frame)])], thumb=(64, 36), plates=C.PLATES)
+    assert out.getpixel((8 + 10, 8 + 22 + 10)) == C.PLATES["bright"]
+    assert out.getpixel((8 + 64 + 8 + 10, 8 + 22 + 10)) == C.PLATES["dark"]

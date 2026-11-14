@@ -2,12 +2,12 @@
 // The CI side of .github/workflows/episode-draft.yml (C8). Net-new.
 //
 //   node scripts/episode-draft.mjs route <issue>
-//       where the files may go (scripts/lib/draft-outputs.mjs): "r2" when the R2 secrets are set (HAS_R2=true)
-//       and budget.yaml carries its row, else "artifact" only when every rights-ledger item is PD, CC or our own
-//       property; otherwise exits 2 with the reason, before anything is rendered. Writes route=<r2|artifact> to
+//       where the files may go (scripts/lib/draft-outputs.mjs): "artifact", only when every rights-ledger item is
+//       PD, CC or our own property; otherwise exits 2 with the reason, before anything is rendered (the R2 route
+//       is off, docs/tickets/C9-r2-route.md). Writes route=<r2|artifact> to
 //       $GITHUB_OUTPUT when it is set.
 //   node scripts/episode-draft.mjs r2-cap <dir> --listed <bytes>
-//       exits 2 when <dir>'s bytes plus what the bucket's render/ prefix already lists exceed budget.yaml's cap.
+//       (unreachable while the R2 route is off, C9) exits 2 when <dir>'s bytes plus what render/ lists exceed the row.
 //   node scripts/episode-draft.mjs unusable <sources report.json>
 //       the ledger items the sources job could not use, one line each, also to $GITHUB_STEP_SUMMARY.
 //   node scripts/episode-draft.mjs manifest <dir> --issue <n> --sha <commit> [--run <id>] [--ref <ref>]
@@ -45,7 +45,7 @@ async function main(argv) {
   if (cmd === "route") {
     const issue = issueOf(arg);
     const ledger = JSON.parse(readFileSync(path.join(repoRoot, "episodes", String(issue), "rights-ledger.json"), "utf8"));
-    const r = outputsRoute({ ledger, hasR2: process.env.HAS_R2 === "true", budget: budget() });
+    const r = outputsRoute({ ledger });
     console.log(`episode-draft: ${r.message}`);
     if (r.refused) return 2;
     if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `route=${r.route}\n`);

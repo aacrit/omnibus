@@ -2,11 +2,10 @@
 // them, and the manifest that lets the laptop check what it pulls (scripts/pull-render.mjs). Pure, except the file
 // helpers at the end.
 //
-// The repo is public, so a workflow artifact is public too: anyone can download it. The artifact route is allowed
-// only when every item the episode's rights ledger holds is public domain, Creative Commons or our own property, all
-// of which anyone may already copy. Anything else needs the private R2 route, which is allowed only while budget.yaml
-// carries its row (r2_draft_render_gb) and only for a package that fits under that row's cap with everything the
-// bucket's render/ prefix already lists (R2 bills past its free tier). Otherwise the run refuses before it renders.
+// The repo is public, so a workflow artifact is public too: anyone can download it. The artifact route, the only
+// one on, is allowed only when every item the episode's rights ledger holds is public domain, Creative Commons or
+// our own property, all of which anyone may already copy; otherwise the run refuses before it renders. The private
+// R2 route is off (docs/tickets/C9-r2-route.md).
 // Net-new.
 
 import { createHash } from "node:crypto";
@@ -43,28 +42,25 @@ export function renderBudget(budget) {
 }
 
 /**
- * The route: "r2" when its secrets exist and budget.yaml carries its row, else "artifact" when every ledger item is
- * public, else refused with the reason. A ledger that fails its own schema, or holds no items, is refused first.
- * Returns { route, refused, message }.
+ * The route. Only "artifact" is reachable (CoS decision 2026-11-13, docs/DECISIONS.md C8): allowed when every
+ * ledger item is public domain, CC or our own property, else refused with the reason. A ledger that fails its own
+ * schema, or holds no items, is refused first. The R2 route (scripts/ci/r2.sh, r2CapProblem below) is off until
+ * docs/tickets/C9-r2-route.md is done: its cap could be passed by the three stage jobs uploading at once, and it
+ * has never run. Returns { route, refused, message }.
  */
-export function outputsRoute({ ledger, hasR2, budget }) {
+export function outputsRoute({ ledger }) {
   const refuse = (message) => ({ route: null, refused: true, message: `refused: ${message}` });
   const problems = validateLedger(ledger ?? {});
   if (problems.length) return refuse(`the rights ledger is invalid (${problems.slice(0, 3).join("; ")})`);
   if (!ledger.items?.length) return refuse("the rights ledger holds no items: there is nothing to render from");
-  if (hasR2) {
-    const row = renderBudget(budget);
-    if (!row) return refuse(`the R2 secrets are set but budget.yaml has no ${BUDGET_ROW} row with a cap_gib, so nothing bounds what this run would write to the bucket`);
-    return { route: "r2", refused: false, message: `the files go to R2 bucket ${BUCKET} (private), under ${row.cap_gib} GiB for render/ (budget.yaml ${BUDGET_ROW})` };
-  }
   const bad = notPublic(ledger);
   if (!bad.length) {
-    return { route: "artifact", refused: false, message: `no R2 secrets: every one of the ${ledger.items.length} ledger items is public domain, CC or our own property, so the files go to short-lived workflow artifacts (public on this public repo)` };
+    return { route: "artifact", refused: false, message: `every one of the ${ledger.items.length} ledger items is public domain, CC or our own property, so the files go to short-lived workflow artifacts (public on this public repo)` };
   }
-  return refuse(`no R2 secrets, and a workflow artifact on this public repo is public, but ${bad.length} ledger item(s) are not public domain, CC or our own property (${bad.map((b) => `${b.id}: ${b.licence}`).join(", ")}). Set R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY and R2_ACCOUNT_ID to render this episode on Actions.`);
+  return refuse(`a workflow artifact on this public repo is public, but ${bad.length} ledger item(s) are not public domain, CC or our own property (${bad.map((b) => `${b.id}: ${b.licence}`).join(", ")}). The private R2 route is off until docs/tickets/C9-r2-route.md is done, so this episode cannot be rendered on Actions yet.`);
 }
 
-/** Why `bytes` more may not go to the bucket's render/ prefix, which already lists `listed` bytes, or null. */
+/** Unreachable while the R2 route is off (C9): why `bytes` more may not go to the bucket's render/ prefix, which already lists `listed` bytes, or null. */
 export function r2CapProblem({ bytes, listed, budget }) {
   const row = renderBudget(budget);
   if (!row) return `budget.yaml has no ${BUDGET_ROW} row`;

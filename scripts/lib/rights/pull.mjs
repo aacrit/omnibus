@@ -7,7 +7,8 @@
 // record, and each file must hash to the sha256 it records.
 //
 // - A third-party file whose sha256 differs is never used: it is kept as
-//   <file>.mismatch for a person to look at, and reported.
+//   <file>.mismatch for a person to look at (discarded on GitHub Actions),
+//   and reported.
 // - A host that refuses the request (403, a bot challenge) is reported with
 //   its answer; it is never retried from elsewhere or worked around.
 // - void news's own pages are captures, not downloads (scripts/rights.mjs
@@ -26,7 +27,8 @@ export const OWN_ADAPTER = "voidnews";
 /** The outcomes a draft can render from (a recapture of our own page included). */
 export const USABLE = new Set(["ok", "present", "recaptured-differs"]);
 
-export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log = console.log }) {
+/** `discard`: delete a mismatched download instead of keeping it as <file>.mismatch (default on GitHub Actions, where no person looks at it and every artifact is public). */
+export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log = console.log, discard = process.env.GITHUB_ACTIONS === "true" }) {
   mkdirSync(mediaDir, { recursive: true });
   const report = [];
   for (const item of ledger.items ?? []) {
@@ -77,10 +79,16 @@ export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log
       continue;
     }
     if (got.sha256 !== item.sha256) {
+      const why = `downloaded ${got.bytes} bytes hash to ${got.sha256.slice(0, 12)}, not the ledger's ${item.sha256.slice(0, 12)}`;
+      if (discard) {
+        rmSync(dest, { force: true });
+        push("sha-mismatch", `${why}; discarded, never used`);
+        continue;
+      }
       const kept = `${dest}.mismatch`;
       rmSync(kept, { force: true });
       renameSync(dest, kept);
-      push("sha-mismatch", `downloaded ${got.bytes} bytes hash to ${got.sha256.slice(0, 12)}, not the ledger's ${item.sha256.slice(0, 12)}; kept as ${path.basename(kept)}, never used`);
+      push("sha-mismatch", `${why}; kept as ${path.basename(kept)}, never used`);
       continue;
     }
     push("ok", `${got.bytes} bytes`);

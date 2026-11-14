@@ -37,3 +37,58 @@ def assert_clean(source: str, *, where: str = "<layer>") -> None:
     found = find_forbidden_effects(source)
     if found:
         raise GraphicsNotClean(found, where)
+
+
+# ---- on-screen copy: no internal ids (C8 review) ------------------------------------------------------------------
+# A graphic's visible words never carry the pipeline's own keys: a cluster or commit hash (an 8-hex-digit token with
+# both a digit and a letter, e.g. 2ec1fcb8) or a ledger index ("ledger [23]"). Outlets and records are named in
+# plain words. Only the page's text is read: style and script bodies, tags and attributes are not on screen.
+
+from html.parser import HTMLParser  # noqa: E402
+
+INTERNAL_ID_PATTERNS = {
+    "hex id": re.compile(r"\b(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{8}\b", re.IGNORECASE),
+    "ledger index": re.compile(r"\bledger\s*\[\s*\d+\s*\]", re.IGNORECASE),
+}
+
+
+class _Text(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+        self._skip = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("style", "script"):
+            self._skip += 1
+
+    def handle_endtag(self, tag):
+        if tag in ("style", "script") and self._skip:
+            self._skip -= 1
+
+    def handle_data(self, data):
+        if not self._skip:
+            self.parts.append(data)
+
+
+def visible_text(source: str) -> str:
+    p = _Text()
+    p.feed(source)
+    p.close()
+    return " ".join(p.parts)
+
+
+def find_internal_ids(source: str) -> list[str]:
+    """Every internal id the page's visible text shows, as 'kind: token'."""
+    text = visible_text(source)
+    return [f"{name}: {m.group(0)}" for name, pat in INTERNAL_ID_PATTERNS.items() for m in pat.finditer(text)]
+
+
+class InternalIdOnScreen(Exception):
+    pass
+
+
+def assert_no_internal_ids(source: str, *, where: str = "<layer>") -> None:
+    found = find_internal_ids(source)
+    if found:
+        raise InternalIdOnScreen(f"{where}: internal id(s) in on-screen text: {', '.join(found)}")

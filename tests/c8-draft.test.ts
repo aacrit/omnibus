@@ -10,7 +10,7 @@ import { parse as parseYaml } from "yaml";
 import { pullLedger, summarise } from "../scripts/lib/rights/pull.mjs";
 import { Refused } from "../scripts/lib/rights/http.mjs";
 import {
-  BUCKET, BUDGET_ROW, MANIFEST_SCHEMA, buildManifest, manifestProblems, notPublic, outputsRoute, r2CapProblem, renderBudget,
+  BUCKET, MANIFEST_SCHEMA, buildManifest, manifestProblems, notPublic, outputsRoute, renderBudget,
   sha256File, statOrNull, verifyFiles,
 } from "../scripts/lib/draft-outputs.mjs";
 import { describe as describeRun, dirtyRefusal, localLedger, pickRun, sliceRefusal } from "../scripts/pull-render.mjs";
@@ -45,13 +45,23 @@ describe("rights fetch --from-ledger (pull.mjs)", () => {
   it("fetches each item from its own media_url and keeps only bytes that hash to the ledger", async () => {
     const dir = tmp();
     const http = fakeHttp({ "https://upload.wikimedia.org/a.webm": "a", "https://upload.wikimedia.org/b.webm": "not b", "https://upload.wikimedia.org/c.webm": null });
-    const report = await pullLedger({ ledger: { items: [item("a"), item("b"), item("c")] }, mediaDir: dir, http, log: () => {} });
+    const report = await pullLedger({ ledger: { items: [item("a"), item("b"), item("c")] }, mediaDir: dir, http, log: () => {}, discard: false });
     expect(report.map((r: any) => r.outcome)).toEqual(["ok", "sha-mismatch", "not-found"]);
     expect(report[0]).toMatchObject({ licence: "pd-us-federal", credit: "US Army" });
     expect(readFileSync(path.join(dir, "a.webm"), "utf8")).toBe("a");
     expect(existsSync(path.join(dir, "b.webm"))).toBe(false);
     expect(existsSync(path.join(dir, "b.webm.mismatch"))).toBe(true);
     expect(summarise(report).unusable).toEqual(["b", "c"]);
+  });
+
+  it("discards a mismatched download outright on Actions", async () => {
+    const dir = tmp();
+    const http = fakeHttp({ "https://upload.wikimedia.org/b.webm": "not b" });
+    const [r] = await pullLedger({ ledger: { items: [item("b")] }, mediaDir: dir, http, log: () => {}, discard: true });
+    expect(r.outcome).toBe("sha-mismatch");
+    expect(r.detail).toMatch(/discarded, never used/);
+    expect(existsSync(path.join(dir, "b.webm"))).toBe(false);
+    expect(existsSync(path.join(dir, "b.webm.mismatch"))).toBe(false);
   });
 
   it("reports a host's refusal and never retries it elsewhere", async () => {
@@ -82,45 +92,45 @@ describe("rights fetch --from-ledger (pull.mjs)", () => {
 });
 
 describe("output route (draft-outputs.mjs)", () => {
-  it("allows a public artifact only when every ledger item is PD, CC or our own", () => {
+  it("is the artifact route only, refused when any ledger item is not PD, CC or our own", () => {
     const ok = LEDGER33();
     expect(notPublic(ok)).toEqual([]); // issue 33 is public throughout: the pilot may use artifacts
-    expect(outputsRoute({ ledger: ok, hasR2: false, budget: BUDGET() }).route).toBe("artifact");
+    expect(outputsRoute({ ledger: ok }).route).toBe("artifact");
     for (const licence of ["editorial-use", "fair-use-excerpt", "eu-reuse-credit"]) {
       const l = LEDGER33();
       l.items[0].licence = licence;
-      const r = outputsRoute({ ledger: l, hasR2: false, budget: BUDGET() });
+      const r = outputsRoute({ ledger: l });
       expect(r.refused).toBe(true);
+      expect(r.route).toBe(null);                          // never R2: that route is off (C9)
       expect(r.message).toContain(`${l.items[0].id}: ${licence}`);
-      expect(outputsRoute({ ledger: l, hasR2: true, budget: BUDGET() }).route).toBe("r2");
+      expect(r.message).toContain("C9-r2-route");
     }
   });
 
   it("refuses an invalid or empty ledger before choosing a route", () => {
-    expect(outputsRoute({ ledger: { schema: "omnibus.rights-ledger/1", issue: 33 }, hasR2: false, budget: BUDGET() }).refused).toBe(true);
-    const r = outputsRoute({ ledger: { ...LEDGER33(), items: [] }, hasR2: true, budget: BUDGET() });
+    expect(outputsRoute({ ledger: { schema: "omnibus.rights-ledger/1", issue: 33 } }).refused).toBe(true);
+    const r = outputsRoute({ ledger: { ...LEDGER33(), items: [] } });
     expect(r.refused).toBe(true);
     expect(r.message).toMatch(/no items|invalid/);
   });
 
-  it("refuses R2 until budget.yaml carries the draft-render row", () => {
-    const r = outputsRoute({ ledger: LEDGER33(), hasR2: true, budget: { quotas: [] } });
-    expect(r.refused).toBe(true);
-    expect(r.message).toContain(BUDGET_ROW);
+  it("no workflow step reaches R2 while the route is off", () => {
+    const text = readFileSync(path.join(ROOT, ".github/workflows/episode-draft.yml"), "utf8");
+    const steps = JSON.stringify(parseYaml(text).jobs);
+    expect(steps).not.toMatch(/r2\.sh|secrets\.R2_|aws s3/);
+    expect(existsSync(path.join(ROOT, "scripts/ci/r2.sh"))).toBe(true);
+    expect(existsSync(path.join(ROOT, "docs/tickets/C9-r2-route.md"))).toBe(true);
   });
 
-  it("budget.yaml's draft-render row bounds R2, and the account's R2 shares stay under the alert", () => {
+  it("budget.yaml keeps the draft render's R2 share as planned, within the account's alert, and says it is not enforced", () => {
     const b = BUDGET();
     const row = renderBudget(b)!;
     expect(row.bucket).toBe(BUCKET);
-    expect(row.prefix).toBe("render/");
+    expect(row.notes).toMatch(/planned share/i);
+    expect(row.notes).toMatch(/off|not enforced/i);
     const account = b.quotas.find((q: any) => q.name === "r2_storage_gb")!;
     // snapshots (3 GiB, snapshot-store.mjs) + capture (1.5 GiB, the capture design) + this row + document (0.9 GB)
     expect((3 + 1.5 + row.cap_gib) * GiB + 0.9e9).toBeLessThanOrEqual(account.ceiling * b.alert_at * 1e9);
-    expect(r2CapProblem({ bytes: 0.5 * GiB, listed: 0.4 * GiB, budget: b })).toBe(null);
-    expect(r2CapProblem({ bytes: 0.7 * GiB, listed: 0.4 * GiB, budget: b })).toMatch(/over the 1 GiB cap/);
-    expect(r2CapProblem({ bytes: 1, listed: Number.NaN, budget: b })).toMatch(/byte counts/);
-    expect(r2CapProblem({ bytes: 1, listed: 0, budget: { quotas: [] } })).toMatch(/no r2_draft_render_gb/);
     const mins = b.quotas.find((q: any) => q.name === "github_actions_minutes_per_month")!;
     expect(mins.episode_draft_minutes_per_run).toBeGreaterThan(0);
     expect(mins.estimate_at_1000_users_per_day).toBeLessThanOrEqual(mins.ceiling * b.alert_at);

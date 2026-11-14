@@ -44,7 +44,7 @@ quotas:
     cap_gib: 1
     bucket: omnibus-capture
     prefix: render/
-    notes: "Account-wide R2 storage, the share the Actions draft render may hold (C8, .github/workflows/episode-draft.yml), used only when the R2 secrets are set. Independent of visitors. Every upload (each stage's hand-off and the published outputs, keyed render/<issue>/<run>/) is refused when its bytes plus what render/ already lists exceed cap_gib (scripts/lib/draft-outputs.mjs r2CapProblem); a run deletes its own stage/ hand-offs once it publishes, and any earlier run of the same issue before it uploads. Account worst case with the other shares: 3 GiB snapshots + 1.5 GiB capture + 1 GiB render + 0.9 GB document = 6.8 GB, under the 7 GB alert. A whole-film package with --layers (ProRes plates) is far over 1 GiB, so such a run goes by the artifact route (every item public) or is refused; the 120 s slice measured 2.5 GiB of outputs, also over. tests/c8-draft.test.ts checks the shares."
+    notes: "A planned share, not enforced: the Actions draft render's R2 route is off (CoS decision 2026-11-13, docs/DECISIONS.md C8), so episode-draft.yml writes nothing to R2 today and its files go to short-lived workflow artifacts. When docs/tickets/C9-r2-route.md turns the route on, it gets an enforced cap: one writer, or per-stage shares of cap_gib, against sizes listed from the bucket. Account worst case with the other shares: 3 GiB snapshots + 1.5 GiB capture + 1 GiB render + 0.9 GB document = 6.8 GB, under the 7 GB alert. A whole film with --layers, or the 2.5 GiB slice, is far over 1 GiB, so C9 also has to decide what goes to R2 at all."
 
   - name: r2_class_a_ops_per_month
     ceiling: 1000000
