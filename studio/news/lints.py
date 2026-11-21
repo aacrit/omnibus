@@ -680,7 +680,8 @@ def dot_label_checks(play: dict, assets: dict) -> list[dict]:
 
 FAIR_USE = "fair-use-excerpt"
 FAIR_USE_REFUSED = "fair-use-refused"
-_FAIR_USE_BASIS = re.compile(r"\bfair[\s-]use\b|17 U\.S\.C\.? (?:\u00a7 ?)?107\b", re.I)
+_FAIR_USE_BASIS = re.compile(r"\bfair[\s-]?(?:use|dealing)\b|\b17\s*U\.?S\.?C\.?\s*(?:\u00a7+|sec(?:tion|\.)?)?\s*107\b",
+                             re.I)
 
 
 def is_fair_use(item: dict | None) -> bool:
@@ -698,18 +699,29 @@ def fair_use_refused_checks(play: dict, assets: dict) -> list[dict]:
     for p, _seg in parts(play):
         for coll in ("shots", "text", "cues"):
             for x in p.get(coll) or []:
-                aid = x.get("asset") or x.get("clip")
-                if not aid:
+                aid = x.get("asset") or x.get("clip") or (x.get("source") if coll == "cues" else None)
+                if not isinstance(aid, str) or not aid:
                     continue
                 checked += 1
                 if is_fair_use(assets.get(aid)):
                     found.append(_check(FAIR_USE_REFUSED, False, unit=x.get("id"), evidence={
                         "part": p.get("id"), "asset": aid, "licence": assets[aid].get("licence"),
                         "why": "fair use is unavailable in v2 (bible n): replace the item with a cleared one"}))
+    shots = {s.get("id"): s for p in play.get("parts") or [] for s in p.get("shots") or []}
     for ln in (ln for p in play.get("parts") or [] for ln in p.get("lines") or []):
-        if ln.get("clip") and is_fair_use(assets.get(ln["clip"])):
-            found.append(_check(FAIR_USE_REFUSED, False, unit=ln.get("id"), evidence={
-                "asset": ln["clip"], "why": "fair use is unavailable in v2 (bible n)"}))
+        refs = [ln.get("clip"), ln.get("transcript_ref"), (shots.get(ln.get("shot_ref")) or {}).get("asset")]
+        for aid in dict.fromkeys(r for r in refs if isinstance(r, str) and r):
+            checked += 1
+            if is_fair_use(assets.get(aid)):
+                found.append(_check(FAIR_USE_REFUSED, False, unit=ln.get("id"), evidence={
+                    "asset": aid, "why": "fair use is unavailable in v2 (bible n)"}))
+    for c in play.get("music") or []:
+        aid = c.get("asset") or c.get("clip") or c.get("source")
+        if isinstance(aid, str) and aid:
+            checked += 1
+            if is_fair_use(assets.get(aid)):
+                found.append(_check(FAIR_USE_REFUSED, False, unit=c.get("id"), evidence={
+                    "asset": aid, "why": "fair use is unavailable in v2 (bible n)"}))
     return _summary(FAIR_USE_REFUSED, found, checked)
 
 
@@ -1388,6 +1400,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     """Every news check for an omnibus screenplay (none for another show): the schema's, then the bible's."""
     if not SC.is_news(play):
         return []
+    play = SC.settled(SC.news_play(play), film)     # the screenplay's own line kinds; its spine, judged once
     assets = assets or {}
     out = SC.checks(play, assets)
     problems = []

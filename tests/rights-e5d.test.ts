@@ -156,7 +156,12 @@ describe("fair use (show bible v2, section o): fair-use-refused replaces the fai
     expect(lintFairUseRefused(ledgerOf([{ ...fed, basis: "fair use (17 U.S.C. 107): an excerpt" }]))).toHaveLength(1);
     expect(lintFairUseRefused(ledgerOf([{ ...fed, basis: "a short excerpt under 17 U.S.C. § 107" }]))).toHaveLength(1);
     expect(lintFairUseRefused(ledgerOf([{ ...fed, fair_use: { beat: "lead" } }]))).toHaveLength(1);
-    expect(lintFairUseRefused(ledgerOf([{ ...fed, basis: "unfairly used elsewhere" }]))).toEqual([]);
+    for (const basis of ["17 USC 107", "17 U.S.C. sec. 107", "17 usc section 107", "fairuse", "fair dealing (UK)", "Fair-Use"]) {
+      expect(lintFairUseRefused(ledgerOf([{ ...fed, basis }])), basis).toHaveLength(1);
+    }
+    for (const basis of ["unfairly used elsewhere", "17 U.S.C. 1070", "a federal work (17 U.S.C. 105)"]) {
+      expect(lintFairUseRefused(ledgerOf([{ ...fed, basis }])), basis).toEqual([]);
+    }
   });
 
   it("refuses an agency clip under the fair-use class through the allowlist too", () => {

@@ -95,6 +95,66 @@ def test_the_v2_spine_constants_are_the_bibles():
     assert {"week", "weight", "margins", "question", "cold_open"} & set(SC.SEGMENTS) == set()
 
 
+FROZEN_SCREENPLAY_SHA256 = "420a6a49a038dcbc43a82635192db35eebd5d6870164bda6b34d419e90d07f85"
+
+
+def test_the_frozen_screenplay_is_never_edited():
+    """episodes/33/screenplay.json is a frozen regression fixture: any edit to it fails here (LF-normalised bytes)."""
+    import hashlib
+    raw = (ROOT / "episodes/33/screenplay.json").read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(raw).hexdigest() == FROZEN_SCREENPLAY_SHA256
+
+
+def test_the_v1_spine_is_bound_to_the_frozen_folder(tmp_path):
+    play = json.loads((ROOT / "episodes/33/screenplay.json").read_text(encoding="utf-8"))
+    assert SC.spine(play, ROOT / "episodes/33") is SC.V1
+    assert SC.spine(play, tmp_path / "33") is SC.V2                  # a copy elsewhere is a v2 screenplay
+    assert SC.spine(play, tmp_path / "episodes" / "34") is SC.V2
+    assert SC.spine(play, tmp_path / "episodes" / "33") is SC.V1     # the folder's own name, wherever the repo is
+    p, a, i = EP.episode()
+    bad = failing_rules(NL.checks(p, a, inputs=i, film=tmp_path / "elsewhere"))
+    assert {"segment-spine", "news-fields", "line-schema"} <= bad
+    assert failing_rules(NL.checks(p, a, inputs=i, film=tmp_path / "episodes" / "33")) == set()
+    assert SC.spine(SC.settled({"issue": 33}, tmp_path)) is SC.V2      # settled once: every lint reads that one
+
+
+def test_the_engine_reads_v2_lines_as_its_own_kinds_and_the_lints_as_written():
+    play, _, _ = EP2.episode()
+    eng = SC.engine_play(play)
+    kinds = {ln["id"]: ln["kind"] for p in eng["parts"] for ln in p.get("lines") or []}
+    assert kinds["L-lead"] == "narration" and kinds["L-signoff"] == "narration" and kinds["R1"] == "testimony"
+    assert kinds["L-SOT"] == "testimony"
+    assert line_kinds(play) != kinds                                   # the caller's play is untouched
+    assert SC.news_play(eng) == play                                   # and the lints see the screenplay's own
+    _, assets, inputs = EP2.episode()
+    assert failing_rules(NL.checks(eng, assets, inputs=inputs)) == set()   # a mapped play lints as the original
+
+
+def line_kinds(play):
+    return {ln["id"]: ln["kind"] for p in play["parts"] for ln in p.get("lines") or []}
+
+
+def test_a_v2_vo_line_over_a_card_is_voice_over_black():
+    """The review's block: VOICE_KINDS is the engine's (narration, testimony), so a v2 vo line reaches
+    voice-over-black only through engine_play, which build_plan applies to every news show."""
+    from studio.engine import journal as J
+    from studio.engine import render as R
+    fps = 30.0
+    shots = [{"id": "C1", "kind": "card", "f0": 0, "f1": int(4 * fps), "transition_in": {"type": "cut"}}]
+    vo = {"id": "L1", "kind": "vo", "start_s": 1.0, "archival_audio": True, "clip": "x", "in_s": 0.0, "out_s": 1.0}
+    play = {"parts": [{"id": "p", "lines": [vo]}]}
+    raw = {"shots": shots, "lines": [vo], "film": ".", "fps": fps}
+    assert R.voice_over_black_lints(J.Journal(film="vob-v2-raw"), raw) == []       # the gap the mapping closes
+    mapped = dict(raw, lines=SC.engine_play(play)["parts"][0]["lines"])
+    out = R.voice_over_black_lints(J.Journal(film="vob-v2"), mapped)
+    assert out and out[0].startswith("voice-over-black (C1") and "L1" in out[0]
+    with pytest.raises(R.Refused, match="voice-over-black"):
+        if out:
+            raise R.Refused("; ".join(out))
+    from studio.news import voicing_manifest as NVO
+    assert [ln["id"] for ln in NVO.voiced_lines({"parts": [{"lines": [dict(vo, archival_audio=False)]}]})] == ["L1"]
+
+
 def test_only_the_frozen_issue_reads_the_v1_spine():
     assert SC.spine({"issue": 33}) is SC.V1
     for iss in (34, 35, 99, "33", True, None):
@@ -130,7 +190,7 @@ def test_the_frozen_issue_33_still_reads_and_passes():
 
 
 def test_news_inputs_read_from_files_and_refuse_when_missing(tmp_path):
-    play, assets, inputs = EP.episode()
+    play, assets, inputs = EP2.episode()
     for name, key in (("week.json", "record"), ("rundown.json", "rundown"), ("echo-pick.json", "echo")):
         (tmp_path / name).write_text(json.dumps(inputs[key]), encoding="utf-8")
     res = NL.checks(play, assets, film=tmp_path)
@@ -405,14 +465,25 @@ def test_a_fair_use_item_is_refused_wherever_it_airs():
     play, assets, inputs = EP2.episode()
     assert not _bad(NL.fair_use_refused_checks(play, assets))
     for over in ({"licence": "fair-use-excerpt"}, {"fair_use": {"beat": "lead"}}, {"basis": "fair use: an excerpt"},
-                 {"basis": "17 U.S.C. \u00a7 107"}):
+                 {"basis": "17 U.S.C. \u00a7 107"}, {"basis": "17 USC 107"}, {"basis": "17 U.S.C. sec. 107"},
+                 {"basis": "fairuse"}, {"basis": "fair dealing (UK)"}, {"basis": "17 usc section 107"}):
         a = {k: dict(v) for k, v in assets.items()}
         a["st-bridge"].update(over)
         bad = _bad(NL.fair_use_refused_checks(play, a))
         assert [c["unit"] for c in bad] == ["S-BRIDGE"], over
     a = {k: dict(v) for k, v in assets.items()}
-    a["st-bridge"]["basis"] = "unfairly used elsewhere"
-    assert not _bad(NL.fair_use_refused_checks(play, a))
+    for basis in ("unfairly used elsewhere", "17 U.S.C. 1070", "a federal work (17 U.S.C. 105)"):
+        a["st-bridge"]["basis"] = basis
+        assert not _bad(NL.fair_use_refused_checks(play, a)), basis
+    # a sound bite's transcript, the clip behind its shot_ref, and a top-level music cue are scanned too
+    for aid, where in (("tr-doe", "L-SOT"), ("v-doe", "L-SOT")):
+        a = {k: dict(v) for k, v in assets.items()}
+        a.setdefault(aid, {"id": aid})["licence"] = "fair-use-excerpt"
+        assert where in {c["unit"] for c in _bad(NL.fair_use_refused_checks(play, a))}, aid
+    a = {k: dict(v) for k, v in assets.items()}
+    a["bed-x"] = {"id": "bed-x", "basis": "fair use"}
+    p2 = dict(play, music=[{"id": "M-X", "kind": "music", "source": "bed-x", "start_s": 0.0, "end_s": 1.0}])
+    assert [c["unit"] for c in _bad(NL.fair_use_refused_checks(p2, a))] == ["M-X"]
 
 
 def test_a_shot_carries_its_items_sourcing_dot_label():

@@ -53,6 +53,7 @@ from __future__ import annotations
 import datetime as dt
 import re
 from dataclasses import dataclass
+from pathlib import Path
 
 from studio.news import graphic as G
 from studio.news import profile as SHOW
@@ -94,6 +95,8 @@ AS_OF_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)
 
 # V1 ONLY (frozen, issue 33): the v1 bible's spine, read for the frozen regression fixture and nothing else.
 V1_ISSUES = (33,)
+V1_FOLDER = ("episodes", "33")                               # and only from its own folder, when a folder is known
+SPINE_KEY = "_spine"                                         # the spine lints.checks settled, on its own copy of the play
 V1_SEGMENTS = ("clock", "cold_open", "title", "week", "weight", "echo", "margins", "question", "credits")
 V1_NEWS_SEGMENTS = ("cold_open", "week", "weight", "margins")
 V1_SHOWS_KEYS = {"lines", "figures", "rows", "headlines", "title_lines", "week_line"}
@@ -118,10 +121,31 @@ V1 = Spine("v1-frozen", V1_SEGMENTS, V1_NEWS_SEGMENTS, tuple(x for x in V1_SEGME
            G.V1_SUBTYPES, G.V1_OVERLAY_SUBTYPES, G.V1_DATA_SUBTYPES, G.V1_FIGURE_SUBTYPES, frozenset(V1_SHOWS_KEYS))
 
 
-def spine(play: dict) -> Spine:
-    """The spine a screenplay is read by: v2, except the frozen issues (V1_ISSUES), which keep v1's."""
-    iss = play.get("issue") if isinstance(play, dict) else None
-    return V1 if isinstance(iss, int) and not isinstance(iss, bool) and iss in V1_ISSUES else V2
+def is_v1_folder(film) -> bool:
+    """Whether a film folder is the frozen issue's own (``episodes/33``, by its last two path parts)."""
+    try:
+        return tuple(Path(film).resolve().parts[-2:]) == V1_FOLDER
+    except (TypeError, ValueError, OSError):
+        return False
+
+
+def spine(play: dict, film=None) -> Spine:
+    """The spine a screenplay is read by: v2, except the frozen issue (V1_ISSUES), which keeps v1's, and then only
+    in its own folder (V1_FOLDER) when the folder is known: a copy of issue 33's screenplay anywhere else is read as
+    v2. A play that lints.checks has already judged carries its spine's name (SPINE_KEY)."""
+    if not isinstance(play, dict):
+        return V2
+    if play.get(SPINE_KEY) in (V1.name, V2.name):
+        return V1 if play[SPINE_KEY] == V1.name else V2
+    iss = play.get("issue")
+    if not (isinstance(iss, int) and not isinstance(iss, bool) and iss in V1_ISSUES):
+        return V2
+    return V1 if film is None or is_v1_folder(film) else V2
+
+
+def settled(play: dict, film=None) -> dict:
+    """A shallow copy of the play carrying the spine it is read by (SPINE_KEY), so every lint reads the same one."""
+    return dict(play, **{SPINE_KEY: spine(play, film).name})
 
 
 def _check(rule, ok, *, unit=None, severity="block", evidence=None) -> dict:
@@ -156,6 +180,33 @@ def engine_line(ln: dict) -> dict:
     and ``sot`` are quotations, testimony), its own kind kept as ``news_kind``. A v1 or engine line is returned as is."""
     k = ln.get("kind")
     return dict(ln, kind=ENGINE_LINE_KIND[k], news_kind=k) if k in ENGINE_LINE_KIND else ln
+
+
+def engine_play(play: dict) -> dict:
+    """The screenplay with every v2 line read as the engine's kind (engine_line, its own kind kept as ``news_kind``),
+    so every engine consumer (the mix, voice-over-black, the voicing manifest, A0) sees narration or testimony. A
+    copy: the caller's play is not changed. ``news_play`` undoes it for the news lints."""
+    out = dict(play)
+    out["parts"] = [dict(p, lines=[engine_line(ln) for ln in p.get("lines") or []]) if isinstance(p, dict) and
+                    p.get("lines") else p for p in play.get("parts") or []]
+    return out
+
+
+def news_line(ln: dict) -> dict:
+    """A line as the screenplay wrote it: engine_line undone (its ``news_kind`` back as its kind)."""
+    if isinstance(ln, dict) and "news_kind" in ln:
+        out = dict(ln, kind=ln["news_kind"])
+        out.pop("news_kind")
+        return out
+    return ln
+
+
+def news_play(play: dict) -> dict:
+    """engine_play undone: the screenplay's own line kinds, for the news lints (a copy)."""
+    out = dict(play)
+    out["parts"] = [dict(p, lines=[news_line(ln) for ln in p.get("lines") or []]) if isinstance(p, dict) and
+                    p.get("lines") else p for p in play.get("parts") or []]
+    return out
 
 
 def engine_sound(sound):
@@ -413,6 +464,8 @@ def card_problems(s: dict, segment: str | None, part: dict) -> list[str]:
         return [f"a card is one of {list(CARD_KINDS)} (card), not {k!r}: headline and consensus cards are gone"
                 + (f"; the {k} card runs only in {list(HOUSE_CARD_SEGMENTS)}" if k in HOUSE_CARDS else "")]
     out = []
+    if not (isinstance(s.get("text"), list) and any(isinstance(t, str) and t.strip() for t in s["text"])):
+        out.append(f"a {k} card draws its words (text): a blank card is black on screen")
     if k == "count" and not (isinstance(s.get("figures"), list) and s["figures"]):
         out.append("a count card declares its figures ([{value, field}]), so counts-match holds it to the record")
     if k == "quote":

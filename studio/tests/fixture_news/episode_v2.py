@@ -339,6 +339,8 @@ FAIL = {
                                            {"card-kind"}),
     "a quote card not drawn as a quote": (lambda p, a, i: shot(p, "C-QUOTE").pop("quote"), {"card-kind"}),
     "a quote card in a full package": (lambda p, a, i: part(p, "p-pkg-2").update(shape="full"), {"card-kind"}),
+    "a blank count card": (lambda p, a, i: shot(p, "C-COUNT").update(text=[" "]), {"card-kind"}),   # black-share misses it
+    "a quote card with no words": (lambda p, a, i: shot(p, "C-QUOTE").update(text=[]), {"card-kind"}),
     "the ident card in a package": (lambda p, a, i: shot(p, "C-COUNT").update(card="lockup", figures=[], text=[]),
                                     {"card-kind"}),
     # -- graphic.subtype (bible i) ----------------------------------------------------------------------------------------

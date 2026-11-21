@@ -19,7 +19,7 @@ import { DOW_DISCLOSURE, RESTRICTIONS_PAGE } from "./adapters/dvids.mjs";
 export const RULES = ["rights-ledger-schema", "licence-allowlist", "licence-evidence", "ai-generated-share-zero", "fair-use-refused", "published-by-edition", "disputes-generated"];
 
 /** A fair-use basis written out (fair use, 17 U.S.C. 107). */
-const FAIR_USE_BASIS = /\bfair[\s-]use\b|17 U\.S\.C\.? (?:\u00a7 ?)?107\b/i;
+const FAIR_USE_BASIS = /\bfair[\s-]?(?:use|dealing)\b|\b17\s*U\.?S\.?C\.?\s*(?:§+|sec(?:tion|\.)?)?\s*107\b/i;
 
 /**
  * fair-use-refused (show bible v2, section o; it replaces fair-use-excerpt):
