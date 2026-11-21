@@ -374,6 +374,9 @@ export function fitRecord(fit, request) {
   if (fit.horizon) out.horizon = clip(fit.horizon, 64);
   // The sourcing pass's finding that the item shows the day's own event (ruling A needs it, S4 review).
   if (fit.shows_days_event === true) out.shows_days_event = true;
+  // A capture pool's automatic fit (scripts/capture/pool.mjs) and the session that confirmed it: the render lint capture-fit-confirmed reads both.
+  if (fit.auto === true) out.auto = true;
+  if (String(fit.confirmed_by ?? "").trim()) out.confirmed_by = clip(fit.confirmed_by, 200);
   return out;
 }
 

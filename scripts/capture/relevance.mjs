@@ -36,6 +36,14 @@ export function channelProblems(doc) {
     if (!(Number.isFinite(doc?.[k]) && doc[k] > 0)) out.push(`${k} must be a positive number`);
   }
   if (!Array.isArray(doc?.stoplist) || doc.stoplist.some((s) => typeof s !== "string" || !s.trim())) out.push("stoplist must be a list of names");
+  for (const ex of doc?.exclude ?? []) {
+    if (!ex?.id || !String(ex.why ?? "").trim()) out.push("exclude: every entry needs an id and a why");
+    try {
+      new RegExp(ex?.pattern, "i");
+    } catch (err) {
+      out.push(`exclude ${ex?.id}: ${err.message}`);
+    }
+  }
   const ids = new Set();
   for (const ch of doc?.always ?? []) {
     if (!ch.id || ids.has(ch.id)) out.push(`channel id ${ch.id} is missing or repeated`);

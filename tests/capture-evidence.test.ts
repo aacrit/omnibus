@@ -2,8 +2,10 @@
 // adapter's verdict), the lint that refuses media without it, and the DVIDS key never reaching stored evidence.
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { captureEvidence, lintIndex, lintMedia, readBlob, sha256, SOURCES, verdictOf } from "../scripts/capture/evidence.mjs";
-import { isAllowedUrl } from "../scripts/lib/rights/http.mjs";
+import { captureEvidence, lintIndex, lintMedia, NASA_TERMS, readBlob, sha256, SOURCES, verdictOf } from "../scripts/capture/evidence.mjs";
+import { Refused, isAllowedUrl } from "../scripts/lib/rights/http.mjs";
+import { parseNoaaFeed } from "../scripts/capture/listers/noaa.mjs";
+import { proxyCandidates } from "../scripts/capture/proxy.mjs";
 
 const text = (n: string) => readFileSync(new URL(`./fixtures/rights/${n}`, import.meta.url), "utf8");
 const json = (n: string) => JSON.parse(text(n)).response;
@@ -111,9 +113,12 @@ describe("capture evidence", () => {
     );
     expect(record.verdict.status).toBe("locator");
     expect(record.page.sha256).toMatch(/^[0-9a-f]{64}$/);
-    const nasa = await captureEvidence({ source: "nasa", id: "art002e000192", url: "https://images.nasa.gov/details/art002e000192", published_at: "2026-11-04T00:00:00Z" }, { http: fakeHttp({}), env: {}, now: NOW });
-    expect(nasa.record.terms.sha256).toBeNull();
-    expect(nasa.record.terms.missing).toMatch(/allowlist/);
+    // NASA's media usage guidelines (www.nasa.gov, allowlisted in C6) are its governing terms page.
+    const nasaItem = { source: "nasa", id: "art002e000192", url: "https://images.nasa.gov/details/art002e000192", published_at: "2026-11-04T00:00:00Z" };
+    const nasa = await captureEvidence(nasaItem, { http: fakeHttp({ [NASA_TERMS]: () => ({ status: "ok", text: "<html>NASA content is generally not subject to copyright</html>" }) }), env: {}, now: NOW });
+    expect(nasa.record.terms).toMatchObject({ url: NASA_TERMS, sha256: expect.stringMatching(/^[0-9a-f]{64}$/) });
+    const unread = await captureEvidence(nasaItem, { http: fakeHttp({}), env: {}, now: NOW });
+    expect(unread.record.terms.sha256).toBeNull();
   });
 
   it("verdictOf takes the adapter's candidate through checkCandidate, never its own rules", () => {
@@ -151,5 +156,55 @@ describe("lint: no captured media without evidence", () => {
       expect(lintMedia(e).join(), name).toMatch(re);
     }
     expect(lintIndex({ items: { a: good, b: { ...good, evidence: {} } } }).length).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe("NOAA and refused hosts (review of cap/c6-c7)", () => {
+  const feed = readFileSync(new URL("./fixtures/capture/noaa-feed.xml", import.meta.url), "utf8");
+
+  it("judges a NOAA item from its RSS text, keeps that text as page evidence, and asks no NOAA page", async () => {
+    const items = parseNoaaFeed(feed, { capturedAt: "2026-11-06T21:41:00Z" });
+    expect(items.length).toBeGreaterThan(0);
+    const http = fakeHttp({});
+    for (const item of items) {
+      const { record, blobs } = await captureEvidence(item, { http, env: {}, now: NOW });
+      expect(record.verdict.adapter).toBe("gov");
+      expect(record.page.sha256).toBe(sha256(Buffer.from(item.item_html)));
+      expect(readBlob(blobs.find((b) => b.kind === "page")!.gz)).toBe(item.item_html);
+      expect(record.terms).toMatchObject({ sha256: null, missing: expect.stringMatching(/refuses/) });
+      // Without a terms page the evidence lint refuses media: metadata and evidence only.
+      expect(lintMedia({ source: "noaa", id: item.id, evidence: record, media: { sha256: "a".repeat(64) } }).join()).toMatch(/terms page/);
+    }
+    expect(http.asked.filter((u) => /noaa\.gov/.test(new URL(u).hostname))).toEqual([]);
+    expect(http.asked).toEqual([]);
+  });
+
+  it("never asks a host C0 recorded as refusing, and remembers a 403 for the rest of the run", async () => {
+    const refused = new Set<string>();
+    let calls = 0;
+    const http = {
+      getText: async (url: string) => {
+        calls++;
+        if (url.startsWith("https://www.voanews.com/")) throw new Refused(`${url} answered 403: the host refused the fetcher's honest request`);
+        return { status: "not_found" };
+      },
+      getJson: async () => ({ status: "not_found" }),
+    };
+    const voa = (n: number) => ({ source: "voa", id: `https://www.voanews.com/a/${n}.html`, url: `https://www.voanews.com/a/${n}.html`, published_at: "2026-11-06T00:00:00Z" });
+    await captureEvidence(voa(1), { http, env: {}, now: NOW, refused });
+    expect(refused.has("www.voanews.com")).toBe(true);
+    const before = calls;
+    const second = await captureEvidence(voa(2), { http, env: {}, now: NOW, refused });
+    expect(second.record.page.missing).toMatch(/refused the fetcher earlier in this run/);
+    expect(calls - before).toBe(0); // the adapter's lookup, the page and the terms: none asked again
+    const quiet = fakeHttp({});
+    const wh = await captureEvidence({ source: "cdc", id: "x", url: "https://www.state.gov/briefing", published_at: "2026-11-06T00:00:00Z" }, { http: quiet, env: {}, now: NOW });
+    expect(wh.record.page.missing).toMatch(/refuses the fetcher's honest identity/);
+    expect(wh.record.verdict.status).toBe("error");
+    expect(quiet.asked.filter((u) => /state.gov/.test(u))).toEqual([]);
+  });
+
+  it("makes no proxy on a refused host", () => {
+    expect(proxyCandidates("noaa", { media_url: "https://www.noaa.gov/sites/default/files/x.jpg" }).urls).toEqual([]);
   });
 });
