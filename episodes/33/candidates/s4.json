@@ -1,0 +1,101 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 33,
+  "source": "s4",
+  "note": "Sourcing pass S4 (issue 33), read on 2026-11-13 under the founder's ruling A of that day: in The Week a picture of the day's own event may be published by the edition cutoff (2026-11-08T22:16:50Z), not only by the day's print time; facts and narration stay at the day's horizon, and the shot carries a dot label FILMED {date} · PUBLISHED {date} that the fetcher writes on the ledger item. Fit first: a pin names the beat, why the picture shows it, and how it plays. Nothing here is a rights decision; the fetcher checks every candidate.",
+  "pins": {
+    "e33-day2-pic": [
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+        "fit": {
+          "beat": "week-day-2",
+          "why": "the State Emergency Service of Ukraine's own video of Komyshuvakha, Zaporizhzhia region, after the 2 Nov strike on the school used as an aid centre and shelter: the day's lead itself (L-D2-1 names the village). CC BY 4.0; uploaded 5 Nov 04:06 UTC, after the 3 Nov print and before the edition cutoff, so it airs under ruling A with its dot label. Its own sound is not checked here; it plays under the narrator. It airs 0 to 14.5 s only (CoS ruling, 2026-11-13): the rest of the file is never aired.",
+          "in_s": 0,
+          "out_s": 14.5,
+          "horizon": "2026-11-03T19:39:27Z",
+          "shows_days_event": true
+        },
+        "shows_bodies": true,
+        "bodies_excluded": {
+          "from_s": 14.533,
+          "to_s": 29.2,
+          "note": "covered remains carried from the rubble: a white sheet or bag at frame right from about 17.0 s, carried through 18 to 20 s; excluded from the first cut after the out point (14.533 s) to the first cut after 27.0 s (29.2 s), never aired"
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "the rescuers' own sound is not checked against the day's printed lines; the picture plays under the narrator"
+        },
+        "marks_checked": {
+          "marks": [
+            "ДСНС ЗАПОРІЖЖЯ (State Emergency Service, Zaporizhzhia) bug, top-left, in every frame the verifier looked at: matches the credited CC BY 4.0 source"
+          ],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-14T00:05:00Z",
+            "frames": [
+              1.517,
+              4.467,
+              7.2,
+              9.967,
+              12.967,
+              14.4
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/agentique/reports/verify/omnibus-marks/e33-day2-pic-resign/e33-day2-pic-resign-contact-sheet.png",
+              "sha256": "95ef0921330a838e36a4bb479c97b6414730f4978478a5917b2cafbef725180c"
+            },
+            "duration_s": 67.868
+          }
+        },
+        "sha256": "3e7bcf5631bb6ff5eb7fb5d44875d521fa7377c3e539af4035835b72c730975d"
+      },
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (002).webm",
+        "fit": {
+          "beat": "week-day-2",
+          "why": "the National Police of Ukraine's video of the same site after the 2 Nov strike, the second choice if the State Emergency Service's is refused. CC BY 4.0; uploaded 5 Nov 04:39 UTC (ruling A).",
+          "horizon": "2026-11-03T19:39:27Z",
+          "shows_days_event": true
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "the police's own sound is not checked against the day's printed lines; the picture plays under the narrator"
+        }
+      },
+      {
+        "adapter": "commons",
+        "exclude": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (000).webm",
+        "why": "a body camera of a police officer killed in the strike, recording the last minutes before the second strike: a death on camera, never aired (dignity), whatever its licence",
+        "dignity": true,
+        "sha1": "b9fb7a464751fd83c368826e0b3a4d5c76a73af5"
+      }
+    ],
+    "e33-day3-pic2": [
+      {
+        "adapter": "commons",
+        "exclude": "File:President Trump Delivers Remarks, Nov. 4, 2026.webm",
+        "why": "CoS ruling (a) of 2026-11-13: its White House lower third carries a QR code and \"TEXT POTUS TO 45470\", a call to action (an engagement mechanic against void's values); dropped, never aired"
+      }
+    ],
+    "e33-day5-pic2": [
+      {
+        "tier": 2,
+        "adapter": "commons",
+        "ref": "File:Secretary of War Pete Hegseth is delivering a stronger military, a safer America.webm",
+        "fit": {
+          "beat": "week-day-5",
+          "why": "the White House's own video of the Secretary, published 6 Nov (uploaded 22:53 UTC) as the impeachment threat and his video statement were reported; after the 6 Nov print (19:18 UTC) and before the edition cutoff, so it airs under ruling A with its dot label. CoS ruling (2026-11-13): it plays MUTED under the narration, never as the statement the deck reports.",
+          "horizon": "2026-11-06T19:18:18Z"
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "CoS ruling 2026-11-13: the Secretary's own video plays muted under the narration, never as the statement the deck reports"
+        }
+      }
+    ]
+  }
+}

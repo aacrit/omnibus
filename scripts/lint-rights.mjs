@@ -10,6 +10,33 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { lintEpisode } from "./lib/rights/lints.mjs";
+import { isVideo } from "./lib/rights/licences.mjs";
+import { hashLocal } from "./lib/rights/http.mjs";
+import { cutsDisagree, detectCuts } from "./lib/rights/scenes.mjs";
+
+/**
+ * Where the media is present (OMNIBUS_MEDIA: <dir>/<issue>/<file>), every video's recorded cuts are found again in
+ * the file over the span they name, and the file must be the ledger's sha256 (rights fix 4 review). One ffmpeg at a
+ * time, two threads, the aired span only. Without the media (CI) the structural checks stand alone.
+ */
+export async function rederiveCuts(ledger, issueMedia, { detect = detectCuts, hash = hashLocal } = {}) {
+  const out = [];
+  for (const it of ledger?.items ?? []) {
+    const cuts = it?.marks_checked?.reviewed?.cuts;
+    if (!isVideo(it) || !cuts || !Array.isArray(cuts.span) || !it.file) continue;
+    const file = path.join(issueMedia, it.file);
+    if (!existsSync(file)) continue;
+    const h = await hash(file, { mime: it.mime });
+    if (h?.sha256 !== it.sha256) {
+      out.push({ rule: "cuts-rederived", item: it.id, message: `the file ${it.file} is not the ledger's (sha256 ${String(h?.sha256).slice(0, 12)}, ledger ${String(it.sha256).slice(0, 12)})` });
+      continue;
+    }
+    const found = await detect(file, { fromS: cuts.span[0], toS: cuts.span[1] ?? null, threshold: cuts.threshold });
+    const d = cutsDisagree(cuts.times, found.times, found.span);
+    if (d.missing.length || d.extra.length) out.push({ rule: "cuts-rederived", item: it.id, message: `the recorded cuts disagree with the file's own over ${cuts.span[0]}..${cuts.span[1] ?? "end"} s (the file cuts at ${d.missing.join(", ") || "no other time"}, the record at ${d.extra.join(", ") || "no other time"}): fetch it again` });
+  }
+  return out;
+}
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -48,17 +75,30 @@ export function lintRepo(root, { now = new Date() } = {}) {
   return { findings, ledgers, items };
 }
 
-export function lintAll({ root = repoRoot, log = console.log, error = console.error } = {}) {
+export async function lintAll({ root = repoRoot, log = console.log, error = console.error, media = process.env.OMNIBUS_MEDIA } = {}) {
   const { findings, ledgers, items } = lintRepo(root);
+  if (media) {
+    for (const name of readdirSync(path.join(root, "episodes")).sort()) {
+      const lp = path.join(root, "episodes", name, "rights-ledger.json");
+      if (!existsSync(lp)) continue;
+      let ledger;
+      try {
+        ledger = JSON.parse(readFileSync(lp, "utf8"));
+      } catch {
+        continue;
+      }
+      for (const f of await rederiveCuts(ledger, path.join(media, name))) findings.push({ ...f, where: `episodes/${name}` });
+    }
+  }
   if (findings.length) {
     error(`lint-rights: ${findings.length} blocking finding(s)\n${findings.map((f) => `  - [${f.rule}] ${f.where} ${f.item}: ${f.message}`).join("\n")}`);
     return 1;
   }
   if (ledgers === 0) log("lint-rights: no episode has a rights ledger yet, so there was nothing to check");
-  else log(`lint-rights: ${ledgers} ledger(s), ${items} item(s): licence-allowlist, licence-evidence, ai-generated-share-zero and disputes-generated pass`);
+  else log(`lint-rights: ${ledgers} ledger(s), ${items} item(s): rights-ledger-schema, licence-allowlist (with on-screen marks), licence-evidence, ai-generated-share-zero, fair-use-excerpt, published-by-edition and disputes-generated pass`);
   return 0;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  process.exit(lintAll());
+  process.exit(await lintAll());
 }

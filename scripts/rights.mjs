@@ -15,6 +15,12 @@
 //       A request already in the ledger is held; --redo fills the named
 //       ones again from their whole ladder, keeping the held item when
 //       nothing on the ladder passes.
+//   node scripts/rights.mjs fetch <issue> --media <dir> --from-ledger [--report <file>]
+//       puts every item the ledger already holds back under <dir>/<issue>/
+//       from its own media_url, each checked against the ledger's sha256
+//       (scripts/lib/rights/pull.mjs; C8, the Actions draft): no ladder is
+//       resolved and no ledger is written. A refusal or a mismatch is
+//       reported, never worked around.
 //   node scripts/rights.mjs coverage <issue> --media <dir>
 //       writes episodes/<issue>/ASSETS.md (request to item or fallback, tier,
 //       licence, seconds measured by ffprobe, file path) from the ledger.
@@ -32,7 +38,7 @@
 // the repo, and the ledger records only a bare file name.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as commons from "./lib/rights/adapters/commons.mjs";
@@ -42,18 +48,20 @@ import * as loc from "./lib/rights/adapters/loc.mjs";
 import * as nara from "./lib/rights/adapters/nara.mjs";
 import * as nasa from "./lib/rights/adapters/nasa.mjs";
 import * as voidnews from "./lib/rights/adapters/voidnews.mjs";
+import * as voa from "./lib/rights/adapters/voa.mjs";
 import * as wayback from "./lib/rights/adapters/wayback.mjs";
 import { buildCoverage } from "./lib/rights/coverage.mjs";
 import { runCapture } from "./lib/rights/capture.mjs";
 import { buildDisputePacket, serialisePacket } from "./lib/rights/disputes.mjs";
 import { fetchRequests } from "./lib/rights/fetcher.mjs";
+import { pullLedger, summarise } from "./lib/rights/pull.mjs";
 import { getJson, getMedia, getText } from "./lib/rights/http.mjs";
 import { emptyLedger, serialiseLedger, validateLedger, validateRequests } from "./lib/rights/ledger.mjs";
-import { pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
+import { mergeCandidatePins, pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
 import { lintAll } from "./lint-rights.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews };
+export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews, voa };
 export const CHECKED_BY = "void omnibus fetcher, metadata checks (scripts/rights.mjs)";
 
 export function episodeDir(root, issue) {
@@ -122,6 +130,16 @@ export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = fals
   return result;
 }
 
+/** C8: the ledger's own items back on this machine (pull.mjs), under <mediaDir>/<issue>/. Writes no ledger. */
+export async function runPull({ root = repoRoot, issue, mediaDir, http = { getMedia }, log = console.log }) {
+  assertMediaOutsideRepo(mediaDir, root);
+  const ledgerPath = path.join(episodeDir(root, issue), "rights-ledger.json");
+  if (!existsSync(ledgerPath)) throw new Error(`${path.relative(root, ledgerPath)} not found: nothing to fetch from the ledger`);
+  const ledger = JSON.parse(readFileSync(ledgerPath, "utf8"));
+  if (ledger.issue !== issue) throw new Error(`rights-ledger.json is for issue ${ledger.issue}, not ${issue}`);
+  return pullLedger({ ledger, mediaDir: path.join(mediaDir, String(issue)), http, log });
+}
+
 /** Resolves the rundown's asset requests into episodes/<issue>/assets.json (resolve.mjs). */
 export async function runResolve({ root = repoRoot, issue, http = { getJson, getText }, log = console.log }) {
   const dir = episodeDir(root, issue);
@@ -129,6 +147,12 @@ export async function runResolve({ root = repoRoot, issue, http = { getJson, get
   if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
   const pinsPath = path.join(dir, "asset-pins.json");
   const pinsDoc = existsSync(pinsPath) ? JSON.parse(readFileSync(pinsPath, "utf8")) : { pins: {} };
+  // The sourcing passes' candidate pins (episodes/<issue>/candidates/*.json) join the hand pins.
+  const candDir = path.join(dir, "candidates");
+  const files = existsSync(candDir) ? readdirSync(candDir).filter((n) => n.endsWith(".json")).map((name) => ({ name, doc: JSON.parse(readFileSync(path.join(candDir, name), "utf8")) })) : [];
+  const merged = mergeCandidatePins(pinsDoc.pins, files, { issue, requestIds: new Set((rundown.asset_requests ?? []).map((r) => r.id)) });
+  if (merged.problems.length) throw new Error(`candidate pins are invalid:\n  ${merged.problems.join("\n  ")}`);
+  pinsDoc.pins = merged.pins;
   const bad = pinProblems(pinsDoc.pins);
   if (bad.length) throw new Error(`asset-pins.json names addresses the fetcher may not reach:\n  ${bad.join("\n  ")}`);
   const echoPath = path.join(dir, "echo-pick.json");
@@ -173,6 +197,18 @@ async function main(argv) {
     const i = argv.indexOf(`--${name}`);
     return i >= 0 ? argv[i + 1] : undefined;
   };
+  if (cmd === "fetch" && argv.includes("--from-ledger")) {
+    const issue = parseIssue(issueArg);
+    const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
+    const report = await runPull({ issue, mediaDir });
+    const { counts, unusable } = summarise(report);
+    console.log(`rights: issue ${issue} from the ledger: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(", ") || "no items"}`);
+    if (unusable.length) console.log(`rights: not usable here (reported, not worked around): ${unusable.join(", ")}`);
+    const out = flag("report");
+    if (out) writeFileSync(out, `${JSON.stringify({ issue, counts, unusable, items: report }, null, 1)}
+`);
+    return 0;
+  }
   if (cmd === "fetch") {
     const issue = parseIssue(issueArg);
     const dryRun = argv.includes("--dry-run");
@@ -210,7 +246,7 @@ async function main(argv) {
     return 0;
   }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | coverage <issue> --media <dir> | packet <issue> | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | lint");
   return 2;
 }
 

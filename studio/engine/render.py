@@ -96,6 +96,7 @@ from studio.engine import description as DSC
 from studio.engine import disclosure as DS
 from studio.engine import levels as LV
 from studio.engine import maps as MP
+from studio.engine import mediaroot as MR
 from studio.engine import motion as M
 from studio.engine import overlays as OV
 from studio.engine import policy as POL
@@ -702,7 +703,7 @@ def news_voicing(film: Path, play: dict, *, words: bool = True) -> dict:
     man, problems = None, []
     if f.exists():
         try:
-            man = json.loads(f.read_text(encoding="utf-8"))
+            man = MR.remap_tree(json.loads(f.read_text(encoding="utf-8")))
         except ValueError as e:
             problems.append(f"{NVO.PATH.as_posix()} is not JSON ({e})")
     if not problems:
@@ -765,16 +766,71 @@ def file_sha256(item: dict) -> str | None:
     return _FILE_SHA[key]
 
 
+_FILE_CUTS: dict = {}
+SCENE_THRESHOLD = 0.2
+
+
+def scene_cuts(path: Path, span) -> list[float]:
+    """The cuts ffmpeg's scene filter finds in a video over ``span`` [a, b] (b None: to the end), seconds into the file:
+    ``-to b -i file -vf trim=start=a,select='gt(scene,0.3)',showinfo -f null -``, nothing encoded (mirrors
+    scripts/lib/rights/scenes.mjs detectCuts). Raises Refused when ffmpeg fails."""
+    a, b = float(span[0]), span[1]
+    cmd = [ffmpeg(), "-hide_banner", "-nostats", "-v", "info", "-threads", "2"]   # gentle: two threads, one process
+    if b is not None:
+        cmd += ["-to", f"{float(b):g}"]
+    cmd += ["-i", str(path), "-an", "-sn", "-threads", "2", "-filter_threads", "1", "-vf", f"trim=start={a:g},select='gt(scene,{SCENE_THRESHOLD})',showinfo",
+            "-f", "null", "-"]
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600)
+    if r.returncode != 0:
+        raise Refused(f"ffmpeg scene detection failed on {path}: {(r.stderr or '').strip().splitlines()[-1:]}")
+    out = []
+    for line in (r.stderr or "").splitlines():
+        m = re.search(r"pts_time:\s*(-?[0-9.]+(?:e-?\d+)?)", line) if "showinfo" in line else None
+        if m:
+            t = round(float(m.group(1)), 3)
+            if t > a + 1e-6 and (b is None or t < float(b) - 1e-6):
+                out.append(t)
+    return out
+
+
+def file_cuts(item: dict, span) -> list[float] | None:
+    """Rights fix round 4: a cited video's cuts found again in its file on disk over the aired span, cached by (path,
+    size, mtime, span); None when the file or ffmpeg cannot be read."""
+    p = item.get("_path")
+    try:
+        st = os.stat(p)
+    except (OSError, TypeError):
+        return None
+    key = (str(p), st.st_size, st.st_mtime_ns, tuple(span))
+    if key not in _FILE_CUTS:
+        try:
+            _FILE_CUTS[key] = scene_cuts(Path(p), span)
+        except (Refused, OSError, subprocess.SubprocessError):
+            return None
+    return _FILE_CUTS[key]
+
+
 def credits_graphic_missing(plan: dict, rundown: dict | None) -> tuple[list[str] | None, list[str]]:
     """E9i: (the credits graphics that air, the plan's credit disclosures they do not carry). E6 typesets the credits
     roll from the rundown's credits part ``disclosures`` (studio/graphics/data.py credits_spec), so a disclosure the
     rights ledger asks for is carried only when that list holds it verbatim. (None, []) when no credits graphic airs
-    (the engine's own credits block carries them)."""
+    (the engine's own credits block carries them). E9j: a roll whose E6 row's ``data_ref`` names
+    ``rights-ledger:items[].disclosure`` (E6's credits_spec since its review fixes) also carries every rights-ledger
+    item's own ``disclosure``; each roll is judged on what it reads, and a line is unshown if any airing roll lacks it."""
     rolls = [s.get("asset") for s in plan.get("shots") or [] if NG.is_graphic(s) and s.get("subtype") == "credits"]
     if not rolls:
         return None, []
+    assets = plan.get("assets") or {}
     part = next((p for p in (rundown or {}).get("parts") or [] if isinstance(p, dict) and p.get("id") == "credits"), {})
-    shown = {str(x).strip() for x in part.get("disclosures") or []}
+    hand_kept = {str(x).strip() for x in part.get("disclosures") or []}
+    ledgered = {str(it["disclosure"]).strip() for it in assets.values()
+                if isinstance(it, dict) and it.get("_rights_ledger") and it.get("disclosure")}
+    shown = None
+    for r in dict.fromkeys(rolls):
+        ref = str((assets.get(r) or {}).get("data_ref") or "")
+        reads = bool(re.search(r"rights-ledger:[^;]*items\[\]\.disclosure", ref))
+        mine = hand_kept | (ledgered if reads else set())
+        shown = mine if shown is None else shown & mine
     return rolls, [d["text"] for d in plan.get("credit_disclosures") or [] if d["text"] not in shown]
 
 
@@ -785,7 +841,7 @@ def news_vision(film: Path, play: dict, assets: dict) -> dict:
     man, problems = None, []
     if f.exists():
         try:
-            man = json.loads(f.read_text(encoding="utf-8"))
+            man = MR.remap_tree(json.loads(f.read_text(encoding="utf-8")))
         except ValueError as e:
             problems.append(f"{NVM.PATH.as_posix()} is not JSON ({e})")
     cited: dict[str, list[str]] = {}
@@ -793,7 +849,7 @@ def news_vision(film: Path, play: dict, assets: dict) -> dict:
         for s in part.get("shots") or []:
             if s.get("asset") and s.get("kind") not in cited.setdefault(s["asset"], []):
                 cited[s["asset"]].append(s.get("kind"))
-    r = NVM.apply(man if not problems else None, assets, cited, read_sha=file_sha256)
+    r = NVM.apply(man if not problems else None, assets, cited, read_sha=file_sha256, read_cuts=file_cuts)
     return dict(r, problems=problems + r["problems"], manifest=str(f) if f.exists() else None)
 
 
@@ -3088,7 +3144,7 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     plan is the whole film's, and a refused take past the span is named so.
     ``check`` (a check render: --shots, --until, --audio-only) makes
     placeholder-media a warning, as ``draft`` does; it changes nothing else."""
-    play = play if play is not None else json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    play = play if play is not None else MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
     if "parts" not in play:
         raise Refused("screenplay.json has no parts: it is not format v2 (GRAMMAR 12); studio/sketch.py renders v1")
     try:
@@ -3268,6 +3324,18 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
             lint("ledger-cited", ok, unit=s["id"], evidence={"asset": s.get("asset")}, grammar="11.1")
             if not ok:
                 continue
+            # Rights fix 4 review: a rights-ledger item airs only as the exact bytes its ledger names (sha256 on disk,
+            # cached by path, size and mtime), before any cut, fit-span or bodies check is read against the file.
+            if item.get("_rights_ledger") and item.get("sha256"):
+                on_disk = file_sha256(item)
+                same = on_disk == item["sha256"]
+                lint("asset-sha", same, unit=s["id"], grammar="11.1",
+                     evidence=None if same else {"asset": s.get("asset"), "file": item.get("_path"),
+                                                 "ledger_sha256": item["sha256"], "file_sha256": on_disk,
+                                                 "fix": "fetch the item again (node scripts/rights.mjs fetch --redo): "
+                                                        "the file is not the one the ledger checked"})
+                if not same:
+                    continue
             lic = str(item.get("licence") or "")
             lic_ok, sa = licence_allowed(lic, play, item=item)
             reading = SHOW.licence_reading(play, item)   # E9i: the show's licence map, named in the evidence
@@ -3282,7 +3350,21 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
                                  evidence={"asset": s["asset"], "licence": lic, "attribution": "ShareAlike, on the sources page"})
             # A21 (E3): the film's imagery rule on the asset's content flags. Under the default rule this is the
             # Partition lint exactly: no-bodies, shows_bodies (or the older shows_violence_or_bodies) stated false.
-            for c in POL.asset_checks(item, rule):
+            # Rights fix round 4: a clip plays only inside its ledger fit (the sourcing pass's in_s..out_s), and a file
+            # whose bodies lie outside that fit is judged on the seconds the shot airs.
+            seen_as = item
+            if kind == "archive_video":
+                sa = float(s.get("in_s", item.get("in_s", 0.0)))
+                sb = float(s.get("out_s", item.get("out_s", sa + float(s.get("dur_s", 0)))))
+                fit = item.get("fit") if isinstance(item.get("fit"), dict) else {}
+                if isinstance(fit.get("in_s"), (int, float)) and isinstance(fit.get("out_s"), (int, float)):
+                    inside = fit["in_s"] - 1e-6 <= sa and sb <= fit["out_s"] + 1e-6
+                    lint("fit-span", inside, unit=s["id"], grammar="11.1",
+                         evidence={"asset": s.get("asset"), "shot": [sa, sb], "fit": [fit["in_s"], fit["out_s"]],
+                                   "fix": None if inside else "the rights ledger airs only the fit's seconds of this "
+                                   "file: trim the shot inside them"})
+                seen_as = POL.aired_bodies(item, (sa, sb))
+            for c in POL.asset_checks(seen_as, rule):
                 sev = c["severity"]
                 if c["rule"] == "no-bodies" and "shows_bodies" in vision["pending"].get(s.get("asset"), ()):
                     sev = "warn"         # E9i: awaiting the vision pass; vision-manifest carries the refusal
@@ -9770,7 +9852,7 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
              else "shots-" + "-".join(re.sub(r"[^A-Za-z0-9._]", "_", x) for x in pair) if pair else None)
     run_dir = out / check if check else out
     try:   # A44: the master rate the plan resolves (stated, or the majority of clip runtime), named at run.start
-        play0 = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+        play0 = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
         cad0 = master_rate(play0, load_ledgers(film, play0))
         rate0 = {"fps": cad0["fps"], "master_fps": cad0["name"], "master_fps_from": cad0["from"]}
     except Exception:          # the plan refuses what is wrong, with its own message
@@ -9814,7 +9896,7 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
         missing = [p for p in (fonts.display, fonts.structure, fonts.data, fonts.data_light) if not Path(p).exists()]
         if missing:
             raise Refused(f"fonts not found ({missing[0]}); run npm ci in the repo")
-        play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+        play = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
         play = place_voices(film, play, journal, out, fit=fit_voices_opt)
         with journal.unit("scout", "sources", size={"driver": "items", "value": 0}) as u:
             bad_sources = preflight_sources(film, play, journal, draft=draft)
@@ -10349,7 +10431,7 @@ def sources_only(film: Path | str, out: Path | str | None = None, *, journal: Jo
     if not master.exists():
         raise Refused(f"no master.mp4 in {out}: render the film first")
     fitted = out / "screenplay.fitted.json"
-    play = json.loads((fitted if fitted.exists() else film / "screenplay.json").read_text(encoding="utf-8"))
+    play = MR.remap_tree(json.loads((fitted if fitted.exists() else film / "screenplay.json").read_text(encoding="utf-8")))
     journal = journal or Journal(film=film.name, out_dir=out)
     pr = probe_video(master)
     with journal.unit("scout", "sources-only", size={"driver": "items", "value": 0}) as u:
@@ -10440,19 +10522,28 @@ def place_voices(film: Path, play: dict, journal: Journal, out: Path, *, fit: bo
     return play
 
 
-def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, journal: Journal | None = None) -> dict:
+def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, journal: Journal | None = None,
+               fit: bool = False) -> dict:
     """E9i ``--check``: every pre-flight source check and plan-time lint, no frame rendered and nothing written. On a
     news show whose voicing manifest is missing or refused, a voice WAV's absence is that manifest's refusal
-    (voicing-manifest), not a second one. Returns {ok, refusals, shots}."""
+    (voicing-manifest), not a second one. E9j: with ``fit`` (``--check --fit-voices``) it plans the lines where the
+    render with --fit-voices would place them (place_voices' order: the takes, the fit, then the words), in memory
+    only, so a check judges the plan the render will run. Returns {ok, refusals, shots}."""
     film = Path(film).resolve()
     W, H = frame_size(height)
     journal = journal or Journal(film=film.name)
-    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    play = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
     refusals: list[str] = []
     news = SHOW.is_news(play)
-    voicing = news_voicing(film, play) if news else None
+    voicing = news_voicing(film, play, words=not fit) if news else None
     if voicing is not None:
         play = voicing["play"]
+    if fit:
+        journal.human("scout", "--fit-voices: voice lines may move later and their shots grow", override="--fit-voices")
+        play = fit_voices(play, film, journal)
+        if voicing is not None:
+            voicing = news_voicing(film, play)
+            play = voicing["play"]
     bad = preflight_sources(film, play, journal, draft=draft)
     if voicing is not None and voicing["problems"] and NVO.judged(play):
         bad = [b for b in bad if b.get("why") != "voice WAV missing"]
@@ -10503,7 +10594,7 @@ def main(argv=None) -> int:
                     help="plan only: every pre-flight and plan-time lint, final unless --draft; no frame rendered")
     a = ap.parse_args(argv)
     if a.check:
-        r = check_plan(a.film, draft=a.draft, height=a.res)
+        r = check_plan(a.film, draft=a.draft, height=a.res, fit=a.fit_voices)
         for why in r["refusals"]:
             print(f"render: refused: {why}", file=sys.stderr)
         if r["ok"]:

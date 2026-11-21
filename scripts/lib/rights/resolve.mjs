@@ -22,6 +22,7 @@
 // Net-new. Network only through the injected http.
 
 import { hostRefusal, isOwnUrl } from "./http.mjs";
+import { titleKey } from "./fetcher.mjs";
 import { REQUESTS_SCHEMA_ID } from "./ledger.mjs";
 import { findCaptures } from "./adapters/wayback.mjs";
 import { queryAlternatives as dvidsAlternatives, redact as dvidsRedact, searchResults as dvidsResults, searchUrl as dvidsSearchUrl } from "./adapters/dvids.mjs";
@@ -138,6 +139,36 @@ async function resolvePin(pin, step, { http, echoPick }) {
     if (pin.audio?.mode !== "muted" || !String(pin.audio?.reason ?? "").trim()) throw new Error(`pin ${pin.ref}: audio must be { mode: "muted", reason }`);
     c.audio = { mode: "muted", reason: clip(String(pin.audio.reason), 600) };
   }
+  // The sourcing pass's fit (why the item shows the beat, its in and out seconds) and a fair-use record ride with the candidate.
+  if (pin.fit !== undefined) {
+    if (!String(pin.fit?.why ?? "").trim()) throw new Error(`pin ${pin.ref}: fit must state why the item shows its beat`);
+    c.fit = pin.fit;
+  }
+  if (pin.fair_use !== undefined) c.fair_use = pin.fair_use;
+  // A dot label the shot must carry wherever the item airs (a sourcing pass's requirement: another place or day than the line names).
+  if (pin.dot_label !== undefined) {
+    if (!String(pin.dot_label?.text ?? "").trim() || !String(pin.dot_label?.why ?? "").trim()) throw new Error(`pin ${pin.ref}: dot_label must be { text, why }`);
+    c.dot_label = { text: clip(String(pin.dot_label.text), 120), why: clip(String(pin.dot_label.why), 600) };
+  }
+  // Whether the file shows bodies, and the seconds that do, which the fit must leave out (CoS ruling, rights fix round 4).
+  if (pin.shows_bodies !== undefined) {
+    if (typeof pin.shows_bodies !== "boolean") throw new Error(`pin ${pin.ref}: shows_bodies must be true or false`);
+    c.shows_bodies = pin.shows_bodies;
+  }
+  if (pin.bodies_excluded !== undefined) {
+    const b = pin.bodies_excluded;
+    if (pin.shows_bodies !== true || !(Number.isFinite(b?.from_s) && Number.isFinite(b?.to_s) && b.to_s > b.from_s) || !String(b?.note ?? "").trim()) throw new Error(`pin ${pin.ref}: bodies_excluded must be { from_s, to_s, note } beside shows_bodies: true`);
+    const f = pin.fit ?? {};
+    if (!(Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && (f.out_s <= b.from_s || f.in_s >= b.to_s))) throw new Error(`pin ${pin.ref}: its fit must name an in_s..out_s clear of the excluded ${b.from_s}..${b.to_s} s`);
+    c.bodies_excluded = { from_s: b.from_s, to_s: b.to_s, note: clip(String(b.note), 400) };
+  }
+  // The record of a frame check of the item's on-screen marks (S4 review): the fetcher and the lint hold it to marksProblems.
+  if (pin.marks_checked !== undefined) c.marks_checked = pin.marks_checked;
+  // A second catalogue record that states the item's day (the fetcher reads it and refines the date).
+  if (pin.date_record !== undefined) {
+    if (!String(pin.date_record?.adapter ?? "").trim() || !String(pin.date_record?.ref ?? "").trim()) throw new Error(`pin ${pin.ref}: date_record must be { adapter, ref }`);
+    c.date_record = { adapter: String(pin.date_record.adapter), ref: String(pin.date_record.ref) };
+  }
   const sha = pin.sha256 ?? (pin.sha256_from ? echoPick?.sources?.find((s) => `echo-pick:${s.id}` === pin.sha256_from)?.sha256 : undefined);
   if (pin.sha256_from && !sha) throw new Error(`pin ${pin.ref}: ${pin.sha256_from} names no source with a sha256`);
   if (sha) c.sha256 = sha;
@@ -152,7 +183,7 @@ export function videoFirst(cands) {
   return [...cands.filter((c) => VIDEO.test(c.ref)), ...cands.filter((c) => !VIDEO.test(c.ref))];
 }
 
-async function searchStep(stepIn, { http, env }) {
+async function searchStep(stepIn, { http, env, searchTo = null }) {
   const step = { ...stepIn, query: stepIn.query ?? stepIn.ref ?? "" };
   const window = step.window ? { from: step.window.from, to: step.window.to } : undefined;
   const base = { tier: step.tier, ...(window ? { window } : {}) };
@@ -181,8 +212,10 @@ async function searchStep(stepIn, { http, env }) {
       const params = stepParams(step.query);
       const hits = new Map();
       for (const q of dvidsAlternatives(params.q)) {
-        const r = await http.getJson(dvidsSearchUrl({ ...params, q }, window, key));
-        if (r.status === "ok") for (const h of dvidsResults(r.json, window)) if (!hits.has(h.id)) hits.set(h.id, h);
+        // Ruling A: a Week day's search runs to the edition cutoff; the fetcher still holds each hit to the day's own event.
+        const reach = searchTo && window ? { ...window, to: searchTo } : window;
+        const r = await http.getJson(dvidsSearchUrl({ ...params, q }, reach, key));
+        if (r.status === "ok") for (const h of dvidsResults(r.json, reach)) if (!hits.has(h.id)) hits.set(h.id, h);
       }
       return [...hits.values()].sort((a, b) => b.published - a.published).slice(0, SEARCH_HITS).map((h) => ({ adapter: "dvids", ref: h.id, ...base }));
     } catch (err) {
@@ -199,7 +232,10 @@ async function searchStep(stepIn, { http, env }) {
  */
 export async function resolveRequests(rundown, { pins = {}, echoPick = null, http, env = process.env, log = () => {} }) {
   const requests = [];
+  // The edition cutoff (the rundown's as_of): ruling A admits a Week day's own picture published by it.
+  const editionCutoff = typeof rundown.as_of === "string" && /^\d{4}-\d{2}-\d{2}/.test(rundown.as_of) ? rundown.as_of : null;
   for (const req of rundown.asset_requests ?? []) {
+    const searchTo = /^week-day-\d+$/.test(String(req.for ?? "")) ? editionCutoff : null;
     const candidates = [];
     const notFetched = [];
     for (const step of req.ladder ?? []) {
@@ -239,7 +275,7 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
       }
       let found;
       try {
-        found = await searchStep(step, { http, env });
+        found = await searchStep(step, { http, env, searchTo });
       } catch (err) {
         notFetched.push({ tier: step.tier, host, reason: `the search failed: ${clip(err.message, 300)}` });
         continue;
@@ -247,6 +283,17 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
       if (found === null) notFetched.push({ tier: step.tier, host, reason: `adapter ${adapter} is not one the fetcher has` });
       else if (!found.length) notFetched.push({ tier: step.tier, host, reason: `the search found nothing: ${clip(step.query ?? step.ref, 300)}` });
       else candidates.push(...(req.kind === "footage" ? videoFirst(found) : found));
+    }
+    // A sourcing pass's pin on an adapter no ladder step names (NARA film for a Commons ladder) is
+    // not dropped: it joins at its own tier and window, which it must state, then ladder order holds.
+    const stepAdapters = new Set((req.ladder ?? []).map((s) => String(s.adapter ?? "")));
+    const extra = (pins[req.id] ?? []).filter((p) => p.from_file && !p.exclude && !stepAdapters.has(p.adapter) && !/^gov-federal|^wayback/.test(String(p.adapter)));
+    for (const pin of extra) {
+      if (!Number.isInteger(pin.tier) || !pin.window?.from || !pin.window?.to) throw new Error(`pin ${pin.ref} (${pin.from_file}): a pin on an adapter outside the ladder must state its tier and window`);
+      const found = (await resolvePin(pin, { tier: pin.tier, window: pin.window }, { http, echoPick })).candidates;
+      // Before the first ladder candidate of a later tier; the ladder's own order is never changed.
+      const at = candidates.findIndex((c) => c.tier > pin.tier);
+      candidates.splice(at < 0 ? candidates.length : at, 0, ...found);
     }
     const seen = new Set();
     const excludes = (pins[req.id] ?? []).filter((p) => p.exclude);
@@ -272,7 +319,50 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
     });
     log(`${req.id}: ${unique.length} candidate(s), ${notFetched.length} step(s) not fetched`);
   }
-  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", requests };
+  // The episode-wide dignity list: every exclude pin marked dignity, by normalised title and sha (S4 review).
+  const dignity = Object.values(pins)
+    .flat()
+    .filter((p) => p?.dignity === true && typeof p.exclude === "string" && p.exclude !== "*")
+    .map((p) => ({ ref: clip(p.exclude, 400), title_key: titleKey(p.exclude), ...(p.sha1 ? { sha1: String(p.sha1) } : {}), ...(p.sha256 ? { sha256: String(p.sha256) } : {}), why: clip(p.why ?? "dignity", 600) }))
+    // A pin's excluded span (rights fix round 4): those seconds of that file never air, for any request, by title or sha.
+    .concat(Object.values(pins).flat().filter((p) => p?.shows_bodies === true && p.bodies_excluded && typeof p.ref === "string" && !p.exclude)
+      .map((p) => {
+        const b = p.bodies_excluded;
+        const f = p.fit ?? {};
+        if (!(Number.isFinite(b?.from_s) && Number.isFinite(b?.to_s) && b.to_s > b.from_s && Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && (f.out_s <= b.from_s || f.in_s >= b.to_s))) throw new Error(`pin ${p.ref}: its fit must name an in_s..out_s clear of the excluded ${b?.from_s}..${b?.to_s} s`);
+        return p;
+      })
+      .map((p) => ({ ref: clip(p.ref, 400), title_key: titleKey(p.ref), ...(p.sha1 ? { sha1: String(p.sha1) } : {}), ...(p.sha256 ? { sha256: String(p.sha256) } : {}), span: { from_s: p.bodies_excluded.from_s, to_s: p.bodies_excluded.to_s }, why: clip(p.bodies_excluded.note, 600) })));
+  return { schema: REQUESTS_SCHEMA_ID, issue: rundown.issue, source: "rundown.json asset_requests, resolved by node scripts/rights.mjs resolve", ...(editionCutoff ? { edition_cutoff: editionCutoff } : {}), ...(dignity.length ? { dignity } : {}), requests };
+}
+
+export const CANDIDATES_SCHEMA_ID = "omnibus.asset-candidates/1";
+
+/**
+ * Merges the sourcing passes' candidate-pin files (episodes/<issue>/candidates/<source>.json,
+ * schema omnibus.asset-candidates/1) into the episode's pins, after the hand pins, in file-name
+ * order. Each file names its issue and source, and every pin it adds must state a fit (beat and
+ * why) and name a request the rundown has. Pure: returns { pins, problems }.
+ */
+export function mergeCandidatePins(pins, files, { issue, requestIds }) {
+  const out = Object.fromEntries(Object.entries(pins ?? {}).map(([k, v]) => [k, [...v]]));
+  const problems = [];
+  for (const { name, doc } of [...files].sort((a, b) => a.name.localeCompare(b.name))) {
+    if (doc?.schema !== CANDIDATES_SCHEMA_ID) problems.push(`${name}: schema must be ${CANDIDATES_SCHEMA_ID}`);
+    if (doc?.issue !== issue) problems.push(`${name}: issue ${doc?.issue} is not ${issue}`);
+    if (!String(doc?.source ?? "").trim()) problems.push(`${name}: names no source`);
+    for (const [id, list] of Object.entries(doc?.pins ?? {})) {
+      if (!requestIds.has(id)) {
+        problems.push(`${name}: ${clip(id, 80)} is not a request in the rundown`);
+        continue;
+      }
+      for (const p of list) {
+        if (!p.exclude && (!String(p.fit?.beat ?? "").trim() || !String(p.fit?.why ?? "").trim())) problems.push(`${name}: ${id} ${clip(p.ref, 120)} states no fit (beat and why)`);
+        (out[id] ??= []).push({ ...p, from_file: name });
+      }
+    }
+  }
+  return { pins: out, problems };
 }
 
 /** Every pinned address must be one the fetcher may reach (a pins file cannot widen the allowlist). */

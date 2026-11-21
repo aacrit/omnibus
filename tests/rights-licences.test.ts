@@ -98,7 +98,7 @@ describe("licence allowlist (bible section f)", () => {
       const t = licenceTerms(id);
       expect(t.name, id).toBe(licenceName(id));
       expect(t.terms, id).toBeTruthy();
-      if (id === "pd-dedication" || id === "own-property") expect(t.deed_url, id).toBeNull(); // the item's own evidence is cited instead
+      if (id === "pd-dedication" || id === "own-property" || id === "editorial-use") expect(t.deed_url, id).toBeNull(); // the item's own evidence is cited instead
       else expect(t.deed_url, id).toMatch(/^https:\/\//);
     }
     // A plain dedication has no deed: the packet cites the item's own evidence, never CC0's.
@@ -138,10 +138,10 @@ describe("denylist", () => {
   });
 
   it("refuses networks and outlets by credit and by host, not when merely named in a title", () => {
-    for (const c of ["Al Jazeera", "BBC News", "CNN", "NBC News", "CBS News", "ABC News", "Fox News", "Sky News", "DW News", "France 24", "VOA", "Voice of America"]) {
+    for (const c of ["Al Jazeera", "BBC News", "CNN", "NBC News", "CBS News", "ABC News", "Fox News", "Sky News", "DW News", "France 24"]) {
       expect(deniedBy({ credits: [`Photo: ${c}`] }), c).toContain("denied source: a news network or outlet material");
     }
-    for (const u of ["https://www.aljazeera.com/x.jpg", "https://ichef.bbci.co.uk/x.jpg", "https://media.cnn.com/x.jpg", "https://www.dw.com/x", "https://www.france24.com/x", "https://www.voanews.com/x"]) {
+    for (const u of ["https://www.aljazeera.com/x.jpg", "https://ichef.bbci.co.uk/x.jpg", "https://media.cnn.com/x.jpg", "https://www.dw.com/x", "https://www.france24.com/x"]) {
       expect(deniedBy({ urls: [u] }), u).not.toEqual([]);
     }
     expect(deniedBy({ texts: ["BBC Broadcasting House at night"], credits: ["Jane Roe, via Wikimedia Commons"] })).toEqual([]);

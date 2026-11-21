@@ -448,6 +448,16 @@ FAIL = {
         lambda p, a, i: shot(p, "S-OPEN")["camera"][1].update(x=0.729, y=0.813), {"tour-no-claim-before-board"}),
     "a record the board cannot read": (lambda p, a, i: i["record"]["lead"]["board"].append("not a row"),
                                        {"board-rule"}),
+    # -- S4: founder ruling A (2026-11-13) ---------------------------------------------------------------------------
+    "a Margins picture published after its horizon": (
+        lambda p, a, i: a["st-margin"].update(published_at="2026-03-09T08:00:00+00:00"), {"picture_published_by_edition"}),
+    "fair-use excerpt over 10 s and outside The Weight": (
+        lambda p, a, i: a["st-q"].update(licence="fair-use-excerpt"), {"fair-use-on-timeline"}),
+    # -- S4 review round 3 -------------------------------------------------------------------------------------------
+    "a shot without its item's sourcing dot label": (
+        lambda p, a, i: a["st-margin"].update(dot_label={"text": "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026",
+                                                          "why": "a montage dated by its upload day"}),
+        {"dot-label-carried"}),
 }
 
 

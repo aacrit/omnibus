@@ -20,6 +20,8 @@ export const AGENCIES = [
   { host: "cdc.gov", agency: "the Centers for Disease Control and Prevention", re: /\bCenters for Disease Control and Prevention\b/ },
   { host: "centcom.mil", agency: "US Central Command", re: /\b(?:U\.S\.|United States) Central Command\b/ },
   { host: "defense.gov", agency: "the US Department of Defense", re: /\b(?:U\.S\. )?Department of (?:Defense|War)\b/ },
+  { host: "war.gov", agency: "the US Department of War", re: /\b(?:U\.S\. )?(?:Department|Secretary) of (?:War|Defense)\b/ },
+  { host: "state.gov", agency: "the US Department of State", re: /\b(?:U\.S\. )?Department of State\b/ },
   { host: "archives.gov", agency: "the National Archives", re: /\bNational Archives\b/ },
   { host: "trumanlibrary.gov", agency: "the Harry S. Truman Library (National Archives)", re: /\bTruman (?:Presidential )?Library\b/ },
   { host: "eisenhowerlibrary.gov", agency: "the Eisenhower Presidential Library (National Archives)", re: /\bEisenhower (?:Presidential )?Library\b/ },
@@ -32,7 +34,7 @@ export function agencyFor(host) {
 
 // A credit that names a federal photographer or office is not a third party's.
 const FEDERAL_CREDIT =
-  /\bOfficial White House Photo\b|\bWhite House Photo\b|\b(?:U\.S\.|US) (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Space Force|Senate|House)\b|\bDepartment of (?:Defense|War)\b|\bDoD\b|\bDVIDS\b|\bSenate Photographic Studio\b|\bNational Archives\b|\bCDC\b/;
+  /\bOfficial White House Photo\b|\bWhite House Photo\b|\b(?:U\.S\.|US) (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Space Force|Senate|House)\b|\bDepartment of (?:Defense|War|State)\b|\bState Department\b|\bDoD\b|\bDoW\b|\bDVIDS\b|\bSenate Photographic Studio\b|\bNational Archives\b|\bCDC\b/;
 
 // Hosts whose iframes carry no picture (tag managers, captchas): not an embed of media.
 const NOT_MEDIA = /(^|\.)(googletagmanager\.com|google\.com|gstatic\.com|recaptcha\.net)$/;
@@ -77,7 +79,7 @@ const CREDIT_PATTERNS = [
   // a bare "Credit: X" or "Credits: X"
   new RegExp(`\\bcredits?\\s*:\\s*${TAIL}`, "gi"),
   // "Official White House Photo by X", "Photo by Reuters"
-  new RegExp(`(?:\\b(?:Official\\s+)?(?:White House|U\\.S\\. (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Senate)|DoD|Senate)\\s+)?\\b(?:photo|image|video|footage)s?\\s+by\\s+${TAIL}`, "gi"),
+  new RegExp(`(?:\\b(?:Official\\s+)?(?:White House|U\\.S\\. (?:Army|Navy|Air Force|Marine Corps|Coast Guard|Senate)|DoD|DoW|Senate|State Department|Department of (?:State|War|Defense))\\s+)?\\b(?:photo|image|video|footage)s?\\s+by\\s+${TAIL}`, "gi"),
   // "Andrew Harnik/Getty Images", "Name/AFP"
   /[^()[\]/]{2,80}\/\s*(?:Getty Images|AFP|EPA|Reuters|AP|Bloomberg|Pool)\b/g,
   new RegExp(`\\bcourtesy\\s+(?:of\\s+)?${TAIL}`, "gi"),

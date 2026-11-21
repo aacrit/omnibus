@@ -151,6 +151,26 @@ def bodies_value(item: dict):
     return item.get("shows_bodies", item.get("shows_violence_or_bodies"))
 
 
+def aired_bodies(item: dict, span) -> dict:
+    """The item as one shot airs it (CoS ruling, rights fix round 4): a file whose ledger states ``shows_bodies: true``
+    with ``bodies_excluded {from_s, to_s, note}`` shows no bodies in a shot whose source span [in_s, out_s] lies
+    within the item's fit and clear of those seconds; that shot's view states ``shows_bodies: false`` and names the
+    seconds left out. Any other item, or shot, is returned as it is."""
+    b = item.get("bodies_excluded") if isinstance(item, dict) else None
+    f = item.get("fit") if isinstance(item, dict) and isinstance(item.get("fit"), dict) else {}
+    if not (item and item.get("shows_bodies") is True and isinstance(b, dict) and span is not None):
+        return item
+    try:
+        lo, hi, fa, fb = float(b["from_s"]), float(b["to_s"]), float(f["in_s"]), float(f["out_s"])
+        a, z = float(span[0]), float(span[1])
+    except (KeyError, TypeError, ValueError):
+        return item
+    if fa - 1e-6 <= a and z <= fb + 1e-6 and (z <= lo + 1e-6 or a >= hi - 1e-6):
+        return dict(item, shows_bodies=False, bodies_left_out={"file_shows_bodies": True, "from_s": lo, "to_s": hi,
+                                                              "shot": [a, z], "note": b.get("note")})
+    return item
+
+
 def asset_checks(item: dict, rule: dict) -> list[dict]:
     """Every check the film's imagery rule makes on one cited asset, as
     ``{rule, ok, severity, evidence}``. ``no-bodies`` is always present (the
@@ -166,7 +186,9 @@ def asset_checks(item: dict, rule: dict) -> list[dict]:
                     "evidence": {"shows_bodies": bodies, "imagery_rule": "show_bodies: true (the film's rule)",
                                  "why": None if flag(bodies) else "shows_bodies must be stated true or false"}})
     else:
-        out.append({"rule": "no-bodies", "ok": bodies is False, "severity": "block", "evidence": {"shows_bodies": bodies}})
+        out.append({"rule": "no-bodies", "ok": bodies is False, "severity": "block",
+                    "evidence": {"shows_bodies": bodies, **({"left_out": item["bodies_left_out"]}
+                                                            if item.get("bodies_left_out") else {})}})
     if not (rule.get("declared") or carries_content_fields(item)):
         return out
     unstated = {k: item.get(k, "(absent)") for k in REQUIRED_FLAGS if not flag(item.get(k))}

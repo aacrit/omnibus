@@ -25,7 +25,9 @@ narrator-takes-voiced already reads) with the fields an omnibus plan needs, sche
   takes to it. ``voices`` holds each cast voice that voiced a line (an omnibus film has two narrator speeds, the Echo's
   0.84, and its readers), and each line names the one that voiced it, which must be the line's own ``read_by`` (or
   the narrator for a narration line that names none) with that voice's identity.
-- ``wav`` is relative to the film folder; ``sha256`` is the file's; ``text_sha256`` the line's text when voiced
+- ``wav`` is relative to the film folder; ``media`` (optional, top level) is the folder E7 wrote the takes to
+  (week 33: ``D:/omnibus-media/33/voice``; media never enter git), and then each take is read as ``<media>/<wav's
+  file name>`` (``take``); ``sha256`` is the file's; ``text_sha256`` the line's text when voiced
   (narrator.sha256_text), so a line edited since is re-voiced.
 - ``dur_s`` is the take's length, ``words`` its word timings in seconds from the take's start, in order, each inside
   the take. The plan reads them as the line's measured words (tour anchors, A41 and A47), placed at the line's
@@ -59,6 +61,16 @@ def relative_inside(w: str) -> bool:
     Windows nor the POSIX sense (``C:/x``, ``\\\\host\\x``, ``/x``) and no ``..`` part."""
     return not (PureWindowsPath(w).is_absolute() or PurePosixPath(w).is_absolute() or PureWindowsPath(w).drive
                 or ".." in PurePosixPath(w.replace("\\", "/")).parts)
+
+
+def take(man, wav: str) -> str:
+    """Where a line's take is: ``<media>/<the wav's file name>`` when the manifest names its ``media`` root (E7 writes
+    the WAVs there, outside the repo, as a ledger's ``media`` names its asset root), else ``wav`` itself, relative to
+    the film folder. render.py joins it to the film folder either way (an absolute path stands alone)."""
+    media = man.get("media") if isinstance(man, dict) else None
+    if not (isinstance(media, str) and media.strip()):
+        return wav
+    return (PurePosixPath(media.strip().replace("\\", "/")) / PurePosixPath(wav.replace("\\", "/")).name).as_posix()
 
 
 def voiced_lines(play: dict) -> list[dict]:
@@ -122,7 +134,7 @@ def line_problems(lid: str, rec, ident: dict | None) -> list[str]:
 
 def problems(man, play: dict, *, exists=None, read_sha=None, text_sha=None) -> list[str]:
     """Why the manifest cannot carry the plan, one line each ([] when it can). ``exists`` and ``read_sha`` take a
-    path relative to the film folder (render.py passes file checks; a pure caller may pass None to skip them);
+    take's path (``take``: under the manifest's ``media`` root, else relative to the film folder) (render.py passes file checks; a pure caller may pass None to skip them);
     ``text_sha`` hashes a line's text (narrator.sha256_text)."""
     if man is None:
         return [f"no voicing manifest at {PATH.as_posix()}: E7 voices every narration and reader line and writes it "
@@ -136,6 +148,8 @@ def problems(man, play: dict, *, exists=None, read_sha=None, text_sha=None) -> l
     if voices is None:
         out.append(f"{PATH.as_posix()} voices is an object keyed by cast voice id")
         voices = {}
+    if "media" in man and not (isinstance(man["media"], str) and man["media"].strip()):
+        out.append(f"{PATH.as_posix()} media is the folder E7 wrote the takes to (a path), when it names one")
     lines = man.get("lines") if isinstance(man.get("lines"), dict) else None
     if lines is None:
         return out + [f"{PATH.as_posix()} lines is an object keyed by line id"]
@@ -164,14 +178,15 @@ def problems(man, play: dict, *, exists=None, read_sha=None, text_sha=None) -> l
         if text_sha is not None and rec["text_sha256"] != text_sha(ln.get("text") or ""):
             out.append(f"{lid}: its text changed since it was voiced")
             continue
-        if ln.get("wav") and Path(ln["wav"]).as_posix() != Path(rec["wav"]).as_posix():
-            out.append(f"{lid}: the screenplay plays {ln['wav']}, the manifest voiced {rec['wav']}")
+        where = take(man, rec["wav"])
+        if ln.get("wav") and Path(ln["wav"]).as_posix() not in (Path(rec["wav"]).as_posix(), Path(where).as_posix()):
+            out.append(f"{lid}: the screenplay plays {ln['wav']}, the manifest voiced {where}")
             continue
-        if exists is not None and not exists(rec["wav"]):
-            out.append(f"{lid}: {rec['wav']} is missing")
+        if exists is not None and not exists(where):
+            out.append(f"{lid}: {where} is missing")
             continue
-        if read_sha is not None and read_sha(rec["wav"]) != rec["sha256"]:
-            out.append(f"{lid}: {rec['wav']} is not the take the manifest records")
+        if read_sha is not None and read_sha(where) != rec["sha256"]:
+            out.append(f"{lid}: {where} is not the take the manifest records")
     return out
 
 
@@ -190,7 +205,7 @@ def apply(play: dict, man, *, words: bool = True) -> dict:
             rec = lines.get(ln.get("id"))
             if ln.get("kind") in VOICE_KINDS and isinstance(rec, dict) and not line_problems(ln["id"], rec, None):
                 ln = dict(ln)
-                ln.setdefault("wav", rec["wav"])
+                ln.setdefault("wav", take(man, rec["wav"]))
                 if words and not ln.get("words"):
                     t0 = float(ln.get("start_s") or 0.0)
                     ln["words"] = [{"w": w["w"], "t": round(t0 + float(w["start_s"]), 4)} for w in rec["words"]]
