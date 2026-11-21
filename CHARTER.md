@@ -36,12 +36,12 @@ Reading the counts: every count is capped by its daily ceiling, and a browser-se
 ## Workflows: 8 (gate, verify-production, branch-prune, snapshot, studio-full, episode-draft, probe-hosts, capture)
 
 `studio-full` (added 2026-11-12) runs the lifted engine's whole test suite (`studio/tests`, about 2,560
-cases); the per-commit `gate` runs only a fast subset (docs/DECISIONS.md).
-`episode-draft` (added 2026-11-13, C8) renders an episode's CPU-heavy draft on Actions, dispatched by hand per episode (docs/DECISIONS.md).
+cases); the per-commit `gate` runs only a fast subset (`docs/decisions/2026-11-12-studio-test-s-real-ci-timings-every-test-tweak-and-main-s-branch-prote.md`).
+`episode-draft` (added 2026-11-13, C8) renders an episode's CPU-heavy draft on Actions, dispatched by hand per episode (`docs/decisions/2026-11-13-c8-the-cpu-heavy-draft-runs-on-github-actions-episode-draft-yml.md`).
 
 `probe-hosts` (added 2026-11-13, C0 of the footage capture) is manual dispatch only: it probes the capture
-job's hosts once with the fetcher's honest identity, no retries (docs/DECISIONS.md).
+job's hosts once with the fetcher's honest identity, no retries (`docs/decisions/2026-11-13-c0-the-capture-hosts-probed-once-from-github-actions.md`).
 
 `capture` (added 2026-11-13, C6 of the footage capture, the Studio row) runs three times a day: it keeps the
 week's federal, Commons, DVIDS, VOA and NASA items with their evidence and a <=480p proxy in the private R2
-bucket `omnibus-capture`, and the week's pool once per weekly issue (docs/DECISIONS.md).
+bucket `omnibus-capture`, and the week's pool once per weekly issue (`docs/decisions/`).
