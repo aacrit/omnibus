@@ -1,0 +1,7 @@
+# 2026-11-21: T8, the echo bank's settlement entries
+
+**The bank file.** `ledgers/echo-bank.json` (`omnibus.echo-bank/1`) is the bank section g's advance-pick rule reads: the mechanism vocabulary and the tagged entries, checked by `scripts/lib/echo-bank.mjs` (`bankProblems`, `advancePickProblems`, `firstUsableWeek`, `noBridgeTerms`) and `tests/echo-bank.test.ts`. The bible names no tag format; the bank commit is tagged `echo-bank/<YYYY-MM-DD>` (annotated, UTC date of the commit), and `echo.bank_commit` names that commit.
+**Entries added**, each with a horizon, at least two period perspectives in their own words, one period document, six or more public domain items (metadata only) and its no-bridge lists: `congress-of-vienna-1815`, `congress-of-berlin-1878`, `yalta-conference-1945`, `potsdam-conference-1945`, `helsinki-final-act-1975`. Committed before 23 Nov 00:00 UTC, so first usable in issue 36's week.
+**Found.** None of the 78 void history events carries mechanism tags at any commit read today. Section q's line that `cuban-missile-crisis` was "in the bank with tags before 16 Nov" has no commit behind it, so issue 35's Echo cannot pass `echo-advance-pick` as written; the coordinator decides.
+**Rights flags.** Every Signal Corps film (111-ADC) found for Yalta and Potsdam carries NARA's "Restricted - Possibly (Copyright)" use note; the Helsinki summit has no public domain film (WHCA records are TV recordings). Each needs the rights reader before use.
+**Bed 2** and the written-ending rule belong to the music director: `docs/tickets/T8b-echo-bed-2.md`.

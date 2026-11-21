@@ -1,16 +1,25 @@
 name: studio-full
 
-# The per-commit `gate` job's studio-test step runs only aswas, clips, pages, disclosure, counts, maps and a net-new palette-vs-tokens guard (601
-# cases, measured 187s on CI; the whole gate job measured 3m54s): the areas that don't need the session-scoped
-# `rendered`/`plan` fixture (a real small render). Render core, layers/stems, narrator and the titles/score
-# audio checks all build or measure real media and are too slow for the per-commit gate (test_render.py alone
-# measured ~4 min locally); see docs/DECISIONS.md (2026-11-12) for the exact split. This workflow runs the
-# WHOLE lifted suite instead (studio/tests, about 2,560 cases): on every pull request (so the check always
-# reports, satisfying branch protection even for a PR that never touches studio/**) but only executes pytest
-# when a path this gate's own inputs depend on changed, on push to main, or nightly; otherwise it reports
-# success without running it. No advisory escape hatch of any kind (rules 1, 14): a run that executes pytest
-# fails the job on any failing or erroring test. A failed scheduled (nightly) run opens or updates a tracked
-# issue, the same prod-red shape as .github/workflows/verify-production.yml.
+# CI0 (ci0/speed): this used to be one job running the whole lifted engine's suite
+# (studio/tests, ~3,000 cases) in series, measured at 33-40 min. It now shards the suite
+# across 4 parallel `shard` jobs with pytest-split (deterministic: with no committed
+# `.test_durations` cache it falls back to an even, count-based split over the sorted
+# collected test ids, so the same 4 groups come out every run on an unchanged suite), each
+# taking roughly a quarter of the time. A final `studio-full` job `needs:` all 4 shards and
+# is the one branch protection requires by name; it fails if any shard failed, was skipped
+# or never ran, and - whenever the shards actually executed pytest - also proves the 4
+# shards' collected test ids, union'd, equal the full collection exactly (no gaps, no
+# duplicates: scripts/verify-shard-collection.mjs, tests/verify-shard-collection.test.ts).
+#
+# Everything else about when pytest actually runs is unchanged from before the split: on
+# every pull request (so the check always reports, satisfying branch protection even for a
+# PR that never touches studio/**) but only executes pytest when a path this gate's own
+# inputs depend on changed, on push to main, or nightly; otherwise it reports success
+# without running it. No advisory escape hatch of any kind (rules 1, 14): a shard that
+# executes pytest fails its own job on any failing or erroring test, and the final job
+# fails if that happened to any shard. See docs/decisions/ for the exact history of this
+# split and docs/decisions/2026-11-12-studio-test-s-real-ci-timings-every-test-tweak-and-main-s-branch-prote.md
+# for the original single-job timings this ticket improved on.
 #
 # Rule 10 (Agentique CLAUDE.md) declaration:
 #   owner: Forge (omnibus)
@@ -29,45 +38,106 @@ permissions:
   issues: write
 
 jobs:
-  studio-full:
+  changed:
     runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Widened past studio/** itself: anything the fast subset's own gate step, or this workflow, reads or is
-      # defined by, so a change to one of those without a matching studio/ change still runs the full suite.
+      # Widened past studio/** itself: anything the fast subset's own gate step, or this workflow
+      # (including its shard-collection proof), reads or is defined by, so a change to one of those
+      # without a matching studio/ change still runs the full suite.
       - name: does this change touch the lifted engine or its gate wiring?
         id: changed
         run: |
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           elif git diff --name-only "origin/${{ github.event.pull_request.base.ref }}"...HEAD \
-               | grep -qE '^(studio/|pytest\.ini$|package(-lock)?\.json$|web/src/cc-licences\.json$|tests/fixtures/a0-cases\.json$|\.github/workflows/studio-full\.yml$|scripts/gate\.mjs$)'; then
+               | grep -qE '^(studio/|pytest\.ini$|package(-lock)?\.json$|web/src/cc-licences\.json$|tests/fixtures/a0-cases\.json$|\.github/workflows/studio-full\.yml$|scripts/gate\.mjs$|scripts/verify-shard-collection\.mjs$)'; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
+
+  shard:
+    needs: changed
+    if: needs.changed.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        if: steps.changed.outputs.run == 'true'
         with:
           node-version: "22"
       - uses: actions/setup-python@v5
-        if: steps.changed.outputs.run == 'true'
         with:
           python-version: "3.12"
       - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
-        if: steps.changed.outputs.run == 'true'
       - run: python -m pip install -r studio/requirements-studio.txt
-        if: steps.changed.outputs.run == 'true'
       # npm install, not npm ci: the engine's card-drawing tests need the @fontsource packages under
       # node_modules (studio/engine/motion.py), the same install the per-commit gate already runs.
       - run: npm install
-        if: steps.changed.outputs.run == 'true'
-      - run: python -m pytest studio/tests -q -p no:cacheprovider
-        if: steps.changed.outputs.run == 'true'
-      - run: echo "nothing the lifted engine's gate wiring depends on changed; the full suite still runs on push to main and nightly"
-        if: steps.changed.outputs.run == 'false'
+      - name: run this shard's quarter of studio/tests
+        run: python -m pytest studio/tests -q -p no:cacheprovider --splits 4 --group ${{ matrix.shard }}
+      # A second, separate pass that collects (never runs) this shard's test ids, for the final
+      # job's gap/duplicate proof. Collection alone is fast (a few seconds) next to the run above.
+      - name: record this shard's collected test ids
+        run: python -m pytest studio/tests --collect-only -q -p no:cacheprovider --splits 4 --group ${{ matrix.shard }} > collected-ids-${{ matrix.shard }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shard-ids-${{ matrix.shard }}
+          path: collected-ids-${{ matrix.shard }}.txt
+          retention-days: 1
+
+  # The required status check (branch protection: aacrit/omnibus main requires `gate` and
+  # `studio-full` by this exact name). `if: always()` so it still runs - and can itself fail -
+  # even though `shard` is skipped whenever `changed` reports nothing to run.
+  studio-full:
+    needs: [changed, shard]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail if the change-detection job itself failed
+        if: needs.changed.result != 'success'
+        run: |
+          echo "studio-full: the changed job's own result was '${{ needs.changed.result }}', not 'success', so its run= output cannot be trusted." >&2
+          exit 1
+      - name: fail if the shard matrix did not fully succeed
+        if: needs.changed.outputs.run == 'true' && needs.shard.result != 'success'
+        run: |
+          echo "studio-full: the shard matrix's result was '${{ needs.shard.result }}', not 'success' - at least one shard failed, was skipped or never ran." >&2
+          exit 1
+      - name: nothing the lifted engine's gate wiring depends on changed
+        if: needs.changed.outputs.run != 'true'
+        run: echo "nothing the lifted engine's gate wiring depends on changed; the full suite still runs on push to main and nightly"
+      - uses: actions/checkout@v4
+        if: needs.changed.outputs.run == 'true'
+      - uses: actions/setup-node@v4
+        if: needs.changed.outputs.run == 'true'
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        if: needs.changed.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r studio/requirements-studio.txt
+        if: needs.changed.outputs.run == 'true'
+      - uses: actions/download-artifact@v4
+        if: needs.changed.outputs.run == 'true'
+        with:
+          pattern: shard-ids-*
+          merge-multiple: true
+      - name: collect the whole suite's test ids (no execution)
+        if: needs.changed.outputs.run == 'true'
+        run: python -m pytest studio/tests --collect-only -q -p no:cacheprovider > full-collected.txt
+      - name: prove the 4 shards together equal the full collection, no gaps, no duplicates
+        if: needs.changed.outputs.run == 'true'
+        run: node scripts/verify-shard-collection.mjs --full full-collected.txt --shards collected-ids-1.txt collected-ids-2.txt collected-ids-3.txt collected-ids-4.txt
       - name: Open or update the studio-red issue on a failed scheduled run
         if: failure() && github.event_name == 'schedule'
         env:
@@ -75,7 +145,7 @@ jobs:
         run: |
           set -e
           EXISTING=$(gh issue list --label studio-red --state open --json number --jq '.[0].number')
-          BODY="The nightly full run of the lifted engine's suite (studio/tests) failed at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The Agentique Watch routine also reads this label weekly; closing this issue does not require a code change if the maintainer confirms the suite passes again."
+          BODY="The nightly full run of the lifted engine's suite (studio/tests, now sharded 4 ways) failed at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The Agentique Watch routine also reads this label weekly; closing this issue does not require a code change if the maintainer confirms the suite passes again."
           if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
             gh issue comment "$EXISTING" --body "$BODY"
           else

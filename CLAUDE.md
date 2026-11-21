@@ -77,7 +77,9 @@ See `CHARTER.md` for its surfaces and kill dates, and `contract.yaml` for what
 - Every picture or sound enters an episode only through its rights ledger,
   written by `scripts/rights.mjs` (never by hand) and held to the bible's
   licence allowlist and denylist in `scripts/lib/rights/licences.mjs`.
-  Widening the allowlist or the fetcher's hosts needs a DECISIONS entry.
+  Widening the allowlist or the fetcher's hosts needs a decision entry in
+  `docs/decisions/` (one file per decision; `docs/DECISIONS.md` is a static
+  index, never appended to: `scripts/lint-decisions.mjs`).
 - disputes.json is generated from the ledger; the gate fails on a hand edit.
 - Media live outside the repo; the ledger records a bare file name only.
 
