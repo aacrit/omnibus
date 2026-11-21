@@ -91,6 +91,7 @@ from pathlib import Path
 
 from studio.engine import aswas as AW
 from studio.news import graphic as G
+from studio.news import rundown_shape as RS
 from studio.news import schema as SC
 
 REPO = Path(__file__).resolve().parents[2]
@@ -1580,6 +1581,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out += _guarded("ending-question", ending_checks, play, durations)
     out += _guarded("black-share", black_checks, play)
     out += _guarded("tour-window-inside", tour_checks, play, assets, inputs)
+    out += _guarded(RS.RULE, RS.shape_checks, play, inputs)   # T2: a part's shape is its rundown/2 story's
     return out + deferred_checks()
 
 

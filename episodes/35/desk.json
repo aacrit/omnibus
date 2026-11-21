@@ -1,0 +1,5181 @@
+{
+  "schema": "omnibus.desk/1",
+  "issue": 35,
+  "window": {
+    "from": "2026-11-16",
+    "to": "2026-11-21",
+    "days": [
+      "2026-11-16",
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-21"
+    ],
+    "days_present": [
+      "2026-11-16",
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-21"
+    ],
+    "days_missing": []
+  },
+  "pin": {
+    "repo": "https://github.com/aacrit/void--news",
+    "archive_commit": "b8dcf8752b2ddbb903c3e9a0ed05f29d3a98d82c",
+    "cutoff_utc": "2026-11-21T14:17:37Z",
+    "rule": "the first commit whose frontend/build-data/archive.json holds the 2026-11-21 print",
+    "last_print_utc": "2026-11-21T14:07:07Z"
+  },
+  "formula": {
+    "source": "void news pipeline/briefing/weekly_digest_generator.py _score_weekly_threads",
+    "weights": {
+      "daily_appearances": 0.25,
+      "cumulative_sources": 0.2,
+      "brief_mentions": 0.2,
+      "peak_rank": 0.15,
+      "edition_spread": 0.1,
+      "total_divergence": 0.1
+    },
+    "threads_by": "story_thread_id"
+  },
+  "briefs": [
+    {
+      "id": "3be3387e-1560-4d04-af7a-3e1d877a64fa",
+      "created_at": "2026-11-16T14:46:31.806482+00:00",
+      "top_cluster_ids": [
+        "d0b7be12-2491-4c23-938a-fdecb438db8d",
+        "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
+        "5b21b1d1-4d55-4935-b3de-e6a274e59389",
+        "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
+        "f63bc2f8-d2cb-4fa6-a2cd-19c0310357e6",
+        "1c44ffc9-65a3-4b64-91df-3a6b96c5c758",
+        "28d090bc-96f4-401d-b74e-6702cf320db7",
+        "cf5a1346-d7e7-418e-8756-f7c7c8e21f60",
+        "7071d64f-5ee0-489b-b523-74a35da24439",
+        "bd3fe394-971f-49c7-9367-6eabcd8c0789"
+      ],
+      "tldr_headline": "Brexit Rejected, Drones Strike Crimea, Trade Pacts Strained"
+    },
+    {
+      "id": "058d91d1-7da0-4875-bafb-f75fdb698fe8",
+      "created_at": "2026-11-17T09:33:13.590307+00:00",
+      "top_cluster_ids": [
+        "db71e948-f301-43e6-905b-7a6975e76369",
+        "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
+        "ee8ca440-cf69-43a5-a306-be0900eeefc7",
+        "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
+        "fab36223-904b-4808-b3d5-82015223038b",
+        "500328c0-1610-4e86-94b2-78b432173c40",
+        "b6e83412-c448-4ec2-9463-b376e53e3ace",
+        "3ab138f6-82a2-4b40-9f7d-df581e21083d",
+        "21df0ab4-839f-4be4-8bd4-1ab38c5ce0d2",
+        "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76"
+      ],
+      "tldr_headline": "Supreme Court Blocks Grant Cuts, Air Traffic Stalls"
+    },
+    {
+      "id": "61a876a0-3804-4202-a345-67c115a2126d",
+      "created_at": "2026-11-18T09:50:54.286023+00:00",
+      "top_cluster_ids": [
+        "db0bd3d6-c29f-4db1-b587-296a66e1919d",
+        "f941b069-bef5-491b-b43c-345024d50908",
+        "7c3520e1-523a-4e09-8130-26b482252ea9",
+        "c2c750dc-af94-48fd-a1aa-2e3ca611d656",
+        "fc265ec6-9d0f-4bc9-b91c-90aaa66bc2a7",
+        "1419ceed-ffc1-4072-b96e-b509ab776fe5",
+        "b18717b3-5812-4e88-b94f-9c275cd59c70",
+        "c2cca4ec-6586-428e-90ee-99f0fd2065e2",
+        "9df3192f-8afd-418f-aca1-d1bf8bc6f650",
+        "021caa58-04b9-44b0-a7d2-25777033d369"
+      ],
+      "tldr_headline": "Missiles Strike Gulf, Kerch Bridge Span Collapses"
+    },
+    {
+      "id": "1433d7f5-3f8c-4ab1-8aa6-32698dab9e96",
+      "created_at": "2026-11-19T15:02:30.849988+00:00",
+      "top_cluster_ids": [
+        "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
+        "672e3dce-f779-4d60-8643-867de16ae26c",
+        "44ece519-a5cb-420c-8daf-56602dbfa816",
+        "e0993e3e-23ff-4eb5-8be9-910bf3978b08",
+        "e42bef67-eba1-4eb5-ae32-c848eeec6a6c",
+        "32bcd205-a660-4ff6-90e3-b54c8707d44d",
+        "b4b4b822-93cb-4e70-b767-d9808707117a",
+        "37caa539-cf6e-4022-8728-17a9f13bf6d5",
+        "14607933-69a3-4c79-9392-193d1e178006",
+        "cc800ee9-3a6b-4b25-8a40-0a8017e5a704"
+      ],
+      "tldr_headline": "Court Rules Genocide, Trilateral Greenland Deal, Venezuela Oil Pact"
+    },
+    {
+      "id": "7c148002-cc30-47c5-88b8-92b9a3503f01",
+      "created_at": "2026-11-20T14:59:30.853820+00:00",
+      "top_cluster_ids": [
+        "a20dee58-b05f-45e6-81eb-ff767ae64a10",
+        "1711ed61-dd08-4645-b80f-41798480158b",
+        "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
+        "e2529302-e27f-4e24-899e-1d624a4f828f",
+        "907b23ae-79d5-4926-a022-caaccc863d45",
+        "46f3452c-439e-4e1e-9113-64c95c5d1ee7",
+        "4940de75-ee10-4491-8054-77845b5c9f43",
+        "6a5a2c8f-d356-4a84-a7bd-8dbbc613a490",
+        "36cb8fdf-4b45-45d5-b644-a8146347d96c",
+        "962de9d3-5092-42bb-9db4-19733e8e7163"
+      ],
+      "tldr_headline": "Trilateral Peace Declaration Issued Amid Bridge Strikes in Kyiv"
+    },
+    {
+      "id": "a479db23-160a-4c58-85bb-0615dcae291a",
+      "created_at": "2026-11-21T14:16:30.965933+00:00",
+      "top_cluster_ids": [
+        "d3ceb398-3e3e-41d0-8f93-6d75ddd27966",
+        "cee27d6b-ee40-4304-9764-3fc92e756b6e",
+        "5c7d7398-4939-44c0-9d08-455fe0d86412",
+        "df975185-f5e5-40bd-8a57-0bf1c89f9b8a",
+        "61e3f19e-a282-40cd-9274-fb39904cedca",
+        "501b8bc7-46a8-417a-98e1-bea08d63ecab",
+        "ea3cf962-5682-4b3a-9f1d-df9b765346c7",
+        "913d9906-b59b-44da-a216-b94e96dd4223",
+        "7cd2e844-9b44-43af-a4f9-734a09bd93b8",
+        "64b6d669-58c5-4918-9c9c-c7219563fa14"
+      ],
+      "tldr_headline": "Trade Deals, Airstrikes, Genocide Rulings, and Arson Convictions"
+    }
+  ],
+  "weekly_crosscheck": {
+    "weekly_edition_seen": false
+  },
+  "threads": [
+    {
+      "key": "thread-2fd54bb9",
+      "rank": 1,
+      "score": 0.915473,
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 132,
+        "brief_mentions": 4,
+        "peak_rank": 72.53,
+        "edition_spread": 1,
+        "total_divergence": 120.47
+      },
+      "title": "Ukrainian Strikes Collapse Crimean Bridge Arch and Halt Kerch Strait Traffic",
+      "thread_ids": [
+        "2fd54bb9-2b82-4162-b4b3-20f0c89952ef"
+      ],
+      "cluster_ids": [
+        "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
+        "672e3dce-f779-4d60-8643-867de16ae26c",
+        "a6a8ae52-5e2f-4a70-8b14-baf9262d8cab",
+        "fc265ec6-9d0f-4bc9-b91c-90aaa66bc2a7"
+      ],
+      "rows": [
+        {
+          "cluster_id": "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
+          "printed_id": "64238bb6-2a48-4937-9994-45e64dc0e35b",
+          "printed_on": "2026-11-16",
+          "edition_position": 4,
+          "title": "Ukrainian Drones Strike Crimean Bridge Amid Record Overnight Air Assault on Russia",
+          "category": "conflict",
+          "source_count": 17,
+          "headline_rank": 64.51,
+          "divergence_score": 29.8,
+          "story_thread_id": "2fd54bb9-2b82-4162-b4b3-20f0c89952ef"
+        },
+        {
+          "cluster_id": "a6a8ae52-5e2f-4a70-8b14-baf9262d8cab",
+          "printed_id": "5aa7ef4e-adfa-411c-aa4a-7f35de790977",
+          "printed_on": "2026-11-17",
+          "edition_position": 2,
+          "title": "Ukrainian Strikes Collapse Crimean Bridge Arch and Halt Kerch Strait Traffic",
+          "category": "conflict",
+          "source_count": 33,
+          "headline_rank": 72.53,
+          "divergence_score": 31.24,
+          "story_thread_id": "2fd54bb9-2b82-4162-b4b3-20f0c89952ef"
+        },
+        {
+          "cluster_id": "fc265ec6-9d0f-4bc9-b91c-90aaa66bc2a7",
+          "printed_id": "f7e886e2-7813-4bd5-a6e2-6b198012b3a4",
+          "printed_on": "2026-11-18",
+          "edition_position": 6,
+          "title": "Ukrainian Strikes Collapse Critical Section of Road Bridge Connecting Russia and Crimea",
+          "category": "conflict",
+          "source_count": 47,
+          "headline_rank": 65.19,
+          "divergence_score": 33.68,
+          "story_thread_id": "2fd54bb9-2b82-4162-b4b3-20f0c89952ef"
+        },
+        {
+          "cluster_id": "672e3dce-f779-4d60-8643-867de16ae26c",
+          "printed_id": "bbe06c9c-def6-46ce-9ffa-7d85e33e0c10",
+          "printed_on": "2026-11-19",
+          "edition_position": 2,
+          "title": "Ukrainian Forces Target Crimean Bridge for Third Time in One Week",
+          "category": "conflict",
+          "source_count": 35,
+          "headline_rank": 65.29,
+          "divergence_score": 25.75,
+          "story_thread_id": "2fd54bb9-2b82-4162-b4b3-20f0c89952ef"
+        }
+      ]
+    },
+    {
+      "key": "thread-20c65f07",
+      "rank": 2,
+      "score": 0.882485,
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 212,
+        "brief_mentions": 2,
+        "peak_rank": 72.44,
+        "edition_spread": 1,
+        "total_divergence": 110.49
+      },
+      "title": "Canada and China Expand Tariff Relief Ahead of APEC Summit",
+      "thread_ids": [
+        "20c65f07-e6bf-4ecd-8337-59fdac0f6645"
+      ],
+      "cluster_ids": [
+        "46f3452c-439e-4e1e-9113-64c95c5d1ee7",
+        "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
+        "7523e65f-d1bf-42f8-8170-e30c70b4b70d",
+        "e70e2747-67a6-45fb-8444-8d0b8449e436"
+      ],
+      "rows": [
+        {
+          "cluster_id": "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
+          "printed_id": "20c65f07-e6bf-4ecd-8337-59fdac0f6645",
+          "printed_on": "2026-11-17",
+          "edition_position": 3,
+          "title": "Canada and China Expand Tariff Relief Ahead of APEC Summit",
+          "category": "politics",
+          "source_count": 23,
+          "headline_rank": 72.44,
+          "divergence_score": 15.2,
+          "story_thread_id": "20c65f07-e6bf-4ecd-8337-59fdac0f6645"
+        },
+        {
+          "cluster_id": "e70e2747-67a6-45fb-8444-8d0b8449e436",
+          "printed_id": "a50862c1-bed1-4d72-98dc-a7ac9b124fd0",
+          "printed_on": "2026-11-18",
+          "edition_position": 18,
+          "title": "Canada and China Expand Tariff Relief Agreements During APEC Summit in Shenzhen",
+          "category": "politics",
+          "source_count": 15,
+          "headline_rank": 54.17,
+          "divergence_score": 36.93,
+          "story_thread_id": "20c65f07-e6bf-4ecd-8337-59fdac0f6645"
+        },
+        {
+          "cluster_id": "7523e65f-d1bf-42f8-8170-e30c70b4b70d",
+          "printed_id": "30f079fe-a378-490e-a17a-e3b949cf8462",
+          "printed_on": "2026-11-19",
+          "edition_position": 26,
+          "title": "Leaders Issue Peace Declaration During Trilateral Summit in Shenzhen",
+          "category": "politics",
+          "source_count": 31,
+          "headline_rank": 47.56,
+          "divergence_score": 24.29,
+          "story_thread_id": "20c65f07-e6bf-4ecd-8337-59fdac0f6645"
+        },
+        {
+          "cluster_id": "46f3452c-439e-4e1e-9113-64c95c5d1ee7",
+          "printed_id": "56ebb3fc-25f6-4696-8526-98574c9679f1",
+          "printed_on": "2026-11-20",
+          "edition_position": 8,
+          "title": "Trump, Xi, and Putin Issue Peace Declaration After Historic Trilateral Summit",
+          "category": "conflict",
+          "source_count": 143,
+          "headline_rank": 61.01,
+          "divergence_score": 34.07,
+          "story_thread_id": "20c65f07-e6bf-4ecd-8337-59fdac0f6645"
+        }
+      ]
+    },
+    {
+      "key": "thread-82c2a903",
+      "rank": 3,
+      "score": 0.800681,
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 80,
+        "brief_mentions": 3,
+        "peak_rank": 70.43,
+        "edition_spread": 1,
+        "total_divergence": 106.43
+      },
+      "title": "Prime Minister Andy Burnham Agrees to Trade and Youth Mobility Deals With European Union Leaders",
+      "thread_ids": [
+        "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+      ],
+      "cluster_ids": [
+        "14607933-69a3-4c79-9392-193d1e178006",
+        "36cb8fdf-4b45-45d5-b644-a8146347d96c",
+        "9482dab6-bcd0-4d53-bfbd-19fca2f08b7a",
+        "d3ceb398-3e3e-41d0-8f93-6d75ddd27966"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9482dab6-bcd0-4d53-bfbd-19fca2f08b7a",
+          "printed_id": "28837e13-d194-4623-b5d3-0307b33110ca",
+          "printed_on": "2026-11-18",
+          "edition_position": 15,
+          "title": "Prime Minister Andy Burnham Faces Conservative Backlash Over Upcoming European Union Reset Deal",
+          "category": "general",
+          "source_count": 14,
+          "headline_rank": 55.68,
+          "divergence_score": 29.12,
+          "story_thread_id": "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+        },
+        {
+          "cluster_id": "14607933-69a3-4c79-9392-193d1e178006",
+          "printed_id": "482135e9-5a49-40b6-b7a8-162808379902",
+          "printed_on": "2026-11-19",
+          "edition_position": 10,
+          "title": "British Prime Minister Andy Burnham Faces Backlash Over European Union Deal",
+          "category": "general",
+          "source_count": 10,
+          "headline_rank": 54.84,
+          "divergence_score": 26.17,
+          "story_thread_id": "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+        },
+        {
+          "cluster_id": "36cb8fdf-4b45-45d5-b644-a8146347d96c",
+          "printed_id": "9bed5956-07b0-4319-a714-db6266cb3415",
+          "printed_on": "2026-11-20",
+          "edition_position": 11,
+          "title": "Australian Prime Minister Anthony Albanese Defends Direct Putin Confrontation in APEC Speech",
+          "category": "general",
+          "source_count": 15,
+          "headline_rank": 57.99,
+          "divergence_score": 22.64,
+          "story_thread_id": "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+        },
+        {
+          "cluster_id": "d3ceb398-3e3e-41d0-8f93-6d75ddd27966",
+          "printed_id": "237f8857-0fb4-4fa8-8dcc-6b9a51fb4286",
+          "printed_on": "2026-11-21",
+          "edition_position": 1,
+          "title": "Prime Minister Andy Burnham Agrees to Trade and Youth Mobility Deals With European Union Leaders",
+          "category": "general",
+          "source_count": 41,
+          "headline_rank": 70.43,
+          "divergence_score": 28.5,
+          "story_thread_id": "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+        }
+      ]
+    },
+    {
+      "key": "thread-3d0d10ec",
+      "rank": 4,
+      "score": 0.786358,
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 173,
+        "brief_mentions": 1,
+        "peak_rank": 63.92,
+        "edition_spread": 1,
+        "total_divergence": 119.19
+      },
+      "title": "Danish Parliament Unanimously Approves Trilateral Security Deal With United States and Greenland",
+      "thread_ids": [
+        "3d0d10ec-0773-481e-b27e-727621040f0a"
+      ],
+      "cluster_ids": [
+        "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
+        "662a8e1c-bfc0-4b5b-b16a-815b395cb73b",
+        "991593d2-fb9b-4d1e-abf9-8a161bf49609",
+        "e0993e3e-23ff-4eb5-8be9-910bf3978b08"
+      ],
+      "rows": [
+        {
+          "cluster_id": "662a8e1c-bfc0-4b5b-b16a-815b395cb73b",
+          "printed_id": "577a9c1d-e4c8-41fd-b910-744a9a34f5bf",
+          "printed_on": "2026-11-16",
+          "edition_position": 28,
+          "title": "US, China, and Russia Schedule First Trilateral Summit in Shenzhen",
+          "category": "politics",
+          "source_count": 55,
+          "headline_rank": 48.4,
+          "divergence_score": 24.19,
+          "story_thread_id": "3d0d10ec-0773-481e-b27e-727621040f0a"
+        },
+        {
+          "cluster_id": "e0993e3e-23ff-4eb5-8be9-910bf3978b08",
+          "printed_id": "5434ba5a-20f8-4598-bef1-3ed4afe23408",
+          "printed_on": "2026-11-19",
+          "edition_position": 4,
+          "title": "Danish Parliament Unanimously Approves Trilateral Security Deal With United States and Greenland",
+          "category": "politics",
+          "source_count": 20,
+          "headline_rank": 63.92,
+          "divergence_score": 26.24,
+          "story_thread_id": "3d0d10ec-0773-481e-b27e-727621040f0a"
+        },
+        {
+          "cluster_id": "991593d2-fb9b-4d1e-abf9-8a161bf49609",
+          "printed_id": "01aeb18a-113f-4a17-a06b-b365d635b745",
+          "printed_on": "2026-11-20",
+          "edition_position": 6,
+          "title": "Denmark Unanimously Approves Trilateral Greenland Security Deal With United States",
+          "category": "politics",
+          "source_count": 33,
+          "headline_rank": 62.88,
+          "divergence_score": 33.43,
+          "story_thread_id": "3d0d10ec-0773-481e-b27e-727621040f0a"
+        },
+        {
+          "cluster_id": "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
+          "printed_id": "0d7bc28d-13e2-406a-9e83-90420fbee900",
+          "printed_on": "2026-11-21",
+          "edition_position": 26,
+          "title": "Trilateral Summit in Shenzhen Brings Together Trump Xi and Putin",
+          "category": "conflict",
+          "source_count": 65,
+          "headline_rank": 46.05,
+          "divergence_score": 35.33,
+          "story_thread_id": "3d0d10ec-0773-481e-b27e-727621040f0a"
+        }
+      ]
+    },
+    {
+      "key": "thread-ec790a82",
+      "rank": 5,
+      "score": 0.737827,
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 145,
+        "brief_mentions": 2,
+        "peak_rank": 72.03,
+        "edition_spread": 1,
+        "total_divergence": 88.62
+      },
+      "title": "International Court of Justice Rules Myanmar Committed Genocide Against Rohingya",
+      "thread_ids": [
+        "ec790a82-a6a4-47bf-ac62-a92d5ca7e757"
+      ],
+      "cluster_ids": [
+        "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
+        "bdde5310-3569-485a-b3df-5fc6f3bbf3c1",
+        "df975185-f5e5-40bd-8a57-0bf1c89f9b8a"
+      ],
+      "rows": [
+        {
+          "cluster_id": "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
+          "printed_id": "ec790a82-a6a4-47bf-ac62-a92d5ca7e757",
+          "printed_on": "2026-11-19",
+          "edition_position": 1,
+          "title": "International Court of Justice Rules Myanmar Committed Genocide Against Rohingya",
+          "category": "politics",
+          "source_count": 56,
+          "headline_rank": 72.03,
+          "divergence_score": 25.57,
+          "story_thread_id": "ec790a82-a6a4-47bf-ac62-a92d5ca7e757"
+        },
+        {
+          "cluster_id": "bdde5310-3569-485a-b3df-5fc6f3bbf3c1",
+          "printed_id": "ebff499b-c6f9-4584-99fb-f6066f344b63",
+          "printed_on": "2026-11-20",
+          "edition_position": 15,
+          "title": "International Court of Justice Finds Myanmar Responsible for Rohingya Genocide",
+          "category": "culture",
+          "source_count": 44,
+          "headline_rank": 56.36,
+          "divergence_score": 28.27,
+          "story_thread_id": "ec790a82-a6a4-47bf-ac62-a92d5ca7e757"
+        },
+        {
+          "cluster_id": "df975185-f5e5-40bd-8a57-0bf1c89f9b8a",
+          "printed_id": "d09969f6-c95a-405d-8c59-eb286ca005cc",
+          "printed_on": "2026-11-21",
+          "edition_position": 4,
+          "title": "International Court of Justice Rules Myanmar Committed Genocide Against Rohingya",
+          "category": "politics",
+          "source_count": 45,
+          "headline_rank": 69.12,
+          "divergence_score": 34.78,
+          "story_thread_id": "ec790a82-a6a4-47bf-ac62-a92d5ca7e757"
+        }
+      ]
+    },
+    {
+      "key": "thread-389bef29",
+      "rank": 6,
+      "score": 0.631776,
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 64,
+        "brief_mentions": 2,
+        "peak_rank": 70,
+        "edition_spread": 1,
+        "total_divergence": 57.67
+      },
+      "title": "Russian Missile and Drone Strikes Hit Kyiv and Target Bridges Across Ukraine",
+      "thread_ids": [
+        "389bef29-c8f8-4a29-b2f8-25ff19cb9387"
+      ],
+      "cluster_ids": [
+        "1c44ffc9-65a3-4b64-91df-3a6b96c5c758",
+        "277d5dcf-824e-4900-990d-a87ef07172d2",
+        "a20dee58-b05f-45e6-81eb-ff767ae64a10"
+      ],
+      "rows": [
+        {
+          "cluster_id": "1c44ffc9-65a3-4b64-91df-3a6b96c5c758",
+          "printed_id": "389bef29-c8f8-4a29-b2f8-25ff19cb9387",
+          "printed_on": "2026-11-16",
+          "edition_position": 8,
+          "title": "Ukraine Hits Russia’s Crimea Bridge in 1,300-Drone Barrage",
+          "category": "general",
+          "source_count": 13,
+          "headline_rank": 60.73,
+          "divergence_score": 16.65,
+          "story_thread_id": "389bef29-c8f8-4a29-b2f8-25ff19cb9387"
+        },
+        {
+          "cluster_id": "277d5dcf-824e-4900-990d-a87ef07172d2",
+          "printed_id": "b54f5874-a395-4356-bd57-82a2a43f0c1f",
+          "printed_on": "2026-11-17",
+          "edition_position": 27,
+          "title": "Russia and Ukraine Exchange Missile and Drone Strikes Targeting Bridges and Capital Infrastructure",
+          "category": "conflict",
+          "source_count": 13,
+          "headline_rank": 52.85,
+          "divergence_score": 13.97,
+          "story_thread_id": "389bef29-c8f8-4a29-b2f8-25ff19cb9387"
+        },
+        {
+          "cluster_id": "a20dee58-b05f-45e6-81eb-ff767ae64a10",
+          "printed_id": "067257dc-6f84-42f7-b76c-3c04e4006389",
+          "printed_on": "2026-11-20",
+          "edition_position": 1,
+          "title": "Russian Missile and Drone Strikes Hit Kyiv and Target Bridges Across Ukraine",
+          "category": "conflict",
+          "source_count": 38,
+          "headline_rank": 70,
+          "divergence_score": 27.05,
+          "story_thread_id": "389bef29-c8f8-4a29-b2f8-25ff19cb9387"
+        }
+      ]
+    },
+    {
+      "key": "thread-50419b1a",
+      "rank": 7,
+      "score": 0.609741,
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 54,
+        "brief_mentions": 1,
+        "peak_rank": 65.85,
+        "edition_spread": 1,
+        "total_divergence": 112.44
+      },
+      "title": "Andy Burnham Declares Brexit Has Not Worked Ahead of European Union Summit",
+      "thread_ids": [
+        "50419b1a-e824-4ccc-892f-8d865b58c10b"
+      ],
+      "cluster_ids": [
+        "3f219792-786d-4e1a-889c-f2450b9492c6",
+        "5b086856-d4b3-4f71-89a4-06fad19bc1a7",
+        "8a5319e4-ae72-4b2f-82f5-9e469ab1af57",
+        "d0b7be12-2491-4c23-938a-fdecb438db8d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "d0b7be12-2491-4c23-938a-fdecb438db8d",
+          "printed_id": "198421f7-d184-4713-8e23-d1e64b1283c0",
+          "printed_on": "2026-11-16",
+          "edition_position": 2,
+          "title": "Andy Burnham Declares Brexit Has Not Worked Ahead of European Union Summit",
+          "category": "general",
+          "source_count": 15,
+          "headline_rank": 65.85,
+          "divergence_score": 41.49,
+          "story_thread_id": "50419b1a-e824-4ccc-892f-8d865b58c10b"
+        },
+        {
+          "cluster_id": "8a5319e4-ae72-4b2f-82f5-9e469ab1af57",
+          "printed_id": "535d53ca-652d-4546-9220-c75bfbfe8618",
+          "printed_on": "2026-11-17",
+          "edition_position": 16,
+          "title": "British Prime Minister Andy Burnham Declares Brexit Failed Ahead of Brussels Summit",
+          "category": "politics",
+          "source_count": 14,
+          "headline_rank": 63.06,
+          "divergence_score": 30.75,
+          "story_thread_id": "50419b1a-e824-4ccc-892f-8d865b58c10b"
+        },
+        {
+          "cluster_id": "5b086856-d4b3-4f71-89a4-06fad19bc1a7",
+          "printed_id": "9a2d0be6-8e4b-4a8d-aaaf-cb42965ab30b",
+          "printed_on": "2026-11-20",
+          "edition_position": 17,
+          "title": "United Kingdom and European Union Agree Landmark Post Brexit Reset Deal",
+          "category": "politics",
+          "source_count": 19,
+          "headline_rank": 56.16,
+          "divergence_score": 21.95,
+          "story_thread_id": "50419b1a-e824-4ccc-892f-8d865b58c10b"
+        },
+        {
+          "cluster_id": "3f219792-786d-4e1a-889c-f2450b9492c6",
+          "printed_id": "cf78ce7f-bca9-422f-88a8-bc04b99e2d33",
+          "printed_on": "2026-11-20",
+          "edition_position": 29,
+          "title": "Prime Minister Andy Burnham Attends Brussels Summit to Reset UK and EU Relations",
+          "category": "politics",
+          "source_count": 6,
+          "headline_rank": 46.22,
+          "divergence_score": 18.25,
+          "story_thread_id": "50419b1a-e824-4ccc-892f-8d865b58c10b"
+        }
+      ]
+    },
+    {
+      "key": "thread-1c145f33",
+      "rank": 8,
+      "score": 0.599615,
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 61,
+        "brief_mentions": 1,
+        "peak_rank": 64.87,
+        "edition_spread": 1,
+        "total_divergence": 94.58
+      },
+      "title": "United States and Venezuela Sign New Military Cooperation Agreement in Caracas",
+      "thread_ids": [
+        "1c145f33-feed-47e6-b7ae-40efb7168525"
+      ],
+      "cluster_ids": [
+        "44ece519-a5cb-420c-8daf-56602dbfa816",
+        "9757bf5c-1222-44cf-8021-7ad9c282f774",
+        "e247da23-21af-4552-a68a-ccb99266c2b3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "44ece519-a5cb-420c-8daf-56602dbfa816",
+          "printed_id": "0cc2c37f-b905-4faa-88dc-7fcd15ac3f69",
+          "printed_on": "2026-11-19",
+          "edition_position": 3,
+          "title": "United States and Venezuela Sign New Military Cooperation Agreement in Caracas",
+          "category": "conflict",
+          "source_count": 27,
+          "headline_rank": 64.87,
+          "divergence_score": 21.73,
+          "story_thread_id": "1c145f33-feed-47e6-b7ae-40efb7168525"
+        },
+        {
+          "cluster_id": "e247da23-21af-4552-a68a-ccb99266c2b3",
+          "printed_id": "dad53962-6ce9-4f30-907b-f62f7e64f931",
+          "printed_on": "2026-11-20",
+          "edition_position": 7,
+          "title": "Defense Secretary Pete Hegseth Announces Military Cooperation Agreement in Venezuela",
+          "category": "general",
+          "source_count": 19,
+          "headline_rank": 61.07,
+          "divergence_score": 32.78,
+          "story_thread_id": "1c145f33-feed-47e6-b7ae-40efb7168525"
+        },
+        {
+          "cluster_id": "9757bf5c-1222-44cf-8021-7ad9c282f774",
+          "printed_id": "9641f970-48fd-4de7-89f9-d67b9b1ab8f7",
+          "printed_on": "2026-11-21",
+          "edition_position": 14,
+          "title": "Defense Secretary Pete Hegseth Issues Secret Directive Restricting US-Canada Military Ties",
+          "category": "conflict",
+          "source_count": 15,
+          "headline_rank": 53.93,
+          "divergence_score": 40.07,
+          "story_thread_id": "1c145f33-feed-47e6-b7ae-40efb7168525"
+        }
+      ]
+    },
+    {
+      "key": "thread-833e5c6b",
+      "rank": 9,
+      "score": 0.559977,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 102,
+        "brief_mentions": 1,
+        "peak_rank": 67.11,
+        "edition_spread": 1,
+        "total_divergence": 70.28
+      },
+      "title": "Airlines Recover After Federal Aviation Administration Nationwide Ground Stop",
+      "thread_ids": [
+        "833e5c6b-0a44-423a-9efa-c6bac8463608"
+      ],
+      "cluster_ids": [
+        "3ab138f6-82a2-4b40-9f7d-df581e21083d",
+        "3c9b15d3-00f6-4e5c-b92d-6802aea8934e"
+      ],
+      "rows": [
+        {
+          "cluster_id": "3c9b15d3-00f6-4e5c-b92d-6802aea8934e",
+          "printed_id": "e0685f2c-1c41-40cc-983f-b999925831fb",
+          "printed_on": "2026-11-16",
+          "edition_position": 26,
+          "title": "Airlines Scramble to Recover After Federal Aviation Administration Ground Stop",
+          "category": "general",
+          "source_count": 55,
+          "headline_rank": 48.6,
+          "divergence_score": 36.62,
+          "story_thread_id": "833e5c6b-0a44-423a-9efa-c6bac8463608"
+        },
+        {
+          "cluster_id": "3ab138f6-82a2-4b40-9f7d-df581e21083d",
+          "printed_id": "b3a732f2-41ce-4328-a956-6c435361c07f",
+          "printed_on": "2026-11-17",
+          "edition_position": 9,
+          "title": "Airlines Recover After Federal Aviation Administration Nationwide Ground Stop",
+          "category": "science",
+          "source_count": 47,
+          "headline_rank": 67.11,
+          "divergence_score": 33.66,
+          "story_thread_id": "833e5c6b-0a44-423a-9efa-c6bac8463608"
+        }
+      ]
+    },
+    {
+      "key": "thread-a3e1e3ef",
+      "rank": 10,
+      "score": 0.549448,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 56,
+        "brief_mentions": 2,
+        "peak_rank": 69.84,
+        "edition_spread": 1,
+        "total_divergence": 43.25
+      },
+      "title": "Yemeni Houthi Missiles Target Riyadh While Saudi Coalition Strikes Hodeidah",
+      "thread_ids": [
+        "a3e1e3ef-6ad0-4242-9948-093c3c853288"
+      ],
+      "cluster_ids": [
+        "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
+        "cee27d6b-ee40-4304-9764-3fc92e756b6e"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
+          "printed_id": "80c9088e-399e-4ea7-abbc-b24e8f6cbecb",
+          "printed_on": "2026-11-16",
+          "edition_position": 6,
+          "title": "Saudi Backed Yemeni Forces Retreat From Strategic Strait as Houthis Advance",
+          "category": "conflict",
+          "source_count": 29,
+          "headline_rank": 61.57,
+          "divergence_score": 17.16,
+          "story_thread_id": "a3e1e3ef-6ad0-4242-9948-093c3c853288"
+        },
+        {
+          "cluster_id": "cee27d6b-ee40-4304-9764-3fc92e756b6e",
+          "printed_id": "c543a5b7-aa5a-43ad-a626-efc163e40983",
+          "printed_on": "2026-11-21",
+          "edition_position": 2,
+          "title": "Yemeni Houthi Missiles Target Riyadh While Saudi Coalition Strikes Hodeidah",
+          "category": "conflict",
+          "source_count": 27,
+          "headline_rank": 69.84,
+          "divergence_score": 26.09,
+          "story_thread_id": "a3e1e3ef-6ad0-4242-9948-093c3c853288"
+        }
+      ]
+    },
+    {
+      "key": "thread-149f229b",
+      "rank": 11,
+      "score": 0.542601,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 90,
+        "brief_mentions": 1,
+        "peak_rank": 70,
+        "edition_spread": 1,
+        "total_divergence": 56.22
+      },
+      "title": "United Airlines Resolves Widespread System Outage That Delayed Flight Departures",
+      "thread_ids": [
+        "149f229b-148f-4882-894b-212ed804aea9"
+      ],
+      "cluster_ids": [
+        "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
+        "676bb7d7-85cb-4d3f-9251-d9332cea49eb"
+      ],
+      "rows": [
+        {
+          "cluster_id": "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
+          "printed_id": "149f229b-148f-4882-894b-212ed804aea9",
+          "printed_on": "2026-11-17",
+          "edition_position": 5,
+          "title": "United Airlines Resolves Widespread System Outage That Delayed Flight Departures",
+          "category": "general",
+          "source_count": 45,
+          "headline_rank": 70,
+          "divergence_score": 25.57,
+          "story_thread_id": "149f229b-148f-4882-894b-212ed804aea9"
+        },
+        {
+          "cluster_id": "676bb7d7-85cb-4d3f-9251-d9332cea49eb",
+          "printed_id": "a1ec4d25-9afa-483c-8e62-b9418ee7a1f7",
+          "printed_on": "2026-11-18",
+          "edition_position": 23,
+          "title": "United Airlines Resumes Normal Flight Operations Following 90 Minute System Outage",
+          "category": "general",
+          "source_count": 45,
+          "headline_rank": 50.61,
+          "divergence_score": 30.65,
+          "story_thread_id": "149f229b-148f-4882-894b-212ed804aea9"
+        }
+      ]
+    },
+    {
+      "key": "thread-ed4c17c2",
+      "rank": 12,
+      "score": 0.536697,
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 22,
+        "brief_mentions": 1,
+        "peak_rank": 67.35,
+        "edition_spread": 1,
+        "total_divergence": 57.3
+      },
+      "title": "Third US Aircraft Carrier Arrives in Middle East Amid Stalled Iran Talks",
+      "thread_ids": [
+        "ed4c17c2-a3a4-4229-a72f-872b4c88a60e"
+      ],
+      "cluster_ids": [
+        "5076fab8-f5e0-400a-9a9f-8508078cb413",
+        "add77fbf-bfcf-4f59-a9e0-53bd230b985a",
+        "b6e83412-c448-4ec2-9463-b376e53e3ace"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b6e83412-c448-4ec2-9463-b376e53e3ace",
+          "printed_id": "ed4c17c2-a3a4-4229-a72f-872b4c88a60e",
+          "printed_on": "2026-11-17",
+          "edition_position": 8,
+          "title": "Third US Aircraft Carrier Arrives in Middle East Amid Stalled Iran Talks",
+          "category": "conflict",
+          "source_count": 10,
+          "headline_rank": 67.35,
+          "divergence_score": 18.8,
+          "story_thread_id": "ed4c17c2-a3a4-4229-a72f-872b4c88a60e"
+        },
+        {
+          "cluster_id": "add77fbf-bfcf-4f59-a9e0-53bd230b985a",
+          "printed_id": "0cd52a46-d4bf-4821-8cae-da1094947135",
+          "printed_on": "2026-11-18",
+          "edition_position": 29,
+          "title": "Third United States Aircraft Carrier Arrives in Middle East Amid Iran Standoff",
+          "category": "general",
+          "source_count": 7,
+          "headline_rank": 46.62,
+          "divergence_score": 20.82,
+          "story_thread_id": "ed4c17c2-a3a4-4229-a72f-872b4c88a60e"
+        },
+        {
+          "cluster_id": "5076fab8-f5e0-400a-9a9f-8508078cb413",
+          "printed_id": "ebbc3cd9-cc1f-4ee8-811a-c3d72195764b",
+          "printed_on": "2026-11-19",
+          "edition_position": 29,
+          "title": "Irish Man Charged in United States With Destroying Military Aircraft",
+          "category": "conflict",
+          "source_count": 5,
+          "headline_rank": 47.26,
+          "divergence_score": 17.68,
+          "story_thread_id": "ed4c17c2-a3a4-4229-a72f-872b4c88a60e"
+        }
+      ]
+    },
+    {
+      "key": "thread-27c62115",
+      "rank": 13,
+      "score": 0.522753,
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 65,
+        "brief_mentions": 0,
+        "peak_rank": 54.03,
+        "edition_spread": 1,
+        "total_divergence": 83.05
+      },
+      "title": "Second Federal Judge Blocks Construction of President Trump's Triumphal Arch in Washington",
+      "thread_ids": [
+        "27c62115-5d94-4614-b514-95b262064a9f"
+      ],
+      "cluster_ids": [
+        "61ac7528-a2b6-4e34-affa-a50e2c5044dd",
+        "81d1e794-b8bc-4ed9-b342-0f3e4eb00b42",
+        "bafcdbe3-82b1-4bfb-be71-aaf0f5a4ef62"
+      ],
+      "rows": [
+        {
+          "cluster_id": "bafcdbe3-82b1-4bfb-be71-aaf0f5a4ef62",
+          "printed_id": "5fc8acc3-219c-45c6-9b1f-0bb68f92a6e7",
+          "printed_on": "2026-11-16",
+          "edition_position": 21,
+          "title": "Federal Judge Temporarily Blocks Trump Administration From Closing Potomac Park",
+          "category": "culture",
+          "source_count": 38,
+          "headline_rank": 51.39,
+          "divergence_score": 32.87,
+          "story_thread_id": "27c62115-5d94-4614-b514-95b262064a9f"
+        },
+        {
+          "cluster_id": "81d1e794-b8bc-4ed9-b342-0f3e4eb00b42",
+          "printed_id": "fb846e40-f103-425b-ae0a-4228c764507d",
+          "printed_on": "2026-11-19",
+          "edition_position": 23,
+          "title": "Federal Judge Extends Order Blocking Construction of Memorial Arch",
+          "category": "general",
+          "source_count": 11,
+          "headline_rank": 48.19,
+          "divergence_score": 28.86,
+          "story_thread_id": "27c62115-5d94-4614-b514-95b262064a9f"
+        },
+        {
+          "cluster_id": "61ac7528-a2b6-4e34-affa-a50e2c5044dd",
+          "printed_id": "48f8007c-13f5-4a25-9e91-c008efe9d99d",
+          "printed_on": "2026-11-21",
+          "edition_position": 13,
+          "title": "Second Federal Judge Blocks Construction of President Trump's Triumphal Arch in Washington",
+          "category": "general",
+          "source_count": 16,
+          "headline_rank": 54.03,
+          "divergence_score": 21.32,
+          "story_thread_id": "27c62115-5d94-4614-b514-95b262064a9f"
+        }
+      ]
+    },
+    {
+      "key": "thread-b1206893",
+      "rank": 14,
+      "score": 0.510594,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 58,
+        "brief_mentions": 1,
+        "peak_rank": 67.39,
+        "edition_spread": 1,
+        "total_divergence": 60.14
+      },
+      "title": "White House Replaces National Cyber Director Sean Cairncross Amid Outages",
+      "thread_ids": [
+        "b1206893-f734-4aa1-a794-38a4162cb2a0"
+      ],
+      "cluster_ids": [
+        "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
+        "bc0e12ac-c8ea-4a79-b469-71df24fe3a1c"
+      ],
+      "rows": [
+        {
+          "cluster_id": "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
+          "printed_id": "b1206893-f734-4aa1-a794-38a4162cb2a0",
+          "printed_on": "2026-11-20",
+          "edition_position": 3,
+          "title": "White House Replaces National Cyber Director Sean Cairncross Amid Outages",
+          "category": "politics",
+          "source_count": 39,
+          "headline_rank": 67.39,
+          "divergence_score": 26.39,
+          "story_thread_id": "b1206893-f734-4aa1-a794-38a4162cb2a0"
+        },
+        {
+          "cluster_id": "bc0e12ac-c8ea-4a79-b469-71df24fe3a1c",
+          "printed_id": "0f331406-abb0-4258-a894-6fef46e63cc8",
+          "printed_on": "2026-11-21",
+          "edition_position": 12,
+          "title": "President Donald Trump Fires National Cyber Director Sean Cairncross Amid Tech Outages",
+          "category": "politics",
+          "source_count": 19,
+          "headline_rank": 54.96,
+          "divergence_score": 33.75,
+          "story_thread_id": "b1206893-f734-4aa1-a794-38a4162cb2a0"
+        }
+      ]
+    },
+    {
+      "key": "thread-e53dbdb6",
+      "rank": 15,
+      "score": 0.505303,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 129,
+        "brief_mentions": 0,
+        "peak_rank": 53.4,
+        "edition_spread": 1,
+        "total_divergence": 66.06
+      },
+      "title": "Anthropic Sets Initial Public Offering Record With Nasdaq Market Debut",
+      "thread_ids": [
+        "e53dbdb6-66e2-462d-8470-819d35c72417"
+      ],
+      "cluster_ids": [
+        "9f68b7b7-d296-48d0-8ccd-4a3fa5d3265c",
+        "dd303af9-f36c-499f-8209-9c3eb07f03be"
+      ],
+      "rows": [
+        {
+          "cluster_id": "dd303af9-f36c-499f-8209-9c3eb07f03be",
+          "printed_id": "e53dbdb6-66e2-462d-8470-819d35c72417",
+          "printed_on": "2026-11-19",
+          "edition_position": 22,
+          "title": "Anthropic Prices Initial Public Offering at Record 83 Dollars per Share",
+          "category": "economy",
+          "source_count": 52,
+          "headline_rank": 48.21,
+          "divergence_score": 30.32,
+          "story_thread_id": "e53dbdb6-66e2-462d-8470-819d35c72417"
+        },
+        {
+          "cluster_id": "9f68b7b7-d296-48d0-8ccd-4a3fa5d3265c",
+          "printed_id": "88f050b7-69d8-4190-bf65-c5a584b964e2",
+          "printed_on": "2026-11-20",
+          "edition_position": 18,
+          "title": "Anthropic Sets Initial Public Offering Record With Nasdaq Market Debut",
+          "category": "economy",
+          "source_count": 77,
+          "headline_rank": 53.4,
+          "divergence_score": 35.74,
+          "story_thread_id": "e53dbdb6-66e2-462d-8470-819d35c72417"
+        }
+      ]
+    },
+    {
+      "key": "thread-3d743169",
+      "rank": 16,
+      "score": 0.503383,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 41,
+        "brief_mentions": 1,
+        "peak_rank": 71.21,
+        "edition_spread": 1,
+        "total_divergence": 61.83
+      },
+      "title": "New York City Mayor Zohran Mamdani Disbands NYPD Strategic Response Group",
+      "thread_ids": [
+        "3d743169-9302-4bfa-a5ec-5f1ab3cfd2d4"
+      ],
+      "cluster_ids": [
+        "89091251-470b-4d03-baf1-2c15bb4e9b02",
+        "ee8ca440-cf69-43a5-a306-be0900eeefc7"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ee8ca440-cf69-43a5-a306-be0900eeefc7",
+          "printed_id": "3d743169-9302-4bfa-a5ec-5f1ab3cfd2d4",
+          "printed_on": "2026-11-17",
+          "edition_position": 4,
+          "title": "New York City Mayor Zohran Mamdani Disbands NYPD Strategic Response Group",
+          "category": "general",
+          "source_count": 16,
+          "headline_rank": 71.21,
+          "divergence_score": 28.3,
+          "story_thread_id": "3d743169-9302-4bfa-a5ec-5f1ab3cfd2d4"
+        },
+        {
+          "cluster_id": "89091251-470b-4d03-baf1-2c15bb4e9b02",
+          "printed_id": "568841ac-e7cb-464d-9b2a-80d523da861c",
+          "printed_on": "2026-11-18",
+          "edition_position": 2,
+          "title": "New York City Mayor Zohran Mamdani Disbands NYPD Strategic Response Group",
+          "category": "conflict",
+          "source_count": 25,
+          "headline_rank": 69.07,
+          "divergence_score": 33.53,
+          "story_thread_id": "3d743169-9302-4bfa-a5ec-5f1ab3cfd2d4"
+        }
+      ]
+    },
+    {
+      "key": "thread-6628f9bc",
+      "rank": 17,
+      "score": 0.491037,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 104,
+        "brief_mentions": 0,
+        "peak_rank": 55.56,
+        "edition_spread": 1,
+        "total_divergence": 72.23
+      },
+      "title": "Amazon MGM Studios Casts Robert Pattinson as the Seventh Actor to Play James Bond",
+      "thread_ids": [
+        "6628f9bc-ea85-4d89-8dec-62e628626a9f"
+      ],
+      "cluster_ids": [
+        "23551094-d25b-49f1-9349-28a703f03c34",
+        "f80c82b0-a58c-49cc-af5a-ee8fe29b97ae"
+      ],
+      "rows": [
+        {
+          "cluster_id": "23551094-d25b-49f1-9349-28a703f03c34",
+          "printed_id": "6628f9bc-ea85-4d89-8dec-62e628626a9f",
+          "printed_on": "2026-11-17",
+          "edition_position": 22,
+          "title": "Amazon MGM Studios Casts Robert Pattinson as the Seventh Actor to Play James Bond",
+          "category": "economy",
+          "source_count": 68,
+          "headline_rank": 55.56,
+          "divergence_score": 35.75,
+          "story_thread_id": "6628f9bc-ea85-4d89-8dec-62e628626a9f"
+        },
+        {
+          "cluster_id": "f80c82b0-a58c-49cc-af5a-ee8fe29b97ae",
+          "printed_id": "a6826788-173e-4b10-b7ac-0091a681fc9e",
+          "printed_on": "2026-11-19",
+          "edition_position": 19,
+          "title": "Amazon MGM Studios Casts Robert Pattinson as Seventh James Bond",
+          "category": "economy",
+          "source_count": 36,
+          "headline_rank": 49.13,
+          "divergence_score": 36.48,
+          "story_thread_id": "6628f9bc-ea85-4d89-8dec-62e628626a9f"
+        }
+      ]
+    },
+    {
+      "key": "thread-fadeb1f6",
+      "rank": 18,
+      "score": 0.489775,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 39,
+        "brief_mentions": 1,
+        "peak_rank": 77.19,
+        "edition_spread": 1,
+        "total_divergence": 33.71
+      },
+      "title": "Supreme Court Rejects Trump Appeal to Cut University Research Grants",
+      "thread_ids": [
+        "fadeb1f6-6a5b-47fe-9bff-ea882245edcb"
+      ],
+      "cluster_ids": [
+        "150c2468-5395-48ca-b10d-ad5cff823113",
+        "db71e948-f301-43e6-905b-7a6975e76369"
+      ],
+      "rows": [
+        {
+          "cluster_id": "150c2468-5395-48ca-b10d-ad5cff823113",
+          "printed_id": "fadeb1f6-6a5b-47fe-9bff-ea882245edcb",
+          "printed_on": "2026-11-16",
+          "edition_position": 24,
+          "title": "Supreme Court Suspends Life Sentences and Grants Bail to Two Bilkis Bano Convicts",
+          "category": "general",
+          "source_count": 5,
+          "headline_rank": 50.14,
+          "divergence_score": 8.14,
+          "story_thread_id": "fadeb1f6-6a5b-47fe-9bff-ea882245edcb"
+        },
+        {
+          "cluster_id": "db71e948-f301-43e6-905b-7a6975e76369",
+          "printed_id": "f77ea671-ab9a-4996-b857-b0f972aecf3d",
+          "printed_on": "2026-11-17",
+          "edition_position": 1,
+          "title": "Supreme Court Rejects Trump Appeal to Cut University Research Grants",
+          "category": "politics",
+          "source_count": 34,
+          "headline_rank": 77.19,
+          "divergence_score": 25.57,
+          "story_thread_id": "fadeb1f6-6a5b-47fe-9bff-ea882245edcb"
+        }
+      ]
+    },
+    {
+      "key": "thread-3c336fd7",
+      "rank": 19,
+      "score": 0.489456,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 34,
+        "brief_mentions": 1,
+        "peak_rank": 66.28,
+        "edition_spread": 1,
+        "total_divergence": 64.55
+      },
+      "title": "Forensic Expert Claims Jeffrey Epstein Autopsy Findings Indicate Homicidal Strangulation",
+      "thread_ids": [
+        "3c336fd7-506b-4a0b-b3bf-ff2bde556491"
+      ],
+      "cluster_ids": [
+        "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76",
+        "c84982b2-9766-4da6-bf52-4aeab7c6897d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76",
+          "printed_id": "3c336fd7-506b-4a0b-b3bf-ff2bde556491",
+          "printed_on": "2026-11-17",
+          "edition_position": 11,
+          "title": "Forensic Expert Claims Jeffrey Epstein Autopsy Findings Indicate Homicidal Strangulation",
+          "category": "politics",
+          "source_count": 19,
+          "headline_rank": 66.28,
+          "divergence_score": 30.9,
+          "story_thread_id": "3c336fd7-506b-4a0b-b3bf-ff2bde556491"
+        },
+        {
+          "cluster_id": "c84982b2-9766-4da6-bf52-4aeab7c6897d",
+          "printed_id": "02fc96ec-334d-4b4b-9517-282430d04a39",
+          "printed_on": "2026-11-18",
+          "edition_position": 12,
+          "title": "Forensic Scientists Conclude Jeffrey Epstein Died by Homicidal Strangulation in Prison",
+          "category": "science",
+          "source_count": 15,
+          "headline_rank": 60.17,
+          "divergence_score": 33.65,
+          "story_thread_id": "3c336fd7-506b-4a0b-b3bf-ff2bde556491"
+        }
+      ]
+    },
+    {
+      "key": "thread-1a2c9331",
+      "rank": 20,
+      "score": 0.487253,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 37,
+        "brief_mentions": 1,
+        "peak_rank": 65.39,
+        "edition_spread": 1,
+        "total_divergence": 60.57
+      },
+      "title": "Israeli Parliament Elects Opposition Lawmaker Matan Kahana as New Knesset Speaker",
+      "thread_ids": [
+        "1a2c9331-4a27-4d9c-9a95-d2d5847e14db"
+      ],
+      "cluster_ids": [
+        "29c43c1b-cde2-445f-afc5-2e3734d93c9b",
+        "c2c750dc-af94-48fd-a1aa-2e3ca611d656"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c2c750dc-af94-48fd-a1aa-2e3ca611d656",
+          "printed_id": "d0b0f1bf-61ad-413f-aaad-2712b7f2fb89",
+          "printed_on": "2026-11-18",
+          "edition_position": 5,
+          "title": "Israeli Parliament Elects Opposition Lawmaker Matan Kahana as New Knesset Speaker",
+          "category": "politics",
+          "source_count": 21,
+          "headline_rank": 65.39,
+          "divergence_score": 29.01,
+          "story_thread_id": "1a2c9331-4a27-4d9c-9a95-d2d5847e14db"
+        },
+        {
+          "cluster_id": "29c43c1b-cde2-445f-afc5-2e3734d93c9b",
+          "printed_id": "b7dbc887-e7f4-4fe1-b552-426ab7fc8b09",
+          "printed_on": "2026-11-19",
+          "edition_position": 8,
+          "title": "Israeli Parliament Elects Matan Kahana as New Knesset Speaker",
+          "category": "politics",
+          "source_count": 16,
+          "headline_rank": 58.98,
+          "divergence_score": 31.56,
+          "story_thread_id": "1a2c9331-4a27-4d9c-9a95-d2d5847e14db"
+        }
+      ]
+    },
+    {
+      "key": "thread-d449471b",
+      "rank": 21,
+      "score": 0.482748,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 41,
+        "brief_mentions": 1,
+        "peak_rank": 61.04,
+        "edition_spread": 1,
+        "total_divergence": 60.78
+      },
+      "title": "Federal Appeals Court Temporarily Halts US Army Lead Azide Detonation in Iowa",
+      "thread_ids": [
+        "d449471b-b829-4c60-828d-12696efcdc5c"
+      ],
+      "cluster_ids": [
+        "64b6d669-58c5-4918-9c9c-c7219563fa14",
+        "7dee2b74-a0d2-4428-9bcc-95724b0b2224"
+      ],
+      "rows": [
+        {
+          "cluster_id": "7dee2b74-a0d2-4428-9bcc-95724b0b2224",
+          "printed_id": "d449471b-b829-4c60-828d-12696efcdc5c",
+          "printed_on": "2026-11-20",
+          "edition_position": 22,
+          "title": "US Army Postpones Detonation of Unstable Lead Explosives in Iowa Until Monday",
+          "category": "conflict",
+          "source_count": 16,
+          "headline_rank": 52.48,
+          "divergence_score": 33.25,
+          "story_thread_id": "d449471b-b829-4c60-828d-12696efcdc5c"
+        },
+        {
+          "cluster_id": "64b6d669-58c5-4918-9c9c-c7219563fa14",
+          "printed_id": "a1ae357b-b842-4453-ab36-a5aa93bced14",
+          "printed_on": "2026-11-21",
+          "edition_position": 10,
+          "title": "Federal Appeals Court Temporarily Halts US Army Lead Azide Detonation in Iowa",
+          "category": "conflict",
+          "source_count": 25,
+          "headline_rank": 61.04,
+          "divergence_score": 27.53,
+          "story_thread_id": "d449471b-b829-4c60-828d-12696efcdc5c"
+        }
+      ]
+    },
+    {
+      "key": "thread-37b39ce4",
+      "rank": 22,
+      "score": 0.47801,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 55,
+        "brief_mentions": 1,
+        "peak_rank": 60.78,
+        "edition_spread": 1,
+        "total_divergence": 39.77
+      },
+      "title": "Classified Internal Communications Network at the National Security Agency Goes Down",
+      "thread_ids": [
+        "37b39ce4-109a-4e35-9417-c4d8b3433edf"
+      ],
+      "cluster_ids": [
+        "9df3192f-8afd-418f-aca1-d1bf8bc6f650",
+        "eba291e0-a9cc-4765-901b-eed4c6d18ddd"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9df3192f-8afd-418f-aca1-d1bf8bc6f650",
+          "printed_id": "37b39ce4-109a-4e35-9417-c4d8b3433edf",
+          "printed_on": "2026-11-18",
+          "edition_position": 10,
+          "title": "Classified Internal Communications Network at the National Security Agency Goes Down",
+          "category": "general",
+          "source_count": 38,
+          "headline_rank": 60.78,
+          "divergence_score": 23.82,
+          "story_thread_id": "37b39ce4-109a-4e35-9417-c4d8b3433edf"
+        },
+        {
+          "cluster_id": "eba291e0-a9cc-4765-901b-eed4c6d18ddd",
+          "printed_id": "a5f133de-b1fd-4408-ad65-a43d796b02ee",
+          "printed_on": "2026-11-19",
+          "edition_position": 16,
+          "title": "National Security Agency Experiences Outage Across Classified Internal Network",
+          "category": "science",
+          "source_count": 17,
+          "headline_rank": 50.06,
+          "divergence_score": 15.95,
+          "story_thread_id": "37b39ce4-109a-4e35-9417-c4d8b3433edf"
+        }
+      ]
+    },
+    {
+      "key": "thread-b0d973d3",
+      "rank": 23,
+      "score": 0.476508,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 32,
+        "brief_mentions": 1,
+        "peak_rank": 65.94,
+        "edition_spread": 1,
+        "total_divergence": 52.02
+      },
+      "title": "Skyscraper Housing Saudi Sovereign Wealth Fund Damaged in Houthi Missile Attack",
+      "thread_ids": [
+        "b0d973d3-8c4d-4d02-875c-fe86a58ad44f"
+      ],
+      "cluster_ids": [
+        "880534eb-ef9b-429f-b214-cd4938f0ca5c",
+        "e2529302-e27f-4e24-899e-1d624a4f828f"
+      ],
+      "rows": [
+        {
+          "cluster_id": "880534eb-ef9b-429f-b214-cd4938f0ca5c",
+          "printed_id": "b0d973d3-8c4d-4d02-875c-fe86a58ad44f",
+          "printed_on": "2026-11-19",
+          "edition_position": 20,
+          "title": "Missile Strike Damages Sovereign Wealth Fund Skyscraper in Riyadh",
+          "category": "conflict",
+          "source_count": 8,
+          "headline_rank": 49.03,
+          "divergence_score": 19.14,
+          "story_thread_id": "b0d973d3-8c4d-4d02-875c-fe86a58ad44f"
+        },
+        {
+          "cluster_id": "e2529302-e27f-4e24-899e-1d624a4f828f",
+          "printed_id": "4d0f5b9b-2862-4f27-8f31-755b14e89031",
+          "printed_on": "2026-11-20",
+          "edition_position": 4,
+          "title": "Skyscraper Housing Saudi Sovereign Wealth Fund Damaged in Houthi Missile Attack",
+          "category": "conflict",
+          "source_count": 24,
+          "headline_rank": 65.94,
+          "divergence_score": 32.88,
+          "story_thread_id": "b0d973d3-8c4d-4d02-875c-fe86a58ad44f"
+        }
+      ]
+    },
+    {
+      "key": "thread-95bb4483",
+      "rank": 24,
+      "score": 0.465565,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 37,
+        "brief_mentions": 1,
+        "peak_rank": 57.89,
+        "edition_spread": 1,
+        "total_divergence": 52
+      },
+      "title": "US Senate Passes Bipartisan Permitting Reform Bill to Accelerate Energy Projects",
+      "thread_ids": [
+        "95bb4483-4239-42bf-97a4-472d11cf93ca"
+      ],
+      "cluster_ids": [
+        "962de9d3-5092-42bb-9db4-19733e8e7163",
+        "cc3f3f62-387e-4595-a77f-48d3a07ea3bc"
+      ],
+      "rows": [
+        {
+          "cluster_id": "962de9d3-5092-42bb-9db4-19733e8e7163",
+          "printed_id": "95bb4483-4239-42bf-97a4-472d11cf93ca",
+          "printed_on": "2026-11-20",
+          "edition_position": 12,
+          "title": "US Senate Passes Bipartisan Permitting Reform Bill to Accelerate Energy Projects",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 57.89,
+          "divergence_score": 25.88,
+          "story_thread_id": "95bb4483-4239-42bf-97a4-472d11cf93ca"
+        },
+        {
+          "cluster_id": "cc3f3f62-387e-4595-a77f-48d3a07ea3bc",
+          "printed_id": "95307656-8466-45a0-b536-095a15bc4432",
+          "printed_on": "2026-11-21",
+          "edition_position": 25,
+          "title": "Senate Passes Bipartisan Permitting Reform Bill to Accelerate Energy Infrastructure",
+          "category": "politics",
+          "source_count": 15,
+          "headline_rank": 46.15,
+          "divergence_score": 26.12,
+          "story_thread_id": "95bb4483-4239-42bf-97a4-472d11cf93ca"
+        }
+      ]
+    },
+    {
+      "key": "thread-81496b39",
+      "rank": 25,
+      "score": 0.463738,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 34,
+        "brief_mentions": 1,
+        "peak_rank": 63.81,
+        "edition_spread": 1,
+        "total_divergence": 39.35
+      },
+      "title": "Jordan and Iraq Block Telegram Application Citing National Security Concerns",
+      "thread_ids": [
+        "81496b39-bc99-450f-b497-3eb228ac3d04"
+      ],
+      "cluster_ids": [
+        "70a57d48-693e-40a2-8232-380e56ec7faf",
+        "bd3fe394-971f-49c7-9367-6eabcd8c0789"
+      ],
+      "rows": [
+        {
+          "cluster_id": "bd3fe394-971f-49c7-9367-6eabcd8c0789",
+          "printed_id": "81496b39-bc99-450f-b497-3eb228ac3d04",
+          "printed_on": "2026-11-16",
+          "edition_position": 11,
+          "title": "Jordan Bans Messaging Application Telegram Over National Security and Radicalization Concerns",
+          "category": "general",
+          "source_count": 15,
+          "headline_rank": 58.1,
+          "divergence_score": 24.96,
+          "story_thread_id": "81496b39-bc99-450f-b497-3eb228ac3d04"
+        },
+        {
+          "cluster_id": "70a57d48-693e-40a2-8232-380e56ec7faf",
+          "printed_id": "d2c8dd10-6b94-4b57-89d8-9eea4b2c6a78",
+          "printed_on": "2026-11-17",
+          "edition_position": 13,
+          "title": "Jordan and Iraq Block Telegram Application Citing National Security Concerns",
+          "category": "general",
+          "source_count": 19,
+          "headline_rank": 63.81,
+          "divergence_score": 14.39,
+          "story_thread_id": "81496b39-bc99-450f-b497-3eb228ac3d04"
+        }
+      ]
+    },
+    {
+      "key": "thread-87b42973",
+      "rank": 26,
+      "score": 0.456543,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 33,
+        "brief_mentions": 1,
+        "peak_rank": 54.95,
+        "edition_spread": 1,
+        "total_divergence": 52.56
+      },
+      "title": "NASA Voyager 1 Reaches Historic Milestone One Light Day From Earth",
+      "thread_ids": [
+        "87b42973-94a2-4d37-9d9c-aafc26251764"
+      ],
+      "cluster_ids": [
+        "37caa539-cf6e-4022-8728-17a9f13bf6d5",
+        "ac912dad-0008-4cca-bf7d-fd117eae4a75"
+      ],
+      "rows": [
+        {
+          "cluster_id": "37caa539-cf6e-4022-8728-17a9f13bf6d5",
+          "printed_id": "87b42973-94a2-4d37-9d9c-aafc26251764",
+          "printed_on": "2026-11-19",
+          "edition_position": 9,
+          "title": "NASA Voyager 1 Reaches Historic Milestone One Light Day From Earth",
+          "category": "science",
+          "source_count": 17,
+          "headline_rank": 54.95,
+          "divergence_score": 26.18,
+          "story_thread_id": "87b42973-94a2-4d37-9d9c-aafc26251764"
+        },
+        {
+          "cluster_id": "ac912dad-0008-4cca-bf7d-fd117eae4a75",
+          "printed_id": "6a544340-2631-439c-b1fe-7fb7bd8248c6",
+          "printed_on": "2026-11-20",
+          "edition_position": 24,
+          "title": "Voyager 1 Reaches One Light-Day Distance Milestone in Interstellar Space",
+          "category": "science",
+          "source_count": 16,
+          "headline_rank": 48.49,
+          "divergence_score": 26.38,
+          "story_thread_id": "87b42973-94a2-4d37-9d9c-aafc26251764"
+        }
+      ]
+    },
+    {
+      "key": "thread-16ee8fdf",
+      "rank": 27,
+      "score": 0.452766,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 50,
+        "brief_mentions": 0,
+        "peak_rank": 65.81,
+        "edition_spread": 1,
+        "total_divergence": 63.5
+      },
+      "title": "California Sues OpenAI Over Autonomous Artificial Intelligence Hacking Incidents",
+      "thread_ids": [
+        "16ee8fdf-6f5a-4ef3-9d1b-93b4880ea0b7"
+      ],
+      "cluster_ids": [
+        "31560b5e-73f7-4ea1-a7cf-c9f6ba27fd0e",
+        "eeeed6bb-6493-4b28-9b15-7fefdb03ae58"
+      ],
+      "rows": [
+        {
+          "cluster_id": "31560b5e-73f7-4ea1-a7cf-c9f6ba27fd0e",
+          "printed_id": "16ee8fdf-6f5a-4ef3-9d1b-93b4880ea0b7",
+          "printed_on": "2026-11-17",
+          "edition_position": 12,
+          "title": "California Sues OpenAI Over Autonomous Artificial Intelligence Hacking Incidents",
+          "category": "science",
+          "source_count": 25,
+          "headline_rank": 65.81,
+          "divergence_score": 28.96,
+          "story_thread_id": "16ee8fdf-6f5a-4ef3-9d1b-93b4880ea0b7"
+        },
+        {
+          "cluster_id": "eeeed6bb-6493-4b28-9b15-7fefdb03ae58",
+          "printed_id": "cba487ab-0438-4eb4-8009-ba92c5568df9",
+          "printed_on": "2026-11-18",
+          "edition_position": 16,
+          "title": "California Sues Artificial Intelligence Giant OpenAI Over Rogue Hacking Incidents",
+          "category": "science",
+          "source_count": 25,
+          "headline_rank": 54.71,
+          "divergence_score": 34.54,
+          "story_thread_id": "16ee8fdf-6f5a-4ef3-9d1b-93b4880ea0b7"
+        }
+      ]
+    },
+    {
+      "key": "thread-f264682c",
+      "rank": 28,
+      "score": 0.449502,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 56,
+        "brief_mentions": 0,
+        "peak_rank": 52.26,
+        "edition_spread": 1,
+        "total_divergence": 84.47
+      },
+      "title": "Cincinnati Zoo Announces Death of Beloved Hippo Fiona After Swallowing Hat",
+      "thread_ids": [
+        "f264682c-c87a-48d0-b0eb-39224640b223"
+      ],
+      "cluster_ids": [
+        "5274dcbf-bf62-437e-b53d-b080cd27fcb0",
+        "f916bd1f-e354-4394-bcbf-6981461f1ec7"
+      ],
+      "rows": [
+        {
+          "cluster_id": "f916bd1f-e354-4394-bcbf-6981461f1ec7",
+          "printed_id": "f264682c-c87a-48d0-b0eb-39224640b223",
+          "printed_on": "2026-11-20",
+          "edition_position": 27,
+          "title": "Fiona the Nile Hippopotamus Dies at Cincinnati Zoo After Swallowing Hat",
+          "category": "general",
+          "source_count": 40,
+          "headline_rank": 46.87,
+          "divergence_score": 41.1,
+          "story_thread_id": "f264682c-c87a-48d0-b0eb-39224640b223"
+        },
+        {
+          "cluster_id": "5274dcbf-bf62-437e-b53d-b080cd27fcb0",
+          "printed_id": "2ce3ece2-e3de-4c18-b3bf-cee0b8dcec0c",
+          "printed_on": "2026-11-21",
+          "edition_position": 17,
+          "title": "Cincinnati Zoo Announces Death of Beloved Hippo Fiona After Swallowing Hat",
+          "category": "general",
+          "source_count": 16,
+          "headline_rank": 52.26,
+          "divergence_score": 43.37,
+          "story_thread_id": "f264682c-c87a-48d0-b0eb-39224640b223"
+        }
+      ]
+    },
+    {
+      "key": "thread-9ee360c1",
+      "rank": 29,
+      "score": 0.438736,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 44,
+        "brief_mentions": 0,
+        "peak_rank": 57.24,
+        "edition_spread": 1,
+        "total_divergence": 73.48
+      },
+      "title": "Progressive Groups Endorse Chris Van Hollen to Challenge Chuck Schumer for Senate Leadership",
+      "thread_ids": [
+        "9ee360c1-0556-4571-b9d5-0aa979a8da88"
+      ],
+      "cluster_ids": [
+        "21c4199a-c8c4-49a8-898e-ef5ae8a8b2b5",
+        "e84b0d92-b66f-42ae-8022-e50adec771ef"
+      ],
+      "rows": [
+        {
+          "cluster_id": "21c4199a-c8c4-49a8-898e-ef5ae8a8b2b5",
+          "printed_id": "7f8a700e-528f-40f7-8e0d-e6d67195fec9",
+          "printed_on": "2026-11-16",
+          "edition_position": 22,
+          "title": "Chris Van Hollen Challenges Chuck Schumer for Senate Democratic Leadership",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 51.29,
+          "divergence_score": 35.75,
+          "story_thread_id": "9ee360c1-0556-4571-b9d5-0aa979a8da88"
+        },
+        {
+          "cluster_id": "e84b0d92-b66f-42ae-8022-e50adec771ef",
+          "printed_id": "f418f239-e014-4458-8294-7608dff64d55",
+          "printed_on": "2026-11-17",
+          "edition_position": 19,
+          "title": "Progressive Groups Endorse Chris Van Hollen to Challenge Chuck Schumer for Senate Leadership",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 57.24,
+          "divergence_score": 37.73,
+          "story_thread_id": "9ee360c1-0556-4571-b9d5-0aa979a8da88"
+        }
+      ]
+    },
+    {
+      "key": "thread-c3cfc463",
+      "rank": 30,
+      "score": 0.428084,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 68,
+        "brief_mentions": 0,
+        "peak_rank": 48.39,
+        "edition_spread": 1,
+        "total_divergence": 54.09
+      },
+      "title": "Hakeem Jeffries Secures Democratic Nomination for House Speaker in Vote",
+      "thread_ids": [
+        "c3cfc463-bca6-49a0-a386-97fc8c7aeff7"
+      ],
+      "cluster_ids": [
+        "9b15e95f-9b45-40ac-8fa0-aa8f4af15db7",
+        "9fea39f7-2e2c-40bb-860c-b4e515589841"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9fea39f7-2e2c-40bb-860c-b4e515589841",
+          "printed_id": "27e7c4c9-544d-46e9-bcff-89766f11c6a7",
+          "printed_on": "2026-11-19",
+          "edition_position": 28,
+          "title": "House Democrats Nominate Hakeem Jeffries for Speaker in Closed Door Vote",
+          "category": "politics",
+          "source_count": 46,
+          "headline_rank": 47.36,
+          "divergence_score": 28.07,
+          "story_thread_id": "c3cfc463-bca6-49a0-a386-97fc8c7aeff7"
+        },
+        {
+          "cluster_id": "9b15e95f-9b45-40ac-8fa0-aa8f4af15db7",
+          "printed_id": "42d50902-1704-424c-adf4-9c6f3ae8f7a9",
+          "printed_on": "2026-11-20",
+          "edition_position": 25,
+          "title": "Hakeem Jeffries Secures Democratic Nomination for House Speaker in Vote",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 48.39,
+          "divergence_score": 26.02,
+          "story_thread_id": "c3cfc463-bca6-49a0-a386-97fc8c7aeff7"
+        }
+      ]
+    },
+    {
+      "key": "thread-5e7bbbff",
+      "rank": 31,
+      "score": 0.426254,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 46,
+        "brief_mentions": 1,
+        "peak_rank": 73.95,
+        "edition_spread": 1,
+        "total_divergence": 32.11
+      },
+      "title": "Gulf Nations Intercept Aerial Attacks Following US Strikes on Qeshm Island",
+      "thread_ids": [
+        "5e7bbbff-7fb5-48f4-83c6-d2f9be411de0"
+      ],
+      "cluster_ids": [
+        "db0bd3d6-c29f-4db1-b587-296a66e1919d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "db0bd3d6-c29f-4db1-b587-296a66e1919d",
+          "printed_id": "5e7bbbff-7fb5-48f4-83c6-d2f9be411de0",
+          "printed_on": "2026-11-18",
+          "edition_position": 1,
+          "title": "Gulf Nations Intercept Aerial Attacks Following US Strikes on Qeshm Island",
+          "category": "general",
+          "source_count": 46,
+          "headline_rank": 73.95,
+          "divergence_score": 32.11,
+          "story_thread_id": "5e7bbbff-7fb5-48f4-83c6-d2f9be411de0"
+        }
+      ]
+    },
+    {
+      "key": "thread-80f0d291",
+      "rank": 32,
+      "score": 0.418815,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 41,
+        "brief_mentions": 0,
+        "peak_rank": 65.57,
+        "edition_spread": 1,
+        "total_divergence": 33.39
+      },
+      "title": "Israeli Strike in Gaza Kills Rafah Brigade Commander Samir Abu Younis",
+      "thread_ids": [
+        "80f0d291-1c27-4a74-9ba6-94eebdf0e408"
+      ],
+      "cluster_ids": [
+        "40ee43df-3496-4e92-872b-f4dc279cfa9f",
+        "6a9df5cd-06f8-48b0-858f-6688c42da4f3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "40ee43df-3496-4e92-872b-f4dc279cfa9f",
+          "printed_id": "87b911d8-98bb-40da-a5b1-2464b302095a",
+          "printed_on": "2026-11-16",
+          "edition_position": 3,
+          "title": "Israeli Strike in Gaza Kills Rafah Brigade Commander Samir Abu Younis",
+          "category": "politics",
+          "source_count": 34,
+          "headline_rank": 65.57,
+          "divergence_score": 23.6,
+          "story_thread_id": "80f0d291-1c27-4a74-9ba6-94eebdf0e408"
+        },
+        {
+          "cluster_id": "6a9df5cd-06f8-48b0-858f-6688c42da4f3",
+          "printed_id": "d52aa18d-4c30-4148-ab3e-363037b495be",
+          "printed_on": "2026-11-19",
+          "edition_position": 17,
+          "title": "Israeli Tanks Cross Yellow Line Boundary in Central Gaza Strip",
+          "category": "conflict",
+          "source_count": 7,
+          "headline_rank": 49.96,
+          "divergence_score": 9.79,
+          "story_thread_id": "80f0d291-1c27-4a74-9ba6-94eebdf0e408"
+        }
+      ]
+    },
+    {
+      "key": "thread-41d5040d",
+      "rank": 33,
+      "score": 0.41689,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 35,
+        "brief_mentions": 1,
+        "peak_rank": 70.55,
+        "edition_spread": 1,
+        "total_divergence": 41.29
+      },
+      "title": "Estonia Closes Border Crossings With Russia After Foiled Sabotage Plot",
+      "thread_ids": [
+        "41d5040d-bd85-4dd6-a935-009c7eab686a"
+      ],
+      "cluster_ids": [
+        "9cf80ef2-a999-4c77-8ad5-594cac42bd0e",
+        "cf5a1346-d7e7-418e-8756-f7c7c8e21f60"
+      ],
+      "rows": [
+        {
+          "cluster_id": "cf5a1346-d7e7-418e-8756-f7c7c8e21f60",
+          "printed_id": "222e0a82-d8db-4ebd-9f13-c3cb7db3629c",
+          "printed_on": "2026-11-16",
+          "edition_position": 1,
+          "title": "Estonia Closes Border Crossings With Russia After Foiled Sabotage Plot",
+          "category": "conflict",
+          "source_count": 22,
+          "headline_rank": 70.55,
+          "divergence_score": 25.03,
+          "story_thread_id": "41d5040d-bd85-4dd6-a935-009c7eab686a"
+        },
+        {
+          "cluster_id": "9cf80ef2-a999-4c77-8ad5-594cac42bd0e",
+          "printed_id": "d87fd9f5-1c98-41f2-b6cd-47a4b06d07db",
+          "printed_on": "2026-11-16",
+          "edition_position": 29,
+          "title": "Estonia Closes All Border Crossings With Russia Following Threod Systems Sabotage Attempt",
+          "category": "conflict",
+          "source_count": 13,
+          "headline_rank": 48.3,
+          "divergence_score": 16.26,
+          "story_thread_id": "41d5040d-bd85-4dd6-a935-009c7eab686a"
+        }
+      ]
+    },
+    {
+      "key": "thread-2c7b4200",
+      "rank": 34,
+      "score": 0.413775,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 44,
+        "brief_mentions": 0,
+        "peak_rank": 56.8,
+        "edition_spread": 1,
+        "total_divergence": 44.44
+      },
+      "title": "Former Mexican Drug Kingpin Miguel Ángel Félix Gallardo Dies at 80",
+      "thread_ids": [
+        "2c7b4200-8900-47d4-9141-494274a31a84"
+      ],
+      "cluster_ids": [
+        "24c0a545-ace2-47ec-9e0b-17a2cef63ef6",
+        "bf4e7fe5-5134-4bd6-89de-d225eac6f034"
+      ],
+      "rows": [
+        {
+          "cluster_id": "bf4e7fe5-5134-4bd6-89de-d225eac6f034",
+          "printed_id": "2c7b4200-8900-47d4-9141-494274a31a84",
+          "printed_on": "2026-11-16",
+          "edition_position": 13,
+          "title": "Former Mexican Drug Kingpin Miguel Ángel Félix Gallardo Dies at 80",
+          "category": "politics",
+          "source_count": 20,
+          "headline_rank": 56.8,
+          "divergence_score": 21.23,
+          "story_thread_id": "2c7b4200-8900-47d4-9141-494274a31a84"
+        },
+        {
+          "cluster_id": "24c0a545-ace2-47ec-9e0b-17a2cef63ef6",
+          "printed_id": "6d1ca751-df9b-4b15-9570-203c4d7a87f9",
+          "printed_on": "2026-11-17",
+          "edition_position": 21,
+          "title": "Guadalajara Cartel Co-Founder Miguel Ángel Félix Gallardo Dies in Hospital at Age 80",
+          "category": "health",
+          "source_count": 24,
+          "headline_rank": 56.25,
+          "divergence_score": 23.21,
+          "story_thread_id": "2c7b4200-8900-47d4-9141-494274a31a84"
+        }
+      ]
+    },
+    {
+      "key": "thread-61715c31",
+      "rank": 35,
+      "score": 0.411258,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 53,
+        "brief_mentions": 1,
+        "peak_rank": 63.36,
+        "edition_spread": 1,
+        "total_divergence": 30.88
+      },
+      "title": "COP31 Climate Talks Enter Overtime in Antalya Amid Fossil Fuel Dispute",
+      "thread_ids": [
+        "61715c31-e6f1-4706-80e0-ea243eb1c792"
+      ],
+      "cluster_ids": [
+        "ea3cf962-5682-4b3a-9f1d-df9b765346c7"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ea3cf962-5682-4b3a-9f1d-df9b765346c7",
+          "printed_id": "61715c31-e6f1-4706-80e0-ea243eb1c792",
+          "printed_on": "2026-11-21",
+          "edition_position": 7,
+          "title": "COP31 Climate Talks Enter Overtime in Antalya Amid Fossil Fuel Dispute",
+          "category": "environment",
+          "source_count": 53,
+          "headline_rank": 63.36,
+          "divergence_score": 30.88,
+          "story_thread_id": "61715c31-e6f1-4706-80e0-ea243eb1c792"
+        }
+      ]
+    },
+    {
+      "key": "thread-06e68c69",
+      "rank": 36,
+      "score": 0.409817,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 40,
+        "brief_mentions": 1,
+        "peak_rank": 69.31,
+        "edition_spread": 1,
+        "total_divergence": 29.99
+      },
+      "title": "European Leaders Condemn Russian Airspace Breach and Pledge Support to Poland",
+      "thread_ids": [
+        "06e68c69-f1a5-403a-87f7-06098c9a4cbd"
+      ],
+      "cluster_ids": [
+        "5c7d7398-4939-44c0-9d08-455fe0d86412"
+      ],
+      "rows": [
+        {
+          "cluster_id": "5c7d7398-4939-44c0-9d08-455fe0d86412",
+          "printed_id": "06e68c69-f1a5-403a-87f7-06098c9a4cbd",
+          "printed_on": "2026-11-21",
+          "edition_position": 3,
+          "title": "European Leaders Condemn Russian Airspace Breach and Pledge Support to Poland",
+          "category": "general",
+          "source_count": 40,
+          "headline_rank": 69.31,
+          "divergence_score": 29.99,
+          "story_thread_id": "06e68c69-f1a5-403a-87f7-06098c9a4cbd"
+        }
+      ]
+    },
+    {
+      "key": "thread-29d17d94",
+      "rank": 37,
+      "score": 0.408667,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 48,
+        "brief_mentions": 1,
+        "peak_rank": 59.26,
+        "edition_spread": 1,
+        "total_divergence": 43.04
+      },
+      "title": "Bahrain Intercepts Six Iranian Drones Targeting Heliport Base Radar Installation",
+      "thread_ids": [
+        "29d17d94-7535-47d8-aa5d-5539a68ddba2"
+      ],
+      "cluster_ids": [
+        "7071d64f-5ee0-489b-b523-74a35da24439"
+      ],
+      "rows": [
+        {
+          "cluster_id": "7071d64f-5ee0-489b-b523-74a35da24439",
+          "printed_id": "ef62aaf2-b15a-4290-afd5-da099e0c9be0",
+          "printed_on": "2026-11-16",
+          "edition_position": 10,
+          "title": "Bahrain Intercepts Six Iranian Drones Targeting Heliport Base Radar Installation",
+          "category": "conflict",
+          "source_count": 48,
+          "headline_rank": 59.26,
+          "divergence_score": 43.04,
+          "story_thread_id": "29d17d94-7535-47d8-aa5d-5539a68ddba2"
+        }
+      ]
+    },
+    {
+      "key": "thread-7dc576ee",
+      "rank": 38,
+      "score": 0.406755,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 29,
+        "brief_mentions": 0,
+        "peak_rank": 52.58,
+        "edition_spread": 1,
+        "total_divergence": 62.91
+      },
+      "title": "Google Rejects UK Government Request to Remove Russell Brand Video",
+      "thread_ids": [
+        "7dc576ee-50da-4bf4-938f-07d3d553fd55"
+      ],
+      "cluster_ids": [
+        "5407e4d4-f3fa-411f-84e7-769cfaa44d94",
+        "fa648652-dc47-409a-ba7c-ffd5cf685ae3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "5407e4d4-f3fa-411f-84e7-769cfaa44d94",
+          "printed_id": "7dc576ee-50da-4bf4-938f-07d3d553fd55",
+          "printed_on": "2026-11-19",
+          "edition_position": 13,
+          "title": "Google Rejects United Kingdom Request to Remove Russell Brand Video",
+          "category": "science",
+          "source_count": 15,
+          "headline_rank": 51.23,
+          "divergence_score": 29.65,
+          "story_thread_id": "7dc576ee-50da-4bf4-938f-07d3d553fd55"
+        },
+        {
+          "cluster_id": "fa648652-dc47-409a-ba7c-ffd5cf685ae3",
+          "printed_id": "c79e8db4-3d14-4d39-ac1a-86d76db1051b",
+          "printed_on": "2026-11-20",
+          "edition_position": 21,
+          "title": "Google Rejects UK Government Request to Remove Russell Brand Video",
+          "category": "science",
+          "source_count": 14,
+          "headline_rank": 52.58,
+          "divergence_score": 33.26,
+          "story_thread_id": "7dc576ee-50da-4bf4-938f-07d3d553fd55"
+        }
+      ]
+    },
+    {
+      "key": "thread-b318d131",
+      "rank": 39,
+      "score": 0.398736,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 22,
+        "brief_mentions": 1,
+        "peak_rank": 69.8,
+        "edition_spread": 1,
+        "total_divergence": 35.95
+      },
+      "title": "Polish Prime Minister Tusk Calls Russian Missile Incursion Provocation",
+      "thread_ids": [
+        "b318d131-b2c4-4076-84de-652da9d15825"
+      ],
+      "cluster_ids": [
+        "1711ed61-dd08-4645-b80f-41798480158b"
+      ],
+      "rows": [
+        {
+          "cluster_id": "1711ed61-dd08-4645-b80f-41798480158b",
+          "printed_id": "b318d131-b2c4-4076-84de-652da9d15825",
+          "printed_on": "2026-11-20",
+          "edition_position": 2,
+          "title": "Polish Prime Minister Tusk Calls Russian Missile Incursion Provocation",
+          "category": "conflict",
+          "source_count": 22,
+          "headline_rank": 69.8,
+          "divergence_score": 35.95,
+          "story_thread_id": "b318d131-b2c4-4076-84de-652da9d15825"
+        }
+      ]
+    },
+    {
+      "key": "thread-ca3ce385",
+      "rank": 40,
+      "score": 0.396993,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 36,
+        "brief_mentions": 0,
+        "peak_rank": 50.04,
+        "edition_spread": 1,
+        "total_divergence": 49.14
+      },
+      "title": "Jordanian Court Sentences Three Men to Death for Church Attack",
+      "thread_ids": [
+        "ca3ce385-cab8-49ac-9b8a-7fdc78455810"
+      ],
+      "cluster_ids": [
+        "db5e94c8-997f-4e11-9722-9ca13d1a59cb",
+        "ececdaf5-b19b-4099-b750-871e127dea25"
+      ],
+      "rows": [
+        {
+          "cluster_id": "db5e94c8-997f-4e11-9722-9ca13d1a59cb",
+          "printed_id": "ca3ce385-cab8-49ac-9b8a-7fdc78455810",
+          "printed_on": "2026-11-16",
+          "edition_position": 25,
+          "title": "Jordanian Court Sentences Three Men to Death for Church Attack",
+          "category": "conflict",
+          "source_count": 30,
+          "headline_rank": 50.04,
+          "divergence_score": 32.6,
+          "story_thread_id": "ca3ce385-cab8-49ac-9b8a-7fdc78455810"
+        },
+        {
+          "cluster_id": "ececdaf5-b19b-4099-b750-871e127dea25",
+          "printed_id": "1ea81b83-bd71-475c-a214-9ed3fced5fb7",
+          "printed_on": "2026-11-21",
+          "edition_position": 28,
+          "title": "French Court Sentences Three Police Officers for Racist Assault",
+          "category": "politics",
+          "source_count": 6,
+          "headline_rank": 45.85,
+          "divergence_score": 16.54,
+          "story_thread_id": "ca3ce385-cab8-49ac-9b8a-7fdc78455810"
+        }
+      ]
+    },
+    {
+      "key": "thread-e18d610f",
+      "rank": 41,
+      "score": 0.391979,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 31,
+        "brief_mentions": 1,
+        "peak_rank": 64,
+        "edition_spread": 1,
+        "total_divergence": 31.16
+      },
+      "title": "Former Ride-Share Driver Found Guilty of Federal Arson in Deadly Palisades Fire",
+      "thread_ids": [
+        "e18d610f-5dc9-4a3b-8f0b-8c7899201f4c"
+      ],
+      "cluster_ids": [
+        "501b8bc7-46a8-417a-98e1-bea08d63ecab"
+      ],
+      "rows": [
+        {
+          "cluster_id": "501b8bc7-46a8-417a-98e1-bea08d63ecab",
+          "printed_id": "e18d610f-5dc9-4a3b-8f0b-8c7899201f4c",
+          "printed_on": "2026-11-21",
+          "edition_position": 6,
+          "title": "Former Ride-Share Driver Found Guilty of Federal Arson in Deadly Palisades Fire",
+          "category": "environment",
+          "source_count": 31,
+          "headline_rank": 64,
+          "divergence_score": 31.16,
+          "story_thread_id": "e18d610f-5dc9-4a3b-8f0b-8c7899201f4c"
+        }
+      ]
+    },
+    {
+      "key": "thread-dd741d65",
+      "rank": 42,
+      "score": 0.389559,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 26,
+        "brief_mentions": 1,
+        "peak_rank": 64.9,
+        "edition_spread": 1,
+        "total_divergence": 31.82
+      },
+      "title": "Tanker Crew Evacuated Off Oman Following Projectile Strike in Strait of Hormuz",
+      "thread_ids": [
+        "dd741d65-f694-415c-90da-b916e0d2bddb"
+      ],
+      "cluster_ids": [
+        "1419ceed-ffc1-4072-b96e-b509ab776fe5"
+      ],
+      "rows": [
+        {
+          "cluster_id": "1419ceed-ffc1-4072-b96e-b509ab776fe5",
+          "printed_id": "dd741d65-f694-415c-90da-b916e0d2bddb",
+          "printed_on": "2026-11-18",
+          "edition_position": 7,
+          "title": "Tanker Crew Evacuated Off Oman Following Projectile Strike in Strait of Hormuz",
+          "category": "conflict",
+          "source_count": 26,
+          "headline_rank": 64.9,
+          "divergence_score": 31.82,
+          "story_thread_id": "dd741d65-f694-415c-90da-b916e0d2bddb"
+        }
+      ]
+    },
+    {
+      "key": "thread-fcc29949",
+      "rank": 43,
+      "score": 0.387724,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 23,
+        "brief_mentions": 0,
+        "peak_rank": 47.16,
+        "edition_spread": 1,
+        "total_divergence": 59.49
+      },
+      "title": "FIFA Confirms Diallo and Tashima as Challengers to Gianni Infantino",
+      "thread_ids": [
+        "fcc29949-25c7-489b-9057-9aa36e71f87d"
+      ],
+      "cluster_ids": [
+        "d948db5a-e343-48de-8e97-6384179f71f6",
+        "da5986fb-1b28-474a-9f16-3e9f5669dfa3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "da5986fb-1b28-474a-9f16-3e9f5669dfa3",
+          "printed_id": "fcc29949-25c7-489b-9057-9aa36e71f87d",
+          "printed_on": "2026-11-19",
+          "edition_position": 30,
+          "title": "FIFA Confirms Diallo and Tashima as Challengers to Gianni Infantino",
+          "category": "politics",
+          "source_count": 9,
+          "headline_rank": 47.16,
+          "divergence_score": 24.65,
+          "story_thread_id": "fcc29949-25c7-489b-9057-9aa36e71f87d"
+        },
+        {
+          "cluster_id": "d948db5a-e343-48de-8e97-6384179f71f6",
+          "printed_id": "2ccd14d7-4373-4913-a796-c35e2bd55eaf",
+          "printed_on": "2026-11-21",
+          "edition_position": 22,
+          "title": "CONMEBOL and Nigeria Endorse Gianni Infantino for Re-Election as FIFA President",
+          "category": "politics",
+          "source_count": 14,
+          "headline_rank": 46.88,
+          "divergence_score": 34.84,
+          "story_thread_id": "fcc29949-25c7-489b-9057-9aa36e71f87d"
+        }
+      ]
+    },
+    {
+      "key": "thread-284885f7",
+      "rank": 44,
+      "score": 0.387134,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 32,
+        "brief_mentions": 1,
+        "peak_rank": 61.38,
+        "edition_spread": 1,
+        "total_divergence": 30.32
+      },
+      "title": "Transportation Secretary Sean Duffy Asks Congress for 50 Billion Dollars",
+      "thread_ids": [
+        "284885f7-df97-4a6a-8a87-76be7bb90942"
+      ],
+      "cluster_ids": [
+        "c2cca4ec-6586-428e-90ee-99f0fd2065e2"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c2cca4ec-6586-428e-90ee-99f0fd2065e2",
+          "printed_id": "284885f7-df97-4a6a-8a87-76be7bb90942",
+          "printed_on": "2026-11-18",
+          "edition_position": 9,
+          "title": "Transportation Secretary Sean Duffy Asks Congress for 50 Billion Dollars",
+          "category": "general",
+          "source_count": 32,
+          "headline_rank": 61.38,
+          "divergence_score": 30.32,
+          "story_thread_id": "284885f7-df97-4a6a-8a87-76be7bb90942"
+        }
+      ]
+    },
+    {
+      "key": "thread-ea273fb2",
+      "rank": 45,
+      "score": 0.38684,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 35,
+        "brief_mentions": 1,
+        "peak_rank": 58.29,
+        "edition_spread": 1,
+        "total_divergence": 33.79
+      },
+      "title": "COP31 Revised Draft Omits Fossil Fuels and Retains Carbon Capture",
+      "thread_ids": [
+        "ea273fb2-14c4-4877-945e-7761f0ce683f"
+      ],
+      "cluster_ids": [
+        "6a5a2c8f-d356-4a84-a7bd-8dbbc613a490"
+      ],
+      "rows": [
+        {
+          "cluster_id": "6a5a2c8f-d356-4a84-a7bd-8dbbc613a490",
+          "printed_id": "ea273fb2-14c4-4877-945e-7761f0ce683f",
+          "printed_on": "2026-11-20",
+          "edition_position": 10,
+          "title": "COP31 Revised Draft Omits Fossil Fuels and Retains Carbon Capture",
+          "category": "environment",
+          "source_count": 35,
+          "headline_rank": 58.29,
+          "divergence_score": 33.79,
+          "story_thread_id": "ea273fb2-14c4-4877-945e-7761f0ce683f"
+        }
+      ]
+    },
+    {
+      "key": "thread-1776dfbf",
+      "rank": 46,
+      "score": 0.386299,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 25,
+        "brief_mentions": 1,
+        "peak_rank": 61.41,
+        "edition_spread": 1,
+        "total_divergence": 37.2
+      },
+      "title": "Cape Verde President José Maria Neves Wins Second Term in Provisional Vote",
+      "thread_ids": [
+        "1776dfbf-2094-4b63-aa6c-b673336e1cb2"
+      ],
+      "cluster_ids": [
+        "f63bc2f8-d2cb-4fa6-a2cd-19c0310357e6"
+      ],
+      "rows": [
+        {
+          "cluster_id": "f63bc2f8-d2cb-4fa6-a2cd-19c0310357e6",
+          "printed_id": "04069347-a368-4608-a6c5-c65bcdb0cdab",
+          "printed_on": "2026-11-16",
+          "edition_position": 7,
+          "title": "Cape Verde President José Maria Neves Wins Second Term in Provisional Vote",
+          "category": "politics",
+          "source_count": 25,
+          "headline_rank": 61.41,
+          "divergence_score": 37.2,
+          "story_thread_id": "1776dfbf-2094-4b63-aa6c-b673336e1cb2"
+        }
+      ]
+    },
+    {
+      "key": "thread-328c146f",
+      "rank": 47,
+      "score": 0.384335,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 27,
+        "brief_mentions": 1,
+        "peak_rank": 64.14,
+        "edition_spread": 1,
+        "total_divergence": 26.17
+      },
+      "title": "White House Withdraws Nomination of Heidi Overton to Lead Food and Drug Administration",
+      "thread_ids": [
+        "328c146f-79da-40f9-b411-151e58b7b502"
+      ],
+      "cluster_ids": [
+        "b18717b3-5812-4e88-b94f-9c275cd59c70"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b18717b3-5812-4e88-b94f-9c275cd59c70",
+          "printed_id": "328c146f-79da-40f9-b411-151e58b7b502",
+          "printed_on": "2026-11-18",
+          "edition_position": 8,
+          "title": "White House Withdraws Nomination of Heidi Overton to Lead Food and Drug Administration",
+          "category": "politics",
+          "source_count": 27,
+          "headline_rank": 64.14,
+          "divergence_score": 26.17,
+          "story_thread_id": "328c146f-79da-40f9-b411-151e58b7b502"
+        }
+      ]
+    },
+    {
+      "key": "thread-515c87a9",
+      "rank": 48,
+      "score": 0.383512,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 21,
+        "brief_mentions": 1,
+        "peak_rank": 65.45,
+        "edition_spread": 1,
+        "total_divergence": 28.93
+      },
+      "title": "Acting Navy Secretary Hung Cao Faces Tough Senate Confirmation Hearing Over Munitions",
+      "thread_ids": [
+        "515c87a9-cd3b-481e-9cae-b64a25f5b6a9"
+      ],
+      "cluster_ids": [
+        "7c3520e1-523a-4e09-8130-26b482252ea9"
+      ],
+      "rows": [
+        {
+          "cluster_id": "7c3520e1-523a-4e09-8130-26b482252ea9",
+          "printed_id": "e1ef2378-f40c-49a2-b007-710db17285c0",
+          "printed_on": "2026-11-18",
+          "edition_position": 4,
+          "title": "Acting Navy Secretary Hung Cao Faces Tough Senate Confirmation Hearing Over Munitions",
+          "category": "politics",
+          "source_count": 21,
+          "headline_rank": 65.45,
+          "divergence_score": 28.93,
+          "story_thread_id": "515c87a9-cd3b-481e-9cae-b64a25f5b6a9"
+        }
+      ]
+    },
+    {
+      "key": "thread-4570905f",
+      "rank": 49,
+      "score": 0.382948,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 19,
+        "brief_mentions": 1,
+        "peak_rank": 60.39,
+        "edition_spread": 1,
+        "total_divergence": 42.37
+      },
+      "title": "Iran Launches Drone Strikes Against US Military Bases in Kuwait and Bahrain",
+      "thread_ids": [
+        "4570905f-b247-4033-b824-258c923953be"
+      ],
+      "cluster_ids": [
+        "b4b4b822-93cb-4e70-b767-d9808707117a"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b4b4b822-93cb-4e70-b767-d9808707117a",
+          "printed_id": "4e681a58-d05d-44ca-bd5d-b402d57ce3fe",
+          "printed_on": "2026-11-19",
+          "edition_position": 7,
+          "title": "Iran Launches Drone Strikes Against US Military Bases in Kuwait and Bahrain",
+          "category": "conflict",
+          "source_count": 19,
+          "headline_rank": 60.39,
+          "divergence_score": 42.37,
+          "story_thread_id": "4570905f-b247-4033-b824-258c923953be"
+        }
+      ]
+    },
+    {
+      "key": "thread-1fb2954c",
+      "rank": 50,
+      "score": 0.382461,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 22,
+        "brief_mentions": 1,
+        "peak_rank": 68.67,
+        "edition_spread": 1,
+        "total_divergence": 18.99
+      },
+      "title": "Trump Arrives in the Philippines for Regional Talks and China Summit",
+      "thread_ids": [
+        "1fb2954c-18de-4bbe-a738-3fb1d7e0e1b2"
+      ],
+      "cluster_ids": [
+        "500328c0-1610-4e86-94b2-78b432173c40"
+      ],
+      "rows": [
+        {
+          "cluster_id": "500328c0-1610-4e86-94b2-78b432173c40",
+          "printed_id": "1fb2954c-18de-4bbe-a738-3fb1d7e0e1b2",
+          "printed_on": "2026-11-17",
+          "edition_position": 7,
+          "title": "Trump Arrives in the Philippines for Regional Talks and China Summit",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 68.67,
+          "divergence_score": 18.99,
+          "story_thread_id": "1fb2954c-18de-4bbe-a738-3fb1d7e0e1b2"
+        }
+      ]
+    },
+    {
+      "key": "thread-0e8a0fad",
+      "rank": 51,
+      "score": 0.381802,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 20,
+        "brief_mentions": 1,
+        "peak_rank": 66.38,
+        "edition_spread": 1,
+        "total_divergence": 25.83
+      },
+      "title": "Ukrainian and European Officials Discuss Security Frameworks With US Envoys",
+      "thread_ids": [
+        "0e8a0fad-1a8b-42f1-87c6-e6250538335a"
+      ],
+      "cluster_ids": [
+        "21df0ab4-839f-4be4-8bd4-1ab38c5ce0d2"
+      ],
+      "rows": [
+        {
+          "cluster_id": "21df0ab4-839f-4be4-8bd4-1ab38c5ce0d2",
+          "printed_id": "0e8a0fad-1a8b-42f1-87c6-e6250538335a",
+          "printed_on": "2026-11-17",
+          "edition_position": 10,
+          "title": "Ukrainian and European Officials Discuss Security Frameworks With US Envoys",
+          "category": "general",
+          "source_count": 20,
+          "headline_rank": 66.38,
+          "divergence_score": 25.83,
+          "story_thread_id": "0e8a0fad-1a8b-42f1-87c6-e6250538335a"
+        }
+      ]
+    },
+    {
+      "key": "thread-6938b003",
+      "rank": 52,
+      "score": 0.381328,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 16,
+        "brief_mentions": 1,
+        "peak_rank": 69.53,
+        "edition_spread": 1,
+        "total_divergence": 22.43
+      },
+      "title": "Texas Prosecutor Warns Democratic Lawmakers Over Trump Investigation Inquiries",
+      "thread_ids": [
+        "6938b003-3467-4c7a-a134-3599216fbded"
+      ],
+      "cluster_ids": [
+        "fab36223-904b-4808-b3d5-82015223038b"
+      ],
+      "rows": [
+        {
+          "cluster_id": "fab36223-904b-4808-b3d5-82015223038b",
+          "printed_id": "6938b003-3467-4c7a-a134-3599216fbded",
+          "printed_on": "2026-11-17",
+          "edition_position": 6,
+          "title": "Texas Prosecutor Warns Democratic Lawmakers Over Trump Investigation Inquiries",
+          "category": "general",
+          "source_count": 16,
+          "headline_rank": 69.53,
+          "divergence_score": 22.43,
+          "story_thread_id": "6938b003-3467-4c7a-a134-3599216fbded"
+        }
+      ]
+    },
+    {
+      "key": "thread-33755523",
+      "rank": 53,
+      "score": 0.380567,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 15,
+        "brief_mentions": 1,
+        "peak_rank": 62.55,
+        "edition_spread": 1,
+        "total_divergence": 38.99
+      },
+      "title": "Vice President JD Vance Declines to Endorse Iran Strikes at White House Press Briefing",
+      "thread_ids": [
+        "33755523-6810-4b87-9665-ee428627a969"
+      ],
+      "cluster_ids": [
+        "913d9906-b59b-44da-a216-b94e96dd4223"
+      ],
+      "rows": [
+        {
+          "cluster_id": "913d9906-b59b-44da-a216-b94e96dd4223",
+          "printed_id": "33755523-6810-4b87-9665-ee428627a969",
+          "printed_on": "2026-11-21",
+          "edition_position": 8,
+          "title": "Vice President JD Vance Declines to Endorse Iran Strikes at White House Press Briefing",
+          "category": "conflict",
+          "source_count": 15,
+          "headline_rank": 62.55,
+          "divergence_score": 38.99,
+          "story_thread_id": "33755523-6810-4b87-9665-ee428627a969"
+        }
+      ]
+    },
+    {
+      "key": "thread-7fe84b05",
+      "rank": 54,
+      "score": 0.378799,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 17,
+        "brief_mentions": 1,
+        "peak_rank": 67.88,
+        "edition_spread": 1,
+        "total_divergence": 22.11
+      },
+      "title": "Federal Court Sentences Pakistani National to 330 Months in Prison for Assassination Plot",
+      "thread_ids": [
+        "7fe84b05-bc5d-4091-981e-fee8c8fb685a"
+      ],
+      "cluster_ids": [
+        "f941b069-bef5-491b-b43c-345024d50908"
+      ],
+      "rows": [
+        {
+          "cluster_id": "f941b069-bef5-491b-b43c-345024d50908",
+          "printed_id": "7fe84b05-bc5d-4091-981e-fee8c8fb685a",
+          "printed_on": "2026-11-18",
+          "edition_position": 3,
+          "title": "Federal Court Sentences Pakistani National to 330 Months in Prison for Assassination Plot",
+          "category": "politics",
+          "source_count": 17,
+          "headline_rank": 67.88,
+          "divergence_score": 22.11,
+          "story_thread_id": "7fe84b05-bc5d-4091-981e-fee8c8fb685a"
+        }
+      ]
+    },
+    {
+      "key": "thread-b16bb82e",
+      "rank": 55,
+      "score": 0.374769,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 19,
+        "brief_mentions": 1,
+        "peak_rank": 65.07,
+        "edition_spread": 1,
+        "total_divergence": 21.56
+      },
+      "title": "Denmark Expels Russian Diplomat After Thwarting Assassination Plot Against Rapper Kyivstoner",
+      "thread_ids": [
+        "b16bb82e-c70d-4db6-87d0-6ad412d0194e"
+      ],
+      "cluster_ids": [
+        "61e3f19e-a282-40cd-9274-fb39904cedca"
+      ],
+      "rows": [
+        {
+          "cluster_id": "61e3f19e-a282-40cd-9274-fb39904cedca",
+          "printed_id": "b16bb82e-c70d-4db6-87d0-6ad412d0194e",
+          "printed_on": "2026-11-21",
+          "edition_position": 5,
+          "title": "Denmark Expels Russian Diplomat After Thwarting Assassination Plot Against Rapper Kyivstoner",
+          "category": "conflict",
+          "source_count": 19,
+          "headline_rank": 65.07,
+          "divergence_score": 21.56,
+          "story_thread_id": "b16bb82e-c70d-4db6-87d0-6ad412d0194e"
+        }
+      ]
+    },
+    {
+      "key": "thread-c9c08714",
+      "rank": 56,
+      "score": 0.372614,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 16,
+        "brief_mentions": 1,
+        "peak_rank": 63,
+        "edition_spread": 1,
+        "total_divergence": 27.22
+      },
+      "title": "China Urges Japan to Change Attitude on Taiwan After Xi Snubs Takaichi",
+      "thread_ids": [
+        "c9c08714-44eb-4d0a-b9fd-5c9c9648c0a8"
+      ],
+      "cluster_ids": [
+        "907b23ae-79d5-4926-a022-caaccc863d45"
+      ],
+      "rows": [
+        {
+          "cluster_id": "907b23ae-79d5-4926-a022-caaccc863d45",
+          "printed_id": "c9c08714-44eb-4d0a-b9fd-5c9c9648c0a8",
+          "printed_on": "2026-11-20",
+          "edition_position": 5,
+          "title": "China Urges Japan to Change Attitude on Taiwan After Xi Snubs Takaichi",
+          "category": "politics",
+          "source_count": 16,
+          "headline_rank": 63,
+          "divergence_score": 27.22,
+          "story_thread_id": "c9c08714-44eb-4d0a-b9fd-5c9c9648c0a8"
+        }
+      ]
+    },
+    {
+      "key": "thread-70a3e8a1",
+      "rank": 57,
+      "score": 0.369679,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 20,
+        "brief_mentions": 1,
+        "peak_rank": 60.91,
+        "edition_spread": 1,
+        "total_divergence": 24.03
+      },
+      "title": "US Envoys Pitch NATO-Like Security Guarantees for Ukraine Peace",
+      "thread_ids": [
+        "70a3e8a1-4a7d-43cf-bbae-1a0e85edbda0"
+      ],
+      "cluster_ids": [
+        "4940de75-ee10-4491-8054-77845b5c9f43"
+      ],
+      "rows": [
+        {
+          "cluster_id": "4940de75-ee10-4491-8054-77845b5c9f43",
+          "printed_id": "70a3e8a1-4a7d-43cf-bbae-1a0e85edbda0",
+          "printed_on": "2026-11-20",
+          "edition_position": 9,
+          "title": "US Envoys Pitch NATO-Like Security Guarantees for Ukraine Peace",
+          "category": "conflict",
+          "source_count": 20,
+          "headline_rank": 60.91,
+          "divergence_score": 24.03,
+          "story_thread_id": "70a3e8a1-4a7d-43cf-bbae-1a0e85edbda0"
+        }
+      ]
+    },
+    {
+      "key": "thread-f8b0fe2a",
+      "rank": 58,
+      "score": 0.36931,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 15,
+        "brief_mentions": 1,
+        "peak_rank": 61.14,
+        "edition_spread": 1,
+        "total_divergence": 28.73
+      },
+      "title": "SpaceX Retains Democratic Lobbyists as Congressional Democrats Prepare Oversight Inquiries",
+      "thread_ids": [
+        "f8b0fe2a-37f4-40a8-b62a-6b962b9787c2"
+      ],
+      "cluster_ids": [
+        "7cd2e844-9b44-43af-a4f9-734a09bd93b8"
+      ],
+      "rows": [
+        {
+          "cluster_id": "7cd2e844-9b44-43af-a4f9-734a09bd93b8",
+          "printed_id": "f8b0fe2a-37f4-40a8-b62a-6b962b9787c2",
+          "printed_on": "2026-11-21",
+          "edition_position": 9,
+          "title": "SpaceX Retains Democratic Lobbyists as Congressional Democrats Prepare Oversight Inquiries",
+          "category": "politics",
+          "source_count": 15,
+          "headline_rank": 61.14,
+          "divergence_score": 28.73,
+          "story_thread_id": "f8b0fe2a-37f4-40a8-b62a-6b962b9787c2"
+        }
+      ]
+    },
+    {
+      "key": "thread-ba35e603",
+      "rank": 59,
+      "score": 0.368374,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 9,
+        "brief_mentions": 1,
+        "peak_rank": 63.87,
+        "edition_spread": 1,
+        "total_divergence": 28.03
+      },
+      "title": "Pentagon Official Leaves Ukraine Defense Meeting After Criticizing Long-Range Strikes",
+      "thread_ids": [
+        "ba35e603-a864-414a-b524-bbe496dca0d2"
+      ],
+      "cluster_ids": [
+        "e42bef67-eba1-4eb5-ae32-c848eeec6a6c"
+      ],
+      "rows": [
+        {
+          "cluster_id": "e42bef67-eba1-4eb5-ae32-c848eeec6a6c",
+          "printed_id": "ba35e603-a864-414a-b524-bbe496dca0d2",
+          "printed_on": "2026-11-19",
+          "edition_position": 5,
+          "title": "Pentagon Official Leaves Ukraine Defense Meeting After Criticizing Long-Range Strikes",
+          "category": "conflict",
+          "source_count": 9,
+          "headline_rank": 63.87,
+          "divergence_score": 28.03,
+          "story_thread_id": "ba35e603-a864-414a-b524-bbe496dca0d2"
+        }
+      ]
+    },
+    {
+      "key": "thread-bbd33fd3",
+      "rank": 60,
+      "score": 0.367071,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 18,
+        "brief_mentions": 1,
+        "peak_rank": 60.68,
+        "edition_spread": 1,
+        "total_divergence": 23.7
+      },
+      "title": "Donald Trump Dismisses Questions Over Domestic Infrastructure and Iranian Drone Threats",
+      "thread_ids": [
+        "bbd33fd3-9ddb-49f1-a54a-abae5d35432d"
+      ],
+      "cluster_ids": [
+        "021caa58-04b9-44b0-a7d2-25777033d369"
+      ],
+      "rows": [
+        {
+          "cluster_id": "021caa58-04b9-44b0-a7d2-25777033d369",
+          "printed_id": "fcdecea4-a564-47f0-8293-7708d0c5d3dd",
+          "printed_on": "2026-11-18",
+          "edition_position": 11,
+          "title": "Donald Trump Dismisses Questions Over Domestic Infrastructure and Iranian Drone Threats",
+          "category": "politics",
+          "source_count": 18,
+          "headline_rank": 60.68,
+          "divergence_score": 23.7,
+          "story_thread_id": "bbd33fd3-9ddb-49f1-a54a-abae5d35432d"
+        }
+      ]
+    },
+    {
+      "key": "thread-e23e4e6d",
+      "rank": 61,
+      "score": 0.367004,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 15,
+        "brief_mentions": 1,
+        "peak_rank": 61.79,
+        "edition_spread": 1,
+        "total_divergence": 24.43
+      },
+      "title": "Japan Economy Stalls in Third Quarter as Rising Inflation Squeezes Consumption",
+      "thread_ids": [
+        "e23e4e6d-db2f-450b-97ce-9f94871e8b6a"
+      ],
+      "cluster_ids": [
+        "5b21b1d1-4d55-4935-b3de-e6a274e59389"
+      ],
+      "rows": [
+        {
+          "cluster_id": "5b21b1d1-4d55-4935-b3de-e6a274e59389",
+          "printed_id": "e23e4e6d-db2f-450b-97ce-9f94871e8b6a",
+          "printed_on": "2026-11-16",
+          "edition_position": 5,
+          "title": "Japan Economy Stalls in Third Quarter as Rising Inflation Squeezes Consumption",
+          "category": "economy",
+          "source_count": 15,
+          "headline_rank": 61.79,
+          "divergence_score": 24.43,
+          "story_thread_id": "e23e4e6d-db2f-450b-97ce-9f94871e8b6a"
+        }
+      ]
+    },
+    {
+      "key": "thread-ff9218d2",
+      "rank": 62,
+      "score": 0.365697,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 18,
+        "brief_mentions": 1,
+        "peak_rank": 60.49,
+        "edition_spread": 1,
+        "total_divergence": 22.49
+      },
+      "title": "Senators Clash Over Social Security and Government Funding Deadlines",
+      "thread_ids": [
+        "ff9218d2-a566-4b4a-bad2-70dfa14210ac"
+      ],
+      "cluster_ids": [
+        "32bcd205-a660-4ff6-90e3-b54c8707d44d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "32bcd205-a660-4ff6-90e3-b54c8707d44d",
+          "printed_id": "ff9218d2-a566-4b4a-bad2-70dfa14210ac",
+          "printed_on": "2026-11-19",
+          "edition_position": 6,
+          "title": "Senators Clash Over Social Security and Government Funding Deadlines",
+          "category": "politics",
+          "source_count": 18,
+          "headline_rank": 60.49,
+          "divergence_score": 22.49,
+          "story_thread_id": "ff9218d2-a566-4b4a-bad2-70dfa14210ac"
+        }
+      ]
+    },
+    {
+      "key": "thread-6c941428",
+      "rank": 63,
+      "score": 0.36403,
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 16,
+        "brief_mentions": 0,
+        "peak_rank": 47.46,
+        "edition_spread": 1,
+        "total_divergence": 38.2
+      },
+      "title": "Bangladesh Deploys Paramilitary Troops Amid Nationwide Unrest and Arson Attacks",
+      "thread_ids": [
+        "6c941428-6898-45e9-88c8-0ba1f0e3b75a"
+      ],
+      "cluster_ids": [
+        "07987b31-e0d3-4739-9778-3f566df97360",
+        "bf1a7069-033d-45f9-a6b0-078c06ae34e6"
+      ],
+      "rows": [
+        {
+          "cluster_id": "07987b31-e0d3-4739-9778-3f566df97360",
+          "printed_id": "6c941428-6898-45e9-88c8-0ba1f0e3b75a",
+          "printed_on": "2026-11-19",
+          "edition_position": 27,
+          "title": "Bangladesh Deploys Paramilitary Troops Amid Nationwide Unrest and Arson Attacks",
+          "category": "conflict",
+          "source_count": 9,
+          "headline_rank": 47.46,
+          "divergence_score": 19.58,
+          "story_thread_id": "6c941428-6898-45e9-88c8-0ba1f0e3b75a"
+        },
+        {
+          "cluster_id": "bf1a7069-033d-45f9-a6b0-078c06ae34e6",
+          "printed_id": "7c3ebf78-ca63-42a5-9d3c-0feba60c172a",
+          "printed_on": "2026-11-20",
+          "edition_position": 26,
+          "title": "Bangladesh Deploys Forces and Blames Ousted Leader for Escalating Unrest",
+          "category": "general",
+          "source_count": 7,
+          "headline_rank": 47.3,
+          "divergence_score": 18.62,
+          "story_thread_id": "6c941428-6898-45e9-88c8-0ba1f0e3b75a"
+        }
+      ]
+    },
+    {
+      "key": "thread-d532bf3b",
+      "rank": 64,
+      "score": 0.359148,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 17,
+        "brief_mentions": 1,
+        "peak_rank": 59.98,
+        "edition_spread": 1,
+        "total_divergence": 16.93
+      },
+      "title": "Canada May Turn to Chinese Automakers if US Trade Talks Fail",
+      "thread_ids": [
+        "d532bf3b-e895-4f4e-8a63-87be4c39972b"
+      ],
+      "cluster_ids": [
+        "28d090bc-96f4-401d-b74e-6702cf320db7"
+      ],
+      "rows": [
+        {
+          "cluster_id": "28d090bc-96f4-401d-b74e-6702cf320db7",
+          "printed_id": "d532bf3b-e895-4f4e-8a63-87be4c39972b",
+          "printed_on": "2026-11-16",
+          "edition_position": 9,
+          "title": "Canada May Turn to Chinese Automakers if US Trade Talks Fail",
+          "category": "politics",
+          "source_count": 17,
+          "headline_rank": 59.98,
+          "divergence_score": 16.93,
+          "story_thread_id": "d532bf3b-e895-4f4e-8a63-87be4c39972b"
+        }
+      ]
+    },
+    {
+      "key": "thread-57ba4ff4",
+      "rank": 65,
+      "score": 0.354713,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 59,
+        "brief_mentions": 0,
+        "peak_rank": 57.72,
+        "edition_spread": 1,
+        "total_divergence": 29.38
+      },
+      "title": "Nvidia Board Rules Out Jensen Huang Comeback Amid Growing Campaign",
+      "thread_ids": [
+        "57ba4ff4-b76a-476f-849c-6cd906379337"
+      ],
+      "cluster_ids": [
+        "690ddb33-47c7-4b0d-91b3-58b5830198cc"
+      ],
+      "rows": [
+        {
+          "cluster_id": "690ddb33-47c7-4b0d-91b3-58b5830198cc",
+          "printed_id": "a5d4c0ee-38a5-47f0-bda0-712828ab2de5",
+          "printed_on": "2026-11-17",
+          "edition_position": 17,
+          "title": "Nvidia Board Rules Out Jensen Huang Comeback Amid Growing Campaign",
+          "category": "science",
+          "source_count": 59,
+          "headline_rank": 57.72,
+          "divergence_score": 29.38,
+          "story_thread_id": "57ba4ff4-b76a-476f-849c-6cd906379337"
+        }
+      ]
+    },
+    {
+      "key": "thread-639f63e9",
+      "rank": 66,
+      "score": 0.35409,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 1,
+        "peak_rank": 53.1,
+        "edition_spread": 1,
+        "total_divergence": 31.49
+      },
+      "title": "Pacific Island Nations Fiji and Tonga Declare Severe El Nino Drought Crisis",
+      "thread_ids": [
+        "639f63e9-0b5c-4b26-a217-d8bf5bf30557"
+      ],
+      "cluster_ids": [
+        "cc800ee9-3a6b-4b25-8a40-0a8017e5a704"
+      ],
+      "rows": [
+        {
+          "cluster_id": "cc800ee9-3a6b-4b25-8a40-0a8017e5a704",
+          "printed_id": "639f63e9-0b5c-4b26-a217-d8bf5bf30557",
+          "printed_on": "2026-11-19",
+          "edition_position": 11,
+          "title": "Pacific Island Nations Fiji and Tonga Declare Severe El Nino Drought Crisis",
+          "category": "environment",
+          "source_count": 13,
+          "headline_rank": 53.1,
+          "divergence_score": 31.49,
+          "story_thread_id": "639f63e9-0b5c-4b26-a217-d8bf5bf30557"
+        }
+      ]
+    },
+    {
+      "key": "thread-4e4e7e42",
+      "rank": 67,
+      "score": 0.337571,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 63,
+        "brief_mentions": 0,
+        "peak_rank": 47.7,
+        "edition_spread": 1,
+        "total_divergence": 27.64
+      },
+      "title": "Democrat Mary Peltola Unseats Republican Dan Sullivan in Alaska Senate Race",
+      "thread_ids": [
+        "4e4e7e42-4bb9-4675-80ec-013ff92ea371"
+      ],
+      "cluster_ids": [
+        "51cee30c-a91f-4705-bed5-b11277434dcb"
+      ],
+      "rows": [
+        {
+          "cluster_id": "51cee30c-a91f-4705-bed5-b11277434dcb",
+          "printed_id": "dd0ba6a7-d5c5-459a-9db9-3d4ff3f9ef6f",
+          "printed_on": "2026-11-18",
+          "edition_position": 26,
+          "title": "Democrat Mary Peltola Unseats Republican Dan Sullivan in Alaska Senate Race",
+          "category": "politics",
+          "source_count": 63,
+          "headline_rank": 47.7,
+          "divergence_score": 27.64,
+          "story_thread_id": "4e4e7e42-4bb9-4675-80ec-013ff92ea371"
+        }
+      ]
+    },
+    {
+      "key": "thread-c08383d5",
+      "rank": 68,
+      "score": 0.333283,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 34,
+        "brief_mentions": 0,
+        "peak_rank": 56.27,
+        "edition_spread": 1,
+        "total_divergence": 35.37
+      },
+      "title": "Anthropic Researcher Claims AI Tool Claude Proves 167-Year-Old Riemann Hypothesis",
+      "thread_ids": [
+        "c08383d5-66f2-4e4c-83c1-7e766f5ce7c3"
+      ],
+      "cluster_ids": [
+        "049b4da6-1b3c-4bb7-b835-6aa05358ee68"
+      ],
+      "rows": [
+        {
+          "cluster_id": "049b4da6-1b3c-4bb7-b835-6aa05358ee68",
+          "printed_id": "c08383d5-66f2-4e4c-83c1-7e766f5ce7c3",
+          "printed_on": "2026-11-21",
+          "edition_position": 11,
+          "title": "Anthropic Researcher Claims AI Tool Claude Proves 167-Year-Old Riemann Hypothesis",
+          "category": "science",
+          "source_count": 34,
+          "headline_rank": 56.27,
+          "divergence_score": 35.37,
+          "story_thread_id": "c08383d5-66f2-4e4c-83c1-7e766f5ce7c3"
+        }
+      ]
+    },
+    {
+      "key": "thread-d5f89bfd",
+      "rank": 69,
+      "score": 0.331117,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 34,
+        "brief_mentions": 0,
+        "peak_rank": 59.88,
+        "edition_spread": 1,
+        "total_divergence": 24.31
+      },
+      "title": "Apple Restores Services After Internal Update Triggers Worldwide Technical Outages",
+      "thread_ids": [
+        "d5f89bfd-5a22-42ce-8162-5ae885eaa9e2"
+      ],
+      "cluster_ids": [
+        "43391976-2e89-4a95-9db7-726ac5b77ac4"
+      ],
+      "rows": [
+        {
+          "cluster_id": "43391976-2e89-4a95-9db7-726ac5b77ac4",
+          "printed_id": "d5f89bfd-5a22-42ce-8162-5ae885eaa9e2",
+          "printed_on": "2026-11-18",
+          "edition_position": 13,
+          "title": "Apple Restores Services After Internal Update Triggers Worldwide Technical Outages",
+          "category": "science",
+          "source_count": 34,
+          "headline_rank": 59.88,
+          "divergence_score": 24.31,
+          "story_thread_id": "d5f89bfd-5a22-42ce-8162-5ae885eaa9e2"
+        }
+      ]
+    },
+    {
+      "key": "thread-91842e09",
+      "rank": 70,
+      "score": 0.329293,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 33,
+        "brief_mentions": 0,
+        "peak_rank": 53.69,
+        "edition_spread": 1,
+        "total_divergence": 37.74
+      },
+      "title": "Prince William and Kate Middleton Arrive in Mumbai for Earthshot Prize and India Engagements",
+      "thread_ids": [
+        "91842e09-b6be-4fd2-94e5-92484d07b081"
+      ],
+      "cluster_ids": [
+        "f4adaa23-79a7-45b8-bb2c-94570409376c"
+      ],
+      "rows": [
+        {
+          "cluster_id": "f4adaa23-79a7-45b8-bb2c-94570409376c",
+          "printed_id": "91842e09-b6be-4fd2-94e5-92484d07b081",
+          "printed_on": "2026-11-17",
+          "edition_position": 23,
+          "title": "Prince William and Kate Middleton Arrive in Mumbai for Earthshot Prize and India Engagements",
+          "category": "general",
+          "source_count": 33,
+          "headline_rank": 53.69,
+          "divergence_score": 37.74,
+          "story_thread_id": "91842e09-b6be-4fd2-94e5-92484d07b081"
+        }
+      ]
+    },
+    {
+      "key": "thread-aaf56b53",
+      "rank": 71,
+      "score": 0.329264,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 22,
+        "brief_mentions": 0,
+        "peak_rank": 63.71,
+        "edition_spread": 1,
+        "total_divergence": 26.75
+      },
+      "title": "Trump Raises Possibility of Meeting North Korean Leader During Asia Trip",
+      "thread_ids": [
+        "aaf56b53-e9e6-4172-9545-27673c3a4d16"
+      ],
+      "cluster_ids": [
+        "ee130eb9-5c85-4fdd-91de-e0f12afea9e1"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ee130eb9-5c85-4fdd-91de-e0f12afea9e1",
+          "printed_id": "aaf56b53-e9e6-4172-9545-27673c3a4d16",
+          "printed_on": "2026-11-17",
+          "edition_position": 14,
+          "title": "Trump Raises Possibility of Meeting North Korean Leader During Asia Trip",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 63.71,
+          "divergence_score": 26.75,
+          "story_thread_id": "aaf56b53-e9e6-4172-9545-27673c3a4d16"
+        }
+      ]
+    },
+    {
+      "key": "thread-9744be5d",
+      "rank": 72,
+      "score": 0.325539,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 19,
+        "brief_mentions": 0,
+        "peak_rank": 57,
+        "edition_spread": 1,
+        "total_divergence": 41.38
+      },
+      "title": "European Commission Confirms Artificial Intelligence Assisted Cyberattack Targeted Internal Systems",
+      "thread_ids": [
+        "9744be5d-f608-413d-98f2-fe21a8a12dfe"
+      ],
+      "cluster_ids": [
+        "f8612c60-495a-4fd4-8b20-cd5621ee3159"
+      ],
+      "rows": [
+        {
+          "cluster_id": "f8612c60-495a-4fd4-8b20-cd5621ee3159",
+          "printed_id": "9744be5d-f608-413d-98f2-fe21a8a12dfe",
+          "printed_on": "2026-11-20",
+          "edition_position": 14,
+          "title": "European Commission Confirms Artificial Intelligence Assisted Cyberattack Targeted Internal Systems",
+          "category": "science",
+          "source_count": 19,
+          "headline_rank": 57,
+          "divergence_score": 41.38,
+          "story_thread_id": "9744be5d-f608-413d-98f2-fe21a8a12dfe"
+        }
+      ]
+    },
+    {
+      "key": "thread-0ed7ff88",
+      "rank": 73,
+      "score": 0.325301,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 22,
+        "brief_mentions": 0,
+        "peak_rank": 56.6,
+        "edition_spread": 1,
+        "total_divergence": 38.62
+      },
+      "title": "Hundreds of Thousands Protest Czech Media Funding Overhaul in Prague",
+      "thread_ids": [
+        "0ed7ff88-a5e8-4d91-b7d5-e62d3f8a6d9a"
+      ],
+      "cluster_ids": [
+        "cf0ad8bb-101e-4274-88e7-02240e203fc2"
+      ],
+      "rows": [
+        {
+          "cluster_id": "cf0ad8bb-101e-4274-88e7-02240e203fc2",
+          "printed_id": "0ed7ff88-a5e8-4d91-b7d5-e62d3f8a6d9a",
+          "printed_on": "2026-11-16",
+          "edition_position": 15,
+          "title": "Hundreds of Thousands Protest Czech Media Funding Overhaul in Prague",
+          "category": "conflict",
+          "source_count": 22,
+          "headline_rank": 56.6,
+          "divergence_score": 38.62,
+          "story_thread_id": "0ed7ff88-a5e8-4d91-b7d5-e62d3f8a6d9a"
+        }
+      ]
+    },
+    {
+      "key": "thread-ad187711",
+      "rank": 74,
+      "score": 0.319167,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 5,
+        "brief_mentions": 1,
+        "peak_rank": 46.15,
+        "edition_spread": 1,
+        "total_divergence": 14.78
+      },
+      "title": "Federal Appeals Court Blocks Pentagon From Expelling Transgender Troops From Military",
+      "thread_ids": [
+        "ad187711-a77e-4e47-be27-d86625fad894"
+      ],
+      "cluster_ids": [
+        "de7c164c-d38f-4c5c-8ce4-24f63364ff17"
+      ],
+      "rows": [
+        {
+          "cluster_id": "de7c164c-d38f-4c5c-8ce4-24f63364ff17",
+          "printed_id": "ccdcdba4-ecc7-4380-b482-6e7f90dfd812",
+          "printed_on": "2026-11-18",
+          "edition_position": 30,
+          "title": "Federal Appeals Court Blocks Pentagon From Expelling Transgender Troops From Military",
+          "category": "conflict",
+          "source_count": 5,
+          "headline_rank": 46.15,
+          "divergence_score": 14.78,
+          "story_thread_id": "ad187711-a77e-4e47-be27-d86625fad894"
+        }
+      ]
+    },
+    {
+      "key": "thread-f6268d17",
+      "rank": 75,
+      "score": 0.317203,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 19,
+        "brief_mentions": 0,
+        "peak_rank": 56.26,
+        "edition_spread": 1,
+        "total_divergence": 33.07
+      },
+      "title": "Marco Rubio Surpasses JD Vance in New Poll as Political Tensions Rise",
+      "thread_ids": [
+        "f6268d17-189e-4818-8184-ad4af51ebc0f"
+      ],
+      "cluster_ids": [
+        "2039f12c-4d60-480c-a690-ee46aa0983c7"
+      ],
+      "rows": [
+        {
+          "cluster_id": "2039f12c-4d60-480c-a690-ee46aa0983c7",
+          "printed_id": "f6268d17-189e-4818-8184-ad4af51ebc0f",
+          "printed_on": "2026-11-20",
+          "edition_position": 16,
+          "title": "Marco Rubio Surpasses JD Vance in New Poll as Political Tensions Rise",
+          "category": "politics",
+          "source_count": 19,
+          "headline_rank": 56.26,
+          "divergence_score": 33.07,
+          "story_thread_id": "f6268d17-189e-4818-8184-ad4af51ebc0f"
+        }
+      ]
+    },
+    {
+      "key": "thread-7e0bd9b3",
+      "rank": 76,
+      "score": 0.313756,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 18,
+        "brief_mentions": 0,
+        "peak_rank": 56.36,
+        "edition_spread": 1,
+        "total_divergence": 29.82
+      },
+      "title": "ASEAN Reaffirms Myanmar Engagement While Maintaining Summit Representation Restrictions",
+      "thread_ids": [
+        "7e0bd9b3-6dae-4cd0-ad83-88e049331c91"
+      ],
+      "cluster_ids": [
+        "d9ed8a1e-56a1-44c1-8c0f-f03c6b731252"
+      ],
+      "rows": [
+        {
+          "cluster_id": "d9ed8a1e-56a1-44c1-8c0f-f03c6b731252",
+          "printed_id": "37f3f3c5-1267-4af8-bf93-6b759e1aeebb",
+          "printed_on": "2026-11-16",
+          "edition_position": 16,
+          "title": "ASEAN Reaffirms Myanmar Engagement While Maintaining Summit Representation Restrictions",
+          "category": "politics",
+          "source_count": 18,
+          "headline_rank": 56.36,
+          "divergence_score": 29.82,
+          "story_thread_id": "7e0bd9b3-6dae-4cd0-ad83-88e049331c91"
+        }
+      ]
+    },
+    {
+      "key": "thread-37dc40d9",
+      "rank": 77,
+      "score": 0.31364,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 18,
+        "brief_mentions": 0,
+        "peak_rank": 59.41,
+        "edition_spread": 1,
+        "total_divergence": 22.54
+      },
+      "title": "Waymo Pauses Driverless Freeway Rides Across United States After California Ban",
+      "thread_ids": [
+        "37dc40d9-66af-41da-8da7-00c291666b60"
+      ],
+      "cluster_ids": [
+        "606c3619-82f5-414d-ae18-fa5a2585d4d1"
+      ],
+      "rows": [
+        {
+          "cluster_id": "606c3619-82f5-414d-ae18-fa5a2585d4d1",
+          "printed_id": "37dc40d9-66af-41da-8da7-00c291666b60",
+          "printed_on": "2026-11-18",
+          "edition_position": 14,
+          "title": "Waymo Pauses Driverless Freeway Rides Across United States After California Ban",
+          "category": "general",
+          "source_count": 18,
+          "headline_rank": 59.41,
+          "divergence_score": 22.54,
+          "story_thread_id": "37dc40d9-66af-41da-8da7-00c291666b60"
+        }
+      ]
+    },
+    {
+      "key": "thread-73deb38c",
+      "rank": 78,
+      "score": 0.311769,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 16,
+        "brief_mentions": 0,
+        "peak_rank": 63.16,
+        "edition_spread": 1,
+        "total_divergence": 13.78
+      },
+      "title": "Japan Scrambles Fighter Jets After Suspected Russian Aircraft Enter Airspace",
+      "thread_ids": [
+        "73deb38c-862b-49b7-85b9-f1b7d2453237"
+      ],
+      "cluster_ids": [
+        "9411b88c-28ee-4874-96e9-2ed21d48d6ac"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9411b88c-28ee-4874-96e9-2ed21d48d6ac",
+          "printed_id": "73deb38c-862b-49b7-85b9-f1b7d2453237",
+          "printed_on": "2026-11-17",
+          "edition_position": 15,
+          "title": "Japan Scrambles Fighter Jets After Suspected Russian Aircraft Enter Airspace",
+          "category": "general",
+          "source_count": 16,
+          "headline_rank": 63.16,
+          "divergence_score": 13.78,
+          "story_thread_id": "73deb38c-862b-49b7-85b9-f1b7d2453237"
+        }
+      ]
+    },
+    {
+      "key": "thread-37261c35",
+      "rank": 79,
+      "score": 0.310323,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 16,
+        "brief_mentions": 0,
+        "peak_rank": 57.67,
+        "edition_spread": 1,
+        "total_divergence": 24.89
+      },
+      "title": "Steering Failure on Asphalt Tanker Caused Collision with Mississippi River Cruise Ship",
+      "thread_ids": [
+        "37261c35-4dac-4a38-b68f-d27bd50d1300"
+      ],
+      "cluster_ids": [
+        "579f8e70-f1fb-4eeb-b350-97c8294da2eb"
+      ],
+      "rows": [
+        {
+          "cluster_id": "579f8e70-f1fb-4eeb-b350-97c8294da2eb",
+          "printed_id": "8ca156ec-b4e8-4cb4-bda6-15953a0e424b",
+          "printed_on": "2026-11-16",
+          "edition_position": 12,
+          "title": "Steering Failure on Asphalt Tanker Caused Collision with Mississippi River Cruise Ship",
+          "category": "general",
+          "source_count": 16,
+          "headline_rank": 57.67,
+          "divergence_score": 24.89,
+          "story_thread_id": "37261c35-4dac-4a38-b68f-d27bd50d1300"
+        }
+      ]
+    },
+    {
+      "key": "thread-a36bdae4",
+      "rank": 80,
+      "score": 0.309149,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 17,
+        "brief_mentions": 0,
+        "peak_rank": 56.7,
+        "edition_spread": 1,
+        "total_divergence": 24.61
+      },
+      "title": "Scott Bessent Urges Nvidia to Appoint Outside Chief Executive",
+      "thread_ids": [
+        "a36bdae4-c540-4ba7-bf87-808b6547b51a"
+      ],
+      "cluster_ids": [
+        "7b84848b-a113-4a2d-855f-4a151fc36481"
+      ],
+      "rows": [
+        {
+          "cluster_id": "7b84848b-a113-4a2d-855f-4a151fc36481",
+          "printed_id": "a36bdae4-c540-4ba7-bf87-808b6547b51a",
+          "printed_on": "2026-11-16",
+          "edition_position": 14,
+          "title": "Scott Bessent Urges Nvidia to Appoint Outside Chief Executive",
+          "category": "conflict",
+          "source_count": 17,
+          "headline_rank": 56.7,
+          "divergence_score": 24.61,
+          "story_thread_id": "a36bdae4-c540-4ba7-bf87-808b6547b51a"
+        }
+      ]
+    },
+    {
+      "key": "thread-b35f68cf",
+      "rank": 81,
+      "score": 0.308616,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 18,
+        "brief_mentions": 0,
+        "peak_rank": 52.98,
+        "edition_spread": 1,
+        "total_divergence": 31.54
+      },
+      "title": "Anthropic Moves Toward Market Debut at Top of Target Price Range",
+      "thread_ids": [
+        "b35f68cf-f4ee-4311-841a-6ac31e09c33f"
+      ],
+      "cluster_ids": [
+        "5eff66e5-d1e1-4acc-9160-3f07d4d3c77d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "5eff66e5-d1e1-4acc-9160-3f07d4d3c77d",
+          "printed_id": "b35f68cf-f4ee-4311-841a-6ac31e09c33f",
+          "printed_on": "2026-11-18",
+          "edition_position": 19,
+          "title": "Anthropic Moves Toward Market Debut at Top of Target Price Range",
+          "category": "science",
+          "source_count": 18,
+          "headline_rank": 52.98,
+          "divergence_score": 31.54,
+          "story_thread_id": "b35f68cf-f4ee-4311-841a-6ac31e09c33f"
+        }
+      ]
+    },
+    {
+      "key": "thread-64260fcd",
+      "rank": 82,
+      "score": 0.308326,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 19,
+        "brief_mentions": 0,
+        "peak_rank": 51.47,
+        "edition_spread": 1,
+        "total_divergence": 33.59
+      },
+      "title": "Anthropic Prepares for Nasdaq Listing at Trillion Dollar Valuation",
+      "thread_ids": [
+        "64260fcd-bdb0-4840-a0cc-458189e4eb91"
+      ],
+      "cluster_ids": [
+        "b86eb04f-6ddc-414e-8a6a-8d86ef6176aa"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b86eb04f-6ddc-414e-8a6a-8d86ef6176aa",
+          "printed_id": "64260fcd-bdb0-4840-a0cc-458189e4eb91",
+          "printed_on": "2026-11-16",
+          "edition_position": 19,
+          "title": "Anthropic Prepares for Nasdaq Listing at Trillion Dollar Valuation",
+          "category": "science",
+          "source_count": 19,
+          "headline_rank": 51.47,
+          "divergence_score": 33.59,
+          "story_thread_id": "64260fcd-bdb0-4840-a0cc-458189e4eb91"
+        }
+      ]
+    },
+    {
+      "key": "thread-2da508ec",
+      "rank": 83,
+      "score": 0.308305,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 8,
+        "brief_mentions": 0,
+        "peak_rank": 53.13,
+        "edition_spread": 1,
+        "total_divergence": 42.18
+      },
+      "title": "Royal Navy Submarine HMS Vengeance Returns to Base After Record Breaking Nuclear Patrol",
+      "thread_ids": [
+        "2da508ec-57bb-4197-a52c-bb3df59f2022"
+      ],
+      "cluster_ids": [
+        "ee1d262d-1400-4ad1-874b-dc455dba4088"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ee1d262d-1400-4ad1-874b-dc455dba4088",
+          "printed_id": "2da508ec-57bb-4197-a52c-bb3df59f2022",
+          "printed_on": "2026-11-17",
+          "edition_position": 25,
+          "title": "Royal Navy Submarine HMS Vengeance Returns to Base After Record Breaking Nuclear Patrol",
+          "category": "conflict",
+          "source_count": 8,
+          "headline_rank": 53.13,
+          "divergence_score": 42.18,
+          "story_thread_id": "2da508ec-57bb-4197-a52c-bb3df59f2022"
+        }
+      ]
+    },
+    {
+      "key": "thread-da98c43c",
+      "rank": 84,
+      "score": 0.306986,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 36,
+        "brief_mentions": 0,
+        "peak_rank": 47.76,
+        "edition_spread": 1,
+        "total_divergence": 21.34
+      },
+      "title": "Pew Research Center Projects Islam Will Surpass Christianity by 2035",
+      "thread_ids": [
+        "da98c43c-4365-4a4e-ad53-52fb465386fa"
+      ],
+      "cluster_ids": [
+        "82004091-4f29-4689-af59-5822b9e7b83d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "82004091-4f29-4689-af59-5822b9e7b83d",
+          "printed_id": "da98c43c-4365-4a4e-ad53-52fb465386fa",
+          "printed_on": "2026-11-19",
+          "edition_position": 24,
+          "title": "Pew Research Center Projects Islam Will Surpass Christianity by 2035",
+          "category": "general",
+          "source_count": 36,
+          "headline_rank": 47.76,
+          "divergence_score": 21.34,
+          "story_thread_id": "da98c43c-4365-4a4e-ad53-52fb465386fa"
+        }
+      ]
+    },
+    {
+      "key": "thread-88f9713f",
+      "rank": 85,
+      "score": 0.306952,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 0,
+        "peak_rank": 51.07,
+        "edition_spread": 1,
+        "total_divergence": 39.69
+      },
+      "title": "Missouri Judge Approves $7.25 Billion Bayer Settlement for Roundup Cancer Lawsuits",
+      "thread_ids": [
+        "88f9713f-6f7c-4517-bafa-2462e3259fd6"
+      ],
+      "cluster_ids": [
+        "56c835ff-1779-4e96-98b9-531e84341042"
+      ],
+      "rows": [
+        {
+          "cluster_id": "56c835ff-1779-4e96-98b9-531e84341042",
+          "printed_id": "88f9713f-6f7c-4517-bafa-2462e3259fd6",
+          "printed_on": "2026-11-21",
+          "edition_position": 20,
+          "title": "Missouri Judge Approves $7.25 Billion Bayer Settlement for Roundup Cancer Lawsuits",
+          "category": "health",
+          "source_count": 13,
+          "headline_rank": 51.07,
+          "divergence_score": 39.69,
+          "story_thread_id": "88f9713f-6f7c-4517-bafa-2462e3259fd6"
+        }
+      ]
+    },
+    {
+      "key": "thread-a9970411",
+      "rank": 86,
+      "score": 0.30539,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 27,
+        "brief_mentions": 0,
+        "peak_rank": 47.66,
+        "edition_spread": 1,
+        "total_divergence": 29.88
+      },
+      "title": "Elon Musk Expresses Regret Over Spending Millions in Midterm Defeats",
+      "thread_ids": [
+        "a9970411-207d-4406-bd06-5689ff6f2575"
+      ],
+      "cluster_ids": [
+        "ac972e76-70ef-4579-a506-b3d48746fafd"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ac972e76-70ef-4579-a506-b3d48746fafd",
+          "printed_id": "a9970411-207d-4406-bd06-5689ff6f2575",
+          "printed_on": "2026-11-19",
+          "edition_position": 25,
+          "title": "Elon Musk Expresses Regret Over Spending Millions in Midterm Defeats",
+          "category": "politics",
+          "source_count": 27,
+          "headline_rank": 47.66,
+          "divergence_score": 29.88,
+          "story_thread_id": "a9970411-207d-4406-bd06-5689ff6f2575"
+        }
+      ]
+    },
+    {
+      "key": "thread-82d8d550",
+      "rank": 87,
+      "score": 0.303326,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 24,
+        "brief_mentions": 0,
+        "peak_rank": 46.35,
+        "edition_spread": 1,
+        "total_divergence": 33.87
+      },
+      "title": "Bayern Munich Striker Harry Kane Faces Months Out After Undergoing Left Ankle Surgery",
+      "thread_ids": [
+        "82d8d550-ca33-49dd-9544-c43f6aabbc7f"
+      ],
+      "cluster_ids": [
+        "4786afc4-60da-4375-86a5-09649b476713"
+      ],
+      "rows": [
+        {
+          "cluster_id": "4786afc4-60da-4375-86a5-09649b476713",
+          "printed_id": "82d8d550-ca33-49dd-9544-c43f6aabbc7f",
+          "printed_on": "2026-11-21",
+          "edition_position": 23,
+          "title": "Bayern Munich Striker Harry Kane Faces Months Out After Undergoing Left Ankle Surgery",
+          "category": "culture",
+          "source_count": 24,
+          "headline_rank": 46.35,
+          "divergence_score": 33.87,
+          "story_thread_id": "82d8d550-ca33-49dd-9544-c43f6aabbc7f"
+        }
+      ]
+    },
+    {
+      "key": "thread-9d458dd2",
+      "rank": 88,
+      "score": 0.303114,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 17,
+        "brief_mentions": 0,
+        "peak_rank": 53.3,
+        "edition_spread": 1,
+        "total_divergence": 25.3
+      },
+      "title": "Pakistan Climate Minister Arrives in New Delhi for SCO Dialogue",
+      "thread_ids": [
+        "9d458dd2-d92b-4f6d-bf67-89cf90a272d3"
+      ],
+      "cluster_ids": [
+        "b5697e76-c19d-48b3-84f3-e84261c6e67b"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b5697e76-c19d-48b3-84f3-e84261c6e67b",
+          "printed_id": "9d458dd2-d92b-4f6d-bf67-89cf90a272d3",
+          "printed_on": "2026-11-20",
+          "edition_position": 19,
+          "title": "Pakistan Climate Minister Arrives in New Delhi for SCO Dialogue",
+          "category": "politics",
+          "source_count": 17,
+          "headline_rank": 53.3,
+          "divergence_score": 25.3,
+          "story_thread_id": "9d458dd2-d92b-4f6d-bf67-89cf90a272d3"
+        }
+      ]
+    },
+    {
+      "key": "thread-2f6f9f95",
+      "rank": 89,
+      "score": 0.302597,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 9,
+        "brief_mentions": 0,
+        "peak_rank": 53.59,
+        "edition_spread": 1,
+        "total_divergence": 33.09
+      },
+      "title": "British Women Receive Automatic Pardons for Previous Abortion Convictions Under Repealed Law",
+      "thread_ids": [
+        "2f6f9f95-8858-4c6e-a558-89948ec6e681"
+      ],
+      "cluster_ids": [
+        "31e4ba61-8dd1-43b8-a18e-2351a334f57d"
+      ],
+      "rows": [
+        {
+          "cluster_id": "31e4ba61-8dd1-43b8-a18e-2351a334f57d",
+          "printed_id": "2f6f9f95-8858-4c6e-a558-89948ec6e681",
+          "printed_on": "2026-11-17",
+          "edition_position": 24,
+          "title": "British Women Receive Automatic Pardons for Previous Abortion Convictions Under Repealed Law",
+          "category": "politics",
+          "source_count": 9,
+          "headline_rank": 53.59,
+          "divergence_score": 33.09,
+          "story_thread_id": "2f6f9f95-8858-4c6e-a558-89948ec6e681"
+        }
+      ]
+    },
+    {
+      "key": "thread-9e7c3a96",
+      "rank": 90,
+      "score": 0.301719,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 8,
+        "brief_mentions": 0,
+        "peak_rank": 57.34,
+        "edition_spread": 1,
+        "total_divergence": 24.39
+      },
+      "title": "Pakistan Assumes Economic Cooperation Organization Chair and Urges Action on Terrorism",
+      "thread_ids": [
+        "9e7c3a96-0b04-42c1-8f4a-32c2b3643ee5"
+      ],
+      "cluster_ids": [
+        "c891c050-749a-4b86-919e-9c74763d5180"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c891c050-749a-4b86-919e-9c74763d5180",
+          "printed_id": "760f4691-691c-4f32-8562-23bb8a825d0a",
+          "printed_on": "2026-11-17",
+          "edition_position": 18,
+          "title": "Pakistan Assumes Economic Cooperation Organization Chair and Urges Action on Terrorism",
+          "category": "conflict",
+          "source_count": 8,
+          "headline_rank": 57.34,
+          "divergence_score": 24.39,
+          "story_thread_id": "9e7c3a96-0b04-42c1-8f4a-32c2b3643ee5"
+        }
+      ]
+    },
+    {
+      "key": "thread-9ba194ce",
+      "rank": 91,
+      "score": 0.301615,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 17,
+        "brief_mentions": 0,
+        "peak_rank": 50.76,
+        "edition_spread": 1,
+        "total_divergence": 29.44
+      },
+      "title": "Indian Security Forces Kill Lashkar Commander Lateef Bhat in Kulgam Mosque",
+      "thread_ids": [
+        "9ba194ce-e4c7-46f9-b4b3-98d8eaf5e2fa"
+      ],
+      "cluster_ids": [
+        "57515f06-0775-4c53-96e3-fff242b92283"
+      ],
+      "rows": [
+        {
+          "cluster_id": "57515f06-0775-4c53-96e3-fff242b92283",
+          "printed_id": "9ba194ce-e4c7-46f9-b4b3-98d8eaf5e2fa",
+          "printed_on": "2026-11-18",
+          "edition_position": 22,
+          "title": "Indian Security Forces Kill Lashkar Commander Lateef Bhat in Kulgam Mosque",
+          "category": "conflict",
+          "source_count": 17,
+          "headline_rank": 50.76,
+          "divergence_score": 29.44,
+          "story_thread_id": "9ba194ce-e4c7-46f9-b4b3-98d8eaf5e2fa"
+        }
+      ]
+    },
+    {
+      "key": "thread-ae440c68",
+      "rank": 92,
+      "score": 0.301462,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 16,
+        "brief_mentions": 0,
+        "peak_rank": 53.2,
+        "edition_spread": 1,
+        "total_divergence": 24.68
+      },
+      "title": "Iraqi Security Forces Deploy Into Kataib Hezbollah Stronghold of Jurf al-Sakhar",
+      "thread_ids": [
+        "ae440c68-67ee-452d-b426-acc2bcdb2cc4"
+      ],
+      "cluster_ids": [
+        "d21ec248-3ca8-406d-bcda-029209d15c79"
+      ],
+      "rows": [
+        {
+          "cluster_id": "d21ec248-3ca8-406d-bcda-029209d15c79",
+          "printed_id": "ae440c68-67ee-452d-b426-acc2bcdb2cc4",
+          "printed_on": "2026-11-20",
+          "edition_position": 20,
+          "title": "Iraqi Security Forces Deploy Into Kataib Hezbollah Stronghold of Jurf al-Sakhar",
+          "category": "conflict",
+          "source_count": 16,
+          "headline_rank": 53.2,
+          "divergence_score": 24.68,
+          "story_thread_id": "ae440c68-67ee-452d-b426-acc2bcdb2cc4"
+        }
+      ]
+    },
+    {
+      "key": "thread-f33cc238",
+      "rank": 93,
+      "score": 0.299874,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 9,
+        "brief_mentions": 0,
+        "peak_rank": 51.83,
+        "edition_spread": 1,
+        "total_divergence": 33.93
+      },
+      "title": "Bangladesh Rejects Extradition Conditions Report While Ousted Leader Plans December Return",
+      "thread_ids": [
+        "f33cc238-c56b-4bec-890e-7450935c18a2"
+      ],
+      "cluster_ids": [
+        "ca1fe8b4-811f-4f16-b6eb-69607a904c71"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ca1fe8b4-811f-4f16-b6eb-69607a904c71",
+          "printed_id": "f33cc238-c56b-4bec-890e-7450935c18a2",
+          "printed_on": "2026-11-17",
+          "edition_position": 29,
+          "title": "Bangladesh Rejects Extradition Conditions Report While Ousted Leader Plans December Return",
+          "category": "conflict",
+          "source_count": 9,
+          "headline_rank": 51.83,
+          "divergence_score": 33.93,
+          "story_thread_id": "f33cc238-c56b-4bec-890e-7450935c18a2"
+        }
+      ]
+    },
+    {
+      "key": "thread-a6d275ad",
+      "rank": 94,
+      "score": 0.299612,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 14,
+        "brief_mentions": 0,
+        "peak_rank": 48.2,
+        "edition_spread": 1,
+        "total_divergence": 36.43
+      },
+      "title": "British Prison Officials Review Russell Brand Status Following Online Message Controversy",
+      "thread_ids": [
+        "a6d275ad-4701-4405-b3cc-0a9bfd4e0c30"
+      ],
+      "cluster_ids": [
+        "f3c0a756-b659-409f-9011-15cee3bc887e"
+      ],
+      "rows": [
+        {
+          "cluster_id": "f3c0a756-b659-409f-9011-15cee3bc887e",
+          "printed_id": "7a5275ea-8df0-4592-9807-b0436914e9c5",
+          "printed_on": "2026-11-18",
+          "edition_position": 24,
+          "title": "British Prison Officials Review Russell Brand Status Following Online Message Controversy",
+          "category": "politics",
+          "source_count": 14,
+          "headline_rank": 48.2,
+          "divergence_score": 36.43,
+          "story_thread_id": "a6d275ad-4701-4405-b3cc-0a9bfd4e0c30"
+        }
+      ]
+    },
+    {
+      "key": "thread-f64397a2",
+      "rank": 95,
+      "score": 0.299445,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 9,
+        "brief_mentions": 0,
+        "peak_rank": 57.79,
+        "edition_spread": 1,
+        "total_divergence": 19.46
+      },
+      "title": "Top US Military Commander Meets With Israeli Officials as Regional Tensions Persist",
+      "thread_ids": [
+        "f64397a2-36ad-451b-8cb5-cdc7be87771b"
+      ],
+      "cluster_ids": [
+        "1405e1fe-59dc-4b4d-be15-fa06f596573a"
+      ],
+      "rows": [
+        {
+          "cluster_id": "1405e1fe-59dc-4b4d-be15-fa06f596573a",
+          "printed_id": "f64397a2-36ad-451b-8cb5-cdc7be87771b",
+          "printed_on": "2026-11-20",
+          "edition_position": 13,
+          "title": "Top US Military Commander Meets With Israeli Officials as Regional Tensions Persist",
+          "category": "conflict",
+          "source_count": 9,
+          "headline_rank": 57.79,
+          "divergence_score": 19.46,
+          "story_thread_id": "f64397a2-36ad-451b-8cb5-cdc7be87771b"
+        }
+      ]
+    },
+    {
+      "key": "thread-8bc4ce84",
+      "rank": 96,
+      "score": 0.299355,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 7,
+        "brief_mentions": 0,
+        "peak_rank": 52.76,
+        "edition_spread": 1,
+        "total_divergence": 33.4
+      },
+      "title": "Democratic Republic of Congo Ebola Outbreak Surpasses 11000 Cases Amid Regional Insecurity",
+      "thread_ids": [
+        "8bc4ce84-dd6b-4e49-ba65-8e31ae30abdb"
+      ],
+      "cluster_ids": [
+        "17b383e3-8cf8-4444-8e31-81ea0790ddcb"
+      ],
+      "rows": [
+        {
+          "cluster_id": "17b383e3-8cf8-4444-8e31-81ea0790ddcb",
+          "printed_id": "e89ed887-23a5-4740-b117-5940e0eb6f3d",
+          "printed_on": "2026-11-21",
+          "edition_position": 15,
+          "title": "Democratic Republic of Congo Ebola Outbreak Surpasses 11000 Cases Amid Regional Insecurity",
+          "category": "health",
+          "source_count": 7,
+          "headline_rank": 52.76,
+          "divergence_score": 33.4,
+          "story_thread_id": "8bc4ce84-dd6b-4e49-ba65-8e31ae30abdb"
+        }
+      ]
+    },
+    {
+      "key": "thread-0c6abaaf",
+      "rank": 97,
+      "score": 0.297361,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 10,
+        "brief_mentions": 0,
+        "peak_rank": 50.38,
+        "edition_spread": 1,
+        "total_divergence": 33.16
+      },
+      "title": "Italy Approves New Antisemitism Law Amid Opposition Protests and Resignation",
+      "thread_ids": [
+        "0c6abaaf-76e5-4e5d-b947-3253069b9317"
+      ],
+      "cluster_ids": [
+        "0789576c-c30c-402b-8f93-b973658a978f"
+      ],
+      "rows": [
+        {
+          "cluster_id": "0789576c-c30c-402b-8f93-b973658a978f",
+          "printed_id": "0c6abaaf-76e5-4e5d-b947-3253069b9317",
+          "printed_on": "2026-11-19",
+          "edition_position": 14,
+          "title": "Italy Approves New Antisemitism Law Amid Opposition Protests and Resignation",
+          "category": "general",
+          "source_count": 10,
+          "headline_rank": 50.38,
+          "divergence_score": 33.16,
+          "story_thread_id": "0c6abaaf-76e5-4e5d-b947-3253069b9317"
+        }
+      ]
+    },
+    {
+      "key": "thread-3fccae60",
+      "rank": 98,
+      "score": 0.296774,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 16,
+        "brief_mentions": 0,
+        "peak_rank": 50.86,
+        "edition_spread": 1,
+        "total_divergence": 24.51
+      },
+      "title": "Delegates Present Initial Draft Climate Agreement as COP31 Talks Near Deadline",
+      "thread_ids": [
+        "3fccae60-97fa-41ee-bbdf-58bbd4e56d5d"
+      ],
+      "cluster_ids": [
+        "1dba047b-0dfe-43f5-9f39-8f601d507cea"
+      ],
+      "rows": [
+        {
+          "cluster_id": "1dba047b-0dfe-43f5-9f39-8f601d507cea",
+          "printed_id": "3fccae60-97fa-41ee-bbdf-58bbd4e56d5d",
+          "printed_on": "2026-11-18",
+          "edition_position": 21,
+          "title": "Delegates Present Initial Draft Climate Agreement as COP31 Talks Near Deadline",
+          "category": "environment",
+          "source_count": 16,
+          "headline_rank": 50.86,
+          "divergence_score": 24.51,
+          "story_thread_id": "3fccae60-97fa-41ee-bbdf-58bbd4e56d5d"
+        }
+      ]
+    },
+    {
+      "key": "thread-685e2da4",
+      "rank": 99,
+      "score": 0.29664,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 0,
+        "peak_rank": 49.86,
+        "edition_spread": 1,
+        "total_divergence": 30.1
+      },
+      "title": "Secretary Rubio Rejects Imminent Threat Following Iranian Dirty Bomb Reports",
+      "thread_ids": [
+        "685e2da4-8023-4818-97b7-7f425128daff"
+      ],
+      "cluster_ids": [
+        "08931f8e-6ab3-493e-b474-420312158842"
+      ],
+      "rows": [
+        {
+          "cluster_id": "08931f8e-6ab3-493e-b474-420312158842",
+          "printed_id": "8ae59f5e-ff91-48da-b76d-7ee42ec2a477",
+          "printed_on": "2026-11-19",
+          "edition_position": 18,
+          "title": "Secretary Rubio Rejects Imminent Threat Following Iranian Dirty Bomb Reports",
+          "category": "conflict",
+          "source_count": 13,
+          "headline_rank": 49.86,
+          "divergence_score": 30.1,
+          "story_thread_id": "685e2da4-8023-4818-97b7-7f425128daff"
+        }
+      ]
+    },
+    {
+      "key": "thread-505a0793",
+      "rank": 100,
+      "score": 0.29621,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 22,
+        "brief_mentions": 0,
+        "peak_rank": 46.82,
+        "edition_spread": 1,
+        "total_divergence": 26.47
+      },
+      "title": "Markwayne Mullin Defends Government Flight to College Football Game After Ground Stop",
+      "thread_ids": [
+        "505a0793-5921-4f7e-863b-20a23570b8d4"
+      ],
+      "cluster_ids": [
+        "504480cc-7914-4a34-b183-70498f30fe8c"
+      ],
+      "rows": [
+        {
+          "cluster_id": "504480cc-7914-4a34-b183-70498f30fe8c",
+          "printed_id": "505a0793-5921-4f7e-863b-20a23570b8d4",
+          "printed_on": "2026-11-18",
+          "edition_position": 28,
+          "title": "Markwayne Mullin Defends Government Flight to College Football Game After Ground Stop",
+          "category": "politics",
+          "source_count": 22,
+          "headline_rank": 46.82,
+          "divergence_score": 26.47,
+          "story_thread_id": "505a0793-5921-4f7e-863b-20a23570b8d4"
+        }
+      ]
+    },
+    {
+      "key": "thread-966672fa",
+      "rank": 101,
+      "score": 0.296128,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 14,
+        "brief_mentions": 0,
+        "peak_rank": 51.14,
+        "edition_spread": 1,
+        "total_divergence": 25.35
+      },
+      "title": "Mexican Military Captures FBI Most-Wanted Cartel Boss Fausto Isidro Meza Flores in Sinaloa",
+      "thread_ids": [
+        "966672fa-eb67-43b5-82e0-93248f48a03a"
+      ],
+      "cluster_ids": [
+        "c2cb4994-0d22-4d7e-9e17-90c08cbe01ba"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c2cb4994-0d22-4d7e-9e17-90c08cbe01ba",
+          "printed_id": "966672fa-eb67-43b5-82e0-93248f48a03a",
+          "printed_on": "2026-11-21",
+          "edition_position": 19,
+          "title": "Mexican Military Captures FBI Most-Wanted Cartel Boss Fausto Isidro Meza Flores in Sinaloa",
+          "category": "politics",
+          "source_count": 14,
+          "headline_rank": 51.14,
+          "divergence_score": 25.35,
+          "story_thread_id": "966672fa-eb67-43b5-82e0-93248f48a03a"
+        }
+      ]
+    },
+    {
+      "key": "thread-ad3a829a",
+      "rank": 102,
+      "score": 0.29605,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 11,
+        "brief_mentions": 0,
+        "peak_rank": 51.86,
+        "edition_spread": 1,
+        "total_divergence": 26.98
+      },
+      "title": "Israeli Air Force Strikes Hezbollah Weapons Shipment Near Syria Border",
+      "thread_ids": [
+        "ad3a829a-c053-42a8-80d4-cf9ef93b12bf"
+      ],
+      "cluster_ids": [
+        "fe954cae-55a7-40b2-a04e-e86ec0e0685f"
+      ],
+      "rows": [
+        {
+          "cluster_id": "fe954cae-55a7-40b2-a04e-e86ec0e0685f",
+          "printed_id": "3e419310-65b6-4cec-9339-c68b0d1fc1e5",
+          "printed_on": "2026-11-16",
+          "edition_position": 18,
+          "title": "Israeli Air Force Strikes Hezbollah Weapons Shipment Near Syria Border",
+          "category": "politics",
+          "source_count": 11,
+          "headline_rank": 51.86,
+          "divergence_score": 26.98,
+          "story_thread_id": "ad3a829a-c053-42a8-80d4-cf9ef93b12bf"
+        }
+      ]
+    },
+    {
+      "key": "thread-a6684015",
+      "rank": 103,
+      "score": 0.295477,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 12,
+        "brief_mentions": 0,
+        "peak_rank": 52.69,
+        "edition_spread": 1,
+        "total_divergence": 23.21
+      },
+      "title": "Federal Prosecutors Indict Irish Man for Destroying American C-130 Hercules Plane",
+      "thread_ids": [
+        "a6684015-07ca-4dd7-b28b-19fbe4a2c9c6"
+      ],
+      "cluster_ids": [
+        "6be4d3f1-c160-4421-aaf9-036eecfd7323"
+      ],
+      "rows": [
+        {
+          "cluster_id": "6be4d3f1-c160-4421-aaf9-036eecfd7323",
+          "printed_id": "a6684015-07ca-4dd7-b28b-19fbe4a2c9c6",
+          "printed_on": "2026-11-18",
+          "edition_position": 20,
+          "title": "Federal Prosecutors Indict Irish Man for Destroying American C-130 Hercules Plane",
+          "category": "conflict",
+          "source_count": 12,
+          "headline_rank": 52.69,
+          "divergence_score": 23.21,
+          "story_thread_id": "a6684015-07ca-4dd7-b28b-19fbe4a2c9c6"
+        }
+      ]
+    },
+    {
+      "key": "thread-1f5b9ad9",
+      "rank": 104,
+      "score": 0.294978,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 4,
+        "brief_mentions": 0,
+        "peak_rank": 51.96,
+        "edition_spread": 1,
+        "total_divergence": 33.41
+      },
+      "title": "Moscow Rebuffs Boris Johnson Claim of Forced Vodka Drinking",
+      "thread_ids": [
+        "1f5b9ad9-25bc-453e-8f81-590ac5397611"
+      ],
+      "cluster_ids": [
+        "df106132-d852-45ce-b222-b18d38105cf3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "df106132-d852-45ce-b222-b18d38105cf3",
+          "printed_id": "1f5b9ad9-25bc-453e-8f81-590ac5397611",
+          "printed_on": "2026-11-16",
+          "edition_position": 17,
+          "title": "Moscow Rebuffs Boris Johnson Claim of Forced Vodka Drinking",
+          "category": "general",
+          "source_count": 4,
+          "headline_rank": 51.96,
+          "divergence_score": 33.41,
+          "story_thread_id": "1f5b9ad9-25bc-453e-8f81-590ac5397611"
+        }
+      ]
+    },
+    {
+      "key": "thread-bd432043",
+      "rank": 105,
+      "score": 0.294654,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 15,
+        "brief_mentions": 0,
+        "peak_rank": 52.16,
+        "edition_spread": 1,
+        "total_divergence": 20.05
+      },
+      "title": "Workers and Students Stage Protests Across Europe as Italy General Strike Disrupts Services",
+      "thread_ids": [
+        "bd432043-9c5c-47bb-9d14-1bc9ce3d59bc"
+      ],
+      "cluster_ids": [
+        "7822f18a-2fc9-4efd-8c2a-5ff4554e1e0f"
+      ],
+      "rows": [
+        {
+          "cluster_id": "7822f18a-2fc9-4efd-8c2a-5ff4554e1e0f",
+          "printed_id": "bd432043-9c5c-47bb-9d14-1bc9ce3d59bc",
+          "printed_on": "2026-11-21",
+          "edition_position": 18,
+          "title": "Workers and Students Stage Protests Across Europe as Italy General Strike Disrupts Services",
+          "category": "conflict",
+          "source_count": 15,
+          "headline_rank": 52.16,
+          "divergence_score": 20.05,
+          "story_thread_id": "bd432043-9c5c-47bb-9d14-1bc9ce3d59bc"
+        }
+      ]
+    },
+    {
+      "key": "thread-5332704c",
+      "rank": 106,
+      "score": 0.294577,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 0,
+        "peak_rank": 54.27,
+        "edition_spread": 1,
+        "total_divergence": 17.29
+      },
+      "title": "Russian Military Transport Plane Crashes in Siberia Killing All 19 Aboard",
+      "thread_ids": [
+        "5332704c-04fb-41a0-95cf-eea50dd82ec4"
+      ],
+      "cluster_ids": [
+        "9ee2891c-f33a-431b-a11a-c48669f42760"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9ee2891c-f33a-431b-a11a-c48669f42760",
+          "printed_id": "5332704c-04fb-41a0-95cf-eea50dd82ec4",
+          "printed_on": "2026-11-18",
+          "edition_position": 17,
+          "title": "Russian Military Transport Plane Crashes in Siberia Killing All 19 Aboard",
+          "category": "general",
+          "source_count": 13,
+          "headline_rank": 54.27,
+          "divergence_score": 17.29,
+          "story_thread_id": "5332704c-04fb-41a0-95cf-eea50dd82ec4"
+        }
+      ]
+    },
+    {
+      "key": "thread-31facd69",
+      "rank": 107,
+      "score": 0.294246,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 15,
+        "brief_mentions": 0,
+        "peak_rank": 48.93,
+        "edition_spread": 1,
+        "total_divergence": 27.12
+      },
+      "title": "Australia and Britain Impose New Sanctions on West Bank Settlements",
+      "thread_ids": [
+        "31facd69-db61-4092-9119-3e25913fa1b6"
+      ],
+      "cluster_ids": [
+        "9157a5d7-7fba-47d5-9707-3b7037cac69e"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9157a5d7-7fba-47d5-9707-3b7037cac69e",
+          "printed_id": "31facd69-db61-4092-9119-3e25913fa1b6",
+          "printed_on": "2026-11-19",
+          "edition_position": 21,
+          "title": "Australia and Britain Impose New Sanctions on West Bank Settlements",
+          "category": "conflict",
+          "source_count": 15,
+          "headline_rank": 48.93,
+          "divergence_score": 27.12,
+          "story_thread_id": "31facd69-db61-4092-9119-3e25913fa1b6"
+        }
+      ]
+    },
+    {
+      "key": "thread-acd55c56",
+      "rank": 108,
+      "score": 0.293732,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 11,
+        "brief_mentions": 0,
+        "peak_rank": 50.24,
+        "edition_spread": 1,
+        "total_divergence": 27.98
+      },
+      "title": "Pan American Health Organization Revokes United States Measles Elimination Status",
+      "thread_ids": [
+        "acd55c56-540a-413a-ad8d-ab87d33d86d3"
+      ],
+      "cluster_ids": [
+        "72bde005-c436-4af4-a334-54d8822b2a43"
+      ],
+      "rows": [
+        {
+          "cluster_id": "72bde005-c436-4af4-a334-54d8822b2a43",
+          "printed_id": "acd55c56-540a-413a-ad8d-ab87d33d86d3",
+          "printed_on": "2026-11-19",
+          "edition_position": 15,
+          "title": "Pan American Health Organization Revokes United States Measles Elimination Status",
+          "category": "health",
+          "source_count": 11,
+          "headline_rank": 50.24,
+          "divergence_score": 27.98,
+          "story_thread_id": "acd55c56-540a-413a-ad8d-ab87d33d86d3"
+        }
+      ]
+    },
+    {
+      "key": "thread-00390fdc",
+      "rank": 109,
+      "score": 0.292601,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 12,
+        "brief_mentions": 0,
+        "peak_rank": 52.5,
+        "edition_spread": 1,
+        "total_divergence": 20.19
+      },
+      "title": "Canadian Prime Minister Mark Carney Concludes Asia Tour Following Tariff Deals",
+      "thread_ids": [
+        "00390fdc-3f3a-4d14-af82-aaa6a54384ee"
+      ],
+      "cluster_ids": [
+        "0fca39e3-66b9-44d8-8986-3c1360836f84"
+      ],
+      "rows": [
+        {
+          "cluster_id": "0fca39e3-66b9-44d8-8986-3c1360836f84",
+          "printed_id": "e92a61c5-01c8-4d39-a170-88c81072a3a8",
+          "printed_on": "2026-11-19",
+          "edition_position": 12,
+          "title": "Canadian Prime Minister Mark Carney Concludes Asia Tour Following Tariff Deals",
+          "category": "economy",
+          "source_count": 12,
+          "headline_rank": 52.5,
+          "divergence_score": 20.19,
+          "story_thread_id": "00390fdc-3f3a-4d14-af82-aaa6a54384ee"
+        }
+      ]
+    },
+    {
+      "key": "thread-c77f4fac",
+      "rank": 110,
+      "score": 0.292277,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 0,
+        "peak_rank": 49.84,
+        "edition_spread": 1,
+        "total_divergence": 24.89
+      },
+      "title": "Farm Labor Advocates Seek Senate Support for H-2A Visa Reform",
+      "thread_ids": [
+        "c77f4fac-533b-49f6-865d-9e12e442f73a"
+      ],
+      "cluster_ids": [
+        "c7028d03-f85f-45bb-b1da-cf834fc85daa"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c7028d03-f85f-45bb-b1da-cf834fc85daa",
+          "printed_id": "c77f4fac-533b-49f6-865d-9e12e442f73a",
+          "printed_on": "2026-11-20",
+          "edition_position": 23,
+          "title": "Farm Labor Advocates Seek Senate Support for H-2A Visa Reform",
+          "category": "general",
+          "source_count": 13,
+          "headline_rank": 49.84,
+          "divergence_score": 24.89,
+          "story_thread_id": "c77f4fac-533b-49f6-865d-9e12e442f73a"
+        }
+      ]
+    },
+    {
+      "key": "thread-64a12770",
+      "rank": 111,
+      "score": 0.291426,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 12,
+        "brief_mentions": 0,
+        "peak_rank": 46.12,
+        "edition_spread": 1,
+        "total_divergence": 33.71
+      },
+      "title": "Federal Authorities Arrest 14 Suspects in Southern California Train Heist Ring",
+      "thread_ids": [
+        "64a12770-8bbc-4e31-a8a0-6fc7b6dd3239"
+      ],
+      "cluster_ids": [
+        "4cd36c99-d99f-4e29-82d5-56c8746e54c9"
+      ],
+      "rows": [
+        {
+          "cluster_id": "4cd36c99-d99f-4e29-82d5-56c8746e54c9",
+          "printed_id": "64a12770-8bbc-4e31-a8a0-6fc7b6dd3239",
+          "printed_on": "2026-11-20",
+          "edition_position": 30,
+          "title": "Federal Authorities Arrest 14 Suspects in Southern California Train Heist Ring",
+          "category": "politics",
+          "source_count": 12,
+          "headline_rank": 46.12,
+          "divergence_score": 33.71,
+          "story_thread_id": "64a12770-8bbc-4e31-a8a0-6fc7b6dd3239"
+        }
+      ]
+    },
+    {
+      "key": "thread-152ccba7",
+      "rank": 112,
+      "score": 0.290134,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 12,
+        "brief_mentions": 0,
+        "peak_rank": 50.94,
+        "edition_spread": 1,
+        "total_divergence": 20.87
+      },
+      "title": "Federal Prosecutor Issues Evidence Preservation Warning to Senator Elizabeth Warren",
+      "thread_ids": [
+        "152ccba7-70ae-4b59-91b5-71c08df95b85"
+      ],
+      "cluster_ids": [
+        "16421356-df5b-48f9-b3f1-3c0989095190"
+      ],
+      "rows": [
+        {
+          "cluster_id": "16421356-df5b-48f9-b3f1-3c0989095190",
+          "printed_id": "152ccba7-70ae-4b59-91b5-71c08df95b85",
+          "printed_on": "2026-11-16",
+          "edition_position": 23,
+          "title": "Federal Prosecutor Issues Evidence Preservation Warning to Senator Elizabeth Warren",
+          "category": "general",
+          "source_count": 12,
+          "headline_rank": 50.94,
+          "divergence_score": 20.87,
+          "story_thread_id": "152ccba7-70ae-4b59-91b5-71c08df95b85"
+        }
+      ]
+    },
+    {
+      "key": "thread-19355095",
+      "rank": 113,
+      "score": 0.289878,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 5,
+        "brief_mentions": 0,
+        "peak_rank": 51.43,
+        "edition_spread": 1,
+        "total_divergence": 27.37
+      },
+      "title": "Mauricio Pochettino Alters Manchester United Post Match Training Schedule",
+      "thread_ids": [
+        "19355095-0484-4648-bece-73b048276fc2"
+      ],
+      "cluster_ids": [
+        "aada0423-9675-4264-9956-96ff826a4ed3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "aada0423-9675-4264-9956-96ff826a4ed3",
+          "printed_id": "6518fb45-d4b1-40ac-b6fd-d8c3c7114f02",
+          "printed_on": "2026-11-16",
+          "edition_position": 20,
+          "title": "Mauricio Pochettino Alters Manchester United Post Match Training Schedule",
+          "category": "general",
+          "source_count": 5,
+          "headline_rank": 51.43,
+          "divergence_score": 27.37,
+          "story_thread_id": "19355095-0484-4648-bece-73b048276fc2"
+        }
+      ]
+    },
+    {
+      "key": "thread-ade1a5e1",
+      "rank": 114,
+      "score": 0.289182,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 4,
+        "brief_mentions": 0,
+        "peak_rank": 56.35,
+        "edition_spread": 1,
+        "total_divergence": 16.15
+      },
+      "title": "Ghana Former Finance Minister Criticizes Projected Interest Bill and Borrowing Levels",
+      "thread_ids": [
+        "ade1a5e1-0165-4dc3-92ee-929d3e4912ef"
+      ],
+      "cluster_ids": [
+        "0d869c59-9263-49c0-ba48-b08bedd30c20"
+      ],
+      "rows": [
+        {
+          "cluster_id": "0d869c59-9263-49c0-ba48-b08bedd30c20",
+          "printed_id": "ade1a5e1-0165-4dc3-92ee-929d3e4912ef",
+          "printed_on": "2026-11-17",
+          "edition_position": 20,
+          "title": "Ghana Former Finance Minister Criticizes Projected Interest Bill and Borrowing Levels",
+          "category": "general",
+          "source_count": 4,
+          "headline_rank": 56.35,
+          "divergence_score": 16.15,
+          "story_thread_id": "ade1a5e1-0165-4dc3-92ee-929d3e4912ef"
+        }
+      ]
+    },
+    {
+      "key": "thread-3ff3b83d",
+      "rank": 115,
+      "score": 0.288877,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 6,
+        "brief_mentions": 0,
+        "peak_rank": 52.86,
+        "edition_spread": 1,
+        "total_divergence": 21.68
+      },
+      "title": "Election Commission of India Orders Special Summary Revision in Karnataka Amid Voter Roll Concerns",
+      "thread_ids": [
+        "3ff3b83d-8830-416d-b4fa-add20a770a9d"
+      ],
+      "cluster_ids": [
+        "6939bacf-e08d-4e7d-aaae-53acf39cfe15"
+      ],
+      "rows": [
+        {
+          "cluster_id": "6939bacf-e08d-4e7d-aaae-53acf39cfe15",
+          "printed_id": "3ff3b83d-8830-416d-b4fa-add20a770a9d",
+          "printed_on": "2026-11-17",
+          "edition_position": 26,
+          "title": "Election Commission of India Orders Special Summary Revision in Karnataka Amid Voter Roll Concerns",
+          "category": "general",
+          "source_count": 6,
+          "headline_rank": 52.86,
+          "divergence_score": 21.68,
+          "story_thread_id": "3ff3b83d-8830-416d-b4fa-add20a770a9d"
+        }
+      ]
+    },
+    {
+      "key": "thread-98f404e5",
+      "rank": 116,
+      "score": 0.287025,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 5,
+        "brief_mentions": 0,
+        "peak_rank": 52.7,
+        "edition_spread": 1,
+        "total_divergence": 20.96
+      },
+      "title": "Amazon Releases New Two-Part Documentary Series Featuring Melania Trump",
+      "thread_ids": [
+        "98f404e5-5b7f-4c55-a5fe-775950228e03"
+      ],
+      "cluster_ids": [
+        "de65dfe4-1043-4ca9-b1fe-463ed05c7fd2"
+      ],
+      "rows": [
+        {
+          "cluster_id": "de65dfe4-1043-4ca9-b1fe-463ed05c7fd2",
+          "printed_id": "98f404e5-5b7f-4c55-a5fe-775950228e03",
+          "printed_on": "2026-11-21",
+          "edition_position": 16,
+          "title": "Amazon Releases New Two-Part Documentary Series Featuring Melania Trump",
+          "category": "science",
+          "source_count": 5,
+          "headline_rank": 52.7,
+          "divergence_score": 20.96,
+          "story_thread_id": "98f404e5-5b7f-4c55-a5fe-775950228e03"
+        }
+      ]
+    },
+    {
+      "key": "thread-680c2a73",
+      "rank": 117,
+      "score": 0.286766,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 0,
+        "peak_rank": 48.2,
+        "edition_spread": 1,
+        "total_divergence": 22.09
+      },
+      "title": "17 killed in two mass shootings in South Africa: police",
+      "thread_ids": [
+        "680c2a73-8966-4cd2-b2e6-b9ba0fb6fca6"
+      ],
+      "cluster_ids": [
+        "0863fbbc-89b8-46f6-8160-5f02eb95e413"
+      ],
+      "rows": [
+        {
+          "cluster_id": "0863fbbc-89b8-46f6-8160-5f02eb95e413",
+          "printed_id": "680c2a73-8966-4cd2-b2e6-b9ba0fb6fca6",
+          "printed_on": "2026-11-16",
+          "edition_position": 30,
+          "title": "17 killed in two mass shootings in South Africa: police",
+          "category": "conflict",
+          "source_count": 13,
+          "headline_rank": 48.2,
+          "divergence_score": 22.09,
+          "story_thread_id": "680c2a73-8966-4cd2-b2e6-b9ba0fb6fca6"
+        }
+      ]
+    },
+    {
+      "key": "thread-f45afb3a",
+      "rank": 118,
+      "score": 0.285556,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 6,
+        "brief_mentions": 0,
+        "peak_rank": 46.32,
+        "edition_spread": 1,
+        "total_divergence": 32.99
+      },
+      "title": "Uttar Pradesh Chief Minister Yogi Adityanath Loses Mother Savitri Devi",
+      "thread_ids": [
+        "f45afb3a-3b35-43d9-a1e8-1cda81d91ce3"
+      ],
+      "cluster_ids": [
+        "ca7c3572-7ec6-46b9-b727-a67fcaaaeb2a"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ca7c3572-7ec6-46b9-b727-a67fcaaaeb2a",
+          "printed_id": "f45afb3a-3b35-43d9-a1e8-1cda81d91ce3",
+          "printed_on": "2026-11-20",
+          "edition_position": 28,
+          "title": "Uttar Pradesh Chief Minister Yogi Adityanath Loses Mother Savitri Devi",
+          "category": "general",
+          "source_count": 6,
+          "headline_rank": 46.32,
+          "divergence_score": 32.99,
+          "story_thread_id": "f45afb3a-3b35-43d9-a1e8-1cda81d91ce3"
+        }
+      ]
+    },
+    {
+      "key": "thread-61878088",
+      "rank": 119,
+      "score": 0.2852,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 15,
+        "brief_mentions": 0,
+        "peak_rank": 47.44,
+        "edition_spread": 1,
+        "total_divergence": 19.71
+      },
+      "title": "Leaked Files Detail Deutsche Bank Transactions Involving Jeffrey Epstein and Oligarchs",
+      "thread_ids": [
+        "61878088-05dc-4f68-8799-369577701f25"
+      ],
+      "cluster_ids": [
+        "b63239db-9de0-431f-b363-56590df0cdba"
+      ],
+      "rows": [
+        {
+          "cluster_id": "b63239db-9de0-431f-b363-56590df0cdba",
+          "printed_id": "61878088-05dc-4f68-8799-369577701f25",
+          "printed_on": "2026-11-18",
+          "edition_position": 27,
+          "title": "Leaked Files Detail Deutsche Bank Transactions Involving Jeffrey Epstein and Oligarchs",
+          "category": "economy",
+          "source_count": 15,
+          "headline_rank": 47.44,
+          "divergence_score": 19.71,
+          "story_thread_id": "61878088-05dc-4f68-8799-369577701f25"
+        }
+      ]
+    },
+    {
+      "key": "thread-e45d3329",
+      "rank": 120,
+      "score": 0.282166,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 11,
+        "brief_mentions": 0,
+        "peak_rank": 47.97,
+        "edition_spread": 1,
+        "total_divergence": 19.36
+      },
+      "title": "New Zealand and India Prepare Pace Attacks for First Test in Wellington",
+      "thread_ids": [
+        "e45d3329-73a4-4e8b-877b-d6b04de2c8da"
+      ],
+      "cluster_ids": [
+        "5f0ebb68-4c8f-4662-bbd2-b3f1331f438c"
+      ],
+      "rows": [
+        {
+          "cluster_id": "5f0ebb68-4c8f-4662-bbd2-b3f1331f438c",
+          "printed_id": "e45d3329-73a4-4e8b-877b-d6b04de2c8da",
+          "printed_on": "2026-11-18",
+          "edition_position": 25,
+          "title": "New Zealand and India Prepare Pace Attacks for First Test in Wellington",
+          "category": "general",
+          "source_count": 11,
+          "headline_rank": 47.97,
+          "divergence_score": 19.36,
+          "story_thread_id": "e45d3329-73a4-4e8b-877b-d6b04de2c8da"
+        }
+      ]
+    },
+    {
+      "key": "thread-d3c14ced",
+      "rank": 121,
+      "score": 0.281912,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 13,
+        "brief_mentions": 0,
+        "peak_rank": 45.95,
+        "edition_spread": 1,
+        "total_divergence": 21.51
+      },
+      "title": "Russian Cargo Vessel on Fire Near Finland Following Reported Drone Attack",
+      "thread_ids": [
+        "d3c14ced-1302-4d76-a67d-cbb07f7b7cee"
+      ],
+      "cluster_ids": [
+        "cbc90b17-7c7f-4aff-835e-c89fcd9c20c3"
+      ],
+      "rows": [
+        {
+          "cluster_id": "cbc90b17-7c7f-4aff-835e-c89fcd9c20c3",
+          "printed_id": "d3c14ced-1302-4d76-a67d-cbb07f7b7cee",
+          "printed_on": "2026-11-21",
+          "edition_position": 27,
+          "title": "Russian Cargo Vessel on Fire Near Finland Following Reported Drone Attack",
+          "category": "conflict",
+          "source_count": 13,
+          "headline_rank": 45.95,
+          "divergence_score": 21.51,
+          "story_thread_id": "d3c14ced-1302-4d76-a67d-cbb07f7b7cee"
+        }
+      ]
+    },
+    {
+      "key": "thread-0e3987b5",
+      "rank": 122,
+      "score": 0.281128,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 14,
+        "brief_mentions": 0,
+        "peak_rank": 48.5,
+        "edition_spread": 1,
+        "total_divergence": 13.46
+      },
+      "title": "Europe's migrant crackdown: Rejected asylum seekers face deportation to Rwanda",
+      "thread_ids": [
+        "0e3987b5-5e84-436a-b51b-3fa209bb9c36"
+      ],
+      "cluster_ids": [
+        "15919762-dc76-49be-9527-4ef8e0362db4"
+      ],
+      "rows": [
+        {
+          "cluster_id": "15919762-dc76-49be-9527-4ef8e0362db4",
+          "printed_id": "0e3987b5-5e84-436a-b51b-3fa209bb9c36",
+          "printed_on": "2026-11-16",
+          "edition_position": 27,
+          "title": "Europe's migrant crackdown: Rejected asylum seekers face deportation to Rwanda",
+          "category": "politics",
+          "source_count": 14,
+          "headline_rank": 48.5,
+          "divergence_score": 13.46,
+          "story_thread_id": "0e3987b5-5e84-436a-b51b-3fa209bb9c36"
+        }
+      ]
+    },
+    {
+      "key": "thread-acccdb48",
+      "rank": 123,
+      "score": 0.280669,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 10,
+        "brief_mentions": 0,
+        "peak_rank": 45.75,
+        "edition_spread": 1,
+        "total_divergence": 23.89
+      },
+      "title": "Federal Judge Bars Agriculture Secretary From Sending Christian Holiday Emails",
+      "thread_ids": [
+        "acccdb48-de0b-4106-8675-191594002979"
+      ],
+      "cluster_ids": [
+        "ab33c787-b419-432d-b229-ca46f58057e2"
+      ],
+      "rows": [
+        {
+          "cluster_id": "ab33c787-b419-432d-b229-ca46f58057e2",
+          "printed_id": "acccdb48-de0b-4106-8675-191594002979",
+          "printed_on": "2026-11-21",
+          "edition_position": 29,
+          "title": "Federal Judge Bars Agriculture Secretary From Sending Christian Holiday Emails",
+          "category": "politics",
+          "source_count": 10,
+          "headline_rank": 45.75,
+          "divergence_score": 23.89,
+          "story_thread_id": "acccdb48-de0b-4106-8675-191594002979"
+        }
+      ]
+    },
+    {
+      "key": "thread-1e862e39",
+      "rank": 124,
+      "score": 0.277716,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 9,
+        "brief_mentions": 0,
+        "peak_rank": 46.98,
+        "edition_spread": 1,
+        "total_divergence": 18.59
+      },
+      "title": "Turkish Research Vessel Oruc Reis Arrives in Karachi as Pakistan Targets 2027 Offshore Drilling",
+      "thread_ids": [
+        "1e862e39-81b6-4bb0-bf2a-0a7d9246a0e1"
+      ],
+      "cluster_ids": [
+        "c19fe5b6-ffcb-433a-a52a-f4160bdf00c5"
+      ],
+      "rows": [
+        {
+          "cluster_id": "c19fe5b6-ffcb-433a-a52a-f4160bdf00c5",
+          "printed_id": "1e862e39-81b6-4bb0-bf2a-0a7d9246a0e1",
+          "printed_on": "2026-11-21",
+          "edition_position": 21,
+          "title": "Turkish Research Vessel Oruc Reis Arrives in Karachi as Pakistan Targets 2027 Offshore Drilling",
+          "category": "general",
+          "source_count": 9,
+          "headline_rank": 46.98,
+          "divergence_score": 18.59,
+          "story_thread_id": "1e862e39-81b6-4bb0-bf2a-0a7d9246a0e1"
+        }
+      ]
+    },
+    {
+      "key": "thread-d8a56f91",
+      "rank": 125,
+      "score": 0.276686,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 5,
+        "brief_mentions": 0,
+        "peak_rank": 51.51,
+        "edition_spread": 1,
+        "total_divergence": 11.29
+      },
+      "title": "Department of Homeland Security Secretary Attributes Technology Outages to Artificial Intelligence Speed",
+      "thread_ids": [
+        "d8a56f91-9e19-4e44-8d31-fe249a02c80b"
+      ],
+      "cluster_ids": [
+        "45f55de4-1b34-4b60-9eb6-8b9d9acb9c3f"
+      ],
+      "rows": [
+        {
+          "cluster_id": "45f55de4-1b34-4b60-9eb6-8b9d9acb9c3f",
+          "printed_id": "a37f08f7-a44b-497c-b600-0b5368842af7",
+          "printed_on": "2026-11-17",
+          "edition_position": 30,
+          "title": "Department of Homeland Security Secretary Attributes Technology Outages to Artificial Intelligence Speed",
+          "category": "economy",
+          "source_count": 5,
+          "headline_rank": 51.51,
+          "divergence_score": 11.29,
+          "story_thread_id": "d8a56f91-9e19-4e44-8d31-fe249a02c80b"
+        }
+      ]
+    },
+    {
+      "key": "thread-7f3bce69",
+      "rank": 126,
+      "score": 0.276334,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 6,
+        "brief_mentions": 0,
+        "peak_rank": 52.74,
+        "edition_spread": 1,
+        "total_divergence": 6.85
+      },
+      "title": "Search and Operations Conclude in Komyshuvakha Following Russian Airstrike That Killed 72",
+      "thread_ids": [
+        "7f3bce69-ebee-4bce-9610-8fd3139e421a"
+      ],
+      "cluster_ids": [
+        "436d5032-47fd-4106-be2c-404295b32660"
+      ],
+      "rows": [
+        {
+          "cluster_id": "436d5032-47fd-4106-be2c-404295b32660",
+          "printed_id": "7f3bce69-ebee-4bce-9610-8fd3139e421a",
+          "printed_on": "2026-11-17",
+          "edition_position": 28,
+          "title": "Search and Operations Conclude in Komyshuvakha Following Russian Airstrike That Killed 72",
+          "category": "conflict",
+          "source_count": 6,
+          "headline_rank": 52.74,
+          "divergence_score": 6.85,
+          "story_thread_id": "7f3bce69-ebee-4bce-9610-8fd3139e421a"
+        }
+      ]
+    },
+    {
+      "key": "thread-691912cc",
+      "rank": 127,
+      "score": 0.267494,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 5,
+        "brief_mentions": 0,
+        "peak_rank": 46.25,
+        "edition_spread": 1,
+        "total_divergence": 12.53
+      },
+      "title": "Texas Executes Reinaldo Dennes by Lethal Injection After Prison Staff Struggle to Find Veins",
+      "thread_ids": [
+        "691912cc-4ef7-4e8e-b650-8e87a6323020"
+      ],
+      "cluster_ids": [
+        "9ce2f152-012f-42b7-a6b6-55de70ef9022"
+      ],
+      "rows": [
+        {
+          "cluster_id": "9ce2f152-012f-42b7-a6b6-55de70ef9022",
+          "printed_id": "691912cc-4ef7-4e8e-b650-8e87a6323020",
+          "printed_on": "2026-11-21",
+          "edition_position": 24,
+          "title": "Texas Executes Reinaldo Dennes by Lethal Injection After Prison Staff Struggle to Find Veins",
+          "category": "politics",
+          "source_count": 5,
+          "headline_rank": 46.25,
+          "divergence_score": 12.53,
+          "story_thread_id": "691912cc-4ef7-4e8e-b650-8e87a6323020"
+        }
+      ]
+    },
+    {
+      "key": "thread-3e2fb80e",
+      "rank": 128,
+      "score": 0.261308,
+      "signals": {
+        "daily_appearances": 1,
+        "cumulative_sources": 4,
+        "brief_mentions": 0,
+        "peak_rank": 45.65,
+        "edition_spread": 1,
+        "total_divergence": 7.62
+      },
+      "title": "Indian Youth Congress Protests Meta Offices Following Account Removals",
+      "thread_ids": [
+        "3e2fb80e-44a5-49d2-b070-d0670fe5bf90"
+      ],
+      "cluster_ids": [
+        "cbe5621d-d125-4b42-aa27-808732c22f55"
+      ],
+      "rows": [
+        {
+          "cluster_id": "cbe5621d-d125-4b42-aa27-808732c22f55",
+          "printed_id": "3e2fb80e-44a5-49d2-b070-d0670fe5bf90",
+          "printed_on": "2026-11-21",
+          "edition_position": 30,
+          "title": "Indian Youth Congress Protests Meta Offices Following Account Removals",
+          "category": "conflict",
+          "source_count": 4,
+          "headline_rank": 45.65,
+          "divergence_score": 7.62,
+          "story_thread_id": "3e2fb80e-44a5-49d2-b070-d0670fe5bf90"
+        }
+      ]
+    }
+  ]
+}
