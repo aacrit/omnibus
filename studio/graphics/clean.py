@@ -40,19 +40,32 @@ def assert_clean(source: str, *, where: str = "<layer>") -> None:
 
 
 # ---- on-screen copy: no internal ids (C8 review) ------------------------------------------------------------------
-# A graphic's visible words never carry the pipeline's own keys: a cluster or commit hash (a 7- to 40-hex-digit token,
-# whole between word boundaries, with at least one letter a-f, so a plain number such as a date or a count never
-# matches, and at least one digit, so an English word spelt in a-f (DEFACED, ACCEDED) never matches; e.g. 2ec1fcb8,
-# a short sha 31f9a8a) or a ledger index ("ledger [23]"). A token joined by a hyphen to its neighbours is part of a
-# public record's own catalogue number (NARA's 342-AF-86335AC in a credit), not one of ours, and is left alone.
+# A graphic's visible words never carry the pipeline's own keys: a cluster, commit, run or content hash (a token of 7
+# or more hex digits, whole between alphanumeric boundaries, with at least one letter a-f, so a plain number such as a
+# date or a count never matches, and at least one digit, so an English word spelt in a-f (DEFACED, ACCEDED) never
+# matches; e.g. 2ec1fcb8, a short sha 31f9a8a, cluster-2ec1fcb8, cluster_2ec1fcb8, 2ec1fcb8-01, a UUID, a run id
+# r-20261114-014102-1631002a, a 64-hex sha256) or a ledger index ("ledger [23]"). Hyphens and underscores are
+# boundaries, not shields (C8 review). The only exemption is a named public catalogue form, masked before the scan:
+# NARA's local identifier (342-AF-86335AC, 111-ADC-8634 in a credit). Widen that list only by naming a new form.
 # Outlets and records are named in plain words. Only the page's text is read: style and script bodies, tags and attributes are not on screen.
 
 from html.parser import HTMLParser  # noqa: E402
 
 INTERNAL_ID_PATTERNS = {
-    "hex id": re.compile(r"(?<![\w-])(?=[0-9a-f]*[a-f])(?=[0-9a-f]*[0-9])[0-9a-f]{7,40}(?![\w-])", re.IGNORECASE),
+    "hex id": re.compile(r"(?<![0-9A-Za-z])(?=[0-9a-f]*[a-f])(?=[0-9a-f]*[0-9])[0-9a-f]{7,}(?![0-9A-Za-z])", re.IGNORECASE),
     "ledger index": re.compile(r"\bledger\s*\[\s*\d+\s*\]", re.IGNORECASE),
 }
+
+# Named public catalogue forms, masked (replaced by spaces) before INTERNAL_ID_PATTERNS scan the text.
+CATALOGUE_FORMS = {
+    "NARA local identifier": re.compile(r"\b\d{1,4}-[A-Z]{1,5}-[0-9A-Z]+\b"),
+}
+
+
+def mask_catalogue_forms(text: str) -> str:
+    for pat in CATALOGUE_FORMS.values():
+        text = pat.sub(lambda m: " " * len(m.group(0)), text)
+    return text
 
 
 class _Text(HTMLParser):
@@ -83,7 +96,7 @@ def visible_text(source: str) -> str:
 
 def find_internal_ids(source: str) -> list[str]:
     """Every internal id the page's visible text shows, as 'kind: token'."""
-    text = visible_text(source)
+    text = mask_catalogue_forms(visible_text(source))
     return [f"{name}: {m.group(0)}" for name, pat in INTERNAL_ID_PATTERNS.items() for m in pat.finditer(text)]
 
 

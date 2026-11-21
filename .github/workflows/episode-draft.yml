@@ -237,7 +237,10 @@ jobs:
           bash scripts/ci/meter.sh mark sources
           out=/home/runner/stage/sources
           mkdir -p "$out/reports" "$out/media/$ISSUE"
-          mapfile -t own < <(node scripts/episode-draft.mjs own-files "$ISSUE")
+          # captured first: a process substitution hides a non-zero exit, an assignment under -e does not
+          own_list="$(node scripts/episode-draft.mjs own-files "$ISSUE")"
+          own=()
+          if [ -n "$own_list" ]; then mapfile -t own <<< "$own_list"; fi
           if [ "${#own[@]}" -gt 0 ]; then
             pats=(); for f in "${own[@]}"; do pats+=(--pattern "$f"); done
             gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"

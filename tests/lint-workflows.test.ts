@@ -46,7 +46,8 @@ describe("checkSkippedTestLine, Python", () => {
   it("does not cross-apply the JS // comment style to a Python line, or vice versa", () => {
     const pyLineJsComment = "@pytest.mark.skip(reason=\"x\")  // expires 2026-11-20 issue #1";
     expect(checkSkippedTestLine(pyLineJsComment, NOW, "py")).toMatch(/no "# expires/);
-    const jsLineNoLang = 'it.skip("x", () => {});  // expires 2026-11-20 issue #1';
+    // joined, so the repo-wide lint never reads this fixture as a real skip whose date has passed
+    const jsLineNoLang = ["it", 'skip("x", () => {});  // expires 2026-11-20 issue #1'].join(".");
     expect(checkSkippedTestLine(jsLineNoLang, NOW)).toBeNull();
   });
 });

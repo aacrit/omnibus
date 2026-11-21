@@ -163,7 +163,8 @@ def test_score_check_refuses_a_missing_or_changed_take_and_a_missing_cue(tmp_pat
     (film / "score").mkdir(parents=True)
     media = tmp_path / "media"
     (media / "33/score").mkdir(parents=True)
-    take = {"media_dir": "D:/omnibus-media/33/score", "outputs": {"theme.wav": {"sha256": "1" * 64}, "credits.wav": {"sha256": "2" * 64}}}
+    take = {"media_dir": "D:/omnibus-media/33/score", "outputs": {"theme.wav": {"sha256": "1" * 64, "decoded_sha256": "a" * 64},
+                                                                 "credits.wav": {"sha256": "2" * 64, "decoded_sha256": "b" * 64}}}
     nodec = None
     (film / "score/score.take.json").write_text(json.dumps(take), encoding="utf-8")
     play = {"parts": [{"cues": [{"id": "M1", "kind": "music", "wav": "D:/omnibus-media/33/score/theme.wav"},
@@ -189,7 +190,7 @@ def test_week_33_score_take_records_a_sha256_for_every_output():
     take = json.loads((ROOT / "episodes/33/score/score.take.json").read_text(encoding="utf-8"))
     names = set(take["outputs"])
     assert {"theme.wav", "credits.wav", "echo-bed-150.wav", "echo-bed-150.mix.wav", "sting.wav"} <= names
-    assert all(len(r["sha256"]) == 64 for r in take["outputs"].values())
+    assert all(len(r["sha256"]) == 64 and len(r["decoded_sha256"]) == 64 for r in take["outputs"].values())
     assert take["outputs"]["theme.wav"]["sha256"].startswith("0d3e2fc3")
 
 
@@ -283,13 +284,36 @@ def test_score_check_refuses_changed_samples_and_an_unhashed_cue_in_the_score_fo
     assert any("M9: extra.wav is in the score folder but is not an output" in p for p in res["problems"])
     only = SC.check(film, env=env, sha=lambda p: "1" * 64, decoded=lambda p: "a" * 64, takes_only=True)
     assert only["ok"] and only["cues"] == []
+    del take["outputs"]["theme.wav"]["decoded_sha256"]
+    (film / "score/score.take.json").write_text(json.dumps(take), encoding="utf-8")
+    bare = SC.check(film, env=env, sha=lambda p: "1" * 64, decoded=lambda p: "a" * 64, takes_only=True)
+    assert "theme.wav: score.take.json records no decoded_sha256" in bare["problems"]
 
 
-def test_internal_ids_are_7_to_40_hex_with_a_letter_and_numbers_never_match():
+def test_internal_ids_are_7_or_more_hex_with_a_letter_and_numbers_never_match():
     from studio.graphics import clean as CL
     hits = lambda t: CL.find_internal_ids(f"<p>{t}</p>")  # noqa: E731
     assert hits("commit 31f9a8a") == ["hex id: 31f9a8a"]
     assert hits("a" * 7 + "1") and hits("e862bb0542fdc89e7d380f3a4d976cf2c56d246f")
     assert hits("2ec1fcb8's members") == ["hex id: 2ec1fcb8"]
-    for ok in ("342-AF-86335AC", "111-ADC-8634", "20261104", "1234567", "76 outlets", "MMXXVI", "DEFACED", "ACCEDED", "1951-01-30", "e862bb0542fdc89e7d380f3a4d976cf2c56d246f0"):
+    for ok in ("342-AF-86335AC", "111-ADC-8634", "20261104", "1234567", "76 outlets", "MMXXVI", "DEFACED", "ACCEDED", "1951-01-30"):
         assert hits(ok) == [], ok
+
+
+def test_hyphens_and_underscores_do_not_shield_a_hash():
+    # C8 review: the hyphen exemption let these through. Only named catalogue forms (NARA's) are masked.
+    from studio.graphics import clean as CL
+    hits = lambda t: CL.find_internal_ids(f"<p>{t}</p>")  # noqa: E731
+    sha256 = "9f2c4e1b" * 8
+    cases = {
+        "cluster-2ec1fcb8": ["hex id: 2ec1fcb8"],
+        "2ec1fcb8-01": ["hex id: 2ec1fcb8"],
+        "cluster_2ec1fcb8": ["hex id: 2ec1fcb8"],
+        "r-20261114-014102-1631002a": ["hex id: 1631002a"],
+        "123e4567-e89b-12d3-a456-426614174000": ["hex id: 123e4567"],
+        sha256: [f"hex id: {sha256}"],
+        "e862bb0542fdc89e7d380f3a4d976cf2c56d246f0": ["hex id: e862bb0542fdc89e7d380f3a4d976cf2c56d246f0"],
+    }
+    for text, want in cases.items():
+        assert hits(text) == want, text
+    assert hits("NARA 342-AF-86335AC, frame 2ec1fcb8") == ["hex id: 2ec1fcb8"]  # the mask covers the catalogue form only

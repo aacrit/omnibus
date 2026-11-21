@@ -23,7 +23,7 @@ import { appendFileSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
-import { MANIFEST, buildManifest, citedIn, listFiles, outputsRoute, r2CapProblem } from "./lib/draft-outputs.mjs";
+import { MANIFEST, buildManifest, citedIn, episodeDocs, listFiles, outputsRoute, r2CapProblem } from "./lib/draft-outputs.mjs";
 import { ownFiles } from "./lib/rights/pull.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -41,14 +41,9 @@ function unusableOf(file) {
   return (r.items ?? []).filter((i) => r.unusable?.includes(i.id)).map((i) => ({ id: i.id, outcome: i.outcome, detail: i.detail ?? null }));
 }
 
-/** Every string the episode's screenplay and its studio ledger hold: an id among them is cited (aired or derived from). */
-function citedStrings(issue) {
-  const dir = path.join(repoRoot, "episodes", String(issue));
-  const play = JSON.parse(readFileSync(path.join(dir, "screenplay.json"), "utf8"));
-  const docs = [play];
-  const studio = play.ledgers?.studio;
-  if (studio) docs.push(JSON.parse(readFileSync(path.join(dir, typeof studio === "string" ? studio : studio.path), "utf8")));
-  return citedIn(docs);
+/** Which of `ids` the episode's screenplay or studio ledger cites, as a token anywhere in their strings (prose too). */
+function citedOf(issue, ids) {
+  return new Set(citedIn(episodeDocs(issue, (rel) => readFileSync(path.join(repoRoot, ...rel.split("/")), "utf8")), ids));
 }
 
 async function main(argv) {
@@ -85,7 +80,7 @@ async function main(argv) {
   }
   if (cmd === "unusable") {
     const rows = unusableOf(arg);
-    const cited = citedStrings(issueOf(flag("issue")));
+    const cited = citedOf(issueOf(flag("issue")), rows.map((r) => r.id));
     const lines = rows.length ? rows.map((r) => `- ${r.id}: ${r.outcome}${r.detail ? ` (${r.detail})` : ""}${cited.has(r.id) ? " (CITED by the screenplay or studio ledger)" : ""}`) : ["- none"];
     const text = ["### ledger items not usable on this run (reported, not worked around)", "", ...lines, ""].join("\n");
     console.log(text);
@@ -99,6 +94,7 @@ async function main(argv) {
   }
   if (cmd === "manifest") {
     const dir = path.resolve(arg);
+    const unusable = unusableOf(flag("sources"));
     const m = await buildManifest(dir, {
       issue: issueOf(flag("issue")),
       run: flag("run") ?? null,
@@ -106,8 +102,8 @@ async function main(argv) {
       ref: flag("ref") || null,
       until: flag("until") ? Number(flag("until")) : null,
       res: flag("res") ? Number(flag("res")) : null,
-      unusable: unusableOf(flag("sources")).map((r) => r.id),
-      unusableCited: unusableOf(flag("sources")).map((r) => r.id).filter((id) => citedStrings(issueOf(flag("issue"))).has(id)),
+      unusable: unusable.map((r) => r.id),
+      unusableCited: [...citedOf(issueOf(flag("issue")), unusable.map((r) => r.id))],
     });
     writeFileSync(path.join(dir, MANIFEST), `${JSON.stringify(m, null, 1)}\n`);
     const bytes = m.files.reduce((a, f) => a + f.bytes, 0);

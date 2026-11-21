@@ -26,7 +26,7 @@ import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { BUCKET, MANIFEST, manifestProblems, sha256File, statOrNull, verifyFiles } from "./lib/draft-outputs.mjs";
+import { BUCKET, MANIFEST, citedIn, episodeDocs, manifestProblems, sha256File, statOrNull, unusableIdsOf, verifyFiles } from "./lib/draft-outputs.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORKFLOW = "episode-draft.yml";
@@ -100,6 +100,32 @@ export function localLedger(text, graphicsDir, { win = process.platform === "win
     out = out.split(`"output_path": ${JSON.stringify(r.output_path)}`).join(`"output_path": ${JSON.stringify(local)}`);
   }
   return { text: out, rows: JSON.parse(out) };
+}
+
+/**
+ * The unusable ledger items the run's screenplay or studio ledger cites. A manifest written before ed207e7 (schema/2
+ * with no unusable_cited, e.g. run 43540458640) is checked here instead: the packaged reports/sources.json names the
+ * unusable ids and `read` gives the screenplay and studio ledger (at the run's commit when this checkout has it).
+ * A missing sources report is refused, never taken as "none". Returns { ids, how }.
+ */
+export function citedUnusable(m, incoming, read) {
+  if (Array.isArray(m.unusable_cited)) return { ids: m.unusable_cited, how: "the manifest's unusable_cited" };
+  const report = path.join(incoming, "reports", "sources.json");
+  if (!existsSync(report)) throw new Error(`run ${m.run ?? "?"}'s manifest has no unusable_cited and the package has no reports/sources.json: its cited unusables cannot be checked, not pulled`);
+  const ids = unusableIdsOf(JSON.parse(readFileSync(report, "utf8")));
+  return { ids: citedIn(episodeDocs(m.issue, read), ids), how: `computed from reports/sources.json (${ids.length} unusable) and the screenplay` };
+}
+
+/** A repo-relative file at `sha` when this checkout has that commit, else the working tree's copy (said in the log). */
+function readAt(sha) {
+  return (rel) => {
+    try {
+      return execFileSync("git", ["show", `${sha}:${rel}`], { cwd: repoRoot, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    } catch {
+      console.log(`pull-render: ${rel} at ${String(sha).slice(0, 12)} is not in this checkout; reading the working tree's copy`);
+      return readFileSync(path.join(repoRoot, ...rel.split("/")), "utf8");
+    }
+  };
 }
 
 function sha256Sync(p) {
@@ -192,7 +218,9 @@ async function main(argv) {
   console.log(`pull-render: ${describe(m)}`);
   const whole = wholeFilmRefusal(m, argv.includes("--slice"));
   if (whole) throw new Error(whole);
-  if (m.unusable_cited.length) throw new Error(`run ${m.run ?? "?"} lists cited items it could not use (${m.unusable_cited.join(", ")}): not pulled`);
+  const cited = citedUnusable(m, incoming, readAt(m.sha));
+  if (cited.ids.length) throw new Error(`run ${m.run ?? "?"} cites items it could not use (${cited.ids.join(", ")}; ${cited.how}): not pulled`);
+  console.log(`pull-render: no cited item is unusable (${cited.how})`);
   const prev = existsSync(path.join(dest, MANIFEST)) ? JSON.parse(readFileSync(path.join(dest, MANIFEST), "utf8")) : null;
   const why2 = sliceRefusal(prev, m, argv.includes("--slice"));
   if (why2) throw new Error(why2);

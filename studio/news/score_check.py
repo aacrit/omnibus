@@ -3,7 +3,7 @@
 own-score-<issue> prerelease), before any frame is rendered:
 
 1. every file ``episodes/<n>/score/score.take.json`` lists under ``outputs`` is in the score folder and hashes to the
-   sha256 the take records (the score is never re-composed here; the engine reads the finished takes);
+   sha256 the take records, and its decoded samples hash to the take's ``decoded_sha256`` (required on every output) (the score is never re-composed here; the engine reads the finished takes);
 2. every music cue the screenplay plays names a WAV that exists on this machine (its path read under
    ``OMNIBUS_MEDIA_ROOT``), so the engine's warn-and-play-silence path for a missing cue is never taken.
 
@@ -69,6 +69,9 @@ def check(film: Path, env=None, sha=_sha, decoded=_decoded, takes_only: bool = F
         if not want:
             problems.append(f"{name}: score.take.json records no sha256")
             continue
+        if not rec.get("decoded_sha256"):
+            # required on every output: the cut checks samples, not only bytes (C8 review)
+            problems.append(f"{name}: score.take.json records no decoded_sha256")
         got = sha(p) if p.is_file() else None
         row = {"file": name, "sha256": got, "ok": got == want}
         files.append(row)
@@ -76,7 +79,7 @@ def check(film: Path, env=None, sha=_sha, decoded=_decoded, takes_only: bool = F
             problems.append(f"{name}: missing from {score_dir}")
         elif got != want:
             problems.append(f"{name}: sha256 {got[:12]} is not the take's {want[:12]}")
-        elif decoded is not None and rec.get("decoded_sha256"):
+        elif decoded is not None and rec.get("decoded_sha256"):  # decoded=None only in unit tests
             row["decoded_sha256"] = d = decoded(p)
             if d != rec["decoded_sha256"]:
                 problems.append(f"{name}: decoded samples {d[:12]} are not the take's {rec['decoded_sha256'][:12]}")

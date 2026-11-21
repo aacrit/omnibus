@@ -10,10 +10,10 @@ import { parse as parseYaml } from "yaml";
 import { ownFiles, ownRelease, pullLedger, summarise } from "../scripts/lib/rights/pull.mjs";
 import { Refused } from "../scripts/lib/rights/http.mjs";
 import {
-  BUCKET, MANIFEST_SCHEMA, buildManifest, manifestProblems, notPublic, outputsRoute, renderBudget,
+  BUCKET, MANIFEST_SCHEMA, buildManifest, citedIn, manifestProblems, notPublic, outputsRoute, renderBudget,
   sha256File, statOrNull, verifyFiles,
 } from "../scripts/lib/draft-outputs.mjs";
-import { describe as describeRun, dirtyRefusal, landing, localLedger, pickRun, sliceRefusal, wholeFilmRefusal } from "../scripts/pull-render.mjs";
+import { citedUnusable, describe as describeRun, dirtyRefusal, landing, localLedger, pickRun, sliceRefusal, wholeFilmRefusal } from "../scripts/pull-render.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
@@ -320,8 +320,50 @@ describe("unusable items and pull refusals", () => {
     expect(r.stderr).toMatch(/cites unusable item\(s\): e33-day1-page/);
   });
 
-  it("the manifest must say which unusables are cited; pull-render refuses R2 until C9", () => {
-    expect(manifestProblems({ schema: MANIFEST_SCHEMA, sha: SHA40, unusable: [], files: [{ path: "a", bytes: 1, sha256: "a".repeat(64) }] }))
+  it("an unusable id cited inside the studio ledger's prose refuses the run (C8 review)", () => {
+    const dir = tmp();
+    const report = (ids: string[]) => {
+      const f = path.join(dir, `${ids.join("_")}.json`);
+      writeFileSync(f, JSON.stringify({ unusable: ids, items: ids.map((id) => ({ id, outcome: "sha-mismatch" })) }));
+      return f;
+    };
+    // studio-e4b.json: derived_from "e33-echo-req-13 (rights ledger, ...)", content_basis "e33-echo-req-14, the withdrawal paragraph verbatim"
+    for (const id of ["e33-echo-req-13", "e33-echo-req-14"]) {
+      const r = cli(["scripts/episode-draft.mjs", "unusable", report([id]), "--issue", "33"]);
+      expect(r.status, id).toBe(1);
+      expect(r.stderr).toContain(`cites unusable item(s): ${id}`);
+    }
+    expect(cli(["scripts/episode-draft.mjs", "unusable", report(["e33-echo-req-1"]), "--issue", "33"]).status).toBe(0);
+  });
+
+  it("citedIn matches an id as a token in any string, never inside a longer id", () => {
+    const docs = [
+      { derived_from: "e33-echo-req-13 (rights ledger, sha256 84213c6e...), PDF page 16", nested: [{ content_basis: "e33-echo-req-14, the withdrawal paragraph verbatim" }] },
+      { items: ["e33-day1-page"], byKey: { "e33-day2-page": 1 } },
+    ];
+    expect(citedIn(docs, ["e33-echo-req-1", "e33-echo-req-13", "e33-echo-req-14", "e33-echo-req-14x", "e33-day1-page", "e33-day2-page", "e33-day1"]))
+      .toEqual(["e33-echo-req-13", "e33-echo-req-14", "e33-day1-page", "e33-day2-page"]);
+    expect(citedIn([{ a: "see e33.x" }], ["e33.x", "e33-x"])).toEqual(["e33.x"]);
+  });
+
+  it("a schema/2 manifest with no unusable_cited is checked from its packaged sources.json and the screenplay", () => {
+    const pkg = tmp();
+    mkdirSync(path.join(pkg, "reports"));
+    const read = (rel: string) => readFileSync(path.join(ROOT, ...rel.split("/")), "utf8");
+    const old = { schema: MANIFEST_SCHEMA, issue: 33, run: "43540458640", sha: SHA40, unusable: ["e33-day6-doc"], files: [{ path: "a", bytes: 1, sha256: "a".repeat(64) }] };
+    expect(manifestProblems(old)).toEqual([]);
+    expect(() => citedUnusable(old, pkg, read)).toThrow(/no reports\/sources.json/);
+    const write = (ids: string[]) => writeFileSync(path.join(pkg, "reports", "sources.json"),
+      JSON.stringify({ unusable: ids, items: ids.map((id) => ({ id, outcome: "sha-mismatch" })) }));
+    write(["e33-day6-doc"]);
+    expect(citedUnusable(old, pkg, read).ids).toEqual([]);
+    write(["e33-day6-doc", "e33-echo-req-13"]);
+    expect(citedUnusable(old, pkg, read).ids).toEqual(["e33-echo-req-13"]);
+    expect(citedUnusable({ ...old, unusable_cited: ["x"] }, pkg, read)).toEqual({ ids: ["x"], how: "the manifest's unusable_cited" });
+  });
+
+  it("unusable_cited, when present, must be a list; pull-render refuses R2 until C9", () => {
+    expect(manifestProblems({ schema: MANIFEST_SCHEMA, sha: SHA40, unusable: [], unusable_cited: "e33-day6-doc", files: [{ path: "a", bytes: 1, sha256: "a".repeat(64) }] }))
       .toContain("unusable_cited is not a list");
     const r = cli(["scripts/pull-render.mjs", "33", "--from", "r2", "--dest", path.join(tmp(), "render")]);
     expect(r.status).toBe(1);
@@ -333,6 +375,8 @@ describe("unusable items and pull refusals", () => {
     const run = wf.jobs.sources.steps.map((x: any) => String(x.run ?? "")).join("\n");
     expect(run).toContain('gh release download "own-pages-$ISSUE"');
     expect(run).not.toMatch(/::warning::|if ! gh release/);
+    expect(run).toContain('own_list="$(node scripts/episode-draft.mjs own-files "$ISSUE")"');
+    expect(run).not.toMatch(/< <\(node scripts\/episode-draft\.mjs own-files/);
     const names = wf.jobs.render.steps.map((x: any) => x.name);
     const at = (pre: string) => names.findIndex((n: string | undefined) => String(n ?? "").startsWith(pre));
     expect(at("the score matches")).toBeGreaterThan(-1);

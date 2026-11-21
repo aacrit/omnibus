@@ -79,7 +79,8 @@ export function manifestProblems(m) {
   if (!/^[0-9a-f]{40}$/.test(String(m?.sha ?? ""))) p.push("sha is not a commit");
   if (!Array.isArray(m?.files) || !m.files.length) p.push("files is not a non-empty list");
   if (!Array.isArray(m?.unusable)) p.push("unusable is not a list");
-  if (!Array.isArray(m?.unusable_cited)) p.push("unusable_cited is not a list");
+  // Absent on the first schema/2 runs (before ed207e7): pull-render then computes it (citedUnusable there).
+  if (m && "unusable_cited" in m && !Array.isArray(m.unusable_cited)) p.push("unusable_cited is not a list");
   for (const f of m?.files ?? []) {
     const rel = String(f?.path ?? "");
     if (!PATH_RE.test(rel) || rel.startsWith("/") || rel.split("/").some((s) => s === ".." || s === "." || s === "")) p.push(`bad path ${JSON.stringify(f?.path)}`);
@@ -140,16 +141,48 @@ export function listFiles(dir) {
   return out.filter((f) => f !== MANIFEST).sort();
 }
 
-/** Every string value in the given JSON documents (pure): the ids they cite. */
-export function citedIn(docs) {
-  const out = new Set();
+/** A regular expression matching `id` as a whole token: not inside a longer id (e33-echo-req-1 never matches in req-13). */
+export function idToken(id) {
+  const escaped = String(id).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?<![\\w-])${escaped}(?![\\w-])`);
+}
+
+/** Every string (keys and values) in the given JSON documents (pure). */
+export function stringsIn(docs) {
+  const out = [];
   const walk = (x) => {
-    if (typeof x === "string") out.add(x);
+    if (typeof x === "string") out.push(x);
     else if (Array.isArray(x)) x.forEach(walk);
-    else if (x && typeof x === "object") Object.values(x).forEach(walk);
+    else if (x && typeof x === "object") for (const [k, v] of Object.entries(x)) { out.push(k); walk(v); }
   };
   docs.forEach(walk);
   return out;
+}
+
+/**
+ * Which of `ids` the documents cite (pure): an id counts wherever it stands as a token in any string, alone or inside
+ * prose ("e33-echo-req-13 (rights ledger, ...)", "e33-echo-req-14, the withdrawal paragraph verbatim"). In `ids` order.
+ */
+export function citedIn(docs, ids) {
+  const strings = stringsIn(docs);
+  return ids.filter((id) => { const re = idToken(id); return strings.some((t) => re.test(t)); });
+}
+
+/** The ids a sources report (rights.mjs fetch --report) lists as unusable, in report order (pure). */
+export function unusableIdsOf(report) {
+  return (report?.items ?? []).filter((i) => report.unusable?.includes(i.id)).map((i) => i.id);
+}
+
+/**
+ * The episode's screenplay and its studio ledger, the documents whose ids are cited (aired or derived from). `read`
+ * takes a repo-relative path (episodes/<n>/...) and returns its text.
+ */
+export function episodeDocs(issue, read) {
+  const play = JSON.parse(read(`episodes/${issue}/screenplay.json`));
+  const docs = [play];
+  const studio = play.ledgers?.studio;
+  if (studio) docs.push(JSON.parse(read(`episodes/${issue}/${typeof studio === "string" ? studio : studio.path}`)));
+  return docs;
 }
 
 /** The manifest of `dir`: what was rendered (sha, ref, until, res), what could not be used, and every file. */
