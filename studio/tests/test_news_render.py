@@ -134,7 +134,11 @@ def test_a_document_film_cannot_use_the_news_kinds(tmp_path):
 def test_a_v2_line_kind_over_black_is_refused_by_the_render(tmp_path):
     """Review of PR #36: build_plan maps v2 line kinds to the engine's (schema.engine_play), so a vo line heard over
     black reaches voice-over-black. The frozen v1 fixture with its closing narration relabelled vo and moved over B1
-    (89 to 90 s): the render refuses at pre-flight, before any frame is drawn."""
+    (89 to 90 s). A final render of this fixture refuses earlier, on the take lints (A19 voice-clean: its voices are
+    test tones), so the plan is built as a draft and voice-over-black is run on it at a final render's severity,
+    exactly as render()'s pre-flight runs it, and refused as render() refuses it."""
+    from studio.engine.journal import Journal
+
     def edit(play):
         for p in play["parts"]:
             for ln in p.get("lines") or []:
@@ -142,8 +146,14 @@ def test_a_v2_line_kind_over_black_is_refused_by_the_render(tmp_path):
                     ln.update(kind="vo", start_s=88.0)
     film = _film(tmp_path, edit_play=edit)
     try:
+        plan = R.build_plan(film, W=1280, H=720, burn_subtitles=False, journal=Journal(film="news-vob-plan"), draft=True)
+        lq = next(ln for ln in plan["lines"] if ln["id"] == "L-q")
+        assert lq["kind"] == "narration" and lq["news_kind"] == "vo"
+        out = R.voice_over_black_lints(Journal(film="news-vob"), plan)
+        assert any(o.startswith("voice-over-black (B1") and "L-q" in o for o in out), out
         with pytest.raises(R.Refused, match=r"voice-over-black \(B1"):
-            R.render(film, tmp_path / "out", height=720, workers=2, min_free_gb=1, encode_preset="veryfast")
+            if out:
+                raise R.Refused(f"on-screen time (pre-flight): {'; '.join(out)}")
     finally:
         R.apply_show(SHOW.of({}))
 
