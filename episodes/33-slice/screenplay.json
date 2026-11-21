@@ -1,0 +1,303 @@
+{
+ "title": "Week 33 slice (E11a)",
+ "slug": "33-slice",
+ "_note": "E11a (loom/omnibus handoff prep): a short slice of issue 33, not the episode. news.week/.rundown/.echo_pick point at episode 33's real ledgers by reference (data/week-33.json, episodes/33/rundown.json, episodes/33/echo-pick.json); the board's rows, the title's day/week lines and the reader's quote (and its hash) are copied verbatim from them. The Echo's lower third (lt-echo-x2, placed as episode 33 places it at the reading) is episode 33's own E6 graphic, through its graphics ledger by reference (ledgers/graphics-e4b.json); it is CC BY-SA 4.0, so the slice declares episode 33's share_alike verbatim. Every other graphic/still asset is a synthetic test stand-in (ledger.json), never for air. A draft render for the loom handoff rehearsal only (RUN.md).",
+ "show": "omnibus",
+ "issue": 33,
+ "as_of": "2026-11-08T22:16:50.309638+00:00",
+ "share_alike": {
+  "decision": "docs/DECISIONS.md 2026-11-11: G1 greenlight approved (the episode is CC BY-SA 4.0 by founder ruling, show bible f)"
+ },
+ "runtime_target_s": 42,
+ "settings": {
+  "master_fps": 30
+ },
+ "news": {
+  "week": "../../data/week-33.json",
+  "rundown": "../33/rundown.json",
+  "echo_pick": "../33/echo-pick.json"
+ },
+ "ledgers": {
+  "media": {
+   "path": "ledger.json",
+   "media": "D:\\omnibus-media\\33-slice\\media"
+  },
+  "graphics": {
+   "path": "../33/ledgers/graphics-e4b.json",
+   "media": "D:/omnibus-media/33/graphics"
+  }
+ },
+ "cast": {
+  "speakers": [
+   {
+    "id": "sp-fr",
+    "name": "Federal Register",
+    "role": "notice, 30 Jan 1951"
+   }
+  ],
+  "voices": [
+   {
+    "id": "v-narrator",
+    "engine": "test-tone",
+    "voice": "none",
+    "credit": "Narrated by a computer voice (test tone stand-in)",
+    "dot_label": "synthesised voice"
+   },
+   {
+    "id": "v-reader",
+    "engine": "test-tone",
+    "voice": "none",
+    "credit": "Quotations read by a computer voice (test tone stand-in)",
+    "dot_label": "computer voice"
+   }
+  ]
+ },
+ "parts": [
+  {
+   "id": "p-clock",
+   "kind": "chapter",
+   "segment": "clock",
+   "title": "Clock",
+   "shots": [
+    {
+     "id": "S-CLOCK",
+     "kind": "card",
+     "start_s": 0.0,
+     "dur_s": 2.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "mark": "CARD",
+     "card": "statement",
+     "text": [
+      "WEEK 33"
+     ],
+     "figures": [
+      {
+       "value": 33,
+       "field": "issue"
+      }
+     ]
+    }
+   ],
+   "lines": [],
+   "cues": [],
+   "text": []
+  },
+  {
+   "id": "p-title",
+   "kind": "chapter",
+   "segment": "title",
+   "title": "Title",
+   "as_of": "2026-11-08T22:16:50.309638+00:00",
+   "shots": [
+    {
+     "id": "T-MACRO",
+     "kind": "drawn",
+     "start_s": 2.0,
+     "dur_s": 4.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "asset": "dr-title",
+     "mark": "DRAWN",
+     "shows": {
+      "title_lines": [
+       "MON 02 NOV   24 SRC  ANTIGUA PRIME MINISTER DEMANDS SLAVERY REPARATIONS DURING KING CHARLES ROYAL VISIT",
+       "TUE 03 NOV   30 SRC  RUSSIAN MISSILE AND BOMB STRIKES KILL DOZENS AT UKRAINIAN AID FACILITY",
+       "WED 04 NOV   53 SRC  JD VANCE BLAMES IRAN WAR FOR REPUBLICAN MIDTERM DEFEAT",
+       "THU 05 NOV   15 SRC  BRITISH HEALTHCARE WORKER INFECTED WITH EBOLA IS EVACUATED FROM CONGO",
+       "FRI 06 NOV   34 SRC  DEFENSE SECRETARY PETE HEGSETH FACES IMPEACHMENT THREAT AMID POST ELECTION POLITICAL FALLOUT",
+       "SAT 07 NOV   68 SRC  TRUMP NAMES STEPHEN MILLER WHITE HOUSE CHIEF OF STAFF REPLACING SUSIE WILES",
+       "SUN 08 NOV   31 SRC  US MILITARY FORMS NEW TASK FORCE TO TARGET IRANIAN LAND ROUTES"
+      ],
+      "week_line": "WEEK 33  CLOSED SUN 08 NOV 22:16 UTC"
+     }
+    }
+   ],
+   "lines": [],
+   "cues": [],
+   "text": []
+  },
+  {
+   "id": "p-weight",
+   "kind": "chapter",
+   "segment": "weight",
+   "title": "The Weight",
+   "as_of": "2026-11-08T22:16:50.309638+00:00",
+   "shots": [
+    {
+     "id": "G-BOARD",
+     "kind": "graphic",
+     "start_s": 6.0,
+     "dur_s": 7.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "subtype": "board",
+     "asset": "g-board",
+     "mark": "DRAWN",
+     "data_ref": "lead.board",
+     "shows": {
+      "rows": [
+       {
+        "rung": "left",
+        "outlet": "Mother Jones",
+        "headline": "Warmongers Blame War For Election Loss",
+        "headline_sha256": "8a2d7e87f85496057ccf8c915a93dc3ba12b30ea031d82e03ad928a3605a22ee"
+       },
+       {
+        "rung": "center-left",
+        "outlet": "Al Jazeera",
+        "headline": "Vance eyes 2028 reset, as Republicans mull pivot after US midterms drubbing",
+        "headline_sha256": "a862b59b3baaff02a7445816f250507251dd888fe15c210da83b2c49e79dcd2b"
+       },
+       {
+        "rung": "center",
+        "outlet": "The Hill",
+        "headline": "Slotkin: Vance should stop trying to ‘cover’ himself over Iran war",
+        "headline_sha256": "5d6545ec9dd1c4bdfa6f02d5d1b2bcdc97c04327465ff3f2f3b1aa60b8ffa130"
+       },
+       {
+        "rung": "center-right",
+        "outlet": "Chicago Tribune",
+        "headline": "Vice President JD Vance tries to distance himself from Iran war after GOP’s midterm losses",
+        "headline_sha256": "3111c9d759c5b2a410d572ff25dc2c7a11fef845c0a8547c87412a1d952b3baf"
+       },
+       {
+        "rung": "right",
+        "outlet": "Daily Sabah",
+        "headline": "Trump admits Iran war fueled Republican midterm election losses",
+        "headline_sha256": "795613b423ab1b5cd57c4b6cbba1e63772e7770d3c9672d92afcd453fdbde19e"
+       },
+       {
+        "rung": "far-right",
+        "outlet": "Breitbart News",
+        "headline": "JD Vance Warns Establishment Will Blame Migration Curbs for 2026 Wipeout",
+        "headline_sha256": "4c12f67c5dc0c6580b2b2c9cdf1fb4a4cd7875b916a95c01cec94c68b6e24b4b"
+       }
+      ]
+     }
+    },
+    {
+     "id": "S-TOUR",
+     "kind": "archive_still",
+     "start_s": 13.0,
+     "dur_s": 7.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "asset": "st-weight-tour",
+     "preset": "DRIFT",
+     "mark": "DRAWN",
+     "fill_ok": true
+    }
+   ],
+   "lines": [],
+   "cues": [],
+   "text": []
+  },
+  {
+   "id": "p-echo",
+   "kind": "chapter",
+   "segment": "echo",
+   "title": "The Echo",
+   "as_of": "1952-11-05T12:00:00-05:00",
+   "shots": [
+    {
+     "id": "G-CARD",
+     "kind": "graphic",
+     "start_s": 20.0,
+     "dur_s": 3.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "subtype": "testcard",
+     "asset": "g-testcard",
+     "mark": "DRAWN",
+     "data_ref": "issue",
+     "shows": {
+      "lines": [
+       "THE ECHO",
+       "WEEK 33"
+      ],
+      "figures": [
+       {
+        "value": 33,
+        "field": "issue"
+       }
+      ]
+     }
+    },
+    {
+     "id": "S-ECHO",
+     "kind": "archive_still",
+     "start_s": 23.0,
+     "dur_s": 16.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "asset": "st-echo",
+     "preset": "HOLD",
+     "mark": "DRAWN",
+     "fill_ok": true
+    }
+   ],
+   "lines": [
+    {
+     "id": "R1",
+     "kind": "testimony",
+     "speaker": "sp-fr",
+     "start_s": 23.5,
+     "dur_s": 6.0,
+     "date": "1951-01-30",
+     "read_by": "v-reader",
+     "wav": "D:/omnibus-media/33-slice/audio/R1.wav",
+     "text": "Since the outbreak in Korea, basic commodity prices have risen almost 50 percent, farm prices about 16 percent, wholesale food prices 12 percent, and industrial prices about 14 percent.",
+     "quote_sha256": "adee056ba1e6025c01425a5aa770796b972b0aad262014bd38607486e009491a"
+    },
+    {
+     "id": "L-Q",
+     "kind": "narration",
+     "start_s": 30.0,
+     "dur_s": 3.0,
+     "read_by": "v-narrator",
+     "wav": "D:/omnibus-media/33-slice/audio/L-Q.wav",
+     "text": "What, of this week, will still matter in ten years' time?"
+    }
+   ],
+   "cues": [],
+   "text": [
+    {
+     "id": "G-LT",
+     "kind": "graphic",
+     "subtype": "lower_third",
+     "asset": "lt-echo-x2",
+     "start_s": 23.5,
+     "end_s": 27.23
+    }
+   ]
+  },
+  {
+   "id": "p-credits",
+   "kind": "credits",
+   "segment": "credits",
+   "title": "Credits",
+   "shots": [
+    {
+     "id": "S-CRED",
+     "kind": "card",
+     "start_s": 39.0,
+     "dur_s": 3.0,
+     "transition_in": {
+      "type": "cut"
+     },
+     "mark": "CARD"
+    }
+   ],
+   "lines": [],
+   "cues": [],
+   "text": []
+  }
+ ]
+}
