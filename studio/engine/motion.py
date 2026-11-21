@@ -1349,9 +1349,38 @@ def source_line_text(text: str) -> str:
     return re.sub(r"([?!]),(?=\s)", r"\1", text)
 
 
+def lower_third_graphics_safe_right(L: Layout) -> float:
+    """The house graphics-safe right edge in px (spec 3.5, ``CINE["graphics_safe"]``): a lower third's own measure
+    (``LT["x"] + LT["max_w"]``, the budget every name/role/flag/source line is checked against) must end at or
+    before this, so widening ``LT["max_w"]`` (or narrowing ``LT["x"]``) can never silently push a line's checked
+    width past the safe area -- the drift ``lower_third_action_safe`` catches without needing a specific overflowing
+    string, since every line's own ``check_text``/``_wrap`` call already enforces the narrower ``LT["max_w"]``
+    budget on its own text."""
+    return L.w(100.0 - CINE["graphics_safe"] * 100.0)
+
+
+def lower_third_action_safe(L: Layout) -> None:
+    """Refuses when the lower third's own measure (``LT["x"] + LT["max_w"]``) would end past the house
+    graphics-safe right edge (spec 3.5): the per-line ``check_text`` calls in ``lower_third_layout`` cap every
+    line to ``LT["max_w"]``, but that cap is a constant chosen independently of the house safe-area margin
+    (``CINE["graphics_safe"]``), so nothing stopped the two from drifting apart (a wider ``LT["max_w"]`` or a
+    larger ``LT["x"]`` edit would raise no error until someone measured a rendered frame and found the lower
+    third ending outside action-safe). Called once, cheaply, at the top of every ``lower_third_layout`` call."""
+    x0 = L.w(LT["x"])
+    measure_right = x0 + L.w(LT["max_w"])
+    safe_right = lower_third_graphics_safe_right(L)
+    if measure_right > safe_right + 0.5:
+        raise TextOverflow(
+            f"a lower third's own measure ends at x {measure_right:.0f}px, past the graphics-safe edge at "
+            f"x {safe_right:.0f}px (spec 3.5, CINE['graphics_safe']={CINE['graphics_safe']:g}): narrow "
+            f"LT['x'] + LT['max_w'] (now {LT['x'] + LT['max_w']:g}% of W) to fit, or widen the safe-area budget "
+            f"deliberately, with a founder ruling")
+
+
 def lower_third_layout(L: Layout, lines, fonts: Fonts, kind: str = "speaker", flag: str | None = None):
     """Compute the block: returns (elements, top_y, block_w). Each element is a
     dict with kind, text, font, data_font, baseline, size, order."""
+    lower_third_action_safe(L)      # spec 3.5: the measure itself never drifts past graphics-safe (see above)
     px = L.px
     max_w = L.w(LT["max_w"])
     els = []
