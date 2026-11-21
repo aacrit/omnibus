@@ -399,7 +399,9 @@
             "in_s": { "type": "number", "minimum": 0 },
             "out_s": { "type": "number", "minimum": 0 },
             "horizon": { "type": "string", "maxLength": 64 },
-            "shows_days_event": { "type": "boolean" }
+            "shows_days_event": { "type": "boolean" },
+            "auto": { "description": "A capture pool's automatic fit (scripts/capture/pool.mjs); a final render refuses it until confirmed_by is set and why is no longer automatic (capture-fit-confirmed).", "const": true },
+            "confirmed_by": { "type": "string", "minLength": 1, "maxLength": 200 }
           }
         },
         "shows_bodies": {

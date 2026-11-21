@@ -1,0 +1,109 @@
+# Footage capture (capture design, 2026-11-13): three times a day, list what
+# US federal publishers, Commons, DVIDS, VOA and NASA put out in the last 72
+# hours, keep what matches void news's latest printed editions (or an
+# always-capture channel) with its fetch-time evidence and a <=480p proxy,
+# and, the first time a new weekly issue shows, the week's pool
+# (capture/weekly/<n>/pool.json). scripts/capture/run.mjs does the work;
+# every cap, key and plan is in scripts/lib/capture-store.mjs.
+#
+# Rule 10 (Agentique CLAUDE.md) declaration:
+#   owner: Studio (omnibus)
+#   kill_after_idle_days: 21
+#   heartbeat_url: https://omnibus.voidvision.org/api/capture/heartbeat
+#     (live only once CAPTURE_R2_ENABLED is "true": until the R2 secrets are set
+#     and the release carrying the route is out, it answers 503 by design, and
+#     verify-production does not read it)
+#
+# Runs sit at 05:23, 13:11 and 21:41 UTC, off the top and half hour when
+# GitHub's scheduler is busiest. Secrets reach only the steps that need them:
+#   R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY and R2_ACCOUNT_ID: an R2 API token
+#     scoped to buckets omnibus-capture and omnibus (Cloudflare dashboard: R2 ->
+#     Manage API tokens -> Create API token -> Object Read & Write -> Specify
+#     buckets: omnibus-capture, omnibus), used through R2's S3 API
+#     (scripts/lib/r2-s3.mjs); the code writes only omnibus-capture and reads
+#     omnibus. The bucket exists (created 2026-11-13). Without them the run stores into a directory kept as this run's artifact
+#     for 14 days. Artifacts on a public repo are public, so that store holds
+#     only public-domain and Creative Commons proxies; editorial-use items
+#     are kept as URL and evidence only. Backfill once the token is set:
+#     node scripts/capture-r2.mjs --root <downloaded artifacts>
+#   DVIDS_API_KEY: the DVIDS lister; without it DVIDS is skipped with a notice.
+# verify-production.yml checks the heartbeat once the repo variable
+# CAPTURE_R2_ENABLED is "true". A failed scheduled run opens or updates the
+# capture-red issue, also labelled prod-red so the weekly maintainer reads it.
+name: capture
+
+on:
+  schedule:
+    - cron: "23 5 * * *"
+    - cron: "11 13 * * *"
+    - cron: "41 21 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      issues: write
+    env:
+      HAS_R2: ${{ secrets.R2_ACCESS_KEY_ID != '' && secrets.R2_SECRET_ACCESS_KEY != '' && secrets.R2_ACCOUNT_ID != '' }}
+      HAS_DVIDS: ${{ secrets.DVIDS_API_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --no-audit --no-fund
+      - name: DVIDS is not configured
+        if: ${{ env.HAS_DVIDS != 'true' }}
+        run: echo "::notice title=DVIDS skipped::The repo secret DVIDS_API_KEY is not set, so the DVIDS lister was skipped this run."
+      - name: Capture into R2
+        if: ${{ env.HAS_R2 == 'true' }}
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          DVIDS_API_KEY: ${{ secrets.DVIDS_API_KEY }}
+        run: node scripts/capture/run.mjs --store r2 --out capture-out
+      - name: Capture into this run's artifact (R2 is not configured)
+        if: ${{ env.HAS_R2 != 'true' }}
+        env:
+          DVIDS_API_KEY: ${{ secrets.DVIDS_API_KEY }}
+        run: |
+          echo "::warning title=Capture not stored in R2::The repo secrets R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY and R2_ACCOUNT_ID are not set, so this run's capture is kept only as its artifact (14 days, public-domain and Creative Commons proxies only). Add them, then backfill with node scripts/capture-r2.mjs --root <downloaded artifacts>."
+          node scripts/capture/run.mjs --store dir --out capture-out
+      # The run's report and any weekly pool always; the store itself only
+      # when it is not in R2 (it never holds an editorial-use proxy).
+      - name: Keep the capture as a workflow artifact
+        if: ${{ always() && hashFiles('capture-out/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: capture-${{ github.run_id }}
+          path: capture-out/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Open or update the capture-red issue on failure
+        if: ${{ failure() && github.event_name == 'schedule' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          # Labels are created only when missing, so an existing label's colour and description are kept.
+          LABELS=$(gh label list --limit 500 --json name --jq '.[].name')
+          if ! printf '%s\n' "$LABELS" | grep -qx capture-red; then gh label create capture-red --color B60205 --description "The footage capture failed"; fi
+          if ! printf '%s\n' "$LABELS" | grep -qx prod-red; then gh label create prod-red --color B60205 --description "Production check failing"; fi
+          EXISTING=$(gh issue list --label capture-red --state open --json number --jq '.[0].number')
+          BODY="The scheduled footage capture failed at $(date -u +%FT%TZ). See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. White House and VOA feeds roll over within days, so a capture missed for long is footage lost. The Agentique Watch routine reads the prod-red label weekly."
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create --title "Footage capture failing: omnibus" --label capture-red --label prod-red --body "$BODY"
+          fi

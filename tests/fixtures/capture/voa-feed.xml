@@ -1,0 +1,52 @@
+<!-- recorded 2026-11-13T18:00:00Z from https://www.voanews.com/api/ with the honest UA; first 3 items -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">     
+    <channel>      
+        <title>Voice of America</title>     
+        <link>https://www.voanews.com</link>
+        <description>Voice of America is an international news and broadcast organization serving Central and Eastern Europe, the Caucasus, Central Asia, Russia, the Middle East and Balkan countries</description>
+        <image>
+            <url>https://www.voanews.com/Content/responsive/VOA/en-US/img/logo.png</url>
+            <title>Voice of America</title>
+            <link>https://www.voanews.com</link>
+        </image>
+        <language>en</language>
+        <copyright>2026 - VOA</copyright>   
+        <ttl>60</ttl>        
+        <lastBuildDate>Fri, 13 Nov 2026 12:45:21 -0500</lastBuildDate> 
+        <generator>Pangea CMS – VOA</generator>        
+        <atom:link href="https://www.voanews.com/api/" rel="self" type="application/rss+xml" />
+    		<item>
+            <title>Political divide threatens Kurdish autonomy; US urges unity</title>
+            <description>Editor&apos;s note: this story was translated from the original VOA Kurdish article.
+Last week&apos;s withdrawal of the Patriotic Union of Kurdistan from the Iraqi Kurdistan’s regional government has deepened the political standoff between the region&apos;s two main ruling parties.
+The rise in tensions came after a disputed parliamentary session prompted the Patriotic Union of Kurdistan (PUK) to announce its withdrawal from the Kurdistan Regional Government (KRG).
+The Kurdistan Democratic Party (KDP),...</description>
+            <link>https://www.voanews.com/a/8223291.html</link> 
+            <guid>https://www.voanews.com/a/8223291.html</guid>            
+            <pubDate>Fri, 13 Nov 2026 09:22:47 -0500</pubDate>
+            <category>VOA Kurdish</category><category>VOA Kurdi</category><author>webdesk@voanews.com (Snur Karim, Samira Ali Mandi)</author><enclosure url="https://gdb.voanews.com/491d3775-6d46-401b-b27d-3cfea8a31126_cx0_cy9_cw0_w800_h450.jpg" length="0" type="image/jpeg"/>
+        </item>
+<item>
+            <title>Ukraine looks to international partners to cover growing financing needs</title>
+            <description>Editor&apos;s note: this story was translated from the original VOA Ukrainian article.
+More than 40 leaders of European countries gathered in Ireland for a summit Thursday, with discussions centering around European security and the need to support Ukraine amid increased attacks by Russia on its infrastructure and businesses.
+Funding for Ukraine was a top issue in Europe in the run up to the two-day European Pollical Community and the informal European Council summit. German Chancellor...</description>
+            <link>https://www.voanews.com/a/8223031.html</link> 
+            <guid>https://www.voanews.com/a/8223031.html</guid>            
+            <pubDate>Thu, 12 Nov 2026 16:52:47 -0500</pubDate>
+            <category>VOA Ukrainian</category><author>webdesk@voanews.com (Oksana Bedratenko)</author><enclosure url="https://gdb.voanews.com/4e8cc0b9-e0c9-4aec-b949-651a76992928_w800_h450.jpg" length="0" type="image/jpeg"/>
+        </item>
+<item>
+            <title>US-based Russian activist sentenced to 6 years in absentia for &quot;military fakes&quot;</title>
+            <description>Editor&apos;s note: this story was translated from the original VOA Russian article.
+A court in Ulan-Ude, Russia, has sentenced U.S.-based activist and researcher Maria Vyushkova in absentia to six years in prison on a charge of allegedly “spreading knowingly false information” about the Russian armed forces.
+
+&quot;The kind of persecution in absentia and then attempts to put pressure on relatives who remained in Russia&quot; are now becoming more widespread, Vyushkova VOA&apos;s Russian service.
+
+The case...</description>
+            <link>https://www.voanews.com/a/8223065.html</link> 
+            <guid>https://www.voanews.com/a/8223065.html</guid>            
+            <pubDate>Thu, 12 Nov 2026 16:38:40 -0500</pubDate>
+            <category>VOA Russian</category><author>webdesk@voanews.com (VOA Russian)</author><enclosure url="https://gdb.voanews.com/b04665f0-15f4-4e10-c05d-08df3efe370f_w800_h450.png" length="0" type="image/png"/>
+        </item>
+</channel></rss>

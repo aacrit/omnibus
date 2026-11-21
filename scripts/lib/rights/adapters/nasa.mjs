@@ -111,6 +111,17 @@ export function pickOriginal(manifest, mediaType) {
   return media[0]?.replace(/^http:\/\//, "https://") ?? null;
 }
 
+/** The capture's small copy (scripts/capture/proxy.mjs): ~mobile or ~small video, ~medium or ~small image; never used by the fetcher. */
+export function pickProxy(manifest, mediaType) {
+  const hrefs = (manifest?.collection?.items ?? []).map((i) => String(i.href ?? "")).filter((h) => h && !/\.(json|srt|vtt|txt)$/i.test(h));
+  const order = mediaType === "video" ? ["~mobile.", "~small.", "~preview."] : ["~medium.", "~small."];
+  for (const tag of order) {
+    const h = hrefs.find((x) => x.includes(tag));
+    if (h) return h.replace(/^http:\/\//, "https://");
+  }
+  return null;
+}
+
 /** Pure: the candidate a recorded search response and asset manifest describe. */
 export function parseNasa(search, manifest, { ref, capturedAt }) {
   const item = search?.collection?.items?.[0];
@@ -146,6 +157,7 @@ export function parseNasa(search, manifest, { ref, capturedAt }) {
       description: clip(description, 1000),
       item_url: `https://images.nasa.gov/details/${encodeURIComponent(d.nasa_id)}`,
       media_url: pickOriginal(manifest, d.media_type),
+      proxy_url: pickProxy(manifest, d.media_type),
       mime: null,
       bytes_expected: null,
       sha1: null,
