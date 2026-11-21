@@ -41,6 +41,11 @@ body.macro, body.macro .frame { background: var(--o-paper); }
 .macro-row { height: 64px; }
 .macro-row span { display: inline; }
 
+/* The dot label is a disclosure (COMPUTER VOICE), so it sits on its own bar
+   plate, readable over a bright or a dark picture alike: render.py refuses
+   a label under 4.5:1 against the worse of the two (studio/graphics/contrast.py). */
+.lt-dot-label { background: var(--color-bar); padding: 4px 12px; line-height: 1.1; }
+
 /* A dot label that would cross the 16:9 action-safe edge (x 1824) grows
    above the rule instead, right-aligned to the dot (render.py measures). */
 .lt-dot-label.above { left: auto !important; right: -40px; top: -44px !important; }

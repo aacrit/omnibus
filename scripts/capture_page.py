@@ -14,6 +14,7 @@ Audio is muted. Net-new.
 """
 
 import json
+import os
 import sys
 
 from playwright.sync_api import sync_playwright
@@ -64,7 +65,7 @@ def main(jobs_path, result_path):
         jobs = json.load(f)
     results = []
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=["--mute-audio"])
+        browser = p.chromium.launch(headless=True, args=["--mute-audio", *os.environ.get("OMNIBUS_CHROMIUM_ARGS", "").split()])  # C8: --disable-gpu on Actions
         try:
             for job in jobs:
                 width = int(job.get("width", 1920))

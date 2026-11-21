@@ -70,6 +70,7 @@ const STEPS = [
           "studio/tests/test_house_tokens_match_palette.py",
           "studio/tests/test_news_lints.py",   // E3: the news lints, pure (a pass and a fail fixture per lint)
           "studio/tests/test_e9i_ledgers.py",  // E9i: licence map, E6 adapter, vision/voicing manifests (pure, <1 s)
+          "studio/tests/test_c8_mediaroot.py", // C8: media roots by env, studio-items plan, graphics-ledger compare (pure, <1 s)
           // E6: broadcast graphics (studio/graphics/*). Fast and browser-free by design (layout math, motion
           // timing, the ledger, counts-match, graphics-clean, HTML building on fixtures): the actual Chromium
           // render (studio/graphics/render.py) is a separate script, never part of the gate (docs/DECISIONS.md).

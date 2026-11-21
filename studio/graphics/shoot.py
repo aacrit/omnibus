@@ -12,6 +12,7 @@ boxes, measured advances) is handed to pure functions elsewhere
 
 from __future__ import annotations
 
+import os
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
@@ -25,7 +26,8 @@ def chromium():
     from playwright.sync_api import sync_playwright
 
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=True)
+        # OMNIBUS_CHROMIUM_ARGS: extra launch flags for this machine (episode-draft.yml passes --disable-gpu); unset, none
+        browser = pw.chromium.launch(headless=True, args=os.environ.get("OMNIBUS_CHROMIUM_ARGS", "").split())
         try:
             yield browser
         finally:

@@ -15,6 +15,12 @@
 //       A request already in the ledger is held; --redo fills the named
 //       ones again from their whole ladder, keeping the held item when
 //       nothing on the ladder passes.
+//   node scripts/rights.mjs fetch <issue> --media <dir> --from-ledger [--report <file>]
+//       puts every item the ledger already holds back under <dir>/<issue>/
+//       from its own media_url, each checked against the ledger's sha256
+//       (scripts/lib/rights/pull.mjs; C8, the Actions draft): no ladder is
+//       resolved and no ledger is written. A refusal or a mismatch is
+//       reported, never worked around.
 //   node scripts/rights.mjs coverage <issue> --media <dir>
 //       writes episodes/<issue>/ASSETS.md (request to item or fallback, tier,
 //       licence, seconds measured by ffprobe, file path) from the ledger.
@@ -48,6 +54,7 @@ import { buildCoverage } from "./lib/rights/coverage.mjs";
 import { runCapture } from "./lib/rights/capture.mjs";
 import { buildDisputePacket, serialisePacket } from "./lib/rights/disputes.mjs";
 import { fetchRequests } from "./lib/rights/fetcher.mjs";
+import { pullLedger, summarise } from "./lib/rights/pull.mjs";
 import { getJson, getMedia, getText } from "./lib/rights/http.mjs";
 import { emptyLedger, serialiseLedger, validateLedger, validateRequests } from "./lib/rights/ledger.mjs";
 import { mergeCandidatePins, pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
@@ -123,6 +130,16 @@ export async function runFetch({ root = repoRoot, issue, mediaDir, dryRun = fals
   return result;
 }
 
+/** C8: the ledger's own items back on this machine (pull.mjs), under <mediaDir>/<issue>/. Writes no ledger. */
+export async function runPull({ root = repoRoot, issue, mediaDir, http = { getMedia }, log = console.log }) {
+  assertMediaOutsideRepo(mediaDir, root);
+  const ledgerPath = path.join(episodeDir(root, issue), "rights-ledger.json");
+  if (!existsSync(ledgerPath)) throw new Error(`${path.relative(root, ledgerPath)} not found: nothing to fetch from the ledger`);
+  const ledger = JSON.parse(readFileSync(ledgerPath, "utf8"));
+  if (ledger.issue !== issue) throw new Error(`rights-ledger.json is for issue ${ledger.issue}, not ${issue}`);
+  return pullLedger({ ledger, mediaDir: path.join(mediaDir, String(issue)), http, log });
+}
+
 /** Resolves the rundown's asset requests into episodes/<issue>/assets.json (resolve.mjs). */
 export async function runResolve({ root = repoRoot, issue, http = { getJson, getText }, log = console.log }) {
   const dir = episodeDir(root, issue);
@@ -180,6 +197,18 @@ async function main(argv) {
     const i = argv.indexOf(`--${name}`);
     return i >= 0 ? argv[i + 1] : undefined;
   };
+  if (cmd === "fetch" && argv.includes("--from-ledger")) {
+    const issue = parseIssue(issueArg);
+    const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
+    const report = await runPull({ issue, mediaDir });
+    const { counts, unusable } = summarise(report);
+    console.log(`rights: issue ${issue} from the ledger: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(", ") || "no items"}`);
+    if (unusable.length) console.log(`rights: not usable here (reported, not worked around): ${unusable.join(", ")}`);
+    const out = flag("report");
+    if (out) writeFileSync(out, `${JSON.stringify({ issue, counts, unusable, items: report }, null, 1)}
+`);
+    return 0;
+  }
   if (cmd === "fetch") {
     const issue = parseIssue(issueArg);
     const dryRun = argv.includes("--dry-run");
@@ -217,7 +246,7 @@ async function main(argv) {
     return 0;
   }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | coverage <issue> --media <dir> | packet <issue> | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | lint");
   return 2;
 }
 
