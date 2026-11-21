@@ -3449,6 +3449,8 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
                                f"mark the shot RECONSTRUCTED with the alteration '{NEUTRALISE}'" if neutral else
                                f"set neutralise_cast: true on the ledger item or the shot, or drop '{NEUTRALISE}'")})
             s["_neutralise"] = bool(ok)
+        if kind == "archive_video" and prof["news"] and isinstance(s.get("sound"), dict):
+            s["sound"] = NL.SC.engine_sound(s["sound"])       # bible v2 o: sound.role muted is the engine's mode mute
         if kind == "archive_video" and prof["news"] and item is not None:
             mute = ledger_mute(item)     # E9i: the rights ledger's audio {mode: muted} is the clip's sound mode
             if mute is not None:

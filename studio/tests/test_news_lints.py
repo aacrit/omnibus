@@ -1,6 +1,7 @@
 # Net-new in omnibus (E3).
-"""The news lints (studio/news/lints.py, schema.py): one pass fixture passes every rule; each fail fixture fails
-exactly the rules it names. Plus the show profile's tweaks to the lifted engine (cadence, description, motion)."""
+"""The news lints (studio/news/lints.py, schema.py): each pass fixture (show bible v2's, episode_v2.py, and the frozen
+v1 fixture, episode_v1.py, read as issue 33 is) passes every rule; each fail fixture fails exactly the rules it names.
+Plus the frozen issue 33 itself, and the show profile's tweaks to the lifted engine (cadence, description, motion)."""
 
 from __future__ import annotations
 
@@ -13,14 +14,19 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent / "fixture_news"))
 
-import episode as EP  # noqa: E402
+import episode_v1 as EP  # noqa: E402
+import episode_v2 as EP2  # noqa: E402
 
 from studio.engine import cadence as CAD  # noqa: E402
 from studio.engine import description as DSC  # noqa: E402
 from studio.news import lints as NL  # noqa: E402
 from studio.news import profile as SHOW  # noqa: E402
+from studio.news import schema as SC  # noqa: E402
 
-BLOCKING_RULES = set(NL.RULES) - set(NL.DEFERRED)
+BLOCKING_RULES = set(NL.RULES) - set(NL.DEFERRED) - {"package-count"}   # package-count advises (bible b)
+V2_ONLY = {"news-fields", "part-shape", "sound-role", "card-kind", "line-schema"}
+V1_UNEXERCISED = V2_ONLY | {"fair-use-refused"}     # the v1 fixture has no fair-use item to pass (its fail case has one)
+FIXTURES = {"v1": EP, "v2": EP2}
 
 
 def run(play, assets, inputs):
@@ -31,24 +37,96 @@ def failing_rules(res):
     return {c["rule"] for c in res if not c["ok"] and c["severity"] == "block"}
 
 
-def test_the_pass_fixture_passes_every_rule():
-    res = run(*EP.episode())
+@pytest.mark.parametrize("fx", sorted(FIXTURES))
+def test_the_pass_fixture_passes_every_rule(fx):
+    M = FIXTURES[fx]
+    res = run(*M.episode())
     assert failing_rules(res) == set(), [c for c in res if not c["ok"] and c["severity"] == "block"]
+    assert not [c for c in res if not c["ok"] and c["severity"] == "warn"]
     passed = {c["rule"] for c in res if c["ok"] and c["severity"] == "block"}
-    # every rule is exercised, not skipped (news-inputs is checked through the file path below)
-    assert BLOCKING_RULES - {"news-inputs"} <= passed, BLOCKING_RULES - passed
+    # every rule is exercised, not skipped (news-inputs is checked through the file path below); the v1 fixture binds
+    # no v2-only rule
+    want = BLOCKING_RULES - {"news-inputs"} - (V1_UNEXERCISED if fx == "v1" else set())
+    assert want <= passed, want - passed
+    if fx == "v1":
+        assert not {c["rule"] for c in res} & V2_ONLY
 
 
-@pytest.mark.parametrize("name", sorted(EP.FAIL))
-def test_each_fail_fixture_fails_exactly_its_rules(name):
-    play, assets, inputs, rules = EP.failing(name)
+@pytest.mark.parametrize("fx,name", [(fx, n) for fx, M in sorted(FIXTURES.items()) for n in sorted(M.FAIL)])
+def test_each_fail_fixture_fails_exactly_its_rules(fx, name):
+    play, assets, inputs, rules = FIXTURES[fx].failing(name)
     got = failing_rules(run(play, assets, inputs))
     assert got == rules
 
 
+@pytest.mark.parametrize("name", sorted(EP2.WARN))
+def test_each_advisory_case_warns_and_blocks_nothing(name):
+    play, assets, inputs, rules = EP2.failing(name, EP2.WARN)
+    res = run(play, assets, inputs)
+    assert failing_rules(res) == set(), [c for c in res if not c["ok"] and c["severity"] == "block"]
+    assert {c["rule"] for c in res if not c["ok"] and c["severity"] == "warn"} == rules
+
+
 def test_every_blocking_rule_has_a_fail_fixture():
-    covered = set().union(*(r for _, r in EP.FAIL.values())) | {"news-inputs"}
+    covered = set().union(*(r for M in FIXTURES.values() for _, r in M.FAIL.values())) | {"news-inputs"}
     assert BLOCKING_RULES <= covered, BLOCKING_RULES - covered
+    v2 = set().union(*(r for _, r in EP2.FAIL.values()))
+    assert V2_ONLY | {"segment-spine", "part-segment", "graphic-schema", "fair-use-refused"} <= v2
+
+
+def test_the_die_list_is_gone():
+    """Bible v2 o: the killed lints are no rule and no check, for v2 and for the frozen issue 33 alike."""
+    assert not set(NL.DIED) & set(NL.RULES)
+    for M in FIXTURES.values():
+        assert not {c["rule"] for c in run(*M.episode())} & set(NL.DIED)
+    for gone in ("board_checks", "title_checks", "ending_checks", "fair_use_timeline_checks", "expected_title_lines"):
+        assert not hasattr(NL, gone), gone
+
+
+def test_the_v2_spine_constants_are_the_bibles():
+    assert SC.SEGMENTS == ("clock", "tease", "title", "lead", "package", "briefs", "echo", "signoff", "credits")
+    assert SC.NEWS_SEGMENTS == ("tease", "lead", "package", "briefs")
+    assert SC.LINE_KINDS == ("vo", "sot", "read", "signon", "signoff")
+    assert SC.SOUND_ROLES == ("sot", "nat", "muted") and SC.CARD_KINDS == ("count", "quote")
+    from studio.news import graphic as G
+    assert set(G.SUBTYPES) == {"bumper", "clock", "count", "locator", "lower_third", "sot_super", "brief_strip", "page",
+                               "credits", "end_board"}
+    assert not {"board", "day", "testcard", "map"} & set(G.SUBTYPES)
+    assert {"week", "weight", "margins", "question", "cold_open"} & set(SC.SEGMENTS) == set()
+
+
+def test_only_the_frozen_issue_reads_the_v1_spine():
+    assert SC.spine({"issue": 33}) is SC.V1
+    for iss in (34, 35, 99, "33", True, None):
+        assert SC.spine({"issue": iss}) is SC.V2, iss
+    play, assets, inputs = EP.episode()          # the v1 fixture, read as any other issue, is not a v2 screenplay
+    play["issue"] = 34
+    bad = failing_rules(run(play, assets, inputs))
+    assert {"segment-spine", "part-segment", "news-fields", "line-schema", "graphic-schema"} <= bad
+
+
+def test_a_v2_line_reads_as_the_engines_and_a_muted_role_mutes_the_clip():
+    assert SC.engine_line({"kind": "vo", "text": "x"}) == {"kind": "narration", "news_kind": "vo", "text": "x"}
+    assert SC.engine_line({"kind": "read"})["kind"] == "testimony" and SC.engine_line({"kind": "sot"})["kind"] == "testimony"
+    v1 = {"kind": "narration"}
+    assert SC.engine_line(v1) is v1
+    snd = {"role": "muted", "translation": "none", "mute_reason": "a music bed in the source"}
+    assert SC.engine_sound(snd) == dict(snd, mode="mute", reason="a music bed in the source")
+    assert SC.engine_sound({"role": "nat"}) == {"role": "nat"}
+    assert SC.engine_sound({"role": "muted", "mode": "mute"}) == {"role": "muted", "mode": "mute"}
+
+
+def test_the_frozen_issue_33_still_reads_and_passes():
+    """Issue 33's committed files are a frozen regression fixture: the v1 spine reads them, and every lint still alive
+    passes them (184 checks before bible v2; the killed lints' checks are gone)."""
+    from studio.engine.render import load_ledgers
+    film = ROOT / "episodes/33"
+    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    assert SC.spine(play) is SC.V1
+    res = NL.checks(play, load_ledgers(film, play), film=film)
+    assert failing_rules(res) == set(), [c for c in res if not c["ok"] and c["severity"] == "block"][:5]
+    assert {"segment-spine", "as-of", "never-tell", "no-bridge", "counts-match", "quote-verbatim",
+            "fair-use-refused"} <= {c["rule"] for c in res if c["ok"]}
 
 
 def test_news_inputs_read_from_files_and_refuse_when_missing(tmp_path):
@@ -106,7 +184,6 @@ def test_week_33_rundown_spine_and_bridge_list_read():
 
 def test_the_spine_trusts_labels_only_in_order():
     play, _, _ = EP.episode()
-    from studio.news import schema as SC
     assert SC.segments(play) == [p["segment"] for p in play["parts"]]
     EP.part(play, "p-margins")["segment"] = "credits"
     seg = SC.segments(play)
@@ -144,18 +221,6 @@ def real_inputs():
     return {"record": json.loads((ROOT / "data/week-33.json").read_text(encoding="utf-8")),
             "rundown": json.loads((ROOT / "episodes/33/rundown.json").read_text(encoding="utf-8")),
             "echo": json.loads((ROOT / "episodes/33/echo-pick.json").read_text(encoding="utf-8"))}
-
-
-def test_week_33_title_lines_and_board_pass_against_the_record():
-    inp = real_inputs()
-    title = next(p for p in inp["rundown"]["parts"] if p["id"] == "title")
-    assert NL.expected_title_lines(inp["record"]) == title["title_lines"]
-    assert NL.expected_week_line(inp["record"]) == title["week_line"]
-    rows = [{k: r[k] for k in ("rung", "outlet", "headline", "headline_sha256")} for r in inp["record"]["lead"]["board"]]
-    play = {"parts": [{"id": "w", "shots": [{"id": "B", "kind": "graphic", "subtype": "board", "data_ref": "lead.board",
-                                             "shows": {"rows": rows}}]}]}
-    res = NL.board_checks(play, inp)
-    assert all(c["ok"] for c in res), res
 
 
 def test_week_33_no_bridge_list_comes_from_the_rundown():
@@ -335,16 +400,19 @@ def test_a_later_week_day_starts_its_window_at_the_previous_days_horizon():
         assert (not bad) == ok, (date, bad)
 
 
-def test_a_fair_use_excerpt_is_summed_over_every_shot_of_it():
-    """S4 review: two 6 s shots of one excerpt are 12 s on the timeline, over its 10 s."""
-    play, assets, inputs = EP.episode()
-    assets["fu"] = {"id": "fu", "licence": "fair-use-excerpt", "kind": "footage", "title": "clip"}
-    w = EP.part(play, "p-weight")
-    w["shots"] += [{"id": "S-FU-1", "kind": "archive_video", "asset": "fu", "start_s": 0.0, "dur_s": 6.0}]
-    assert not [c for c in NL.fair_use_timeline_checks(play, assets) if not c["ok"]]
-    w["shots"] += [{"id": "S-FU-2", "kind": "archive_video", "asset": "fu", "start_s": 8.0, "dur_s": 6.0}]
-    bad = [c for c in NL.fair_use_timeline_checks(play, assets) if not c["ok"]]
-    assert bad and bad[0]["evidence"]["seconds"] == 12.0
+def test_a_fair_use_item_is_refused_wherever_it_airs():
+    """Bible v2 o: fair-use-refused replaces the fair-use bounds; an item is refused by class, record or basis."""
+    play, assets, inputs = EP2.episode()
+    assert not _bad(NL.fair_use_refused_checks(play, assets))
+    for over in ({"licence": "fair-use-excerpt"}, {"fair_use": {"beat": "lead"}}, {"basis": "fair use: an excerpt"},
+                 {"basis": "17 U.S.C. \u00a7 107"}):
+        a = {k: dict(v) for k, v in assets.items()}
+        a["st-bridge"].update(over)
+        bad = _bad(NL.fair_use_refused_checks(play, a))
+        assert [c["unit"] for c in bad] == ["S-BRIDGE"], over
+    a = {k: dict(v) for k, v in assets.items()}
+    a["st-bridge"]["basis"] = "unfairly used elsewhere"
+    assert not _bad(NL.fair_use_refused_checks(play, a))
 
 
 def test_a_shot_carries_its_items_sourcing_dot_label():

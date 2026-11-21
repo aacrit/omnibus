@@ -1,7 +1,8 @@
 // E5d: the founder's rights policy of 2026-11-13. VOA's own material is a US
 // federal work (agency material stays refused); editorial-use footage enters
-// only with its captured terms, credit and restrictions; fair-use excerpts are
-// bounded by blocking lints. Fixtures are small recordings (VOA pages trimmed
+// only with its captured terms, credit and restrictions; fair-use excerpts were
+// bounded by blocking lints, and since show bible v2 any item resting on fair
+// use is refused (fair-use-refused). Fixtures are small recordings (VOA pages trimmed
 // to what the adapter reads, NARA records as the catalogue returns them).
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
@@ -14,7 +15,7 @@ import { ALLOWED_IDS, EDITORIAL_USE, FAIR_USE, deniedBy, editorialTermsProblems,
 import { checkCandidate } from "../scripts/lib/rights/provenance.mjs";
 import { fetchRequests, ledgerEntry, refineDate, windowProblem } from "../scripts/lib/rights/fetcher.mjs";
 import { emptyLedger, validateLedger } from "../scripts/lib/rights/ledger.mjs";
-import { lintEpisode, lintFairUse, lintLicenceAllowlist, lintLicenceEvidence, rungSide } from "../scripts/lib/rights/lints.mjs";
+import { RULES, lintEpisode, lintFairUseRefused, lintLicenceAllowlist, lintLicenceEvidence } from "../scripts/lib/rights/lints.mjs";
 import { CANDIDATES_SCHEMA_ID, mergeCandidatePins, resolveRequests } from "../scripts/lib/rights/resolve.mjs";
 import { buildCoverage } from "../scripts/lib/rights/coverage.mjs";
 
@@ -139,54 +140,38 @@ describe("editorial-use (founder ruling 2026-11-13; closed by the S4 review)", (
   });
 });
 
-describe("fair-use excerpts: the blocking lints", () => {
+describe("fair use (show bible v2, section o): fair-use-refused replaces the fair-use-excerpt bounds", () => {
   const pair = () => [clip("e33-weight-fu-1", 1, "e33-weight-fu-2"), clip("e33-weight-fu-2", 5, "e33-weight-fu-1")];
 
-  it("passes a balanced pair inside every bound, outlets allowed for this class only", () => {
+  it("refuses every fair-use excerpt, even a balanced pair inside the v1 bounds", () => {
     expect(validateLedger(ledgerOf(pair()))).toEqual([]);
-    expect(lintFairUse(ledgerOf(pair()))).toEqual([]);
-    expect(deniedBy({ urls: ["https://www.aljazeera.com/video/x"], credits: ["Al Jazeera"], allowOutlets: true })).toEqual([]);
-    expect(deniedBy({ urls: ["https://www.aljazeera.com/video/x"], credits: ["Al Jazeera"] })).not.toEqual([]);
-    expect(deniedBy({ credits: ["Reuters"], allowOutlets: true })).not.toEqual([]);
-    expect(rungSide(3)).toBe("centre");
+    const got = lintFairUseRefused(ledgerOf(pair()));
+    expect(got.map((x) => x.item)).toEqual(["e33-weight-fu-1", "e33-weight-fu-2"]);
+    expect(got.every((x) => x.rule === "fair-use-refused")).toBe(true);
   });
 
-  it("refuses an agency clip under the fair-use class", () => {
+  it("refuses an item that rests on fair use by its basis or its fair_use record, whatever its licence class", () => {
+    const fed = entry({});
+    expect(lintFairUseRefused(ledgerOf([fed]))).toEqual([]);
+    expect(lintFairUseRefused(ledgerOf([{ ...fed, basis: "fair use (17 U.S.C. 107): an excerpt" }]))).toHaveLength(1);
+    expect(lintFairUseRefused(ledgerOf([{ ...fed, basis: "a short excerpt under 17 U.S.C. § 107" }]))).toHaveLength(1);
+    expect(lintFairUseRefused(ledgerOf([{ ...fed, fair_use: { beat: "lead" } }]))).toHaveLength(1);
+    expect(lintFairUseRefused(ledgerOf([{ ...fed, basis: "unfairly used elsewhere" }]))).toEqual([]);
+  });
+
+  it("refuses an agency clip under the fair-use class through the allowlist too", () => {
     const [a, b] = pair();
     a.credit = "Reuters";
     expect(lintLicenceAllowlist(ledgerOf([a, b])).some((x) => /Reuters/.test(x.message))).toBe(true);
   });
 
-  const cases: [string, any, RegExp][] = [
-    ["outside The Weight", { beat: "week-day-3" }, /only in The Weight/],
-    ["over 10 s", { in_s: 0, out_s: 10.5 }, /over 10 s/],
-    ["over 2% of its source", { source_duration_s: 300 }, /over 2%/],
-    ["the outlet not on screen", { on_screen_outlet: false }, /named on screen/],
-    ["muted", { audio: "muted" }, /own sound/],
-    ["recut", { no_recut: false }, /recut/],
-    ["no rationale", { rationale: "short" }, /rationale/],
-    ["not flagged no_youtube", { no_youtube: false }, /YouTube/],
-  ];
-  for (const [name, over, re] of cases) {
-    it(`refuses a clip ${name}`, () => {
-      const items = [clip("e33-weight-fu-1", 1, "e33-weight-fu-2", over), clip("e33-weight-fu-2", 5, "e33-weight-fu-1")];
-      expect(lintFairUse(ledgerOf(items)).map((x) => x.message).join("\n")).toMatch(re);
-    });
-  }
-
-  it("refuses an unbalanced set, a counterpart on the same side, more than 4 clips and more than 45 s in all", () => {
-    expect(lintFairUse(ledgerOf([clip("a1", 0, "")])).map((x) => x.message).join()).toMatch(/counterpart|unbalanced/);
-    expect(lintFairUse(ledgerOf([clip("a1", 0, "a2"), clip("a2", 1, "a1")])).map((x) => x.message).join()).toMatch(/same side/);
-    const six = [0, 1, 2].flatMap((i) => [clip(`l${i}`, 1, `r${i}`, { in_s: 0, out_s: 9 }), clip(`r${i}`, 5, `l${i}`, { in_s: 0, out_s: 9 })]);
-    const msgs = lintFairUse(ledgerOf(six)).map((x) => x.message).join("\n");
-    expect(msgs).toMatch(/over 4 per episode/);
-    expect(msgs).toMatch(/over 45 s per episode/);
-  });
-
-  it("runs in the episode lint", () => {
-    const items = [clip("e33-weight-fu-1", 1, "e33-weight-fu-2", { no_youtube: false }), clip("e33-weight-fu-2", 5, "e33-weight-fu-1")];
-    const l = ledgerOf(items);
-    expect(lintEpisode({ ledger: l, ledgerText: JSON.stringify(l), disputesText: null, now: new Date("2026-11-14"), shots: [] }).some((x) => x.rule === "fair-use-excerpt")).toBe(true);
+  it("runs in the episode lint, and fair-use-excerpt is no longer a rule", () => {
+    const l = ledgerOf(pair());
+    const rules = lintEpisode({ ledger: l, ledgerText: JSON.stringify(l), disputesText: null, now: new Date("2026-11-14"), shots: [] }).map((x) => x.rule);
+    expect(rules).toContain("fair-use-refused");
+    expect(rules).not.toContain("fair-use-excerpt");
+    expect(RULES).toContain("fair-use-refused");
+    expect(RULES).not.toContain("fair-use-excerpt");
   });
 });
 

@@ -22,7 +22,7 @@ from studio.news import profile as SHOW  # noqa: E402
 
 @pytest.fixture(scope="module")
 def news_render(tmp_path_factory):
-    film = FILM.make(tmp_path_factory.mktemp("news") / "week-99")
+    film = FILM.make(tmp_path_factory.mktemp("news") / "week-33")
     out = film.parent / "out"
     try:
         summary = R.render(film, out, height=720, workers=2, min_free_gb=1, encode_preset="veryfast", draft=True)
@@ -40,10 +40,10 @@ def frame_at(path: Path, t: float) -> np.ndarray:
 def test_the_master_is_30_fps_and_links_to_omnibus(news_render):
     src = json.loads((news_render["out"] / "sources.json").read_text(encoding="utf-8"))
     assert src["fps_rate"] == "30"
-    assert src["show"]["sources_page"] == "https://omnibus.voidvision.org/e/99/sources"
+    assert src["show"]["sources_page"] == "https://omnibus.voidvision.org/e/33/sources"
     assert src["show"]["target_lufs"] == -16.0
     text = (news_render["out"] / "description.txt").read_text(encoding="utf-8")
-    assert "https://omnibus.voidvision.org/e/99/sources" in text and "document.voidvision.org" not in text
+    assert "https://omnibus.voidvision.org/e/33/sources" in text and "document.voidvision.org" not in text
     kinds = {s["id"]: s for s in src["shots"]}
     assert kinds["G-DAY1"]["graphic"]["subtype"] == "day" and kinds["G-DAY1"]["mark"]["class"] == "DRAWN"
     assert [g["id"] for g in src["graphics_over"]] == ["G-LT"]
@@ -82,7 +82,7 @@ def test_the_master_meets_the_shows_loudness(news_render):
 
 
 def _film(tmp_path, edit_play=None, edit_items=None) -> Path:
-    film = FILM.make(tmp_path / "week-99")
+    film = FILM.make(tmp_path / "week-33")
     if edit_items:
         led = json.loads((film / "ledger.json").read_text(encoding="utf-8"))
         edit_items({it["id"]: it for it in led["items"]})

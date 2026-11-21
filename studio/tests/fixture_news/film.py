@@ -1,5 +1,5 @@
 # Net-new in omnibus (E3).
-"""The lint fixture (episode.py) as a film folder the engine can plan and render: test-pattern stills, the graphics as
+"""The frozen v1 lint fixture (episode_v1.py, issue 33) as a film folder the engine can plan and render: test-pattern stills, the graphics as
 ProRes 4444 clips with straight alpha at 30 fps (made by ffmpeg), a tone per voice line, the three news inputs and
 the ledgers. Made at test time, never committed (R-08). Every picture is a test pattern, so every shot is DRAWN."""
 
@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw
 
-import episode as EP
+import episode_v1 as EP
 from studio.engine.render import ffmpeg
 
 
