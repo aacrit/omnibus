@@ -1,0 +1,2432 @@
+{
+  "schema": "omnibus.echo-bank/1",
+  "written": "2026-11-21",
+  "ticket": "T8 (show bible v2, sections g and r)",
+  "by": "Forge builder (Opus) with three Opus research analysts; every source fetched and hashed on 2026-11-21",
+  "rules": [
+    "Section g, the advance-pick rule: an Echo may be chosen only from entries in this file, with their mechanism tags, at a commit dated before the week opened (Monday 00:00 UTC of the week covered). An entry added during or after a week is quarantined until the next week opens (scripts/lib/echo-bank.mjs, advancePickProblems and firstUsableWeek).",
+    "The matcher scores the lead's mechanisms, written in this vocabulary, against each entry's mechanisms. Tags are chosen from the history, never for a week.",
+    "Each entry holds its own horizon (as_of), at least two period perspectives in their own words, one period document, at least six public domain items and a source for every claim (bankProblems).",
+    "A quote is verbatim from the fetched bytes; quote_sha256 is the sha256 of the quote's UTF-8. A record that is not the speaker's own words (minutes, a notetaker's memorandum) is kept with own_words: false and does not count toward the two.",
+    "no_bridge lists the people, organisations, events and named documents of each entry, for the no-bridge lint; states and places are exempt.",
+    "Public domain items are metadata only: no media was downloaded. They enter an episode only through scripts/rights.mjs and the rights ledger."
+  ],
+  "history_bank": {
+    "what": "The 78 void history events (void news, data/history/events/*.yaml), the bank section g counts.",
+    "tagged": false,
+    "note": "None of the 78 carries mechanism tags at any commit read on 2026-11-21, so none can pass echo-advance-pick until it is tagged here in a commit dated before the week it serves."
+  },
+  "vocabulary": {
+    "great-powers-settle-over-absent-party": "a settlement reached by great powers over the head of the party whose territory it concerns",
+    "leaders-meet-in-person": "the heads of government of rival great powers meet in person to settle terms",
+    "borders-redrawn-by-congress": "a conference of states redraws borders after a war",
+    "spheres-of-influence": "great powers divide a region into areas where each will hold sway",
+    "occupation-of-defeated-state": "victors divide a defeated state into zones and govern it",
+    "population-transfer-agreed": "states agree to move a population across a new border",
+    "earlier-treaty-revised": "a conference revises a treaty that two states had already signed",
+    "broker-host-mediates": "a host power presents itself as the neutral broker of a settlement among others",
+    "declaration-without-binding-force": "states sign a text that is declared not to be a treaty binding in law",
+    "frontiers-recognised-for-commitments": "one side gains recognition of existing frontiers, the other gains written commitments on rights or contacts",
+    "minority-protections-in-treaty": "a treaty writes protections for a minority or a religion into the terms of a state's recognition",
+    "recognition-of-new-states": "a conference recognises the independence of states that were provinces of an empire",
+    "ultimatum-to-belligerent": "allied powers issue terms of surrender to a state still at war",
+    "government-recognition-contested": "powers agree which of two rival governments will be recognised",
+    "reparations-set": "victors set what a defeated state must pay or give up",
+    "balance-of-power-restored": "powers arrange a settlement so that no single power dominates a continent"
+  },
+  "entries": [
+    {
+      "id": "congress-of-vienna-1815",
+      "title": "The Congress of Vienna",
+      "added": "2026-11-21",
+      "slate": {
+        "place": "Vienna",
+        "date": "the 9th of June, in the year of our Lord 1815"
+      },
+      "span": {
+        "from": "1814-09-25",
+        "to": "1815-06-09"
+      },
+      "as_of": "1815-06-09T23:59:00+01:05",
+      "as_of_basis": "Close of the day the General Treaty was signed, Vienna local mean time (about UTC+01:05). Inside: the General Treaty and its seventeen annexed acts as listed, Talleyrand's letters to 12 March 1815 including the news that Bonaparte had landed, Castlereagh's letter of 6 February 1815, the King of Saxony's letter of 19 September 1814. Not known inside: any battle or campaign after 9 June 1815, the ratifications (due within six months under Art. CXXI), the second Paris treaty of 20 November 1815, any later alliance or later congress. The span begins at Talleyrand's first letter from Vienna (25 September 1814), the earliest dated item in this entry.",
+      "mechanisms": [
+        "borders-redrawn-by-congress",
+        "great-powers-settle-over-absent-party",
+        "balance-of-power-restored"
+      ],
+      "mechanism_notes": {
+        "borders-redrawn-by-congress": "Powers assembled at Vienna after the war under the 32nd Article of the Paris treaty of 1814 set new frontiers in one instrument, from the duchy of Warsaw (Art. I) to Saxony (Art. XV) and the Netherlands (Art. LXV) (src-wikisource-final-act).",
+        "great-powers-settle-over-absent-party": "The cession of Saxon territory to Prussia was fixed among the Powers and then carried to the King of Saxony at Presburg as a protocol to accept, and his hope that the terms were open to negotiation was answered with a declaration that they were not (src-talleyrand-1881).",
+        "balance-of-power-restored": "Talleyrand argued to Louis XVIII that the question of Saxony had to be weighed against the balance of power and the equilibrium of the Germanic body, and reported the plenipotentiaries' appeal to the Paris treaty's call for a real and durable equilibrium (src-talleyrand-1881)."
+      },
+      "mechanism_sentence": "Ministers of the Powers that had signed the Paris treaty of 1814 met at Vienna, agreed among themselves how Poland, Saxony and the Low Countries would be divided, carried the Saxon cession to the King of Saxony for his acceptance, and joined the separate treaties into one General Treaty signed on 9 June 1815.",
+      "facts": [
+        {
+          "text": "The General Treaty states that the Powers who signed the Treaty of Paris of 30 May 1814 assembled at Vienna under its 32nd Article, with the princes and states their Allies, to complete its provisions.",
+          "source": "src-wikisource-final-act",
+          "locator": "General Treaty, preamble"
+        },
+        {
+          "text": "Article I unites the duchy of Warsaw, save the districts otherwise disposed of, to the Russian empire, and the Emperor of all the Russias takes the title of Czar, King of Poland.",
+          "source": "src-wikisource-final-act",
+          "locator": "General Treaty, Art. I, para. 1"
+        },
+        {
+          "text": "Article I states that the Poles who are subjects of Russia, Austria and Prussia shall obtain a representation and national institutions, to the degree each of their governments judges expedient.",
+          "source": "src-wikisource-final-act",
+          "locator": "General Treaty, Art. I, para. 2"
+        },
+        {
+          "text": "Article XV records that the King of Saxony renounces in perpetuity, in favour of the King of Prussia, the provinces and districts of the kingdom of Saxony named in the treaty, and the rest of the kingdom is restored to him.",
+          "source": "src-wikisource-final-act",
+          "locator": "General Treaty, Art. XV"
+        },
+        {
+          "text": "Article LXV joins the ancient United Provinces and the late Belgic provinces into the kingdom of the Netherlands under the Prince of Orange-Nassau.",
+          "source": "src-wikisource-final-act",
+          "locator": "General Treaty, Art. LXV"
+        },
+        {
+          "text": "The General Treaty is dated at Vienna, 9 June 1815; its signature list names Austria, Spain, France, Great Britain, Portugal, Prussia, Russia and Sweden, and no signature is entered under Spain.",
+          "source": "src-wikisource-final-act",
+          "locator": "General Treaty, closing formula and signature table after Art. CXXI"
+        },
+        {
+          "text": "The list of annexed acts includes a Treaty between Prussia and Saxony of 18 May and a Declaration of the Powers on the abolition of the Slave Trade of 8 February.",
+          "source": "src-wikisource-final-act-index",
+          "locator": "List of annexed acts, nos. 4 and 15"
+        },
+        {
+          "text": "On 6 January 1815 Talleyrand wrote to Louis XVIII that a treaty had been signed by Metternich, Castlereagh and himself on 3 January.",
+          "source": "src-talleyrand-1881",
+          "locator": "Letter XXXVII, Vienna, 6th January, 1815, p. 131"
+        },
+        {
+          "text": "On 12 March 1815 Talleyrand reported that he, Wellington and Metternich had delivered the protocol of cessions to the King of Saxony at Presburg, and that the King and his ministers brought forward nothing but objections.",
+          "source": "src-talleyrand-1881",
+          "locator": "Letter LXVI (No. 33), Vienna, 12th March, 1815, pp. 201 to 202"
+        },
+        {
+          "text": "In the same letter of 12 March 1815 Talleyrand reported news received at Presburg that Bonaparte had landed in the Bay of St. Juan.",
+          "source": "src-talleyrand-1881",
+          "locator": "Letter LXVI, p. 202"
+        }
+      ],
+      "period_perspectives": [
+        {
+          "who": "Prince de Talleyrand, first plenipotentiary of France at the Congress",
+          "side": "France",
+          "where": "Vienna",
+          "date": "1815-01-04",
+          "quote": "Now, Sire, the coalition is dissolved, and for ever. Not only does France no longer stand alone in Europe, but your Majesty already has a federate system such as it seemed that fifty years of negotiation could not have procured for her.",
+          "quote_sha256": "be69119d9385796274510bf95628075c47e691abc4df6a150cfb5418d5d1c822",
+          "source": "src-talleyrand-1881",
+          "locator": "Letter XXXVI (No. 19), Vienna, 4th January, 1815, to Louis XVIII, p. 127",
+          "translation": "unnamed translator, English edition with Pallain's notes, New York: Harper and Brothers, 1881 (French original)",
+          "published": 1881
+        },
+        {
+          "who": "Frederick Augustus, King of Saxony",
+          "side": "Saxony (the kingdom whose territory was divided)",
+          "where": "Friedrichsfeld",
+          "date": "1814-09-19",
+          "quote": "if such an idea could exist I never will consent to surrender the States which I have inherited from my ancestors",
+          "quote_sha256": "6a1b14ac56d4a0b638876dfed54f313dbd0a348b2885beca834b862176bc71b3",
+          "source": "src-talleyrand-1881",
+          "locator": "Appendix, note 2 to Letter V: letter of the King of Saxony to Louis XVIII, Friedrichsfeld, 19th September, 1814, pp. 308 to 309",
+          "translation": "unnamed translator, Harper and Brothers, 1881 (French original)",
+          "published": 1881
+        },
+        {
+          "who": "Viscount Castlereagh, British Secretary of State for Foreign Affairs and plenipotentiary at the Congress",
+          "side": "Great Britain",
+          "where": "Vienna",
+          "date": "1815-02-06",
+          "quote": "the parties to a settlement upon Saxony, which, in the shape the details were prepared, decides at the same time the five questions which relate to the centre of Europe",
+          "quote_sha256": "40f914c7b29a96fdef4ca03500cfb6fa506d620d0e9ab2d1c4ff745a1e87da17",
+          "source": "src-castlereagh-v10",
+          "locator": "Lord Castlereagh to Lord Liverpool, draft, Vienna, February 6, 1815, vol. X pp. 248 to 249",
+          "translation": "none",
+          "published": 1853
+        },
+        {
+          "who": "Prince de Talleyrand, first plenipotentiary of France at the Congress",
+          "side": "France",
+          "where": "Vienna",
+          "date": "1815-01-06",
+          "quote": "But your Majesty is aware that the question of Saxony cannot be regarded merely in relation to legitimacy",
+          "quote_sha256": "3767bb0d2d1cce94e16b85ad1cb0ae6d083431076a2d2cb61673f493226d0582",
+          "source": "src-talleyrand-1881",
+          "locator": "Letter XXXVII (No. 20), Vienna, 6th January, 1815, to Louis XVIII, pp. 131 to 132",
+          "translation": "unnamed translator, Harper and Brothers, 1881 (French original)",
+          "published": 1881
+        }
+      ],
+      "period_document": {
+        "source": "src-wikisource-final-act",
+        "what": "The General Treaty signed in Congress at Vienna, 9 June 1815 (the Final Act), English translation as laid before Parliament",
+        "date": "1815-06-09",
+        "show": "typeset",
+        "licence": "pd-age",
+        "published": 1816
+      },
+      "pd_items": [
+        {
+          "id": "vienna-pd-01",
+          "kind": "page",
+          "adapter": "commons",
+          "ref": "File:Acte du Congrès de Vienne du 9 juin 1815, avec ses annexes - Édition officielle.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Acte_du_Congr%C3%A8s_de_Vienne_du_9_juin_1815,_avec_ses_annexes_-_%C3%89dition_officielle.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AActe%20du%20Congr%C3%A8s%20de%20Vienne%20du%209%20juin%201815%2C%20avec%20ses%20annexes%20-%20%C3%89dition%20officielle.jpg&format=json",
+          "what": "Acte du Congres de Vienne du 9 juin 1815, avec ses annexes, Edition officielle (title page)",
+          "made": "1815",
+          "maker": "Imprimerie Imperiale et Royale, Vienna (record artist field: Bibliotheque nationale de France)",
+          "licence": "pd-age",
+          "basis": "Commons record: CC0 from Gallica (BnF), a nineteenth-century official printing; PD by age",
+          "inside_horizon": false,
+          "dot_label": "PRINTED VIENNA · OFFICIAL EDITION",
+          "metadata_sha256": "02a5c5f6b28be81c128a384d1f2c69dd8a02739ed18eafe6da39b0445d712367",
+          "notes": "Record date 1815-06-09 is the treaty date, not a printing date; the official edition was printed after signature, so treat it as made after the horizon unless a printing date is found. Gallica ark bpt6k91227n."
+        },
+        {
+          "id": "vienna-pd-02",
+          "kind": "page",
+          "adapter": "commons",
+          "ref": "File:Acte du Congrès de Vienne du 9 juin 1815 - Annexe XV (édition officielle).jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Acte_du_Congr%C3%A8s_de_Vienne_du_9_juin_1815_-_Annexe_XV_(%C3%A9dition_officielle).jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AActe%20du%20Congr%C3%A8s%20de%20Vienne%20du%209%20juin%201815%20-%20Annexe%20XV%20%28%C3%A9dition%20officielle%29.jpg&format=json",
+          "what": "Acte du Congres de Vienne, Annexe XV: Declaration des Puissances sur l'abolition de la Traite des Negres (official edition page)",
+          "made": "1815",
+          "maker": "Imprimerie Imperiale et Royale, Vienna (via BnF Gallica)",
+          "licence": "pd-age",
+          "basis": "Commons record: CC0 from Gallica (BnF); PD by age",
+          "inside_horizon": false,
+          "dot_label": "PRINTED VIENNA · OFFICIAL EDITION",
+          "metadata_sha256": "1b1ed4b9297f88f3249c3106a2ea05cafb0697227ac9c180803e52310a12b203",
+          "notes": "Same official edition as vienna-pd-01, page f310. Printing date not in the record."
+        },
+        {
+          "id": "vienna-pd-03",
+          "kind": "page",
+          "adapter": "commons",
+          "ref": "File:Acte du congrès de Vienne du 9 juin 1815, avec ses annexes.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Acte_du_congr%C3%A8s_de_Vienne_du_9_juin_1815,_avec_ses_annexes.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AActe%20du%20congr%C3%A8s%20de%20Vienne%20du%209%20juin%201815%2C%20avec%20ses%20annexes.jpg&format=json",
+          "what": "Acte du congres de Vienne du 9 juin 1815, avec ses annexes (title page, Austrian National Library copy)",
+          "made": "1815",
+          "maker": "Unknown author (record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; nineteenth-century print, PD by age",
+          "inside_horizon": false,
+          "dot_label": "PRINTED VIENNA",
+          "metadata_sha256": "46b3ee0feb6cdd6b4756600f201740221380aebef43a585d9655ab105636f6ed",
+          "notes": "Record date is the treaty date; printing date not given."
+        },
+        {
+          "id": "vienna-pd-04",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:CongressVienna.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:CongressVienna.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ACongressVienna.jpg&format=json",
+          "what": "The Congress of Vienna",
+          "made": "1815",
+          "maker": "Jean-Baptiste Isabey (record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; artist died 1855, PD by age",
+          "inside_horizon": false,
+          "dot_label": "ISABEY · DATED 1815",
+          "metadata_sha256": "c8163f4c501c3d8261d617c046965504bbd43835a199e99683a98e8e4259f2a4",
+          "notes": "Record gives only the year 1815 and no holding institution; the file may show a print after the drawing rather than the drawing itself. Not shown as inside the horizon because the month is unknown."
+        },
+        {
+          "id": "vienna-pd-05",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:CONGRES DE VIENNE. - SEANCE DES PLENIPOTENTIAIRES - DES HUIT PUISSANCES SIGNATAIRES - DU TRAITE DE PARIS. - estampe - J. Isabey à Paris - Rue des Trois-Frères n° 7 ; J. Godefroy - 1819 - btv1b52512175v (1 of 2).jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:CONGRES_DE_VIENNE._-_SEANCE_DES_PLENIPOTENTIAIRES_-_DES_HUIT_PUISSANCES_SIGNATAIRES_-_DU_TRAITE_DE_PARIS._-_estampe_-_J._Isabey_%C3%A0_Paris_-_Rue_des_Trois-Fr%C3%A8res_n%C2%B0_7_;_J._Godefroy_-_1819_-_btv1b52512175v_(1_of_2).jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ACONGRES%20DE%20VIENNE.%20-%20SEANCE%20DES%20PLENIPOTENTIAIRES%20-%20DES%20HUIT%20PUISSANCES%20SIGNATAIRES%20-%20DU%20TRAITE%20DE%20PARIS.%20-%20estampe%20-%20J.%20Isabey%20%C3%A0%20Paris%20-%20Rue%20des%20Trois-Fr%C3%A8res%20n%C2%B0%207%20%3B%20J.%20Godefroy%20-%201819%20-%20btv1b52512175v%20%281%20of%202%29.jpg&format=json",
+          "what": "CONGRES DE VIENNE. SEANCE DES PLENIPOTENTIAIRES DES HUIT PUISSANCES SIGNATAIRES DU TRAITE DE PARIS. [estampe] / J. Isabey a Paris, Rue des Trois-Freres no 7; J. Godefroy, 1819",
+          "made": "1819",
+          "maker": "Jean Godefroy (1771 to 1839), engraver, after Jean-Baptiste Isabey (1767 to 1855), draughtsman (BnF record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain, from the Bibliotheque nationale de France; PD by age",
+          "inside_horizon": false,
+          "dot_label": "ENGRAVED 1819",
+          "metadata_sha256": "2a2c7d568c76d404ca4294b6de82100a6bf9edde17bde0bef501fb3701a4836c",
+          "notes": "Made four years after the horizon: the dot label must carry the 1819 date. Record lists sitters including Wellington, Metternich, Dalberg, Castlereagh, Gentz, Humboldt, Hardenberg."
+        },
+        {
+          "id": "vienna-pd-06",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Congresso de Viena, 1819.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Congresso_de_Viena,_1819.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ACongresso%20de%20Viena%2C%201819.jpg&format=json",
+          "what": "Congress of Vienna (engraving after Isabey)",
+          "made": "1819",
+          "maker": "Anonymous engraver, after Jean-Baptiste Isabey (record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; PD by age",
+          "inside_horizon": false,
+          "dot_label": "ENGRAVED 1819",
+          "metadata_sha256": "ee0e970e470e8dc1f2004a392a579fec8c8f261812969c5e60aad2a066119321",
+          "notes": "Scanned from a 1993 catalogue (Itamaraty Safra); a second impression of the 1819 print. Use one of vienna-pd-05 or 06, not both."
+        },
+        {
+          "id": "vienna-pd-07",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Kurfürst Friedrich August III. von Sachsen, genannt der Gerechte.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Kurf%C3%BCrst_Friedrich_August_III._von_Sachsen,_genannt_der_Gerechte.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AKurf%C3%BCrst%20Friedrich%20August%20III.%20von%20Sachsen%2C%20genannt%20der%20Gerechte.jpg&format=json",
+          "what": "Portrait of Frederick Augustus I of Saxony (1750 to 1827), as Elector Frederick Augustus III",
+          "made": "1795",
+          "maker": "Anton Graff (record); Gemaldegalerie Alte Meister, Dresden",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; painter died 1813, PD by age",
+          "inside_horizon": true,
+          "dot_label": "PAINTED 1795",
+          "metadata_sha256": "ecb66c08fda93c0d4adeab2e4c8230cce7d7cdfbc40b0c160d1aa871363cfefc",
+          "notes": "Inside the horizon by twenty years; shows the King of Saxony as Elector, before the kingdom (record notes he became King in 1806)."
+        },
+        {
+          "id": "vienna-pd-08",
+          "kind": "map",
+          "adapter": "commons",
+          "ref": "File:Map of the Germanic confederated states including the Kingdom of Prussia - as settled by the Act of Congress at Vienna (IA dr map-of-the-germanic-confederated-states-including-the-kingdom-of-prussia-13170024).jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Map_of_the_Germanic_confederated_states_including_the_Kingdom_of_Prussia_-_as_settled_by_the_Act_of_Congress_at_Vienna_(IA_dr_map-of-the-germanic-confederated-states-including-the-kingdom-of-prussia-13170024).jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AMap%20of%20the%20Germanic%20confederated%20states%20including%20the%20Kingdom%20of%20Prussia%20-%20as%20settled%20by%20the%20Act%20of%20Congress%20at%20Vienna%20%28IA%20dr%20map-of-the-germanic-confederated-states-including-the-kingdom-of-prussia-13170024%29.jpg&format=json",
+          "what": "Map of the Germanic confederated states including the Kingdom of Prussia: as settled by the Act of Congress at Vienna, June 9th, 1815. London. Published by Jas. Wyld. 1838.",
+          "made": "1838",
+          "maker": "James Wyld (record lists Wyld, James, 1790 to 1836 and 1812 to 1887)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain, David Rumsey collection via Internet Archive; PD by age",
+          "inside_horizon": false,
+          "dot_label": "MAPPED 1838",
+          "metadata_sha256": "bb2681838e82dcde830c8f8402b109c9c1b217e5e2b629b01a1fd0f2da8f913a",
+          "notes": "A later map of the settlement; its title names only the Act of 9 June 1815. Avoid the Faden map of 1816 (Commons File: (Composite Map) Map of the Central States of Europe ...) because its title names the Paris treaty of 20 November 1815, outside the horizon."
+        }
+      ],
+      "sources": [
+        {
+          "id": "src-wikisource-final-act",
+          "what": "The General Treaty of the Final Act of the Congress of Vienna, 9 June 1815, English translation as presented to Parliament by Lord Castlereagh; Wikisource transcription (wikitext). Transcription source per the Wikisource talk page: Hansard, The Parliamentary Debates, vol. 32 (1 Feb to 6 Mar 1816), T. C. Hansard, 1816, pp. 71 to 72 onward.",
+          "url": "https://en.wikisource.org/w/index.php?title=Final_Act_of_the_Congress_of_Vienna/General_Treaty&action=raw",
+          "sha256": "1e515a436bf5da849efde7a2314d17026ac69a93fb2b9b6faee318b0b89936d8",
+          "fetched": "2026-11-21",
+          "printed": "Text dated inside the horizon (9 June 1815); this English translation printed later, 1816",
+          "rights": "public domain by age (PD-old tag on Wikisource)"
+        },
+        {
+          "id": "src-wikisource-final-act-index",
+          "what": "Final Act of the Congress of Vienna: list of the General Treaty and annexed acts, Wikisource (wikitext), same 1816 Hansard translation",
+          "url": "https://en.wikisource.org/w/index.php?title=Final_Act_of_the_Congress_of_Vienna&action=raw",
+          "sha256": "b61664b4b8eb08b84b9f40a4014ef7ecc30d2022e53810dec7af3fb63dbe17e5",
+          "fetched": "2026-11-21",
+          "printed": "Acts dated inside the horizon; translation printed later, 1816",
+          "rights": "public domain by age"
+        },
+        {
+          "id": "src-wikisource-final-act-talk",
+          "what": "Talk:Final Act of the Congress of Vienna, Wikisource, giving the print source of the translation (Hansard vol. 32, 1816)",
+          "url": "https://en.wikisource.org/w/index.php?title=Talk:Final_Act_of_the_Congress_of_Vienna&action=raw",
+          "sha256": "7bf618d05f861207c5e48e8068cb105d906d2c15f61c516fc18447db49527a6e",
+          "fetched": "2026-11-21",
+          "printed": "provenance note only",
+          "rights": "quoted only for provenance"
+        },
+        {
+          "id": "src-talleyrand-1881",
+          "what": "The Correspondence of Prince Talleyrand and King Louis XVIII during the Congress of Vienna (hitherto unpublished), from the manuscripts preserved in the Archives of the Ministry of Foreign Affairs at Paris, with a preface, observations and notes by M. G. Pallain. New York: Harper and Brothers, 1881. Internet Archive correspondenceof00talluoft (University of Toronto copy), djvu full text.",
+          "url": "https://archive.org/download/correspondenceof00talluoft/correspondenceof00talluoft_djvu.txt",
+          "sha256": "537d7aed37d9e5f5aa5646f29966e807a7f7668cb3a6a1967e24eb429fd9d014",
+          "fetched": "2026-11-21",
+          "printed": "Letters dated inside the horizon (Sept 1814 to 1815); first published, in this translation, 1881",
+          "rights": "public domain by age"
+        },
+        {
+          "id": "src-castlereagh-v10",
+          "what": "Correspondence, Despatches, and other Papers of Viscount Castlereagh, Second Marquess of Londonderry, edited by his brother Charles William Vane, Marquess of Londonderry. Third series, Military and Diplomatic, vol. X. London: John Murray, 1853. Internet Archive memoirsandcorre04castgoog (University of Michigan copy), djvu full text.",
+          "url": "https://archive.org/download/memoirsandcorre04castgoog/memoirsandcorre04castgoog_djvu.txt",
+          "sha256": "94c911fc31f4df4f37e51ae14ebeacfd32fefbb012e03bcd4ae298a91639654c",
+          "fetched": "2026-11-21",
+          "printed": "Letters dated inside the horizon; published later, 1853 (year read from the Harvard copy title page, src-castlereagh-v10-titlepage)",
+          "rights": "public domain by age"
+        },
+        {
+          "id": "src-castlereagh-v10-titlepage",
+          "what": "Same work, vol. X, Harvard College Library copy (Internet Archive memoirsandcorre01unkngoog): first 6,001 bytes of the djvu full text (HTTP range 0-6000), containing the title page: 'IN TWELVE VOLUMES. VOL. X. LONDON JOHN MURRAY, ALBEMARLE STREET. 1853.'",
+          "url": "https://archive.org/download/memoirsandcorre01unkngoog/memoirsandcorre01unkngoog_djvu.txt",
+          "sha256": "d80c9fd58c3d984998987a98eeb25a3c9fc2b9fe380d85743961313b505a5f55",
+          "fetched": "2026-11-21",
+          "printed": "printed later, 1853",
+          "rights": "public domain by age"
+        }
+      ],
+      "outside_horizon": [
+        "any battle or campaign after 9 June 1815, including Waterloo (18 June 1815) and Napoleon's second abdication",
+        "the second Treaty of Paris (20 November 1815) and the Faden map that cites it",
+        "the Holy Alliance (September 1815) and the Quadruple Alliance of November 1815",
+        "the exchange of ratifications of the General Treaty",
+        "later congresses (Aix-la-Chapelle 1818 and after) and any later judgement on how long the settlement lasted",
+        "the 1819 Godefroy engraving and any picture made after 9 June 1815 presented as seen at the time",
+        "Talleyrand's Memoirs and any account written after the horizon",
+        "the later fates of Cracow, the Kingdom of Poland, Saxony or the Netherlands"
+      ],
+      "no_bridge": {
+        "people": [
+          "Charles-Maurice de Talleyrand-Perigord",
+          "Prince de Talleyrand",
+          "Talleyrand",
+          "Louis XVIII",
+          "Robert Stewart, Viscount Castlereagh",
+          "Lord Castlereagh",
+          "Castlereagh",
+          "Lord Liverpool",
+          "Frederick Augustus",
+          "Frederick Augustus I",
+          "Frederick Augustus III",
+          "King of Saxony",
+          "Clemens von Metternich",
+          "Prince de Metternich",
+          "Metternich",
+          "Duke of Wellington",
+          "Wellington",
+          "Prince de Hardenberg",
+          "Hardenberg",
+          "Baron de Humboldt",
+          "Humboldt",
+          "Count de Nesselrode",
+          "Nesselrode",
+          "Count Einsiedel",
+          "Einsiedel",
+          "Bonaparte",
+          "Napoleon",
+          "Prince of Orange-Nassau",
+          "Baron de Wessenberg",
+          "Duke de Dalberg",
+          "Count Alexis de Noailles",
+          "Clancarty",
+          "Cathcart",
+          "Charles Stewart",
+          "Comte de Palmella",
+          "Prince de Rasoumoffsky",
+          "Count de Stackelberg",
+          "Count Charles-Axel de Lowenhielm",
+          "Emperor of Russia",
+          "Emperor Alexander",
+          "Jean-Baptiste Isabey",
+          "Isabey",
+          "Jean Godefroy",
+          "Godefroy",
+          "Anton Graff",
+          "James Wyld",
+          "M. G. Pallain",
+          "Pallain",
+          "Friedrich Gentz",
+          "Gentz",
+          "Viscount Castlereagh"
+        ],
+        "organisations": [
+          "Congress of Vienna",
+          "Ministry of Foreign Affairs at Paris",
+          "Imprimerie Imperiale et Royale",
+          "Parliament",
+          "Germanic body",
+          "Swiss Confederation"
+        ],
+        "events": [
+          "Congress of Vienna",
+          "Wiener Kongress",
+          "Congres de Vienne",
+          "Peace of Paris (1814)",
+          "Treaty of Paris of 30 May 1814",
+          "the last war",
+          "landing of Bonaparte in the Bay of St. Juan"
+        ],
+        "named_documents": [
+          "Final Act",
+          "General Treaty",
+          "Acte du Congres de Vienne",
+          "Treaty of Paris (1814), Article 32",
+          "Treaty between Prussia and Saxony (18 May 1815)",
+          "Declaration of the Powers on the Abolition of the Slave Trade (8 February 1815)",
+          "Federative Constitution of Germany (8 June 1815)",
+          "treaty of 3 January 1815 (Austria, Great Britain, France)"
+        ],
+        "exempt_states_places": [
+          "Vienna",
+          "Austria",
+          "Prussia",
+          "Russia",
+          "France",
+          "Great Britain",
+          "Spain",
+          "Portugal",
+          "Sweden",
+          "Saxony",
+          "Poland",
+          "duchy of Warsaw",
+          "Grand Duchy of Posen",
+          "Cracow",
+          "Netherlands",
+          "Belgic provinces",
+          "Presburg",
+          "Brunn",
+          "Friedrichsfeld",
+          "Rhine",
+          "Paris",
+          "Bay of St. Juan",
+          "Antibes",
+          "Switzerland",
+          "Geneva",
+          "Naples"
+        ],
+        "word_rule": "Flag only in full: 'Prince of Orange' (orange), 'Charles Stewart' or 'Lord Stewart' (Stewart signs as 'Stewart, L. G.'), 'Lord Liverpool' (also a city), 'Duke of Wellington' when the bare word could be a boot; bare 'Gentz' and 'Humboldt' are flagged always."
+      },
+      "bed_constraints": {
+        "account_of_violence": false,
+        "why": "No fact or quote recounts violence; the entry concerns treaty terms and letters. The bed rule still holds: never lay a bed under an account of violence, and the landing of Bonaparte is reported as news, not as combat."
+      },
+      "fit_gaps": [
+        "No Polish voice in its own words: the Poles' representation clause (Art. I) is shown only from the Powers' text.",
+        "The Saxon voice is the King's letter of September 1814, before the division; his formal protest or later consent is not in a fetched source.",
+        "The settlement is shown through French and British letters; no Austrian, Prussian or Russian letter is quoted.",
+        "The mechanism is a congress of ministers; the sovereigns' own part in Vienna is not shown.",
+        "The entry does not show how the settlement worked after June 1815."
+      ],
+      "researcher_notes": "Verified: every quote string was checked with an exact match against the fetched text after collapsing whitespace runs to single spaces (the archive.org djvu text breaks lines mid-sentence; quotes were chosen to avoid OCR hyphen breaks). Talleyrand volume: the translator is not named in the 1881 Harper edition; the book is Pallain's edition of letters written in French. The Castlereagh volume scanned from Michigan lacks its title page; the year 1853 and 'Vol. X' were read from the Harvard copy's title page (range fetch, src-castlereagh-v10-titlepage). Final Act translation: Wikisource gives the source as Hansard vol. 32 (1816); I did not fetch that Hansard volume directly. Not done or not found: Friedrich Gentz's account (not fetched; no quote used); a Polish verbatim voice (none found in fetched sources); the King of Saxony's formal protest (not found; his September 1814 letter is used instead, and it is the settled party's own words, published 1881 in translation). The Wikisource talk page is a provenance note only, not a source for any claim. Commons metadata responses were saved and hashed; no image was downloaded. Waterloo is kept outside the horizon. Proposed vocabulary, not used: 'settlement-delivered-to-absent-sovereign' (a protocol of cessions carried to a ruler kept away from the congress for acceptance); it is covered here by great-powers-settle-over-absent-party."
+    },
+    {
+      "id": "congress-of-berlin-1878",
+      "title": "The Congress of Berlin",
+      "added": "2026-11-21",
+      "slate": {
+        "place": "Berlin",
+        "date": "the thirteenth day of the month of July, one thousand eight hundred and seventy-eight"
+      },
+      "span": {
+        "from": "1878-06-13",
+        "to": "1878-07-13"
+      },
+      "as_of": "1878-07-18T23:59:00+00:00",
+      "as_of_basis": "Close of 18 July 1878 in London (Greenwich time), the day Beaconsfield laid the Protocols of the Congress before the House of Lords and spoke on the Treaty. Chosen over 16 or 17 July because the Lords statement is fetchable in Hansard; the 'peace with honour' remarks of 16 July were not found in a fetched source and are not used. Inside: the Treaty of 13 July and its text, the Protocols of 13 June to 13 July, the hearings of the Greek (29 June) and Roumanian (1 July) representatives, Bismarck's Reichstag speech of 19 February 1878, the Preliminary Treaty of San Stefano of 3 March 1878 that the Congress revised, the Convention with the Porte of 4 June that Beaconsfield placed before the House. Not known inside: the exchange of ratifications (the Treaty says within three weeks), any occupation, evacuation, proclamation or frontier commission that followed, and every footnote in Hertslet's 1891 printing.",
+      "mechanisms": [
+        "earlier-treaty-revised",
+        "broker-host-mediates",
+        "recognition-of-new-states",
+        "minority-protections-in-treaty",
+        "borders-redrawn-by-congress",
+        "great-powers-settle-over-absent-party"
+      ],
+      "mechanism_notes": {
+        "earlier-treaty-revised": "The Treaty's preamble refers the Congress to the questions left by the war ended at San Stefano, and the President's remarks set as its object the revision of that treaty, under which, Beaconsfield told the Lords, two-thirds of the planned Bulgaria went back to the Sultan (src-hertslet-v4, src-hansard-lords-1878-07-18).",
+        "broker-host-mediates": "In February Bismarck told the Reichstag that Germany's part would be that of an honest broker, and in June the Congress met in Berlin with him as President (src-volksblatt-1878, src-hertslet-v4).",
+        "recognition-of-new-states": "Articles XXVI, XXXIV and XLIII recognise the independence of Montenegro, Servia and Roumania, which had been tributary to the Sultan (src-hertslet-v4).",
+        "minority-protections-in-treaty": "Recognition of each new state was made subject to an article that religious creed shall not bar anyone from civil and political rights, as in Art. XLIV for Roumania (src-hertslet-v4).",
+        "borders-redrawn-by-congress": "The Treaty fixes the frontiers of Bulgaria, Eastern Roumelia, Montenegro, Servia and Roumania and moves the Bessarabian district from Roumania to Russia (Art. XLV) (src-hertslet-v4).",
+        "great-powers-settle-over-absent-party": "The seven signatory Powers heard the Greek and Roumanian representatives, who then withdrew, and decided the terms for those states among themselves (src-hertslet-v4, src-bfsp69-protocols)."
+      },
+      "mechanism_sentence": "Seven Powers met in Berlin under Bismarck's presidency to revise the San Stefano treaty, heard the Greek and Roumanian representatives and then decided without them, and on 13 July 1878 signed a treaty that cut down Bulgaria, recognised three new states on condition of equal rights for all creeds, and moved territory between Roumania and Russia.",
+      "facts": [
+        {
+          "text": "The Congress held its first sitting at Berlin on 13 June 1878, with Prince Bismarck as President.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 528, summary of Protocol No. 1, 13 June 1878, p. 2742 area"
+        },
+        {
+          "text": "The Treaty's preamble says the Powers met to regulate the questions raised in the East by the war terminated by the Preliminary Treaty of San Stefano, conformably to the Treaty of Paris of 30 March 1856; Hertslet dates San Stefano 3 March 1878.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, preamble and table of articles, p. 2763"
+        },
+        {
+          "text": "Article I constitutes Bulgaria an autonomous and tributary Principality under the suzerainty of the Sultan, with a Christian Government and a national militia.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, Art. I"
+        },
+        {
+          "text": "Article XXV provides that the provinces of Bosnia and Herzegovina shall be occupied and administered by Austria-Hungary, the Sandjak of Novi-Bazar remaining under Ottoman administration.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, Art. XXV"
+        },
+        {
+          "text": "Articles XXVI, XXXIV and XLIII recognise the independence of Montenegro, of the Principality of Servia and of Roumania, each subject to conditions.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, Arts. XXVI, XXXIV, XLIII"
+        },
+        {
+          "text": "Article XLV has Roumania restore to the Emperor of Russia the part of Bessarabia detached from Russia by the Treaty of Paris of 1856.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, Art. XLV"
+        },
+        {
+          "text": "Article LXI has the Sublime Porte undertake reforms in the provinces inhabited by the Armenians and report the steps taken to the Powers, who will superintend their application.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, Art. LXI"
+        },
+        {
+          "text": "On 1 July 1878 the Roumanian representatives, Bratiano and Cogalniceano, were admitted to the Congress, stated their views, and withdrew.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 528, summary of Protocol No. 10, 1 July 1878"
+        },
+        {
+          "text": "The Treaty was done at Berlin on 13 July 1878 and signed for the seven Powers, among others by Beaconsfield, Salisbury, Bismarck, Andrassy, Waddington, Corti, Gortchakow and Carathéodory.",
+          "source": "src-hertslet-v4",
+          "locator": "No. 530, closing formula and signatures, p. 2798"
+        },
+        {
+          "text": "On 18 July 1878 Beaconsfield presented to the House of Lords, by Command, the correspondence relating to the Congress with its Protocols.",
+          "source": "src-hansard-lords-1878-07-18",
+          "locator": "HL Deb 18 July 1878 vol 241 c1753 and close of Beaconsfield's speech, c1774"
+        }
+      ],
+      "period_perspectives": [
+        {
+          "who": "Prince Bismarck, Chancellor of the German Empire (later President of the Congress)",
+          "side": "Germany (host)",
+          "where": "Reichstag, Berlin",
+          "date": "1878-02-19",
+          "quote": "mehr die eines ehrlichen Maklers, der das Geschäft wirklich zu Stande bringen will.",
+          "quote_sha256": "2fbda3d5c72146d486e5d54edcb92f0dabe5485711cdc5d107dba0d38da54efd",
+          "source": "src-volksblatt-1878",
+          "locator": "Hottinger's Volksblatt 1878, Nr. 9, pp. 66 to 68, extract of the Reichstag speech of 19 February 1878",
+          "translation": "none (German original as printed 1878); working gloss for the editor only, not for air: 'more that of an honest broker who really wants to bring the business off' (researcher, 2026)"
+        },
+        {
+          "who": "The Earl of Beaconsfield, Prime Minister, first British plenipotentiary at the Congress",
+          "side": "Great Britain",
+          "where": "House of Lords, London",
+          "date": "1878-07-18",
+          "quote": "They have restored to the Sultan two-thirds of the territory which was to have formed the great Bulgarian State.",
+          "quote_sha256": "6dd08142ee3af01666ee49872f2412a1faa9fea569aed360a5ab1355338386e4",
+          "source": "src-hansard-lords-1878-07-18",
+          "locator": "HL Deb 18 July 1878 vol 241 cc1753 to 1754",
+          "translation": "none"
+        },
+        {
+          "who": "Michel Cogalniceano, minister of Prince Charles of Roumania, reading the Roumanian memorandum for himself and Bratiano",
+          "side": "Roumania (whose Bessarabian territory the Congress settled)",
+          "where": "Congress of Berlin, Protocol No. 10",
+          "date": "1878-07-01",
+          "quote": "La Roumanie, apres toutes ses epreuves, aspire a un repos absolu",
+          "quote_sha256": "e2055ef8889fd2d2eb8e3f2e1ae0869b897a6d122a95b2c8125f1ba89ba659e3",
+          "source": "src-bfsp69-protocols",
+          "locator": "Protocol No. 10, sitting of 1 July 1878, memorandum point 2; British and Foreign State Papers vol. 69, pp. 978 to 980",
+          "translation": "none (French original). OCR of the 1885 print drops accents; the printed reading is 'La Roumanie, apres toutes ses epreuves' with accents on 'apres', 'epreuves' and 'a' (apres = après, epreuves = épreuves, a = à). Gloss for the editor only: 'Roumania, after all her trials, longs for complete rest' (researcher, 2026)",
+          "published": 1885
+        },
+        {
+          "who": "Theodore Delyannis, Minister for Foreign Affairs of Greece, Greek representative heard by the Congress",
+          "side": "Greece (whose claims to neighbouring provinces the Congress weighed)",
+          "where": "Congress of Berlin, Protocol No. 9",
+          "date": "1878-06-29",
+          "quote": "le Gouvernement doit limiter ses voeux et voir dans I'annexion de Candie et des provinces limitrophes au Royaume, tout ce qui, pour le moment, pourrait etre fait pour la Grece.",
+          "quote_sha256": "ccf869261e302cc2f9a03ac85da2bf85f2ec4275820366b0a4bd7033c229f274",
+          "source": "src-bfsp69-protocols",
+          "locator": "Protocol No. 9, sitting of 29 June 1878, Greek communication read by M. Delyannis; British and Foreign State Papers vol. 69, p. 969",
+          "translation": "none (French original). OCR of the 1885 print: 'I'annexion' is l'annexion, 'voeux' is voeux with the oe ligature, 'etre' is être, 'Grece' is Grèce. Gloss for the editor only: 'the Government must limit its wishes and see in the annexation of Candia and the bordering provinces to the Kingdom all that could, for the moment, be done for Greece' (researcher, 2026)",
+          "published": 1885
+        }
+      ],
+      "period_document": {
+        "source": "src-hertslet-v4",
+        "what": "Treaty between Great Britain, Austria-Hungary, France, Germany, Italy, Russia, and Turkey, for the Settlement of the Affairs of the East, signed at Berlin, 13th July 1878 (English text in Hertslet, No. 530)",
+        "date": "1878-07-13",
+        "show": "typeset",
+        "licence": "pd-age",
+        "published": 1891
+      },
+      "pd_items": [
+        {
+          "id": "berlin-pd-01",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Берлин. Заседание конгресса в Берлине 1878г. (p)1878г,Россия ГИМ.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:%D0%91%D0%B5%D1%80%D0%BB%D0%B8%D0%BD._%D0%97%D0%B0%D1%81%D0%B5%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D0%BA%D0%BE%D0%BD%D0%B3%D1%80%D0%B5%D1%81%D1%81%D0%B0_%D0%B2_%D0%91%D0%B5%D1%80%D0%BB%D0%B8%D0%BD%D0%B5_1878%D0%B3._(p)1878%D0%B3,%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F_%D0%93%D0%98%D0%9C.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3A%D0%91%D0%B5%D1%80%D0%BB%D0%B8%D0%BD.%20%D0%97%D0%B0%D1%81%D0%B5%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BD%D0%B3%D1%80%D0%B5%D1%81%D1%81%D0%B0%20%D0%B2%20%D0%91%D0%B5%D1%80%D0%BB%D0%B8%D0%BD%D0%B5%201878%D0%B3.%20%28p%291878%D0%B3%2C%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F%20%D0%93%D0%98%D0%9C.jpg&format=json",
+          "what": "Session of the congress in Berlin in 1878 (chromolithograph, 1878, Russia)",
+          "made": "1878",
+          "maker": "Unknown author (record); State Historical Museum, Moscow, catalog.shm.ru object 3189760",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; 1878 print by an unknown maker, PD by age",
+          "inside_horizon": false,
+          "dot_label": "PRINTED RUSSIA · 1878",
+          "metadata_sha256": "fad8645f2816713e3dc77253cd64307a6b3719fa40b3c95b0fa049ecf27dfaf7",
+          "notes": "Year only; the month is not in the record, so it is not marked as inside the horizon."
+        },
+        {
+          "id": "berlin-pd-02",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Die Gartenlaube (1878) b 476.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Die_Gartenlaube_(1878)_b_476.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ADie%20Gartenlaube%20%281878%29%20b%20476.jpg&format=json",
+          "what": "Fürst Bismarck, Berliner Congress 1878 (Die Gartenlaube 1878, p. 476)",
+          "made": "1878",
+          "maker": "H. Lüders (record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; published 1878 in Die Gartenlaube, PD by age",
+          "inside_horizon": false,
+          "dot_label": "GARTENLAUBE · 1878",
+          "metadata_sha256": "c2b45bc776b2d714418713a2e9a1c48ed37bbeb4aec30932d5139248690b5329",
+          "notes": "Page 476 belongs to Heft 29 of 1878 (pp. 473 to 488, src-gartenlaube-1878-h29); the issue date was not verified, so it may fall just after 18 July."
+        },
+        {
+          "id": "berlin-pd-03",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Anton von Werner Berliner Kongress (1878) Ölskizze.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Anton_von_Werner_Berliner_Kongress_(1878)_%C3%96lskizze.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AAnton%20von%20Werner%20Berliner%20Kongress%20%281878%29%20%C3%96lskizze.jpg&format=json",
+          "what": "Berliner Kongress (1878), oil sketch: Shuvalov, Bismarck and Mehmed Ali Pasha, with studies of uniforms and orders",
+          "made": "c. 1878",
+          "maker": "Anton von Werner (record); via Dorotheum",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; painter died 1915, PD by age",
+          "inside_horizon": false,
+          "dot_label": "SKETCHED c. 1878",
+          "metadata_sha256": "6b9d4526e839f0f6283554df6a9aa55dbebf0ea0329a93cb61fead32720a54a6",
+          "notes": "Record date is circa 1878; whether it was made before 18 July is unknown."
+        },
+        {
+          "id": "berlin-pd-04",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Berliner kongress.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Berliner_kongress.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ABerliner%20kongress.jpg&format=json",
+          "what": "Der Kongreß zu Berlin, Schlußsitzung am 13. Juli 1878 (Congress of Berlin, 13 July 1878)",
+          "made": "1881",
+          "maker": "Anton von Werner (record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; painter died 1915, PD by age",
+          "inside_horizon": false,
+          "dot_label": "PAINTED 1881",
+          "metadata_sha256": "9da27a8954e38cb231fbb244fd707d32a873cb732b7722e00f85f83bc95b21a8",
+          "notes": "Painted three years after the horizon. Allowed only with the PAINTED 1881 dot label; never shown as a picture of the day."
+        },
+        {
+          "id": "berlin-pd-05",
+          "kind": "map",
+          "adapter": "commons",
+          "ref": "File:Map of Bulgaria shewing the boundaries as proposed by the Treaty of San Stefano and fixed by the Treaty of Berlin. 18 july 1878.png",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Map_of_Bulgaria_shewing_the_boundaries_as_proposed_by_the_Treaty_of_San_Stefano_and_fixed_by_the_Treaty_of_Berlin._18_july_1878.png",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3AMap%20of%20Bulgaria%20shewing%20the%20boundaries%20as%20proposed%20by%20the%20Treaty%20of%20San%20Stefano%20and%20fixed%20by%20the%20Treaty%20of%20Berlin.%2018%20july%201878.png&format=json",
+          "what": "Map of Bulgaria shewing the boundaries as proposed by the Treaty of San Stefano and fixed by the Treaty of Berlin. 18 july 1878",
+          "made": "1878-07-18",
+          "maker": "Edward Hertslet (record); plate in The Map of Europe by Treaty vol. 4 (printed 1891); BnF copy",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; Foreign Office map, PD by age",
+          "inside_horizon": true,
+          "dot_label": "MAP DATED 18 JULY 1878",
+          "metadata_sha256": "98658732f6fdf465553ce0e438ef92e8ca4a9d0acc732cced4c7c121bd96a574",
+          "notes": "The plate carries its own date of 18 July 1878, the horizon day; this copy is from the 1891 printing of Hertslet vol. 4. Record DateTimeOriginal says 1878-07-13 (treaty date) while the title says 18 July."
+        },
+        {
+          "id": "berlin-pd-06",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:CE NI SE IA, SI CE NI SE DA, Bobârnacul, 20 iul 1878.png",
+          "item_url": "https://commons.wikimedia.org/wiki/File:CE_NI_SE_IA,_SI_CE_NI_SE_DA,_Bob%C3%A2rnacul,_20_iul_1878.png",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ACE%20NI%20SE%20IA%2C%20SI%20CE%20NI%20SE%20DA%2C%20Bob%C3%A2rnacul%2C%2020%20iul%201878.png&format=json",
+          "what": "CE NI SE IA, SI CE NI SE DA ('what they take and what they give'), cartoon, Bobârnacul, 20 iul 1878",
+          "made": "1878-07-20",
+          "maker": "Unknown author (record); Bobârnacul no. 42/1878",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; 1878 Romanian satirical paper, PD by age",
+          "inside_horizon": false,
+          "dot_label": "BOBÂRNACUL · 20 IUL 1878",
+          "metadata_sha256": "ab4b4414ffbf3357e0c5d97ef6e523892d65f7b1708d63e8f18767651ece71c7",
+          "notes": "Dated two days after the horizon (and possibly Julian calendar, which would place it later still); a Roumanian reaction, usable only with its own date."
+        },
+        {
+          "id": "berlin-pd-07",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Litografia.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Litografia.jpg",
+          "metadata_url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File%3ALitografia.jpg&format=json",
+          "what": "Separated Bulgaria after the Treaty of Berlin, lithograph",
+          "made": "c. 1880",
+          "maker": "Nikolay Pavlovich (1835 to 1894) (record)",
+          "licence": "pd-age",
+          "basis": "Commons record: Public domain; artist died 1894, PD by age",
+          "inside_horizon": false,
+          "dot_label": "LITHOGRAPH c. 1880",
+          "metadata_sha256": "6bd408177d241d1014322c5390b0a0eb283694d566adc644ec4b322b6a2ab196",
+          "notes": "After the horizon; a Bulgarian image of the division, usable only with its own date."
+        }
+      ],
+      "sources": [
+        {
+          "id": "src-hertslet-v4",
+          "what": "Sir Edward Hertslet, The Map of Europe by Treaty, vol. IV, 1875 to 1891 (London: printed for Her Majesty's Stationery Office by Harrison and Sons, 1891): No. 528, Protocols of the Congress of Berlin (English summary); No. 530, Treaty between Great Britain, Austria-Hungary, France, Germany, Italy, Russia, and Turkey, signed at Berlin, 13th July, 1878 (English text; signed in French). Internet Archive mapofeuropebytre04hert (University of Toronto copy), djvu full text.",
+          "url": "https://archive.org/download/mapofeuropebytre04hert/mapofeuropebytre04hert_djvu.txt",
+          "sha256": "1696f95d469278bf0566ef6427dffb97004ad167f877f389be7d1f66ae1047e1",
+          "fetched": "2026-11-21",
+          "printed": "Treaty and protocols dated inside the horizon; this printing later, 1891 (its footnotes run to 1889 to 1891 and must not be used)",
+          "rights": "public domain by age (Crown copyright long expired)"
+        },
+        {
+          "id": "src-hansard-lords-1878-07-18",
+          "what": "Hansard, House of Lords, 18 July 1878, 'Congress: Correspondence and Protocols', HL Deb vol 241 cc1753 to 843 (UK Parliament historic Hansard)",
+          "url": "https://api.parliament.uk/historic-hansard/lords/1878/jul/18/congress-correspondence-and-protocols",
+          "sha256": "0478a891da197347ff63d66997a9543b8a174e384983b3ae940456d9a3ef7c79",
+          "fetched": "2026-11-21",
+          "printed": "inside the horizon (spoken 18 July 1878)",
+          "rights": "UK Parliament historic Hansard; quoted only"
+        },
+        {
+          "id": "src-volksblatt-1878",
+          "what": "'Aus der Rede des Fürsten Bismarck über die orientalische Frage', Volksblatt. Eine Wochenzeitschrift mit Bildern (Hottinger's Volksblatt), Jahrgang 1878, Nr. 9, pp. 66 to 68, Strassburg; German Wikisource transcription (wikitext) from the Commons scans",
+          "url": "https://de.wikisource.org/w/index.php?title=Aus_der_Rede_des_F%C3%BCrsten_Bismarck_%C3%BCber_die_orientalische_Frage&action=raw",
+          "sha256": "aba29f3a672efa7adb99427eb823e096f8064416c2d198ae3df9b0e7de2365f9",
+          "fetched": "2026-11-21",
+          "printed": "printed 1878 (issue Nr. 9; exact issue date not checked, a weekly, so before the horizon)",
+          "rights": "public domain by age"
+        },
+        {
+          "id": "src-bismarck-reden-v7",
+          "what": "Horst Kohl (ed.), Die politischen Reden des Fürsten Bismarck, historisch-kritische Gesammtausgabe, vol. 7, 1877 to 1879 (Stuttgart: Cotta, 1893). Internet Archive 11635439bsb (BSB copy), djvu full text. Used only to confirm the date: '6. Sitzung des Deutschen Reichstags Dienstag 19. Februar 1878'.",
+          "url": "https://archive.org/download/11635439bsb/11635439bsb_djvu.txt",
+          "sha256": "e733b62bb6ed440a0d3c0b01e77f3761463a294121da91cb70b883f5dab4ed71",
+          "fetched": "2026-11-21",
+          "printed": "printed later, 1893",
+          "rights": "public domain by age"
+        },
+        {
+          "id": "src-bfsp69-protocols",
+          "what": "Protocols of Congress of the representatives of Great Britain, Austria-Hungary, France, Germany, Italy, Russia, and Turkey; for the settlement of affairs in the East, Berlin, June, July, 1878 (French text), extract from British and Foreign State Papers vol. 69, pp. 862 to 1078 (London: W. Ridgway, 1885 per the Internet Archive record). Internet Archive protocolsofcongr00congrich, djvu full text.",
+          "url": "https://archive.org/download/protocolsofcongr00congrich/protocolsofcongr00congrich_djvu.txt",
+          "sha256": "ab8f5623952ae443abf41c50fcb4d79a9875350b8b318accc8991817a25d7e17",
+          "fetched": "2026-11-21",
+          "printed": "Protocols dated inside the horizon and laid before the Lords on 18 July 1878 (src-hansard-lords-1878-07-18); this printing later, 1885",
+          "rights": "public domain by age"
+        },
+        {
+          "id": "src-gartenlaube-1878-h29",
+          "what": "Die Gartenlaube (1878), Heft 29, German Wikisource index page (wikitext), listing pages 473 to 488",
+          "url": "https://de.wikisource.org/w/index.php?title=Die_Gartenlaube_(1878)/Heft_29&action=raw",
+          "sha256": "0200c3c0a8eefede326f43cf158c5a6c95f665358280e5e39f44a38630205252",
+          "fetched": "2026-11-21",
+          "printed": "printed 1878; issue date not stated on the page",
+          "rights": "public domain by age"
+        }
+      ],
+      "outside_horizon": [
+        "the exchange of ratifications (3 August 1878, Turkish ratifications 28 August 1878, per Hertslet footnotes)",
+        "the Austro-Hungarian entry into Bosnia and Herzegovina and its proclamation of 28 July 1878",
+        "Servia's proclamation of independence of 22 August 1878 and any later proclamation by Roumania or Montenegro",
+        "evacuations, frontier commissions and the Greek frontier settlement after 1878, and any Hertslet footnote dated 1879 to 1891",
+        "Anton von Werner's painting of 1881 shown as if seen at the time",
+        "the Bobârnacul cartoon of 20 iul 1878 and the Pavlovich lithograph shown as if made inside the horizon",
+        "any later union, war or crisis in the Balkans, and any later judgement on how the Treaty held",
+        "Khrimian's sermons or reports after his return from Berlin",
+        "'peace with honour' as a quotation, until a print of 16 July 1878 is fetched"
+      ],
+      "no_bridge": {
+        "people": [
+          "Otto von Bismarck",
+          "Prince Bismarck",
+          "Bismarck",
+          "Benjamin Disraeli",
+          "Earl of Beaconsfield",
+          "Beaconsfield",
+          "Disraeli",
+          "Marquess of Salisbury",
+          "Lord Salisbury",
+          "Lord Odo Russell",
+          "Odo Russell",
+          "Count Andrassy",
+          "Andrassy",
+          "Count Karolyi",
+          "Karolyi",
+          "Baron de Haymerle",
+          "Haymerle",
+          "William Henry Waddington",
+          "Waddington",
+          "Comte de Saint-Vallier",
+          "Saint-Vallier",
+          "Desprez",
+          "Count Corti",
+          "Corti",
+          "Count de Launay",
+          "Launay",
+          "Prince Gortchakow",
+          "Gortchacow",
+          "Gortchakoff",
+          "Gortchakow",
+          "Count Schouvaloff",
+          "Schouvaloff",
+          "Shuvalov",
+          "d'Oubril",
+          "Oubril",
+          "Alexander Carathéodory",
+          "Carathéodory",
+          "Mehemed Ali",
+          "Mehmed Ali Pasha",
+          "Sadoullah Bey",
+          "Sadoullah",
+          "Bulow",
+          "Hohenlohe",
+          "Ion Bratiano",
+          "Bratiano",
+          "Michel Cogalniceano",
+          "Cogalniceano",
+          "Theodore Delyannis",
+          "Delyannis",
+          "Rangabe",
+          "Earl Granville",
+          "Granville",
+          "Earl of Derby",
+          "Prince Charles of Roumania",
+          "the Sultan",
+          "Emperor of Russia",
+          "Anton von Werner",
+          "Werner",
+          "H. Lüders",
+          "Lüders",
+          "Nikolay Pavlovich",
+          "Pavlovich",
+          "Edward Hertslet",
+          "Hertslet",
+          "Christlieb Gotthold Hottinger",
+          "Hottinger",
+          "Horst Kohl",
+          "Kohl",
+          "Mkrtich Khrimian",
+          "Khrimian"
+        ],
+        "organisations": [
+          "Congress of Berlin",
+          "Reichstag",
+          "House of Lords",
+          "Sublime Porte",
+          "Foreign Office",
+          "European Commission of the Danube",
+          "Die Gartenlaube",
+          "Bobârnacul",
+          "Volksblatt"
+        ],
+        "events": [
+          "Congress of Berlin",
+          "Berliner Kongress",
+          "Congrès de Berlin",
+          "Berlin Congress",
+          "the war terminated by the Preliminary Treaty of San Stefano",
+          "Reichstag sitting of 19 February 1878"
+        ],
+        "named_documents": [
+          "Treaty of Berlin",
+          "Preliminary Treaty of San Stefano",
+          "Treaty of San Stefano",
+          "Treaty of Paris of 30 March 1856",
+          "Protocols of the Congress",
+          "Convention of Constantinople",
+          "Convention with the Porte of the 4th of June",
+          "Roumanian memorandum of 1 July 1878"
+        ],
+        "exempt_states_places": [
+          "Berlin",
+          "London",
+          "Great Britain",
+          "Austria-Hungary",
+          "France",
+          "Germany",
+          "Italy",
+          "Russia",
+          "Turkey",
+          "Ottoman Empire",
+          "Bulgaria",
+          "Eastern Roumelia",
+          "Bosnia",
+          "Herzegovina",
+          "Sandjak of Novi-Bazar",
+          "Montenegro",
+          "Servia",
+          "Roumania",
+          "Bessarabia",
+          "Dobrutscha",
+          "Greece",
+          "Candie",
+          "Crete",
+          "Armenia",
+          "Constantinople",
+          "Balkans",
+          "Danube",
+          "Cyprus",
+          "Plevna",
+          "Strassburg",
+          "Leipzig"
+        ],
+        "word_rule": "Flag only in full: 'Odo Russell' (Russell alone is too common), 'Lord Salisbury' or 'Marquess of Salisbury' (Salisbury is also a city), 'Earl of Derby' (Derby is a race and a city), 'Prince Charles of Roumania' (Charles alone), 'Mehemed Ali' (common names); 'the Sultan' and 'the Porte' are titles, flagged only in their full phrases."
+      },
+      "bed_constraints": {
+        "account_of_violence": false,
+        "why": "No fact or quote recounts violence; Art. LXI speaks of guaranteeing security against the Circassians and Kurds and the preamble names a war, but neither is an account of violence. The bed rule still holds: never lay a bed under an account of violence, so keep any line about the late war or Art. LXI's security clause dry."
+      },
+      "fit_gaps": [
+        "No Armenian voice in its own words: the Armenian delegation (Khrimian and others) is not heard in the fetched protocols, and no memorandum text was fetched.",
+        "No Bulgarian, Servian or Montenegrin voice is quoted; the Roumanian and Greek voices come from an 1885 French print with OCR that drops accents.",
+        "The Ottoman plenipotentiaries' objections appear only in Hertslet's summary, not quoted.",
+        "The entry shows terms on paper; it does not show whether or how they were carried out.",
+        "The Convention with the Porte of 4 June 1878 and Cyprus are mentioned in Beaconsfield's speech but not developed here."
+      ],
+      "researcher_notes": "Verified: every quote was matched exactly in the fetched bytes (Hansard after de-tagging HTML; archive.org djvu texts after collapsing whitespace runs; the Volksblatt wikitext as fetched). Bismarck's 'ehrlicher Makler' wording is taken from the 1878 Volksblatt extract; the 1893 Kohl edition gives the same passage but its OCR reads 'ehrlichen Malers' (an OCR error for Maklers), and Kohl confirms the sitting as the 6th of the Reichstag, Tuesday 19 February 1878. The Volksblatt issue date (Nr. 9) was not checked. Romanian and Greek quotes are verbatim OCR of the 1885 BFSP print, accents lost; corrected readings are given in the translation field, and before air the editor should check them against a page image (Commons or Gallica) since I did not fetch an image. Hertslet vol. IV is printed 1891 and its footnotes report later events: none were used as facts. 'Peace with honour' (16 July 1878) was not found: Hansard of 18 July has no such phrase in Beaconsfield's speech, and no newspaper of 16 or 17 July was fetched. Not found in a fetchable source: the Armenian memorandum to the Congress, Khrimian's words, Servian or Bulgarian statements. The Gartenlaube 1878 Heft 29 also carries an article 'Federzeichnungen vom Congreß' (not read). Proposed vocabulary, not used: 'small-states-heard-then-excluded' (smaller states are given a hearing at the congress table and then leave before the Powers decide); here it is covered by great-powers-settle-over-absent-party. Commons metadata saved and hashed; no image downloaded."
+    },
+    {
+      "id": "yalta-conference-1945",
+      "title": "The Yalta Conference",
+      "added": "2026-11-21",
+      "slate": {
+        "place": "Yalta, the Crimea",
+        "date": "February 4 to 11, 1945"
+      },
+      "span": {
+        "from": "1945-02-04",
+        "to": "1945-02-11"
+      },
+      "as_of": "1945-03-01T23:59:00-04:00",
+      "as_of_basis": "Close of 1 March 1945 in Washington, the day President Roosevelt reported on the Crimea Conference to a joint session of Congress (src-app-fdr-1945-03-01). Known inside the horizon: the communique signed 11 February and released to the press 12 February 1945 (src-frus-malta-d500); the Polish Government in London's statement rejecting the decisions, communicated in Washington on 15 February (src-frus-1945v05-d111); the Commons debate opened by Churchill on 27 February (src-hansard-1945-02-27). Not known: whether the Moscow commission would form a Polish Provisional Government of National Unity, whether free elections would be held, the San Francisco conference's outcome, the end of the war, and the secret Far East agreement on Soviet entry into the war against Japan (released 11 February 1946, src-frus-malta-d503). The offset is Eastern War Time (UTC-4).",
+      "mechanisms": [
+        "great-powers-settle-over-absent-party",
+        "leaders-meet-in-person",
+        "government-recognition-contested",
+        "occupation-of-defeated-state",
+        "reparations-set"
+      ],
+      "mechanism_notes": {
+        "great-powers-settle-over-absent-party": "The three heads of government fixed Poland's eastern frontier on the Curzon Line and set the terms for a new Polish government, and the Polish Government in London stated that the decisions were taken without its participation, authorization or knowledge (src-frus-malta-d500, src-frus-1945v05-d111).",
+        "leaders-meet-in-person": "Churchill, Roosevelt and Stalin met for eight days in the Crimea with their foreign secretaries and chiefs of staff and signed a joint report on 11 February 1945 (src-frus-malta-d500).",
+        "government-recognition-contested": "The communique provided for the Provisional Government functioning in Poland to be reorganized into a Polish Provisional Government of National Unity that the three powers would recognize, while Britain told the Commons it went on recognizing the Polish Government in London until then (src-frus-malta-d500, src-hansard-1945-02-27).",
+        "occupation-of-defeated-state": "The communique stated that the forces of the three powers would each occupy a separate zone of Germany under a central Control Commission in Berlin, with France invited to take a zone (src-frus-malta-d500).",
+        "reparations-set": "The communique recognized it as just that Germany compensate the Allied nations for damage in kind and set up a Commission for the Compensation of Damage in Moscow (src-frus-malta-d500)."
+      },
+      "mechanism_sentence": "The heads of government of the United States, the United Kingdom and the Soviet Union met in the Crimea, agreed zones of occupation and reparation in kind for Germany, placed Poland's eastern frontier on the Curzon Line and set terms for a new Polish government, and the Polish Government in London, which had not taken part, declared that the decisions could not bind the Polish nation.",
+      "facts": [
+        {
+          "text": "From 4 to 11 February 1945 Winston S. Churchill, Franklin D. Roosevelt and Marshal J. V. Stalin met in the Crimea with their foreign secretaries, chiefs of staff and advisers; their report was signed on 11 February and released to the press on Monday, 12 February 1945.",
+          "source": "src-frus-malta-d500",
+          "locator": "FRUS Malta and Yalta, doc. 500, opening paragraph, signatures and footnote 1"
+        },
+        {
+          "text": "The communique stated that the forces of the three powers would each occupy a separate zone of Germany, coordinated through a central Control Commission with headquarters in Berlin, and that France would be invited to take over a zone and join the Control Commission as a fourth member.",
+          "source": "src-frus-malta-d500",
+          "locator": "doc. 500, section II, The Occupation and Control of Germany, p. 970"
+        },
+        {
+          "text": "The communique recognized it as just that Germany be obliged to compensate the Allied nations for damage in kind, and announced a Commission for the Compensation of Damage to work in Moscow.",
+          "source": "src-frus-malta-d500",
+          "locator": "doc. 500, section III, Reparation by Germany, p. 971"
+        },
+        {
+          "text": "The communique announced that a Conference of United Nations would meet at San Francisco on 25 April 1945 to prepare the charter of a general international organization.",
+          "source": "src-frus-malta-d500",
+          "locator": "doc. 500, section IV, United Nations Conference, p. 971"
+        },
+        {
+          "text": "The three heads of government stated that Poland's eastern frontier should follow the Curzon Line, with digressions of five to eight kilometres in Poland's favour, that Poland must receive substantial accessions of territory in the north and west, and that the final delimitation of the western frontier should await the Peace Conference.",
+          "source": "src-frus-malta-d500",
+          "locator": "doc. 500, section VI, Poland, pp. 973 to 974"
+        },
+        {
+          "text": "The communique provided that the Provisional Government then functioning in Poland be reorganized on a broader democratic basis as the Polish Provisional Government of National Unity, with M. Molotov, Mr. Harriman and Sir A. Clark Kerr authorized as a commission to consult in Moscow.",
+          "source": "src-frus-malta-d500",
+          "locator": "doc. 500, section VI, Poland, p. 973"
+        },
+        {
+          "text": "On 12 February 1945 at 7:30 p.m. the British Foreign Office handed the text of the resolution on Poland to the Polish Ambassador in London, and on 15 February the Polish Ambassador in Washington, J. Ciechanowski, communicated his government's statement on it to the Department of State.",
+          "source": "src-frus-1945v05-d111",
+          "locator": "FRUS 1945 vol. V, doc. 111, opening and first paragraph of the statement"
+        },
+        {
+          "text": "On 27 February 1945 Churchill moved in the House of Commons that the House approve the declaration of joint policy agreed at the Crimea Conference, and stated that the agreement did not affect British recognition of the Polish Government in London until a new Provisional Government had been properly formed in Poland.",
+          "source": "src-hansard-1945-02-27",
+          "locator": "HC Deb 27 February 1945 vol 408 cc1267-345, motion at c1267; recognition at c1281"
+        },
+        {
+          "text": "On 1 March 1945 Roosevelt addressed Congress seated, telling the members he had just completed a fourteen-thousand-mile trip.",
+          "source": "src-app-fdr-1945-03-01",
+          "locator": "American Presidency Project, address of 1 March 1945, opening paragraph"
+        }
+      ],
+      "period_perspectives": [
+        {
+          "who": "Franklin D. Roosevelt, President of the United States",
+          "side": "United States",
+          "where": "Joint session of Congress, Washington",
+          "date": "1945-03-01",
+          "quote": "The decision with respect to the boundaries of Poland was, frankly, a compromise. I did not agree with all of it, by any means, but we did not go as far as Britain wanted, in certain areas; we did not go so far as Russia wanted, in certain areas; and we did not go so far as I wanted, in certain areas.",
+          "quote_sha256": "63952aab2351c4d01c2c1d1c0a16947e18695319ecccbe2ed994ba3c83596b16",
+          "source": "src-app-fdr-1945-03-01",
+          "locator": "Address to Congress on the Yalta Conference, passage on Poland's boundaries",
+          "translation": "none"
+        },
+        {
+          "who": "Winston S. Churchill, Prime Minister of the United Kingdom",
+          "side": "United Kingdom",
+          "where": "House of Commons, London",
+          "date": "1945-02-27",
+          "quote": "I have never concealed from the House that, personally, I think the Russian claim is just and right. If I champion this frontier for Russia, it is not because I bow to force.",
+          "quote_sha256": "a8e63937e984aa3a973cdb53191246c66ea48990f54313edb913651980e15fd0",
+          "source": "src-hansard-1945-02-27",
+          "locator": "HC Deb 27 February 1945 vol 408, Crimea Conference debate, about c1275",
+          "translation": "none"
+        },
+        {
+          "who": "The Polish Government in London, statement communicated by Ambassador J. Ciechanowski",
+          "side": "Poland (Government in London), the party whose territory and government were settled",
+          "where": "Polish Embassy, Washington, note to the Acting Secretary of State",
+          "date": "1945-02-15",
+          "quote": "The Polish Government declares that the decision of the Three-Power conference concerning Poland cannot be recognized by the Polish Government and cannot bind the Polish nation.",
+          "quote_sha256": "8ca74fc85c18708166c5c4178d5e2e5026c21e8dadd810931533d1926c8dbab7",
+          "source": "src-frus-1945v05-d111",
+          "locator": "FRUS 1945 vol. V, doc. 111, statement paragraph 5",
+          "translation": "official: English text of the statement as communicated by the Polish Embassy, 15 February 1945",
+          "published": 1969
+        },
+        {
+          "who": "The Polish Government in London, statement communicated by Ambassador J. Ciechanowski",
+          "side": "Poland (Government in London), the party whose territory and government were settled",
+          "where": "Polish Embassy, Washington, note to the Acting Secretary of State",
+          "date": "1945-02-15",
+          "quote": "decisions of the three-Power conference were prepared and taken not only without participation and authorization of the Polish Government but also without their knowledge.",
+          "quote_sha256": "a61736d8abff41005fe1565d8801e82ae0ebcc4d18dd89fd204c404804b2671d",
+          "source": "src-frus-1945v05-d111",
+          "locator": "FRUS 1945 vol. V, doc. 111, statement paragraph 4",
+          "translation": "official: English text of the statement as communicated by the Polish Embassy, 15 February 1945",
+          "published": 1969
+        }
+      ],
+      "period_document": {
+        "source": "src-frus-malta-d500",
+        "what": "Report of the Crimea Conference (the communique), signed by Churchill, Roosevelt and Stalin, text from the original signed document in the Department of State files",
+        "date": "1945-02-11",
+        "show": "toured",
+        "licence": "pd-us-federal",
+        "notes": "Released to the press 12 February 1945, inside the horizon. FRUS volume printed 1955. The Protocol of Proceedings and the Far East agreement are separate documents and were not public at the horizon."
+      },
+      "pd_items": [
+        {
+          "id": "yalta-pd-01",
+          "kind": "film",
+          "adapter": "nara",
+          "ref": "NAID 23465 (111-ADC-9700)",
+          "item_url": "https://catalog.archives.gov/id/23465",
+          "what": "THE YALTA CONFERENCE",
+          "made": "1945-02",
+          "maker": "Army Signal Corps (Records of the Office of the Chief Signal Officer, RG 111, series Moving Images Relating to Military Activities)",
+          "licence": "pd-us-federal",
+          "basis": "Signal Corps footage held in RG 111; record shows access Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "FILMED YALTA · FEB 1945",
+          "metadata_sha256": "37dab875207ad21969980ea1b070c50a8a0cd8bf8911b67f407a060688c75d42",
+          "notes": "NARA flags the use restriction as 'Restricted - Possibly' (Copyright); confirm before broadcast. Shot list names Roosevelt, Churchill, Stalin, the conference room, Livadiya Palace and the Vorontsov Palace. One digital object online."
+        },
+        {
+          "id": "yalta-pd-02",
+          "kind": "film",
+          "adapter": "nara",
+          "ref": "NAID 17042 (111-ADC-3239)",
+          "item_url": "https://catalog.archives.gov/id/17042",
+          "what": "YALTA CONFERENCE (ARGONAUT), CRIMEA, RUSSIA",
+          "made": "1945-02-09",
+          "maker": "Army Signal Corps (RG 111, Moving Images Relating to Military Activities)",
+          "licence": "pd-us-federal",
+          "basis": "Signal Corps footage held in RG 111; access Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "FILMED YALTA · FEB 1945",
+          "metadata_sha256": "daf72dc1e934edcf28d297789516e7d454c5cc13f48318a75f8d628d9d990de4",
+          "notes": "Use restriction 'Restricted - Possibly' (Copyright) in the record. No shot list in the record; view before use."
+        },
+        {
+          "id": "yalta-pd-03",
+          "kind": "film",
+          "adapter": "nara",
+          "ref": "NAID 17079 (111-ADC-3276)",
+          "item_url": "https://catalog.archives.gov/id/17079",
+          "what": "YALTA CONFERENCE (ARGONAUT), CRIMEA, RUSSIA",
+          "made": "1945-02-09",
+          "maker": "Army Signal Corps (RG 111, Moving Images Relating to Military Activities)",
+          "licence": "pd-us-federal",
+          "basis": "Signal Corps footage held in RG 111; access Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "FILMED YALTA · FEB 1945",
+          "metadata_sha256": "992acceaa2ab2cfef55ff0c3cf5b601cf0731c0efc36182eb34dc0c4faf1032c",
+          "notes": "Use restriction 'Restricted - Possibly' (Copyright). Two digital objects; no shot list in the record."
+        },
+        {
+          "id": "yalta-pd-04",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 531340 (111-SC-260486)",
+          "item_url": "https://catalog.archives.gov/id/531340",
+          "what": "Conference of the Big Three at Yalta makes final plans for the defeat of Germany. Here the \"Big Three\" sit on the patio together, Prime Minister Winston S. Churchill, President Franklin D. Roosevelt, and Premier Josef Stalin.",
+          "made": "1945-02",
+          "maker": "Army Signal Corps (RG 111, series Photographs of American Military Activities)",
+          "licence": "pd-us-federal",
+          "basis": "111-SC Signal Corps photograph; record use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED YALTA · FEB 1945",
+          "metadata_sha256": "cb5c0bab76c26b52085819718921ca5eed7040cf172934f77111f273ec7d6848",
+          "notes": "TIFF and GIF objects online. Record note: War and Conflict Number 750. Also on Commons as 'File:Conference of the Big Three at Yalta makes final plans for the defeat of Germany. Here the \"Big Three\" sit on the... - NARA - 531340.tif'."
+        },
+        {
+          "id": "yalta-pd-05",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 197001",
+          "item_url": "https://catalog.archives.gov/id/197001",
+          "what": "Franklin D. Roosevelt, Stalin, Churchill, and others at Livadia Palace in Yalta, USSR",
+          "made": "1945-02-04",
+          "maker": "Not named in the record; Franklin D. Roosevelt Library collection",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Franklin D. Roosevelt Library Public Domain Photographs'; use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED LIVADIA · FEB 1945",
+          "metadata_sha256": "8304a625d680d26c574f25f78ad5292725271df65e3385d9e2a3ec6d0d4dccf9",
+          "notes": "Photographer not identified in the record; PD status rests on the library's series designation."
+        },
+        {
+          "id": "yalta-pd-06",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 197002",
+          "item_url": "https://catalog.archives.gov/id/197002",
+          "what": "Franklin D. Roosevelt, Churchill, and Stalin at the Livadia Palace in Yalta",
+          "made": "1945-02-09",
+          "maker": "Not named in the record; Franklin D. Roosevelt Library collection",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Franklin D. Roosevelt Library Public Domain Photographs'; use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED LIVADIA · FEB 1945",
+          "metadata_sha256": "70f346c30d2c58564ecee86e6eae82b12c13257ab77229f983a09d64374e75df",
+          "notes": "Photographer not identified in the record."
+        },
+        {
+          "id": "yalta-pd-07",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 197000",
+          "item_url": "https://catalog.archives.gov/id/197000",
+          "what": "Russian Premier Stalin talks with gestures to his Foreign Minister Molotov at the Palace, Yalta, Crimea, Russia.",
+          "made": "1945-02",
+          "maker": "Not named in the record; Franklin D. Roosevelt Library collection",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Franklin D. Roosevelt Library Public Domain Photographs'; use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED YALTA · FEB 1945",
+          "metadata_sha256": "414e027fc4c351bee4077cd762a223bdbb18ce16907b5dc63c8162adddba1407",
+          "notes": "Photographer not identified in the record."
+        }
+      ],
+      "sources": [
+        {
+          "id": "src-frus-malta-d500",
+          "what": "Foreign Relations of the United States, Diplomatic Papers, Conferences at Malta and Yalta, 1945, Document 500: Communique Issued at the End of the Conference, Report of the Crimea Conference, February 11, 1945 (Washington: Government Printing Office, 1955), from p. 968",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Malta/d500",
+          "sha256": "1d735b8246b66612b976af6056ded57c39d65dacaa5dc35dc58ecbe52cc5a9bb",
+          "fetched": "2026-11-21",
+          "printed": "text dated and released inside the horizon (11 and 12 February 1945); this edition printed 1955",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-malta-d503",
+          "what": "FRUS, Conferences at Malta and Yalta, 1945, Document 503: Agreement Regarding Entry of the Soviet Union Into the War Against Japan, February 11, 1945",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Malta/d503",
+          "sha256": "0f8467fb06e67a1216d731ee05aee95d89aebad16a330c9791d81e86aec21cf8",
+          "fetched": "2026-11-21",
+          "printed": "dated inside the horizon but released 11 February 1946 (footnote 1); cited only to mark it as unknown at the horizon",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-malta-vol",
+          "what": "FRUS, Conferences at Malta and Yalta, 1945, volume landing page (publication data: Government Printing Office, Washington, 1955)",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Malta",
+          "sha256": "1f1352cda87aad703b3677145a611623034cbdb5c6b2a263cfebd55efa162b8c",
+          "fetched": "2026-11-21",
+          "printed": "printed later (1955); used for publication data only",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-1945v05-d111",
+          "what": "FRUS, Diplomatic Papers, 1945, Europe, Volume V, Document 111: The Polish Ambassador (Ciechanowski) to the Acting Secretary of State, Washington, February 15, 1945, communicating the statement of the Polish Government",
+          "url": "https://history.state.gov/historicaldocuments/frus1945v05/d111",
+          "sha256": "93fa921b69465c269debfc3e4a544ab92b1cf0567b95ad743422ddbddf289da5",
+          "fetched": "2026-11-21",
+          "printed": "note dated inside the horizon (15 February 1945); this edition printed 1969",
+          "rights": "public, federal work (the Polish statement quoted only)"
+        },
+        {
+          "id": "src-frus-1945v05-vol",
+          "what": "FRUS, Diplomatic Papers, 1945, Europe, Volume V, volume landing page (publication data: Government Printing Office, Washington, 1969)",
+          "url": "https://history.state.gov/historicaldocuments/frus1945v05",
+          "sha256": "d997e6c7409c42c9b8fb5eada2aa0d943a9a81bdac3165d8948df7a58008ab9f",
+          "fetched": "2026-11-21",
+          "printed": "printed later (1969); used for publication data only",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-hansard-1945-02-27",
+          "what": "House of Commons Debates, 27 February 1945, vol 408 cc1267-345, Crimea Conference (historic Hansard)",
+          "url": "https://api.parliament.uk/historic-hansard/commons/1945/feb/27/crimea-conference",
+          "sha256": "114f4ea410139ef1fcc86a7e6c2ec544a91e3cd5775cae74679a73e16071bbdf",
+          "fetched": "2026-11-21",
+          "printed": "inside the horizon (official report of the sitting of 27 February 1945)",
+          "rights": "Parliamentary copyright; quoted only"
+        },
+        {
+          "id": "src-app-fdr-1945-03-01",
+          "what": "Franklin D. Roosevelt, Address to Congress on the Yalta Conference, March 1, 1945, online by Gerhard Peters and John T. Woolley, The American Presidency Project",
+          "url": "https://www.presidency.ucsb.edu/documents/address-congress-the-yalta-conference",
+          "sha256": "b7e5a48a471eb49893e02462482c95b775209f0f7fcb33a9ce555628869d6767",
+          "fetched": "2026-11-21",
+          "printed": "inside the horizon (delivered 1 March 1945)",
+          "rights": "public, presidential address; site compilation quoted only"
+        }
+      ],
+      "outside_horizon": [
+        "Roosevelt's death (April 1945) or any later event in his life",
+        "The terms of the secret agreement on Soviet entry into the war against Japan (released February 1946)",
+        "The Protocol of Proceedings as a published text, including the 22 billion dollar reparation figure",
+        "The outcome of the Moscow commission and the formation of the Polish Provisional Government of National Unity",
+        "Any later Polish election, or any judgement on whether the pledge of free and unfettered elections was kept",
+        "The arrest or trial of Polish underground leaders in Moscow",
+        "The San Francisco conference's outcome or the United Nations Charter",
+        "The end of the war in Europe or in the Pacific, and the Potsdam Conference",
+        "The Oder and Neisse line as a western frontier, or the transfer of German populations",
+        "Any later use of 'Yalta' as a byword, the division of Europe, the Cold War",
+        "The result of the Commons division on the Crimea motion (no fetched source)"
+      ],
+      "no_bridge": {
+        "people": [
+          "Franklin D. Roosevelt",
+          "Franklin Roosevelt",
+          "Roosevelt",
+          "FDR",
+          "Winston S. Churchill",
+          "Winston Churchill",
+          "Churchill",
+          "J. V. Stalin",
+          "Joseph Stalin",
+          "Josef Stalin",
+          "Stalin",
+          "V. M. Molotov",
+          "Vyacheslav Molotov",
+          "Molotov",
+          "W. Averell Harriman",
+          "Averell Harriman",
+          "Harriman",
+          "Sir A. Clark Kerr",
+          "Archibald Clark Kerr",
+          "Clark Kerr",
+          "J. Ciechanowski",
+          "Jan Ciechanowski",
+          "Ciechanowski",
+          "Count Edward Raczynski",
+          "Edward Raczynski",
+          "Raczynski"
+        ],
+        "organisations": [
+          "Polish Government in London",
+          "Polish Government",
+          "Provisional Government of Poland",
+          "Lublin Committee",
+          "Lublin Provisional Government",
+          "Polish Provisional Government of National Unity",
+          "Red Army",
+          "Control Commission",
+          "Commission for the Compensation of Damage",
+          "European Advisory Commission",
+          "United Nations",
+          "House of Commons",
+          "Congress",
+          "Department of State",
+          "Foreign Office",
+          "Signal Corps"
+        ],
+        "events": [
+          "Yalta Conference",
+          "Crimea Conference",
+          "Crimean Conference",
+          "Argonaut",
+          "Malta Conference",
+          "Dumbarton Oaks",
+          "Teheran Conference",
+          "San Francisco conference",
+          "Peace Conference"
+        ],
+        "named_documents": [
+          "Report of the Crimea Conference",
+          "Declaration on Liberated Europe",
+          "Declaration on Poland",
+          "Protocol of the Proceedings of the Crimea Conference",
+          "Protocol on German Reparation",
+          "Agreement Regarding Entry of the Soviet Union Into the War Against Japan",
+          "Atlantic Charter",
+          "Declaration by the United Nations",
+          "Tito-Subasic Agreement",
+          "Curzon Line"
+        ],
+        "exempt_states_places": [
+          "United States",
+          "United Kingdom",
+          "Great Britain",
+          "Britain",
+          "Soviet Union",
+          "Union of Soviet Socialist Republics",
+          "USSR",
+          "Russia",
+          "Poland",
+          "Germany",
+          "France",
+          "China",
+          "Yugoslavia",
+          "Crimea",
+          "Yalta",
+          "Livadia",
+          "Livadia Palace",
+          "Saki",
+          "Moscow",
+          "London",
+          "Washington",
+          "Berlin",
+          "San Francisco",
+          "Warsaw",
+          "Lublin",
+          "East Prussia",
+          "Danzig"
+        ],
+        "word_rule": "No listed surname is a common English word, so every variant is flagged. 'Argonaut' and 'Congress' are flagged only in this conference sense when capitalised; 'Peace Conference' only with capitals."
+      },
+      "bed_constraints": {
+        "account_of_violence": false,
+        "why": "The account is diplomatic: a meeting, a communique, statements in parliaments and a note. The bed rule (never under an account of violence) applies if the narration describes fighting, the Red Army's advance or the condition of Warsaw; then the bed drops for that passage."
+      },
+      "fit_gaps": [
+        "Shows the settlement as published; the secret Far East agreement and the Protocol are not part of the account at the horizon.",
+        "The Polish voice is the Government in London; the Provisional Government in Poland, which the communique named for reorganization, has no fetched statement here.",
+        "Does not show how the Moscow commission worked or whether the terms were carried out.",
+        "Germany, whose occupation and reparation were agreed, had no voice; it was the enemy state at war."
+      ],
+      "researcher_notes": "All sources fetched 2026-11-21 with the house user agent. Quotes checked verbatim against de-tagged text. (1) The Polish Government's statement is commonly dated 13 February 1945; the fetched FRUS text does not give that date, so the perspective carries the date of the Washington note, 15 February 1945, and FRUS prints it in 1969 (published: 1969); whether this exact English text was public in February 1945 was not verified from a fetched source. (2) The Avalon Project copy of the Protocol (https://avalon.law.yale.edu/wwii/yalta.asp, sha256 aebb933c8424d9782712fed7fb8b9401a44a99736d41a3abd92686493fa48558) marks the published sections as 'published Feb. 13, 1945', while FRUS says the communique was released to the press on 12 February; FRUS is used. (3) The Hansard column for the Churchill quote is inferred from inline column markers (about c1275). (4) The Eastern War Time offset (UTC-4) is general knowledge, not from a fetched source; the APP page gives the date but not the hour of the address. (5) All three Signal Corps films carry NARA's 'Restricted - Possibly' (Copyright) flag although they are RG 111 records; confirm clearance before use. (6) No Universal Newsreel or United News reel on Yalta was found in the NARA catalog search; Commons video search returned nothing relevant. (7) A Hansard speech in the same debate reads a cable from Poles in Argentina; not used, as it is not the government concerned."
+    },
+    {
+      "id": "potsdam-conference-1945",
+      "title": "The Potsdam Conference",
+      "added": "2026-11-21",
+      "slate": {
+        "place": "Cecilienhof, near Potsdam",
+        "date": "July 17 to August 2, 1945"
+      },
+      "span": {
+        "from": "1945-07-17",
+        "to": "1945-08-02"
+      },
+      "as_of": "1945-08-09T23:59:00-04:00",
+      "as_of_basis": "Close of 9 August 1945 in Washington, after President Truman's radio report on the Berlin conference, delivered from the White House at 10 p.m. (src-app-truman-1945-08-09). Chosen over 3 August because it is the first account in the words of a head of government who signed the communique; the House of Commons held no debate on the conference before this date (the sittings of 1 to 7 August were formal business). Known inside the horizon: the communique of 2 August (src-frus-berlin-d1384), the proclamation to Japan of 26 July and its rejection, the first atomic bomb on Hiroshima, which Truman's report names, and the Soviet declaration of war on Japan published 8 August (src-frus-berlin-d1382, footnote). Not known: whether Japan would surrender, whether the Council of Foreign Ministers would reach peace treaties, how the transfers of populations would be carried out, and any final peace settlement for Germany or final western frontier of Poland. The entry tells the conference and keeps the war with Japan to the proclamation only. The offset is Eastern War Time (UTC-4).",
+      "mechanisms": [
+        "leaders-meet-in-person",
+        "occupation-of-defeated-state",
+        "population-transfer-agreed",
+        "reparations-set",
+        "great-powers-settle-over-absent-party",
+        "ultimatum-to-belligerent"
+      ],
+      "mechanism_notes": {
+        "leaders-meet-in-person": "Truman, Stalin and Churchill, then Attlee after the British election, met at the Cecilienhof from 17 July to 2 August 1945 and approved a joint report (src-frus-berlin-d1384).",
+        "occupation-of-defeated-state": "The agreed principles placed supreme authority in Germany with the four Commanders-in-Chief, each in his own zone and jointly on the Control Council, and treated Germany as a single economic unit during the occupation (src-frus-berlin-d1384).",
+        "population-transfer-agreed": "The three governments recognized that the transfer to Germany of German populations remaining in Poland, Czechoslovakia and Hungary would have to be undertaken and asked that further expulsions be suspended pending a Control Council report (src-frus-berlin-d1384).",
+        "reparations-set": "Soviet claims were to be met from the Soviet zone and German external assets, Polish claims from the Soviet share, and the claims of the United States, the United Kingdom and others from the Western Zones (src-frus-berlin-d1384).",
+        "great-powers-settle-over-absent-party": "Former German territory east of the Oder and western Neisse was placed under Polish administration pending the peace settlement, while the peace settlement itself was to be accepted by a Government of Germany once one adequate for the purpose was established (src-frus-berlin-d1384).",
+        "ultimatum-to-belligerent": "On 26 July 1945 at Potsdam the President of the United States, the President of the National Government of China and the British Prime Minister issued a proclamation of terms to Japan (src-frus-berlin-d1382)."
+      },
+      "mechanism_sentence": "The heads of government of the United States, the Soviet Union and the United Kingdom met near Potsdam, set the principles of a four-power occupation of Germany and the division of reparations by zones, placed German territory east of the Oder and western Neisse under Polish administration pending a peace settlement, and recognized that German populations remaining in Poland, Czechoslovakia and Hungary would be transferred to Germany.",
+      "facts": [
+        {
+          "text": "From 17 July to 2 August 1945 President Harry S. Truman, Generalissimo J. V. Stalin and Prime Minister Winston S. Churchill, with Mr. Clement R. Attlee, met in the Tripartite Conference of Berlin; the meetings were held at the Cecilienhof near Potsdam.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "FRUS Berlin vol. II, doc. 1384, section I, pp. 1499 to 1500"
+        },
+        {
+          "text": "After nine meetings between 17 and 25 July the conference was interrupted for two days while the British general election results were declared, and on 28 July Attlee returned as Prime Minister with the new Foreign Secretary, Ernest Bevin.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section I, p. 1499"
+        },
+        {
+          "text": "The conference established a Council of Foreign Ministers of the United Kingdom, the Soviet Union, China, France and the United States, to meet first in London not later than 1 September 1945 and to draw up peace treaties and a peace settlement for Germany.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section II, pp. 1500 to 1501"
+        },
+        {
+          "text": "The agreed principles stated that supreme authority in Germany is exercised by the Commanders-in-Chief of the United States, the United Kingdom, the Soviet Union and France, each in his own zone and jointly on the Control Council, and that during the occupation Germany shall be treated as a single economic unit.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section III, Political Principles para. 1 and Economic Principles para. 14"
+        },
+        {
+          "text": "Under the reparations agreement Soviet claims were to be met by removals from the Soviet zone and from German external assets, the Soviet Union undertook to settle Poland's claims from its own share, and the Soviet Union was to receive in addition 15 per cent of surplus industrial capital equipment from the Western Zones in exchange.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section IV, Reparations from Germany, paras. 1 to 4"
+        },
+        {
+          "text": "The conference agreed in principle to the ultimate transfer to the Soviet Union of the City of Koenigsberg and the area adjacent to it, subject to expert examination of the frontier.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section VI"
+        },
+        {
+          "text": "Pending the final determination of Poland's western frontier at the peace settlement, the former German territories east of a line from the Baltic west of Swinemunde along the Oder and the western Neisse, with part of East Prussia and the former free city of Danzig, were placed under the administration of the Polish State.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section IX B, p. 1509"
+        },
+        {
+          "text": "The three governments recognized that the transfer to Germany of German populations remaining in Poland, Czechoslovakia and Hungary would have to be undertaken, agreed that any transfers should be effected in an orderly and humane manner, and asked the governments concerned to suspend further expulsions pending a report of the Control Council.",
+          "source": "src-frus-berlin-d1384",
+          "locator": "doc. 1384, section XIII, Orderly Transfers of German Populations, pp. 1511 to 1512"
+        },
+        {
+          "text": "On 26 July 1945 at Potsdam a proclamation of terms to Japan was issued in the names of the President of the United States, the President of the National Government of the Republic of China and the Prime Minister of Great Britain.",
+          "source": "src-frus-berlin-d1382",
+          "locator": "FRUS Berlin vol. II, doc. 1382, heading, para. 1 and signatures"
+        },
+        {
+          "text": "On 20 July 1945 President Bierut and Prime Minister Osóbka-Morawski wrote from Warsaw on behalf of the Polish Provisional Government of National Unity asking for a western frontier on the Lausitzer Neisse and the Oder, leaving Stettin to Poland.",
+          "source": "src-frus-berlin-d1146",
+          "locator": "FRUS Berlin vol. II, doc. 1146, body and dateline"
+        }
+      ],
+      "period_perspectives": [
+        {
+          "who": "Harry S. Truman, President of the United States",
+          "side": "United States",
+          "where": "Radio report from the White House, Washington",
+          "date": "1945-08-09",
+          "quote": "Nearly every international agreement has in it the element of compromise. The agreement on Poland is no exception. No one nation can expect to get everything that it wants.",
+          "quote_sha256": "d097cd6212cc309a33abba2f44d9ed35e00301be1a891bc4519438d36463d25b",
+          "source": "src-app-truman-1945-08-09",
+          "locator": "Radio Report to the American People on the Potsdam Conference, passage on Poland",
+          "translation": "none"
+        },
+        {
+          "who": "Winston S. Churchill, Prime Minister of the United Kingdom (as recorded in the Department of State minutes, reported speech)",
+          "side": "United Kingdom",
+          "where": "Fifth plenary meeting, Cecilienhof, Potsdam",
+          "date": "1945-07-21",
+          "quote": "Churchill stated that he agreed to compensation for Poland at the expense of Germany for that territory taken from the east of the Curzon Line. However, he had thought that a balance would be maintained. Poland was now taking a far greater territory than that they lost.",
+          "quote_sha256": "df8e8233d43a90a4e59f0de0a23441ad9cab4b4f4cbe0c684ab929a60a7ab186",
+          "source": "src-frus-berlin-plenary5",
+          "locator": "FRUS Berlin vol. II, Department of State minutes of the fifth plenary meeting, 21 July 1945, p. 212",
+          "translation": "none",
+          "published": 1960,
+          "own_words": false,
+          "record_kind": "Department of State minutes of the fifth plenary meeting (reported speech, not the speaker's own words)"
+        },
+        {
+          "who": "Bolesław Bierut, President of the National Council of Poland, and Edward Osóbka-Morawski, Prime Minister, for the Polish Provisional Government of National Unity",
+          "side": "Poland (Provisional Government of National Unity), the party whose frontier was settled",
+          "where": "Warsaw, letter to President Truman, identical notes to Stalin and Churchill",
+          "date": "1945-07-20",
+          "quote": "The Polish Nation, which suffered such enormous losses in the war against the Germans, would consider any other solution of the problem of their Western boundary as harmful and injurious, and endangering the future of the Polish Nation and State.",
+          "quote_sha256": "306bbc928c1d3d1e13d821b32b49903ef709c5eb02419ee8e7fd32cc02f5ffe7",
+          "source": "src-frus-berlin-d1146",
+          "locator": "FRUS Berlin vol. II, doc. 1146, second paragraph",
+          "translation": "official: English text as received by the United States Delegation (FRUS does not mark it as a translation)",
+          "published": 1960
+        }
+      ],
+      "period_document": {
+        "source": "src-frus-berlin-d1384",
+        "what": "Report on the Tripartite Conference of Berlin (the communique), approved by J. V. Stalin, Harry S. Truman and C. R. Attlee, text of the United States Delegation's final copy",
+        "date": "1945-08-02",
+        "show": "toured",
+        "licence": "pd-us-federal",
+        "notes": "Released on 2 August 1945, inside the horizon. FRUS notes the text released at Washington came by telegraph and has minor variations. The separate Protocol of the Proceedings (doc. 1383, dated 1 August 1945) was not the public text at the horizon. Named second document: the proclamation to Japan of 26 July 1945 (doc. 1382)."
+      },
+      "pd_items": [
+        {
+          "id": "potsdam-pd-01",
+          "kind": "film",
+          "adapter": "nara",
+          "ref": "NAID 18752 (111-ADC-4951)",
+          "item_url": "https://catalog.archives.gov/id/18752",
+          "what": "POTSDAM CONFERENCE, POTSDAM, GERMANY",
+          "made": "1945-07-18",
+          "maker": "Army Signal Corps (Records of the Office of the Chief Signal Officer, RG 111, series Moving Images Relating to Military Activities)",
+          "licence": "pd-us-federal",
+          "basis": "Signal Corps footage held in RG 111; access Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "FILMED POTSDAM · JUL 1945",
+          "metadata_sha256": "2d4e97d823624343d4e2c2f5e592196b5814bb0bf439759fa5e4d0e1ac537ea9",
+          "notes": "NARA flags use restriction 'Restricted - Possibly' (Copyright); confirm before broadcast. No shot list in the record; view before use. One digital object online."
+        },
+        {
+          "id": "potsdam-pd-02",
+          "kind": "film",
+          "adapter": "nara",
+          "ref": "NAID 18849 (111-ADC-5050)",
+          "item_url": "https://catalog.archives.gov/id/18849",
+          "what": "\"BIG THREE\" POTSDAM CONFERENCE, GERMANY",
+          "made": "1945-08-01",
+          "maker": "Army Signal Corps (RG 111, Moving Images Relating to Military Activities)",
+          "licence": "pd-us-federal",
+          "basis": "Signal Corps footage held in RG 111; access Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "FILMED POTSDAM · AUG 1945",
+          "metadata_sha256": "8550003a00ec1eb0ede196db08800b43b647d76a9ec796082ae37325e28ad1fb",
+          "notes": "Use restriction 'Restricted - Possibly' (Copyright). No shot list in the record."
+        },
+        {
+          "id": "potsdam-pd-03",
+          "kind": "film",
+          "adapter": "nara",
+          "ref": "NAID 39072 (208-UN-165)",
+          "item_url": "https://catalog.archives.gov/id/39072",
+          "what": "HUGE FLYING SHIP \"HAWAII MARS\" IN TRIAL RUN [ETC.]",
+          "made": "1945",
+          "maker": "United News newsreel (Records of the Office of War Information, RG 208, series Motion Picture Films from United News Newsreels)",
+          "licence": "pd-us-federal",
+          "basis": "Office of War Information United News reel; record use restriction Unrestricted",
+          "inside_horizon": false,
+          "dot_label": "UNITED NEWS · 1945",
+          "metadata_sha256": "59cd8076029bd6e64219968895096c088fb3462d9330ab9580bebb13408b62aa",
+          "notes": "Part 3 shows Truman arriving at Antwerp on the cruiser Augusta, scenes of the Potsdam Conference and a flag raising in Berlin. Release date not in the record (year only), so inside_horizon is false until the release date is confirmed. No digital object online; would need a NARA reproduction order."
+        },
+        {
+          "id": "potsdam-pd-04",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 348307295 (Truman Library 63-1455-31)",
+          "item_url": "https://catalog.archives.gov/id/348307295",
+          "what": "Churchill, Truman and Stalin at the Potsdam Conference",
+          "made": "1945-07-17",
+          "maker": "U.S. Army Signal Corps (credit in the record); Harry S. Truman Library Photograph Collection",
+          "licence": "pd-us-federal",
+          "basis": "Record credit 'U.S. Army Signal Corps'; use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED CECILIENHOF · JUL 1945",
+          "metadata_sha256": "5e8c370f6c40e40dd9793362c64b7198df46de78f731eff15d475a7905a38d3a",
+          "notes": "Conference room at Cecilienhof Palace; Eden, Molotov and Attlee also in frame per the record."
+        },
+        {
+          "id": "potsdam-pd-05",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 348307073 (Truman Library 63-1453-21)",
+          "item_url": "https://catalog.archives.gov/id/348307073",
+          "what": "The conference table at Potsdam, with Truman, Attlee, and Stalin",
+          "made": "1945-07-28",
+          "maker": "U.S. Army Signal Corps (credit in the record); Harry S. Truman Library Photograph Collection",
+          "licence": "pd-us-federal",
+          "basis": "Record credit 'U.S. Army Signal Corps'; use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED POTSDAM · JUL 1945",
+          "metadata_sha256": "d344de58671004a1bfc3bcf2ae520a807c58cfe38443a750a53d1f6630cc6b97",
+          "notes": "From the album 'President Truman's Trip to Potsdam'."
+        },
+        {
+          "id": "potsdam-pd-06",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 348307079 (Truman Library 63-1453-24)",
+          "item_url": "https://catalog.archives.gov/id/348307079",
+          "what": "Attlee, Truman, and Stalin at the Potsdam Conference",
+          "made": "1945-08-01",
+          "maker": "U.S. Army Signal Corps (credit in the record); Harry S. Truman Library Photograph Collection",
+          "licence": "pd-us-federal",
+          "basis": "Record credit 'U.S. Army Signal Corps'; use restriction Unrestricted",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED CECILIENHOF · AUG 1945",
+          "metadata_sha256": "90140735033d3cfa96358c076fbf2738091aa0aeab4d907fc36a9629c0a8c228",
+          "notes": "Seated in the garden of Cecilienhof Palace, per the record."
+        }
+      ],
+      "sources": [
+        {
+          "id": "src-frus-berlin-d1384",
+          "what": "Foreign Relations of the United States, Diplomatic Papers, The Conference of Berlin (The Potsdam Conference), 1945, Volume II, Document 1384: Communique, Babelsberg, August 2, 1945, Report on the Tripartite Conference of Berlin (Washington: Government Printing Office, 1960), from p. 1499",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Berlinv02/d1384",
+          "sha256": "966b97fdd6044e8897e4c7ae423005605a86a61093065827cd66b0e7f0a0f7bc",
+          "fetched": "2026-11-21",
+          "printed": "text dated and released inside the horizon (2 August 1945); this edition printed 1960",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-berlin-d1382",
+          "what": "FRUS, Conference of Berlin, 1945, Volume II, Document 1382: Proclamation by the Heads of Governments, United States, China and the United Kingdom, Potsdam, July 26, 1945, with footnote giving the Soviet statement of 8 August 1945",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Berlinv02/d1382",
+          "sha256": "5359ff3327f52e0993bc29927b8da2fd53dcf08a45ecf81e9e25ed4aa93ae242",
+          "fetched": "2026-11-21",
+          "printed": "proclamation dated and public inside the horizon (26 July 1945); this edition printed 1960",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-berlin-d1146",
+          "what": "FRUS, Conference of Berlin, 1945, Volume II, Document 1146: President Bierut and Prime Minister Osóbka-Morawski to President Truman, Warsaw, July 20, 1945",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Berlinv02/d1146",
+          "sha256": "eb2782522e21f2ff242c7b23da4f9408c4c4cb18daa2a584fe0da6802b5055d3",
+          "fetched": "2026-11-21",
+          "printed": "letter dated inside the horizon; printed later (1960)",
+          "rights": "public, federal work (the Polish letter quoted only)"
+        },
+        {
+          "id": "src-frus-berlin-plenary5",
+          "what": "FRUS, Conference of Berlin, 1945, Volume II, Department of State Minutes, Fifth Plenary Meeting, Potsdam, July 21, 1945, 5:15 p.m. (unnumbered document following Document 710, #54)",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Berlinv02/d710a-54",
+          "sha256": "7d94fde83dbfbbf2dfa8621be0685177f94839d1de4a4ac99e4169082b68fa40",
+          "fetched": "2026-11-21",
+          "printed": "minutes made inside the horizon; printed later (1960)",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-berlin-vol2",
+          "what": "FRUS, Conference of Berlin (The Potsdam Conference), 1945, Volume II, volume landing page (publication data: Government Printing Office, Washington, 1960)",
+          "url": "https://history.state.gov/historicaldocuments/frus1945Berlinv02",
+          "sha256": "f2450844ecabff4c91c7de9f8dee04de83c25a79d21fb5d79fd027c71751ca1a",
+          "fetched": "2026-11-21",
+          "printed": "printed later (1960); used for publication data only",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-app-truman-1945-08-09",
+          "what": "Harry S Truman, Radio Report to the American People on the Potsdam Conference, August 9, 1945, online by Gerhard Peters and John T. Woolley, The American Presidency Project",
+          "url": "https://www.presidency.ucsb.edu/documents/radio-report-the-american-people-the-potsdam-conference",
+          "sha256": "81e28734d3a4089460ed170092e441268a90811e958951b950976be3b711a001",
+          "fetched": "2026-11-21",
+          "printed": "inside the horizon (broadcast 9 August 1945, 10 p.m.)",
+          "rights": "public, presidential address; site compilation quoted only"
+        }
+      ],
+      "outside_horizon": [
+        "Japan's surrender or any later event of the war in the Pacific",
+        "The outcome of the first Council of Foreign Ministers meeting in London and any later peace treaty",
+        "Any final peace settlement for Germany, or the later division of Germany into separate states",
+        "Any later treaty recognising or confirming the Oder and western Neisse line",
+        "Later counts of how many people were moved or died in the transfers; the conduct of the transfers after the horizon",
+        "Polish elections after the horizon, or any judgement on the pledge of free and unfettered elections",
+        "Churchill's later speeches on the conference or on Europe, and the phrase 'iron curtain' in public use",
+        "Any later trial of major war criminals beyond the communique's statement that a first list would be published before 1 September",
+        "The Cold War, or any later use of 'Potsdam' as a byword",
+        "The atomic bomb beyond what Truman's report of 9 August states, and Nagasaki (no fetched source)"
+      ],
+      "no_bridge": {
+        "people": [
+          "Harry S. Truman",
+          "Harry Truman",
+          "Truman",
+          "J. V. Stalin",
+          "Joseph Stalin",
+          "Josef Stalin",
+          "Stalin",
+          "Winston S. Churchill",
+          "Winston Churchill",
+          "Churchill",
+          "Clement R. Attlee",
+          "C. R. Attlee",
+          "Clement Attlee",
+          "Attlee",
+          "Ernest Bevin",
+          "Bevin",
+          "Bolesław Bierut",
+          "Boleslaw Bierut",
+          "Bierut",
+          "Edward Osóbka-Morawski",
+          "Edward Osobka-Morawski",
+          "Osóbka-Morawski",
+          "Osobka-Morawski"
+        ],
+        "organisations": [
+          "Council of Foreign Ministers",
+          "Control Council",
+          "Allied Control Council",
+          "Polish Provisional Government of National Unity",
+          "Polish Provisional Government",
+          "National Council of Poland",
+          "United States Delegation",
+          "Department of State",
+          "Signal Corps",
+          "Office of War Information",
+          "United News"
+        ],
+        "events": [
+          "Potsdam Conference",
+          "Berlin Conference",
+          "Tripartite Conference of Berlin",
+          "Conference of Berlin",
+          "Crimea Conference",
+          "British general election",
+          "peace settlement"
+        ],
+        "named_documents": [
+          "Report on the Tripartite Conference of Berlin",
+          "Protocol of the Proceedings of the Berlin Conference",
+          "Proclamation by the Heads of Governments, United States, China and the United Kingdom",
+          "Potsdam Declaration",
+          "Potsdam Proclamation",
+          "Political and Economic Principles to Govern the Treatment of Germany in the Initial Control Period",
+          "Agreement on Control Machinery in Germany",
+          "Moscow Declaration",
+          "Curzon Line"
+        ],
+        "exempt_states_places": [
+          "United States",
+          "United Kingdom",
+          "Great Britain",
+          "Britain",
+          "Soviet Union",
+          "Union of Soviet Socialist Republics",
+          "USSR",
+          "Russia",
+          "Poland",
+          "Germany",
+          "France",
+          "China",
+          "Japan",
+          "Czechoslovakia",
+          "Hungary",
+          "Potsdam",
+          "Babelsberg",
+          "Cecilienhof",
+          "Berlin",
+          "Warsaw",
+          "London",
+          "Washington",
+          "Koenigsberg",
+          "Königsberg",
+          "East Prussia",
+          "Danzig",
+          "Swinemunde",
+          "Swinemünde",
+          "Stettin",
+          "Oder",
+          "Neisse",
+          "Lausitzer Neisse",
+          "Silesia",
+          "Antwerp",
+          "Hiroshima",
+          "Western Zones",
+          "Ruhr"
+        ],
+        "word_rule": "No listed surname is a common English word, so every variant is flagged. 'Control Council' and 'peace settlement' are flagged only as capitalised names or in this conference sense."
+      },
+      "bed_constraints": {
+        "account_of_violence": true,
+        "why": "Article XIII concerns the removal of German populations and the communique speaks of expulsions to be suspended; the horizon also includes the proclamation to Japan and the atomic bomb named in Truman's report. The bed rule (never under an account of violence) applies: no bed under the transfers passage, the proclamation, or any passage that touches the war. A bed may sit only under the arrival and setting, if at all."
+      },
+      "fit_gaps": [
+        "Germany, whose territory, population and economy were settled, had no government and no voice; no German period statement was fetched.",
+        "The British perspective inside the horizon exists only as reported speech in United States minutes (published 1960); there was no Commons debate on the conference before 9 August.",
+        "Shows the agreement on transfers as written; does not show the transfers themselves.",
+        "The Polish Provisional Government was heard at the conference (communique IX B) but was not a party to the agreement."
+      ],
+      "researcher_notes": "All sources fetched 2026-11-21 with the house user agent; quotes checked verbatim against de-tagged text. (1) Horizon: 9 August chosen over 3 August so a signatory's own account (Truman) sits inside it; the cost is that Hiroshima and the Soviet declaration of war are known at the horizon, recorded in as_of_basis and kept out of the account. Nagasaki (also 9 August) is not in any fetched source and is listed as outside. (2) Churchill's perspective is reported speech from the Department of State minutes of 21 July, not his own verbatim words; Attlee has no fetched statement inside the horizon. Hansard sittings of 1, 2, 3 and 7 August 1945 were checked and contain only formal business. (3) The FRUS signature line of doc. 1146 prints 'Bolesław Biertjt', a typesetting error for Bierut. A memorandum by Mikołajczyk (doc. 1149, 24 July 1945, FRUS translation) was read but not quoted because its text contains a dash form the house rules forbid. (4) The Avalon Project copy (https://avalon.law.yale.edu/20th_century/decade17.asp) is the Protocol of 1 August, not the public communique; FRUS doc. 1384 is used. (5) All Signal Corps films carry NARA's 'Restricted - Possibly' (Copyright) flag; the Truman Library stills credit the U.S. Army Signal Corps and are Unrestricted. (6) The United News reel 208-UN-165 has year only and no online copy. (7) The Eastern War Time offset (UTC-4) is general knowledge, not from a fetched source. (8) No Polish or German newspaper text from inside the horizon was found in a fetchable primary source."
+    },
+    {
+      "id": "helsinki-final-act-1975",
+      "title": "The Helsinki Final Act",
+      "added": "2026-11-21",
+      "slate": {
+        "place": "Finlandia Hall, Helsinki, Republic of Finland",
+        "date": "Friday, the first of August, 1975"
+      },
+      "span": {
+        "from": "1975-07-25",
+        "to": "1975-08-01"
+      },
+      "as_of": "1975-08-02T12:00:00+02:00",
+      "as_of_basis": "Noon in Helsinki on 2 August 1975, the day after the signing. Inside the horizon: the text of the Final Act as signed on 1 August (including its own schedule for a follow-up meeting at Belgrade in 1977, which is a plan written into the text, not an event), the speeches of the third stage (30 July to 1 August), the bilateral and quadripartite meetings held in Helsinki on 30 and 31 July, and the 25 July White House meeting with representatives of Americans of Eastern European background. Outside: anything about how the Final Act was implemented or used afterwards, any follow-up meeting as it happened, any later resolution in the United States Congress, and the later history of the states and blocs that signed it. Records made inside the horizon but released later (the 25 July memorandum of conversation, the 31 July lunch memorandum, the Lodal log) are admissible and are marked as published later.",
+      "mechanisms": [
+        "declaration-without-binding-force",
+        "frontiers-recognised-for-commitments",
+        "leaders-meet-in-person"
+      ],
+      "mechanism_notes": {
+        "declaration-without-binding-force": "The Final Act asks Finland to transmit its text to the UN Secretary-General as a text \"not eligible for registration under Article 102 of the Charter of the United Nations\" (src-osce-fa), and Ford told critics on 25 July that the document he would sign was \"neither a treaty nor is it legally binding on any participating State\" (src-app-ford-0725).",
+        "frontiers-recognised-for-commitments": "Principle III declares all frontiers in Europe inviolable while Principle I keeps change by peaceful means and agreement, and the co-operation chapter records the aim to facilitate freer movement and contacts (src-osce-fa); Brezhnev called the results a summing up of the political outcome of the Second World War (src-osce-brezhnev), and Ford cited the commitments on human rights and the freer movement of people, ideas and information (src-app-ford-0801).",
+        "leaders-meet-in-person": "The High Representatives of 35 states signed in Helsinki on 1 August (src-osce-fa, src-app-ford-0801), and Ford and Brezhnev met at the American Embassy Residence on 30 July (src-frus-330, src-nara-23898495)."
+      },
+      "mechanism_sentence": "On 1 August 1975 the leaders of 35 states signed in Helsinki a Final Act that declared Europe's frontiers inviolable, kept their change by peaceful means and agreement, set out aims on human contacts and information, and stated that the text was not eligible for registration as a treaty under Article 102 of the UN Charter.",
+      "facts": [
+        {
+          "text": "The Conference on Security and Co-operation in Europe opened at Helsinki on 3 July 1973, continued at Geneva from 18 September 1973 to 21 July 1975, and was concluded at Helsinki on 1 August 1975 by the High Representatives of 35 states, among them the Union of Soviet Socialist Republics, the United States of America, Canada, both German states and the Holy See.",
+          "source": "src-osce-fa",
+          "locator": "Final Act, opening paragraph (printed p. 2; PDF p. 5)"
+        },
+        {
+          "text": "Principle III of the Declaration on Principles states that the participating States regard as inviolable all one another's frontiers as well as the frontiers of all States in Europe.",
+          "source": "src-osce-fa",
+          "locator": "Declaration on Principles, III. Inviolability of frontiers (printed p. 5; PDF p. 8)"
+        },
+        {
+          "text": "Principle I states that the participating States consider that their frontiers can be changed, in accordance with international law, by peaceful means and by agreement.",
+          "source": "src-osce-fa",
+          "locator": "Declaration on Principles, I, second paragraph (printed p. 4; PDF p. 7)"
+        },
+        {
+          "text": "Principle IV states that no military occupation or acquisition of territory by such measures in contravention of international law will be recognized as legal.",
+          "source": "src-osce-fa",
+          "locator": "Declaration on Principles, IV, final paragraph (printed p. 5; PDF p. 8)"
+        },
+        {
+          "text": "The chapter on co-operation in humanitarian and other fields opens its section on Human Contacts with the aim to facilitate freer movement and contacts among persons, institutions and organisations of the participating States, including family reunification.",
+          "source": "src-osce-fa",
+          "locator": "Co-operation in Humanitarian and Other Fields, 1. Human Contacts (printed p. 38 onward; PDF p. 41 onward)"
+        },
+        {
+          "text": "The participating States agreed to give notification, 21 days or more in advance, of major military manoeuvres exceeding a total of 25,000 troops.",
+          "source": "src-osce-fa",
+          "locator": "Document on confidence-building measures, Prior notification of major military manoeuvres (printed p. 11; PDF p. 14)"
+        },
+        {
+          "text": "The closing clauses ask the Government of Finland to transmit the text to the UN Secretary-General as a text not eligible for registration under Article 102 of the UN Charter, and direct each participating State to publish and disseminate it.",
+          "source": "src-osce-fa",
+          "locator": "Final clauses (printed p. 59; PDF p. 62)"
+        },
+        {
+          "text": "On 25 July 1975, in the Cabinet Room of the White House, Ford read a statement on the Conference to seven Members of Congress and representatives of American organisations of Eastern European background, among them the Lithuanian-American Council, the Latvian World Organization, the Lithuanian American Alliance and the American Estonian Organization.",
+          "source": "src-ford-memcon-0725",
+          "locator": "Memorandum of conversation, pp. 1 to 2 (participants; date and place)"
+        },
+        {
+          "text": "On 31 July 1975 Brezhnev addressed the Conference, and the same day Ford, Wilson, Giscard d'Estaing and Schmidt discussed the speech over lunch at the Residence of the British Ambassador in Helsinki.",
+          "source": "src-frus-331",
+          "locator": "FRUS 1969 to 1976, vol. XXXIX, document 331, heading and section 'Reaction to Brezhnev's Speech at CSCE Summit'"
+        },
+        {
+          "text": "Ford addressed the Conference at 10:30 a.m. on 1 August in Finlandia Hall, and the Final Act was signed by the representatives of 35 nations in a ceremony in Finlandia Hall at 5 p.m. the same day.",
+          "source": "src-app-ford-0801",
+          "locator": "Editorial note following the address"
+        }
+      ],
+      "period_perspectives": [
+        {
+          "who": "Gerald R. Ford, President of the United States",
+          "side": "United States (signatory)",
+          "where": "Finlandia Hall, Helsinki",
+          "date": "1975-08-01",
+          "quote": "Peace is not a piece of paper.",
+          "quote_sha256": "fd0693f3531e643a6547bf5b1ce981890e04f5f3a78e6ad6d4177bec1fc170b6",
+          "source": "src-app-ford-0801",
+          "locator": "Address, paragraph beginning 'Nowhere are the challenges'",
+          "translation": "none"
+        },
+        {
+          "who": "Gerald R. Ford, President of the United States",
+          "side": "United States (signatory)",
+          "where": "Finlandia Hall, Helsinki",
+          "date": "1975-08-01",
+          "quote": "History will judge this Conference not by what we say here today, but by what we do tomorrow",
+          "quote_sha256": "64ed6c58d8e687f9ca891c743ef129fafe3efec026932cac77cd5f4acb00338a",
+          "source": "src-app-ford-0801",
+          "locator": "Address, closing paragraph",
+          "translation": "none"
+        },
+        {
+          "who": "Gerald R. Ford, President of the United States",
+          "side": "United States (signatory), speaking to its domestic critics",
+          "where": "Cabinet Room, The White House, Washington",
+          "date": "1975-07-25",
+          "quote": "I would emphasize that the document I will sign is neither a treaty nor is it legally binding on any participating State.",
+          "quote_sha256": "2bc5c2f01ae53fa3f0eb42340b5bbff177b163ecbb70df1b7d0a73751a47f934",
+          "source": "src-app-ford-0725",
+          "locator": "Text of remarks, fourth paragraph",
+          "translation": "none"
+        },
+        {
+          "who": "Gerald R. Ford, President of the United States",
+          "side": "United States (signatory), on the Baltic states",
+          "where": "Cabinet Room, The White House, Washington",
+          "date": "1975-07-25",
+          "quote": "the United States has never recognized the Soviet incorporation of Lithuania, Latvia, and Estonia and is not doing so now.",
+          "quote_sha256": "c755877b38c6c0a4092ee7a2c5f31871fca1e0ab0d9a3f687e5e0f873c6bda77",
+          "source": "src-app-ford-0725",
+          "locator": "Text of remarks, paragraph beginning 'Specifically addressing'",
+          "translation": "none"
+        },
+        {
+          "who": "Leonid I. Brezhnev, General Secretary of the Central Committee of the Communist Party of the Soviet Union",
+          "side": "Union of Soviet Socialist Republics (signatory)",
+          "where": "Finlandia Hall, Helsinki",
+          "date": "1975-07-31",
+          "quote": "The Soviet Union regards the results of the Conference not merely as a necessary summing up of the political outcome of the Second World War.",
+          "quote_sha256": "9e4fae1188297e7e9f105b16f8beefa7b66e2e018df092a3e484794497cc913e",
+          "source": "src-osce-brezhnev",
+          "locator": "Address, p. 1 of 4",
+          "translation": "English text as held in the OSCE document library; translator not stated (delivered in Russian)"
+        },
+        {
+          "who": "Leonid I. Brezhnev, General Secretary of the Central Committee of the Communist Party of the Soviet Union",
+          "side": "Union of Soviet Socialist Republics (signatory)",
+          "where": "Finlandia Hall, Helsinki",
+          "date": "1975-07-31",
+          "quote": "It is only the people of each given State and no-one else, who have the sovereign right to resolve their internal affairs and establish their internal laws.",
+          "quote_sha256": "c0d0d8bb54839b5c2186c88aab68be9900b325a7c5287c7a04a36627cd348cf0",
+          "source": "src-osce-brezhnev",
+          "locator": "Address, p. 3 of 4",
+          "translation": "English text as held in the OSCE document library; translator not stated (delivered in Russian)"
+        },
+        {
+          "who": "Paul P. Dargis, President, Lithuanian American Alliance",
+          "side": "Baltic-American community (the Baltic states had no seat at the Conference)",
+          "where": "Cabinet Room, The White House, Washington",
+          "date": "1975-07-25",
+          "quote": "Mr. President, on behalf of the Baltic-American community, we greatly appreciate the disclaimer you have made on the Baltic States.",
+          "quote_sha256": "4ef29baa9dd155a85e02b8fbffd205488ef4198b6246cab304122df8f9d57039",
+          "source": "src-ford-memcon-0725",
+          "locator": "Memorandum of conversation, p. 2 (as recorded by the notetaker, A. Denis Clift, NSC staff)",
+          "translation": "none",
+          "published": null,
+          "own_words": false,
+          "record_kind": "memorandum of conversation as recorded by the notetaker, A. Denis Clift (NSC staff), not a transcript"
+        },
+        {
+          "who": "Dr. Mikulas Ferjencik, Director, Czechoslovak National Council of America",
+          "side": "Americans of Eastern European background (critics of the trip)",
+          "where": "Cabinet Room, The White House, Washington",
+          "date": "1975-07-25",
+          "quote": "We don't trust the Communists; we don't trust the Soviet Union.",
+          "quote_sha256": "a72c5b3a7ec23e36d0cc2112a579b4045bea0923078d4c01ee17ceb6faef6424",
+          "source": "src-ford-memcon-0725",
+          "locator": "Memorandum of conversation, p. 2 (as recorded by the notetaker)",
+          "translation": "none",
+          "published": null,
+          "own_words": false,
+          "record_kind": "memorandum of conversation as recorded by the notetaker, A. Denis Clift (NSC staff), not a transcript"
+        },
+        {
+          "who": "Dr. Andras Pogany, President, Hungarian Freedom Fighters Association",
+          "side": "Americans of Eastern European background (critics of the trip)",
+          "where": "Cabinet Room, The White House, Washington",
+          "date": "1975-07-25",
+          "quote": "your going to Helsinki is a disappointment to us and we are Republicans.",
+          "quote_sha256": "1dfc1f25db5fb92f788a46de0dc12c4a715872e9232b7815333bb1b46b86840b",
+          "source": "src-ford-memcon-0725",
+          "locator": "Memorandum of conversation, p. 3 (as recorded by the notetaker)",
+          "translation": "none",
+          "published": null,
+          "own_words": false,
+          "record_kind": "memorandum of conversation as recorded by the notetaker, A. Denis Clift (NSC staff), not a transcript"
+        }
+      ],
+      "period_document": {
+        "source": "src-osce-fa",
+        "what": "Conference on Security and Co-operation in Europe, Final Act, Helsinki, 1 August 1975 (English text): Declaration on Principles Guiding Relations between Participating States, confidence-building measures, co-operation in economics, science and the environment, co-operation in humanitarian and other fields, follow-up, and final clauses including the Article 102 statement",
+        "date": "1975-08-01",
+        "show": "typeset",
+        "licence": "public intergovernmental text: the final clauses direct each participating State to publish and disseminate it as widely as possible; the United States printed it in the Department of State Bulletin, vol. LXXIII, p. 323 (federal work, per src-app-ford-0801 note). Typeset only: the OSCE edition's photograph insert is credited to AKG, Votava and Lehtikuva and must not be toured."
+      },
+      "pd_items": [
+        {
+          "id": "hfa-pd-01",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 23898491 (GRF-WHPO-A5720-15)",
+          "item_url": "https://catalog.archives.gov/id/23898491",
+          "what": "Delegates Seated in Finlandia Hall at the Opening of the Conference on Security and Cooperation in Europe (CSCE), in Helsinki, Finland",
+          "made": "1975-07-30",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs', created by the White House Photographic Office; use restriction 'Unrestricted' in the record",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED HELSINKI · 30 JUL 1975",
+          "metadata_sha256": "8eca6d65b63a93eff134e1aebce5b1837e490300d024c4a6c0f1956e74a6b140",
+          "notes": "No film in the public domain was found: see researcher_notes. Individual photographer not named in the record."
+        },
+        {
+          "id": "hfa-pd-02",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 23898495 (GRF-WHPO-A5724-25)",
+          "item_url": "https://catalog.archives.gov/id/23898495",
+          "what": "After a Bilateral Meeting President Gerald R. Ford and Soviet General Secretary Leonid Brezhnev Pose on the Steps of the American Embassy Residence in Helsinki, Finland, Flanked by Secretary of State Henry Kissinger and Soviet Foreign Affairs Minister Gromyko",
+          "made": "1975-07-30",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs'; use restriction 'Unrestricted'",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED HELSINKI · 30 JUL 1975",
+          "metadata_sha256": "94bee81b918feef4625cbc92ab982e7635c3e4d430e953d7b1e6c75880982720",
+          "notes": "Individual photographer not named in the record."
+        },
+        {
+          "id": "hfa-pd-03",
+          "kind": "still",
+          "adapter": "commons",
+          "ref": "File:Bilateral meeting between President Gerald Ford and Soviet General Secretary Leonid Brezhnev.jpg",
+          "item_url": "https://commons.wikimedia.org/wiki/File:Bilateral_meeting_between_President_Gerald_Ford_and_Soviet_General_Secretary_Leonid_Brezhnev.jpg",
+          "what": "President Gerald Ford meets with General Secretary Leonid Brezhnev in the dining room at the American Embassy.",
+          "made": "1975-07-30",
+          "maker": "Courtesy Gerald R. Ford Library (Commons 'Artist' field); credit points to Ford Library A5724-09",
+          "licence": "pd-us-federal",
+          "basis": "Commons extmetadata: LicenseShortName 'Public domain', Copyrighted False; Ford Library White House photograph A5724-09",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED HELSINKI · 30 JUL 1975",
+          "metadata_sha256": "f1c12b4d63be49f1dfa0874a90579f646a26a8d0bd8dd3d7d13b07232c8b4bb3",
+          "notes": "Same roll (A5724) as hfa-pd-02. Confirm against the NARA record for A5724-09 before use if a NARA-first rule applies."
+        },
+        {
+          "id": "hfa-pd-04",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 12082708 (GRF-WHPO-A5829-09A)",
+          "item_url": "https://catalog.archives.gov/id/12082708",
+          "what": "President Gerald R. Ford Meeting with Western Leaders in the British Embassy Garden in Helsinki, Finland",
+          "made": "1975-07-31",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs'; use restriction 'Unrestricted'",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED HELSINKI · 31 JUL 1975",
+          "metadata_sha256": "cb8e5a8680bbb712b3ee1f884a388f16fda8261ec6a285d41fa59c5d29ceda65",
+          "notes": "Record's note names Schmidt, Ford, Giscard d'Estaing, Sauvagnargues, Genscher, Wilson, Kissinger and Callaghan after a working luncheon hosted by Wilson; this is the lunch of src-frus-331. A Commons copy exists (File:President Gerald R. Ford Meeting with Western Leaders in the British Embassy Garden in Helsinki, Finland - NARA - 12082708.jpg), metadata not fetched."
+        },
+        {
+          "id": "hfa-pd-05",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 23898497 (GRF-WHPO-A5755-35)",
+          "item_url": "https://catalog.archives.gov/id/23898497",
+          "what": "President Ford Addressing Delegates during the Plenary Session of the Conference on Security and Cooperation in Europe (CSCE) in Finlandia Hall in Helsinki, Finland",
+          "made": "1975-08-01",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs'; use restriction 'Unrestricted'",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED FINLANDIA HALL · 1 AUG 1975",
+          "metadata_sha256": "e71275d9af11f4b4ad017ccc25221ea79d1ab23f9540f96052f815dc88890f62",
+          "notes": "Pairs with the 1 August perspectives."
+        },
+        {
+          "id": "hfa-pd-06",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 7462052 (A5764-10A)",
+          "item_url": "https://catalog.archives.gov/id/7462052",
+          "what": "Photograph of President Gerald R. Ford Signing the Final Act of the Conference on Security and Cooperation in Europe as It is Passed Among European Leaders for Signature in Finlandia Hall in Helsinki, Finland",
+          "made": "1975-08-01",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs'; use restriction 'Unrestricted'",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED THE SIGNING · 1 AUG 1975",
+          "metadata_sha256": "25e55ed3272a70200597343d603e3d0e80381c93154fd36e7a123fe13acbfc8d",
+          "notes": "The record's title has a non-breaking space before 'Finlandia'; normalised to one space here."
+        },
+        {
+          "id": "hfa-pd-07",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 23898499 (GRF-WHPO-A5761-07A)",
+          "item_url": "https://catalog.archives.gov/id/23898499",
+          "what": "President Gerald R. Ford and Soviet General Secretary Leonid Brezhnev Raise Their Glasses in a Toast Following the Signing of the Final Act of the Conference on Security and Cooperation in Europe (CSCE), in Helsinki, Finland",
+          "made": "1975-08-01",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs'; use restriction 'Unrestricted'",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED HELSINKI · 1 AUG 1975",
+          "metadata_sha256": "43ce852bcc3e082a60a0e234995cc1a457d2d9806f917a1f8322fc98c17df888",
+          "notes": ""
+        },
+        {
+          "id": "hfa-pd-08",
+          "kind": "still",
+          "adapter": "nara",
+          "ref": "NAID 23869177 (GRF-WHPO-A5769-27)",
+          "item_url": "https://catalog.archives.gov/id/23869177",
+          "what": "Electrical Engineer Jan Ahlfors Giving President Gerald R. Ford and Secretary of State Henry Kissinger a Briefing in the Control Room during Their Tour of the Icebreaker URHO in Helsinki, Finland",
+          "made": "1975-08-01",
+          "maker": "President (1974-1977 : Ford). White House Photographic Office (series creator)",
+          "licence": "pd-us-federal",
+          "basis": "Series 'Gerald R. Ford White House Photographs'; use restriction 'Unrestricted'",
+          "inside_horizon": true,
+          "dot_label": "PHOTOGRAPHED ABOARD URHO · 1 AUG 1975",
+          "metadata_sha256": "dd162d80ff21c41602dc55139217bacea469883c1a3fe44ba7fd4b138558645f",
+          "notes": "Evening of 1 August: src-app-ford-0801 note records the dinner with Kekkonen aboard the icebreaker Urho. Atmosphere only; names a private Finnish engineer, so caption with care."
+        }
+      ],
+      "sources": [
+        {
+          "id": "src-osce-fa",
+          "what": "Conference on Security and Co-operation in Europe, Final Act, Helsinki 1975 (English text), PDF edition in the OSCE document library",
+          "url": "https://www.osce.org/files/f/documents/5/c/39501.pdf",
+          "sha256": "f51ce48a126fc1db3d0aa7c44ad6d7050d15dfb65c3a1a60cb227c854ca84084",
+          "fetched": "2026-11-21",
+          "printed": "text signed inside the horizon (1 August 1975); this edition printed later (it adds a note 'About the text' and a photograph insert)",
+          "rights": "public intergovernmental text; photograph insert credited to AKG Photo Berlin, Votava Bilddienst and Lehtikuva Oy: quoted and typeset only, never toured"
+        },
+        {
+          "id": "src-app-ford-0801",
+          "what": "Gerald R. Ford, Address in Helsinki Before the Conference on Security and Cooperation in Europe, 1 August 1975. Online by Gerhard Peters and John T. Woolley, The American Presidency Project",
+          "url": "https://www.presidency.ucsb.edu/documents/address-helsinki-before-the-conference-security-and-cooperation-europe",
+          "sha256": "dc8fec373d0ae0114b0109ad85c52b06f2d15ad854c43648852e6e55da75249a",
+          "fetched": "2026-11-21",
+          "printed": "spoken inside the horizon; the editorial note is from Public Papers of the Presidents, printed later",
+          "rights": "public, federal work (speech text)"
+        },
+        {
+          "id": "src-app-ford-0725",
+          "what": "Gerald R. Ford, Text of Remarks at a Meeting With Representatives of Americans of Eastern European Background Concerning the Conference on Security and Cooperation in Europe, 25 July 1975. The American Presidency Project",
+          "url": "https://www.presidency.ucsb.edu/documents/text-remarks-meeting-with-representatives-americans-eastern-european-background-concerning",
+          "sha256": "d53aeac538d57481cef576e9c35ac903282f7ea15041399b5338a6a357743e79",
+          "fetched": "2026-11-21",
+          "printed": "inside the horizon (released as a public statement on 25 July 1975)",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-osce-brezhnev",
+          "what": "Address by the General Secretary of the Central Committee of the Communist Party of the Union of Soviet Socialist Republics, Leonid Brezhnev, to the third stage of the Conference on Security and Co-operation in Europe, Helsinki, 30 July to 1 August 1975 (English text, 4 pp.), OSCE document library item 16089",
+          "url": "https://www.osce.org/sites/default/files/f/documents/f/f/16089.pdf",
+          "sha256": "5302a290a0853eb866e4bcf4438967d04913a32e7d944c4271f82749c0f8f886",
+          "fetched": "2026-11-21",
+          "printed": "spoken inside the horizon (31 July 1975, date from src-frus-331); English text as held by OSCE, its origin and translator not stated. Landing page https://www.osce.org/documents/16089 (sha256 686b926e40147bdcd2695d44e6624b419d7d51336f5f872bd4fb983ff41f4e09) dates the item 1 August 1975",
+          "rights": "quoted only"
+        },
+        {
+          "id": "src-frus-331",
+          "what": "Foreign Relations of the United States, 1969 to 1976, Volume XXXIX, European Security, Document 331: Memorandum of Conversation, Helsinki, July 31, 1975, 1:25 to 3:25 p.m. (drafted by Harry Obst)",
+          "url": "https://history.state.gov/historicaldocuments/frus1969-76v39/d331",
+          "sha256": "60aa752055a982b7648f63bb36278d516a2be7b28815df205b7fad9ef5b0decc",
+          "fetched": "2026-11-21",
+          "printed": "made inside the horizon (secret memorandum); published later in FRUS",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-frus-330",
+          "what": "Foreign Relations of the United States, 1969 to 1976, Volume XXXIX, European Security, Document 330: Editorial Note (quoting the daily log of Jan Lodal, NSC staff, for 30 July 1975)",
+          "url": "https://history.state.gov/historicaldocuments/frus1969-76v39/d330",
+          "sha256": "77c24733e6f59a46a141f3444a30a3bfb4ac460d408e5e3d7a4d90bf440e1c9b",
+          "fetched": "2026-11-21",
+          "printed": "log made inside the horizon; editorial note published later in FRUS",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-ford-memcon-0725",
+          "what": "Memorandum of Conversation, The White House, Friday, July 25, 1975, 11:10 to 11:55 a.m., Cabinet Room: the President, Kissinger, Scowcroft, Friedersdorf, Members of Congress and representatives of Americans of Eastern European background; notetaker A. Denis Clift. Gerald R. Ford Library, National Security Adviser's Memoranda of Conversation, Box 14 (NARA NAID 1553184)",
+          "url": "https://www.fordlibrarymuseum.gov/sites/default/files/pdf_documents/library/document/0314/1553184.pdf",
+          "sha256": "d084760ae9b2f62e491f7ab727dc1d25ca1e82504d93b68a1fddbec3b46b6a24",
+          "fetched": "2026-11-21",
+          "printed": "made inside the horizon (marked Administratively Confidential); released later, year of release not found",
+          "rights": "public, federal work (memorandum by NSC staff); the speakers' words are recorded by the notetaker"
+        },
+        {
+          "id": "src-nara-1553184",
+          "what": "NARA catalog record, 'July 25, 1975 - Ford, Kissinger, Congressmen, Eastern Europe Advocates' (file unit, 36 pages, Gerald R. Ford Library)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=1553184",
+          "sha256": "95e4103d288ea5c412760c9103374f32a5f82c95883d39f93d61ef217c96c502",
+          "fetched": "2026-11-21",
+          "printed": "catalog record made later",
+          "rights": "public, federal record"
+        },
+        {
+          "id": "src-ford-nessen-0725",
+          "what": "Press office guidance 'President's Meeting with Eastern Europeans', July 25, 1975, with list of participants. Ron Nessen Papers, Box 122, folder 'Eastern Europe', Gerald R. Ford Library",
+          "url": "https://www.fordlibrarymuseum.gov/sites/default/files/pdf_documents/library/document/0204/1513113.pdf",
+          "sha256": "7a7b8afaa480a97ead3b4336165a1c21e05e0469946aee9f8c7d4ad7776f2629",
+          "fetched": "2026-11-21",
+          "printed": "the July 25 pages are inside the horizon; the same PDF also holds a cable of March 1976, which is outside the horizon and must not be used",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-nara-23898491",
+          "what": "NARA catalog record NAID 23898491 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=23898491",
+          "sha256": "8eca6d65b63a93eff134e1aebce5b1837e490300d024c4a6c0f1956e74a6b140",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-nara-23898495",
+          "what": "NARA catalog record NAID 23898495 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=23898495",
+          "sha256": "94bee81b918feef4625cbc92ab982e7635c3e4d430e953d7b1e6c75880982720",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-commons-bilateral",
+          "what": "Wikimedia Commons API extmetadata for File:Bilateral meeting between President Gerald Ford and Soviet General Secretary Leonid Brezhnev.jpg",
+          "url": "https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&titles=File:Bilateral%20meeting%20between%20President%20Gerald%20Ford%20and%20Soviet%20General%20Secretary%20Leonid%20Brezhnev.jpg&format=json",
+          "sha256": "f1c12b4d63be49f1dfa0874a90579f646a26a8d0bd8dd3d7d13b07232c8b4bb3",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; metadata made later",
+          "rights": "public domain per Commons record"
+        },
+        {
+          "id": "src-nara-12082708",
+          "what": "NARA catalog record NAID 12082708 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=12082708",
+          "sha256": "cb8e5a8680bbb712b3ee1f884a388f16fda8261ec6a285d41fa59c5d29ceda65",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-nara-23898497",
+          "what": "NARA catalog record NAID 23898497 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=23898497",
+          "sha256": "e71275d9af11f4b4ad017ccc25221ea79d1ab23f9540f96052f815dc88890f62",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-nara-7462052",
+          "what": "NARA catalog record NAID 7462052 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=7462052",
+          "sha256": "25e55ed3272a70200597343d603e3d0e80381c93154fd36e7a123fe13acbfc8d",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-nara-23898499",
+          "what": "NARA catalog record NAID 23898499 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=23898499",
+          "sha256": "43ce852bcc3e082a60a0e234995cc1a457d2d9806f917a1f8322fc98c17df888",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        },
+        {
+          "id": "src-nara-23869177",
+          "what": "NARA catalog record NAID 23869177 (JSON)",
+          "url": "https://catalog.archives.gov/proxy/records/search?naId=23869177",
+          "sha256": "dd162d80ff21c41602dc55139217bacea469883c1a3fe44ba7fd4b138558645f",
+          "fetched": "2026-11-21",
+          "printed": "photograph inside the horizon; record made later",
+          "rights": "public, federal work"
+        }
+      ],
+      "outside_horizon": [
+        "Any account of how the Final Act was implemented, invoked or used after 1 August 1975",
+        "The Belgrade follow-up meeting as it happened (only the Final Act's own plan for it, written into the text, is known)",
+        "Groups formed after the signing to monitor compliance, in any country",
+        "Any later resolution of the United States Congress on the Final Act or on the Baltic states (for example a concurrent resolution of November 1975)",
+        "The press reports of March 1976 on United States policy toward Eastern Europe (present in the same Nessen PDF as the July 25 guidance)",
+        "Later meetings of the participating States and any later name or organisation for the Conference (the OSCE name appears only as the publisher of a source, never in narration)",
+        "The later history of the Soviet Union, the Warsaw Pact, the two German states and the Baltic states",
+        "Any anniversary statements about the Final Act",
+        "Any judgement of whether the Final Act succeeded or failed"
+      ],
+      "no_bridge": {
+        "people": [
+          "Gerald R. Ford",
+          "Gerald Ford",
+          "President Ford",
+          "Leonid Brezhnev",
+          "Leonid I. Brezhnev",
+          "Brezhnev",
+          "Henry Kissinger",
+          "Kissinger",
+          "Andrei Gromyko",
+          "Gromyko",
+          "Harold Wilson",
+          "Prime Minister Wilson",
+          "Valery Giscard d'Estaing",
+          "Giscard d'Estaing",
+          "Giscard",
+          "Helmut Schmidt",
+          "Schmidt",
+          "Urho Kekkonen",
+          "Kekkonen",
+          "Paul P. Dargis",
+          "Dargis",
+          "Mikulas Ferjencik",
+          "Ferjencik",
+          "Andras Pogany",
+          "Pogany",
+          "A. Denis Clift",
+          "Clift",
+          "Harry Obst",
+          "Obst",
+          "Jan Lodal",
+          "Lodal",
+          "Walter Kieber",
+          "Kieber",
+          "Jan Ahlfors",
+          "Ahlfors"
+        ],
+        "organisations": [
+          "Conference on Security and Co-operation in Europe",
+          "Conference on Security and Cooperation in Europe",
+          "CSCE",
+          "Communist Party of the Soviet Union",
+          "National Security Council",
+          "NSC",
+          "Lithuanian American Alliance",
+          "Lithuanian-American Council",
+          "Latvian World Organization",
+          "American Estonian Organization",
+          "Czechoslovak National Council of America",
+          "Hungarian Freedom Fighters Association",
+          "United Nations",
+          "UNESCO",
+          "United Nations Economic Commission for Europe",
+          "White House Photographic Office",
+          "Warsaw Pact",
+          "NATO"
+        ],
+        "events": [
+          "Helsinki Conference",
+          "European Security Conference",
+          "third stage of the Conference",
+          "Helsinki Summit",
+          "signing of the Final Act"
+        ],
+        "named_documents": [
+          "Final Act",
+          "Helsinki Final Act",
+          "Helsinki Accords",
+          "Declaration on Principles Guiding Relations between Participating States",
+          "Charter of the United Nations",
+          "Article 102",
+          "Department of State Bulletin"
+        ],
+        "exempt_states_places": [
+          "Helsinki",
+          "Finland",
+          "Republic of Finland",
+          "Finlandia Hall",
+          "Geneva",
+          "Belgrade",
+          "Washington",
+          "Europe",
+          "Union of Soviet Socialist Republics",
+          "Soviet Union",
+          "United States of America",
+          "United States",
+          "Canada",
+          "German Democratic Republic",
+          "Federal Republic of Germany",
+          "Holy See",
+          "Lithuania",
+          "Latvia",
+          "Estonia",
+          "Baltic states",
+          "Poland",
+          "Romania",
+          "Yugoslavia",
+          "United Kingdom",
+          "France",
+          "Czechoslovakia",
+          "Hungary"
+        ],
+        "word_rule": "'Ford', 'Wilson', 'Clift' and 'Obst' are flagged only in full ('Gerald Ford', 'President Ford', 'Harold Wilson', 'Prime Minister Wilson', 'A. Denis Clift', 'Harry Obst') because they are common words or common names; 'Urho' alone is the icebreaker's name and is flagged only as 'Urho Kekkonen'; all other surnames are flagged bare."
+      },
+      "bed_constraints": {
+        "account_of_violence": false,
+        "why": "The entry is a signing and its speeches; no account of violence is narrated. Brezhnev's line on blood in the soil of Europe during the two world wars is not quoted; if it is ever added, the bed rule applies to that passage."
+      },
+      "fit_gaps": [
+        "No settlement over an absent party is shown: the Final Act does not name the Baltic states, and their status appears only in Ford's 25 July statement and the Baltic-American reply.",
+        "The text does not use the word 'recognition' for frontiers; it says 'inviolable'. The 'frontiers-recognised-for-commitments' tag rests on the pairing of Principle III with the human contacts chapter and on how Brezhnev and Ford each described the results, not on a recognition clause.",
+        "No voice from inside the Baltic states, or from the Baltic diplomatic missions abroad, was found in a fetched source; the party-concerned voice is the Baltic-American community, as recorded by a White House notetaker.",
+        "No public-domain film was found; every NARA moving-image record for the summit is a White House Communications Agency recording of television broadcasts, marked possibly copyrighted.",
+        "The entry does not show the Geneva negotiation (1973 to 1975) itself, only its result."
+      ],
+      "researcher_notes": "Article 102 wording verified in the OSCE PDF (printed p. 59): 'which is not eligible for registration under Article 102 of the Charter of the United Nations' (quote sha256 21de3d02862301ac5231ee6bb57691a06d69f0a6c436f8d12082cfc815bfba3f). Brezhnev date: the OSCE item is dated 1 August 1975 on its landing page, but FRUS document 331, a memorandum made on 31 July, speaks of 'today's (July 31) speech of Leonid Brezhnev'; 31 July is used. The OSCE English text of Brezhnev's address states no translator; FRUS cites the Current Digest of the Soviet Press, vol. XXVII:22 (27 August 1975), pp. 6 to 7, for a translation, not fetched. The 25 July memcon quotes (Dargis, Ferjencik, Pogany) are the notetaker's record of what was said, not a transcript; the release year of the memcon was not found, so 'published' is null. Ford's 1 August address in the APP text contains the spelling 'reconcilation' (not quoted). Offset +02:00 assumes Finland kept standard time (UTC+2) in summer 1975; not verified from a fetched source. Not fetched: the Congressional Record for July 1975 (critics in Congress), the Ford Library photo pages, and the CIA reading-room FBIS item (the page returned a generic shell). Possible further perspective inside the horizon, not used because the key passage contains a dash: Lodal's log of 30 July in src-frus-330 reporting Wilson's view that Brezhnev 'got what he wanted here'. Proposed tag, not used: 'non-recognition-maintained' (a signatory states that signing does not change its refusal to recognise an earlier annexation), from Ford's 25 July statement."
+    }
+  ]
+}
