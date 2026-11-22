@@ -73,6 +73,7 @@ const STEPS = [
           "studio/tests/test_c8_mediaroot.py", // C8: media roots by env, studio-items plan, graphics-ledger compare (pure, <1 s)
           "studio/tests/test_c7_capture_fit.py", // C7: capture-fit-confirmed (pure, <1 s)
           "studio/tests/test_t2_rundown_shape.py", // T2: shape-from-rundown, a part's shape is its rundown/2 story's (pure, <1 s)
+          "studio/tests/test_t7_title.py", // T7: title-lines-from-rundown and the recompositor (pure, <1 s)
           // E6: broadcast graphics (studio/graphics/*). Fast and browser-free by design (layout math, motion
           // timing, the ledger, counts-match, graphics-clean, HTML building on fixtures): the actual Chromium
           // render (studio/graphics/render.py) is a separate script, never part of the gate (docs/DECISIONS.md).

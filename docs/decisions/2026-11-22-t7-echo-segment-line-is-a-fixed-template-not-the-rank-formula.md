@@ -1,0 +1,7 @@
+# 2026-11-22: T7, the title's two segment lines are fixed text, not the rank-line formula (builder)
+
+Section o gives one formula for a package's title line: `f"{rank}  {place:<10} {slug}"`. Section d's own worked example then prints the two segment lines that follow it: `   AROUND THE WORLD` and `   THE ECHO       1945` (confirmed verbatim against issue 35's real screenplay, `episodes/35/screenplay.json`, PR #43 - not just the bible's prose). Fitting the Echo's line to the rank formula (treating `THE ECHO` as a 10-wide "place" column and the year as the "slug") gives `   THE ECHO   1945` - three spaces before the year, not seven. It does not match.
+
+Rather than invent a second formula to explain seven spaces (and risk a column rule that happens to fit one example but drifts on the next), `studio/news/title.py` takes both segment lines as fixed text: `BRIEFS_LINE = "   AROUND THE WORLD"` and `echo_line(year) = f"   THE ECHO       {year}"`. Only the year varies, confirmed against the one real data point this ticket has. If a future issue's Echo line does not come out to this exact spacing, that is new information this decision did not have, and the fix belongs in `echo_line`, not in a theory about where the columns are.
+
+`BRIEFS_WORD`/`ECHO_WORD` are kept as named constants (matching `studio/news/graphic.py`'s `BUMPER_WORDS`) so the two modules can never print different words for the same segment, even though the line's spacing is not derived from them.

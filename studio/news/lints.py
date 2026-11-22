@@ -64,13 +64,18 @@ the frozen issue 33 (V1 ONLY paths below read The Week's day parts and the board
 - ``total of`` in a figure's field sums every number under it (a week's bars to its placed total).
 - ``black-share``: black on screen (a black shot, a black card, a card that draws only its text with none) is at
   most 3% of the runtime, and each states its reason.
+- ``title-lines-from-rundown`` (ticket 7, replacing ``title-lines-verbatim``): the title part's drawn shot
+  (``shows.title_lines``, ``shows.week_line``) and its ``signon`` line equal ``studio.news.title.recompose``'s
+  own build of the rundown (and, where the screenplay names one, the echo pick), character for character: one
+  line per package in rank order, the two segment lines, the week line, and the sign-on. Never checked for the
+  frozen issue 33 (v1's rundown/1 has no ``stories``) or a v2 screenplay with no rundown/2 to recompose from.
 
 A lint that cannot read its inputs fails its rule with the reason; it never crashes the run.
 
 Killed by bible v2 (DIED, for every screenplay, issue 33 included): ``board-rule``, ``tour-no-claim-before-board``,
 ``ladder-labels-derived``, ``ending-question``, ``fair-use-excerpt``, ``fair-use-on-timeline``,
-``title-lines-verbatim``. Their replacements that are not ``fair-use-refused`` (``title-lines-from-rundown`` and the
-rest of section o's new table) land with tickets 3, 4, 6 and 7.
+``title-lines-verbatim``. Its replacement, ``title-lines-from-rundown``, lands with this ticket (7); the rest of
+section o's new table landed with tickets 3, 4 and 6.
 
 Declared here and run later (``not_implemented`` until then): ``clock-true``, ``sources-last``, ``no-youtube`` (the
 release step), ``no-bridge-reverse`` (the echo pick's entity list).
@@ -93,6 +98,7 @@ from studio.engine import score as SCORE
 from studio.news import graphic as G
 from studio.news import rundown_shape as RS
 from studio.news import schema as SC
+from studio.news import title as TITLE
 
 REPO = Path(__file__).resolve().parents[2]
 LEXICON_PATH = Path(__file__).resolve().parent / "lexicon.json"
@@ -1423,6 +1429,59 @@ def tour_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
     return _summary("tour-window-inside", inside, n_in)
 
 
+TITLE_LINES_FROM_RUNDOWN = "title-lines-from-rundown"
+
+
+def _title_part(play: dict) -> dict | None:
+    for p in play.get("parts") or []:
+        if isinstance(p, dict) and p.get("segment") == "title":
+            return p
+    return None
+
+
+def title_lines_checks(play: dict, inputs: dict) -> list[dict]:
+    """``title-lines-from-rundown`` (bible d, o; ticket 7, replacing ``title-lines-verbatim``): the title
+    part's drawn shot (``shows.title_lines``, ``shows.week_line``) and its ``signon`` line equal
+    ``studio.news.title.recompose``'s own build of the rundown (and the echo pick, where the screenplay names
+    one), character for character. The frozen issue 33 (v1's rundown/1 has no ``stories``) and a v2
+    screenplay with no title part (``segment-spine`` blocks that on its own) are left for their own rules."""
+    rundown = inputs.get("rundown")
+    if not isinstance(rundown, dict) or rundown.get("schema") != TITLE.RUNDOWN_V2:
+        return []
+    part = _title_part(play)
+    if part is None:
+        return []
+    want = TITLE.recompose(rundown, inputs.get("echo"))
+    unit = f"part {part.get('id')}"
+    shot = next((s for s in part.get("shots") or []
+                 if isinstance(s, dict) and isinstance(s.get("shows"), dict) and s["shows"].get("title_lines") is not None),
+                None)
+    signon = next((ln for ln in part.get("lines") or [] if isinstance(ln, dict) and ln.get("kind") == "signon"), None)
+    out = []
+    if shot is None:
+        out.append(_check(TITLE_LINES_FROM_RUNDOWN, False, unit=unit, evidence={
+            "why": "the title part has no drawn shot with shows.title_lines",
+            "fix": "the title's drawn shot states shows.title_lines and shows.week_line (bible d)"}))
+    else:
+        got_lines = shot["shows"].get("title_lines")
+        out.append(_check(TITLE_LINES_FROM_RUNDOWN, list(got_lines or []) == want["title_lines"],
+                          unit=f"{unit}.{shot.get('id')}.title_lines",
+                          evidence={"want": want["title_lines"], "got": got_lines}))
+        got_week = shot["shows"].get("week_line")
+        out.append(_check(TITLE_LINES_FROM_RUNDOWN, got_week == want["week_line"],
+                          unit=f"{unit}.{shot.get('id')}.week_line",
+                          evidence={"want": want["week_line"], "got": got_week}))
+    if signon is None:
+        out.append(_check(TITLE_LINES_FROM_RUNDOWN, False, unit=f"{unit}.signon", evidence={
+            "why": "the title part has no signon line",
+            "fix": "the title part's lines include {kind: signon, text: ...} (bible d S5)"}))
+    else:
+        got_signon = signon.get("text")
+        out.append(_check(TITLE_LINES_FROM_RUNDOWN, got_signon == want["signon"], unit=f"{unit}.{signon.get('id')}",
+                          evidence={"want": want["signon"], "got": got_signon}))
+    return out
+
+
 def deferred_checks() -> list[dict]:
     return [_check(rule, True, severity="not_implemented", evidence={"deferred_to": to, "what": what})
             for rule, (to, what) in DEFERRED.items()]
@@ -1469,6 +1528,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out += _guarded("black-share", black_checks, play)
     out += _guarded("tour-window-inside", tour_checks, play, assets, inputs)
     out += _guarded(RS.RULE, RS.shape_checks, play, inputs)   # T2: a part's shape is its rundown/2 story's
+    out += _guarded(TITLE_LINES_FROM_RUNDOWN, title_lines_checks, play, inputs)   # T7: the title, from the rundown
     return out + deferred_checks()
 
 
@@ -1477,7 +1537,8 @@ RULES = (RS.RULE, "show-profile", "news-fields", "segment-spine", "package-count
          "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION,
          FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",
          "no-bridge", "counts-match", "quote-verbatim", "no-music-under-news", "no-music-under-quote",
-         "echo-bed-ending", "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
+         "echo-bed-ending", "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside",
+         TITLE_LINES_FROM_RUNDOWN, *DEFERRED)
 # Show bible v2 section o's die list, gone from every screenplay (the frozen issue 33 included): never a rule here.
 DIED = ("board-rule", "tour-no-claim-before-board", "ladder-labels-derived", "ending-question", "fair-use-excerpt",
         "fair-use-on-timeline", "title-lines-verbatim")
