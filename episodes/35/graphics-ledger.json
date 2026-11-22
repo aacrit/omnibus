@@ -384,6 +384,21 @@
     "content_basis": "drawn from the screenplay's own words"
   },
   {
+    "id": "g-page-apec",
+    "subtype": "page",
+    "data_ref": "page.source_id:e35-p4-apec-read",
+    "source_template_sha256": "01db95207110a6a6002d68258d6494bb88b80ee50075d54d3ce5b3dcae19df31",
+    "output_path": "/home/runner/stage/graphics/media/g-page-apec.mov",
+    "output_sha256": "a14e42b00f3bb6641232b4379032b072cf8d509089496fe895425124a558e170",
+    "frames": 574,
+    "class": "DRAWN",
+    "source_id": "e35-p4-apec-read",
+    "party_label": "RELEASED BY THE KREMLIN",
+    "body_px": 40,
+    "content_date": "2026-11-18",
+    "content_basis": "typeset from e35-p4-apec-read, the Kremlin's English transcript, verbatim"
+  },
+  {
     "id": "g-page-decl-3",
     "subtype": "page",
     "data_ref": "page.source_id:e35-p4-declaration",
