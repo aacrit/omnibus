@@ -1,0 +1,39 @@
+{
+  "schema": "omnibus.disputes/1",
+  "issue": 900,
+  "generated_by": "node scripts/rights.mjs packet <issue>",
+  "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
+  "ledger_sha256": "1230972c68b66f5a34f9f3e5fb858cb19c0edcdbcc7986546b31f7d2ad509a60",
+  "credit_disclosures": [],
+  "assets": [
+    {
+      "id": "e900-01",
+      "title": "Explorer 1 Teletype Reporting During Launch (ticket 4 graphics fixture: a real, previously-verified public-domain item reused so episode 900 is not an empty ledger, which outputsRoute refuses by design; this item is never cited by the fixture screenplay)",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "sha256": "b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef",
+      "credit": "U.S. Army, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Army\nCredit: https://www.jpl.nasa.gov/video/details.php?id=1446 (rounded timestamps 1:51 seconds to 1:58)\nBasis category: PD US Army",
+        "captured_at": "2026-11-13T00:20:08Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "Ticket 4 graphics fixture: this item exists only to satisfy outputsRoute's non-empty-ledger rule and is not cited by episodes/900/screenplay.json; its own sound is never aired."
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Explorer 1 Teletype Reporting During Launch (ticket 4 graphics fixture: a real, previously-verified public-domain item reused so episode 900 is not an empty ledger, which outputsRoute refuses by design; this item is never cited by the fixture screenplay)\" from https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm on 2026-11-13, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    }
+  ]
+}

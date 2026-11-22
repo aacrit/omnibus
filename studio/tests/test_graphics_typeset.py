@@ -277,3 +277,103 @@ def test_title_macro_rows_are_verbatim_on_full_frame_paper():
     html = typeset.title_macro_html(tm, **CSS)
     assert '<body class="macro">' in html
     assert re.findall(r'<div class="macro-row" data-row="\d+"><span>([^<]*)</span></div>', html) == rows
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): bumper, locator, sot_super, brief_strip.
+# ===========================================================================
+
+def test_bumper_html_shows_the_segment_word_and_week_line_no_bars():
+    spec = data.BumperSpec(segment="briefs", word="AROUND THE WORLD", week_line="ISSUE 35   16 TO 21 NOV 2026")
+    html = typeset.bumper_html(spec, **CSS)
+    assert ">AROUND THE WORLD<" in html
+    assert ">ISSUE 35   16 TO 21 NOV 2026<" in html
+    assert 'class="tc-year"' not in html
+    # bumper-no-bars: no bar rects, no key, no bias/spectrum token at all.
+    assert "tc-abbr" not in html and "tc-count" not in html and "tc-band-frame" not in html
+    assert clean.find_spectrum_tokens(html) == []
+    assert 'class="field">' in html
+
+
+def test_bumper_html_echo_shows_the_year_and_the_echo_field():
+    spec = data.BumperSpec(segment="echo", word="THE ECHO", week_line="ISSUE 35   16 TO 21 NOV 2026", year="1962")
+    html = typeset.bumper_html(spec, **CSS)
+    assert ">1962<" in html
+    assert 'class="field field--echo"' in html
+    assert 'class="tc tc-echo"' in html
+    assert clean.find_spectrum_tokens(html) == []
+
+
+def test_bumper_html_escapes_a_hostile_word():
+    spec = data.BumperSpec(segment="briefs", word=XSS, week_line=XSS)
+    html = typeset.bumper_html(spec, **CSS)
+    _assert_inert(html)
+
+
+def test_locator_html_one_place_has_a_dot_a_leader_and_a_scale_bar():
+    spec = data.LocatorSpec(places=(data.LocatorPlace(name="Shenzhen", lat=22.54, lon=114.06),), scale_km=500.0)
+    html = typeset.locator_html(spec, **CSS)
+    assert html.count('class="loc-dot"') == 1
+    assert html.count('class="loc-leader"') == 1
+    assert ">Shenzhen<" in html
+    assert "500 KM" in html
+    assert clean.find_spectrum_tokens(html) == []
+
+
+def test_locator_html_two_places_has_two_dots_and_labels():
+    spec = data.LocatorSpec(places=(data.LocatorPlace(name="Kerch Strait", lat=45.36, lon=36.47),
+                                     data.LocatorPlace(name="Kyiv", lat=50.45, lon=30.52)), scale_km=200.0)
+    html = typeset.locator_html(spec, **CSS)
+    assert html.count('class="loc-dot"') == 2
+    assert ">Kerch Strait<" in html and ">Kyiv<" in html
+
+
+def test_locator_html_graticule_has_no_coastline_and_no_globe_markup():
+    spec = data.LocatorSpec(places=(data.LocatorPlace(name="Shenzhen", lat=22.54, lon=114.06),), scale_km=500.0)
+    html = typeset.locator_html(spec, **CSS)
+    assert "loc-grid" in html
+    for banned in ("globe", "sphere", "relief", "3d"):
+        assert banned not in html.lower()
+
+
+def test_locator_html_escapes_a_hostile_place_name():
+    spec = data.LocatorSpec(places=(data.LocatorPlace(name=XSS, lat=0.0, lon=0.0),), scale_km=500.0)
+    html = typeset.locator_html(spec, **CSS)
+    _assert_inert(html)
+
+
+def test_sot_super_html_two_lines_is_an_overlay_with_no_third_line():
+    spec = data.SotSuperSpec(name="Donald Trump", role="President of the United States")
+    html = typeset.sot_super_html(spec, **CSS)
+    assert '<body class="overlay">' in html
+    assert ">Donald Trump<" in html and ">President of the United States<" in html
+    assert "ss-t3" not in html
+    assert 'class="ss-dot"' in html
+
+
+def test_sot_super_html_third_line_grows_the_bar():
+    spec = data.SotSuperSpec(name="Vladimir Putin", role="President of Russia",
+                              third_line="TRANSLATION · KREMLIN TRANSCRIPT")
+    html = typeset.sot_super_html(spec, **CSS)
+    assert "ss-t3" in html
+    assert ">TRANSLATION · KREMLIN TRANSCRIPT<" in html
+
+
+def test_sot_super_html_escapes_a_hostile_name():
+    spec = data.SotSuperSpec(name=XSS, role=XSS, third_line="RELEASED BY " + XSS)
+    html = typeset.sot_super_html(spec, **CSS)
+    _assert_inert(html)
+
+
+def test_brief_strip_html_one_line_mono_caps_middle_dot():
+    spec = data.BriefStripSpec(place="Kerch Strait", date="Tue 17 Nov")
+    html = typeset.brief_strip_html(spec, **CSS)
+    assert '<body class="overlay">' in html
+    assert ">KERCH STRAIT · TUE 17 NOV<" in html
+    assert "—" not in html  # no em dash: the separator is the middle dot
+
+
+def test_brief_strip_html_escapes_a_hostile_place():
+    spec = data.BriefStripSpec(place=XSS, date=XSS)
+    html = typeset.brief_strip_html(spec, **CSS)
+    _assert_inert(html)

@@ -1,0 +1,64 @@
+{
+  "schema": "omnibus.rights-ledger/1",
+  "issue": 900,
+  "items": [
+    {
+      "id": "e900-01",
+      "request_id": "e900-01",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "Explorer 1 Teletype Reporting During Launch (ticket 4 graphics fixture: a real, previously-verified public-domain item reused so episode 900 is not an empty ledger, which outputsRoute refuses by design; this item is never cited by the fixture screenplay)",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Army\nCredit: https://www.jpl.nasa.gov/video/details.php?id=1446 (rounded timestamps 1:51 seconds to 1:58)\nBasis category: PD US Army",
+        "captured_at": "2026-11-13T00:20:08Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-13",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Explorer_1_Teletype_Reporting_During_Launch.webm",
+      "file": "e33-title-01.webm",
+      "mime": "video/webm",
+      "sha256": "b734ad41bef9b5a1db07493fac36e6c0cbea2bfb96beb48760a97a1ee58cb4ef",
+      "bytes": 1508983,
+      "credit": "U.S. Army, via Wikimedia Commons",
+      "date": null,
+      "published_at": "2019-08-18T20:15:47Z",
+      "content_date": null,
+      "source_tier": 2,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "record_kind": "unknown",
+      "record_kind_evidence": {
+        "source": "adapter",
+        "text": "Archival NASA/Army teletype footage, not an event record of any of the seven SOT-eligible kinds; this item is never cited as sot in the fixture screenplay, so it airs muted."
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "Ticket 4 graphics fixture: this item exists only to satisfy outputsRoute's non-empty-ledger rule and is not cited by episodes/900/screenplay.json; its own sound is never aired."
+      }
+    }
+  ],
+  "rejected": []
+}

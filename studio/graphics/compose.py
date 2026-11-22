@@ -146,6 +146,29 @@ def second_hand_frames(hand: Image.Image, angles: list[float], pivot: tuple[int,
         yield rotate_layer(hand, angle, pivot)
 
 
+# ---- rostrum: a slow, centred push on a static field (bible i: the locator) ---
+
+def rostrum_frames(static: Image.Image, *, hold_s: float, push_start_s: float, push_end_s: float,
+                    zoom_from: float = 1.0, zoom_to: float = 1.08, fps: int = motion.FPS) -> Iterator[Image.Image]:
+    """`static` held at `zoom_from` until `push_start_s`, eased to a centred crop at `zoom_to` by `push_end_s`
+    (bible i: 1.0 to 2.5 s into the shot), held at `zoom_to` for the rest of `hold_s`. The crop is always centred
+    and always inside the frame's own edges, so the field's border never shows a seam; never a globe, 3D or
+    relief move (bible i), just a push."""
+    if push_end_s > hold_s:
+        raise ValueError(f"the push ends at {push_end_s} s, past the shot's {hold_s} s hold")
+    n = motion.rostrum_frame_count(hold_s, fps)
+    w, h = static.size
+    for i in range(n):
+        scale = motion.rostrum_scale(i / fps, push_start_s=push_start_s, push_end_s=push_end_s,
+                                      zoom_from=zoom_from, zoom_to=zoom_to)
+        if scale <= 1.0:
+            yield static
+            continue
+        cw, ch = w / scale, h / scale
+        x0, y0 = (w - cw) / 2, (h - ch) / 2
+        yield static.resize((w, h), Image.LANCZOS, box=(x0, y0, x0 + cw, y0 + ch))
+
+
 # ---- credits roll: integer crop, 3 px a frame ---------------------------
 
 def credits_roll_frames(strip: Image.Image, viewport_height: int, *, px_per_frame: int = 3) -> Iterator[Image.Image]:

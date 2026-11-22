@@ -108,3 +108,41 @@ def assert_no_internal_ids(source: str, *, where: str = "<layer>") -> None:
     found = find_internal_ids(source)
     if found:
         raise InternalIdOnScreen(f"{where}: internal id(s) in on-screen text: {', '.join(found)}")
+
+
+# ---- bumper-no-bars (show bible v2, section i) --------------------------------------------------------------------
+# "The bars were void's lean measurement; a test card with the measurement where its colour should be read void
+# out on screen." The bumper (v2's testcard) and every other v2 layer draw none of it: no --bias-* or
+# --spectrum-* custom property, by name or by var() reference, and none of the literal hex values those
+# properties resolve to in design/tokens.css (kept here as a literal list, not read from the file, so this module
+# stays pure string scanning, no I/O; a token's hex is checked for drift in
+# studio/tests/test_graphics_clean.py against design/tokens.css itself).
+
+BIAS_TOKEN_RE = re.compile(r"--(?:bias|spectrum)-[\w-]+")
+# design/tokens.css: --spectrum-dark-* (the dark theatre) and --spectrum-paper-* (the paper/light theme), the
+# only hex literals a --bias-* custom property ever resolves to.
+SPECTRUM_HEX = (
+    "#5088d0", "#6498d8", "#78aede", "#48b870", "#d05c48", "#cc3e34", "#b02e26",
+    "#0e2e70", "#1b5298", "#2e78b4", "#2b784a", "#c4503e", "#9c2c22", "#6e1610",
+)
+SPECTRUM_HEX_RE = re.compile("|".join(re.escape(h) for h in SPECTRUM_HEX), re.IGNORECASE)
+
+
+def find_spectrum_tokens(source: str) -> list[str]:
+    """Every bias/spectrum custom property name or literal hex this source carries, each reported once."""
+    found = sorted(set(BIAS_TOKEN_RE.findall(source)))
+    if SPECTRUM_HEX_RE.search(source):
+        found.extend(sorted({m.group(0).lower() for m in SPECTRUM_HEX_RE.finditer(source)}))
+    return found
+
+
+class SpectrumInEngineLayer(Exception):
+    pass
+
+
+def assert_no_bias_tokens(source: str, *, where: str = "<layer>") -> None:
+    """`bumper-no-bars` (show bible v2, section o): a layer this lint covers names and uses none of void's lean
+    spectrum, by token or by its literal hex."""
+    found = find_spectrum_tokens(source)
+    if found:
+        raise SpectrumInEngineLayer(f"{where}: spectrum token/hex in an engine-drawn layer: {', '.join(found)}")

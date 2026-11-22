@@ -6,18 +6,32 @@ and `playwright install chromium`. Run it directly:
 
     python -m studio.graphics.render week33 --out D:/omnibus-media/33/graphics \\
         --release 2026-11-16T21:00:00Z --release-nominal
+    python -m studio.graphics.render week900 --out D:/omnibus-media/900/graphics --fixture
+    python -m studio.graphics.render week<N> --out <dir>    # a v2 episode: episodes/<n>/screenplay.json
     python -m studio.graphics.render regression32 --out D:/omnibus-media/33/graphics/regression-32
-    python -m studio.graphics.render framesheet --out <reports dir>
+    python -m studio.graphics.render framesheet --out <reports dir> [--issue <n>]
 
 `week33` renders the production set from `episodes/33/rundown.json`,
 reading every number it checks back from `data/week-33.json`, and writes
 `episodes/33/graphics-ledger.json`. `--release` (the airtime the clock
 sweeps to) is required; `--release-nominal` marks a pre-release pass whose
-clock is not yet clock-true, and the ledger records it so. `regression32`
-shoots the week-32 fixture against the committed G2 mocks and fails any
-layer over its pixel-diff threshold. `framesheet` decodes the first,
-middle and last frame of every ledgered .mov and sheets them over a
-checker.
+clock is not yet clock-true, and the ledger records it so.
+
+`week<N>`, N other than 33 (show bible v2, ticket 4): reads
+`episodes/<n>/screenplay.json` as a v2 episode (`render_episode`) and
+writes `episodes/<n>/graphics-ledger.json`. `--fixture` renders
+`fixtures.EPISODE_V2_FIXTURE` instead (the ticket-4 graphics fixture,
+committed at `episodes/900/screenplay.json` for exactly this: a v2
+episode to dispatch episode-draft.yml against before issue 35's own
+screenplay exists). `render_week33` stays the v1 entry point by name
+(not literally removed, so the frozen regression path is never put at
+risk by a rename); `render_episode` is the new, generic one every v2
+issue - and, eventually, the real one - renders through.
+
+`regression32` shoots the week-32 fixture against the committed G2 mocks
+and fails any layer over its pixel-diff threshold. `framesheet` decodes
+the first, middle and last frame of every ledgered .mov (of `--issue`,
+default 33) and sheets them over a checker.
 """
 
 from __future__ import annotations
@@ -46,6 +60,7 @@ from studio.graphics import (  # noqa: E402
     clean, compose, contrast, countsmatch, data, encode, expected, fixtures, framesheet, layout, ledger, motion, shoot,
     typeset,
 )
+from studio.news import graphic as G  # noqa: E402
 
 FPS = motion.FPS
 ACTION_SAFE_RIGHT = 1920 - 96   # 16:9 action-safe (5%): a lower third sits over full-bleed picture
@@ -87,9 +102,13 @@ class Run:
         self.out_dir = out_dir
         self.entries: list[ledger.LedgerEntry] = []
 
-    def session(self, template: str, *, where: str, transparent: bool = False, **kw):
+    def session(self, template: str, *, where: str, transparent: bool = False, check_bias: bool = False, **kw):
         clean.assert_clean(template, where=where)
         clean.assert_no_internal_ids(template, where=where)
+        if check_bias:
+            # bumper-no-bars (show bible v2, section o): every v2 layer passes this; v1's test card and board
+            # legitimately draw the lean spectrum, so this is opt-in, never the shared default.
+            clean.assert_no_bias_tokens(template, where=where)
         return shoot.session_html(self.browser, inject(template), transparent=transparent, **kw)
 
     def emit(self, gid: str, subtype: str, data_ref: str, template: str, frames, *, extra: dict | None = None):
@@ -322,6 +341,123 @@ def render_week33(out_dir: Path, *, release: str, release_nominal: bool) -> list
     return run.entries
 
 
+# ===========================================================================
+# v2 (show bible v2, ticket 4): a generic graphics driver.
+# render_week33 above is V1 ONLY (frozen, issue 33) and unchanged.
+# ===========================================================================
+
+def graphics_shots(rundown: dict) -> list[dict]:
+    """Every v2 graphic a screenplay's (or any screenplay-shaped dict's) parts carry, in document order: a
+    part's `shots` (full-frame, `graphic.OVERLAY_SUBTYPES` excluded) and its `text` elements (the overlay
+    subtypes), each tagged with its part id and segment, and whether it is the part's first shot (a bumper is
+    the first shot of the segment it opens; schema.graphic_problems checks the same thing on the screenplay
+    side). Pure: no browser, no filesystem; `render_episode` is the only caller that needs either."""
+    out = []
+    for part in rundown.get("parts") or []:
+        if not isinstance(part, dict):
+            continue
+        part_id, segment = part.get("id"), part.get("segment")
+        for i, shot in enumerate(part.get("shots") or []):
+            if G.is_graphic(shot):
+                out.append({"shot": shot, "part_id": part_id, "segment": segment, "overlay": False, "first": i == 0})
+        for text_el in part.get("text") or []:
+            if G.is_graphic(text_el):
+                out.append({"shot": text_el, "part_id": part_id, "segment": segment, "overlay": True, "first": False})
+    return out
+
+
+#: Subtypes this ticket draws for v2. Every other v2 subtype (clock, count, lower_third's speaker/slate
+#: variants, page, credits, end_board) is "kept" per bible i, but wiring it into `render_episode` is a later
+#: ticket's job (it needs the rundown/2 normaliser's own data shapes, ticket 2); `render_episode` raises rather
+#: than silently skipping one, so a screenplay that names one is never quietly left un-rendered.
+V2_SUBTYPES_DRAWN = ("bumper", "locator", "sot_super", "brief_strip")
+
+
+def _render_bumper(run: "Run", g: dict, PH: dict) -> None:
+    shot, gid = g["shot"], g["shot"]["id"]
+    spec = data.bumper_spec(shot, segment=g["segment"])
+    t = typeset.bumper_html(spec, **PH)
+    hold_s = float(shot.get("dur_s") or 1.8)
+    with run.session(t, where=gid, check_bias=True) as page:
+        png = page.screenshot()
+    run.emit(gid, "bumper", f"shows.lines[{g['segment']}]", t,
+             compose.step_frames(compose.load_rgba(png), frames_for(hold_s)),
+             extra={"segment": spec.segment, "word": spec.word})
+
+
+def _render_locator(run: "Run", g: dict, PH: dict) -> None:
+    shot, gid = g["shot"], g["shot"]["id"]
+    spec = data.locator_spec(shot)
+    t = typeset.locator_html(spec, **PH)
+    hold_s = float(shot.get("dur_s") or 4.0)
+    push_start, push_end = spec.push_s
+    if push_end > hold_s:
+        raise ValueError(f"{gid}: the rostrum push ends at {push_end} s, past the shot's {hold_s} s hold")
+    with run.session(t, where=gid, check_bias=True) as page:
+        png = page.screenshot()
+    run.emit(gid, "locator", "shot.locator", t,
+             compose.rostrum_frames(compose.load_rgba(png), hold_s=hold_s, push_start_s=push_start,
+                                     push_end_s=push_end),
+             extra={"places": [p.name for p in spec.places], "scale_km": spec.scale_km, "push_s": list(spec.push_s)})
+
+
+def _render_sot_super(run: "Run", g: dict, PH: dict) -> None:
+    shot, gid = g["shot"], g["shot"]["id"]
+    spec = data.sot_super_spec(shot)
+    t = typeset.sot_super_html(spec, **PH)
+    hold_s = float(shot["end_s"]) - float(shot["start_s"])
+    if hold_s <= 0:
+        raise ValueError(f"{gid}: end_s must be after start_s")
+    with run.session(t, where=gid, transparent=True, check_bias=True) as page:
+        box = page.union_box(".ss")
+        static = compose.load_rgba(page.screenshot())
+    wipe = list(compose.wipe_frames(static, box))
+    hold_frames = max(frames_for(hold_s) - len(wipe), 1)
+    frames = (f for seq in (wipe, compose.step_frames(static, hold_frames)) for f in seq)
+    run.emit(gid, "sot_super", "shows.lines", t, frames, extra={"wipe_box": list(box)})
+
+
+def _render_brief_strip(run: "Run", g: dict, PH: dict) -> None:
+    shot, gid = g["shot"], g["shot"]["id"]
+    spec = data.brief_strip_spec(shot)
+    t = typeset.brief_strip_html(spec, **PH)
+    hold_s = float(shot["end_s"]) - float(shot["start_s"])
+    if hold_s <= 0:
+        raise ValueError(f"{gid}: end_s must be after start_s")
+    with run.session(t, where=gid, transparent=True, check_bias=True) as page:
+        png = page.screenshot()
+    run.emit(gid, "brief_strip", "shows.lines", t,
+             compose.step_frames(compose.load_rgba(png), frames_for(hold_s)))
+
+
+V2_RENDERERS = {"bumper": _render_bumper, "locator": _render_locator, "sot_super": _render_sot_super,
+                "brief_strip": _render_brief_strip}
+
+
+def render_episode(rundown: dict, out_dir: Path) -> list[ledger.LedgerEntry]:
+    """Show bible v2, ticket 4: the generic driver, in place of a per-week function. Drives its graphics list
+    straight from `rundown` (a v2 screenplay - episodes/<n>/screenplay.json - or anything shaped like one:
+    `graphics_shots` just walks `parts`), typesets and shoots each with Chromium, applies its motion preset
+    (bumper and brief_strip hold; locator pushes with `rostrum`; sot_super wipes on then holds), and returns one
+    ledger entry per graphic. A subtype not in `V2_RENDERERS` raises `NotImplementedError`, naming it, rather
+    than being silently skipped."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    PH = PLACEHOLDERS
+    with shoot.chromium() as browser:
+        run = Run(browser, out_dir)
+        for g in graphics_shots(rundown):
+            subtype = g["shot"].get("subtype")
+            fn = V2_RENDERERS.get(subtype)
+            if fn is None:
+                raise NotImplementedError(
+                    f"render_episode does not yet draw subtype {subtype!r} (ticket 4 covers "
+                    f"{', '.join(V2_SUBTYPES_DRAWN)}; the rest are kept per bible i but wait on their own ticket)")
+            if not g["shot"].get("id"):
+                raise ValueError(f"a {subtype} graphic in part {g['part_id']!r} has no id")
+            fn(run, g, PH)
+    return run.entries
+
+
 def render_regression32(out_dir: Path) -> dict:
     """Shoots each generator layer and its committed G2 mock at the hold
     frame (reduced motion = the final state, spec 1.3), reports the mean
@@ -385,27 +521,55 @@ def render_framesheet(ledger_path: Path, out_dir: Path, *, per_page: int = 3) ->
     return pages
 
 
+WEEK_RE = re.compile(r"^week(\d+)$")
+
+
+def _ledger_path_for(issue: int) -> Path:
+    return ROOT / "episodes" / str(issue) / "graphics-ledger.json"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["week33", "regression32", "framesheet"])
+    ap.add_argument("mode", help="'week<N>' (33: the frozen v1 set; any other N: a v2 episode), 'regression32' "
+                                 "or 'framesheet'")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--release", help="the airtime the clock sweeps to, ISO UTC (required for week33)")
+    ap.add_argument("--release", help="the airtime the clock sweeps to, ISO UTC (required for week33 only)")
     ap.add_argument("--release-nominal", action="store_true",
                     help="a pre-release pass: the release time is nominal, not yet clock-true")
+    ap.add_argument("--fixture", action="store_true",
+                    help="with 'week<N>' (N != 33): render fixtures.EPISODE_V2_FIXTURE instead of "
+                        "episodes/<n>/screenplay.json")
+    ap.add_argument("--issue", type=int, default=33, help="with 'framesheet': which episode's ledger to sheet")
     args = ap.parse_args()
     out_dir = Path(args.out)
 
-    if args.mode == "week33":
-        if not args.release:
-            ap.error("week33 needs --release (the clock is drawn to the true release time, spec 3.9)")
-        entries = render_week33(out_dir, release=args.release, release_nominal=args.release_nominal)
-        ledger.write_ledger(entries, LEDGER_PATH)
-        print(f"wrote {len(entries)} entries to {LEDGER_PATH}")
+    m = WEEK_RE.match(args.mode)
+    if m:
+        issue = int(m.group(1))
+        if issue == 33:
+            if not args.release:
+                ap.error("week33 needs --release (the clock is drawn to the true release time, spec 3.9)")
+            entries = render_week33(out_dir, release=args.release, release_nominal=args.release_nominal)
+            path = LEDGER_PATH
+        else:
+            if args.fixture:
+                rundown = fixtures.EPISODE_V2_FIXTURE
+            else:
+                sp = ROOT / "episodes" / str(issue) / "screenplay.json"
+                if not sp.is_file():
+                    ap.error(f"no v2 screenplay at {sp}; pass --fixture to render the ticket-4 graphics fixture")
+                rundown = json.loads(sp.read_text(encoding="utf-8"))
+            entries = render_episode(rundown, out_dir)
+            path = _ledger_path_for(issue)
+        ledger.write_ledger(entries, path)
+        print(f"wrote {len(entries)} entries to {path}")
     elif args.mode == "regression32":
         print(json.dumps(render_regression32(out_dir), indent=2))
-    else:
-        for p in render_framesheet(LEDGER_PATH, out_dir):
+    elif args.mode == "framesheet":
+        for p in render_framesheet(_ledger_path_for(args.issue), out_dir):
             print(p)
+    else:
+        ap.error(f"unknown mode {args.mode!r} (week<N>, regression32, framesheet)")
     return 0
 
 

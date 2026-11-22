@@ -109,3 +109,46 @@ def test_flap_scale_falls_with_gravity_then_rebounds_once():
     assert scales[t.end_frame] == 1.0
     assert scales[t.end_frame + 1] == motion.FLAP_REBOUND == 0.97
     assert scales[t.end_frame + 2:] == [1.0, 1.0]
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): rostrum (the locator's slow push).
+# ===========================================================================
+
+def test_rostrum_progress_held_before_and_after_the_push():
+    assert motion.rostrum_progress(0.0, push_start_s=1.0, push_end_s=2.5) == 0.0
+    assert motion.rostrum_progress(1.0, push_start_s=1.0, push_end_s=2.5) == 0.0
+    assert motion.rostrum_progress(2.5, push_start_s=1.0, push_end_s=2.5) == 1.0
+    assert motion.rostrum_progress(9.0, push_start_s=1.0, push_end_s=2.5) == 1.0
+
+
+def test_rostrum_progress_eases_smoothly_through_the_push():
+    mid = motion.rostrum_progress(1.75, push_start_s=1.0, push_end_s=2.5)
+    assert 0.0 < mid < 1.0
+    # Smoothstep is symmetric about its midpoint: 0.5 there.
+    assert mid == pytest.approx(0.5)
+    early = motion.rostrum_progress(1.1, push_start_s=1.0, push_end_s=2.5)
+    late = motion.rostrum_progress(2.4, push_start_s=1.0, push_end_s=2.5)
+    assert early < mid < late
+
+
+def test_rostrum_progress_rejects_a_non_positive_window():
+    with pytest.raises(ValueError):
+        motion.rostrum_progress(1.0, push_start_s=2.0, push_end_s=2.0)
+
+
+def test_rostrum_scale_interpolates_between_zoom_from_and_zoom_to():
+    assert motion.rostrum_scale(0.0, push_start_s=1.0, push_end_s=2.5) == pytest.approx(1.0)
+    assert motion.rostrum_scale(9.0, push_start_s=1.0, push_end_s=2.5) == pytest.approx(1.08)
+    assert motion.rostrum_scale(9.0, push_start_s=1.0, push_end_s=2.5, zoom_to=1.2) == pytest.approx(1.2)
+
+
+def test_rostrum_scale_rejects_a_zoom_out():
+    with pytest.raises(ValueError):
+        motion.rostrum_scale(2.0, push_start_s=1.0, push_end_s=2.5, zoom_from=1.1, zoom_to=1.0)
+
+
+def test_rostrum_frame_count():
+    assert motion.rostrum_frame_count(4.0) == 120
+    with pytest.raises(ValueError):
+        motion.rostrum_frame_count(0.0)
