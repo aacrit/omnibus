@@ -1,6 +1,9 @@
 # Transplanted from document@b62c4fa:studio/tests/test_stems.py (lift)
+# Show bible v2 j (ticket 3): the clips bus becomes nat (its file; the dict key stays "clips") and sot is new, so
+# this is omnibus's own copy from here on: BUSES and every reconstruction below read R.STEM_BUSES rather than
+# hard-coding the four-bus set, so a bus the profile adds or renames is picked up without editing the test.
 """--stems (loom Phase 2a, reports/briefs/modular-engine/architecture.md section 8 Phase 2):
-flag off, the render is unchanged; flag on, the four buses, the duck curve and every
+flag off, the render is unchanged; flag on, the five buses (voice, sot, nat, music, amb), the duck curve and every
 voice line are written under <out>/stems. The buses sum, sample for sample, to work/mix.wav;
 the lines placed at their start samples sum to voice.wav (from the pass that made the mix,
 after any voice-ceiling pass); and mix-norm.wav follows from them by one gain only when the
@@ -21,7 +24,8 @@ from studio.engine import render as R
 from conftest import HEIGHT, WORKERS
 from test_render import _e14_plan, _wav
 
-BUSES = ("voice", "clips", "music_preduck", "music_ducked", "amb", "duck")
+BUSES = tuple(key for _, key in R.STEM_BUSES)                      # voice, sot, clips (nat), music_preduck, ...
+STEM_FILES = {key: fname for fname, key in R.STEM_BUSES}            # the file each bus key is written to on disk
 # 0.1 dB of level error, as a residual: |10^(0.1/20) - 1| of the signal, about -38.7 dB under it
 RESIDUAL_DB = 20 * math.log10(10 ** (0.1 / 20) - 1)
 
@@ -36,7 +40,7 @@ def _stems(run_dir: Path) -> tuple[dict, dict, list]:
     stems = run_dir / "stems"
     manifest = json.loads((stems / "stems.json").read_text(encoding="utf-8"))
     index = json.loads((stems / "lines" / "index.json").read_text(encoding="utf-8"))
-    return manifest, {k: _read(stems / f"{k}.wav") for k in BUSES}, index
+    return manifest, {k: _read(stems / STEM_FILES[k]) for k in BUSES}, index
 
 
 def _lines_sum(run_dir: Path, index: list, n: int) -> np.ndarray:
@@ -70,7 +74,7 @@ def _assert_lines_are_voice(run_dir: Path, index: list, voice: np.ndarray) -> No
 def _assert_buses_are_the_mix(run_dir: Path, manifest: dict, bus: dict) -> None:
     mix = _read(run_dir / "work" / "mix.wav")
     assert manifest["mix"]["sha256"] == J.sha256_file(run_dir / "work" / "mix.wav")
-    recon = (bus["voice"] + bus["clips"] + bus["music_ducked"] + bus["amb"]).astype(np.float32)
+    recon = (bus["voice"] + bus["sot"] + bus["clips"] + bus["music_ducked"] + bus["amb"]).astype(np.float32)
     assert np.array_equal(recon, mix)                                     # the mix, sample for sample
     assert np.array_equal((bus["music_preduck"] * bus["duck"]).astype(np.float32), bus["music_ducked"])
 
@@ -80,7 +84,7 @@ def _assert_mix_norm(run_dir: Path, manifest: dict, bus: dict) -> np.ndarray:
     sample: the residual sits 0.1 dB's worth under the signal. Returns the residual."""
     mix_norm = _read(run_dir / "work" / "mix-norm.wav")
     n = min(len(bus["voice"]), len(mix_norm))
-    recon = ((bus["voice"] + bus["clips"] + bus["music_ducked"] + bus["amb"])[:n]
+    recon = ((bus["voice"] + bus["sot"] + bus["clips"] + bus["music_ducked"] + bus["amb"])[:n]
              * manifest["post_gain_linear"]).astype(np.float64)
     ref = mix_norm[:n].astype(np.float64)
     resid = recon - ref
@@ -119,7 +123,7 @@ def test_stems_off_is_unchanged(rendered, stemmed):
 
 def test_stems_folder_has_every_file(stemmed):
     stems = Path(stemmed["out"]) / "stems"
-    for name in ("voice.wav", "clips.wav", "music_preduck.wav", "music_ducked.wav", "amb.wav", "duck.wav",
+    for name in ("voice.wav", "sot.wav", "nat.wav", "music_preduck.wav", "music_ducked.wav", "amb.wav", "duck.wav",
                  "stems.json"):
         assert (stems / name).is_file(), name
     assert (stems / "lines" / "index.json").is_file()
@@ -276,7 +280,7 @@ def test_stems_when_the_master_limiter_runs_say_mix_norm_is_not_their_sum(peak_o
     assert total <= -70.0, f"residual {total:.1f} dB under the signal away from the limiter"   # measured: about -82
     assert total < pre_only - 20.0, (total, pre_only)                     # the gain before the limiter is not the gain
     whole = _read(run_dir / "work" / "mix-norm.wav")
-    resid_all = (bus["voice"] + bus["clips"] + bus["music_ducked"] + bus["amb"])[:n] * manifest["post_gain_linear"] - whole[:n]
+    resid_all = (bus["voice"] + bus["sot"] + bus["clips"] + bus["music_ducked"] + bus["amb"])[:n] * manifest["post_gain_linear"] - whole[:n]
     assert _dbfs(resid_all) > -60.0                                       # where it acted, the stems are not mix-norm
 
 
@@ -312,7 +316,7 @@ def test_stems_carry_archival_lines(plan, film, tmp_path, monkeypatch):
         i = ln["start_sample"]
         total[i:i + len(ln["audio"])] += ln["audio"]
     assert float(np.max(np.abs(total - bus["voice"]))) <= 1e-6
-    assert np.array_equal((bus["voice"] + bus["clips"] + bus["music_ducked"] + bus["amb"]).astype(np.float32), mix)
+    assert np.array_equal((bus["voice"] + bus["sot"] + bus["clips"] + bus["music_ducked"] + bus["amb"]).astype(np.float32), mix)
 
 
 # --------------------------------------------------------------------------
