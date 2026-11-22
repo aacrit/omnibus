@@ -17,6 +17,8 @@ from __future__ import annotations
 import copy
 import hashlib
 
+from studio.news import title as TITLE
+
 
 def h(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -39,7 +41,8 @@ def record() -> dict:
 def rundown() -> dict:
     """An omnibus.rundown/2 (bible o), as small as the lints read: its readings' extracts are hashed here."""
     return {"schema": "omnibus.rundown/2",
-            "edition": {"issue": ISSUE, "cutoff_utc": AS_OF, "archive_commit": COMMIT, "weekly_edition_seen": False},
+            "edition": {"issue": ISSUE, "cutoff_utc": AS_OF, "archive_commit": COMMIT, "weekly_edition_seen": False,
+                        "window": {"from": "2026-03-02", "to": "2026-03-08"}},
             "stories": [
                 {"slug": "THE COUNCIL VOTES ON WATER", "place": "STRELSAU", "cluster_ids": ["c-1"], "weight": 0.91,
                  "rank": 1, "slot": "lead", "shape": "full", "parties": ["the council", "the water ministry"],
@@ -118,6 +121,7 @@ NAT = {"role": "nat", "translation": "none"}
 
 
 def play() -> dict:
+    title_ = TITLE.recompose(rundown(), echo_pick())
     return {
         "title": "Issue 99", "slug": "issue-99", "show": "omnibus", "issue": ISSUE, "as_of": AS_OF,
         "runtime_target_s": 150, "settings": {"master_fps": 30},
@@ -148,10 +152,11 @@ def play() -> dict:
                        "start_s": 6.0, "end_s": 14.0, "shows": {"lines": ["STRELSAU · THU 5 MAR"]}}],
              "lines": [_vo("L-tease", 8.5, 4.0, "In Strelsau, the council voted on water rights.")]},
             {"id": "p-title", "kind": "chapter", "segment": "title",
-             "shots": [_shot("T-MACRO", "drawn", 14, 14, asset="dr-title", mark="DRAWN"),
+             "shots": [_shot("T-MACRO", "drawn", 14, 14, asset="dr-title", mark="DRAWN",
+                             shows={"title_lines": title_["title_lines"], "week_line": title_["week_line"]}),
                        _shot("T-LOCKUP", "card", 28, 4, mark="CARD", card="lockup", text=[])],
              "lines": [{"id": "L-signon", "kind": "signon", "start_s": 28.5, "dur_s": 3.0, "read_by": "v-narrator",
-                        "text": "This is void omnibus. The week of the second of March, on the record."}]},
+                        "text": title_["signon"]}]},
             {"id": "p-lead", "kind": "chapter", "segment": "lead", "shape": "full",
              "shots": [_shot("S-LEAD-1", "archive_video", 32, 10, asset="v-council", mark="ARCHIVE", sound=dict(NAT)),
                        _shot("S-LEAD-2", "archive_video", 42, 12, asset="v-doe", mark="ARCHIVE",
@@ -259,6 +264,14 @@ def _no_key(get, key):
     return f
 
 
+def _resync_title(p, a, i):
+    """A mutation that changes the rundown's stories (not the title itself) must recomposite the title along
+    with it, or it also trips title-lines-from-rundown (ticket 7): the title is never stale on purpose here."""
+    t = TITLE.recompose(i["rundown"], i.get("echo"))
+    shot(p, "T-MACRO")["shows"].update(title_lines=t["title_lines"], week_line=t["week_line"])
+    line(p, "L-signon").update(text=t["signon"])
+
+
 FAIL = {
     # -- the spine (bible o: SEGMENTS) -------------------------------------------------------------------------------
     "a v1 segment in a v2 screenplay": (lambda p, a, i: part(p, "p-pkg-3").update(segment="margins"),
@@ -349,10 +362,18 @@ FAIL = {
                                             {"shape-from-rundown"}),
     "a document package the rundown made full": (lambda p, a, i: part(p, "p-pkg-3").update(shape="document"),
                                                  {"shape-from-rundown"}),
-    "a package part with no rundown story": (lambda p, a, i: i["rundown"].update(
-        stories=[s for s in i["rundown"]["stories"] if s["slot"] != "package_4"]), {"shape-from-rundown"}),
+    "a package part with no rundown story": (_many(
+        lambda p, a, i: i["rundown"].update(stories=[s for s in i["rundown"]["stories"] if s["slot"] != "package_4"]),
+        _resync_title), {"shape-from-rundown"}),
     "a v2 screenplay over a rundown/1": (lambda p, a, i: i["rundown"].update(schema="omnibus.rundown/1"),
                                          {"shape-from-rundown"}),
+    # -- title-lines-from-rundown (ticket 7): the title is the rundown's, never an authored copy -------------------
+    "a title line not the rundown's": (lambda p, a, i: shot(p, "T-MACRO")["shows"]["title_lines"].__setitem__(
+        0, "1  STRELSAU   A DIFFERENT HEADLINE ENTIRELY"), {"title-lines-from-rundown"}),
+    "a week line not the cutoff's": (lambda p, a, i: shot(p, "T-MACRO")["shows"].update(
+        week_line="ISSUE 1   1 TO 1 JAN 2000   CLOSED SAT 1 JAN 00:00 UTC"), {"title-lines-from-rundown"}),
+    "a sign-on not the week's": (lambda p, a, i: line(p, "L-signon").update(
+        text="This is void omnibus. The week of the first of January, on the record."), {"title-lines-from-rundown"}),
     "a blank count card": (lambda p, a, i: shot(p, "C-COUNT").update(text=[" "]), {"card-kind"}),   # black-share misses it
     "a quote card with no words": (lambda p, a, i: shot(p, "C-QUOTE").update(text=[]), {"card-kind"}),
     "the ident card in a package": (lambda p, a, i: shot(p, "C-COUNT").update(card="lockup", figures=[], text=[]),
@@ -409,12 +430,16 @@ FAIL = {
         text="That was the week of 2031. For the record, every source is at omnibus dot voidvision dot org."), {"as-of"}),
 }
 
+def _five_packages(p, a, i):
+    for k in (5, 6):
+        p["parts"].insert(7, dict(copy.deepcopy(part(p, "p-pkg-4")), id=f"p-pkg-{k}"))
+        i["rundown"]["stories"].append(dict(copy.deepcopy(story(i, "package_4")), slot=f"package_{k}", rank=k))
+    _resync_title(p, a, i)
+
+
 WARN = {
     "two packages": (_pop_part("p-pkg-4"), {"package-count"}),
-    "five packages": (lambda p, a, i: [(p["parts"].insert(7, dict(copy.deepcopy(part(p, "p-pkg-4")), id=f"p-pkg-{k}")),
-                                        i["rundown"]["stories"].append(dict(copy.deepcopy(story(i, "package_4")),
-                                                                            slot=f"package_{k}", rank=k)))
-                                       for k in (5, 6)], {"package-count"}),
+    "five packages": (_five_packages, {"package-count"}),
 }
 
 

@@ -24,7 +24,8 @@ from studio.news import profile as SHOW  # noqa: E402
 from studio.news import schema as SC  # noqa: E402
 
 BLOCKING_RULES = set(NL.RULES) - set(NL.DEFERRED) - {"package-count"}   # package-count advises (bible b)
-V2_ONLY = {"news-fields", "part-shape", "shape-from-rundown", "sound-role", "card-kind", "line-schema"}
+V2_ONLY = {"news-fields", "part-shape", "shape-from-rundown", "sound-role", "card-kind", "line-schema",
+           "title-lines-from-rundown"}
 V1_UNEXERCISED = V2_ONLY | {"fair-use-refused"}     # the v1 fixture has no fair-use item to pass (its fail case has one)
 FIXTURES = {"v1": EP, "v2": EP2}
 
