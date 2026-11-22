@@ -15,7 +15,33 @@
           "why": "The White House's own unedited pool record of the arrival ceremony at Shenzhen on Wednesday 18 Nov (421.8 s, one camera, no graphic seen in fifteen sampled frames): from about 45 s the President is at Air Force One's door, waves, and descends the red steps toward the welcome line by 70 s. Its own nat sound plays. The US is a party to the summit, so the shot carries RELEASED BY THE WHITE HOUSE once the party label exists (T5).",
           "in_s": 45,
           "out_s": 70
-        }
+        },
+        "marks_checked": {
+          "marks": [],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-22T01:00:00Z",
+            "frames": [
+              45,
+              47.5,
+              50,
+              52.5,
+              55,
+              57.5,
+              60,
+              62.5,
+              65,
+              67.5,
+              69.9,
+              70
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-arrival/contact-sheet.png",
+              "sha256": "01f229b2002c58f9a050df92bf4318535c03200f7d7f8238ae2af55bda175cb6"
+            }
+          }
+        },
+        "marks_note": "the verifier, as given: marks none (White House unedited feed; aircraft livery only)"
       }
     ],
     "e35-p4-talks": [
@@ -32,7 +58,33 @@
         "audio": {
           "mode": "muted",
           "reason": "a produced release: mute B-roll only (bible e); the narrator speaks over it"
-        }
+        },
+        "marks_checked": {
+          "marks": [],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-22T01:00:00Z",
+            "frames": [
+              0.376,
+              1.502,
+              3.045,
+              4.213,
+              4.964,
+              6.048,
+              7.362,
+              8.717,
+              9.677,
+              10.427,
+              11.95,
+              12.83
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-talks/contact-sheet.png",
+              "sha256": "371b4f71203af53ba6342707d322eb77ab97bf4173a93eddd82c0bee438f03b5"
+            }
+          }
+        },
+        "marks_note": "the verifier, as given: marks none (pool camera bodies with no legible branding, and a red tally light)"
       }
     ],
     "e35-p4-still": [

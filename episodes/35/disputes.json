@@ -3,7 +3,7 @@
   "issue": 35,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "b3a3cd912f4704c5f2eca28e1dc0afb009362a5346d5cfb7b8d67f2248e2c249",
+  "ledger_sha256": "05cba80892ccdc6e1b823fd64c5d58188eb0349f137a4b576f06b823f171711a",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -120,6 +120,89 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"President Trump Taps Pentagon Cyber Chief Kirsten Davies as National Cyber Director\" from https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/. It is in the public domain: Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it. The licence was read at https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/ on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 76d73c423596320cf30bdc4969429318a624859a791271197964e1b2f0bd68e6. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-p4-arrival",
+      "title": "President Trump Participates in a Shenzhen, China Arrival Ceremony",
+      "source_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/President_Trump_Participates_in_a_Shenzhen%2C_China_Arrival_Ceremony.webm",
+      "sha256": "63dd396fc0be00885839f57760abad7262bf9492176317ed01fd08627a72762e",
+      "credit": "The White House, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump Participates in an Arrival Ceremony – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:25Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"President Trump Participates in a Shenzhen, China Arrival Ceremony\" from https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 63dd396fc0be00885839f57760abad7262bf9492176317ed01fd08627a72762e. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-p4-talks",
+      "title": "President Trump, Xi and Putin Hold Trilateral Talks in China",
+      "source_url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/President_Trump%2C_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+      "sha256": "2094dc14d0cf3cb9cfdee96f0d4a12f19b538dd74342d79064b5eaef0320f3c3",
+      "credit": "The White House, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump, Xi and Putin Hold Trilateral Talks in China – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:54Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "a produced release: mute B-roll only (bible e); the narrator speaks over it"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"President Trump, Xi and Putin Hold Trilateral Talks in China\" from https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 2094dc14d0cf3cb9cfdee96f0d4a12f19b538dd74342d79064b5eaef0320f3c3. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-b8-caracas",
+      "title": "Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas%2C_Venezuela.webm",
+      "sha256": "d3e95d3cf9c68f0baec5e2cd03ff37f464102355a526a8868ba9d6d0350e937c",
+      "credit": "Department of War, via Wikimedia Commons",
+      "licence": {
+        "id": "pd-us-federal",
+        "name": "Public domain (US federal government work)",
+        "deed_url": "https://www.copyright.gov/title17/92chap1.html#105",
+        "legalcode_url": "https://www.law.cornell.edu/uscode/text/17/105",
+        "terms": "A work prepared by an officer or employee of the United States Government as part of their official duties is not protected by copyright in the United States (17 U.S.C. 105)."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Department of War\nCredit: YouTube: Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela. – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:57Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "a brief carries one attributed fact over the picture; the address's own words are not a bite here"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela\" from https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint d3e95d3cf9c68f0baec5e2cd03ff37f464102355a526a8868ba9d6d0350e937c. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }

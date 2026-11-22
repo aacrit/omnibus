@@ -19,7 +19,28 @@
         "audio": {
           "mode": "muted",
           "reason": "a brief carries one attributed fact over the picture; the address's own words are not a bite here"
-        }
+        },
+        "marks_checked": {
+          "marks": [],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-22T01:00:00Z",
+            "frames": [
+              15,
+              17.5,
+              20,
+              22.5,
+              25,
+              26.9,
+              27
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-b8-caracas/contact-sheet.png",
+              "sha256": "01cc221386d64bddaea8b12e84756b71e00d182cf05f192b407ad2f352fa819d"
+            }
+          }
+        },
+        "marks_note": "the verifier, as given: marks none (Department of War lectern seal)"
       }
     ]
   },

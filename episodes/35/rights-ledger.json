@@ -214,61 +214,292 @@
         "beat": "thread-b1206893",
         "why": "The White House's own release of 20 Nov naming Kirsten Davies National Cyber Director: the record the brief's one fact rests on."
       }
-    }
-  ],
-  "rejected": [
-    {
-      "request_id": "e35-p4-arrival",
-      "adapter": "commons",
-      "ref": "File:President Trump Participates in a Shenzhen, China Arrival Ceremony.webm",
-      "reasons": [
-        "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
     },
     {
-      "request_id": "e35-p4-talks",
-      "adapter": "commons",
-      "ref": "File:President Trump, Xi and Putin Hold Trilateral Talks in China.webm",
-      "reasons": [
-        "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
-    {
-      "request_id": "e35-b8-caracas",
-      "adapter": "commons",
-      "ref": "File:Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela.webm",
-      "reasons": [
-        "a YouTube copy (category \"Videos from YouTube\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    }
-  ],
-  "dropped": [
-    {
+      "id": "e35-p4-arrival",
       "request_id": "e35-p4-arrival",
       "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the locator, Shenzhen",
-      "reasons": [
-        "tier 1 commons File:President Trump Participates in a Shenzhen, China Arrival Ceremony.webm: a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
+      "adapter": "commons",
+      "title": "President Trump Participates in a Shenzhen, China Arrival Ceremony",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump Participates in an Arrival Ceremony – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:25Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/President_Trump_Participates_in_a_Shenzhen%2C_China_Arrival_Ceremony.webm",
+      "file": "e35-p4-arrival.webm",
+      "mime": "video/webm",
+      "sha256": "63dd396fc0be00885839f57760abad7262bf9492176317ed01fd08627a72762e",
+      "bytes": 290493084,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-18",
+      "published_at": "2026-11-18T20:50:54Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "fit": {
+        "beat": "shenzhen-summit",
+        "why": "The White House's own unedited pool record of the arrival ceremony at Shenzhen on Wednesday 18 Nov (421.8 s, one camera, no graphic seen in fifteen sampled frames): from about 45 s the President is at Air Force One's door, waves, and descends the red steps toward the welcome line by 70 s. Its own nat sound plays. The US is a party to the summit, so the shot carries RELEASED BY THE WHITE HOUSE once the party label exists (T5).",
+        "in_s": 45,
+        "out_s": 70
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T01:00:00Z",
+          "frames": [
+            45,
+            47.5,
+            50,
+            52.5,
+            55,
+            57.5,
+            60,
+            62.5,
+            65,
+            67.5,
+            69.9,
+            70
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-arrival/contact-sheet.png",
+            "sha256": "01f229b2002c58f9a050df92bf4318535c03200f7d7f8238ae2af55bda175cb6"
+          },
+          "cuts": {
+            "times": [],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              45,
+              70
+            ]
+          }
+        }
+      }
     },
     {
+      "id": "e35-p4-talks",
       "request_id": "e35-p4-talks",
       "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the locator, Shenzhen",
-      "reasons": [
-        "tier 1 commons File:President Trump, Xi and Putin Hold Trilateral Talks in China.webm: a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
+      "adapter": "commons",
+      "title": "President Trump, Xi and Putin Hold Trilateral Talks in China",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump, Xi and Putin Hold Trilateral Talks in China – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:54Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/President_Trump%2C_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+      "file": "e35-p4-talks.webm",
+      "mime": "video/webm",
+      "sha256": "2094dc14d0cf3cb9cfdee96f0d4a12f19b538dd74342d79064b5eaef0320f3c3",
+      "bytes": 14116896,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-19",
+      "published_at": "2026-11-19T16:56:33Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "a produced release: mute B-roll only (bible e); the narrator speaks over it"
+      },
+      "fit": {
+        "beat": "shenzhen-summit",
+        "why": "The White House's release of the trilateral talks on Thursday 19 Nov: Trump, Xi and Putin walking in, Xi speaking at the round table, the three at the table, Trump and Xi shaking hands. It is a produced montage (graded, cut short, a White House end card fading in from about 13.4 s), so it airs as mute B-roll only and never as a bite (bible e, sot-raw-source); the span stops at the file's own cut at 12.93 s, before the logo.",
+        "in_s": 0,
+        "out_s": 12.93
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T01:00:00Z",
+          "frames": [
+            0.376,
+            1.502,
+            3.045,
+            4.213,
+            4.964,
+            6.048,
+            7.362,
+            8.717,
+            9.677,
+            10.427,
+            11.95,
+            12.83
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-talks/contact-sheet.png",
+            "sha256": "371b4f71203af53ba6342707d322eb77ab97bf4173a93eddd82c0bee438f03b5"
+          },
+          "cuts": {
+            "times": [
+              0.751,
+              2.252,
+              3.837,
+              4.588,
+              5.339,
+              6.757,
+              7.966,
+              9.468,
+              9.885,
+              10.969
+            ],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              0,
+              12.93
+            ]
+          }
+        }
+      }
     },
     {
+      "id": "e35-b8-caracas",
       "request_id": "e35-b8-caracas",
       "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the locator, Caracas",
-      "reasons": [
-        "tier 1 commons File:Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela.webm: a YouTube copy (category \"Videos from YouTube\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
+      "adapter": "commons",
+      "title": "Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Department of War\nCredit: YouTube: Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela. – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:57Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas%2C_Venezuela.webm",
+      "file": "e35-b8-caracas.webm",
+      "mime": "video/webm",
+      "sha256": "d3e95d3cf9c68f0baec5e2cd03ff37f464102355a526a8868ba9d6d0350e937c",
+      "bytes": 1253423975,
+      "credit": "Department of War, via Wikimedia Commons",
+      "date": "2026-11-18",
+      "published_at": "2026-11-20T05:04:59Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "a brief carries one attributed fact over the picture; the address's own words are not a bite here"
+      },
+      "fit": {
+        "beat": "thread-1c145f33",
+        "why": "The Department of War's full, unedited 4K record of the Secretary's address at the US Embassy in Caracas on Wednesday 18 Nov (1259.8 s, an address, so SOT-eligible): from 15 s Hegseth alone at the lectern, the city behind him. A brief takes 12 s of picture under the narrator; party label RELEASED BY THE DEPARTMENT OF WAR once it exists (T5).",
+        "in_s": 15,
+        "out_s": 27
+      },
+      "youtube_source": "category \"Videos from YouTube\"",
+      "marks_checked": {
+        "marks": [],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T01:00:00Z",
+          "frames": [
+            15,
+            17.5,
+            20,
+            22.5,
+            25,
+            26.9,
+            27
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-b8-caracas/contact-sheet.png",
+            "sha256": "01cc221386d64bddaea8b12e84756b71e00d182cf05f192b407ad2f352fa819d"
+          },
+          "cuts": {
+            "times": [],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              15,
+              27
+            ]
+          }
+        }
+      }
     }
-  ]
+  ],
+  "rejected": [],
+  "dropped": []
 }

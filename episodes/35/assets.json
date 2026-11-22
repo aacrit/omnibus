@@ -27,6 +27,31 @@
             "why": "The White House's own unedited pool record of the arrival ceremony at Shenzhen on Wednesday 18 Nov (421.8 s, one camera, no graphic seen in fifteen sampled frames): from about 45 s the President is at Air Force One's door, waves, and descends the red steps toward the welcome line by 70 s. Its own nat sound plays. The US is a party to the summit, so the shot carries RELEASED BY THE WHITE HOUSE once the party label exists (T5).",
             "in_s": 45,
             "out_s": 70
+          },
+          "marks_checked": {
+            "marks": [],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-22T01:00:00Z",
+              "frames": [
+                45,
+                47.5,
+                50,
+                52.5,
+                55,
+                57.5,
+                60,
+                62.5,
+                65,
+                67.5,
+                69.9,
+                70
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-arrival/contact-sheet.png",
+                "sha256": "01f229b2002c58f9a050df92bf4318535c03200f7d7f8238ae2af55bda175cb6"
+              }
+            }
           }
         }
       ],
@@ -60,6 +85,31 @@
             "why": "The White House's release of the trilateral talks on Thursday 19 Nov: Trump, Xi and Putin walking in, Xi speaking at the round table, the three at the table, Trump and Xi shaking hands. It is a produced montage (graded, cut short, a White House end card fading in from about 13.4 s), so it airs as mute B-roll only and never as a bite (bible e, sot-raw-source); the span stops at the file's own cut at 12.93 s, before the logo.",
             "in_s": 0,
             "out_s": 12.93
+          },
+          "marks_checked": {
+            "marks": [],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-22T01:00:00Z",
+              "frames": [
+                0.376,
+                1.502,
+                3.045,
+                4.213,
+                4.964,
+                6.048,
+                7.362,
+                8.717,
+                9.677,
+                10.427,
+                11.95,
+                12.83
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-talks/contact-sheet.png",
+                "sha256": "371b4f71203af53ba6342707d322eb77ab97bf4173a93eddd82c0bee438f03b5"
+              }
+            }
           }
         }
       ],
@@ -207,6 +257,26 @@
             "why": "The Department of War's full, unedited 4K record of the Secretary's address at the US Embassy in Caracas on Wednesday 18 Nov (1259.8 s, an address, so SOT-eligible): from 15 s Hegseth alone at the lectern, the city behind him. A brief takes 12 s of picture under the narrator; party label RELEASED BY THE DEPARTMENT OF WAR once it exists (T5).",
             "in_s": 15,
             "out_s": 27
+          },
+          "marks_checked": {
+            "marks": [],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-22T01:00:00Z",
+              "frames": [
+                15,
+                17.5,
+                20,
+                22.5,
+                25,
+                26.9,
+                27
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-b8-caracas/contact-sheet.png",
+                "sha256": "01cc221386d64bddaea8b12e84756b71e00d182cf05f192b407ad2f352fa819d"
+              }
+            }
           }
         }
       ],
