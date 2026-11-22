@@ -15,7 +15,38 @@
           "why": "The Security Service of Ukraine's own video of its strike on the Kerch bridge, released 17 Nov: a thermal drone approach to the arch (0.17 to 22.99 s), the impact at night (22.99 to 26.99 s), the arch down in daylight (26.99 s on). The span starts after the 0.17 s title card ('fourth SSU strike') and stops at 28.8 s, before the SSU's end card wipes in (between 28.8 and 29.4 s). Party label RELEASED BY THE SECURITY SERVICE OF UKRAINE; the SSU's own bug sits top left.",
           "in_s": 0.167,
           "out_s": 28.8
-        }
+        },
+        "marks_checked": {
+          "marks": [
+            "SSU bug (СЛУЖБА БЕЗПЕКИ УКРАЇНИ), top-left in every frame: the credited source"
+          ],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-22T03:30:00Z",
+            "frames": [
+              0.167,
+              2.5,
+              5,
+              7.5,
+              10,
+              12.5,
+              15,
+              17.5,
+              20,
+              22.5,
+              22.99,
+              24.491,
+              25.742,
+              26.994,
+              28.7
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-lead-ssu-video/contact_sheet.png",
+              "sha256": "caed0978730f825c4e32a8ba5140a9afd0e37efecf9afe313168dbf17f9c6bb8"
+            }
+          }
+        },
+        "marks_note": "the verifier, as given: no identifiable remains; impact at a distance, no graphic detail"
       }
     ],
     "e35-lead-ssu-still": [

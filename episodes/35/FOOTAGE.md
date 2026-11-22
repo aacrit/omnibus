@@ -12,7 +12,7 @@ This file is the sourcing pass against the pin b8dcf87 (cutoff 2026-11-21T14:17:
 
 | Slot | Story | Cleared moving picture | Awaiting a signed review | SOT bites available | Documents | Gaps and refusals |
 |---|---|---|---|---|---|---|
-| lead | ukraine-bridges-strikes | **155 s**: Putin's 19 Nov news conference (kremlin.ru), his answer on the attacks on the Crimean Bridge, 1380 to 1535 s | 28.63 s: the SSU's Kerch strike video, 0.167 to 28.8 s (marks review) | Putin, news conference, 19 Nov: `news_conference` from the page's title, with an official English transcript in the ledger; the bite is cut inside 1380 to 1535 s at sentence bounds | The Kremlin's English transcript of 19 Nov (**fetched**): "following the strikes on the Crimean Bridge, there will be no negotiations". The SSU still KerchBridgeCollapse.jpg (**fetched**, RELEASED BY THE SECURITY SERVICE OF UKRAINE) | **FlamingoKerch.jpg refused**: its only source is the President's X post, not president.gov.ua. No Zelenskyy statement or video on a Commons upload in the week. No SES or KMDA footage of the 20 Nov Kyiv strike. kremlin.ru 81276 (17 Nov bridge update) has no video. |
+| lead | ukraine-bridges-strikes | **183.633 s**: Putin's 19 Nov news conference (kremlin.ru), his answer on the attacks on the Crimean Bridge, 1380 to 1535 s (155 s); the SSU's Kerch strike video, 0.167 to 28.8 s (28.633 s, RELEASED BY THE SECURITY SERVICE OF UKRAINE, kind `unknown`, muted; marks review signed 2026-11-22T03:30:00Z) | none | Putin, news conference, 19 Nov: `news_conference` from the page's title, with an official English transcript in the ledger; the bite is cut inside 1380 to 1535 s at sentence bounds | The Kremlin's English transcript of 19 Nov (**fetched**): "following the strikes on the Crimean Bridge, there will be no negotiations". The SSU still KerchBridgeCollapse.jpg (**fetched**, RELEASED BY THE SECURITY SERVICE OF UKRAINE) | **FlamingoKerch.jpg refused**: its only source is the President's X post, not president.gov.ua. No Zelenskyy statement or video on a Commons upload in the week. No SES or KMDA footage of the 20 Nov Kyiv strike. kremlin.ru 81276 (17 Nov bridge update) has no video. |
 | package_2 | uk-eu-reset | 0 s | 0 s | none | none reachable | No OGL transfer on Commons of the speech, the summit or the agreements. T5 built no gov.uk adapter, because gov.uk video is YouTube embeds. |
 | package_3 | gulf-us-iran | 0 s | 0 s | none | CENTCOM (403) and Iran (to locate) | No video of the week's events. One still: USS Theodore Roosevelt enters the 5th Fleet, 17 Nov (DVIDS). |
 | package_4 | shenzhen-summit | **57.93 s**: arrival 45 to 70 s (25 s); Putin's APEC CEO Summit address 110 to 130 s (20 s, kremlin.ru); trilateral talks 0 to 12.93 s (12.93 s) | none for the fetcher (see the review list) | Putin, APEC CEO Summit address, 18 Nov, 1177.7 s, with an official English transcript in the ledger. Its `record_kind` is `unknown` (the title "Деловой саммит форума АТЭС" does not state it), so it airs muted until a checking role reviews the kind. | The declaration, White House text (**fetched**); the Kremlin's English APEC transcript (**fetched**) | kantei skipped: refused until the CoS signs its terms. kremlin.ru 81303 (trilateral meeting) lists no video. No Chinese-side picture. |
@@ -32,16 +32,15 @@ This file is the sourcing pass against the pin b8dcf87 (cutoff 2026-11-21T14:17:
 
 | State | Moving picture | Share |
 |---|---|---|
-| Cleared now, by fit span | 224.93 s | 27.8% |
-| Cleared now, as it would plausibly air | about 115 s | about 14% |
-| Plus the SSU video after its marks review | about 144 s | about 18% |
+| Cleared now, by fit span | 253.563 s | 31.3% |
+| Cleared now, as it would plausibly air | about 144 s | about 18% |
 | Plus the Echo's film at bible q's 85 s (T8, not sourced here) | about 229 s | about 28% |
 
 The "plausibly air" row counts the lead's news conference as one 20 s bite, not its 155 s answer span. It counts the APEC address as one 20 s bite, and the arrival, talks and Caracas spans as fitted. The share is still well under the 60 to 80% target and under bible q's 43 to 55%. Nothing is padded.
 
 ## Reviews needed from a checking role
 
-**Marks review (the fetcher requires it):**
+**Marks review (the fetcher requires it): signed.** The verifier's review (verifier: claude-sonnet-5, 2026-11-22T03:30:00Z, 15 frames) is in the pin as given. Its marks: "SSU bug (СЛУЖБА БЕЗПЕКИ УКРАЇНИ), top-left in every frame: the credited source". Its note: "no identifiable remains; impact at a distance, no graphic detail". The redo fetch found the same cuts, and the review stood with no re-sign.
 
 | Request | File (sha256) | Span | Cuts in span (found by scenes.mjs, threshold 0.2) |
 |---|---|---|---|

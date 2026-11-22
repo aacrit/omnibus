@@ -797,17 +797,119 @@
       },
       "released_by": "the Kremlin",
       "party_label": "RELEASED BY THE KREMLIN"
+    },
+    {
+      "id": "e35-lead-ssu-video",
+      "request_id": "e35-lead-ssu-video",
+      "kind": "footage",
+      "adapter": "uastate",
+      "title": "Video 2026-11-17 13-25-19",
+      "licence": "cc-by-4.0",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: Security Service of Ukraine\nCredit: https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video\nState body: the Security Service of Ukraine; licence template: {{Ssu.gov.ua}}; source: https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video.\nA release of the Security Service of Ukraine under CC BY 4.0 on its own site, transferred to Commons; party label RELEASED BY THE SECURITY SERVICE OF UKRAINE.",
+        "captured_at": "2026-11-22T01:58:53Z"
+      },
+      "basis": "CC BY 4.0 under the Security Service of Ukraine's own site terms, as the Commons licence tag states; the file's source is the body's own page https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video (bible v2 section n)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Video_2026-11-17_13-25-19.webm",
+      "file": "e35-lead-ssu-video.webm",
+      "mime": "video/webm",
+      "sha256": "6073b1e42e9c4d7ff4ada10f3e52a054beec7f6955a72aa83a4ee9b1663ff825",
+      "bytes": 3303884,
+      "credit": "Security Service of Ukraine, via Wikimedia Commons",
+      "date": "2026-11-17",
+      "published_at": "2026-11-17T11:36:48Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "record_kind unknown: not shown to be an unedited event record, so its own sound never airs (bible v2 section e, sot-raw-source); mute B-roll only"
+      },
+      "fit": {
+        "beat": "ukraine-bridges-strikes",
+        "why": "The Security Service of Ukraine's own video of its strike on the Kerch bridge, released 17 Nov: a thermal drone approach to the arch (0.17 to 22.99 s), the impact at night (22.99 to 26.99 s), the arch down in daylight (26.99 s on). The span starts after the 0.17 s title card ('fourth SSU strike') and stops at 28.8 s, before the SSU's end card wipes in (between 28.8 and 29.4 s). Party label RELEASED BY THE SECURITY SERVICE OF UKRAINE; the SSU's own bug sits top left.",
+        "in_s": 0.167,
+        "out_s": 28.8
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [
+          "SSU bug (СЛУЖБА БЕЗПЕКИ УКРАЇНИ), top-left in every frame: the credited source"
+        ],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T03:30:00Z",
+          "frames": [
+            0.167,
+            2.5,
+            5,
+            7.5,
+            10,
+            12.5,
+            15,
+            17.5,
+            20,
+            22.5,
+            22.99,
+            24.491,
+            25.742,
+            26.994,
+            28.7
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-lead-ssu-video/contact_sheet.png",
+            "sha256": "caed0978730f825c4e32a8ba5140a9afd0e37efecf9afe313168dbf17f9c6bb8"
+          },
+          "cuts": {
+            "times": [
+              22.99,
+              24.491,
+              26.994
+            ],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              0.167,
+              28.8
+            ]
+          }
+        }
+      },
+      "record_kind": "unknown",
+      "record_kind_evidence": {
+        "source": "adapter",
+        "text": "the source's own record does not state what kind of record this is, and no checking role has reviewed it"
+      },
+      "released_by": "the Security Service of Ukraine",
+      "party_label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE"
     }
   ],
   "rejected": [
-    {
-      "request_id": "e35-lead-ssu-video",
-      "adapter": "uastate",
-      "ref": "File:Video 2026-11-17 13-25-19.webm",
-      "reasons": [
-        "a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
     {
       "request_id": "e35-lead-flamingo-still",
       "adapter": "uastate",
@@ -818,15 +920,6 @@
     }
   ],
   "dropped": [
-    {
-      "request_id": "e35-lead-ssu-video",
-      "kind": "footage",
-      "fallback_tier": 4,
-      "fallback": "tier 4: the locator, Kerch Strait",
-      "reasons": [
-        "tier 1 uastate File:Video 2026-11-17 13-25-19.webm: a YouTube copy (category \"Uploaded with video2commons\") needs a reviewed marks_checked record (the on-screen marks in its frames) until a frame reader exists"
-      ]
-    },
     {
       "request_id": "e35-lead-flamingo-still",
       "kind": "still",

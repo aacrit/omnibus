@@ -28,7 +28,7 @@
     },
     "rights_ledger": {
       "path": "episodes/35/rights-ledger.json",
-      "sha256": "86c4db3d44196f263e9c17dc5faaa935c704ab1445b244c33b31b8237a08a31b"
+      "sha256": "28aaa89469c2700afbdbdb6f9e603f1eadbf98460c3a5f59a9b07f665333e9bb"
     },
     "capture_pool": null,
     "desk_sha256": "81a6f4052716881fc72d3ea54238bac1cff23849227311c1c81c3f85ac74456e"
@@ -245,12 +245,16 @@
           "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
         }
       ],
-      "footage_cleared_s": 155,
+      "footage_cleared_s": 183.633,
       "footage": {
         "items": [
           {
             "id": "e35-lead-putin-presser",
             "seconds": 155
+          },
+          {
+            "id": "e35-lead-ssu-video",
+            "seconds": 28.633
           }
         ],
         "refused": [],
