@@ -11,6 +11,12 @@
 //   node scripts/episode-draft.mjs own-files <issue>
 //       the ledger file names of the issue's own-property items, one a line: what the sources job places from the
 //       own-pages-<issue> release (each a bare name, so it is a safe --pattern).
+//   node scripts/episode-draft.mjs pd-files <issue>
+//       the ledger file names of the issue's pd-us-federal items, one a line: the only files the sources job may
+//       place from the pd-sources-<issue> release (T9c).
+//   node scripts/episode-draft.mjs pd-verified <issue> --media <dir>
+//       (the laptop) the paths of those files under <dir> that hash to the ledger, one a line: what may be uploaded
+//       to pd-sources-<issue>; exits 1 naming any that is missing or does not hash.
 //   node scripts/episode-draft.mjs unusable <sources report.json> --issue <n>
 //       the ledger items the sources job could not use, one line each, also to $GITHUB_STEP_SUMMARY; exits 1 when the
 //       screenplay or the studio ledger cites any of them.
@@ -24,7 +30,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
 import { MANIFEST, buildManifest, citedIn, episodeDocs, listFiles, outputsRoute, r2CapProblem } from "./lib/draft-outputs.mjs";
-import { ownFiles } from "./lib/rights/pull.mjs";
+import { ownFiles, pdFiles, pdVerified } from "./lib/rights/pull.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -77,6 +83,20 @@ async function main(argv) {
     const ledger = JSON.parse(readFileSync(path.join(repoRoot, "episodes", String(issue), "rights-ledger.json"), "utf8"));
     for (const f of ownFiles(ledger)) console.log(f);
     return 0;
+  }
+  if (cmd === "pd-files" || cmd === "pd-verified") {
+    const issue = issueOf(arg);
+    const ledger = JSON.parse(readFileSync(path.join(repoRoot, "episodes", String(issue), "rights-ledger.json"), "utf8"));
+    if (cmd === "pd-files") {
+      for (const f of pdFiles(ledger)) console.log(f);
+      return 0;
+    }
+    const media = flag("media");
+    if (!media) throw new Error("pd-verified needs --media <dir> (the issue's media folder)");
+    const { ok, refused } = await pdVerified({ ledger, mediaDir: path.resolve(media) });
+    for (const p of ok) console.log(p);
+    for (const r of refused) console.error(`episode-draft: refused: ${r.id}: ${r.why}`);
+    return refused.length ? 1 : 0;
   }
   if (cmd === "unusable") {
     const rows = unusableOf(arg);

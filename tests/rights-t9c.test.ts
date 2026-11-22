@@ -89,3 +89,27 @@ describe("rights.mjs telecine: written only when the file is the ledger's and th
     await expect(runTelecine({ root, issue: 35, itemId: "e35-p4-still", mediaDir: media, now })).rejects.toThrow(/not footage/);
   });
 });
+
+import { pdFiles, pdVerified } from "../scripts/lib/rights/pull.mjs";
+
+describe("pd-sources: only pd-us-federal files, and only bytes that hash to the ledger", () => {
+  const ledger = { items: [
+    { id: "a", licence: "pd-us-federal", file: "a.html", sha256: "1".repeat(64) },
+    { id: "b", licence: "cc-by-4.0", file: "b.mp4", sha256: "2".repeat(64) },
+    { id: "c", licence: "own-property", file: "c.png", sha256: "3".repeat(64) },
+    { id: "d", licence: "pd-us-federal", file: "../d.html", sha256: "4".repeat(64) },
+    { id: "e", licence: "pd-us-federal", file: "e.html", sha256: "5".repeat(64) },
+  ] };
+  it("lists only the federal works' bare file names", () => {
+    expect(pdFiles(ledger)).toEqual(["a.html", "e.html"]);
+  });
+  it("verifies each against the ledger and refuses a mismatch, a missing file and a path", async () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), "t9c-pd-"));
+    writeFileSync(path.join(dir, "a.html"), "x");
+    writeFileSync(path.join(dir, "b.mp4"), "x");
+    const hash = async (p: string) => ({ sha256: p.endsWith("a.html") ? "1".repeat(64) : "9".repeat(64) });
+    const r = await pdVerified({ ledger, mediaDir: dir, hash });
+    expect(r.ok).toEqual([path.join(dir, "a.html")]);
+    expect(r.refused.map((x: { id: string }) => x.id)).toEqual(["d", "e"]);
+  });
+});

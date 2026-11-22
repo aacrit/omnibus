@@ -251,6 +251,22 @@ jobs:
             pats=(); for f in "${own[@]}"; do pats+=(--pattern "$f"); done
             gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"
           fi
+          # T9c (CoS decision 2026-11-22): a US federal work whose origin serves this runner other bytes than the
+          # ledger checked comes from the pd-sources-<issue> release, the laptop's verified bytes. Only the ledger's
+          # pd-us-federal files are taken from it (pd-files); the fetch below hashes each against the ledger.
+          if gh release view "pd-sources-$ISSUE" -R "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            pd_list="$(node scripts/episode-draft.mjs pd-files "$ISSUE")"
+            assets="$(gh release view "pd-sources-$ISSUE" -R "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')"
+            pats=()
+            if [ -n "$pd_list" ]; then
+              while IFS= read -r f; do
+                if printf '%s\n' "$assets" | grep -qxF "$f"; then pats+=(--pattern "$f"); fi
+              done <<< "$pd_list"
+            fi
+            if [ "${#pats[@]}" -gt 0 ]; then
+              gh release download "pd-sources-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"
+            fi
+          fi
           node scripts/rights.mjs fetch "$ISSUE" --media "$out/media" --from-ledger --report "$out/reports/sources.json"
           node scripts/episode-draft.mjs unusable "$out/reports/sources.json" --issue "$ISSUE"
           du -sh "$out"

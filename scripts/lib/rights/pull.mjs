@@ -40,6 +40,43 @@ export function ownFiles(ledger) {
   return (ledger?.items ?? []).filter(isOwn).map((i) => String(i.file ?? "")).filter((f) => /^[\w.-]+$/.test(f) && path.basename(f) === f);
 }
 
+/**
+ * T9c (CoS decision 2026-11-22): a US federal work (licence pd-us-federal) whose origin serves the runner other bytes
+ * than the ledger checked is placed, like our own pages, from the issue's pd-sources-<issue> release: the laptop's
+ * ledger-verified bytes, unchanged. Only pd-us-federal items, by this code; anything else is never put in a release.
+ * A placed file is only hashed here (pullLedger's "present"); one that does not hash to the ledger is discarded and
+ * fetched from its origin as before, never used.
+ */
+export const PD_FEDERAL = "pd-us-federal";
+export const pdRelease = (issue) => `pd-sources-${issue}`;
+export const isPdFederal = (item) => item.licence === PD_FEDERAL;
+
+/** The bare file names of the ledger's pd-us-federal items (pure), the only files a pd-sources release may carry. */
+export function pdFiles(ledger) {
+  return (ledger?.items ?? []).filter(isPdFederal).map((i) => String(i.file ?? "")).filter((f) => /^[\w.-]+$/.test(f) && path.basename(f) === f);
+}
+
+/**
+ * The files of `mediaDir` a pd-sources release may carry (the laptop's side): each pd-us-federal item's file that
+ * hashes to the ledger's sha256. Returns { ok: [paths], refused: [{id, why}] }; an item of any other licence is never
+ * listed, and a missing or mismatched file is refused, never uploaded.
+ */
+export async function pdVerified({ ledger, mediaDir, hash = hashLocal }) {
+  const ok = [];
+  const refused = [];
+  for (const item of ledger.items ?? []) {
+    if (!isPdFederal(item)) continue;
+    const f = String(item.file ?? "");
+    if (!/^[\w.-]+$/.test(f) || path.basename(f) !== f) { refused.push({ id: item.id, why: "not a bare file name" }); continue; }
+    const p = path.join(mediaDir, f);
+    if (!existsSync(p)) { refused.push({ id: item.id, why: `${p} is not on this machine` }); continue; }
+    const { sha256 } = await hash(p);
+    if (sha256 !== item.sha256) { refused.push({ id: item.id, why: `sha256 ${sha256.slice(0, 12)} is not the ledger's ${String(item.sha256).slice(0, 12)}` }); continue; }
+    ok.push(p);
+  }
+  return { ok, refused };
+}
+
 /** `discard`: delete a mismatched download instead of keeping it as <file>.mismatch (default on GitHub Actions, where no person looks at it and every artifact is public). */
 export async function pullLedger({ ledger, mediaDir, http, hash = hashLocal, log = console.log, discard = process.env.GITHUB_ACTIONS === "true" }) {
   mkdirSync(mediaDir, { recursive: true });
