@@ -98,7 +98,7 @@ def test_eu_reuse_is_named_as_itself():
 
 def test_every_rights_allowlist_id_is_mapped():
     src = (Path(__file__).resolve().parents[2] / "scripts" / "lib" / "rights" / "licences.mjs").read_text(encoding="utf-8")
-    for fixed in ("cc0-1.0", "eu-reuse-credit", "pd-us-federal", "pd-age", "pd-dedication", "own-property"):
+    for fixed in ("cc0-1.0", "eu-reuse-credit", "pd-us-federal", "pd-age", "pd-dedication", "own-property", "ogl-uk-3.0"):
         assert fixed in src and fixed in SHOW.LICENCES
     assert '["1.0", "2.0", "2.1", "2.5", "3.0", "4.0"]' in src
     assert 'SA_VERSIONS = CC_VERSIONS.filter((v) => v !== "1.0")' in src and "SA_VERSIONS.map((v) => `cc-by-sa-${v}`)" in src

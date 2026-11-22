@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3ASen.+Tammy+Duckworth+%28D-IL%29+Calls+Navy+Secretary+Nominee+Hung+Cao+A+%22Yes+Man%22.webm",
+  "at": "2026-11-22T00:21:25Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203414321,
+     "ns": 6,
+     "title": "File:Sen. Tammy Duckworth (D-IL) Calls Navy Secretary Nominee Hung Cao A \"Yes Man\".webm",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{en|1=Navy secy. nominee Hung Cao tells Sen. Tammy Duckworth (D-IL) that it is not within his \"purview\" to urge Defense Secretary Hegseth to end the Iran war:\nDuckworth: \"It is within your purview! ...I cannot go for you because you're gonna be another yes man.\"}}\n|date=2026-11-17\n|source={{From YouTube|1=oS3x_M91by0|2=Sen. Duckworth to Navy Cecy. Nominee: \"I cannot go for you because you're gonna be another yes man.\"}}\n|author=[https://www.youtube.com/@CSPAN C-SPAN]\n|permission=\n|other_versions=\n|other_fields=\n}}\n\n=={{int:license-header}}==\n{{PD-CSPAN|nowarn=1}}\n\n[[Category:Uploaded with video2commons]]\n[[Category:Videos taken on 2026-11-17]]\n[[Category:Videos by the United States Senate]]\n[[Category:Video display resolution 1280 x 720]]\n[[Category:Videos in American English]]\n[[Category:Videos of 2026]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

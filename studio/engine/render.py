@@ -209,6 +209,27 @@ assert (MUSIC_LUFS, DUCK_DB, DIALOGUE_LUFS, DUCK_BRIDGE_S) == (SC.FEATURE_LUFS, 
 DUCK_VOICE_THRESHOLD = 1e-3         # a voice sample over -60 dBFS counts as voice for ducking
 SILENCE_DBFS = -120.0               # A19: a mix sample at or under this is true digital silence
 SILENCE_WARN_S = 4.0                # digital-silence: a run longer than this outside an intended silence is a warning
+# Show bible v2 j (ticket 3, omnibus only): an archive_video shot's own sound is levelled once (one static gain,
+# never cleaned or dynamically compressed, exactly as an archival span's) to these targets, read only when the shot
+# states the v2 sound.role explicitly (a v1 clip with only sound.mode, e.g. the frozen issue 33, keeps its native
+# level unchanged: the bus it plays on is the only thing that changes for it). A ``nat`` clip's own span is judged
+# against VO: mostly inside a narration line's span, it is levelled to NAT_UNDER_VO_LUFS instead of NAT_FULL_LUFS.
+NAT_FULL_LUFS = -19.0                # bible j: nat sound in the clear, -20 to -18 LUFS short-term (this is the midpoint)
+NAT_UNDER_VO_LUFS = -24.0            # bible j: nat under VO, at no more than -24 LUFS short-term
+NAT_UNDER_VO_SHARE = 0.5             # a clip's own span counted "under VO" once a narration line covers this much of it
+SOT_LUFS = DIALOGUE_LUFS             # bible j: SOT at dialogue level, the same as the narrator (the speaker is in
+                                     # the programme, not under it)
+# bible j: a foreign-language bite comes up full for TRANSLATION_FULL_S, then ramps (over TRANSLATION_DUCK_RAMP_S) to
+# a duck level under the reader's translation: -24 for an official transcript, -18 for our own (so a bilingual
+# viewer can still check it). The duck level is reached by the same offset from SOT_LUFS that the bed's own gain
+# already carries, not by a second loudness measurement.
+TRANSLATION_FULL_S = 1.5
+TRANSLATION_DUCK_RAMP_S = 0.2
+TRANSLATION_DUCK_LUFS = {"official": -24.0, "ours": -18.0}
+ROOM_TONE_FLOOR_DBFS = -72.0         # bible j: the amb bus's room-tone floor, at or below this across the programme
+ROOM_TONE_GAP_S = 2.0                # room-tone-floor: the amb bus may not fall to true digital silence past this
+DEAD_AIR_MAX_S = 2.0                 # bible j: dead-air promoted to block; a run of digital silence over this blocks
+DEAD_AIR_DECLARED_MAX_S = 6.0        # bible j: a declared silence (silence: intended) is at most this long
 VOICELESS_FLOOR = 0.10              # GRAMMAR 6.1, A18: at least 10% of the runtime carries no voice
 READINGS_FLOOR = 0.20               # GRAMMAR 6.1 as amended (founder, 2026-10-10): readings (read-by and archival
                                     # testimony) carry at least 20% of the runtime (was 30%)
@@ -5552,6 +5573,44 @@ def archival_span(ln: dict) -> bool:
     return bool(ln.get("archival_audio")) and bool(ln.get("clip"))
 
 
+def shot_audio_role(sound: dict | None) -> str:
+    """Show bible v2 j (ticket 3): an archive_video shot's own-sound role, ``sot``, ``nat`` or ``muted``. The v2
+    field (``sound.role``, ticket 1's schema, ``NL.SC.SOUND_ROLES``) wins when it is one of the three; otherwise the
+    v1 field (``sound.mode``, e.g. the frozen issue 33's own screenplay, which never carries ``role``) is read
+    instead (``mute`` -> ``muted``; anything else, including no sound at all, defaults to ``nat``, v1's ``own``)."""
+    sound = sound or {}
+    role = sound.get("role")
+    if role in NL.SC.SOUND_ROLES:
+        return role
+    return "muted" if sound.get("mode") == "mute" else "nat"
+
+
+def _own_sound_under_vo(a0: float, a1: float, vo_spans: list[tuple[float, float]], *, share: float = NAT_UNDER_VO_SHARE) -> bool:
+    """Show bible v2 j: whether a clip's own-sound span [a0, a1) mostly falls under the narrator (a static
+    approximation of the bible's continuous duck: each own-sound clip is either under VO throughout a package beat
+    or not, by its grammar, so one level per clip is faithful without a second mix pass)."""
+    dur = max(a1 - a0, 1e-9)
+    covered = sum(max(0.0, min(a1, b) - max(a0, a)) for a, b in vo_spans)
+    return (covered / dur) >= share
+
+
+def _translation_envelope(n: int, full_gain_db: float, duck_gain_db: float, *, full_s: float = TRANSLATION_FULL_S,
+                          ramp_s: float = TRANSLATION_DUCK_RAMP_S) -> np.ndarray:
+    """Show bible v2 j: a foreign-language SOT's per-sample linear-gain envelope. ``full_gain_db`` for the first
+    ``full_s`` seconds (the original comes up full), ramped over ``ramp_s`` to ``duck_gain_db`` for the rest (under
+    the reader's translation): -24 LUFS-equivalent for an official transcript, -18 for our own."""
+    full_n = min(n, int(round(full_s * AUDIO_RATE)))
+    ramp_n = max(1, int(round(ramp_s * AUDIO_RATE)))
+    g_full, g_duck = np.float32(10 ** (full_gain_db / 20)), np.float32(10 ** (duck_gain_db / 20))
+    env = np.full(n, g_duck, np.float32)
+    env[:full_n] = g_full
+    r0, r1 = full_n, min(full_n + ramp_n, n)
+    if r1 > r0:
+        t = np.linspace(0.0, 1.0, r1 - r0, dtype=np.float32)
+        env[r0:r1] = g_full + t * (g_duck - g_full)
+    return env
+
+
 def is_long_reel(item: dict | None) -> bool:
     """A26 (E11): a source too large to read whole (or a ledger item that says
     ``trim_span: true``) is trimmed to a cached span before conform."""
@@ -6804,6 +6863,10 @@ SOUND_LINTS: dict[str, dict] = {
     "archival-sound-edge": {"class": "needs full mix", "why": "A36, the reels' own sound as placed, every edge "
                                                                 "against the stem around it"},
     "digital-silence": {"class": "needs full mix", "why": "the placed mix"},
+    "dead-air": {"class": "needs full mix", "why": "show bible v2 j (omnibus only): digital silence over its tighter "
+                                                   "threshold, on the placed mix"},
+    "room-tone-floor": {"class": "needs full mix", "why": "show bible v2 j (omnibus only): the amb bus's own level "
+                                                          "and coverage, which only the mix measures"},
     "title-audio-level": {"class": "needs full mix", "why": "A40 title level: the title's gain is held by its true peak "
                                                            "after the programme gain, which only the mix measures"},
     "voiceless-floor": {"class": "needs full mix", "why": "6.1, the voice shares as placed"},
@@ -7259,15 +7322,16 @@ def build_mix(plan: dict, film: Path, journal: Journal, *, draft: bool = False,
     whole at 0 with no shaping, levelling or fades (the duck still applies);
     ``stems`` then receives its reading by span (score.take_analysis).
 
-    ``bus_capture``, when given (``--stems``), receives the four programme
-    buses (``voice``, ``clips``, ``music_ducked``, ``amb``: they sum, sample
-    for sample, to the returned mix), ``music_preduck``, the ``duck`` curve
-    and ``lines``: every voice placement of the final pass (_placed_lines),
+    ``bus_capture``, when given (``--stems``), receives the five programme
+    buses (``voice``, ``sot``, ``clips`` [nat], ``music_ducked``, ``amb``:
+    they sum, sample for sample, to the returned mix), ``music_preduck``,
+    the ``duck`` curve and ``lines``: every voice placement of the final
+    pass (_placed_lines),
     which sum to ``voice``. It changes no return value and nothing when it is
     None."""
     std = plan.get("score_standard") or dict(SC.STANDARD)
     n = int(round(plan["frames"] / fps_of(plan) * AUDIO_RATE))
-    voice, music, amb, clips = (np.zeros(n, np.float32) for _ in range(4))
+    voice, music, amb, clips, sot = (np.zeros(n, np.float32) for _ in range(5))
     placed = {"lines": [], "cues": [], "clips": [], "missing": []}
     missing_voice, bad_takes, unclean = [], [], []
     narr: dict[str, dict] = {}                   # narration line id -> its voice profile, for narrator-consistency
@@ -7435,20 +7499,44 @@ def build_mix(plan: dict, film: Path, journal: Journal, *, draft: bool = False,
                                                  "marks_moment": c.get("marks_moment"),
                                                  "an": SC.analyse_cue(y, role, fi, fo,
                                                                       unfaded=unfaded[:k] * np.float32(10 ** (gain / 20)))})
+    # bible v2 j (ticket 3): a VO span, for judging whether a nat clip's own span falls under the narrator
+    # (NAT_UNDER_VO_LUFS) or in the clear (NAT_FULL_LUFS); computed once, from the lines already placed above.
+    vo_spans = [(ln["at_s"], ln["at_s"] + ln["dur_s"]) for ln in placed["lines"] if ln["kind"] == "narration"]
     for s in plan["shots"]:
-        if s["kind"] == "archive_video" and (s.get("sound") or {}).get("mode", "own") == "own" and s["_video"]["probe"]["has_audio"]:
-            g = by_seg.get(s["id"])
-            if g is None or not len(g["x"]):
-                journal.lint("audio-present", False, stage="assembly", phase="preflight", unit=s["id"], severity="warn", evidence="clip audio unreadable")
-                continue
-            y, h, _ = segment_audio(g)           # A36: the clip's own sound, its edges carried past the cut and faded
-            at0 = g["t_in"] - h / AUDIO_RATE
-            _place(clips, y, at0)
-            arch.append((int(round(at0 * AUDIO_RATE)), y, 0.0, s["id"]))
-            journal.decision("assembly", f"{s['id']} plays its own sound with A36 edges",
-                             "A36: a clip's own sound never starts or stops on a hard cut of its noise floor", unit=s["id"],
-                             evidence={"head": g["head"], "tail": g["tail"]})
-            placed["clips"].append(s["id"])
+        if s["kind"] != "archive_video" or not s["_video"]["probe"]["has_audio"]:
+            continue
+        sound = s.get("sound") or {}
+        role = shot_audio_role(sound)
+        if role == "muted":
+            continue
+        g = by_seg.get(s["id"])
+        if g is None or not len(g["x"]):
+            journal.lint("audio-present", False, stage="assembly", phase="preflight", unit=s["id"], severity="warn", evidence="clip audio unreadable")
+            continue
+        y, h, _ = segment_audio(g)               # A36: the clip's own sound, its edges carried past the cut and faded
+        at0 = g["t_in"] - h / AUDIO_RATE
+        bus, bus_name = (sot, "sot") if role == "sot" else (clips, "nat")
+        note = None
+        if "role" in sound:               # bible j levels: only a v2 shot that states its own role (never a v1 clip,
+                                           # e.g. the frozen issue 33's sound.mode, which keeps its native level)
+            under_vo = role == "nat" and _own_sound_under_vo(at0, at0 + len(y) / AUDIO_RATE, vo_spans)
+            target = SOT_LUFS if role == "sot" else (NAT_UNDER_VO_LUFS if under_vo else NAT_FULL_LUFS)
+            note = f"{bus_name} own sound" + (" under VO" if under_vo else "")
+            gain_db = _level(journal, s["id"], y, target, note) or 0.0
+            translation = sound.get("translation") if role == "sot" else None
+            if translation in TRANSLATION_DUCK_LUFS:
+                duck_db = gain_db + (TRANSLATION_DUCK_LUFS[translation] - SOT_LUFS)
+                y = y.astype(np.float32) * _translation_envelope(len(y), gain_db, duck_db)
+            else:
+                y = y.astype(np.float32) * np.float32(10 ** (gain_db / 20))
+        _place(bus, y, at0)
+        arch.append((int(round(at0 * AUDIO_RATE)), y, 0.0, s["id"]))
+        journal.decision("assembly", f"{s['id']} plays its own sound ({bus_name}) with A36 edges"
+                         + (f"; {note}" if note else ""),
+                         "A36: a clip's own sound never starts or stops on a hard cut of its noise floor; "
+                         "bible v2 j: a v2 clip's own sound is levelled once to its role's target", unit=s["id"],
+                         evidence={"head": g["head"], "tail": g["tail"], "role": role, "bus": bus_name})
+        placed["clips"].append(s["id"])
     placed["titles"], t_ys = title_tracks(plan)
     if missing_voice and not draft:
         raise Refused(f"voice WAVs missing for {', '.join(missing_voice)} (render with --draft to place silence)")
@@ -7475,23 +7563,29 @@ def build_mix(plan: dict, film: Path, journal: Journal, *, draft: bool = False,
         stems["voice100"] = stems["voice_grid"][: m // k * k].reshape(-1, k).any(axis=1)
         # A29 refined: phone-check, on pass 1's voice (pass 2 only re-peaks the same lines) against the score as heard
         stems["phone"] = SC.phone_check(voice, music * duck + amb, spans)
-    t_off = level_title_audio(placed["titles"], t_ys, (voice + clips + music * duck + amb).astype(np.float32), clips,
-                              journal, draft=draft)
+    # bible v2 j (ticket 3): the sot bus is a fifth, fixed own-sound bus, exactly like clips/nat; title audio still
+    # lands on clips/nat specifically (level_title_audio mutates it in place), so it is passed as it was before.
+    t_off = level_title_audio(placed["titles"], t_ys, (voice + clips + sot + music * duck + amb).astype(np.float32),
+                              clips, journal, draft=draft)
     del t_ys
     if t_off:
         raise Refused(f"title-audio-level (A40): {'; '.join(t_off)}")
-    mix = (voice + clips + music * duck + amb).astype(np.float32)
+    mix = (voice + clips + sot + music * duck + amb).astype(np.float32)
     final: dict | None = {} if bus_capture is not None else None
-    lifted = voice_ceiling_pass(mix, parts, clips, music, amb, placed, journal, draft=draft, work=work, duck=duck,
+    own_sound = (clips + sot).astype(np.float32)   # held fixed across every voice-ceiling pass, like clips alone was
+    lifted = voice_ceiling_pass(mix, parts, own_sound, music, amb, placed, journal, draft=draft, work=work, duck=duck,
                                 capture=final)
     if bus_capture is not None:
-        # voice_ceiling_pass only ever re-places the voice bus (clips, music, duck and amb are pass 1's, held fixed).
-        # The voice bus and every line are taken from the pass that made the returned mix: pass 1's when it kept the
-        # mix, else the last pass's own placements (``final``), so the lines sum to voice and the buses to the mix.
+        # voice_ceiling_pass only ever re-places the voice bus (clips, sot, music, duck and amb are pass 1's, held
+        # fixed). The voice bus and every line are taken from the pass that made the returned mix: pass 1's when it
+        # kept the mix, else the last pass's own placements (``final``), so the lines sum to voice and the buses to
+        # the mix.
         last = final.get("got") if lifted is not None else None
-        bus_capture.update(voice=voice if lifted is None else final["voice"], clips=clips, music_preduck=music,
+        bus_capture.update(voice=voice if lifted is None else final["voice"], clips=clips, sot=sot, music_preduck=music,
                            music_ducked=(music * duck).astype(np.float32), amb=amb, duck=duck,
                            lines=_placed_lines(parts, placed, last, n))
+    if stems is not None:
+        stems["amb"] = amb   # bible v2 j: the room-tone-floor lint (sound_lints) measures the rendered amb bus
     return (mix if lifted is None else lifted), placed
 
 
@@ -7523,7 +7617,10 @@ _WIN_RESERVED = frozenset({"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in rang
                            *(f"LPT{i}" for i in range(1, 10))})
 STEM_NAME_MAX = 64                  # a line file's name, before its suffix (MAX_PATH leaves the out folder the rest)
 STEM_WAV_HEADER_BYTES = 4096        # a float WAV's header, with room to spare, per file
-STEM_BUSES = (("voice.wav", "voice"), ("clips.wav", "clips"), ("music_preduck.wav", "music_preduck"),
+# Show bible v2 j (ticket 3): the clips bus becomes nat (the file is renamed; the dict key stays "clips" so every
+# other reader of bus_capture/build_mix is unchanged), and sot is new. void-document and v1 (issue 33) keep playing
+# everything that is not sot through nat/clips exactly as they always played it through clips.
+STEM_BUSES = (("voice.wav", "voice"), ("sot.wav", "sot"), ("nat.wav", "clips"), ("music_preduck.wav", "music_preduck"),
               ("music_ducked.wav", "music_ducked"), ("amb.wav", "amb"), ("duck.wav", "duck"))
 
 
@@ -7578,8 +7675,8 @@ def stems_post_gain(loud: dict) -> tuple[float, dict | None]:
 
 def write_stem_files(run_dir: Path, bus: dict, loud: dict, journal: Journal, *, min_free_gb: float = MIN_FREE_GB,
                      disk_usage=shutil.disk_usage) -> Path:
-    """``--stems`` (loom Phase 2a): the four programme buses, the duck curve
-    and every voice line's processed audio, under ``run_dir/stems`` (never
+    """``--stems`` (loom Phase 2a): the five programme buses (bible v2 j: voice, sot, nat, music, amb), the duck
+    curve and every voice line's processed audio, under ``run_dir/stems`` (never
     off the render's own out folder, since ``run_dir`` always follows
     ``out``). A stems folder from an earlier render (one holding stems.json)
     is removed once the disk floor is checked, so no stale line survives; a
@@ -7617,7 +7714,7 @@ def write_stem_files(run_dir: Path, bus: dict, loud: dict, journal: Journal, *, 
     lines = bus.get("lines") or []
     manifest = {"sample_rate": AUDIO_RATE, "length_samples": len(bus["voice"]),
                 "duration_s": round(len(bus["voice"]) / AUDIO_RATE, 6),
-                "sums": {"mix": "voice + clips + music_ducked + amb = work/mix.wav, sample for sample",
+                "sums": {"mix": "voice + sot + nat + music_ducked + amb = work/mix.wav, sample for sample",
                          "music": "music_preduck * duck = music_ducked",
                          "voice": "every lines/ file placed at its start_sample sums to voice"},
                 "mix": {"file": "work/mix.wav", "sha256": sha256_file(mix_wav)} if mix_wav.is_file() else None,
@@ -9216,6 +9313,52 @@ def sound_lints(journal: Journal, plan: dict, mix: np.ndarray, placed: dict, *, 
     return out
 
 
+def dead_air_lints(journal: Journal, plan: dict, mix: np.ndarray, *, draft: bool = False) -> list[str]:
+    """Show bible v2 j (ticket 3), omnibus only: ``dead-air`` is digital-silence promoted to block. Any stretch of
+    true digital silence over DEAD_AIR_MAX_S blocks, unless the screenplay declares ``silence: intended`` over it
+    with a reason (``plan["silences"]``); a declared silence is itself at most DEAD_AIR_DECLARED_MAX_S (the 2.0 s
+    room after The Echo is exactly such a declared silence). This sits beside, not instead of, the generic
+    engine's own ``digital-silence`` warning (SILENCE_WARN_S, every show): the bible's rule is the news
+    programme's own, tighter floor. Returns the reasons to refuse."""
+    if not (plan.get("show") or {}).get("news"):
+        return []
+    intended = plan.get("silences", []) or []
+    too_long = [{"from_s": round(a, 3), "to_s": round(b, 3), "dur_s": round(b - a, 3)}
+                for a, b in intended if (b - a) > DEAD_AIR_DECLARED_MAX_S + 1e-6]
+    runs = digital_silence(mix, intended, min_s=DEAD_AIR_MAX_S)
+    ok = not runs and not too_long
+    sev = "warn" if draft else "block"
+    journal.lint("dead-air", ok, stage="assembly", phase="preflight", severity=sev, grammar="omnibus bible v2 j",
+                 evidence={"runs": runs[:20], "count": len(runs), "max_s": DEAD_AIR_MAX_S, "declared_over_max": too_long,
+                           "declared_max_s": DEAD_AIR_DECLARED_MAX_S, "intended": intended,
+                           "fix": None if ok else "every unvoiced second carries nat sound, music or the room-tone "
+                                                   f"floor; a true silence is declared silence: intended, at most "
+                                                   f"{DEAD_AIR_DECLARED_MAX_S:g} s, with its reason"})
+    return [] if ok or draft else ["dead-air"]
+
+
+def room_tone_lints(journal: Journal, plan: dict, amb: np.ndarray | None, *, draft: bool = False) -> list[str]:
+    """Show bible v2 j (ticket 3), omnibus only: ``room-tone-floor``. The amb bus (the CC0 room-tone recording)
+    covers the whole runtime (no run of true digital silence longer than ROOM_TONE_GAP_S) at or under
+    ROOM_TONE_FLOOR_DBFS, so "silence" is always this one quiet recording, never digital zero. Returns the
+    reasons to refuse."""
+    if not (plan.get("show") or {}).get("news") or amb is None:
+        return []
+    n = len(amb)
+    peak = float(np.max(np.abs(amb))) if n else 0.0
+    peak_dbfs = 20 * math.log10(peak) if peak > 0 else float("-inf")
+    runs = digital_silence(amb, [], min_s=ROOM_TONE_GAP_S)
+    ok = peak_dbfs <= ROOM_TONE_FLOOR_DBFS + 1e-6 and not runs
+    sev = "warn" if draft else "block"
+    journal.lint("room-tone-floor", ok, stage="assembly", phase="preflight", severity=sev, grammar="omnibus bible v2 j",
+                 evidence={"peak_dbfs": round(peak_dbfs, 1), "floor_dbfs": ROOM_TONE_FLOOR_DBFS, "gaps": runs[:20],
+                           "max_gap_s": ROOM_TONE_GAP_S,
+                           "fix": None if ok else "the amb bus carries the CC0 room-tone recording under the whole "
+                                                   f"programme, levelled at or under {ROOM_TONE_FLOOR_DBFS:g} dBFS, "
+                                                   "with no gap"})
+    return [] if ok or draft else ["room-tone-floor"]
+
+
 def score_lints(journal: Journal, plan: dict, stems: dict, *, draft: bool = False,
                 registry: list[dict] | None = None) -> list[str]:
     """A29 (R1) and A29 refined (R10), the house score standard on the music
@@ -10087,6 +10230,9 @@ def render(film: Path | str, out: Path | str | None = None, *, height: int = 108
         share_refusals = sound_lints(journal, plan, mix, placed, draft=draft)
         if share_refusals:
             raise Refused(f"voice shares (pre-flight): {'; '.join(share_refusals)} (GRAMMAR 6.1; render with --draft to accept it)")
+        news_refusals = dead_air_lints(journal, plan, mix, draft=draft) + room_tone_lints(journal, plan, stems.get("amb"), draft=draft)
+        if news_refusals:
+            raise Refused(f"omnibus audio (bible v2 j, pre-flight): {'; '.join(news_refusals)} (render with --draft to accept it)")
         score_refusals = score_lints(journal, plan, stems, draft=advisory)
         del stems
         if score_refusals:
@@ -10632,7 +10778,7 @@ def main(argv=None) -> int:
     ap.add_argument("--sources-only", action="store_true",
                     help="rewrite sources.json beside an existing master.mp4 from the screenplay, without rendering frames")
     ap.add_argument("--stems", action="store_true",
-                    help="also write the four programme buses, the duck curve and every voice line as placed in the "
+                    help="also write the five programme buses, the duck curve and every voice line as placed in the "
                          "final mix (narration, readings, archival) under <out>/stems, with stems.json saying "
                          "what sums to what (journaled; off by default, no effect on the master)")
     ap.add_argument("--layers", action="store_true",

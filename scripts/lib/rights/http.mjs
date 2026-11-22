@@ -52,7 +52,22 @@ export const FETCH_HOSTS = [
   // Voice of America (founder ruling, 2026-11-13): its video pages and terms, and the host its pages name for their mp4 downloads.
   "www.voanews.com",
   "voa-video-ns.akamaized.net",
+  // The Prime Minister's Office of Japan (T5, bible v2 section n): its English and Japanese pages, and the Digital
+  // Agency's Public Data License 1.0 page its copyright policy applies.
+  "japan.kantei.go.jp",
+  "www.kantei.go.jp",
+  "www.digital.go.jp",
 ];
+
+/**
+ * kremlin.ru (T5, bible v2 section n), the one source reached over plain http: from our network its port 443
+ * refuses the connection (probe 2026-11-21: TCP timeout on 443 for all three addresses, 200 on port 80), so its
+ * pages and files are read at the http addresses the site itself serves and links. Nothing is worked around: the
+ * same honest request, the site's own addresses. The terms block is pinned by sha256 (state-terms.mjs) and every
+ * file is pinned by its sha256 at fetch, so a page or file altered in transit fails those checks. No other host
+ * may be reached over http, and https stays accepted for these three should it open.
+ */
+export const PLAIN_HTTP_HOSTS = ["kremlin.ru", "en.kremlin.ru", "static.kremlin.ru"];
 
 /**
  * void news's own pages (same owner: own property, ledger class own_property):
@@ -115,8 +130,9 @@ export function hostRefusal(url) {
   } catch {
     return `not a URL: ${url}`;
   }
-  if (u.protocol !== "https:") return `refused ${u.protocol} URL ${url}: https only`;
   const host = u.hostname.toLowerCase();
+  if (PLAIN_HTTP_HOSTS.includes(host) && (u.protocol === "http:" || u.protocol === "https:")) return null;
+  if (u.protocol !== "https:") return `refused ${u.protocol} URL ${url}: https only`;
   if (FETCH_HOSTS.includes(host)) return null;
   if (FEDERAL_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) return null;
   if (host === WAYBACK_HOST) {

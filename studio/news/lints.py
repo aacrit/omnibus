@@ -89,7 +89,9 @@ from functools import lru_cache
 from pathlib import Path
 
 from studio.engine import aswas as AW
+from studio.engine import score as SCORE
 from studio.news import graphic as G
+from studio.news import rundown_shape as RS
 from studio.news import schema as SC
 
 REPO = Path(__file__).resolve().parents[2]
@@ -99,6 +101,7 @@ GRAMMAR = "show bible j"
 NARRATION_CEILING = 0.55
 BLACK_SHARE_MAX = 0.03
 VOICED_KINDS = ("narration", "testimony", *SC.LINE_KINDS)   # v1's engine kinds (issue 33) and v2's (bible o)
+ECHO_BED_GAP_S = 2.0                  # bible j/h (ticket 3): the Echo's bed ends at least this long before sign-off
 EST_WPM = 150.0                       # a line with no WAV and no dur_s is timed at the narrator's rate (rundown voices)
 OVERLAP_EPS = 1.0 / 60.0              # under half a frame at 30 fps is not an overlap
 PARAPHRASE_SHARE, PARAPHRASE_MIN_WORDS = 0.6, 3
@@ -1190,6 +1193,47 @@ def music_checks(play: dict, durations: dict | None) -> list[dict]:
     return out
 
 
+def echo_bed_ending_checks(play: dict) -> list[dict]:
+    """``echo-bed-ending`` (bible j, section g/h; ticket 3): the Echo's bed cue (SCORE.cue_role ``bed``, the one
+    playing inside an Echo part) ends at least ECHO_BED_GAP_S before the sign-off part begins (its written ending,
+    then 2 s of room, then the hard cut to the ident card), and never overlaps the theme (SCORE.cue_role
+    ``main_title``, played whole at the title and under the credits): "never a crossfade into the theme".
+
+    V1 ONLY (frozen, issue 33): v1's spine has no signoff segment (margins and question follow the Echo instead),
+    so this lint is inert for it (``SC.spine(play).name``, not a part's own label) rather than blocking on a
+    segment its spine never had."""
+    if SC.spine(play).name != SC.V2.name:
+        return [_check("echo-bed-ending", True, evidence={"why": "v1 (issue 33's frozen spine) has no signoff part"})]
+    echo_parts = [p for p, seg in parts(play) if seg == "echo"]
+    if not echo_parts:
+        return [_check("echo-bed-ending", True, evidence={"echo_parts": 0})]
+    spans = [part_span(p) for p in echo_parts]
+    cues = music_cues(play)
+    beds = [c for c in cues if SCORE.cue_role(c) == "bed"
+            and any(sp and _overlap(float(c["start_s"]), float(c["end_s"]), sp[0], sp[1]) > OVERLAP_EPS for sp in spans)]
+    if not beds:
+        return [_check("echo-bed-ending", False, unit="echo", evidence={
+            "why": "the Echo has no bed cue (score.cue_role bed): the closer's written ending cannot be checked"})]
+    signoff_start = next((part_span(p)[0] for p, seg in parts(play) if seg == "signoff" and part_span(p)), None)
+    theme_cues = [c for c in cues if SCORE.cue_role(c) == "main_title"]
+    found = []
+    for c in beds:
+        probs = []
+        if signoff_start is None:
+            probs.append("no sign-off part in the spine's order: the bed's ending cannot be timed to it")
+        else:
+            gap = signoff_start - float(c["end_s"])
+            if gap < ECHO_BED_GAP_S - 1e-6:
+                probs.append(f"ends {gap:.2f} s before the sign-off; bible h needs at least {ECHO_BED_GAP_S:g} s of room")
+        for t in theme_cues:
+            ov = _overlap(float(c["start_s"]), float(c["end_s"]), float(t["start_s"]), float(t["end_s"]))
+            if ov > OVERLAP_EPS:
+                probs.append(f"overlaps the theme ({t.get('id')}) by {ov:.2f} s: never a crossfade into the theme")
+        found.append(_check("echo-bed-ending", not probs, unit=c.get("id"), evidence={
+            "problems": probs, "bed_end_s": float(c["end_s"]), "signoff_start_s": signoff_start}))
+    return _summary("echo-bed-ending", found, len(beds))
+
+
 def ceiling_checks(play: dict, durations: dict | None) -> list[dict]:
     rt = runtime(play)
     spans = sorted((v["start"], v["end"]) for v in voiced(play, durations))
@@ -1419,19 +1463,21 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out += _guarded("counts-match", counts_checks, play, inputs)
     out += _guarded("quote-verbatim", quote_checks, play, inputs)
     out += _guarded("no-music-under-news", music_checks, play, durations)
+    out += _guarded("echo-bed-ending", echo_bed_ending_checks, play)
     out += _guarded("narration-ceiling", ceiling_checks, play, durations)
     out += _guarded("voice-disclosed", disclosure_checks, play)
     out += _guarded("black-share", black_checks, play)
     out += _guarded("tour-window-inside", tour_checks, play, assets, inputs)
+    out += _guarded(RS.RULE, RS.shape_checks, play, inputs)   # T2: a part's shape is its rundown/2 story's
     return out + deferred_checks()
 
 
-RULES = ("show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
+RULES = (RS.RULE, "show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
          "part-shape", "graphic-schema", "alteration-marked", "sound-role", "card-kind", "line-schema",
          "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION,
          FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",
          "no-bridge", "counts-match", "quote-verbatim", "no-music-under-news", "no-music-under-quote",
-         "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
+         "echo-bed-ending", "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
 # Show bible v2 section o's die list, gone from every screenplay (the frozen issue 33 included): never a rule here.
 DIED = ("board-rule", "tour-no-claim-before-board", "ladder-labels-derived", "ending-question", "fair-use-excerpt",
         "fair-use-on-timeline", "title-lines-verbatim")
