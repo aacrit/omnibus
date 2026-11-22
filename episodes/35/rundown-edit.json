@@ -1,0 +1,62 @@
+{
+  "schema": "omnibus.rundown-edit/1",
+  "issue": 35,
+  "written": "2026-11-21",
+  "by": "Forge builder, ticket 2: the hand check of the desk's threads (bible k), over the top 25 threads of episodes/35/desk.json",
+  "threads": [
+    {
+      "op": "split",
+      "key": "greenland-security-deal",
+      "cluster_ids": ["e0993e3e", "991593d2"],
+      "reason": "Denmark's Folketing approving the Greenland security deal with the United States is not the Shenzhen summit; void news's linker filed both in thread 3d0d10ec on the word trilateral."
+    },
+    {
+      "op": "split",
+      "key": "canada-china-tariffs",
+      "cluster_ids": ["5aea8c5c", "e70e2747"],
+      "reason": "Canada and China's tariff relief is a bilateral trade agreement made at APEC, not the US, China and Russia summit's declaration that thread 20c65f07 joins it to."
+    },
+    {
+      "op": "join",
+      "key": "shenzhen-summit",
+      "cluster_ids": ["662a8e1c", "7523e65f", "46f3452c", "0461f9fd", "36cb8fdf"],
+      "reason": "One event: the US, China and Russia summit in Shenzhen, from its scheduling (16 Nov) to the leaders' declaration (19 and 20 Nov) and the summit's sessions (21 Nov); Albanese's address to Putin was made at the same APEC meeting in Shenzhen on Thursday. Void news split it across threads 3d0d10ec and 20c65f07 and filed Albanese under the UK and EU thread 82c2a903. The envoys' security-guarantee pitch (4940de75) was made in Berlin and stays its own story."
+    },
+    {
+      "op": "join",
+      "key": "ukraine-bridges-strikes",
+      "cluster_ids": ["0ea94eb4", "a6a8ae52", "fc265ec6", "672e3dce", "1c44ffc9", "277d5dcf", "a20dee58", "1711ed61"],
+      "reason": "One exchange of strikes on bridges in the week: Ukraine's three strikes on the Kerch bridge (16 to 19 Nov) and Russia's strike on Kyiv's Dnipro bridges (20 Nov), whose missiles crossed into Polish airspace (20 Nov). Void news filed the 16 Nov Kerch strike and the Kyiv strike in thread 389bef29 and Poland's statement in b318d131."
+    },
+    {
+      "op": "join",
+      "key": "gulf-us-iran",
+      "cluster_ids": ["db0bd3d6", "b4b4b822", "7071d64f", "b6e83412", "add77fbf", "1419ceed"],
+      "reason": "One theatre, one week, one pair of parties: US strikes on Qeshm and the Gulf intercepts that followed (18 Nov), Iranian drones on Bahrain (16 Nov) and on US bases in Kuwait and Bahrain (19 Nov), the third US carrier's arrival (17 and 18 Nov) and the tanker struck in the Strait of Hormuz (18 Nov). The Houthi strikes on Riyadh are a different war and stay their own story."
+    },
+    {
+      "op": "split",
+      "key": "irish-man-aircraft-charge",
+      "cluster_ids": ["5076fab8"],
+      "reason": "An Irish man charged in the United States with wrecking a military aircraft is not the carrier's arrival in the Middle East; void news filed it in thread ed4c17c2."
+    },
+    {
+      "op": "join",
+      "key": "uk-eu-reset",
+      "cluster_ids": ["d0b7be12", "8a5319e4", "5b086856", "3f219792", "9482dab6", "14607933", "d3ceb398"],
+      "reason": "One story: Burnham's Brussels summit with the EU, from his speech on Brexit (16 and 17 Nov) to the agreements (20 and 21 Nov). Void news split it across threads 50419b1a and 82c2a903."
+    },
+    {
+      "op": "split",
+      "key": "bilkis-bano-bail",
+      "cluster_ids": ["150c2468"],
+      "reason": "India's Supreme Court granting bail in the Bilkis Bano case is not the US Supreme Court's ruling on research grants; void news filed both in thread fadeb1f6 on the words Supreme Court."
+    },
+    {
+      "op": "split",
+      "key": "us-canada-directive",
+      "cluster_ids": ["9757bf5c"],
+      "reason": "Hegseth's directive on US and Canada defence ties is not the US and Venezuela military agreement; void news filed it in thread 1c145f33 on Hegseth's name."
+    }
+  ]
+}

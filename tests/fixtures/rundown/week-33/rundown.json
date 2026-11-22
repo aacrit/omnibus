@@ -1,0 +1,2085 @@
+{
+  "schema": "omnibus.rundown/2",
+  "edition": {
+    "issue": 33,
+    "cutoff_utc": "2026-11-08T11:58:00Z",
+    "archive_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
+    "weekly_edition_seen": false,
+    "window": {
+      "from": "2026-11-02",
+      "to": "2026-11-08"
+    },
+    "days_present": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05",
+      "2026-11-06",
+      "2026-11-07",
+      "2026-11-08"
+    ],
+    "pin_rule": "the first commit whose frontend/build-data/archive.json holds the 2026-11-08 print",
+    "last_print_utc": "2026-11-08T11:51:04Z",
+    "repo": "https://github.com/aacrit/void--news"
+  },
+  "inputs": {
+    "edit": null,
+    "rights_ledger": null,
+    "capture_pool": null,
+    "desk_sha256": "9d5b6f8de96ed9f25c63a79ca64b22269d2ec0260669fb98e9561deb90fd481a"
+  },
+  "thread_checks": [],
+  "stories": [
+    {
+      "key": "thread-cd92e995",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "0ad344ab-5cf6-4c60-a4cd-146e7f380594",
+        "16be4260-b358-4b67-80f5-ae371b98e7cf",
+        "208929c9-ee23-4073-b256-5c3b98be45b8",
+        "225f5760-42f1-4c4e-954f-fad95ea7d6e4",
+        "6e0e10a9-8f0e-46da-a243-16e6b4f73d49",
+        "6f0b91b0-7fdf-46ca-95a7-038bfcaa11f9",
+        "83cc1a1c-441f-459b-a56c-a4ea7632ee0c",
+        "8e67ac5c-5bc9-429b-8218-568b484b7aff",
+        "a3377f96-0094-4f1b-b240-2811d70971cf",
+        "feec29e2-3337-4e60-8f2c-f26e6c7932cb"
+      ],
+      "thread_ids": [
+        "cd92e995-37f7-4e8a-9932-feb8516d70f4"
+      ],
+      "weight": 0.956797,
+      "rank": 1,
+      "slot": "lead",
+      "shape": "document",
+      "category": "politics",
+      "days": [
+        "2026-11-02",
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07",
+        "2026-11-08"
+      ],
+      "signals": {
+        "daily_appearances": 7,
+        "cumulative_sources": 245,
+        "brief_mentions": 3,
+        "peak_rank": 74.32,
+        "edition_spread": 1,
+        "total_divergence": 303.75
+      },
+      "desk_title": "Melania Trump Hosts Russian and Ukrainian Officials After Oleshky Ceasefire",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-bbd33fd3",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
+        "671035b4-d825-4672-b842-bccb77a25a4d",
+        "93291531-cf0d-427e-a755-2a49b135b2db",
+        "b395447b-fb0e-4855-851f-5690ebcb43f6"
+      ],
+      "thread_ids": [
+        "bbd33fd3-9ddb-49f1-a54a-abae5d35432d"
+      ],
+      "weight": 0.733031,
+      "rank": 2,
+      "slot": "package_2",
+      "shape": "document",
+      "category": "politics",
+      "days": [
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 143,
+        "brief_mentions": 3,
+        "peak_rank": 82.02,
+        "edition_spread": 1,
+        "total_divergence": 143.88
+      },
+      "desk_title": "JD Vance Blames Iran War for Republican Midterm Defeat",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-e1f384c4",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "5ba40658-e0c9-4efe-83a0-0a8829a60133",
+        "69e5334f-8e33-4330-b9bb-79a89352fda0",
+        "80819ccd-9375-4482-afc6-c0d67e16a8df",
+        "b35d9ec1-68e6-409b-ab6b-0df1144cd679",
+        "ce52d3e3-8b7d-4479-977f-11597cd8f4cb"
+      ],
+      "thread_ids": [
+        "e1f384c4-bad3-4db2-bafd-9635fe498bca"
+      ],
+      "weight": 0.727028,
+      "rank": 3,
+      "slot": "package_3",
+      "shape": "document",
+      "category": "politics",
+      "days": [
+        "2026-11-02",
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-07",
+        "2026-11-08"
+      ],
+      "signals": {
+        "daily_appearances": 5,
+        "cumulative_sources": 266,
+        "brief_mentions": 1,
+        "peak_rank": 76.32,
+        "edition_spread": 1,
+        "total_divergence": 169.81
+      },
+      "desk_title": "Michigan Democrat Haley Stevens Endorses Republican Senate Candidate Mike Rogers",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-ac6a356e",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "07056e25-8140-4c3c-b16a-707a3a5ef49b",
+        "73950b02-9b8e-4b9f-8659-0239e5a31eb6",
+        "7be0368a-022a-4984-aa67-7cc10bff646a",
+        "b9f355b5-795a-4487-8173-877dde866e20",
+        "bfb4faff-43ef-4086-8f05-d657b64aaff4",
+        "dbd7a966-68fb-48a4-abca-a16f6d0388d9",
+        "e589dbd3-3c69-4c13-a535-ab27eed8626c"
+      ],
+      "thread_ids": [
+        "ac6a356e-ffc2-471c-8385-0c78a3fdba43"
+      ],
+      "weight": 0.687728,
+      "rank": 4,
+      "slot": "package_4",
+      "shape": "document",
+      "category": "politics",
+      "days": [
+        "2026-11-02",
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-05"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 152,
+        "brief_mentions": 2,
+        "peak_rank": 81.92,
+        "edition_spread": 1,
+        "total_divergence": 188.72
+      },
+      "desk_title": "Democrats Capture Control of Both Chambers of Congress in Midterms",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-685e2da4",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "120721d8-7262-4a56-9def-31dd615c2c00",
+        "4a084fa9-234a-49c8-9252-55d22d2fd766",
+        "5b14d4db-f25a-489a-984f-39d6012f71c0",
+        "6719c174-eb7d-4626-869b-1cf285b7d9f5",
+        "6863ca2c-da7b-4f54-8d48-0c4ac0107e86",
+        "d28e4f52-6bed-4ee1-bdbe-16e22f7459ee"
+      ],
+      "thread_ids": [
+        "685e2da4-8023-4818-97b7-7f425128daff"
+      ],
+      "weight": 0.610944,
+      "rank": 5,
+      "slot": "brief_1",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-02",
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-08"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 157,
+        "brief_mentions": 1,
+        "peak_rank": 78.81,
+        "edition_spread": 1,
+        "total_divergence": 162.15
+      },
+      "desk_title": "Donald Trump Announces Plan to End Military Aid to Israel",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-196b5883",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "9b8c950d-a96a-4fd7-8553-76198c4c971a",
+        "a7f51a1b-054b-4413-b86f-c8dee47db1c9",
+        "abb38d31-a1ed-4f64-9c1a-3092ed032423",
+        "bff43fbe-5324-4776-aa64-3c103c6dd507"
+      ],
+      "thread_ids": [
+        "196b5883-15f0-4f31-b635-fa1f05bcdc58"
+      ],
+      "weight": 0.588272,
+      "rank": 6,
+      "slot": "brief_2",
+      "shape": "brief",
+      "category": "conflict",
+      "days": [
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-07",
+        "2026-11-08"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 168,
+        "brief_mentions": 1,
+        "peak_rank": 65.35,
+        "edition_spread": 1,
+        "total_divergence": 135.6
+      },
+      "desk_title": "European Authorities Investigate Seven False Bomb Threats Grounding Flights",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-74f15c88",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "588fc851-d40f-4109-af59-3e81a7bf4275",
+        "9b5982e1-374a-48cc-a885-5c1f452ac105",
+        "cf761d71-e9ce-41ba-b801-e5e4abb60bac",
+        "dfa6148d-45c1-425c-8ab1-32cd3a79cd51",
+        "e6df3958-d09c-44a2-be17-8875c0308699",
+        "f30daaa5-7a96-4620-9a1a-2c9a43ce5084"
+      ],
+      "thread_ids": [
+        "74f15c88-d3df-4144-9dec-2e167b550f3d"
+      ],
+      "weight": 0.534788,
+      "rank": 7,
+      "slot": "brief_3",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-02",
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07"
+      ],
+      "signals": {
+        "daily_appearances": 5,
+        "cumulative_sources": 94,
+        "brief_mentions": 0,
+        "peak_rank": 75.37,
+        "edition_spread": 1,
+        "total_divergence": 185.96
+      },
+      "desk_title": "Troy Jackson Defeats Susan Collins in Maine Senate Race",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-c3cfc463",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "1c516f21-025e-4da4-899c-03d769cc1519",
+        "23f4f16d-8d64-4f83-86a5-a8573b78a75c",
+        "9d007365-2ab9-4226-9c79-a687067c6fc1",
+        "9f1f7bfe-8fcd-43d3-a256-ed81a6bc37b4"
+      ],
+      "thread_ids": [
+        "c3cfc463-bca6-49a0-a386-97fc8c7aeff7"
+      ],
+      "weight": 0.534297,
+      "rank": 8,
+      "slot": "brief_4",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07",
+        "2026-11-08"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 72,
+        "brief_mentions": 1,
+        "peak_rank": 79.95,
+        "edition_spread": 1,
+        "total_divergence": 117.75
+      },
+      "desk_title": "Defense Secretary Pete Hegseth Faces Impeachment Threat Amid Post Election Political Fallout",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-4d8aeab9",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "02ee9060-3d7d-4a8e-8194-e0d5c4afe728",
+        "4203bcad-1c3b-4b64-a58a-581610bc82d4",
+        "88c2f42c-1854-4a44-b1f5-6df041a31c28"
+      ],
+      "thread_ids": [
+        "4d8aeab9-e9e1-4d40-bebc-4a30371a8038"
+      ],
+      "weight": 0.533635,
+      "rank": 9,
+      "slot": "brief_5",
+      "shape": "brief",
+      "category": "general",
+      "days": [
+        "2026-11-02",
+        "2026-11-03"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 106,
+        "brief_mentions": 2,
+        "peak_rank": 75.26,
+        "edition_spread": 1,
+        "total_divergence": 76.05
+      },
+      "desk_title": "Investigators Examine Weather and Icing Factors in Fatal Florida Learjet Crash",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-a6d275ad",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "834258e2-fdfb-4a3e-9fb3-6d6f3c43c718",
+        "8356fa8f-18c4-4348-b37c-a5e65e031a0d"
+      ],
+      "thread_ids": [
+        "a6d275ad-4701-4405-b3cc-0a9bfd4e0c30"
+      ],
+      "weight": 0.517377,
+      "rank": 10,
+      "slot": "brief_6",
+      "shape": "brief",
+      "category": "general",
+      "days": [
+        "2026-11-05",
+        "2026-11-06"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 76,
+        "brief_mentions": 2,
+        "peak_rank": 80.18,
+        "edition_spread": 1,
+        "total_divergence": 70.53
+      },
+      "desk_title": "Russell Brand Convicted of Rape and Sexual Assault in London",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-719895a0",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "07c15020-e127-46db-80d4-7b78f5430813",
+        "6ca80da9-36c8-4987-93b3-206972cc8c3b"
+      ],
+      "thread_ids": [
+        "719895a0-bc51-49a3-b50b-6f7576337411"
+      ],
+      "weight": 0.506243,
+      "rank": 11,
+      "slot": "brief_7",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-04",
+        "2026-11-05"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 64,
+        "brief_mentions": 2,
+        "peak_rank": 80.06,
+        "edition_spread": 1,
+        "total_divergence": 64.72
+      },
+      "desk_title": "House Democratic Leader Hakeem Jeffries Formally Launches Bid for Speaker",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-29d17d94",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "aab870d8-23d5-470f-9f52-8f200a4cc2c0",
+        "c6634cfc-97c2-435c-8b27-876d8718cad7",
+        "ea0bab14-f4ab-4be3-bb64-f793aae8d2cf"
+      ],
+      "thread_ids": [
+        "29d17d94-7535-47d8-aa5d-5539a68ddba2"
+      ],
+      "weight": 0.503704,
+      "rank": 12,
+      "slot": "brief_8",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-03",
+        "2026-11-07",
+        "2026-11-08"
+      ],
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 108,
+        "brief_mentions": 1,
+        "peak_rank": 77.58,
+        "edition_spread": 1,
+        "total_divergence": 62.96
+      },
+      "desk_title": "United States Conducts Defensive Military Strikes on Qeshm Island",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-381a0b5e",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "e40eb832-662c-463d-9903-832feaff071f",
+        "fc85d46f-e3f0-4d9f-afcb-2d2155083e25"
+      ],
+      "thread_ids": [
+        "381a0b5e-216b-4099-8b60-04c3f791187f"
+      ],
+      "weight": 0.486034,
+      "rank": 13,
+      "slot": "brief_9",
+      "shape": "brief",
+      "category": "general",
+      "days": [
+        "2026-11-03",
+        "2026-11-05"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 37,
+        "brief_mentions": 2,
+        "peak_rank": 79,
+        "edition_spread": 1,
+        "total_divergence": 70.31
+      },
+      "desk_title": "Helicopter Crash into Biscayne Bay Near Miami Leaves One Dead",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-1a2c9331",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "20f301f9-beff-4d16-9326-6320c1d8648c",
+        "50bf411f-1c45-48d5-8a6e-e7d909b050f5",
+        "b1c352f4-974f-4f6e-bab8-77f949d5b23b"
+      ],
+      "thread_ids": [
+        "1a2c9331-4a27-4d9c-9a95-d2d5847e14db"
+      ],
+      "weight": 0.483123,
+      "rank": 14,
+      "slot": "brief_10",
+      "shape": "brief",
+      "category": "general",
+      "days": [
+        "2026-11-03",
+        "2026-11-06",
+        "2026-11-07"
+      ],
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 74,
+        "brief_mentions": 1,
+        "peak_rank": 78.18,
+        "edition_spread": 1,
+        "total_divergence": 75.09
+      },
+      "desk_title": "Israeli Opposition Leader Gadi Eisenkot Secures Majority Recommendations for Government",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    }
+  ],
+  "not_covered": [
+    {
+      "key": "thread-f806a16b",
+      "rank": 15,
+      "weight": 0.476257,
+      "category": "politics",
+      "cluster_ids": [
+        "80b7f337-3e72-4385-bb19-5e501cae560c",
+        "97ade66b-32ba-4211-af0d-a73bed5534a0"
+      ],
+      "desk_title": "UK Supreme Court Hears Palestine Action Ban Appeal Amid Protests and Arrests",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6ed669fc",
+      "rank": 16,
+      "weight": 0.46835,
+      "category": "politics",
+      "cluster_ids": [
+        "296cd90a-59ae-4587-b263-ae8d50422a4c",
+        "66480111-8f04-476d-9d49-04058fec1035"
+      ],
+      "desk_title": "Polish Government and President Clash After Constitutional Tribunal Leadership Suspension",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f1f07e37",
+      "rank": 17,
+      "weight": 0.466917,
+      "category": "conflict",
+      "cluster_ids": [
+        "0b913dfe-a71e-468b-b03f-eb41ddca8ec7",
+        "7f8a4f75-a33e-4a41-a40b-e8867eeec673"
+      ],
+      "desk_title": "Russian Diesel Tankers Divert From United States Following Regulatory Hesitancy",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-14a958da",
+      "rank": 18,
+      "weight": 0.45419,
+      "category": "politics",
+      "cluster_ids": [
+        "2f650d48-3f58-4c9e-9734-8c4bdaf07a81"
+      ],
+      "desk_title": "Aging Supreme Court Justices Draw Scrutiny Following Democratic Senate Gain",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7e7fc9b9",
+      "rank": 19,
+      "weight": 0.441955,
+      "category": "politics",
+      "cluster_ids": [
+        "1dcbb6ee-6a36-4b93-ba43-c4bd359952df"
+      ],
+      "desk_title": "Democrats Prepare Investigations and War Powers Actions After Winning Congress",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-001e9b8d",
+      "rank": 20,
+      "weight": 0.440008,
+      "category": "health",
+      "cluster_ids": [
+        "7a6a4b62-e818-4c13-801b-31d0aa47b717"
+      ],
+      "desk_title": "British Healthcare Worker Infected With Ebola Is Evacuated From Congo",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-a70ba6e0",
+      "rank": 21,
+      "weight": 0.439852,
+      "category": "conflict",
+      "cluster_ids": [
+        "0b587f1c-2890-4ed0-a9c2-9f0dd7d8e596"
+      ],
+      "desk_title": "German Ministers Vow Tough Penalties After Protests Turn Violent in Frankfurt",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2280908c",
+      "rank": 22,
+      "weight": 0.41625,
+      "category": "health",
+      "cluster_ids": [
+        "235a608c-8027-412c-aeea-bbe142b39e26"
+      ],
+      "desk_title": "Director Michael Mann Sustains Superficial Injury at Los Angeles Gun Range",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-515b33dd",
+      "rank": 23,
+      "weight": 0.413244,
+      "category": "conflict",
+      "cluster_ids": [
+        "eeb14bbe-f7fb-4b83-b509-5ac6e843cb53"
+      ],
+      "desk_title": "Russian Ballistic Missiles Strike Critical Infrastructure and Bridge in Kyiv",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-97736925",
+      "rank": 24,
+      "weight": 0.409742,
+      "category": "politics",
+      "cluster_ids": [
+        "ec1d02e1-6b8e-4233-9fc2-583a551463ac"
+      ],
+      "desk_title": "Acting President Yotova Leads Exit Polls in Bulgarian Presidential Runoff",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0a1ac406",
+      "rank": 25,
+      "weight": 0.409608,
+      "category": "conflict",
+      "cluster_ids": [
+        "e913a0df-4c53-46cb-82f6-f5a4f71072b1"
+      ],
+      "desk_title": "Iran Supreme Leader Warns US and Israel of Geographically Unrestricted Response",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-1d139944",
+      "rank": 26,
+      "weight": 0.408546,
+      "category": "politics",
+      "cluster_ids": [
+        "e4f41ceb-1447-4012-9d3a-3702802820e7"
+      ],
+      "desk_title": "French Prosecutors Open Attempted Murder Investigation After Petrol Bomb Attacks",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2b602086",
+      "rank": 27,
+      "weight": 0.404254,
+      "category": "politics",
+      "cluster_ids": [
+        "c5593898-2b91-495c-811f-6818e84276a7"
+      ],
+      "desk_title": "Federal Judge Orders Trump Administration to Stop Threatening State Officials",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-db82376f",
+      "rank": 28,
+      "weight": 0.393079,
+      "category": "politics",
+      "cluster_ids": [
+        "35f34322-c2f6-4412-ae08-cd90e9e4ee8c",
+        "889a4a0b-f1c0-48b7-a576-1b1f2713a1d3",
+        "ef71cd5b-5b55-4591-b3d8-fde642c83ff5"
+      ],
+      "desk_title": "Marco Rubio Denies Resignation Plans After Midterm Election Losses",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-518471de",
+      "rank": 29,
+      "weight": 0.388837,
+      "category": "general",
+      "cluster_ids": [
+        "26a9bf2b-b6df-43a9-98c9-7fa056986de7",
+        "3c9e632e-e859-4c39-b6ec-b27141575355"
+      ],
+      "desk_title": "Binance Reports Hackers Used Fake Job Interviews in Record Crypto Heist",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6f6fd240",
+      "rank": 30,
+      "weight": 0.384154,
+      "category": "general",
+      "cluster_ids": [
+        "6d8c958f-bd8a-402e-8abc-61ee4ba796bf",
+        "af08a416-e32e-42d6-a55d-6954ba337a4a",
+        "def910b8-1946-4917-ad2c-c7fa85b0c38c"
+      ],
+      "desk_title": "Tesla to Wind Down Cybertruck Production in Texas to Expand Cybercab Output",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2a918203",
+      "rank": 31,
+      "weight": 0.38294,
+      "category": "conflict",
+      "cluster_ids": [
+        "7568b5b2-47b2-47f2-b5c3-f663a39abda4"
+      ],
+      "desk_title": "Poland Begins National Mourning After Six Killed in Krakow Shooting",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9ce7586d",
+      "rank": 32,
+      "weight": 0.380247,
+      "category": "politics",
+      "cluster_ids": [
+        "4cf92520-dbcd-4b71-98c8-e3a26f805c6e",
+        "c5606730-859e-4cc9-823e-5e6951cafaf1"
+      ],
+      "desk_title": "Italian Foreign Minister Antonio Tajani Reports Personal Data Dark Web Leak",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-00ff6a1e",
+      "rank": 33,
+      "weight": 0.37933,
+      "category": "conflict",
+      "cluster_ids": [
+        "16bb45b8-78a8-4481-b4a1-ef73e8c07361",
+        "7f6a73e9-6833-4ba4-adc9-b031d9346a70"
+      ],
+      "desk_title": "French Unions Hold Nationwide Strikes and Protests Over Cost of Living",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f9eb41f6",
+      "rank": 34,
+      "weight": 0.377594,
+      "category": "conflict",
+      "cluster_ids": [
+        "1eef084a-3cee-43d3-b1e8-bf67fbe76d4e",
+        "970da5e6-b98f-4aa8-bbaa-f233afc971b9"
+      ],
+      "desk_title": "Airstrikes Kill at Least 22 People in Village Near Yemen Capital",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2cd2a05b",
+      "rank": 35,
+      "weight": 0.375819,
+      "category": "general",
+      "cluster_ids": [
+        "6bfd3e6c-6493-4039-82a1-006f66bc6c57",
+        "e0783c45-acd6-446f-8107-112ef00bc102",
+        "ea63e4d0-8e51-4364-8d2f-8bdcf2695562"
+      ],
+      "desk_title": "Spanish Authorities Identify All 69 Victims of High-Speed Train Collision",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e1f5279a",
+      "rank": 36,
+      "weight": 0.375328,
+      "category": "politics",
+      "cluster_ids": [
+        "187dbde1-e16f-45b5-a13b-cf192f15df57",
+        "712b6405-3be6-412d-b212-dd643bb398ec"
+      ],
+      "desk_title": "Kenyan Cult Leader Sentenced to 200 Years for Child Murders",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-81801b0c",
+      "rank": 37,
+      "weight": 0.370355,
+      "category": "politics",
+      "cluster_ids": [
+        "5d535e3a-f5c1-478c-94c9-8fd5fb9c059b",
+        "c08c33bf-65f4-4de7-ba17-819ba994c1a5"
+      ],
+      "desk_title": "Hong Kong Court Sentences Activist Joshua Wong to 10 Years in Prison",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-bf1422a2",
+      "rank": 38,
+      "weight": 0.353513,
+      "category": "politics",
+      "cluster_ids": [
+        "07c0d7f5-839d-4d4f-91f8-d2f9fbe1d859"
+      ],
+      "desk_title": "Gunman Kills Five People and Injures 12 in Krakow Market Square",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0d51cf50",
+      "rank": 39,
+      "weight": 0.351613,
+      "category": "science",
+      "cluster_ids": [
+        "72e54730-9f6e-4564-ab0f-e689e2f9810b",
+        "c70023c1-52b8-4219-bd22-fa22d11b9d1f"
+      ],
+      "desk_title": "American Voters Reject Artificial Intelligence Data Centers in Local Ballot Initiatives",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-bcdf31dd",
+      "rank": 40,
+      "weight": 0.348901,
+      "category": "conflict",
+      "cluster_ids": [
+        "45f0df91-df59-4c10-a43a-7e66450ca27c"
+      ],
+      "desk_title": "US Military Forms New Task Force to Target Iranian Land Routes",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-3fb942e0",
+      "rank": 41,
+      "weight": 0.347855,
+      "category": "conflict",
+      "cluster_ids": [
+        "66fe043d-09a3-4af8-a931-8e72fc1578f3"
+      ],
+      "desk_title": "Saudi Energy Ministry Reports Damage to Aramco Building in Riyadh",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-56c546bd",
+      "rank": 42,
+      "weight": 0.345144,
+      "category": "conflict",
+      "cluster_ids": [
+        "520585bc-680c-482c-9e31-c6118c0cc2a6",
+        "57785326-7985-40ab-bfcb-2a39b55ddbff"
+      ],
+      "desk_title": "Russian Missile and Bomb Strikes Kill Dozens at Ukrainian Aid Facility",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5a0da576",
+      "rank": 43,
+      "weight": 0.343213,
+      "category": "economy",
+      "cluster_ids": [
+        "429059b1-086b-423b-9af9-6bf89bfa2468",
+        "f1b0b345-88ae-4202-bfbf-528ea1df6e5c"
+      ],
+      "desk_title": "King Charles Addresses Transatlantic Slave Trade at Commonwealth Summit",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0ddf737e",
+      "rank": 44,
+      "weight": 0.340806,
+      "category": "politics",
+      "cluster_ids": [
+        "fd3ef014-89ab-401e-8d54-ab1bb4985962"
+      ],
+      "desk_title": "US Military Aircraft Disables St Kitts Flagged Cargo Vessel in Gulf of Oman",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-950e129a",
+      "rank": 45,
+      "weight": 0.340458,
+      "category": "environment",
+      "cluster_ids": [
+        "84427581-7daf-433f-8f4d-ef5f5e647635"
+      ],
+      "desk_title": "World Leaders Gather in Turkey for COP31 Climate Change Negotiations",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e6f47bd5",
+      "rank": 46,
+      "weight": 0.329141,
+      "category": "politics",
+      "cluster_ids": [
+        "4248c7a9-77e8-4057-974b-01fb14a14716"
+      ],
+      "desk_title": "White House Prepares Executive Actions To Counter Potential Democratic Congressional Wins",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9ee360c1",
+      "rank": 47,
+      "weight": 0.328866,
+      "category": "politics",
+      "cluster_ids": [
+        "9193c984-29ae-4b0f-a715-8531885d1122"
+      ],
+      "desk_title": "Incoming Democratic Senators Vow to Oppose Chuck Schumer for Leadership",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0699cbfb",
+      "rank": 48,
+      "weight": 0.325985,
+      "category": "conflict",
+      "cluster_ids": [
+        "caee087a-425e-4928-a653-9d2192e618fb",
+        "ce76f18a-be76-42e9-b301-625aa31ae1db"
+      ],
+      "desk_title": "Saudi Arabia and Syria Sign Defense Cooperation Agreement in Riyadh",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-87f62457",
+      "rank": 49,
+      "weight": 0.324822,
+      "category": "environment",
+      "cluster_ids": [
+        "3c80a79c-663f-484a-9a13-37818f93c813"
+      ],
+      "desk_title": "Strong Earthquake Strikes Central Japan and Injures Dozens of Residents",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-15359f5c",
+      "rank": 50,
+      "weight": 0.317533,
+      "category": "politics",
+      "cluster_ids": [
+        "beff3227-a6ba-4968-becc-677aeb351b6c"
+      ],
+      "desk_title": "Supreme Court Rejects Trump Administration Bid Over Disputed California Ballots",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9acaa6dd",
+      "rank": 51,
+      "weight": 0.316283,
+      "category": "conflict",
+      "cluster_ids": [
+        "eaf18365-7d0b-49bd-945a-fc01658dc335",
+        "eb3f3b34-14ed-41c9-834b-a5f73baddfe0"
+      ],
+      "desk_title": "Hundreds of Thousands Protest Across France Against Economic Policies and Austerity Budget",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e728cf44",
+      "rank": 52,
+      "weight": 0.313432,
+      "category": "politics",
+      "cluster_ids": [
+        "402657f3-c160-485c-8a2d-fdff94a9db28"
+      ],
+      "desk_title": "Former Senator and West Virginia Governor Jay Rockefeller Dies at Age 89",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-3b7fbac0",
+      "rank": 53,
+      "weight": 0.307744,
+      "category": "environment",
+      "cluster_ids": [
+        "012d094f-3186-4b32-99f2-7915a2d79355",
+        "3763c4d9-d320-4115-b5ca-500224c24656"
+      ],
+      "desk_title": "Heavy Rain Floods 70,000 Displacement Tents Across the Gaza Strip",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-4e4e7e42",
+      "rank": 54,
+      "weight": 0.300501,
+      "category": "politics",
+      "cluster_ids": [
+        "2f4c2e8f-9779-44df-a7ea-c10ee9c6d0ad",
+        "f3b8a4ec-0330-422b-98d2-728659a5801e"
+      ],
+      "desk_title": "Mary Peltola Sues Alaska Election Division Over Rejected Absentee Ballot Records",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7d15fe7d",
+      "rank": 55,
+      "weight": 0.298873,
+      "category": "general",
+      "cluster_ids": [
+        "5aa51b6f-9bc3-4575-a8b2-55ad7950ef6f",
+        "78bf9c1d-c2d3-4b80-beec-997c35727495"
+      ],
+      "desk_title": "Hungary Opens Communist Era Secret Police Files to Public Access",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b42c0923",
+      "rank": 56,
+      "weight": 0.294811,
+      "category": "general",
+      "cluster_ids": [
+        "9d8e4a4a-50bc-4867-a968-cb2e0b6f94a9"
+      ],
+      "desk_title": "Prime Minister Office Welcomes Plan to End United States Aid",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5e69505e",
+      "rank": 57,
+      "weight": 0.293708,
+      "category": "conflict",
+      "cluster_ids": [
+        "c8c413fe-1138-4649-9ef9-09500cba04fb"
+      ],
+      "desk_title": "Ukraine and Russia Exchange Cyberattacks as Airstrikes Kill Civilians",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6589ee03",
+      "rank": 58,
+      "weight": 0.28922,
+      "category": "politics",
+      "cluster_ids": [
+        "cbf86eef-1b6c-48a1-aef3-cb782835d677"
+      ],
+      "desk_title": "President Trump Delivers Final Midterm Pitch at Washington Reflecting Pool",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5c68a37f",
+      "rank": 59,
+      "weight": 0.287068,
+      "category": "politics",
+      "cluster_ids": [
+        "60cb8ade-e94c-48f9-9cd5-a1f72b97678f"
+      ],
+      "desk_title": "Iran Exempts Four Nations From Strait of Hormuz Transit Restrictions",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b3c4d686",
+      "rank": 60,
+      "weight": 0.286912,
+      "category": "health",
+      "cluster_ids": [
+        "21ea2207-9393-4dca-b08e-7bb827651dd7"
+      ],
+      "desk_title": "World Health Organization Approves Clinical Trials for Two New Ebola Vaccines",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-4e250fe2",
+      "rank": 61,
+      "weight": 0.286687,
+      "category": "culture",
+      "cluster_ids": [
+        "d64d6283-4b57-420c-b849-f81f5ce2b53b"
+      ],
+      "desk_title": "Goalkeeper Jesus Owono Mourns Death of Spanish Striker Jesus De Miguel",
+      "reason": "category culture: sport and entertainment never hold a package (bible f)"
+    },
+    {
+      "key": "thread-b5413cf8",
+      "rank": 62,
+      "weight": 0.284304,
+      "category": "politics",
+      "cluster_ids": [
+        "5955e61f-a91a-4ae7-b70f-51dfa5d12eae"
+      ],
+      "desk_title": "Democratic Blue Wave Sweeps U.S. Congress and State Legislatures",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ad2a5e0c",
+      "rank": 63,
+      "weight": 0.281214,
+      "category": "general",
+      "cluster_ids": [
+        "719fa2f3-dd9f-4285-9fa3-0929bace848d"
+      ],
+      "desk_title": "Tucker Carlson Warns United States Might Launch Nuclear Strike on Iran",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7d00620c",
+      "rank": 64,
+      "weight": 0.280218,
+      "category": "science",
+      "cluster_ids": [
+        "4d1fada3-6e41-489b-8537-63b4b38a000c"
+      ],
+      "desk_title": "High Court Hears Arguments Over Australia Ban on Teen Social Media",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5771ceca",
+      "rank": 65,
+      "weight": 0.279252,
+      "category": "conflict",
+      "cluster_ids": [
+        "1292664b-c695-462c-9b31-bd1f5929fc1e"
+      ],
+      "desk_title": "Protesters Breach Microsoft Data Centre Site in Amsterdam Amid Backlash",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-53020e5f",
+      "rank": 66,
+      "weight": 0.278686,
+      "category": "politics",
+      "cluster_ids": [
+        "33148a37-eb7d-4451-9f37-11881bc2f4c9"
+      ],
+      "desk_title": "Russia Places Japan Tobacco Assets Under State Control by Decree",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7f5067ae",
+      "rank": 67,
+      "weight": 0.278227,
+      "category": "politics",
+      "cluster_ids": [
+        "a3cdc452-9cc6-4e3d-abdd-08b378da2340"
+      ],
+      "desk_title": "European Union Charges TikTok Over Harmful Algorithmic Feed Design",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-108d5574",
+      "rank": 68,
+      "weight": 0.27532,
+      "category": "general",
+      "cluster_ids": [
+        "aa896079-b6af-40c1-b0a8-f9bc27800042"
+      ],
+      "desk_title": "Netanyahu Pushes Trump for Fresh Iran Strikes Amid Diplomatic Talks",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b1c2dcc6",
+      "rank": 69,
+      "weight": 0.274012,
+      "category": "general",
+      "cluster_ids": [
+        "e6acadb8-36ea-467a-8068-77fdefcec699"
+      ],
+      "desk_title": "Rahul Gandhi Challenges Prime Minister Narendra Modi to Open Debate on Alleged Foreign Help",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5d5d1463",
+      "rank": 70,
+      "weight": 0.273199,
+      "category": "politics",
+      "cluster_ids": [
+        "12f37d2f-8469-4301-9a9f-e62b33d765d6"
+      ],
+      "desk_title": "Chuck Schumer Heralds Generational Remake After Midterm Victories",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2676c432",
+      "rank": 71,
+      "weight": 0.272767,
+      "category": "politics",
+      "cluster_ids": [
+        "941d4152-a46d-4772-b187-7145f135adc9"
+      ],
+      "desk_title": "Armed Guard Shoots and Kills Gunman After Attack at Florida Office Complex",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-a3454724",
+      "rank": 72,
+      "weight": 0.272501,
+      "category": "general",
+      "cluster_ids": [
+        "e0c6dcc5-f4eb-4ecd-aed4-7658ac502db1"
+      ],
+      "desk_title": "Rory McIlroy Takes Two Stroke Penalty During Abu Dhabi Championship",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-61390359",
+      "rank": 73,
+      "weight": 0.271951,
+      "category": "politics",
+      "cluster_ids": [
+        "2e2978da-dac0-4642-8259-ea0c6ae9fd97"
+      ],
+      "desk_title": "JD Vance Rallies Conservative Voters in Rome Ahead of Midterms",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-595aa274",
+      "rank": 74,
+      "weight": 0.271635,
+      "category": "conflict",
+      "cluster_ids": [
+        "98cd77ec-06a2-4809-9f7e-91973149f7af"
+      ],
+      "desk_title": "OpenAI Appoints Former Army Secretary Dan Driscoll as National Security Counselor",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-955a64dc",
+      "rank": 75,
+      "weight": 0.270729,
+      "category": "economy",
+      "cluster_ids": [
+        "efece0ea-c7e6-4410-bec5-eb0484438722"
+      ],
+      "desk_title": "Elon Musk Explores Wireless Market Entry as Political Donations Reach Record Totals",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ed366d98",
+      "rank": 76,
+      "weight": 0.270517,
+      "category": "science",
+      "cluster_ids": [
+        "8456acd5-0501-4567-ab7c-2857604d5c43"
+      ],
+      "desk_title": "French blood banks foil new cyberattack targeting refrigerators",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-fc9d8619",
+      "rank": 77,
+      "weight": 0.270179,
+      "category": "culture",
+      "cluster_ids": [
+        "d9c7df01-a6e5-4b72-a7a1-517784f400d4"
+      ],
+      "desk_title": "Pope Leo XIV Departs Rome for 12-Day Tour of South America",
+      "reason": "category culture: sport and entertainment never hold a package (bible f)"
+    },
+    {
+      "key": "thread-48ad11e0",
+      "rank": 78,
+      "weight": 0.27002,
+      "category": "general",
+      "cluster_ids": [
+        "72a9ddae-84de-4357-9e4f-2c33affb82f3"
+      ],
+      "desk_title": "Oleshky Evacuees Reunite in Ukraine Following U.S.-Mediated Ceasefire",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-8a2725c8",
+      "rank": 79,
+      "weight": 0.269882,
+      "category": "politics",
+      "cluster_ids": [
+        "d90fb64a-fd44-4248-816f-3de54eba9a56"
+      ],
+      "desk_title": "Global Stock Markets Plunge Amid Investor Fears Over Artificial Intelligence and Midterm Results",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-bcc21318",
+      "rank": 80,
+      "weight": 0.266732,
+      "category": "politics",
+      "cluster_ids": [
+        "9090b3cc-b56c-4f28-8e8f-533ffe2c21a2"
+      ],
+      "desk_title": "Paraguay Senate Resumes Impeachment Proceedings Against Resigned President Pena",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9dccb697",
+      "rank": 81,
+      "weight": 0.265014,
+      "category": "general",
+      "cluster_ids": [
+        "43d87beb-eba0-4db3-a452-b1db55dbe750"
+      ],
+      "desk_title": "Trump Signs Proclamation Designating Oval Office as National Monument",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-49646962",
+      "rank": 82,
+      "weight": 0.264616,
+      "category": "general",
+      "cluster_ids": [
+        "83793bc2-0ed4-4bc7-a18d-5cc952a541c7"
+      ],
+      "desk_title": "Two Skydivers Die After Midair Collision Entangles Parachutes in California",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b59189f7",
+      "rank": 83,
+      "weight": 0.263775,
+      "category": "health",
+      "cluster_ids": [
+        "5601d81a-e124-4040-9c1c-51c92b67ffff"
+      ],
+      "desk_title": "Connecticut Senator Chris Murphy Receives Hospital Care After Suffering Weekend Stroke",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f8e9a2a8",
+      "rank": 84,
+      "weight": 0.263253,
+      "category": "politics",
+      "cluster_ids": [
+        "457f42d5-04ac-4e07-b590-973fcad5b4a1"
+      ],
+      "desk_title": "Donald Trump Discusses Working With Democrats After Midterm Election Losses",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-1631d701",
+      "rank": 85,
+      "weight": 0.262831,
+      "category": "politics",
+      "cluster_ids": [
+        "c44d012e-e9cc-4516-b968-b3d0753f030f"
+      ],
+      "desk_title": "Defense Lawyers Urge Dismissal of Murder Charges Against Lindsay Clancy",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-30cb81ed",
+      "rank": 86,
+      "weight": 0.26269,
+      "category": "conflict",
+      "cluster_ids": [
+        "ebe970a1-ad04-4da8-a0c5-10a42748a60a"
+      ],
+      "desk_title": "Federal Court Denies Injunction as Florida Implements Domestic Terrorist Designation Against CAIR",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9b7cf9d4",
+      "rank": 87,
+      "weight": 0.261851,
+      "category": "politics",
+      "cluster_ids": [
+        "c1457c41-d4aa-4eaa-bd0d-3f05d654705f"
+      ],
+      "desk_title": "China Urges Middle East Dialogue During Meetings with Regional Officials",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-efd60e9a",
+      "rank": 88,
+      "weight": 0.260698,
+      "category": "general",
+      "cluster_ids": [
+        "40094119-865e-46df-bf38-a358236047b9"
+      ],
+      "desk_title": "Pakistan Government Declares Nationwide Public Holiday for Iqbal Day",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-657fd2c8",
+      "rank": 89,
+      "weight": 0.259826,
+      "category": "politics",
+      "cluster_ids": [
+        "b91e060b-7728-4f28-b836-f64e7371a4b6"
+      ],
+      "desk_title": "European Commission Report Names Montenegro as Frontrunner for EU Accession",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7a74942b",
+      "rank": 90,
+      "weight": 0.259634,
+      "category": "conflict",
+      "cluster_ids": [
+        "8d19fc6e-96bf-4b22-860a-afecea42f539"
+      ],
+      "desk_title": "Poland detains 6 suspects working for Russian intelligence, Polish official says",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9a44cc02",
+      "rank": 91,
+      "weight": 0.259388,
+      "category": "politics",
+      "cluster_ids": [
+        "5fd7f4d1-2f4c-41e5-9f2b-d69ee048d158"
+      ],
+      "desk_title": "Shooting Outside Alabama Football Game Leaves One Dead And Eight Wounded",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-8fd2a528",
+      "rank": 92,
+      "weight": 0.258449,
+      "category": "general",
+      "cluster_ids": [
+        "b0f44c9b-2919-48d2-aa96-1f13044b2083"
+      ],
+      "desk_title": "John Swinney Faces Internal Revolt Within SNP Over North Sea Oil and Gas U-Turn",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-25e4b1cb",
+      "rank": 93,
+      "weight": 0.258303,
+      "category": "conflict",
+      "cluster_ids": [
+        "f0eeda3f-46be-49b0-86bd-49825c82fd2e"
+      ],
+      "desk_title": "Multiple Halloween Night Shootings Leave Four Dead and Fifteen Injured in Dallas",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-401ab2ea",
+      "rank": 94,
+      "weight": 0.25815,
+      "category": "conflict",
+      "cluster_ids": [
+        "0474dd79-2dbb-4527-84e4-370414f6f3e4"
+      ],
+      "desk_title": "Yemeni Forces Accuse Houthis of Deadly Missile Attack in Taiz Province",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2999ca86",
+      "rank": 95,
+      "weight": 0.258058,
+      "category": "general",
+      "cluster_ids": [
+        "55c68a0a-b9a6-45d5-ac2d-c2d87af0fa10"
+      ],
+      "desk_title": "DOJ Urges Sanctions Over Analysis Critical of California Voter List",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-529d5062",
+      "rank": 96,
+      "weight": 0.257539,
+      "category": "conflict",
+      "cluster_ids": [
+        "8700a14e-ef65-48a1-b008-bab146e99d10"
+      ],
+      "desk_title": "Israeli Forces Withdraw From Hebron After 10 Day Military Operation",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-da293c17",
+      "rank": 97,
+      "weight": 0.25686,
+      "category": "politics",
+      "cluster_ids": [
+        "c23531a3-c917-4b7d-9e3f-d149b66607ae"
+      ],
+      "desk_title": "Atiku Arrives Sokoto Amid Campaign Dispute as Adc Urges Nigerians to Reject APC",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e1d2abfe",
+      "rank": 98,
+      "weight": 0.255881,
+      "category": "politics",
+      "cluster_ids": [
+        "00d750c6-0fa0-448c-83f6-d32e4f7130de"
+      ],
+      "desk_title": "Chief of Defence Forces Munir and Sudan Interior Minister Discuss Cooperation",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-27c62115",
+      "rank": 99,
+      "weight": 0.255409,
+      "category": "general",
+      "cluster_ids": [
+        "cb326752-fdb6-4d95-b9f4-39a06ecd58c4"
+      ],
+      "desk_title": "Federal Judge Temporarily Blocks Construction of Donald Trump Memorial Arch in Washington",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2f85c1f9",
+      "rank": 100,
+      "weight": 0.254953,
+      "category": "science",
+      "cluster_ids": [
+        "bba50fa3-9f6b-4b9e-9743-efafaf2543af"
+      ],
+      "desk_title": "NASA Unveils Experimental X-70 Fractal Aircraft With Modular Design",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-4cd5710a",
+      "rank": 101,
+      "weight": 0.254237,
+      "category": "conflict",
+      "cluster_ids": [
+        "fcc503d2-9935-459d-b0c3-14af8cd28b5c"
+      ],
+      "desk_title": "Zelensky and Kyiv Mayor Klitschko Trade Blame Over Capital Energy Outages",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d01aed1b",
+      "rank": 102,
+      "weight": 0.25371,
+      "category": "general",
+      "cluster_ids": [
+        "cf9b257b-2223-4043-9d3a-3be6c86fc9a1"
+      ],
+      "desk_title": "Channel 4 Cancels Married at First Sight UK Following Rape Allegations",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-22558888",
+      "rank": 103,
+      "weight": 0.253696,
+      "category": "general",
+      "cluster_ids": [
+        "9e2aa93a-b506-480a-bf66-a76523ba3364"
+      ],
+      "desk_title": "California Voters Decide Proposition 40 Wealth Tax on Billionaires",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0a5356e2",
+      "rank": 104,
+      "weight": 0.252985,
+      "category": "general",
+      "cluster_ids": [
+        "1c3f4612-9e41-46a6-ad78-0f32cdba4dc5"
+      ],
+      "desk_title": "Federal Cabinet Ratifies Defense Cooperation Pact With Kuwait",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-8157fa95",
+      "rank": 105,
+      "weight": 0.252611,
+      "category": "general",
+      "cluster_ids": [
+        "19307aed-2cea-4cc8-bd8b-b3a885bb8596"
+      ],
+      "desk_title": "Bharatiya Janata Party Celebrates Veteran Leader Lal Krishna Advani Entering 100th Year",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-aa0aae9a",
+      "rank": 106,
+      "weight": 0.252582,
+      "category": "general",
+      "cluster_ids": [
+        "de549467-5996-421f-92d0-ab473eeead3d"
+      ],
+      "desk_title": "UK Foreign Secretary Miliband Rules Out Slavery Reparations Payouts",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b5daf581",
+      "rank": 107,
+      "weight": 0.252364,
+      "category": "conflict",
+      "cluster_ids": [
+        "3bdbf8f4-7475-44ba-b162-82563cd05b42"
+      ],
+      "desk_title": "European Leaders Object to Donald Trump Security Framework Proposal Involving Russia",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-50423ae7",
+      "rank": 108,
+      "weight": 0.251286,
+      "category": "politics",
+      "cluster_ids": [
+        "1206e5d6-aff8-4096-8621-4877806e1cd8"
+      ],
+      "desk_title": "Nigerian High Court Voids Candidacy of Opposition Leader Atiku Abubakar",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-08f03131",
+      "rank": 109,
+      "weight": 0.25076,
+      "category": "politics",
+      "cluster_ids": [
+        "86b91f04-7bd6-41ea-8121-d6d9a81b5298"
+      ],
+      "desk_title": "Poland Deploys Forces to Kaliningrad Border After Intelligence Warnings",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-a108b8a8",
+      "rank": 110,
+      "weight": 0.248667,
+      "category": "conflict",
+      "cluster_ids": [
+        "c9fe47a1-45ab-4bc2-9c95-c41df8b66ac5"
+      ],
+      "desk_title": "Indonesia Deploys 20,000 Troops to Jakarta Following Wiretapping Investigation",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6ec275d8",
+      "rank": 111,
+      "weight": 0.248033,
+      "category": "health",
+      "cluster_ids": [
+        "0f760a24-d1c7-419b-9a17-7d0de3d9d430"
+      ],
+      "desk_title": "CVS Health Announces Major Corporate Breakup Plan to Separate Pharmacies from Insurance",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-bfbfcea5",
+      "rank": 112,
+      "weight": 0.247789,
+      "category": "politics",
+      "cluster_ids": [
+        "abf05405-a022-475d-bdd6-666ee52ded23"
+      ],
+      "desk_title": "Reform UK Councillor George Madgwick Charged With 35 Offences Including Rape",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-4d1085c3",
+      "rank": 113,
+      "weight": 0.247696,
+      "category": "conflict",
+      "cluster_ids": [
+        "ae594937-672d-49e2-93fc-a72fd4c9840e"
+      ],
+      "desk_title": "French Police Block Banned Yellow Vest Rally Near Presidential Palace",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7b17392b",
+      "rank": 114,
+      "weight": 0.247534,
+      "category": "science",
+      "cluster_ids": [
+        "94c76888-d8e4-4fc2-a1bb-b1c183303bba"
+      ],
+      "desk_title": "Google Revisions Tie Search Engine Access to Artificial Intelligence Integration in Schools",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-238093a6",
+      "rank": 115,
+      "weight": 0.24412,
+      "category": "politics",
+      "cluster_ids": [
+        "ec919e41-1f79-46e3-88af-c0753ff30374"
+      ],
+      "desk_title": "Cornell University Faculty Senate Approves No-Confidence Vote in Campus Leadership",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d25e08d6",
+      "rank": 116,
+      "weight": 0.24234,
+      "category": "conflict",
+      "cluster_ids": [
+        "c8980599-4ccd-4fa4-9227-918e0c3dbe94"
+      ],
+      "desk_title": "Death Toll Rises to 40 After Russian Bombing of School in Komyshuvakha",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0882c751",
+      "rank": 117,
+      "weight": 0.242086,
+      "category": "politics",
+      "cluster_ids": [
+        "74744a43-78f7-4020-9462-fd74ea2dfdf8"
+      ],
+      "desk_title": "Malaysia Attorney General Suspends Former Prime Minister Najib Razak House Arrest Order",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-57ba4ff4",
+      "rank": 118,
+      "weight": 0.241077,
+      "category": "science",
+      "cluster_ids": [
+        "f4ba8f24-23ef-4193-9111-6a6883d5eb9e"
+      ],
+      "desk_title": "Nvidia CEO Jensen Huang Faces Congressional Scrutiny Over Alleged Chinese Spy Ties",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5af6401a",
+      "rank": 119,
+      "weight": 0.240636,
+      "category": "conflict",
+      "cluster_ids": [
+        "23495e80-5043-4751-900b-1abcdbfdffd3"
+      ],
+      "desk_title": "Bangladesh Garment Wage Board Agrees to Raise Pay Amid Ongoing Protests",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-63952086",
+      "rank": 120,
+      "weight": 0.240484,
+      "category": "general",
+      "cluster_ids": [
+        "feaaab57-03ae-436f-ad3d-8b2d6c8ffcb1"
+      ],
+      "desk_title": "Tens Of Thousands Protest In Delhi Demanding Resignation Of Election Chief",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-4994b550",
+      "rank": 121,
+      "weight": 0.238884,
+      "category": "politics",
+      "cluster_ids": [
+        "2b79249f-a523-4892-adaa-945c01e0f770"
+      ],
+      "desk_title": "New Zealand Major Parties Flatline as Dispirited Voters Upend General Election",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-8c80884c",
+      "rank": 122,
+      "weight": 0.237836,
+      "category": "politics",
+      "cluster_ids": [
+        "13bd65eb-e422-4b06-862c-04d2665709c3"
+      ],
+      "desk_title": "Representative Ro Khanna Celebrates Return of Diversity Equity and Inclusion",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-afff4125",
+      "rank": 123,
+      "weight": 0.237191,
+      "category": "politics",
+      "cluster_ids": [
+        "ff937833-6093-4cc8-849d-d626812986ca"
+      ],
+      "desk_title": "United Nations Peacekeeping Mission In Disputed Western Sahara Ceases Operations",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-969c8b8c",
+      "rank": 124,
+      "weight": 0.235541,
+      "category": "general",
+      "cluster_ids": [
+        "136a574e-c814-4a43-b3b6-abb39728a418"
+      ],
+      "desk_title": "European Commission Report Warns Turkey Over Aegean and Cyprus Disputes",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c2437db7",
+      "rank": 125,
+      "weight": 0.235352,
+      "category": "conflict",
+      "cluster_ids": [
+        "7bc7f1d6-0713-42b5-a7ec-f47250e36fa2"
+      ],
+      "desk_title": "Macklemore Says Nine Major Arenas Blocked Free Palestine Tour Dates",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6826a248",
+      "rank": 126,
+      "weight": 0.233989,
+      "category": "conflict",
+      "cluster_ids": [
+        "a4a6fd47-6691-4d8c-89f5-24b41add6dec"
+      ],
+      "desk_title": "Israeli Strikes Kill at Least Eight Palestinians in Gaza Truce Violation",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9507b255",
+      "rank": 127,
+      "weight": 0.233884,
+      "category": "health",
+      "cluster_ids": [
+        "78ed5383-87ff-443b-9525-87d4007c4390"
+      ],
+      "desk_title": "Former British Ballet Dancer Wayne Sleep Discloses Ongoing Treatment for Cancer",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e001d921",
+      "rank": 128,
+      "weight": 0.233486,
+      "category": "general",
+      "cluster_ids": [
+        "a5f1a430-70c2-46d2-b61d-c29d533d0ad9"
+      ],
+      "desk_title": "State Tests Show Petrol Ethanol Levels Exceeding Prescribed 20 Percent Limit",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9f7139fd",
+      "rank": 129,
+      "weight": 0.233138,
+      "category": "politics",
+      "cluster_ids": [
+        "1eb5c189-3f0d-4a41-acce-79742c1ce265"
+      ],
+      "desk_title": "Paraguayan Prosecutors Charge and Detain Ousted President Santiago Pena",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-86acc96e",
+      "rank": 130,
+      "weight": 0.228859,
+      "category": "politics",
+      "cluster_ids": [
+        "5c897703-3a1a-4f99-8f97-4a7849ef474f"
+      ],
+      "desk_title": "Israeli Officials Affirm Election Results Following Benjamin Netanyahu Vote Fraud Claims",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c7a8697c",
+      "rank": 131,
+      "weight": 0.228404,
+      "category": "politics",
+      "cluster_ids": [
+        "5b4ac5e5-8f9f-4084-a2e8-b518a3a082c1"
+      ],
+      "desk_title": "Texas Senator-Elect James Talarico Appears on Saturday Night Live Cold Open",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e56f693c",
+      "rank": 132,
+      "weight": 0.227873,
+      "category": "general",
+      "cluster_ids": [
+        "482a9949-77bc-4894-ac8c-0d965a2c86dd"
+      ],
+      "desk_title": "Donald Trump Says Flavio Bolsonaro Can Remain in United States Indefinitely",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b07687f6",
+      "rank": 133,
+      "weight": 0.226435,
+      "category": "politics",
+      "cluster_ids": [
+        "bf385dc6-4f7c-4e3b-88c0-876f0914caef"
+      ],
+      "desk_title": "El Hierro Declares Emergency After Thousands of Migrants Arrive by Boat",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-19355095",
+      "rank": 134,
+      "weight": 0.225712,
+      "category": "general",
+      "cluster_ids": [
+        "9fd8eda0-3840-4248-a8d5-9503eadfb262"
+      ],
+      "desk_title": "Michael Carrick Prepares Manchester United for Aston Villa Match Amid Relegation Pressures",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-cdb47248",
+      "rank": 135,
+      "weight": 0.225631,
+      "category": "general",
+      "cluster_ids": [
+        "4fbf9b16-e1c8-496b-9b51-5c5331a5c2f5"
+      ],
+      "desk_title": "SNP Demands Emergency Living Cost Plan as Energy Bills and Interest Rates Rise",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c1f5f3af",
+      "rank": 136,
+      "weight": 0.225369,
+      "category": "politics",
+      "cluster_ids": [
+        "af913d8c-0a24-4d70-bfea-25b1e09e9ecc"
+      ],
+      "desk_title": "Pakistani Leaders Extend Diwali Greetings and Reaffirm Minority Rights Protection",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6f5a87b6",
+      "rank": 137,
+      "weight": 0.220743,
+      "category": "politics",
+      "cluster_ids": [
+        "019c2327-4762-4f19-bb13-31f763a19920"
+      ],
+      "desk_title": "Paraguay Congress Impeaches President Santiago Peña Following Commercial Bank Collapse",
+      "reason": "below the brief run by weight"
+    }
+  ],
+  "tease": [
+    "thread-cd92e995",
+    "thread-bbd33fd3",
+    "thread-e1f384c4",
+    "thread-ac6a356e"
+  ],
+  "echo": null,
+  "briefs_order": [
+    "thread-685e2da4",
+    "thread-196b5883",
+    "thread-74f15c88",
+    "thread-c3cfc463",
+    "thread-4d8aeab9",
+    "thread-a6d275ad",
+    "thread-719895a0",
+    "thread-29d17d94",
+    "thread-381a0b5e",
+    "thread-1a2c9331"
+  ],
+  "weekly_crosscheck": {
+    "weekly_edition_seen": false
+  },
+  "notes": [
+    "lead thread-cd92e995: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "package_2 thread-bbd33fd3: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "package_3 thread-e1f384c4: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "package_4 thread-ac6a356e: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "no rights ledger yet: footage_cleared_s is 0 for every story until scripts/rights.mjs writes one"
+  ]
+}

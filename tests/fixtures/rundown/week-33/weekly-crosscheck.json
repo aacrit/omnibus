@@ -1,0 +1,38 @@
+{
+  "schema": "omnibus.weekly-crosscheck/1",
+  "issue": 33,
+  "read_at": "dcffaaf8bf5e979808cd195de80e2403af074c64",
+  "archive_commit": "bdb6e7d4d6cfe5aba438576b40f0cb12b03eb01c",
+  "weekly_edition_seen": true,
+  "week": {
+    "start": "2026-11-02",
+    "end": "2026-11-08"
+  },
+  "window_end_matches": true,
+  "created_at": "2026-11-08T22:16:50.309638+00:00",
+  "covers": [
+    {
+      "cluster_ids": [
+        "2e2978da-dac0-4642-8259-ea0c6ae9fd97",
+        "2ec1fcb8-3848-4809-9858-f5c309af2a0a",
+        "b395447b-fb0e-4855-851f-5690ebcb43f6"
+      ],
+      "our_rank": 2,
+      "our_key": "thread-bbd33fd3"
+    },
+    {
+      "cluster_ids": [
+        "429059b1-086b-423b-9af9-6bf89bfa2468",
+        "8e67ac5c-5bc9-429b-8218-568b484b7aff",
+        "f1b0b345-88ae-4202-bfbf-528ea1df6e5c"
+      ],
+      "our_rank": 1,
+      "our_key": "thread-cd92e995"
+    }
+  ],
+  "ours": [
+    "thread-cd92e995",
+    "thread-bbd33fd3"
+  ],
+  "agree": true
+}

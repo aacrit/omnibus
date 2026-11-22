@@ -91,6 +91,7 @@ from pathlib import Path
 from studio.engine import aswas as AW
 from studio.engine import score as SCORE
 from studio.news import graphic as G
+from studio.news import rundown_shape as RS
 from studio.news import schema as SC
 
 REPO = Path(__file__).resolve().parents[2]
@@ -1467,10 +1468,11 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     out += _guarded("voice-disclosed", disclosure_checks, play)
     out += _guarded("black-share", black_checks, play)
     out += _guarded("tour-window-inside", tour_checks, play, assets, inputs)
+    out += _guarded(RS.RULE, RS.shape_checks, play, inputs)   # T2: a part's shape is its rundown/2 story's
     return out + deferred_checks()
 
 
-RULES = ("show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
+RULES = (RS.RULE, "show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
          "part-shape", "graphic-schema", "alteration-marked", "sound-role", "card-kind", "line-schema",
          "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION,
          FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",
