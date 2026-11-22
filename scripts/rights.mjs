@@ -4,7 +4,9 @@
 //
 //   node scripts/rights.mjs resolve <issue>
 //       resolves rundown.json's asset ladders (searches) into concrete
-//       candidates in episodes/<issue>/assets.json; federal .gov and Wayback
+//       candidates in episodes/<issue>/assets.json (a rundown/2 has no ladders
+//       of its own: they are read from episodes/<issue>/rundown-assets.json);
+//       federal .gov and Wayback
 //       steps are read through episodes/<issue>/asset-pins.json.
 //   node scripts/rights.mjs fetch <issue> --media <dir> [--dry-run] [--redo <id,id>]
 //       reads episodes/<issue>/assets.json (the rundown's ranked asset
@@ -156,11 +158,38 @@ export async function runPull({ root = repoRoot, issue, mediaDir, http = { getMe
   return pullLedger({ ledger, mediaDir: path.join(mediaDir, String(issue)), http, log });
 }
 
+export const RUNDOWN_V2 = "omnibus.rundown/2";
+export const ASSET_REQUESTS_V2 = "omnibus.rundown-assets/1";
+
+/**
+ * The asset requests an episode asks for, in the shape resolve.mjs reads ({ issue, as_of, asset_requests }).
+ * A v1 rundown carries them itself. A rundown/2 (written by scripts/normalise-rundown.mjs, never by hand)
+ * carries none, so its sourcing pass writes episodes/<issue>/rundown-assets.json beside it
+ * (omnibus.rundown-assets/1: { schema, issue, asset_requests }); each request's `for` is the slot it
+ * serves (lead, package_<n>, brief_<n>, tease), which the fetcher holds to publication by its window's end.
+ */
+export function requestSource(dir, issue) {
+  const rundown = JSON.parse(readFileSync(path.join(dir, "rundown.json"), "utf8"));
+  if (rundown.schema !== RUNDOWN_V2) {
+    if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
+    return rundown;
+  }
+  if (rundown.edition?.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.edition?.issue}, not ${issue}`);
+  const p = path.join(dir, "rundown-assets.json");
+  if (!existsSync(p)) return { issue, as_of: null, asset_requests: [] };
+  const doc = JSON.parse(readFileSync(p, "utf8"));
+  if (doc.schema !== ASSET_REQUESTS_V2) throw new Error(`rundown-assets.json: schema must be ${ASSET_REQUESTS_V2}`);
+  if (doc.issue !== issue) throw new Error(`rundown-assets.json is for issue ${doc.issue}, not ${issue}`);
+  if (!Array.isArray(doc.asset_requests)) throw new Error("rundown-assets.json: asset_requests must be a list");
+  const slots = new Set([...(rundown.stories ?? []).map((s) => s.slot), "tease"]);
+  for (const r of doc.asset_requests) if (!slots.has(r?.for)) throw new Error(`rundown-assets.json: ${r?.id} is for ${r?.for}, which is no slot of the rundown`);
+  return { issue, as_of: null, asset_requests: doc.asset_requests };
+}
+
 /** Resolves the rundown's asset requests into episodes/<issue>/assets.json (resolve.mjs). */
 export async function runResolve({ root = repoRoot, issue, http = { getJson, getText }, log = console.log }) {
   const dir = episodeDir(root, issue);
-  const rundown = JSON.parse(readFileSync(path.join(dir, "rundown.json"), "utf8"));
-  if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
+  const rundown = requestSource(dir, issue);
   const pinsPath = path.join(dir, "asset-pins.json");
   const pinsDoc = existsSync(pinsPath) ? JSON.parse(readFileSync(pinsPath, "utf8")) : { pins: {} };
   // The sourcing passes' candidate pins (episodes/<issue>/candidates/*.json) join the hand pins.

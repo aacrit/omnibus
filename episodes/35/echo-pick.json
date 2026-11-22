@@ -1,0 +1,562 @@
+{
+  "issue": 35,
+  "ticket": "T9b (the screenplay)",
+  "written": "2026-11-22",
+  "by": "T9b writer (Claude, Opus), from ledgers/echo-bank.json at the tag echo-bank/2026-11-21",
+  "approved_by": "pending: the Board ask for issue 35 (approve-before-render)",
+  "founder_ruling": "2026-11-21: issue 35's Echo is picked late and disclosed; the no-bridge rule holds; the Yalta and Potsdam Signal Corps films are a request needing a rights read, never cleared.",
+  "bank": {
+    "file": "ledgers/echo-bank.json",
+    "tag": "echo-bank/2026-11-21",
+    "commit": "e635665870796d6a37061be47f850260894f5565",
+    "committed_utc": "2026-11-21T08:57:37Z"
+  },
+  "advance_pick": {
+    "ok": false,
+    "week_opened_utc": "2026-11-16T00:00:00Z",
+    "why": "The bank entry was committed on 21 November, after issue 35's week opened; section g quarantines it until issue 36. The founder ruled the late pick for issue 35, disclosed."
+  },
+  "year": 1945,
+  "picked_after_week_known": true,
+  "picked_after_week_known_statement": "This Echo was picked on 22 November 2026, after issue 35's week and its lead were known, from a bank entry added on 21 November. The founder ruled on 21 November that it be picked late and disclosed. It is disclosed on the sources page and in the credits.",
+  "disclosure": {
+    "credits": "The Echo was chosen after the week was known, from an entry added to the echo bank on 21 November; see the sources page",
+    "sources_page": "The Echo for issue 35 was chosen on 22 November, after the week's news was known, from an entry (yalta-conference-1945) added to the echo bank on 21 November. The bible's advance-pick rule would have held it until issue 36; the founder ruled that issue 35's Echo be picked late and disclosed. The mechanism it was picked on, and the scores of the entries it was picked over, are listed here."
+  },
+  "lead": {
+    "story": "ukraine-bridges-strikes",
+    "mechanisms": [
+      "leaders-meet-in-person"
+    ],
+    "basis": "fc265ec6 consensus: the strike on the bridge coincided with preparations for the meeting of Putin, Trump and Xi; 672e3dce consensus: Putin said Russia would not negotiate a ceasefire after the attacks. The three met in person (7523e65f consensus) while the war's two parties struck each other's bridges. No settlement was reached, so great-powers-settle-over-absent-party is not tagged."
+  },
+  "method": {
+    "score": "the share of the lead's tagged mechanisms an entry carries (bible g: the lead's mechanisms against the bank)",
+    "tiebreak": "a written reading of the lead's conditions against the entry's mechanism notes (0 to 3), then the entry's cleared or clearable pictures; a tie on score is logged as a tie"
+  },
+  "candidates": [
+    {
+      "slug": "yalta-conference-1945",
+      "horizon": "1945-03-01T23:59:00-04:00",
+      "mechanisms": [
+        "great-powers-settle-over-absent-party",
+        "leaders-meet-in-person",
+        "government-recognition-contested",
+        "occupation-of-defeated-state",
+        "reparations-set"
+      ],
+      "shared_with_lead": [
+        "leaders-meet-in-person"
+      ],
+      "fit": 1.0,
+      "tiebreak": 3,
+      "fit_reason": "The three heads met while the war went on (the lead's own condition, the war's parties striking each other's bridges while the three met); the decisions concerned a state that was not at the table, Poland, and the bank holds that government's own words; four Unrestricted NARA stills and the communique are in the entry."
+    },
+    {
+      "slug": "potsdam-conference-1945",
+      "horizon": "1945-08-09T23:59:00-04:00",
+      "mechanisms": [
+        "leaders-meet-in-person",
+        "occupation-of-defeated-state",
+        "population-transfer-agreed",
+        "reparations-set",
+        "great-powers-settle-over-absent-party",
+        "ultimatum-to-belligerent"
+      ],
+      "shared_with_lead": [
+        "leaders-meet-in-person"
+      ],
+      "fit": 1.0,
+      "tiebreak": 1,
+      "fit_reason": "Three heads met in person, with a state absent whose territory was placed (Poland's administration of German land); but the war in Europe had ended, and the absent party has no words of its own in the entry."
+    },
+    {
+      "slug": "helsinki-final-act-1975",
+      "horizon": "1975-08-02T12:00:00+02:00",
+      "mechanisms": [
+        "declaration-without-binding-force",
+        "frontiers-recognised-for-commitments",
+        "leaders-meet-in-person"
+      ],
+      "shared_with_lead": [
+        "leaders-meet-in-person"
+      ],
+      "fit": 1.0,
+      "tiebreak": 0,
+      "fit_reason": "Leaders met in person, in peacetime, thirty-five states at the table; no party was absent."
+    },
+    {
+      "slug": "congress-of-vienna-1815",
+      "horizon": "1815-06-09T23:59:00+01:05",
+      "mechanisms": [
+        "borders-redrawn-by-congress",
+        "great-powers-settle-over-absent-party",
+        "balance-of-power-restored"
+      ],
+      "shared_with_lead": [],
+      "fit": 0.0,
+      "tiebreak": null,
+      "fit_reason": "No shared mechanism with the lead."
+    },
+    {
+      "slug": "congress-of-berlin-1878",
+      "horizon": "1878-07-18T23:59:00+00:00",
+      "mechanisms": [
+        "earlier-treaty-revised",
+        "broker-host-mediates",
+        "recognition-of-new-states",
+        "minority-protections-in-treaty",
+        "borders-redrawn-by-congress",
+        "great-powers-settle-over-absent-party"
+      ],
+      "shared_with_lead": [],
+      "fit": 0.0,
+      "tiebreak": null,
+      "fit_reason": "No shared mechanism with the lead."
+    }
+  ],
+  "top_three": [
+    "yalta-conference-1945 (fit 1.0, tiebreak 3)",
+    "potsdam-conference-1945 (fit 1.0, tiebreak 1)",
+    "helsinki-final-act-1975 (fit 1.0, tiebreak 0)"
+  ],
+  "chosen": {
+    "slug": "yalta-conference-1945",
+    "as_of": "1945-03-01T23:59:00-04:00",
+    "slate": {
+      "place": "Yalta, the Crimea",
+      "date": "February 4 to 11, 1945"
+    },
+    "reason": "The lead's one tagged mechanism, the heads of rival great powers meeting in person, is shared by three entries; Yalta breaks the tie on the lead's own conditions: the three met while the war went on, and the decisions concerned a state that was not at the table and said so in its own words.",
+    "mechanism": "The heads of government of the United States, the United Kingdom and the Soviet Union met in the Crimea, agreed zones of occupation and reparation in kind for Germany, placed Poland's eastern frontier on the Curzon Line and set terms for a new Polish government, and the Polish Government in London, which had not taken part, declared that the decisions could not bind the Polish nation."
+  },
+  "risks": [
+    "The fit is one shared tag. The pick rests on the tiebreak, which is a written judgement; the Board may prefer Potsdam.",
+    "Some of the week's coverage compared the Shenzhen summit with Yalta (cluster 662a8e1c, a divergence point). The programme never says so and never names the week in the Echo; the reviewer should read the pick with that in mind.",
+    "Yalta lies in the Crimea, the lead's place. Places are exempt from no-bridge (bible g); the narrator never draws the line, and no news line names Yalta, and the Echo names no person, organisation, event or document of the week.",
+    "Poland is a party in both. States are exempt; the Echo's Polish voice is the Government in London of 1945."
+  ],
+  "period_perspectives": [
+    {
+      "who": "Franklin D. Roosevelt, President of the United States",
+      "side": "United States",
+      "where": "Joint session of Congress, Washington",
+      "date": "1945-03-01",
+      "quote": "The decision with respect to the boundaries of Poland was, frankly, a compromise. I did not agree with all of it, by any means, but we did not go as far as Britain wanted, in certain areas; we did not go so far as Russia wanted, in certain areas; and we did not go so far as I wanted, in certain areas.",
+      "quote_sha256": "63952aab2351c4d01c2c1d1c0a16947e18695319ecccbe2ed994ba3c83596b16",
+      "source": "src-app-fdr-1945-03-01",
+      "locator": "Address to Congress on the Yalta Conference, passage on Poland's boundaries"
+    },
+    {
+      "who": "Winston S. Churchill, Prime Minister of the United Kingdom",
+      "side": "United Kingdom",
+      "where": "House of Commons, London",
+      "date": "1945-02-27",
+      "quote": "I have never concealed from the House that, personally, I think the Russian claim is just and right. If I champion this frontier for Russia, it is not because I bow to force.",
+      "quote_sha256": "a8e63937e984aa3a973cdb53191246c66ea48990f54313edb913651980e15fd0",
+      "source": "src-hansard-1945-02-27",
+      "locator": "HC Deb 27 February 1945 vol 408, Crimea Conference debate, about c1275"
+    },
+    {
+      "who": "The Polish Government in London, statement communicated by Ambassador J. Ciechanowski",
+      "side": "Poland (Government in London), the party whose territory and government were settled",
+      "where": "Polish Embassy, Washington, note to the Acting Secretary of State",
+      "date": "1945-02-15",
+      "quote": "The Polish Government declares that the decision of the Three-Power conference concerning Poland cannot be recognized by the Polish Government and cannot bind the Polish nation.",
+      "quote_sha256": "8ca74fc85c18708166c5c4178d5e2e5026c21e8dadd810931533d1926c8dbab7",
+      "source": "src-frus-1945v05-d111",
+      "locator": "FRUS 1945 vol. V, doc. 111, statement paragraph 5",
+      "published": 1969
+    },
+    {
+      "who": "The Polish Government in London, statement communicated by Ambassador J. Ciechanowski",
+      "side": "Poland (Government in London), the party whose territory and government were settled",
+      "where": "Polish Embassy, Washington, note to the Acting Secretary of State",
+      "date": "1945-02-15",
+      "quote": "decisions of the three-Power conference were prepared and taken not only without participation and authorization of the Polish Government but also without their knowledge.",
+      "quote_sha256": "a61736d8abff41005fe1565d8801e82ae0ebcc4d18dd89fd204c404804b2671d",
+      "source": "src-frus-1945v05-d111",
+      "locator": "FRUS 1945 vol. V, doc. 111, statement paragraph 4",
+      "published": 1969
+    }
+  ],
+  "period_documents": [
+    {
+      "id": "src-frus-malta-d500",
+      "what": "Report of the Crimea Conference (the communique), 11 February 1945",
+      "date": "1945-02-11",
+      "licence": "pd-us-federal",
+      "show": "not typeset in issue 35: its text is not held verbatim here (only its sha256), so the narrator states its terms from the bank's sourced facts over maps of Germany and Poland"
+    },
+    {
+      "id": "src-frus-1945v05-d111",
+      "what": "Statement of the Polish Government, communicated 15 February 1945 (FRUS 1945 vol. V, doc. 111, printed 1969)",
+      "date": "1945-02-15",
+      "licence": "pd-us-federal",
+      "show": "typeset verbatim (S-EC-5) and read; dot PUBLISHED 1969"
+    },
+    {
+      "id": "src-hansard-1945-02-27",
+      "what": "House of Commons Debates, 27 February 1945, Crimea Conference",
+      "date": "1945-02-27",
+      "licence": "Parliamentary copyright; quoted only",
+      "show": "the quoted passage typeset verbatim (S-EC-6) and read"
+    },
+    {
+      "id": "src-app-fdr-1945-03-01",
+      "what": "Roosevelt's Address to Congress on the Yalta Conference, 1 March 1945",
+      "date": "1945-03-01",
+      "licence": "public, presidential address",
+      "show": "the quoted passage typeset verbatim (S-EC-7) and read"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-frus-malta-d500",
+      "what": "Foreign Relations of the United States, Diplomatic Papers, Conferences at Malta and Yalta, 1945, Document 500: Communique Issued at the End of the Conference, Report of the Crimea Conference, February 11, 1945 (Washington: Government Printing Office, 1955), from p. 968",
+      "url": "https://history.state.gov/historicaldocuments/frus1945Malta/d500",
+      "sha256": "1d735b8246b66612b976af6056ded57c39d65dacaa5dc35dc58ecbe52cc5a9bb",
+      "fetched": "2026-11-21",
+      "printed": "text dated and released inside the horizon (11 and 12 February 1945); this edition printed 1955",
+      "rights": "public, federal work"
+    },
+    {
+      "id": "src-frus-malta-d503",
+      "what": "FRUS, Conferences at Malta and Yalta, 1945, Document 503: Agreement Regarding Entry of the Soviet Union Into the War Against Japan, February 11, 1945",
+      "url": "https://history.state.gov/historicaldocuments/frus1945Malta/d503",
+      "sha256": "0f8467fb06e67a1216d731ee05aee95d89aebad16a330c9791d81e86aec21cf8",
+      "fetched": "2026-11-21",
+      "printed": "dated inside the horizon but released 11 February 1946 (footnote 1); cited only to mark it as unknown at the horizon",
+      "rights": "public, federal work"
+    },
+    {
+      "id": "src-frus-malta-vol",
+      "what": "FRUS, Conferences at Malta and Yalta, 1945, volume landing page (publication data: Government Printing Office, Washington, 1955)",
+      "url": "https://history.state.gov/historicaldocuments/frus1945Malta",
+      "sha256": "1f1352cda87aad703b3677145a611623034cbdb5c6b2a263cfebd55efa162b8c",
+      "fetched": "2026-11-21",
+      "printed": "printed later (1955); used for publication data only",
+      "rights": "public, federal work"
+    },
+    {
+      "id": "src-frus-1945v05-d111",
+      "what": "FRUS, Diplomatic Papers, 1945, Europe, Volume V, Document 111: The Polish Ambassador (Ciechanowski) to the Acting Secretary of State, Washington, February 15, 1945, communicating the statement of the Polish Government",
+      "url": "https://history.state.gov/historicaldocuments/frus1945v05/d111",
+      "sha256": "93fa921b69465c269debfc3e4a544ab92b1cf0567b95ad743422ddbddf289da5",
+      "fetched": "2026-11-21",
+      "printed": "note dated inside the horizon (15 February 1945); this edition printed 1969",
+      "rights": "public, federal work (the Polish statement quoted only)"
+    },
+    {
+      "id": "src-frus-1945v05-vol",
+      "what": "FRUS, Diplomatic Papers, 1945, Europe, Volume V, volume landing page (publication data: Government Printing Office, Washington, 1969)",
+      "url": "https://history.state.gov/historicaldocuments/frus1945v05",
+      "sha256": "d997e6c7409c42c9b8fb5eada2aa0d943a9a81bdac3165d8948df7a58008ab9f",
+      "fetched": "2026-11-21",
+      "printed": "printed later (1969); used for publication data only",
+      "rights": "public, federal work"
+    },
+    {
+      "id": "src-hansard-1945-02-27",
+      "what": "House of Commons Debates, 27 February 1945, vol 408 cc1267-345, Crimea Conference (historic Hansard)",
+      "url": "https://api.parliament.uk/historic-hansard/commons/1945/feb/27/crimea-conference",
+      "sha256": "114f4ea410139ef1fcc86a7e6c2ec544a91e3cd5775cae74679a73e16071bbdf",
+      "fetched": "2026-11-21",
+      "printed": "inside the horizon (official report of the sitting of 27 February 1945)",
+      "rights": "Parliamentary copyright; quoted only"
+    },
+    {
+      "id": "src-app-fdr-1945-03-01",
+      "what": "Franklin D. Roosevelt, Address to Congress on the Yalta Conference, March 1, 1945, online by Gerhard Peters and John T. Woolley, The American Presidency Project",
+      "url": "https://www.presidency.ucsb.edu/documents/address-congress-the-yalta-conference",
+      "sha256": "b7e5a48a471eb49893e02462482c95b775209f0f7fcb33a9ce555628869d6767",
+      "fetched": "2026-11-21",
+      "printed": "inside the horizon (delivered 1 March 1945)",
+      "rights": "public, presidential address; site compilation quoted only"
+    }
+  ],
+  "items": [
+    {
+      "id": "yalta-pd-01",
+      "kind": "film",
+      "ref": "NAID 23465 (111-ADC-9700)",
+      "item_url": "https://catalog.archives.gov/id/23465",
+      "what": "THE YALTA CONFERENCE",
+      "date": "1945-02",
+      "licence": "pd-us-federal",
+      "dot_label": "FILMED YALTA · FEB 1945",
+      "status": "rights read required: NARA marks it 'Restricted - Possibly' (Copyright); never cleared by assumption",
+      "metadata_sha256": "37dab875207ad21969980ea1b070c50a8a0cd8bf8911b67f407a060688c75d42"
+    },
+    {
+      "id": "yalta-pd-02",
+      "kind": "film",
+      "ref": "NAID 17042 (111-ADC-3239)",
+      "item_url": "https://catalog.archives.gov/id/17042",
+      "what": "YALTA CONFERENCE (ARGONAUT), CRIMEA, RUSSIA",
+      "date": "1945-02-09",
+      "licence": "pd-us-federal",
+      "dot_label": "FILMED YALTA · FEB 1945",
+      "status": "rights read required: NARA marks it 'Restricted - Possibly' (Copyright); never cleared by assumption",
+      "metadata_sha256": "daf72dc1e934edcf28d297789516e7d454c5cc13f48318a75f8d628d9d990de4"
+    },
+    {
+      "id": "yalta-pd-03",
+      "kind": "film",
+      "ref": "NAID 17079 (111-ADC-3276)",
+      "item_url": "https://catalog.archives.gov/id/17079",
+      "what": "YALTA CONFERENCE (ARGONAUT), CRIMEA, RUSSIA",
+      "date": "1945-02-09",
+      "licence": "pd-us-federal",
+      "dot_label": "FILMED YALTA · FEB 1945",
+      "status": "rights read required: NARA marks it 'Restricted - Possibly' (Copyright); never cleared by assumption",
+      "metadata_sha256": "992acceaa2ab2cfef55ff0c3cf5b601cf0731c0efc36182eb34dc0c4faf1032c"
+    },
+    {
+      "id": "yalta-pd-04",
+      "kind": "still",
+      "ref": "NAID 531340 (111-SC-260486)",
+      "item_url": "https://catalog.archives.gov/id/531340",
+      "what": "Conference of the Big Three at Yalta makes final plans for the defeat of Germany. Here the \"Big Three\" sit on the patio together, Prime Minister Winston S. Churchill, President Franklin D. Roosevelt, and Premier Josef Stalin.",
+      "date": "1945-02",
+      "licence": "pd-us-federal",
+      "dot_label": "PHOTOGRAPHED YALTA · FEB 1945",
+      "status": "to fetch through scripts/rights.mjs (nara adapter); record shows Unrestricted",
+      "metadata_sha256": "cb5c0bab76c26b52085819718921ca5eed7040cf172934f77111f273ec7d6848"
+    },
+    {
+      "id": "yalta-pd-05",
+      "kind": "still",
+      "ref": "NAID 197001",
+      "item_url": "https://catalog.archives.gov/id/197001",
+      "what": "Franklin D. Roosevelt, Stalin, Churchill, and others at Livadia Palace in Yalta, USSR",
+      "date": "1945-02-04",
+      "licence": "pd-us-federal",
+      "dot_label": "PHOTOGRAPHED LIVADIA · FEB 1945",
+      "status": "to fetch through scripts/rights.mjs (nara adapter); record shows Unrestricted",
+      "metadata_sha256": "8304a625d680d26c574f25f78ad5292725271df65e3385d9e2a3ec6d0d4dccf9"
+    },
+    {
+      "id": "yalta-pd-06",
+      "kind": "still",
+      "ref": "NAID 197002",
+      "item_url": "https://catalog.archives.gov/id/197002",
+      "what": "Franklin D. Roosevelt, Churchill, and Stalin at the Livadia Palace in Yalta",
+      "date": "1945-02-09",
+      "licence": "pd-us-federal",
+      "dot_label": "PHOTOGRAPHED LIVADIA · FEB 1945",
+      "status": "to fetch through scripts/rights.mjs (nara adapter); record shows Unrestricted",
+      "metadata_sha256": "70f346c30d2c58564ecee86e6eae82b12c13257ab77229f983a09d64374e75df"
+    },
+    {
+      "id": "yalta-pd-07",
+      "kind": "still",
+      "ref": "NAID 197000",
+      "item_url": "https://catalog.archives.gov/id/197000",
+      "what": "Russian Premier Stalin talks with gestures to his Foreign Minister Molotov at the Palace, Yalta, Crimea, Russia.",
+      "date": "1945-02",
+      "licence": "pd-us-federal",
+      "dot_label": "PHOTOGRAPHED YALTA · FEB 1945",
+      "status": "to fetch through scripts/rights.mjs (nara adapter); record shows Unrestricted",
+      "metadata_sha256": "414e027fc4c351bee4077cd762a223bdbb18ce16907b5dc63c8162adddba1407"
+    }
+  ],
+  "outside_horizon": [
+    "Roosevelt's death (April 1945) or any later event in his life",
+    "The terms of the secret agreement on Soviet entry into the war against Japan (released February 1946)",
+    "The Protocol of Proceedings as a published text, including the 22 billion dollar reparation figure",
+    "The outcome of the Moscow commission and the formation of the Polish Provisional Government of National Unity",
+    "Any later Polish election, or any judgement on whether the pledge of free and unfettered elections was kept",
+    "The arrest or trial of Polish underground leaders in Moscow",
+    "The San Francisco conference's outcome or the United Nations Charter",
+    "The end of the war in Europe or in the Pacific, and the Potsdam Conference",
+    "The Oder and Neisse line as a western frontier, or the transfer of German populations",
+    "Any later use of 'Yalta' as a byword, the division of Europe, the Cold War",
+    "The result of the Commons division on the Crimea motion (no fetched source)"
+  ],
+  "no_bridge": {
+    "rule": "bible g: no person, organisation, event or named document from the week's stories appears in the Echo's lines, and none of the Echo's appears in the news parts; states and places are exempt.",
+    "must_not_appear_in_echo_lines": [
+      "Vladimir Putin",
+      "Putin",
+      "Donald Trump",
+      "Trump",
+      "Xi Jinping",
+      "Xi",
+      "Volodymyr Zelenskyy",
+      "Zelenskyy",
+      "Zelensky",
+      "Sergei Aksyonov",
+      "Aksyonov",
+      "Donald Tusk",
+      "Tusk",
+      "Wladyslaw Kosiniak-Kamysz",
+      "Kosiniak-Kamysz",
+      "Andy Burnham",
+      "Burnham",
+      "Antonio Costa",
+      "Ursula von der Leyen",
+      "von der Leyen",
+      "Ed Miliband",
+      "Miliband",
+      "Kemi Badenoch",
+      "Badenoch",
+      "Nigel Farage",
+      "Farage",
+      "Ahmad Nafisi",
+      "Nafisi",
+      "Anthony Albanese",
+      "Albanese",
+      "Khaing Khaing Soe",
+      "Mark Carney",
+      "Carney",
+      "Zohran Mamdani",
+      "Mamdani",
+      "Sean Cairncross",
+      "Cairncross",
+      "Kirsten Davies",
+      "Pete Hegseth",
+      "Hegseth",
+      "Delcy Rodriguez",
+      "Matan Kahana",
+      "Kahana",
+      "Gadi Eisenkot",
+      "Eisenkot",
+      "Michael Freeman",
+      "Jeffrey Epstein",
+      "Epstein",
+      "Kremlin",
+      "White House",
+      "Security Service of Ukraine",
+      "SSU",
+      "General Staff",
+      "Transport Ministry",
+      "Defence Ministry",
+      "NATO",
+      "European Union",
+      "European Council",
+      "European Commission",
+      "Reform UK",
+      "Central Command",
+      "CENTCOM",
+      "Department of War",
+      "Pentagon",
+      "Revolutionary Guard",
+      "Houthis",
+      "Houthi",
+      "ADNOC",
+      "International Court of Justice",
+      "International Criminal Court",
+      "Public Investment Fund",
+      "Federal Aviation Administration",
+      "United Airlines",
+      "Strategic Response Group",
+      "Knesset",
+      "Yashar",
+      "APEC",
+      "Asia-Pacific Economic Cooperation",
+      "Lord Mayor's Banquet",
+      "Declaration toward Peace",
+      "Genocide Convention"
+    ],
+    "echo_entities_kept_out_of_news": [
+      "Franklin D. Roosevelt",
+      "Franklin Roosevelt",
+      "Roosevelt",
+      "FDR",
+      "Winston S. Churchill",
+      "Winston Churchill",
+      "Churchill",
+      "J. V. Stalin",
+      "Joseph Stalin",
+      "Josef Stalin",
+      "Stalin",
+      "V. M. Molotov",
+      "Vyacheslav Molotov",
+      "Molotov",
+      "W. Averell Harriman",
+      "Averell Harriman",
+      "Harriman",
+      "Sir A. Clark Kerr",
+      "Archibald Clark Kerr",
+      "Clark Kerr",
+      "J. Ciechanowski",
+      "Jan Ciechanowski",
+      "Ciechanowski",
+      "Count Edward Raczynski",
+      "Edward Raczynski",
+      "Raczynski",
+      "Polish Government in London",
+      "Polish Government",
+      "Provisional Government of Poland",
+      "Lublin Committee",
+      "Lublin Provisional Government",
+      "Polish Provisional Government of National Unity",
+      "Red Army",
+      "Control Commission",
+      "Commission for the Compensation of Damage",
+      "European Advisory Commission",
+      "United Nations",
+      "House of Commons",
+      "Congress",
+      "Department of State",
+      "Foreign Office",
+      "Signal Corps",
+      "Yalta Conference",
+      "Crimea Conference",
+      "Crimean Conference",
+      "Argonaut",
+      "Malta Conference",
+      "Dumbarton Oaks",
+      "Teheran Conference",
+      "San Francisco conference",
+      "Peace Conference",
+      "Report of the Crimea Conference",
+      "Declaration on Liberated Europe",
+      "Declaration on Poland",
+      "Protocol of the Proceedings of the Crimea Conference",
+      "Protocol on German Reparation",
+      "Agreement Regarding Entry of the Soviet Union Into the War Against Japan",
+      "Atlantic Charter",
+      "Declaration by the United Nations",
+      "Tito-Subasic Agreement",
+      "Curzon Line"
+    ],
+    "exempt_states_places": [
+      "United States",
+      "United Kingdom",
+      "Great Britain",
+      "Britain",
+      "Soviet Union",
+      "Union of Soviet Socialist Republics",
+      "USSR",
+      "Russia",
+      "Poland",
+      "Germany",
+      "France",
+      "China",
+      "Yugoslavia",
+      "Crimea",
+      "Yalta",
+      "Livadia",
+      "Livadia Palace",
+      "Saki",
+      "Moscow",
+      "London",
+      "Washington",
+      "Berlin",
+      "San Francisco",
+      "Warsaw",
+      "Lublin",
+      "East Prussia",
+      "Danzig"
+    ],
+    "reverse_check": "Read by the writer: no news line names the United Nations, Congress, the House of Commons, the Foreign Office, the Department of State or any Echo person or document; the declaration's first point (on the United Nations) is not read or shown for that reason."
+  },
+  "bed": {
+    "id": "bed-2",
+    "status": "not yet written (docs/tickets/T8b-echo-bed-2.md)",
+    "account_of_violence": false,
+    "shape": "two movements: the first enters on the dissolve and cadences before the first quotation; it rests under the quotations and their set-ups (no music under quotes); the second returns for the last line and lands its written ending under the last frame, then 2.0 s of room."
+  }
+}

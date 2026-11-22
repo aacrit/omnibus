@@ -1,0 +1,338 @@
+{
+  "schema": "omnibus.screenplay-requests/1",
+  "issue": 35,
+  "written": "2026-11-22",
+  "by": "T9b writer",
+  "what": "Every picture, page and voice the screenplay wants and does not yet have. Each shot that names a request airs its cleared fallback now (the shot's picture_slot.now), so the draft renders without it. pending_t5 waits for ticket 5's adapters; cleared names what cleared it; sot_review waits for a bite's review; to_fetch is a request for scripts/rights.mjs; to_capture is a primary text to capture with its terms URL before a reader speaks it; rights_read is a NARA restriction to clear by a reader, never by assumption.",
+  "requests": [
+    {
+      "id": "t9b-lead-ssu-video",
+      "class": "cleared",
+      "cleared_as": "e35-lead-ssu-video (0.167 to 28.8 s, muted)",
+      "for": [
+        "S-LEAD-1",
+        "S-LEAD-2"
+      ],
+      "kind": "footage",
+      "item": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+      "seconds": 34.4,
+      "licence": "CC BY 4.0 (Ukraine state sources via Commons)",
+      "label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE",
+      "needs": "the T5 adapter, the uploader check, a marks review and the cut list",
+      "fallback": "locator, Kerch Strait",
+      "effect": "With 30 s or more cleared, the lead's shape becomes full (the normaliser recomputes it) and the lead grows toward 150 s."
+    },
+    {
+      "id": "t9b-lead-ssu-stills",
+      "class": "cleared",
+      "cleared_as": "e35-lead-ssu-still (KerchBridgeCollapse.jpg); FlamingoKerch.jpg not taken",
+      "for": [
+        "S-TEASE-1",
+        "S-LEAD-3"
+      ],
+      "kind": "still",
+      "item": "File:KerchBridgeCollapse.jpg; File:FlamingoKerch.jpg (Commons)",
+      "licence": "CC BY 4.0",
+      "label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE",
+      "fallback": "locator, Kerch Strait",
+      "note": "FlamingoKerch shows a weapon whose type is a divergence point; air it only with its label and no narrator claim."
+    },
+    {
+      "id": "t9b-lead-zelenskyy-read",
+      "class": "pending_t5",
+      "for": [
+        "S-LEAD-2"
+      ],
+      "kind": "document",
+      "item": "Office of the President of Ukraine statements on the Kerch and Kyiv strikes, 17 to 20 Nov (Commons uploads; president.gov.ua answers 403)",
+      "fallback": "the narrator attributes (L-line party Ukraine)",
+      "voice": "read, or SOT if a raw address clears"
+    },
+    {
+      "id": "t9b-lead-kremlin-read",
+      "class": "cleared",
+      "cleared_as": "e35-lead-kremlin-read and tr-e35-lead-putin-presser (official English), read over e35-lead-putin-presser",
+      "for": [
+        "S-LEAD-6"
+      ],
+      "kind": "document",
+      "item": "kremlin.ru English text of Putin's remarks on a ceasefire after the bridge attacks (date and occasion to locate)",
+      "licence": "CC BY 4.0 (RIA Novosti and TASS excluded)",
+      "label": "RELEASED BY THE KREMLIN",
+      "fallback": "the narrator attributes"
+    },
+    {
+      "id": "t9b-lead-kyiv-ses",
+      "class": "to_fetch",
+      "for": [
+        "S-LEAD-5"
+      ],
+      "kind": "footage",
+      "item": "SES Ukraine or Kyiv City State Administration footage of 20 Nov (Commons search)",
+      "licence": "CC BY 4.0",
+      "label": "RELEASED BY <body>",
+      "needs": "the dignity list (shows_bodies), the marks review",
+      "fallback": "locator, Kyiv"
+    },
+    {
+      "id": "t9b-lead-sentinel-kerch",
+      "class": "to_fetch",
+      "for": [
+        "S-LEAD-3"
+      ],
+      "kind": "still",
+      "item": "Sentinel-2 L2A of the Kerch bridge, a clear acquisition inside 16 to 21 Nov",
+      "licence": "Copernicus open licence, credited per its terms",
+      "label": "dated with its acquisition day",
+      "fallback": "locator, Kerch Strait"
+    },
+    {
+      "id": "t9b-lead-poland-read",
+      "class": "to_capture",
+      "for": [
+        "S-LEAD-6"
+      ],
+      "kind": "document",
+      "item": "Government of Poland statement on the objects in Polish airspace, 20 Nov (gov.pl; terms unreviewed)",
+      "basis": "official record of a state organ, quoted with its basis recorded",
+      "fallback": "the narrator attributes Kosiniak-Kamysz and Tusk"
+    },
+    {
+      "id": "t9b-p2-govuk-speech",
+      "class": "pending_t5",
+      "for": [
+        "S-P2-1"
+      ],
+      "kind": "footage",
+      "item": "gov.uk video of the Prime Minister's Mansion House speech, 16 Nov",
+      "licence": "OGL v3 (allowlisted by ticket 5)",
+      "voice": "SOT Burnham, 10 to 20 s at sentence bounds, with an official transcript",
+      "fallback": "locator, London; the narrator attributes"
+    },
+    {
+      "id": "t9b-p2-govuk-summit",
+      "class": "pending_t5",
+      "for": [
+        "S-TEASE-2",
+        "S-P2-2"
+      ],
+      "kind": "still or footage",
+      "item": "gov.uk photographs or video of the Brussels summit, 20 Nov",
+      "licence": "OGL v3",
+      "fallback": "locator, Brussels"
+    },
+    {
+      "id": "t9b-p2-agreements-read",
+      "class": "pending_t5",
+      "for": [
+        "S-P2-2"
+      ],
+      "kind": "document",
+      "item": "the gov.uk text of the UK and EU agreements, 20 Nov (the EU's text is on a host outside the allowlist)",
+      "fallback": "the narrator states the desk's consensus points"
+    },
+    {
+      "id": "t9b-p3-worldview-qeshm",
+      "class": "to_fetch",
+      "for": [
+        "S-P3-1"
+      ],
+      "kind": "still",
+      "item": "NASA Worldview or Sentinel-2 of Qeshm inside 16 to 21 Nov",
+      "fallback": "locator, Strait of Hormuz"
+    },
+    {
+      "id": "t9b-p3-centcom-read",
+      "class": "to_capture",
+      "for": [
+        "S-P3-1",
+        "S-P3-3"
+      ],
+      "kind": "document",
+      "item": "US Central Command releases on Qeshm and Bahrain, 17 to 19 Nov (centcom.mil answered 403; DVIDS mirror to try)",
+      "fallback": "the narrator attributes Central Command"
+    },
+    {
+      "id": "t9b-p3-iran-mfa-read",
+      "class": "to_capture",
+      "for": [
+        "S-P3-1"
+      ],
+      "kind": "document",
+      "item": "Iran's foreign ministry statement on the US strike, 17 or 18 Nov (terms unreviewed)",
+      "basis": "official record of a state organ",
+      "fallback": "the narrator attributes Nafisi and Iran's army"
+    },
+    {
+      "id": "t9b-p4-putin-sot",
+      "class": "cleared",
+      "cleared_as": "e35-p4-putin-apec (110 to 130 s, muted) with tr-e35-p4-putin-apec read; a bite still needs record_kind reviewed",
+      "for": [
+        "S-P4-APEC"
+      ],
+      "kind": "footage (SOT)",
+      "item": "Putin's address to the APEC business summit, Shenzhen, 18 Nov (kremlin.ru, 1177.7 s record)",
+      "licence": "CC BY 4.0",
+      "label": "RELEASED BY THE KREMLIN",
+      "super": "TRANSLATION · KREMLIN TRANSCRIPT",
+      "voice": "a 10 to 20 s span at sentence bounds, chosen at the transcript step; original up 1.5 s then ducked to -24 LUFS under the reader",
+      "fallback": "no bite; Russia attributed in the lead and through the joint text"
+    },
+    {
+      "id": "t9b-p4-kantei-stills",
+      "class": "pending_t5",
+      "for": [
+        "S-P4-5"
+      ],
+      "kind": "still",
+      "item": "kantei.go.jp 20261119apec02.jpg and apec03.jpg",
+      "licence": "CC BY 4.0",
+      "label": "PHOTOGRAPHED <date>",
+      "fallback": "locator, Shenzhen"
+    },
+    {
+      "id": "t9b-p4-china-mfa-read",
+      "class": "to_capture",
+      "for": [
+        "S-P4-5"
+      ],
+      "kind": "document",
+      "item": "China's foreign ministry readout of the summit (terms unreviewed)",
+      "basis": "official record of a state organ",
+      "fallback": "China's words are the joint declaration only (party-voices advisory: Xi is thinnest)"
+    },
+    {
+      "id": "t9b-p5-judgment-read",
+      "class": "to_capture",
+      "for": [
+        "S-P5-1"
+      ],
+      "kind": "document",
+      "item": "https://www.icj-cij.org/sites/default/files/case-related/178/178-20261119-jud-01-00-en.pdf (operative paragraph) and 178-20261119-pre-01-00-en.pdf (press release)",
+      "note": "icj-cij.org served a browser challenge to a plain request on 2026-11-22; not worked around. The court's terms URL is to capture with the text.",
+      "fallback": "the narrator states the desk's consensus points; a court record, typeset and read once captured"
+    },
+    {
+      "id": "t9b-p5-gambia-read",
+      "class": "to_capture",
+      "for": [
+        "S-P5-3"
+      ],
+      "kind": "document",
+      "item": "The Gambia's statement on the judgment, 19 or 20 Nov",
+      "fallback": "attributed: The Gambia brought the case"
+    },
+    {
+      "id": "t9b-p5-myanmar-read",
+      "class": "to_capture",
+      "for": [
+        "S-P5-4"
+      ],
+      "kind": "document",
+      "item": "Myanmar government spokesperson Khaing Khaing Soe's remarks, Naypyitaw, 20 Nov",
+      "fallback": "the narrator attributes"
+    },
+    {
+      "id": "t9b-p5-sentinel-coxs",
+      "class": "to_fetch",
+      "for": [
+        "S-P5-3"
+      ],
+      "kind": "still",
+      "item": "Sentinel-2 of the Cox's Bazar camps inside 16 to 21 Nov, or a camp still with PHOTOGRAPHED <year>",
+      "fallback": "locator, Rakhine and Cox's Bazar"
+    },
+    {
+      "id": "t9b-echo-still-livadia",
+      "class": "to_fetch",
+      "for": [
+        "S-EC-1"
+      ],
+      "kind": "still",
+      "item": "NARA 197001 (yalta-pd-05)",
+      "licence": "pd-us-federal, Unrestricted",
+      "label": "PHOTOGRAPHED LIVADIA · FEB 1945",
+      "fallback": "locator, the Crimea, umber"
+    },
+    {
+      "id": "t9b-echo-still-patio",
+      "class": "to_fetch",
+      "for": [
+        "S-EC-2",
+        "S-EC-8"
+      ],
+      "kind": "still",
+      "item": "NARA 531340 (yalta-pd-04)",
+      "licence": "pd-us-federal, Unrestricted",
+      "label": "PHOTOGRAPHED YALTA · FEB 1945",
+      "fallback": "the map: Germany (S-EC-2) and Yalta (S-EC-8)"
+    },
+    {
+      "id": "t9b-echo-still-molotov",
+      "class": "to_fetch",
+      "for": [
+        "S-EC-3"
+      ],
+      "kind": "still",
+      "item": "NARA 197000 (yalta-pd-07)",
+      "licence": "pd-us-federal, Unrestricted",
+      "label": "PHOTOGRAPHED YALTA · FEB 1945",
+      "fallback": "the map: Poland (S-EC-3)"
+    },
+    {
+      "id": "t9b-echo-film-yalta",
+      "class": "rights_read",
+      "for": [
+        "S-EC-1"
+      ],
+      "kind": "film",
+      "item": "NARA 23465 (111-ADC-9700), 17042 (111-ADC-3239), 17079 (111-ADC-3276)",
+      "status": "NARA 'Restricted - Possibly' (Copyright): never cleared by assumption",
+      "fallback": "stills and documents"
+    },
+    {
+      "id": "t9b-lead-putin-bite",
+      "class": "sot_review",
+      "for": [
+        "S-LEAD-6"
+      ],
+      "kind": "footage (SOT)",
+      "item": "e35-lead-putin-presser, the answer on the Crimean Bridge (about 1380 to 1535 s; 14 cuts in the span)",
+      "needs": "a bite of 10 to 20 s at transcript sentence bounds with no internal cut, its own sound up 1.5 s then ducked to -24 LUFS under the reader (TRANSLATION · KREMLIN TRANSCRIPT); record_kind news_conference is stated by the adapter",
+      "fallback": "the muted record with the reader speaking the official English text (aired now)"
+    },
+    {
+      "id": "t9b-p4-apec-bite",
+      "class": "sot_review",
+      "for": [
+        "S-P4-APEC"
+      ],
+      "kind": "footage (SOT)",
+      "item": "e35-p4-putin-apec, 110 to 130 s",
+      "needs": "record_kind reviewed by a checking role (now unknown, so the ledger airs it muted)",
+      "fallback": "the muted record with the reader (aired now)"
+    },
+    {
+      "id": "t9b-audio-sting-briefs",
+      "class": "ticket_3",
+      "for": [
+        "G-BUMP-1"
+      ],
+      "kind": "audio",
+      "item": "the sting at the AROUND THE WORLD bumper (bible b, j)",
+      "note": "no-music-under-news counts any music cue in the briefs part; ticket 3's routing carries it",
+      "fallback": "room tone"
+    },
+    {
+      "id": "t9b-audio-bed-2",
+      "class": "ticket_8b",
+      "for": [
+        "M-ECHO-1",
+        "M-ECHO-2"
+      ],
+      "kind": "music",
+      "item": "bed 2, two movements with a written ending (docs/tickets/T8b-echo-bed-2.md)",
+      "fallback": "room tone; the Echo plays unscored"
+    }
+  ]
+}

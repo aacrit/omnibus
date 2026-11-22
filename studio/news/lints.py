@@ -56,7 +56,10 @@ the frozen issue 33 (V1 ONLY paths below read The Week's day parts and the board
 - ``no-music-under-quote`` (founder ruling): no music cue under any reader line.
 - ``fair-use-refused`` (bible o, replacing ``fair-use-excerpt`` and ``fair-use-on-timeline``): no shot, overlay, cue
   or clip whose ledger item rests on fair use (its licence class, a ``fair_use`` record, or a basis citing it).
-- ``narration-ceiling``: at most 55% of the runtime voiced.
+- ``narration-ceiling`` (V1 ONLY, frozen issue 33): at most 55% of the runtime voiced. Bible v2 o replaces it, for
+  every v2 screenplay, with ``narration-share``: the narrator's own speech (vo, signon, signoff) at most 62% of the
+  runtime, advisory, estimated here from the lines' timing and measured again on the mix; ``sot-share`` (at least
+  8%, advisory) is measured on the mix only and is declared below.
 - ``voice-disclosed``: the narrator and every reader voice state a credit naming the synthesised or computer voice,
   and their dot label; a reader line that names no voice fails.
 - ``tour-window-inside``: every window of a filled still's authored camera path lies inside the picture (z 1 or
@@ -98,7 +101,8 @@ REPO = Path(__file__).resolve().parents[2]
 LEXICON_PATH = Path(__file__).resolve().parent / "lexicon.json"
 LADDER_PATH = REPO / "web" / "src" / "lib" / "ladder.mjs"
 GRAMMAR = "show bible j"
-NARRATION_CEILING = 0.55
+NARRATION_CEILING = 0.55                # V1 ONLY (frozen issue 33): every voiced kind
+NARRATION_SHARE_MAX = 0.62              # bible v2 j and o: the narrator's own speech, advisory
 BLACK_SHARE_MAX = 0.03
 VOICED_KINDS = ("narration", "testimony", *SC.LINE_KINDS)   # v1's engine kinds (issue 33) and v2's (bible o)
 ECHO_BED_GAP_S = 2.0                  # bible j/h (ticket 3): the Echo's bed ends at least this long before sign-off
@@ -117,6 +121,9 @@ DEFERRED = {      # rule: (where it runs, what it checks and why it cannot run h
     "sources-last": ("release", "the sources page is published before the episode: checked by the release step"),
     "no-youtube": ("release", "no YouTube upload while the registry row's audit_passed is false: checked by the "
                               "release step"),
+    "sot-share": ("the mix (ticket 3)", "bible v2 j and o: sound bites at least 8% of the runtime, advisory. It is "
+                                         "measured on the mix's sot bus, so it is judged when the draft is mixed, not from "
+                                         "the screenplay's text"),
     "no-bridge-reverse": ("the echo pick's entity list (E5)", "the bible's other direction: no person, place or event "
                           "of the Echo's period named in a news part. It needs the Echo's own named entities as data, "
                           "which the echo pick does not yet record (it lists this week's names to keep out of the "
@@ -1235,7 +1242,17 @@ def echo_bed_ending_checks(play: dict) -> list[dict]:
 
 
 def ceiling_checks(play: dict, durations: dict | None) -> list[dict]:
+    """V1 ONLY (frozen issue 33): ``narration-ceiling``, every voiced kind at most 55% of the runtime. A v2 screenplay
+    gets bible o's ``narration-share`` instead: the narrator's own lines at most 62%, advisory (a warning, never a
+    block), estimated from the lines' timing until the mix measures it."""
     rt = runtime(play)
+    if SC.spine(play) is not SC.V1:
+        spans = sorted((v["start"], v["end"]) for v in voiced(play, durations) if v["kind"] in SC.NARRATOR_KINDS)
+        total = _union(spans)
+        share = total / rt if rt > 0 else 0.0
+        return [_check("narration-share", share <= NARRATION_SHARE_MAX + 1e-9, unit="film", severity="warn", evidence={
+            "narrator_s": round(total, 2), "runtime_s": round(rt, 2), "share": round(share, 4),
+            "advise_at": NARRATION_SHARE_MAX, "timed": "from the lines (dur_s or measured takes); the mix measures it again"})]
     spans = sorted((v["start"], v["end"]) for v in voiced(play, durations))
     total, cur = 0.0, None
     for a, b in spans:
@@ -1250,6 +1267,19 @@ def ceiling_checks(play: dict, durations: dict | None) -> list[dict]:
     share = total / rt if rt > 0 else 0.0
     return [_check("narration-ceiling", share <= NARRATION_CEILING + 1e-9, unit="film", evidence={
         "voiced_s": round(total, 2), "runtime_s": round(rt, 2), "share": round(share, 4), "ceiling": NARRATION_CEILING})]
+
+
+def _union(spans) -> float:
+    """The seconds a sorted list of (start, end) spans covers, overlaps counted once."""
+    total, cur = 0.0, None
+    for a, b in spans:
+        if cur is None or a > cur[1]:
+            if cur:
+                total += cur[1] - cur[0]
+            cur = [a, b]
+        else:
+            cur[1] = max(cur[1], b)
+    return total + (cur[1] - cur[0] if cur else 0.0)
 
 
 def disclosure_checks(play: dict) -> list[dict]:
@@ -1478,6 +1508,8 @@ RULES = (RS.RULE, "show-profile", "news-fields", "segment-spine", "package-count
          FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",
          "no-bridge", "counts-match", "quote-verbatim", "no-music-under-news", "no-music-under-quote",
          "echo-bed-ending", "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
+ADVISORY = ("narration-share",)          # bible v2 o: advisory rules this module checks (a warning, never a block)
+V1_ONLY = ("narration-ceiling",)         # the frozen issue 33's; a v2 screenplay is never held to them
 # Show bible v2 section o's die list, gone from every screenplay (the frozen issue 33 included): never a rule here.
 DIED = ("board-rule", "tour-no-claim-before-board", "ladder-labels-derived", "ending-question", "fair-use-excerpt",
         "fair-use-on-timeline", "title-lines-verbatim")

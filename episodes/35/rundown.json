@@ -24,9 +24,12 @@
   "inputs": {
     "edit": {
       "path": "episodes/35/rundown-edit.json",
-      "sha256": "7080749430ccccb401ddf1cf9ccb473eb8c39ce33db5b4b7d1eba1acbabc996a"
+      "sha256": "b85c7fa22d4bd7a808a8421b80cc737d930a61de812ef8e5cc9ce29e2406066b"
     },
-    "rights_ledger": null,
+    "rights_ledger": {
+      "path": "episodes/35/rights-ledger.json",
+      "sha256": "28aaa89469c2700afbdbdb6f9e603f1eadbf98460c3a5f59a9b07f665333e9bb"
+    },
     "capture_pool": null,
     "desk_sha256": "81a6f4052716881fc72d3ea54238bac1cff23849227311c1c81c3f85ac74456e"
   },
@@ -167,8 +170,8 @@
   "stories": [
     {
       "key": "ukraine-bridges-strikes",
-      "slug": null,
-      "place": null,
+      "slug": "THE BRIDGE IS STRUCK THREE TIMES",
+      "place": "KERCH",
       "cluster_ids": [
         "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
         "1711ed61-dd08-4645-b80f-41798480158b",
@@ -188,7 +191,7 @@
       "weight": 0.890378,
       "rank": 1,
       "slot": "lead",
-      "shape": "document",
+      "shape": "full",
       "category": "conflict",
       "days": [
         "2026-11-16",
@@ -206,23 +209,95 @@
         "total_divergence": 214.09
       },
       "desk_title": "Ukrainian Strikes Collapse Crimean Bridge Arch and Halt Kerch Strait Traffic",
-      "parties": [],
-      "entities": [],
-      "primary_sources": [],
-      "footage_cleared_s": 0,
+      "parties": [
+        "Ukraine",
+        "Russia",
+        "Poland"
+      ],
+      "entities": [
+        "Security Service of Ukraine",
+        "Office of the President of Ukraine",
+        "General Staff of the Armed Forces of Ukraine",
+        "Ministry of Transport of the Russian Federation",
+        "Government of Poland"
+      ],
+      "primary_sources": [
+        {
+          "id": "doc-ua-ssu-kerch",
+          "title": "Security Service of Ukraine statement and video on the strike on the Kerch bridge",
+          "issuer": "Security Service of Ukraine",
+          "date": "2026-11-17",
+          "url": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+          "status": "pending T5: Ukraine state sources via Commons (CC BY 4.0, party label)"
+        },
+        {
+          "id": "doc-ua-president",
+          "title": "The President of Ukraine statements on the Kerch and Kyiv strikes",
+          "issuer": "Office of the President of Ukraine",
+          "date": "2026-11-17",
+          "url": null,
+          "status": "pending T5: president.gov.ua answers 403; Commons uploads of the Office of the President"
+        },
+        {
+          "id": "doc-ru-mod",
+          "title": "Russian Ministry of Defence statement on the strike on Kyiv",
+          "issuer": "Ministry of Defence of the Russian Federation",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; mil.ru is not a free source: quoted as a state organ record, typeset, basis recorded"
+        },
+        {
+          "id": "doc-pl-gov",
+          "title": "Government of Poland statement on the missiles in Polish airspace",
+          "issuer": "Government of Poland",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
+        },
+        {
+          "id": "doc-ru-kremlin-presser",
+          "title": "Press conference following visit to China (Shenzhen, 19 Nov 2026)",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-19",
+          "url": "http://en.kremlin.ru/events/president/news/81305",
+          "status": "cleared: kremlin.ru official English transcript in the rights ledger (tr-e35-lead-putin-presser, item e35-lead-kremlin-read), CC BY 4.0",
+          "extracts": [
+            {
+              "quote": "But following the strikes on the Crimean Bridge, there will be no negotiations. We will respond to these strikes. And I want everyone to know this.",
+              "quote_sha256": "7bab8f7282bd18d79dbb072aaebebeb6039cce17cda2ad67abe3c2b09533428e",
+              "date": "2026-11-19",
+              "transcript_ref": "tr-e35-lead-putin-presser",
+              "read_from": "rights-ledger.json transcripts[tr-e35-lead-putin-presser].text, verbatim",
+              "translation": "official: the Kremlin's English transcript (TRANSLATION · KREMLIN TRANSCRIPT)"
+            }
+          ]
+        }
+      ],
+      "footage_cleared_s": 183.633,
       "footage": {
-        "items": [],
+        "items": [
+          {
+            "id": "e35-lead-putin-presser",
+            "seconds": 155
+          },
+          {
+            "id": "e35-lead-ssu-video",
+            "seconds": 28.633
+          }
+        ],
         "refused": [],
         "unconfirmed": [],
         "no_duration": []
       },
-      "mechanisms": [],
+      "mechanisms": [
+        "leaders-meet-in-person"
+      ],
       "coi": false
     },
     {
       "key": "uk-eu-reset",
-      "slug": null,
-      "place": null,
+      "slug": "THE UK AND EU SIGN THREE DEALS",
+      "place": "BRUSSELS",
       "cluster_ids": [
         "14607933-69a3-4c79-9392-193d1e178006",
         "3f219792-786d-4e1a-889c-f2450b9492c6",
@@ -259,9 +334,34 @@
         "total_divergence": 196.23
       },
       "desk_title": "Prime Minister Andy Burnham Agrees to Trade and Youth Mobility Deals With European Union Leaders",
-      "parties": [],
-      "entities": [],
-      "primary_sources": [],
+      "parties": [
+        "Government of the United Kingdom",
+        "European Union",
+        "Reform UK",
+        "Conservative Party"
+      ],
+      "entities": [
+        "European Council",
+        "European Commission"
+      ],
+      "primary_sources": [
+        {
+          "id": "doc-uk-burnham-speech",
+          "title": "The Prime Minister Andy Burnham speech on Brexit",
+          "issuer": "Prime Minister's Office, 10 Downing Street",
+          "date": "2026-11-16",
+          "url": null,
+          "status": "pending T5: gov.uk under OGL v3"
+        },
+        {
+          "id": "doc-uk-eu-agreements",
+          "title": "The UK and EU summit agreements on trade and youth mobility",
+          "issuer": "Government of the United Kingdom and the European Union",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "pending T5 for the gov.uk text (OGL v3); the EU text on consilium.europa.eu or ec.europa.eu is not on the fetcher allowlist"
+        }
+      ],
       "footage_cleared_s": 0,
       "footage": {
         "items": [],
@@ -274,8 +374,8 @@
     },
     {
       "key": "gulf-us-iran",
-      "slug": null,
-      "place": null,
+      "slug": "QESHM IS STRUCK, DRONES AT BASES",
+      "place": "THE GULF",
       "cluster_ids": [
         "1419ceed-ffc1-4072-b96e-b509ab776fe5",
         "7071d64f-5ee0-489b-b523-74a35da24439",
@@ -312,9 +412,36 @@
         "total_divergence": 188.96
       },
       "desk_title": "Gulf Nations Intercept Aerial Attacks Following US Strikes on Qeshm Island",
-      "parties": [],
-      "entities": [],
-      "primary_sources": [],
+      "parties": [
+        "United States",
+        "Iran"
+      ],
+      "entities": [
+        "US Central Command",
+        "Islamic Republic of Iran Army",
+        "Kuwait",
+        "Bahrain",
+        "Oman",
+        "ADNOC L&S"
+      ],
+      "primary_sources": [
+        {
+          "id": "doc-centcom-qeshm",
+          "title": "US Central Command statements on the strikes on Qeshm and the intercepts",
+          "issuer": "US Central Command",
+          "date": "2026-11-18",
+          "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/",
+          "status": "centcom.mil answered 403 (Akamai) to the honest request on 2026-11-22; not retried"
+        },
+        {
+          "id": "doc-ir-mfa",
+          "title": "Iran's foreign ministry statement on the US strikes",
+          "issuer": "Ministry of Foreign Affairs of the Islamic Republic of Iran",
+          "date": "2026-11-18",
+          "url": null,
+          "status": "to locate; terms unreviewed: quoted as a state organ record or attributed"
+        }
+      ],
       "footage_cleared_s": 0,
       "footage": {
         "items": [],
@@ -327,8 +454,8 @@
     },
     {
       "key": "shenzhen-summit",
-      "slug": null,
-      "place": null,
+      "slug": "THREE LEADERS SIGN A DECLARATION",
+      "place": "SHENZHEN",
       "cluster_ids": [
         "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
         "36cb8fdf-4b45-45d5-b644-a8146347d96c",
@@ -345,7 +472,7 @@
       "weight": 0.700861,
       "rank": 4,
       "slot": "package_4",
-      "shape": "document",
+      "shape": "full",
       "category": "conflict",
       "days": [
         "2026-11-16",
@@ -362,23 +489,96 @@
         "total_divergence": 140.52
       },
       "desk_title": "Trump, Xi, and Putin Issue Peace Declaration After Historic Trilateral Summit",
-      "parties": [],
-      "entities": [],
-      "primary_sources": [],
-      "footage_cleared_s": 0,
+      "parties": [
+        "United States",
+        "Russia",
+        "China"
+      ],
+      "entities": [
+        "The White House",
+        "The Kremlin"
+      ],
+      "primary_sources": [
+        {
+          "id": "doc-us-ru-cn-declaration",
+          "title": "U.S.-Russia-China Heads of State Declaration toward Peace",
+          "issuer": "The White House",
+          "date": "2026-11-19",
+          "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+          "status": "fetched as a document (US federal, public domain)",
+          "extracts": [
+            {
+              "point": 3,
+              "quote": "The three heads of state recognized that the principle of state consent and respect for immunities of State officials are of paramount importance, and concurred that the International Criminal Court and other similar bodies must not abuse their jurisdiction.",
+              "quote_sha256": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
+              "date": "2026-11-19",
+              "read_from": "D:/omnibus-media/35/e35-p4-declaration.html (ledger e35-p4-declaration, sha256 d13d2be3...), list item 3, tags stripped"
+            },
+            {
+              "point": 4,
+              "quote": "The three heads of state reaffirmed that a nuclear war cannot be won and must never be fought. The three countries will conduct a dialogue on reducing nuclear risks and preventing the proliferation of nuclear weapons.",
+              "quote_sha256": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
+              "date": "2026-11-19",
+              "read_from": "the same page, list item 4, tags stripped"
+            }
+          ]
+        },
+        {
+          "id": "doc-kremlin-declaration",
+          "title": "The Kremlin's English text of the declaration",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-19",
+          "url": null,
+          "status": "pending T5: kremlin.ru adapter (CC BY 4.0, RIA Novosti and TASS excluded)"
+        },
+        {
+          "id": "doc-ru-kremlin-apec",
+          "title": "APEC CEO Summit (Shenzhen, 18 Nov 2026)",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-18",
+          "url": "http://en.kremlin.ru/events/president/news/81286",
+          "status": "cleared: kremlin.ru official English transcript in the rights ledger (tr-e35-p4-putin-apec, item e35-p4-apec-read), CC BY 4.0",
+          "extracts": [
+            {
+              "quote": "Sanctions, tariffs and export restrictions may still have a restraining effect, but they are no longer capable of bringing growth to a complete halt, let alone crushing the economies of competitors.",
+              "quote_sha256": "6e2c9de4d73d2c218a1eb65548aa58aee72fd7e68ebef2f12a017331b7c58f4f",
+              "date": "2026-11-18",
+              "transcript_ref": "tr-e35-p4-putin-apec",
+              "read_from": "rights-ledger.json transcripts[tr-e35-p4-putin-apec].text, verbatim",
+              "translation": "official: the Kremlin's English transcript (TRANSLATION · KREMLIN TRANSCRIPT)"
+            }
+          ]
+        }
+      ],
+      "footage_cleared_s": 57.93,
       "footage": {
-        "items": [],
+        "items": [
+          {
+            "id": "e35-p4-arrival",
+            "seconds": 25
+          },
+          {
+            "id": "e35-p4-putin-apec",
+            "seconds": 20
+          },
+          {
+            "id": "e35-p4-talks",
+            "seconds": 12.93
+          }
+        ],
         "refused": [],
         "unconfirmed": [],
         "no_duration": []
       },
-      "mechanisms": [],
+      "mechanisms": [
+        "leaders-meet-in-person"
+      ],
       "coi": false
     },
     {
       "key": "thread-ec790a82",
-      "slug": null,
-      "place": null,
+      "slug": "COURT FINDS GENOCIDE IN MYANMAR",
+      "place": "THE HAGUE",
       "cluster_ids": [
         "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
         "bdde5310-3569-485a-b3df-5fc6f3bbf3c1",
@@ -389,8 +589,8 @@
       ],
       "weight": 0.600218,
       "rank": 5,
-      "slot": "brief_1",
-      "shape": "brief",
+      "slot": "package_5",
+      "shape": "document",
       "category": "politics",
       "days": [
         "2026-11-19",
@@ -406,9 +606,39 @@
         "total_divergence": 88.62
       },
       "desk_title": "International Court of Justice Rules Myanmar Committed Genocide Against Rohingya",
-      "parties": [],
-      "entities": [],
-      "primary_sources": [],
+      "parties": [
+        "The Gambia",
+        "Myanmar"
+      ],
+      "entities": [
+        "International Court of Justice"
+      ],
+      "primary_sources": [
+        {
+          "id": "doc-icj-gambia-myanmar-judgment",
+          "title": "Judgment, Application of the Convention on the Prevention and Punishment of the Crime of Genocide (The Gambia v. Myanmar)",
+          "issuer": "International Court of Justice",
+          "date": "2026-11-19",
+          "url": "https://www.icj-cij.org/case/178",
+          "status": "court record, typeset; icj-cij.org is not on the fetcher allowlist, so its text is captured with its terms URL before the reader speaks it"
+        },
+        {
+          "id": "doc-icj-press-release",
+          "title": "The Court's press release on the judgment",
+          "issuer": "International Court of Justice",
+          "date": "2026-11-19",
+          "url": "https://www.icj-cij.org/case/178",
+          "status": "court record, typeset; as above"
+        },
+        {
+          "id": "doc-mm-response",
+          "title": "Myanmar's statement rejecting the judgment",
+          "issuer": "Government of Myanmar",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; quoted as a state organ record or attributed"
+        }
+      ],
       "footage_cleared_s": 0,
       "footage": {
         "items": [],
@@ -421,8 +651,8 @@
     },
     {
       "key": "thread-a3e1e3ef",
-      "slug": null,
-      "place": null,
+      "slug": "MISSILES ARE STOPPED OVER RIYADH",
+      "place": "RIYADH",
       "cluster_ids": [
         "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
         "cee27d6b-ee40-4304-9764-3fc92e756b6e"
@@ -432,7 +662,7 @@
       ],
       "weight": 0.475498,
       "rank": 6,
-      "slot": "brief_2",
+      "slot": "brief_1",
       "shape": "brief",
       "category": "conflict",
       "days": [
@@ -463,8 +693,8 @@
     },
     {
       "key": "thread-833e5c6b",
-      "slug": null,
-      "place": null,
+      "slug": "ROUTERS UNDER EXAMINATION",
+      "place": "WASHINGTON",
       "cluster_ids": [
         "3ab138f6-82a2-4b40-9f7d-df581e21083d",
         "3c9b15d3-00f6-4e5c-b92d-6802aea8934e"
@@ -474,7 +704,7 @@
       ],
       "weight": 0.462592,
       "rank": 7,
-      "slot": "brief_3",
+      "slot": "brief_2",
       "shape": "brief",
       "category": "science",
       "days": [
@@ -505,8 +735,8 @@
     },
     {
       "key": "thread-149f229b",
-      "slug": null,
-      "place": null,
+      "slug": "A UNITED OUTAGE HOLDS FLIGHTS",
+      "place": "CHICAGO",
       "cluster_ids": [
         "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
         "676bb7d7-85cb-4d3f-9251-d9332cea49eb"
@@ -516,7 +746,7 @@
       ],
       "weight": 0.453874,
       "rank": 8,
-      "slot": "brief_4",
+      "slot": "brief_3",
       "shape": "brief",
       "category": "general",
       "days": [
@@ -547,8 +777,8 @@
     },
     {
       "key": "thread-b1206893",
-      "slug": null,
-      "place": null,
+      "slug": "THE CYBER DIRECTOR IS REMOVED",
+      "place": "WASHINGTON",
       "cluster_ids": [
         "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
         "bc0e12ac-c8ea-4a79-b469-71df24fe3a1c"
@@ -558,7 +788,7 @@
       ],
       "weight": 0.429921,
       "rank": 9,
-      "slot": "brief_5",
+      "slot": "brief_4",
       "shape": "brief",
       "category": "politics",
       "days": [
@@ -576,7 +806,16 @@
       "desk_title": "White House Replaces National Cyber Director Sean Cairncross Amid Outages",
       "parties": [],
       "entities": [],
-      "primary_sources": [],
+      "primary_sources": [
+        {
+          "id": "doc-wh-cyber-director",
+          "title": "President Trump Taps Pentagon Cyber Chief Kirsten Davies as National Cyber Director",
+          "issuer": "The White House",
+          "date": "2026-11-20",
+          "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+          "status": "US federal, public domain"
+        }
+      ],
       "footage_cleared_s": 0,
       "footage": {
         "items": [],
@@ -589,8 +828,8 @@
     },
     {
       "key": "thread-3d743169",
-      "slug": null,
-      "place": null,
+      "slug": "A POLICE UNIT IS DISBANDED",
+      "place": "NEW YORK",
       "cluster_ids": [
         "89091251-470b-4d03-baf1-2c15bb4e9b02",
         "ee8ca440-cf69-43a5-a306-be0900eeefc7"
@@ -600,7 +839,7 @@
       ],
       "weight": 0.42713,
       "rank": 10,
-      "slot": "brief_6",
+      "slot": "brief_5",
       "shape": "brief",
       "category": "general",
       "days": [
@@ -631,8 +870,8 @@
     },
     {
       "key": "canada-china-tariffs",
-      "slug": null,
-      "place": null,
+      "slug": "CANADA AND CHINA CUT TARIFFS",
+      "place": "SHENZHEN",
       "cluster_ids": [
         "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
         "e70e2747-67a6-45fb-8444-8d0b8449e436"
@@ -642,7 +881,7 @@
       ],
       "weight": 0.423048,
       "rank": 11,
-      "slot": "brief_7",
+      "slot": "brief_6",
       "shape": "brief",
       "category": "politics",
       "days": [
@@ -673,8 +912,8 @@
     },
     {
       "key": "greenland-security-deal",
-      "slug": null,
-      "place": null,
+      "slug": "DENMARK APPROVES THE ACCORD",
+      "place": "COPENHAGEN",
       "cluster_ids": [
         "991593d2-fb9b-4d1e-abf9-8a161bf49609",
         "e0993e3e-23ff-4eb5-8be9-910bf3978b08"
@@ -684,7 +923,7 @@
       ],
       "weight": 0.419722,
       "rank": 12,
-      "slot": "brief_8",
+      "slot": "brief_7",
       "shape": "brief",
       "category": "politics",
       "days": [
@@ -715,8 +954,8 @@
     },
     {
       "key": "thread-1c145f33",
-      "slug": null,
-      "place": null,
+      "slug": "A MILITARY ACCORD IS SIGNED",
+      "place": "CARACAS",
       "cluster_ids": [
         "44ece519-a5cb-420c-8daf-56602dbfa816",
         "e247da23-21af-4552-a68a-ccb99266c2b3"
@@ -726,7 +965,7 @@
       ],
       "weight": 0.414627,
       "rank": 13,
-      "slot": "brief_9",
+      "slot": "brief_8",
       "shape": "brief",
       "category": "conflict",
       "days": [
@@ -745,9 +984,14 @@
       "parties": [],
       "entities": [],
       "primary_sources": [],
-      "footage_cleared_s": 0,
+      "footage_cleared_s": 12,
       "footage": {
-        "items": [],
+        "items": [
+          {
+            "id": "e35-b8-caracas",
+            "seconds": 12
+          }
+        ],
         "refused": [],
         "unconfirmed": [],
         "no_duration": []
@@ -757,8 +1001,8 @@
     },
     {
       "key": "thread-3c336fd7",
-      "slug": null,
-      "place": null,
+      "slug": "A REVIEW OF AN AUTOPSY",
+      "place": "LONDON",
       "cluster_ids": [
         "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76",
         "c84982b2-9766-4da6-bf52-4aeab7c6897d"
@@ -768,7 +1012,7 @@
       ],
       "weight": 0.41429,
       "rank": 14,
-      "slot": "brief_10",
+      "slot": "brief_9",
       "shape": "brief",
       "category": "politics",
       "days": [
@@ -796,21 +1040,51 @@
       },
       "mechanisms": [],
       "coi": false
-    }
-  ],
-  "not_covered": [
+    },
     {
       "key": "thread-1a2c9331",
-      "rank": 15,
-      "weight": 0.412643,
-      "category": "politics",
+      "slug": "THE KNESSET ELECTS A SPEAKER",
+      "place": "JERUSALEM",
       "cluster_ids": [
         "29c43c1b-cde2-445f-afc5-2e3734d93c9b",
         "c2c750dc-af94-48fd-a1aa-2e3ca611d656"
       ],
+      "thread_ids": [
+        "1a2c9331-4a27-4d9c-9a95-d2d5847e14db"
+      ],
+      "weight": 0.412643,
+      "rank": 15,
+      "slot": "brief_10",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-18",
+        "2026-11-19"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 37,
+        "brief_mentions": 1,
+        "peak_rank": 65.39,
+        "edition_spread": 1,
+        "total_divergence": 60.57
+      },
       "desk_title": "Israeli Parliament Elects Opposition Lawmaker Matan Kahana as New Knesset Speaker",
-      "reason": "below the brief run by weight"
-    },
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    }
+  ],
+  "not_covered": [
     {
       "key": "thread-27c62115",
       "rank": 16,
@@ -2049,9 +2323,35 @@
     "gulf-us-iran",
     "shenzhen-summit"
   ],
-  "echo": null,
+  "echo": {
+    "id": "yalta-conference-1945",
+    "bank_commit": "e635665870796d6a37061be47f850260894f5565",
+    "bank_tag": "echo-bank/2026-11-21",
+    "picked_at": "2026-11-22T06:00:00Z",
+    "top3": [
+      {
+        "id": "yalta-conference-1945",
+        "score": 1,
+        "tiebreak": 3
+      },
+      {
+        "id": "potsdam-conference-1945",
+        "score": 1,
+        "tiebreak": 1
+      },
+      {
+        "id": "helsinki-final-act-1975",
+        "score": 1,
+        "tiebreak": 0
+      }
+    ],
+    "reason": "The lead's one tagged mechanism, the heads of rival great powers meeting in person, is shared by three entries; Yalta breaks the tie on the lead's own conditions: the three met while the war went on, and the decisions concerned a state that was not at the table and said so in its own words.",
+    "bed": "bed-2 (T8b, music director; not yet written)",
+    "advance_pick": false,
+    "late_pick": "Founder ruling, 2026-11-21: issue 35's Echo is picked late and disclosed. The bank entry was committed on 2026-11-21 (tag echo-bank/2026-11-21), after the week opened on 2026-11-16, so echo-advance-pick cannot pass; the sources page and the credits say so.",
+    "record": "episodes/35/echo-pick.json"
+  },
   "briefs_order": [
-    "thread-ec790a82",
     "thread-a3e1e3ef",
     "thread-833e5c6b",
     "thread-149f229b",
@@ -2060,16 +2360,15 @@
     "canada-china-tariffs",
     "greenland-security-deal",
     "thread-1c145f33",
-    "thread-3c336fd7"
+    "thread-3c336fd7",
+    "thread-1a2c9331"
   ],
   "weekly_crosscheck": {
     "weekly_edition_seen": false
   },
   "notes": [
-    "lead ukraine-bridges-strikes: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_2 uk-eu-reset: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_3 gulf-us-iran: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
-    "package_4 shenzhen-summit: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
-    "no rights ledger yet: footage_cleared_s is 0 for every story until scripts/rights.mjs writes one"
+    "package_5 thread-ec790a82: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank"
   ]
 }

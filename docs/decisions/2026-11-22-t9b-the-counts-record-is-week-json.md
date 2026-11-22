@@ -1,0 +1,3 @@
+# 2026-11-22: T9b: the counts record for issue 35 is week.json
+
+`counts-match` holds every figure on screen to a field of the record that `news.week` names. Issue 35 has no `data/week-35.json`, because v2's desk is the pinned archive, not void's week record. `episodes/35/week.json` (`omnibus.week-record/2`) holds only the figures the programme prints. Each figure carries its cluster id and the consensus point it rests on: the 20 Nov strike on Ukraine (more than 400 drones and more than 110 missiles), the youth scheme (up to 100,000 people, up to 3 years) and the ICJ vote (9 to 6). The Echo bumper's year is `echo:year` in the echo pick.
