@@ -22,12 +22,16 @@ from . import svgparts
 from .data import (
     BoardRow,
     BoardSpec,
+    BriefStripSpec,
+    BumperSpec,
     ClockSpec,
     CountCardSpec,
     CreditsSpec,
     DayBarSpec,
     EndBoardSpec,
+    LocatorSpec,
     LowerThirdSpec,
+    SotSuperSpec,
     TestCardSpec,
     TitleMacroSpec,
 )
@@ -508,4 +512,132 @@ def title_macro_html(spec: TitleMacroSpec, *, tokens_css: str, frame_css: str, g
               body_class="macro")
         + f'<div class="frame"><div class="macro-rows">{rows_html}</div></div>\n'
         + _TAIL
+    )
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): bumper, locator, sot_super, brief_strip.
+# Everything above this line is V1 ONLY (frozen, issue 33).
+# ===========================================================================
+
+# ---- bumper (section i: `testcard` becomes `bumper`, no colour bars) -----
+
+def bumper_html(spec: BumperSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
+    """The same castellated field, grid, frame, centre disc and foot staircase as the v1 test card
+    (`svgparts.py`): the segment's word in the circle, the week line beneath, and, in the Echo, the year in the
+    circle. No bars, no key: section i drops both, not just the measurement (`_echo_testcard_html`'s six
+    decorative bars were still bar-shaped; this draws none at all, so `clean.assert_no_bias_tokens` always
+    passes it, not merely because the bars happen to carry no bias colour)."""
+    year_svg = (f'<text class="tc-year" x="720" y="650" text-anchor="middle" font-size="150">{esc(spec.year)}</text>'
+                if spec.year else "")
+    word_y = 470 if spec.year else 540
+    echo_cls = " tc-echo" if spec.segment == "echo" else ""
+    svg = (
+        '<svg class="tc-svg" viewBox="0 0 1440 1080" role="img" '
+        f'aria-label="Bumper: {esc(spec.word)}"><g class="tc{echo_cls}">'
+        '<rect class="tc-field" width="1440" height="1080"/>'
+        f'<path class="tc-grid" d="{svgparts.grid_path()}"/>'
+        + svgparts.castellation_rects("tc-cast-a", "tc-cast-b")
+        + svgparts.frame_rect()
+        + svgparts.centre_disc()
+        + f'<text class="tc-word" x="720" y="{word_y}" text-anchor="middle" font-size="76">{esc(spec.word)}</text>'
+        + year_svg
+        + f'<text class="tc-line" x="720" y="772" text-anchor="middle" font-size="30">{esc(spec.week_line)}</text>'
+        + svgparts.staircase_rects()
+        + "</g></svg>"
+    )
+    field_cls = "field field--echo" if spec.segment == "echo" else "field"
+    return (
+        _head(f"Bumper, {spec.word}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
+        + f'<div class="frame"><div class="{field_cls}">{svg}</div></div>\n'
+        + _TAIL
+    )
+
+
+# ---- locator (section i: exercised for the first time) -------------------
+
+# Offsets (dx, dy) from a place's dot to its label box, field-local px: the first place sits above-right of its
+# dot, a second place below-right, so two labels never overlap (render.py measures the real boxes and can still
+# move one, the same self-heal habit the lower third uses, if a future issue's place names are long).
+_LOCATOR_LABEL_OFFSETS = ((26, -54), (26, 40))
+
+
+def locator_html(spec: LocatorSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
+    """A plate-carree graticule (`layout.graticule_lines`; no coastline - see `layout.LOCATOR_BOX`'s own
+    comment), each place a chrome-ruled label on a leader line from its dot, and a Mono scale bar true at the
+    primary place's own latitude. No globe, no 3D, no relief (section i)."""
+    box = layout.LOCATOR_BOX
+    grid_svg = "".join(
+        f'<line class="loc-grid" x1="{a.x:.1f}" y1="{a.y:.1f}" x2="{b.x:.1f}" y2="{b.y:.1f}"/>'
+        for a, b in layout.graticule_lines(box=box)
+    )
+    marks, labels = [grid_svg], []
+    for i, place in enumerate(spec.places):
+        pt = layout.locator_point(place.lat, place.lon, box=box)
+        dx, dy = _LOCATOR_LABEL_OFFSETS[i % len(_LOCATOR_LABEL_OFFSETS)]
+        lx, ly = pt.x + dx, pt.y + dy
+        marks.append(f'<circle class="loc-dot" cx="{pt.x:.1f}" cy="{pt.y:.1f}" r="7"/>')
+        marks.append(f'<line class="loc-leader" x1="{pt.x:.1f}" y1="{pt.y:.1f}" x2="{lx:.1f}" y2="{ly:.1f}"/>')
+        labels.append(
+            f'<div class="loc-label" data-place="{i}" style="left:{lx:g}px; top:{ly:g}px">'
+            f'<span class="loc-label-text bc-caps">{esc(place.name)}</span></div>'
+        )
+    primary = spec.places[0]
+    bar_px = layout.locator_scale_bar_px(spec.scale_km, lat=primary.lat, box=box)
+    bar_x, bar_y = box[0] + 24, box[1] + box[3] - 30
+    scale_km_label = f"{round(spec.scale_km):g} KM"
+    scale_html = (
+        f'<div class="loc-scale" style="left:{bar_x:g}px; top:{bar_y:g}px">'
+        f'<span class="loc-scale-label bc-mono">{esc(scale_km_label)}</span>'
+        f'<span class="loc-scale-bar" style="width:{bar_px:.1f}px"></span></div>'
+    )
+    places_label = ", ".join(p.name for p in spec.places)
+    svg = (
+        '<svg class="tc-svg loc-svg" viewBox="0 0 1440 1080" role="img" '
+        f'aria-label="Locator: {esc(places_label)}">'
+        '<rect class="tc-field" width="1440" height="1080"/>' + "".join(marks) + "</svg>"
+    )
+    return (
+        _head(f"Locator, {places_label}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
+        + f'<div class="frame"><div class="field">{svg}{"".join(labels)}{scale_html}</div></div>\n'
+        + _TAIL
+    )
+
+
+# ---- sot_super (section i: new) -------------------------------------------
+
+def sot_super_html(spec: SotSuperSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
+    """The speaker lower third: name then role, always; a third, optional line (a translation or party label)
+    grows the bar by one line, never replacing the first two. An overlay, like the Echo's lower third: the
+    frame, field and slot stay transparent, only the bar, rule, type and dot keep pixels."""
+    t3 = (f'<div class="ss-t3"><span class="ss-third bc-caps">{esc(spec.third_line)}</span></div>'
+          if spec.third_line else "")
+    return (
+        _head(f"SOT super, {spec.name}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css,
+              body_class="overlay")
+        + '<div class="frame">'
+        + f'<div class="ss" role="img" aria-label="{esc(spec.name)}, {esc(spec.role)}">'
+        + '<div class="ss-rule"></div>'
+        + f'<div class="ss-t1"><span class="ss-name">{esc(spec.name)}</span></div>'
+        + f'<div class="ss-t2"><span class="ss-role bc-caps">{esc(spec.role)}</span></div>'
+        + t3
+        + '<span class="ss-dot" style="left:calc(100% + 18px)"></span>'
+        + "</div></div>\n" + _TAIL
+    )
+
+
+# ---- brief_strip (section i: new) ------------------------------------------
+
+def brief_strip_html(spec: BriefStripSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "") -> str:
+    """One line, place and date, Mono caps, the only persistent super in the programme outside a story's own
+    lower third (section f, section i)."""
+    line = f"{spec.place.upper()} · {spec.date.upper()}"
+    return (
+        _head(f"Brief strip, {spec.place}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css,
+              body_class="overlay")
+        + '<div class="frame">'
+        + f'<div class="bstrip" role="img" aria-label="{esc(line)}">'
+        + '<div class="bstrip-rule"></div>'
+        + f'<div class="bstrip-line bc-mono">{esc(line)}</div>'
+        + "</div></div>\n" + _TAIL
     )

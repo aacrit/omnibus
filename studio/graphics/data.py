@@ -546,3 +546,140 @@ def title_macro_spec(rundown: dict) -> TitleMacroSpec:
         rate_cps=check_strike_rate(strike["rate_cps"]),
         print_window_s=strike.get("print_window_s"),
     )
+
+
+# ===========================================================================
+# v2 graphics (show bible v2, ticket 4): bumper, locator, sot_super,
+# brief_strip. Everything above this line is V1 ONLY (frozen, issue 33);
+# nothing below reads week.json or rundown.json - each extraction function
+# here is pure over one graphic shot dict (studio/news/schema.py's shape:
+# `kind: "graphic"`, `subtype`, `shows: {lines: [...]}`), the same v2 shot a
+# screenplay's `render_episode` walks (studio/graphics/render.py). A
+# screenplay author is the only source of this data; nothing here reaches
+# into void's archive or the normaliser's rundown.
+# ===========================================================================
+
+from studio.news import graphic as G  # noqa: E402
+
+
+def _shows_lines(shot: dict) -> list:
+    shows = shot.get("shows")
+    lines = (shows or {}).get("lines") if isinstance(shows, dict) else None
+    return list(lines) if isinstance(lines, list) else []
+
+
+# ---- bumper (section i: `testcard` becomes `bumper`, no colour bars) -----
+
+@dataclass(frozen=True)
+class BumperSpec:
+    segment: str             # "briefs" | "echo" (graphic.BUMPER_WORDS)
+    word: str                 # the segment's own word, shown in the circle
+    week_line: str
+    year: str | None = None   # the Echo's bumper only: the year in the circle
+
+
+def bumper_spec(shot: dict, *, segment: str) -> BumperSpec:
+    """A bumper's `shows.lines` is `[word, week_line]`, plus a third line (the year) for the Echo's bumper only
+    (schema.graphic_problems checks lines[0] against the segment's word; the week line and year are this
+    ticket's own convention for the rest of the segment's one text element, recorded in
+    docs/decisions/2026-11-21-t4-bumper-shows-lines.md)."""
+    word = G.BUMPER_WORDS.get(segment)
+    if word is None:
+        raise ValueError(f"bumper: segment must be one of {sorted(G.BUMPER_WORDS)}, not {segment!r}")
+    lines = _shows_lines(shot)
+    if len(lines) < 2 or lines[0] != word or not str(lines[1]).strip():
+        raise ValueError(f"bumper ({segment}): shows.lines must be [{word!r}, week_line] (and, in the Echo, a "
+                         "third line, the year)")
+    year = str(lines[2]) if len(lines) > 2 else None
+    if segment == "echo" and not year:
+        raise ValueError("bumper (echo): shows.lines carries the year as its third line")
+    if segment != "echo" and year:
+        raise ValueError(f"bumper ({segment}): only the Echo's bumper carries a year")
+    return BumperSpec(segment=segment, word=word, week_line=str(lines[1]), year=year)
+
+
+# ---- locator (section i: exercised for the first time) -------------------
+
+@dataclass(frozen=True)
+class LocatorPlace:
+    name: str
+    lat: float
+    lon: float
+
+
+@dataclass(frozen=True)
+class LocatorSpec:
+    places: tuple[LocatorPlace, ...]            # one, or two when the story has two places
+    scale_km: float
+    push_s: tuple[float, float] = (1.0, 2.5)     # the rostrum push window, seconds into the shot (section i)
+
+
+def locator_spec(shot: dict) -> LocatorSpec:
+    """A locator names its places directly on the shot (`shot["locator"]`: no schema field for this yet, since
+    ticket 1's schema spine only named the subtype; this ticket's own convention,
+    docs/decisions/2026-11-21-t4-locator-shot-fields.md): `{places: [{name, lat, lon}, ...], scale_km, push_s}`.
+    `shows.lines` names each place in the same order, so the subtitle track and the screen agree without a
+    second, hand-kept copy."""
+    loc = shot.get("locator")
+    if not isinstance(loc, dict):
+        raise ValueError("locator: the shot names its places (shot.locator: {places, scale_km})")
+    raw_places = loc.get("places")
+    if not isinstance(raw_places, list) or not 1 <= len(raw_places) <= 2:
+        raise ValueError("locator: one or two places (locator.places)")
+    places = []
+    for p in raw_places:
+        if not isinstance(p, dict) or not str(p.get("name") or "").strip():
+            raise ValueError("locator: each place names itself (locator.places[].name)")
+        try:
+            lat, lon = float(p["lat"]), float(p["lon"])
+        except (KeyError, TypeError, ValueError) as e:
+            raise ValueError(f"locator: place {p.get('name')!r} needs numeric lat and lon") from e
+        places.append(LocatorPlace(name=str(p["name"]), lat=lat, lon=lon))
+    scale_km = loc.get("scale_km")
+    if not isinstance(scale_km, (int, float)) or isinstance(scale_km, bool) or scale_km <= 0:
+        raise ValueError("locator: scale_km must be a positive number")
+    push = tuple(loc.get("push_s") or (1.0, 2.5))
+    if len(push) != 2 or not 0.0 <= push[0] < push[1] <= 2.5 + 1e-9:
+        raise ValueError("locator: push_s is [start, end] within 0.0 to 2.5 s (section i's rostrum push)")
+    lines = _shows_lines(shot)
+    want = [p.name for p in places]
+    if lines != want:
+        raise ValueError(f"locator: shows.lines must name each place in order {want}, not {lines}")
+    return LocatorSpec(places=tuple(places), scale_km=float(scale_km), push_s=(float(push[0]), float(push[1])))
+
+
+# ---- sot_super (section i: new) -------------------------------------------
+
+@dataclass(frozen=True)
+class SotSuperSpec:
+    name: str
+    role: str
+    third_line: str | None = None   # a translation or party label (graphic.SOT_SUPER_LABELS)
+
+
+def sot_super_spec(shot: dict) -> SotSuperSpec:
+    lines = _shows_lines(shot)
+    if not 2 <= len(lines) <= 3 or not all(isinstance(v, str) and v.strip() for v in lines):
+        raise ValueError("sot_super: shows.lines needs the speaker's name and role, and an optional third line")
+    third = lines[2] if len(lines) == 3 else None
+    if third and not third.startswith(G.SOT_SUPER_LABELS):
+        raise ValueError(f"sot_super: the third line must start with one of {G.SOT_SUPER_LABELS}, not {third!r}")
+    return SotSuperSpec(name=lines[0], role=lines[1], third_line=third)
+
+
+# ---- brief_strip (section i: new) ------------------------------------------
+
+@dataclass(frozen=True)
+class BriefStripSpec:
+    place: str
+    date: str
+
+
+def brief_strip_spec(shot: dict) -> BriefStripSpec:
+    lines = _shows_lines(shot)
+    if len(lines) != 1 or not isinstance(lines[0], str) or "·" not in lines[0]:
+        raise ValueError("brief_strip: shows.lines is one line, 'PLACE · DATE' (the middle dot, section i)")
+    place, _, date = lines[0].partition("·")
+    if not place.strip() or not date.strip():
+        raise ValueError(f"brief_strip: {lines[0]!r} needs a place and a date either side of the middle dot")
+    return BriefStripSpec(place=place.strip(), date=date.strip())

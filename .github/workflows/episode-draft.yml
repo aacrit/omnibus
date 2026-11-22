@@ -144,7 +144,7 @@ jobs:
           if-no-files-found: warn
       # Brand lens: the first, middle and last frame of every ledgered graphic, sheeted (studio/graphics/framesheet.py).
       - name: frame sheet
-        run: python -m studio.graphics.render framesheet --out /home/runner/framesheet
+        run: python -m studio.graphics.render framesheet --out /home/runner/framesheet --issue "$ISSUE"
       - name: frame sheet (artifact)
         uses: actions/upload-artifact@v4
         with:
