@@ -2,13 +2,14 @@
 # pre-rendered master played as it is, at its own rate, conformed to the film's by frame drop or repeat).
 """The ``graphic`` kind: a pre-rendered DRAWN clip the engine plays as it is, with an optional straight alpha.
 
-E6 typesets and animates every omnibus graphic (test cards, boards, day bars, the clock, count cards, maps, lower
-thirds, the credits roll and the end board) into a clip on D:, recorded in the graphics ledger. The engine never
+E6 typesets and animates every omnibus graphic (bumpers, the clock, count cards, locators, lower thirds and SOT
+supers, brief strips, typeset pages, the credits roll and the end board; v1's test cards, boards and day bars for the
+frozen issue 33) into a clip on D:, recorded in the graphics ledger. The engine never
 draws a graphic's content; it plays the clip's frames and composites them:
 
 - a ``graphic`` **shot** fills the frame: its frames over the house ground (film black), marked DRAWN;
-- a ``graphic`` **text element** (a part's ``text[]``, subtypes in OVERLAY_SUBTYPES: a lower third or a count over a
-  picture) is composited over whatever shot is on screen, in the overlay pass (``render.draw_overlays``), so
+- a ``graphic`` **text element** (a part's ``text[]``, subtypes in OVERLAY_SUBTYPES: a lower third, a count, an SOT super or a
+  brief strip over a picture) is composited over whatever shot is on screen, in the overlay pass (``render.draw_overlays``), so
   ``--layers`` carries it in ``overlay.mov`` with the same straight alpha.
 
 A ledger item for a graphic states ``fps`` (24, 30000/1001 or 30), ``frames``, ``alpha`` (``"straight"`` or absent:
@@ -29,11 +30,25 @@ from PIL import Image
 from studio.engine import cadence as CAD
 
 KIND = "graphic"
-SUBTYPES = ("testcard", "board", "day", "clock", "count", "map", "lower_third", "credits", "end_board")
-OVERLAY_SUBTYPES = ("lower_third", "count")       # drawn over a picture; every other subtype fills the frame
-DATA_SUBTYPES = ("testcard", "board", "day", "clock", "count")   # each draws figures from the record: a data_ref
-FIGURE_SUBTYPES = ("testcard", "day", "count")   # each declares the figures it draws (shows.figures), checked to the record
+# Show bible v2 (section o, ticket 1): the subtypes a v2 screenplay may name. `testcard` became `bumper` (no colour
+# bars), `map` became `locator`, `sot_super` and `brief_strip` are new, and the typeset `page` is a graphic too. The
+# framings `board` and the `day` lean bars are killed (section i): they read void's measurements out on screen.
+SUBTYPES = ("bumper", "clock", "count", "locator", "lower_third", "sot_super", "brief_strip", "page", "credits",
+            "end_board")
+OVERLAY_SUBTYPES = ("lower_third", "count", "sot_super", "brief_strip")   # drawn over a picture; the rest fill the frame
+DATA_SUBTYPES = ("clock", "count")               # each draws figures from the record: a data_ref
+FIGURE_SUBTYPES = ("count",)                     # each declares the figures it draws (shows.figures), checked to the record
+BUMPER_WORDS = {"briefs": "AROUND THE WORLD", "echo": "THE ECHO"}   # bible b: the bumper heads its segment, sting under
+SOT_SUPER_LABELS = ("TRANSLATION · ", "OUR TRANSLATION", "RELEASED BY ")   # the optional third line (section i)
+BRIEF_STRIP_SEGMENTS = ("tease", "briefs")      # place and date, persistent for a brief's or a tease beat's duration
 ALPHA_MODES = ("straight",)
+
+# V1 ONLY (frozen, issue 33): the v1 bible's subtypes, read only for the frozen regression fixture (schema.V1). No
+# new screenplay may name them; studio/graphics still draws them for issue 33 until ticket 4 replaces the renderer.
+V1_SUBTYPES = ("testcard", "board", "day", "clock", "count", "map", "lower_third", "credits", "end_board")
+V1_OVERLAY_SUBTYPES = ("lower_third", "count")
+V1_DATA_SUBTYPES = ("testcard", "board", "day", "clock", "count")
+V1_FIGURE_SUBTYPES = ("testcard", "day", "count")
 
 
 def is_graphic(x: dict) -> bool:

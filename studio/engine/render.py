@@ -3184,6 +3184,8 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     except SHOW.ShowError as e:
         raise Refused(f"show: {e}")
     apply_show(prof)
+    if prof["news"]:
+        play = NL.SC.engine_play(play)      # bible v2 o: vo/signon/signoff are narration, read/sot testimony, everywhere
     voicing = news_voicing(film, play) if prof["news"] else None   # E9i: the voicing manifest's takes and words
     if voicing is not None:
         play = voicing["play"]
@@ -3449,6 +3451,13 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
                                f"mark the shot RECONSTRUCTED with the alteration '{NEUTRALISE}'" if neutral else
                                f"set neutralise_cast: true on the ledger item or the shot, or drop '{NEUTRALISE}'")})
             s["_neutralise"] = bool(ok)
+        if kind == "archive_video" and prof["news"] and isinstance(s.get("sound"), dict):
+            s["sound"] = NL.SC.engine_sound(s["sound"])       # bible v2 o: sound.role muted is the engine's mode mute
+            if s["sound"].get("role") == "muted":
+                ok = s["sound"].get("mode") == "mute"
+                lint("sound-muted-mode", ok, unit=s["id"], grammar="omnibus bible v2 o",
+                     evidence={"sound": s["sound"], **({} if ok else {
+                         "fix": "a role muted clip plays muted: its engine mode is mute (or drop mode)"})})
         if kind == "archive_video" and prof["news"] and item is not None:
             mute = ledger_mute(item)     # E9i: the rights ledger's audio {mode: muted} is the clip's sound mode
             if mute is not None:
@@ -4049,7 +4058,7 @@ def build_plan(film: Path, *, W: int, H: int, burn_subtitles: bool, journal: Jou
     unnamed_speakers = descriptor_lints(lint, speakers)
     # E3 (omnibus): the programme's lints (show bible j, studio/news/lints.py), each voice line timed by its WAV
     if prof["news"]:
-        for c in NL.checks(play, assets, film=film, durations={v["id"]: v["dur"] for v in vl}):
+        for c in NL.checks(NL.SC.news_play(play), assets, film=film, durations={v["id"]: v["dur"] for v in vl}):
             lint(c["rule"], c["ok"], unit=c["unit"], severity=c["severity"], evidence=c["evidence"], grammar=c["grammar"])
     if lint_fail:
         raise Refused("lint failed: " + "; ".join(lint_fail))

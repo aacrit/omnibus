@@ -73,12 +73,18 @@ def take(man, wav: str) -> str:
     return (PurePosixPath(media.strip().replace("\\", "/")) / PurePosixPath(wav.replace("\\", "/")).name).as_posix()
 
 
+def _kind(ln: dict):
+    """The engine's kind for a line: a v2 kind (vo, sot, read, signon, signoff) read through schema.ENGINE_LINE_KIND."""
+    from studio.news.schema import ENGINE_LINE_KIND
+    return ENGINE_LINE_KIND.get(ln.get("kind"), ln.get("kind"))
+
+
 def voiced_lines(play: dict) -> list[dict]:
     """The lines a take must exist for: narration and testimony, not an archival span (its clip's own sound)."""
     out = []
     for part in play.get("parts") or []:
         for ln in part.get("lines") or []:
-            if ln.get("kind") in VOICE_KINDS and not (ln.get("archival_audio") and ln.get("clip")):   # render.archival_span
+            if _kind(ln) in VOICE_KINDS and not (ln.get("archival_audio") and ln.get("clip")):   # render.archival_span
                 out.append(ln)
     return out
 
@@ -86,7 +92,7 @@ def voiced_lines(play: dict) -> list[dict]:
 def line_voice(play: dict, ln: dict) -> dict | None:
     """The cast voice that reads the line: its ``read_by``, else the narrator ``v-narrator`` for narration."""
     voices = {v.get("id"): v for v in (play.get("cast") or {}).get("voices") or [] if isinstance(v, dict)}
-    vid = ln.get("read_by") or ("v-narrator" if ln.get("kind") == "narration" else None)
+    vid = ln.get("read_by") or ("v-narrator" if _kind(ln) == "narration" else None)
     return voices.get(vid)
 
 
@@ -203,7 +209,7 @@ def apply(play: dict, man, *, words: bool = True) -> dict:
         new = []
         for ln in part.get("lines") or []:
             rec = lines.get(ln.get("id"))
-            if ln.get("kind") in VOICE_KINDS and isinstance(rec, dict) and not line_problems(ln["id"], rec, None):
+            if _kind(ln) in VOICE_KINDS and isinstance(rec, dict) and not line_problems(ln["id"], rec, None):
                 ln = dict(ln)
                 ln.setdefault("wav", take(man, rec["wav"]))
                 if words and not ln.get("words"):

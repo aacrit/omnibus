@@ -1,5 +1,6 @@
 # Transplanted from document@b62c4fa:studio/engine/aswas.py (tweak: a graphic shot's ledger item is dated like the
-# series titles' master, by its content, E3; see docs/TRANSPLANT-document-engine.md)
+# series titles' master, by its content, E3; a news show has no ending-question, omnibus bible v2 o; see
+# docs/TRANSPLANT-document-engine.md)
 """GRAMMAR A0, the founding principle: show as was, not as is, and never tell.
 
     python -m studio.engine.aswas <film dir> [--as-of DATE] [--json]
@@ -45,7 +46,8 @@ The rules (films/GRAMMAR.md, A0):
   mind-reading phrase from the same file.
 - ``ending-question``: in an event film (10 minutes or more), the last voiced
   line before the brand end (the credits part) is narration and a question;
-  a year after the horizon in it is a warning.
+  a year after the horizon in it is a warning. A news show (omnibus) is
+  exempt: its bible v2 kills the rule, and the sign-off ends the programme.
 
 The text functions here and in ``scripts/lib/show-as-was.mjs`` match the same
 way; ``tests/fixtures/a0-cases.json`` holds the cases both suites run.
@@ -61,6 +63,8 @@ import re
 import sys
 from functools import lru_cache
 from pathlib import Path
+
+from studio.news import profile as SHOW
 
 LEXICON_PATH = Path(__file__).resolve().parents[1] / "show-as-was.json"
 GRAMMAR = "A0"
@@ -556,6 +560,9 @@ QUESTION_END = re.compile(r"\?[\s\"'”’)]*$")
 
 
 def ending_checks(play: dict, horizon) -> list[dict]:
+    if SHOW.is_news(play):        # omnibus, show bible v2 o: ending-question dies (The Question is gone; the sign-off ends)
+        return [_check("ending-question", True, evidence={"why": "a news show ends on its sign-off, not a question "
+                                                                 "(omnibus bible v2 o: ending-question dies)"})]
     end, target = _film_end(play), float(play.get("runtime_target_s") or 0.0)
     if end < EVENT_FILM_MIN_S and target < EVENT_FILM_MIN_S:
         return [_check("ending-question", True, evidence={"why": "not an event film (under 10 minutes): no ending is required",

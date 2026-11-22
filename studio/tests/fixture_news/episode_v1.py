@@ -1,8 +1,13 @@
 # Net-new in omnibus (E3).
-"""The omnibus lint fixture: one small episode that passes every news lint, and the mutations that each fail one.
+"""V1 ONLY (frozen): the v1 lint fixture, read through the frozen v1 spine (studio/news/schema.py V1) as issue 33 is.
 
-``episode()`` returns ``(play, assets, inputs)``: a screenplay (show omnibus, issue 99, 100 s, every segment of the
-bible's spine), its ledger items, and the inputs its ``news`` names (a week record, a rundown and an echo pick),
+One small episode in the v1 bible's shape that passes every news lint still alive, and the mutations that each fail
+one. It is issue 33 so that the frozen spine reads it, exactly as it reads episodes/33; the v2 fixture is
+episode_v2.py. The lints bible v2 kills (board-rule, ending-question, title-lines-verbatim, the two fair-use lints,
+tour-no-claim-before-board) have no case here, and the frozen board and title shots stay only as pictures.
+
+``episode()`` returns ``(play, assets, inputs)``: a screenplay (show omnibus, issue 33, 100 s, every segment of the
+v1 spine), its ledger items, and the inputs its ``news`` names (a week record, a rundown and an echo pick),
 built in code so every sha256 is the real hash of its text. Nothing here is real news: the outlets, the people and
 the place are invented (Ruritania), so no lint can pass by accident on real data.
 
@@ -44,7 +49,7 @@ def record() -> dict:
               "url": f"https://example.org/{k}", "published_at": "2026-03-04T10:00:00+00:00", "sha256": h(t),
               "headline_sha256": h(t)} for k, (r, o, t) in enumerate(BOARD)]
     return {
-        "issue": 99, "schema": 2, "week_start": DAYS[0], "week_end": DAYS[-1], "as_of": AS_OF, "edition": "world",
+        "issue": 33, "schema": 2, "week_start": DAYS[0], "week_end": DAYS[-1], "as_of": AS_OF, "edition": "world",
         "cover_headline": "The Water Minister", "days": days,
         "lead": {
             "records": [{"date": "2026-03-04", "role": "claim", "cluster_id": "c-claim", "title": TITLES[2],
@@ -64,7 +69,7 @@ def record() -> dict:
 
 
 def rundown() -> dict:
-    return {"schema": "omnibus.rundown/1", "issue": 99, "parts": [
+    return {"schema": "omnibus.rundown/1", "issue": 33, "parts": [
         {"id": "the-weight", "beats": [{"id": "w1", "reader": [{"text": READER_1, "quote_sha256": h(READER_1)}]}]},
         {"id": "the-echo", "no_bridge": {"must_not_appear": ["Ruritania", "Strelsau", "Jane Doe", "Doe"],
                                          "ruling": "fixture: the week's named persons and places"}},
@@ -72,7 +77,7 @@ def rundown() -> dict:
 
 
 def echo_pick() -> dict:
-    return {"issue": 99, "counts_on_screen": [{"what": "ward count", "values": {"Ayes": 312, "Noes": 288}}],
+    return {"issue": 33, "counts_on_screen": [{"what": "ward count", "values": {"Ayes": 312, "Noes": 288}}],
             "period_documents": [{"id": "src-1952", "quote_sha256": h(READER_2)}]}
 
 
@@ -113,13 +118,10 @@ def _shot(sid, kind, start, dur, **kw):
 
 def play() -> dict:
     rec = record()
-    from studio.news import lints as NL      # the expected lines come from the one formatter the lint uses
-    title_lines = NL.expected_title_lines(rec)
-    week_line = NL.expected_week_line(rec)
     board_rows = [{"rung": r["rung"], "outlet": r["outlet"], "headline": r["headline"],
                    "headline_sha256": r["headline_sha256"]} for r in rec["lead"]["board"]]
     return {
-        "title": "Week 99", "slug": "week-99", "show": "omnibus", "issue": 99, "as_of": AS_OF,
+        "title": "Week 33", "slug": "week-33", "show": "omnibus", "issue": 33, "as_of": AS_OF,
         "runtime_target_s": 100, "settings": {"master_fps": 30},
         "news": {"week": "week.json", "rundown": "rundown.json", "echo_pick": "echo-pick.json"},
         "cast": {"speakers": [{"id": "sp-doe", "name": "Jane Doe", "role": "water minister"},
@@ -141,8 +143,7 @@ def play() -> dict:
              "lines": [{"id": "L-open", "kind": "narration", "start_s": 7.0, "dur_s": 4.0, "read_by": "v-narrator",
                         "text": "Saturday 7 March, Strelsau. The count went on past midnight."}]},
             {"id": "p-title", "kind": "chapter", "segment": "title", "as_of": AS_OF,
-             "shots": [_shot("T-MACRO", "drawn", 14, 6, asset="dr-title", mark="DRAWN",
-                             shows={"title_lines": title_lines, "week_line": week_line})]},
+             "shots": [_shot("T-MACRO", "drawn", 14, 6, asset="dr-title", mark="DRAWN")]},
             {"id": "p-mon", "kind": "chapter", "segment": "week", "as_of": "2026-03-02T12:00:00+00:00",
              "shots": [_shot("G-DAY1", "graphic", 20, 10, subtype="day", asset="g-day1", mark="DRAWN",
                              data_ref="days[0]",
@@ -233,7 +234,7 @@ FAIL = {
     "part horizon not a date": (lambda p, a, i: part(p, "p-mon").update(as_of="Monday"), {"part-as-of-declared"}),
     "graphic subtype unknown": (lambda p, a, i: shot(p, "G-DAY1").update(subtype="days"), {"graphic-schema"}),
     "board graphic without data_ref": (lambda p, a, i: shot(p, "G-BOARD").pop("data_ref"),
-                                       {"graphic-schema", "board-rule"}),
+                                       {"graphic-schema"}),
     "graphic with premultiplied alpha": (lambda p, a, i: a["g-day1"].update(alpha="premultiplied"), {"graphic-schema"}),
     "lower third graphic without alpha": (lambda p, a, i: a["g-lt"].pop("alpha"), {"graphic-schema"}),
     "text composited marked ARCHIVE": (lambda p, a, i: shot(p, "S-OPEN").update(alterations=["text composited"]),
@@ -271,16 +272,8 @@ FAIL = {
         {"no-bridge", "quote-verbatim"}),
     "a bridging phrase in the week": (_set_text("L-mon", "Monday 2 March. Just as before, the council met."),
                                       {"no-bridge"}),
-    "board drops a titled rung": (lambda p, a, i: shot(p, "G-BOARD")["shows"]["rows"].pop(), {"board-rule"}),
     "board row not verbatim": (lambda p, a, i: shot(p, "G-BOARD")["shows"]["rows"][0].update(
-        headline="Doe Quits Over Water Deal!"), {"board-rule", "quote-verbatim"}),
-    "board row for an untitled rung": (lambda p, a, i: shot(p, "G-BOARD")["shows"]["rows"].append(
-        {"rung": "right", "outlet": "Evening Courier", "headline": "", "headline_sha256": h("")}),
-        {"board-rule"}),
-    "board row from a context record": (lambda p, a, i: i["record"]["lead"]["board"][0].update(cluster_id="c-context"),
-                                        {"board-rule"}),
-    "board with two rows on one rung": (lambda p, a, i: shot(p, "G-BOARD")["shows"]["rows"][1].update(rung="left"),
-                                        {"board-rule"}),
+        headline="Doe Quits Over Water Deal!"), {"quote-verbatim"}),
     "a figure that is not its field": (lambda p, a, i: shot(p, "G-DAY1")["shows"]["figures"][1].update(value=10),
                                        {"counts-match"}),
     "a figure whose field does not exist": (
@@ -292,15 +285,6 @@ FAIL = {
     "a reader hash no extract records": (
         lambda p, a, i: (line(p, "R1").update(text="I resigned."), line(p, "R1").update(quote_sha256=h("I resigned."))),
         {"quote-verbatim"}),
-    "a title line with the wrong count": (
-        lambda p, a, i: shot(p, "T-MACRO")["shows"]["title_lines"].__setitem__(
-            0, shot(p, "T-MACRO")["shows"]["title_lines"][0].replace("   12 SRC", "   13 SRC")),
-        {"title-lines-verbatim"}),
-    "a title line rewritten": (
-        lambda p, a, i: shot(p, "T-MACRO")["shows"]["title_lines"].__setitem__(1, "TUE 03 MAR   14 SRC  FLOOD DEAL SIGNED"),
-        {"title-lines-verbatim"}),
-    "a week line from another edition": (lambda p, a, i: shot(p, "T-MACRO")["shows"].update(
-        week_line="WEEK 98  CLOSED SUN 01 MAR 20:00 UTC"), {"title-lines-verbatim"}),
     "music under the week": (lambda p, a, i: part(p, "p-mon").setdefault("cues", []).append(
         {"id": "M2", "kind": "music", "source": "bed-2", "start_s": 22.0, "end_s": 28.0}), {"no-music-under-news"}),
     "music under the cold open": (lambda p, a, i: p.setdefault("music", []).append(
@@ -322,9 +306,6 @@ FAIL = {
                                              {"voice-disclosed"}),
     "a narrator credit that hides the computer voice": (
         lambda p, a, i: p["cast"]["voices"][0].update(credit="Narrated by Aoede"), {"voice-disclosed"}),
-    "the ending is not a question": (_set_text("L-q", "The council vote decided the contract."), {"ending-question"}),
-    "too little silence after the question": (lambda p, a, i: line(p, "L-q").update(start_s=85.0),
-                                              {"ending-question"}),
     "a black shot without a reason": (lambda p, a, i: shot(p, "B1").pop("black_reason"), {"black-share"}),
     "too much black": (lambda p, a, i: shot(p, "B1").update(dur_s=4.0), {"black-share"}),
     # -- review round 1 (PR #16) -------------------------------------------------------------------------------
@@ -342,12 +323,7 @@ FAIL = {
     "a day graphic that declares nothing": (lambda p, a, i: shot(p, "G-DAY1").pop("shows"), {"graphic-schema"}),
     "a count overlay that declares no figures": (lambda p, a, i: part(p, "p-weight")["text"][0].update(
         subtype="count", data_ref="days[0]"), {"graphic-schema"}),
-    "a board that declares no rows": (lambda p, a, i: shot(p, "G-BOARD").update(shows={}),
-                                      {"graphic-schema", "board-rule"}),
-    # 5: the title part carries the day lines and the week line
-    "the title declares no title lines": (lambda p, a, i: shot(p, "T-MACRO").pop("shows"), {"title-lines-verbatim"}),
-    "the title without its week line": (lambda p, a, i: shot(p, "T-MACRO")["shows"].pop("week_line"),
-                                        {"title-lines-verbatim"}),
+    "a board that declares no rows": (lambda p, a, i: shot(p, "G-BOARD").update(shows={}), {"graphic-schema"}),
     # 6: the spine, and exemptions read from the checked order
     "the clock is not first": (lambda p, a, i: p["parts"].insert(1, p["parts"].pop(0)),
                                {"segment-spine", "part-as-of-declared"}),
@@ -436,7 +412,6 @@ FAIL = {
         part(p, "p-mon").update(shots=[]), part(p, "p-mon").setdefault("cues", []).append(
             {"id": "M9", "kind": "music", "source": "bed-9", "start_s": 20.0, "end_s": 30.0})),
         {"no-music-under-news"}),
-    "a record the title cannot read": (lambda p, a, i: i["record"]["days"][0].pop("date"), {"title-lines-verbatim"}),
     # -- review of PR #18 ------------------------------------------------------------------------------------------
     "a total that is not the record's": (lambda p, a, i: shot(p, "G-DAY1")["shows"]["figures"][2].update(value=1),
                                          {"counts-match"}),
@@ -444,15 +419,11 @@ FAIL = {
                                           {"tour-window-inside"}),
     "a tour resting on a no-tour band": (lambda p, a, i: shot(p, "S-OPEN")["camera"][1].update(y=0.2),
                                          {"tour-window-inside"}),
-    "a claim headline in frame before the board": (
-        lambda p, a, i: shot(p, "S-OPEN")["camera"][1].update(x=0.729, y=0.813), {"tour-no-claim-before-board"}),
-    "a record the board cannot read": (lambda p, a, i: i["record"]["lead"]["board"].append("not a row"),
-                                       {"board-rule"}),
     # -- S4: founder ruling A (2026-11-13) ---------------------------------------------------------------------------
     "a Margins picture published after its horizon": (
         lambda p, a, i: a["st-margin"].update(published_at="2026-03-09T08:00:00+00:00"), {"picture_published_by_edition"}),
-    "fair-use excerpt over 10 s and outside The Weight": (
-        lambda p, a, i: a["st-q"].update(licence="fair-use-excerpt"), {"fair-use-on-timeline"}),
+    "a fair-use excerpt, even in The Weight": (
+        lambda p, a, i: a["g-board"].update(licence="fair-use-excerpt"), {"fair-use-refused"}),
     # -- S4 review round 3 -------------------------------------------------------------------------------------------
     "a shot without its item's sourcing dot label": (
         lambda p, a, i: a["st-margin"].update(dot_label={"text": "WHITE HOUSE VIDEO · PUBLISHED 6 NOV 2026",

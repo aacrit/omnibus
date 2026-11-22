@@ -8,8 +8,13 @@
 #
 # E6's graphics renderer needs Playwright, which lives in studio/requirements-graphics.txt: the gate and
 # studio-full install only this file and stay browser-free.
+#
+# pytest-split (CI0, docs/decisions/) shards studio-full's full collection across 4 parallel jobs,
+# deterministically by collected test id (no .test_durations cache committed, so it falls back to an
+# even count-based split rather than a timing-based one - still stable run to run on an unchanged suite).
 numpy==2.5.3
 pillow==12.3.0
 soundfile==0.14.0
 pytest==9.1.1
 fonttools==4.66.1
+pytest-split==0.11.0
