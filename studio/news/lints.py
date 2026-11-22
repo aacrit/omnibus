@@ -1507,13 +1507,9 @@ RULES = (RS.RULE, "show-profile", "news-fields", "segment-spine", "package-count
          "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION,
          FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",
          "no-bridge", "counts-match", "quote-verbatim", "no-music-under-news", "no-music-under-quote",
-<<<<<<< HEAD
-         "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
+         "echo-bed-ending", "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
 ADVISORY = ("narration-share",)          # bible v2 o: advisory rules this module checks (a warning, never a block)
 V1_ONLY = ("narration-ceiling",)         # the frozen issue 33's; a v2 screenplay is never held to them
-=======
-         "echo-bed-ending", "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
->>>>>>> origin/main
 # Show bible v2 section o's die list, gone from every screenplay (the frozen issue 33 included): never a rule here.
 DIED = ("board-rule", "tour-no-claim-before-board", "ladder-labels-derived", "ending-question", "fair-use-excerpt",
         "fair-use-on-timeline", "title-lines-verbatim")
