@@ -24,11 +24,11 @@
   "inputs": {
     "edit": {
       "path": "episodes/35/rundown-edit.json",
-      "sha256": "976b78509226ee7a230b72ad41d6e0028b39e0550ca753acc4a6244b90064552"
+      "sha256": "b85c7fa22d4bd7a808a8421b80cc737d930a61de812ef8e5cc9ce29e2406066b"
     },
     "rights_ledger": {
       "path": "episodes/35/rights-ledger.json",
-      "sha256": "b50b41366d5d55c4afd3fbf74a02bf52a5e5f4eacf2c1862b06ca139c7ec4cf2"
+      "sha256": "ad73c602eb2383a452b38ff50b35b6061eefd750b1f09555dd4aff42a5c37318"
     },
     "capture_pool": null,
     "desk_sha256": "81a6f4052716881fc72d3ea54238bac1cff23849227311c1c81c3f85ac74456e"
@@ -191,7 +191,7 @@
       "weight": 0.890378,
       "rank": 1,
       "slot": "lead",
-      "shape": "document",
+      "shape": "full",
       "category": "conflict",
       "days": [
         "2026-11-16",
@@ -253,11 +253,38 @@
           "date": "2026-11-20",
           "url": null,
           "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
+        },
+        {
+          "id": "doc-ru-kremlin-presser",
+          "title": "Press conference following visit to China (Shenzhen, 19 Nov 2026)",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-19",
+          "url": "http://en.kremlin.ru/events/president/news/81305",
+          "status": "cleared: kremlin.ru official English transcript in the rights ledger (tr-e35-lead-putin-presser, item e35-lead-kremlin-read), CC BY 4.0",
+          "extracts": [
+            {
+              "quote": "But following the strikes on the Crimean Bridge, there will be no negotiations. We will respond to these strikes. And I want everyone to know this.",
+              "quote_sha256": "7bab8f7282bd18d79dbb072aaebebeb6039cce17cda2ad67abe3c2b09533428e",
+              "date": "2026-11-19",
+              "transcript_ref": "tr-e35-lead-putin-presser",
+              "read_from": "rights-ledger.json transcripts[tr-e35-lead-putin-presser].text, verbatim",
+              "translation": "official: the Kremlin's English transcript (TRANSLATION · KREMLIN TRANSCRIPT)"
+            }
+          ]
         }
       ],
-      "footage_cleared_s": 0,
+      "footage_cleared_s": 183.633,
       "footage": {
-        "items": [],
+        "items": [
+          {
+            "id": "e35-lead-putin-presser",
+            "seconds": 155
+          },
+          {
+            "id": "e35-lead-ssu-video",
+            "seconds": 28.633
+          }
+        ],
         "refused": [],
         "unconfirmed": [],
         "no_duration": []
@@ -503,14 +530,36 @@
           "date": "2026-11-19",
           "url": null,
           "status": "pending T5: kremlin.ru adapter (CC BY 4.0, RIA Novosti and TASS excluded)"
+        },
+        {
+          "id": "doc-ru-kremlin-apec",
+          "title": "APEC CEO Summit (Shenzhen, 18 Nov 2026)",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-18",
+          "url": "http://en.kremlin.ru/events/president/news/81286",
+          "status": "cleared: kremlin.ru official English transcript in the rights ledger (tr-e35-p4-putin-apec, item e35-p4-apec-read), CC BY 4.0",
+          "extracts": [
+            {
+              "quote": "Sanctions, tariffs and export restrictions may still have a restraining effect, but they are no longer capable of bringing growth to a complete halt, let alone crushing the economies of competitors.",
+              "quote_sha256": "6e2c9de4d73d2c218a1eb65548aa58aee72fd7e68ebef2f12a017331b7c58f4f",
+              "date": "2026-11-18",
+              "transcript_ref": "tr-e35-p4-putin-apec",
+              "read_from": "rights-ledger.json transcripts[tr-e35-p4-putin-apec].text, verbatim",
+              "translation": "official: the Kremlin's English transcript (TRANSLATION · KREMLIN TRANSCRIPT)"
+            }
+          ]
         }
       ],
-      "footage_cleared_s": 37.93,
+      "footage_cleared_s": 57.93,
       "footage": {
         "items": [
           {
             "id": "e35-p4-arrival",
             "seconds": 25
+          },
+          {
+            "id": "e35-p4-putin-apec",
+            "seconds": 20
           },
           {
             "id": "e35-p4-talks",
@@ -2318,7 +2367,6 @@
     "weekly_edition_seen": false
   },
   "notes": [
-    "lead ukraine-bridges-strikes: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_2 uk-eu-reset: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_3 gulf-us-iran: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_5 thread-ec790a82: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank"

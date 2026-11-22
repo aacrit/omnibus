@@ -13,7 +13,7 @@
   "share_alike": {
     "decision": "docs/DECISIONS.md 2026-11-11: G1 greenlight approved (docs/decisions/2026-11-11-g1-greenlight-approved.md: the episode is CC BY-SA 4.0 by founder ruling)"
   },
-  "runtime_target_s": 778,
+  "runtime_target_s": 848,
   "settings": {
     "master_fps": 30
   },
@@ -348,6 +348,11 @@
         "role": "the heads of state's joint declaration, 19 Nov 2026, as the White House published it"
       },
       {
+        "id": "sp-putin",
+        "name": "Vladimir Putin",
+        "role": "President of Russia; the Kremlin's English transcript"
+      },
+      {
         "id": "sp-polish-govt",
         "name": "The Polish Government in London",
         "role": "statement communicated by Ambassador J. Ciechanowski, 15 February 1945"
@@ -393,8 +398,8 @@
   "moments": [
     {
       "id": "M-ROOM",
-      "start_s": 746.19,
-      "end_s": 748.19,
+      "start_s": 815.7,
+      "end_s": 817.7,
       "silence": "intended",
       "reason": "Two seconds of room tone after the Echo's written ending, before the hard cut to the ident."
     }
@@ -449,28 +454,17 @@
       "shots": [
         {
           "id": "S-TEASE-1",
-          "kind": "graphic",
+          "kind": "archive_still",
           "start_s": 6.0,
           "dur_s": 8.25,
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "locator",
-          "asset": "g-loc-tease-kerch",
-          "mark": "DRAWN",
-          "shows": {
-            "lines": [
-              "KERCH STRAIT",
-              "CRIMEA"
-            ]
-          },
-          "picture_slot": {
-            "request": "t9b-lead-ssu-video",
-            "awaits": "pending_t5: the SSU's Kerch strike video (Commons, CC BY 4.0, RELEASED BY THE SECURITY SERVICE OF UKRAINE), its best frame with its own sound up for 1 s",
-            "now": "the locator, Kerch Strait",
-            "pending_t5": true
-          },
-          "why": "Beat 1, the lead. The only cleared picture of the bridge is the map until ticket 5 lands."
+          "asset": "e35-lead-ssu-still",
+          "mark": "ARCHIVE",
+          "preset": "DRIFT",
+          "dot_label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE",
+          "why": "Beat 1, the lead: the SSU's own photograph of the bridge after the 17 Nov strike, which the lead also airs."
         },
         {
           "id": "S-TEASE-2",
@@ -522,11 +516,12 @@
           "in_s": 45.0,
           "mark": "ARCHIVE",
           "sound": {
-            "role": "nat",
-            "translation": "none"
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: record_kind unknown, so its own sound never airs (bible e); mute B-roll only."
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
-          "why": "Beat 4, package 4: the arrival at Air Force One's door, its own sound up for 1.2 s; the package opens on the same frame.",
+          "why": "Beat 4, package 4: the arrival at Air Force One's door, muted (the ledger airs it so); the package opens on the same frame.",
           "out_s": 54.15
         }
       ],
@@ -744,66 +739,95 @@
       "kind": "chapter",
       "segment": "lead",
       "title": "Lead: Kerch and Kyiv",
-      "shape": "document",
+      "shape": "full",
       "story": "ukraine-bridges-strikes",
       "shots": [
         {
           "id": "S-LEAD-1",
-          "kind": "graphic",
+          "kind": "archive_video",
           "start_s": 57.1,
-          "dur_s": 14.15,
+          "dur_s": 22.8,
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "locator",
-          "asset": "g-loc-kerch-1",
-          "mark": "DRAWN",
-          "shows": {
-            "lines": [
-              "KERCH STRAIT",
-              "CRIMEA"
-            ]
+          "asset": "e35-lead-ssu-video",
+          "in_s": 0.167,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: its record_kind is not shown to be an unedited event record (bible e)."
           },
-          "picture_slot": {
-            "request": "t9b-lead-ssu-video",
-            "awaits": "pending_t5: the SSU's Kerch video (34.4 s, CC BY 4.0, RELEASED BY THE SECURITY SERVICE OF UKRAINE): its first frame with nat full under the slate, then the strike under the narrator",
-            "now": "the locator, Kerch Strait, pushed 1.0 to 2.5 s",
-            "pending_t5": true
-          },
-          "why": "Slate on the locator (document package, bible e); the slate holds 2.5 s on room tone."
+          "dot_label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE",
+          "why": "Slate on the strike video's first frame after its title card: the SSU's thermal approach to the arch. The second strike's line lands as the drone closes.",
+          "out_s": 22.97
         },
         {
           "id": "S-LEAD-2",
-          "kind": "graphic",
-          "start_s": 71.25,
+          "kind": "archive_video",
+          "start_s": 79.9,
+          "dur_s": 5.8,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-lead-ssu-video",
+          "in_s": 22.99,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: its record_kind is not shown to be an unedited event record (bible e)."
+          },
+          "dot_label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE",
+          "why": "The impact at night, then the spans down in daylight; no words over it. The span stops before the SSU's end card.",
+          "out_s": 28.79
+        },
+        {
+          "id": "S-LEAD-3",
+          "kind": "archive_still",
+          "start_s": 85.7,
           "dur_s": 14.05,
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "locator",
-          "asset": "g-loc-kerch-2",
-          "mark": "DRAWN",
-          "shows": {
-            "lines": [
-              "KERCH STRAIT"
-            ]
-          },
-          "picture_slot": {
-            "request": "t9b-lead-ssu-stills",
-            "awaits": "pending_t5: KerchBridgeCollapse.jpg (Commons, CC BY 4.0, SSU, RELEASED BY THE SECURITY SERVICE OF UKRAINE); the Office of the President's statement of 17 Nov as a typeset page, read",
-            "now": "the locator, Kerch Strait, a closer push",
-            "pending_t5": true
-          },
+          "asset": "e35-lead-ssu-still",
+          "mark": "ARCHIVE",
+          "preset": "DRIFT",
+          "dot_label": "RELEASED BY THE SECURITY SERVICE OF UKRAINE",
           "requests": [
             "t9b-lead-zelenskyy-read"
           ],
-          "why": "Ukraine in its president's words, attributed until ticket 5 clears the Office of the President's text."
+          "why": "The SSU's photograph of the bridge after the strike. Ukraine attributed until the Office of the President's text clears."
         },
         {
-          "id": "S-LEAD-3",
+          "id": "S-LEAD-4",
           "kind": "graphic",
-          "start_s": 85.3,
-          "dur_s": 21.65,
+          "start_s": 99.75,
+          "dur_s": 18.45,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-kyiv-1",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KYIV",
+              "RUSSIA"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-lead-kyiv-ses",
+            "awaits": "search: SES Ukraine or Kyiv City State Administration footage on Commons (CC BY 4.0, RELEASED BY <body>), dignity list applied",
+            "now": "the locator, Kyiv"
+          },
+          "why": "VO 2 over the locator: the other bridges of the week."
+        },
+        {
+          "id": "S-LEAD-5",
+          "kind": "graphic",
+          "start_s": 118.2,
+          "dur_s": 14.65,
           "transition_in": {
             "type": "cut"
           },
@@ -818,18 +842,35 @@
           },
           "picture_slot": {
             "request": "t9b-lead-sentinel-kerch",
-            "awaits": "dated imagery: Sentinel-2 of the Kerch bridge inside 16 to 21 Nov (Copernicus open licence, labelled with its date), tier 3",
+            "awaits": "dated imagery: Sentinel-2 of the Kerch bridge inside 16 to 21 Nov (tier 3)",
             "now": "the locator, Kerch Strait"
           },
-          "requests": [
-            "t9b-lead-kremlin-read"
-          ],
-          "why": "Russia in its president's words, attributed until the Kremlin's English text clears (ticket 5)."
+          "why": "The third strike on the map."
         },
         {
-          "id": "S-LEAD-4",
+          "id": "S-LEAD-6",
+          "kind": "archive_video",
+          "start_s": 132.85,
+          "dur_s": 25.61,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-lead-putin-presser",
+          "in_s": 1380.0,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "No bite of the news conference has cleared at the transcript step; the reader speaks the Kremlin's English text over it."
+          },
+          "dot_label": "RELEASED BY THE KREMLIN",
+          "why": "Putin at the lectern answering this question (the Kremlin's own record, CC BY 4.0), muted; the reader speaks his words from the official English transcript. SOT 2 of bible e as a read.",
+          "out_s": 1405.61
+        },
+        {
+          "id": "S-LEAD-7",
           "kind": "card",
-          "start_s": 106.95,
+          "start_s": 158.46,
           "dur_s": 9.45,
           "transition_in": {
             "type": "cut"
@@ -852,12 +893,12 @@
             }
           ],
           "source_date": "2026-11-20",
-          "why": "A count card from the record (tier 4)."
+          "why": "A count card from the record."
         },
         {
-          "id": "S-LEAD-5",
+          "id": "S-LEAD-8",
           "kind": "graphic",
-          "start_s": 116.4,
+          "start_s": 167.91,
           "dur_s": 11.05,
           "transition_in": {
             "type": "cut"
@@ -871,19 +912,13 @@
               "DNIPRO"
             ]
           },
-          "picture_slot": {
-            "request": "t9b-lead-kyiv-ses",
-            "awaits": "pending_t5 search: SES Ukraine or Kyiv City State Administration footage of 20 Nov on Commons (CC BY 4.0, RELEASED BY <body>), dignity list applied",
-            "now": "the locator, Kyiv",
-            "pending_t5": true
-          },
           "why": "Kyiv on the map; no cleared picture of the 20 Nov strike existed by the cutoff."
         },
         {
-          "id": "S-LEAD-6",
+          "id": "S-LEAD-9",
           "kind": "graphic",
-          "start_s": 127.45,
-          "dur_s": 29.65,
+          "start_s": 178.96,
+          "dur_s": 27.65,
           "transition_in": {
             "type": "cut"
           },
@@ -899,7 +934,27 @@
           "requests": [
             "t9b-lead-poland-read"
           ],
-          "why": "Poland in its ministers' words, attributed (gov.pl terms unreviewed). Out on the locator held 2 s (document package)."
+          "why": "Poland in its ministers' words, attributed (gov.pl terms unreviewed). VO 4 ends on a fact with its place."
+        },
+        {
+          "id": "S-LEAD-10",
+          "kind": "archive_video",
+          "start_s": 206.61,
+          "dur_s": 2.6,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-lead-putin-presser",
+          "in_s": 1531.85,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "No bite of the news conference has cleared at the transcript step; the reader speaks the Kremlin's English text over it."
+          },
+          "dot_label": "RELEASED BY THE KREMLIN",
+          "why": "Out: the hall of the news conference, no words. The lead has no nat sound cleared, so the out is room tone.",
+          "out_s": 1534.45
         }
       ],
       "lines": [
@@ -919,10 +974,26 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 59.6
+          "start_s": 59.7
         },
         {
           "id": "L007",
+          "kind": "vo",
+          "dur_s": 6.25,
+          "read_by": "v-narrator",
+          "text": "Sergei Aksyonov, whom Russia installed as head of Crimea, held its traffic until about midday.",
+          "sources": [
+            {
+              "cluster": "0ea94eb4",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Russia",
+          "tier": "attributed",
+          "start_s": 67.9
+        },
+        {
+          "id": "L008",
           "kind": "vo",
           "dur_s": 3.05,
           "read_by": "v-narrator",
@@ -933,10 +1004,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 67.8
+          "start_s": 76.6
         },
         {
-          "id": "L008",
+          "id": "L009",
           "kind": "vo",
           "dur_s": 7.45,
           "read_by": "v-narrator",
@@ -951,10 +1022,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 71.65
+          "start_s": 86.1
         },
         {
-          "id": "L009",
+          "id": "L010",
           "kind": "vo",
           "dur_s": 5.45,
           "read_by": "v-narrator",
@@ -967,40 +1038,99 @@
           ],
           "party": "Ukraine",
           "tier": "attributed",
-          "start_s": 79.45
-        },
-        {
-          "id": "L010",
-          "kind": "vo",
-          "dur_s": 13.05,
-          "read_by": "v-narrator",
-          "text": "Early on Thursday it was hit a third time. Ukraine's General Staff said Neptune missiles had damaged the railway track. Russia's Transport Ministry said no one was hurt, and the trains stopped.",
-          "sources": [
-            {
-              "cluster": "672e3dce",
-              "kind": "consensus"
-            }
-          ],
-          "start_s": 85.7
+          "start_s": 93.9
         },
         {
           "id": "L011",
           "kind": "vo",
-          "dur_s": 7.45,
+          "dur_s": 9.45,
           "read_by": "v-narrator",
-          "text": "Vladimir Putin said that, after the attacks on the bridge, Russia would hold no ceasefire talks with Ukraine.",
+          "text": "That night, Russian ballistic missiles hit Kyiv's North and South bridges over the Dnipro, and parts of the city lost heat and water.",
           "sources": [
             {
-              "cluster": "672e3dce",
+              "cluster": "277d5dcf",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 100.15
+        },
+        {
+          "id": "L012",
+          "kind": "vo",
+          "dur_s": 7.85,
+          "read_by": "v-narrator",
+          "text": "Russia's Defence Ministry said its air defences had brought down one thousand, four hundred and forty-one Ukrainian drones overnight.",
+          "sources": [
+            {
+              "cluster": "277d5dcf",
               "kind": "consensus"
             }
           ],
           "party": "Russia",
           "tier": "attributed",
-          "start_s": 99.1
+          "start_s": 109.95
         },
         {
-          "id": "L012",
+          "id": "L013",
+          "kind": "vo",
+          "dur_s": 13.85,
+          "read_by": "v-narrator",
+          "text": "Early on Thursday the Kerch bridge was hit a third time. Ukraine's General Staff said Neptune missiles had damaged the railway track. Russia's Transport Ministry said no one was hurt, and the trains stopped.",
+          "sources": [
+            {
+              "cluster": "672e3dce",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 118.6
+        },
+        {
+          "id": "L014",
+          "kind": "vo",
+          "dur_s": 6.25,
+          "read_by": "v-narrator",
+          "text": "That evening, at his news conference in Shenzhen, Vladimir Putin was asked about the bridge.",
+          "sources": [
+            {
+              "source": "e35-lead-kremlin-read",
+              "kind": "record"
+            }
+          ],
+          "start_s": 133.35
+        },
+        {
+          "id": "L015",
+          "kind": "read",
+          "dur_s": 11.31,
+          "read_by": "v-reader",
+          "text": "But following the strikes on the Crimean Bridge, there will be no negotiations. We will respond to these strikes. And I want everyone to know this.",
+          "speaker": "sp-putin",
+          "quote_sha256": "7bab8f7282bd18d79dbb072aaebebeb6039cce17cda2ad67abe3c2b09533428e",
+          "date": "2026-11-19",
+          "transcript_ref": "tr-e35-lead-putin-presser",
+          "translation": "official",
+          "party": "Russia",
+          "tier": "own words (read)",
+          "start_s": 139.95
+        },
+        {
+          "id": "L016",
+          "kind": "vo",
+          "dur_s": 6.25,
+          "read_by": "v-narrator",
+          "text": "He said the road bridge had suffered serious damage, and that Russia would restore it.",
+          "sources": [
+            {
+              "source": "e35-lead-kremlin-read",
+              "kind": "record"
+            }
+          ],
+          "party": "Russia",
+          "tier": "attributed",
+          "start_s": 151.61
+        },
+        {
+          "id": "L017",
           "kind": "vo",
           "dur_s": 8.65,
           "read_by": "v-narrator",
@@ -1011,10 +1141,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 107.35
+          "start_s": 158.86
         },
         {
-          "id": "L013",
+          "id": "L018",
           "kind": "vo",
           "dur_s": 10.25,
           "read_by": "v-narrator",
@@ -1025,10 +1155,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 116.8
+          "start_s": 168.31
         },
         {
-          "id": "L014",
+          "id": "L019",
           "kind": "vo",
           "dur_s": 4.25,
           "read_by": "v-narrator",
@@ -1039,10 +1169,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 127.85
+          "start_s": 179.36
         },
         {
-          "id": "L015",
+          "id": "L020",
           "kind": "vo",
           "dur_s": 10.65,
           "read_by": "v-narrator",
@@ -1055,10 +1185,10 @@
           ],
           "party": "Poland",
           "tier": "attributed",
-          "start_s": 132.45
+          "start_s": 183.96
         },
         {
-          "id": "L016",
+          "id": "L021",
           "kind": "vo",
           "dur_s": 4.25,
           "read_by": "v-narrator",
@@ -1071,10 +1201,10 @@
           ],
           "party": "Poland",
           "tier": "attributed",
-          "start_s": 143.45
+          "start_s": 194.96
         },
         {
-          "id": "L017",
+          "id": "L022",
           "kind": "vo",
           "dur_s": 6.65,
           "read_by": "v-narrator",
@@ -1085,7 +1215,7 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 148.05
+          "start_s": 199.56
         }
       ],
       "text": [
@@ -1098,10 +1228,25 @@
           "end_s": 61.1,
           "shows": {
             "lines": [
-              "KERCH STRAIT · MON 16 NOV 2026"
+              "KERCH STRAIT · TUE 17 NOV 2026"
             ]
           },
           "variant": "slate"
+        },
+        {
+          "id": "G-SUPER-PUTIN-1",
+          "kind": "graphic",
+          "subtype": "sot_super",
+          "asset": "g-super-putin-1",
+          "start_s": 139.95,
+          "end_s": 143.95,
+          "shows": {
+            "lines": [
+              "VLADIMIR PUTIN",
+              "PRESIDENT OF RUSSIA",
+              "TRANSLATION · KREMLIN TRANSCRIPT"
+            ]
+          }
         }
       ]
     },
@@ -1116,7 +1261,7 @@
         {
           "id": "S-P2-1",
           "kind": "graphic",
-          "start_s": 157.1,
+          "start_s": 209.21,
           "dur_s": 10.75,
           "transition_in": {
             "type": "cut"
@@ -1140,7 +1285,7 @@
         {
           "id": "S-P2-2",
           "kind": "graphic",
-          "start_s": 167.85,
+          "start_s": 219.96,
           "dur_s": 24.05,
           "transition_in": {
             "type": "cut"
@@ -1167,7 +1312,7 @@
         {
           "id": "S-P2-3",
           "kind": "card",
-          "start_s": 191.9,
+          "start_s": 244.01,
           "dur_s": 11.85,
           "transition_in": {
             "type": "cut"
@@ -1195,7 +1340,7 @@
         {
           "id": "S-P2-4",
           "kind": "graphic",
-          "start_s": 203.75,
+          "start_s": 255.86,
           "dur_s": 15.25,
           "transition_in": {
             "type": "cut"
@@ -1214,7 +1359,7 @@
         {
           "id": "S-P2-5",
           "kind": "graphic",
-          "start_s": 219.0,
+          "start_s": 271.11,
           "dur_s": 13.85,
           "transition_in": {
             "type": "cut"
@@ -1232,7 +1377,7 @@
       ],
       "lines": [
         {
-          "id": "L018",
+          "id": "L023",
           "kind": "vo",
           "dur_s": 7.85,
           "read_by": "v-narrator",
@@ -1249,10 +1394,10 @@
           ],
           "party": "Government of the United Kingdom",
           "tier": "attributed",
-          "start_s": 159.6
+          "start_s": 211.71
         },
         {
-          "id": "L019",
+          "id": "L024",
           "kind": "vo",
           "dur_s": 11.05,
           "read_by": "v-narrator",
@@ -1263,10 +1408,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 168.25
+          "start_s": 220.36
         },
         {
-          "id": "L020",
+          "id": "L025",
           "kind": "vo",
           "dur_s": 11.85,
           "read_by": "v-narrator",
@@ -1281,10 +1426,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 179.65
+          "start_s": 231.76
         },
         {
-          "id": "L021",
+          "id": "L026",
           "kind": "vo",
           "dur_s": 11.05,
           "read_by": "v-narrator",
@@ -1299,10 +1444,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 192.3
+          "start_s": 244.41
         },
         {
-          "id": "L022",
+          "id": "L027",
           "kind": "vo",
           "dur_s": 8.65,
           "read_by": "v-narrator",
@@ -1315,10 +1460,10 @@
           ],
           "party": "European Union",
           "tier": "attributed",
-          "start_s": 204.15
+          "start_s": 256.26
         },
         {
-          "id": "L023",
+          "id": "L028",
           "kind": "vo",
           "dur_s": 5.45,
           "read_by": "v-narrator",
@@ -1331,10 +1476,10 @@
           ],
           "party": "Government of the United Kingdom",
           "tier": "attributed",
-          "start_s": 213.15
+          "start_s": 265.26
         },
         {
-          "id": "L024",
+          "id": "L029",
           "kind": "vo",
           "dur_s": 11.05,
           "read_by": "v-narrator",
@@ -1351,7 +1496,7 @@
           ],
           "party": "Reform UK; Conservative Party",
           "tier": "attributed",
-          "start_s": 219.4
+          "start_s": 271.51
         }
       ],
       "text": [
@@ -1360,8 +1505,8 @@
           "kind": "graphic",
           "subtype": "lower_third",
           "asset": "g-g-slate-p2",
-          "start_s": 157.1,
-          "end_s": 161.1,
+          "start_s": 209.21,
+          "end_s": 213.21,
           "shows": {
             "lines": [
               "LONDON · MON 16 NOV 2026"
@@ -1382,7 +1527,7 @@
         {
           "id": "S-P3-1",
           "kind": "graphic",
-          "start_s": 232.85,
+          "start_s": 284.96,
           "dur_s": 18.15,
           "transition_in": {
             "type": "cut"
@@ -1410,7 +1555,7 @@
         {
           "id": "S-P3-2",
           "kind": "archive_still",
-          "start_s": 251.0,
+          "start_s": 303.11,
           "dur_s": 9.85,
           "transition_in": {
             "type": "cut"
@@ -1424,7 +1569,7 @@
         {
           "id": "S-P3-3",
           "kind": "graphic",
-          "start_s": 260.85,
+          "start_s": 312.96,
           "dur_s": 22.45,
           "transition_in": {
             "type": "cut"
@@ -1443,7 +1588,7 @@
         {
           "id": "S-P3-4",
           "kind": "graphic",
-          "start_s": 283.3,
+          "start_s": 335.41,
           "dur_s": 26.85,
           "transition_in": {
             "type": "cut"
@@ -1462,7 +1607,7 @@
       ],
       "lines": [
         {
-          "id": "L025",
+          "id": "L030",
           "kind": "vo",
           "dur_s": 7.05,
           "read_by": "v-narrator",
@@ -1477,10 +1622,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 235.35
+          "start_s": 287.46
         },
         {
-          "id": "L026",
+          "id": "L031",
           "kind": "vo",
           "dur_s": 7.85,
           "read_by": "v-narrator",
@@ -1493,10 +1638,10 @@
           ],
           "party": "Iran",
           "tier": "attributed",
-          "start_s": 242.75
+          "start_s": 294.86
         },
         {
-          "id": "L027",
+          "id": "L032",
           "kind": "vo",
           "dur_s": 9.05,
           "read_by": "v-narrator",
@@ -1513,10 +1658,10 @@
           ],
           "party": "United States",
           "tier": "attributed",
-          "start_s": 251.4
+          "start_s": 303.51
         },
         {
-          "id": "L028",
+          "id": "L033",
           "kind": "vo",
           "dur_s": 9.85,
           "read_by": "v-narrator",
@@ -1533,10 +1678,10 @@
           ],
           "party": "Iran",
           "tier": "attributed",
-          "start_s": 261.25
+          "start_s": 313.36
         },
         {
-          "id": "L029",
+          "id": "L034",
           "kind": "vo",
           "dur_s": 11.45,
           "read_by": "v-narrator",
@@ -1553,10 +1698,10 @@
           ],
           "party": "United States",
           "tier": "attributed",
-          "start_s": 271.45
+          "start_s": 323.56
         },
         {
-          "id": "L030",
+          "id": "L035",
           "kind": "vo",
           "dur_s": 13.05,
           "read_by": "v-narrator",
@@ -1567,10 +1712,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 283.7
+          "start_s": 335.81
         },
         {
-          "id": "L031",
+          "id": "L036",
           "kind": "vo",
           "dur_s": 10.65,
           "read_by": "v-narrator",
@@ -1585,7 +1730,7 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 297.1
+          "start_s": 349.21
         }
       ],
       "text": [
@@ -1594,8 +1739,8 @@
           "kind": "graphic",
           "subtype": "lower_third",
           "asset": "g-g-slate-p3",
-          "start_s": 232.85,
-          "end_s": 236.85,
+          "start_s": 284.96,
+          "end_s": 288.96,
           "shows": {
             "lines": [
               "THE GULF · TUE 17 NOV 2026"
@@ -1616,8 +1761,8 @@
         {
           "id": "S-P4-1",
           "kind": "archive_video",
-          "start_s": 310.15,
-          "dur_s": 12.45,
+          "start_s": 362.26,
+          "dur_s": 10.42,
           "transition_in": {
             "type": "cut"
           },
@@ -1625,18 +1770,39 @@
           "in_s": 45.0,
           "mark": "ARCHIVE",
           "sound": {
-            "role": "nat",
-            "translation": "none"
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: record_kind unknown, so its own sound never airs (bible e); mute B-roll only."
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
-          "why": "Slate: the arrival's first frame, nat full 2.5 s; the narrator under it; then the ceremony's own sound up as he reaches the steps.",
-          "out_s": 57.45,
+          "why": "Slate: the arrival's first frame on room tone (the ledger airs it muted); the narrator under it as he reaches the steps.",
+          "out_s": 55.42,
           "repeat_of": "S-TEASE-4"
+        },
+        {
+          "id": "S-P4-APEC",
+          "kind": "archive_video",
+          "start_s": 372.68,
+          "dur_s": 19.43,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p4-putin-apec",
+          "in_s": 110.47,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: record_kind unknown until a checking role reviews it."
+          },
+          "dot_label": "RELEASED BY THE KREMLIN",
+          "why": "Putin at the lectern of the APEC CEO Summit, 18 Nov (kremlin.ru, CC BY 4.0), muted; the reader speaks the Kremlin's English transcript.",
+          "out_s": 129.9
         },
         {
           "id": "S-P4-2",
           "kind": "archive_video",
-          "start_s": 322.6,
+          "start_s": 392.11,
           "dur_s": 12.9,
           "transition_in": {
             "type": "cut"
@@ -1656,7 +1822,7 @@
         {
           "id": "S-P4-3",
           "kind": "graphic",
-          "start_s": 335.5,
+          "start_s": 405.01,
           "dur_s": 23.05,
           "transition_in": {
             "type": "cut"
@@ -1671,7 +1837,7 @@
         {
           "id": "S-P4-4",
           "kind": "graphic",
-          "start_s": 358.55,
+          "start_s": 428.06,
           "dur_s": 18.17,
           "transition_in": {
             "type": "cut"
@@ -1686,7 +1852,7 @@
         {
           "id": "S-P4-5",
           "kind": "graphic",
-          "start_s": 376.72,
+          "start_s": 446.23,
           "dur_s": 18.85,
           "transition_in": {
             "type": "cut"
@@ -1699,22 +1865,16 @@
               "SHENZHEN"
             ]
           },
-          "picture_slot": {
-            "request": "t9b-p4-putin-sot",
-            "awaits": "pending_t5: SOT Putin, APEC business summit address, Wed 18 Nov (kremlin.ru, CC BY 4.0, RELEASED BY THE KREMLIN; TRANSLATION · KREMLIN TRANSCRIPT), a 10 to 20 s span at sentence bounds chosen at the transcript step, after a set-up line naming the occasion",
-            "now": "the locator, Shenzhen; Putin attributed through the lead",
-            "pending_t5": true
-          },
           "requests": [
             "t9b-p4-kantei-stills",
             "t9b-p4-china-mfa-read"
           ],
-          "why": "The locator at VO 2. Russia's own voice slots in here when ticket 5 clears it; China's is the joint text only."
+          "why": "The locator at VO 2. China's words are the joint text only."
         },
         {
           "id": "S-P4-6",
           "kind": "archive_still",
-          "start_s": 395.57,
+          "start_s": 465.08,
           "dur_s": 4.85,
           "transition_in": {
             "type": "cut"
@@ -1728,7 +1888,7 @@
         {
           "id": "S-P4-7",
           "kind": "archive_video",
-          "start_s": 400.42,
+          "start_s": 469.93,
           "dur_s": 4.6,
           "transition_in": {
             "type": "cut"
@@ -1737,17 +1897,18 @@
           "in_s": 65.4,
           "mark": "ARCHIVE",
           "sound": {
-            "role": "nat",
-            "translation": "none"
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: record_kind unknown, so its own sound never airs (bible e); mute B-roll only."
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
-          "why": "Out: the welcome line at the foot of the steps, nat full, no words.",
+          "why": "Out: the welcome line at the foot of the steps, room tone, no words.",
           "out_s": 70.0
         }
       ],
       "lines": [
         {
-          "id": "L032",
+          "id": "L037",
           "kind": "vo",
           "dur_s": 5.05,
           "read_by": "v-narrator",
@@ -1758,10 +1919,39 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 312.65
+          "start_s": 364.76
         },
         {
-          "id": "L033",
+          "id": "L038",
+          "kind": "vo",
+          "dur_s": 4.25,
+          "read_by": "v-narrator",
+          "text": "The same day, Vladimir Putin addressed the summit's business forum.",
+          "sources": [
+            {
+              "source": "e35-p4-apec-read",
+              "kind": "record"
+            }
+          ],
+          "start_s": 372.61
+        },
+        {
+          "id": "L039",
+          "kind": "read",
+          "dur_s": 13.44,
+          "read_by": "v-reader",
+          "text": "Sanctions, tariffs and export restrictions may still have a restraining effect, but they are no longer capable of bringing growth to a complete halt, let alone crushing the economies of competitors.",
+          "speaker": "sp-putin",
+          "quote_sha256": "6e2c9de4d73d2c218a1eb65548aa58aee72fd7e68ebef2f12a017331b7c58f4f",
+          "date": "2026-11-18",
+          "transcript_ref": "tr-e35-p4-putin-apec",
+          "translation": "official",
+          "party": "Russia",
+          "tier": "own words (read)",
+          "start_s": 377.21
+        },
+        {
+          "id": "L040",
           "kind": "vo",
           "dur_s": 11.85,
           "read_by": "v-narrator",
@@ -1776,10 +1966,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 322.9
+          "start_s": 392.41
         },
         {
-          "id": "L034",
+          "id": "L041",
           "kind": "vo",
           "dur_s": 5.05,
           "read_by": "v-narrator",
@@ -1790,10 +1980,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 335.9
+          "start_s": 405.41
         },
         {
-          "id": "L035",
+          "id": "L042",
           "kind": "read",
           "dur_s": 16.85,
           "read_by": "v-reader",
@@ -1801,10 +1991,10 @@
           "speaker": "sp-declaration",
           "quote_sha256": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
           "date": "2026-11-19",
-          "start_s": 341.3
+          "start_s": 410.81
         },
         {
-          "id": "L036",
+          "id": "L043",
           "kind": "vo",
           "dur_s": 1.45,
           "read_by": "v-narrator",
@@ -1815,10 +2005,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 358.95
+          "start_s": 428.46
         },
         {
-          "id": "L037",
+          "id": "L044",
           "kind": "read",
           "dur_s": 15.57,
           "read_by": "v-reader",
@@ -1826,10 +2016,10 @@
           "speaker": "sp-declaration",
           "quote_sha256": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
           "date": "2026-11-19",
-          "start_s": 360.75
+          "start_s": 430.26
         },
         {
-          "id": "L038",
+          "id": "L045",
           "kind": "vo",
           "dur_s": 8.65,
           "read_by": "v-narrator",
@@ -1840,10 +2030,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 377.12
+          "start_s": 446.63
         },
         {
-          "id": "L039",
+          "id": "L046",
           "kind": "vo",
           "dur_s": 9.05,
           "read_by": "v-narrator",
@@ -1854,10 +2044,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 386.12
+          "start_s": 455.63
         },
         {
-          "id": "L040",
+          "id": "L047",
           "kind": "vo",
           "dur_s": 3.05,
           "read_by": "v-narrator",
@@ -1870,7 +2060,7 @@
           ],
           "party": "United States",
           "tier": "attributed",
-          "start_s": 396.17
+          "start_s": 465.68
         }
       ],
       "text": [
@@ -1879,14 +2069,29 @@
           "kind": "graphic",
           "subtype": "lower_third",
           "asset": "g-g-slate-p4",
-          "start_s": 310.15,
-          "end_s": 314.15,
+          "start_s": 362.26,
+          "end_s": 366.26,
           "shows": {
             "lines": [
               "SHENZHEN · WED 18 NOV 2026"
             ]
           },
           "variant": "slate"
+        },
+        {
+          "id": "G-SUPER-PUTIN-2",
+          "kind": "graphic",
+          "subtype": "sot_super",
+          "asset": "g-super-putin-2",
+          "start_s": 377.21,
+          "end_s": 381.21,
+          "shows": {
+            "lines": [
+              "VLADIMIR PUTIN",
+              "PRESIDENT OF RUSSIA",
+              "TRANSLATION · KREMLIN TRANSCRIPT"
+            ]
+          }
         }
       ]
     },
@@ -1901,7 +2106,7 @@
         {
           "id": "S-P5-1",
           "kind": "graphic",
-          "start_s": 405.02,
+          "start_s": 474.53,
           "dur_s": 16.35,
           "transition_in": {
             "type": "cut"
@@ -1922,7 +2127,7 @@
         {
           "id": "S-P5-2",
           "kind": "card",
-          "start_s": 421.37,
+          "start_s": 490.88,
           "dur_s": 3.85,
           "transition_in": {
             "type": "cut"
@@ -1949,7 +2154,7 @@
         {
           "id": "S-P5-3",
           "kind": "graphic",
-          "start_s": 425.22,
+          "start_s": 494.73,
           "dur_s": 21.25,
           "transition_in": {
             "type": "cut"
@@ -1976,7 +2181,7 @@
         {
           "id": "S-P5-4",
           "kind": "graphic",
-          "start_s": 446.47,
+          "start_s": 515.98,
           "dur_s": 20.85,
           "transition_in": {
             "type": "cut"
@@ -1998,7 +2203,7 @@
       ],
       "lines": [
         {
-          "id": "L041",
+          "id": "L048",
           "kind": "vo",
           "dur_s": 13.45,
           "read_by": "v-narrator",
@@ -2009,10 +2214,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 407.52
+          "start_s": 477.03
         },
         {
-          "id": "L042",
+          "id": "L049",
           "kind": "vo",
           "dur_s": 3.05,
           "read_by": "v-narrator",
@@ -2023,10 +2228,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 421.77
+          "start_s": 491.28
         },
         {
-          "id": "L043",
+          "id": "L050",
           "kind": "vo",
           "dur_s": 11.85,
           "read_by": "v-narrator",
@@ -2037,10 +2242,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 425.62
+          "start_s": 495.13
         },
         {
-          "id": "L044",
+          "id": "L051",
           "kind": "vo",
           "dur_s": 8.25,
           "read_by": "v-narrator",
@@ -2057,10 +2262,10 @@
           ],
           "party": "The Gambia",
           "tier": "attributed",
-          "start_s": 437.82
+          "start_s": 507.33
         },
         {
-          "id": "L045",
+          "id": "L052",
           "kind": "vo",
           "dur_s": 10.25,
           "read_by": "v-narrator",
@@ -2071,10 +2276,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 446.87
+          "start_s": 516.38
         },
         {
-          "id": "L046",
+          "id": "L053",
           "kind": "vo",
           "dur_s": 7.45,
           "read_by": "v-narrator",
@@ -2087,7 +2292,7 @@
           ],
           "party": "Myanmar",
           "tier": "attributed",
-          "start_s": 457.47
+          "start_s": 526.98
         }
       ],
       "text": [
@@ -2096,8 +2301,8 @@
           "kind": "graphic",
           "subtype": "lower_third",
           "asset": "g-g-slate-p5",
-          "start_s": 405.02,
-          "end_s": 409.02,
+          "start_s": 474.53,
+          "end_s": 478.53,
           "shows": {
             "lines": [
               "THE HAGUE · THU 19 NOV 2026"
@@ -2116,7 +2321,7 @@
         {
           "id": "G-BUMP-1",
           "kind": "graphic",
-          "start_s": 467.32,
+          "start_s": 536.83,
           "dur_s": 1.8,
           "transition_in": {
             "type": "cut"
@@ -2134,7 +2339,7 @@
         {
           "id": "S-BR-1",
           "kind": "graphic",
-          "start_s": 469.12,
+          "start_s": 538.63,
           "dur_s": 11.95,
           "transition_in": {
             "type": "cut"
@@ -2153,7 +2358,7 @@
         {
           "id": "S-BR-2",
           "kind": "graphic",
-          "start_s": 481.07,
+          "start_s": 550.58,
           "dur_s": 11.15,
           "transition_in": {
             "type": "cut"
@@ -2171,7 +2376,7 @@
         {
           "id": "S-BR-3",
           "kind": "graphic",
-          "start_s": 492.22,
+          "start_s": 561.73,
           "dur_s": 11.15,
           "transition_in": {
             "type": "cut"
@@ -2189,7 +2394,7 @@
         {
           "id": "S-BR-4",
           "kind": "graphic",
-          "start_s": 503.37,
+          "start_s": 572.88,
           "dur_s": 13.55,
           "transition_in": {
             "type": "cut"
@@ -2207,7 +2412,7 @@
         {
           "id": "S-BR-5",
           "kind": "graphic",
-          "start_s": 516.92,
+          "start_s": 586.43,
           "dur_s": 9.55,
           "transition_in": {
             "type": "cut"
@@ -2225,7 +2430,7 @@
         {
           "id": "S-BR-6",
           "kind": "graphic",
-          "start_s": 526.47,
+          "start_s": 595.98,
           "dur_s": 12.75,
           "transition_in": {
             "type": "cut"
@@ -2243,7 +2448,7 @@
         {
           "id": "S-BR-7",
           "kind": "graphic",
-          "start_s": 539.22,
+          "start_s": 608.73,
           "dur_s": 14.75,
           "transition_in": {
             "type": "cut"
@@ -2262,7 +2467,7 @@
         {
           "id": "S-BR-8",
           "kind": "archive_video",
-          "start_s": 553.97,
+          "start_s": 623.48,
           "dur_s": 11.55,
           "transition_in": {
             "type": "cut"
@@ -2282,7 +2487,7 @@
         {
           "id": "S-BR-9",
           "kind": "graphic",
-          "start_s": 565.52,
+          "start_s": 635.03,
           "dur_s": 11.95,
           "transition_in": {
             "type": "cut"
@@ -2300,7 +2505,7 @@
         {
           "id": "S-BR-10",
           "kind": "graphic",
-          "start_s": 577.47,
+          "start_s": 646.98,
           "dur_s": 9.55,
           "transition_in": {
             "type": "cut"
@@ -2318,7 +2523,7 @@
       ],
       "lines": [
         {
-          "id": "L047",
+          "id": "L054",
           "kind": "vo",
           "dur_s": 11.45,
           "read_by": "v-narrator",
@@ -2329,10 +2534,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 469.42
+          "start_s": 538.93
         },
         {
-          "id": "L048",
+          "id": "L055",
           "kind": "vo",
           "dur_s": 10.65,
           "read_by": "v-narrator",
@@ -2343,10 +2548,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 481.37
+          "start_s": 550.88
         },
         {
-          "id": "L049",
+          "id": "L056",
           "kind": "vo",
           "dur_s": 10.65,
           "read_by": "v-narrator",
@@ -2357,10 +2562,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 492.52
+          "start_s": 562.03
         },
         {
-          "id": "L050",
+          "id": "L057",
           "kind": "vo",
           "dur_s": 13.05,
           "read_by": "v-narrator",
@@ -2371,10 +2576,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 503.67
+          "start_s": 573.18
         },
         {
-          "id": "L051",
+          "id": "L058",
           "kind": "vo",
           "dur_s": 9.05,
           "read_by": "v-narrator",
@@ -2389,10 +2594,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 517.22
+          "start_s": 586.73
         },
         {
-          "id": "L052",
+          "id": "L059",
           "kind": "vo",
           "dur_s": 12.25,
           "read_by": "v-narrator",
@@ -2403,10 +2608,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 526.77
+          "start_s": 596.28
         },
         {
-          "id": "L053",
+          "id": "L060",
           "kind": "vo",
           "dur_s": 14.25,
           "read_by": "v-narrator",
@@ -2421,10 +2626,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 539.52
+          "start_s": 609.03
         },
         {
-          "id": "L054",
+          "id": "L061",
           "kind": "vo",
           "dur_s": 11.05,
           "read_by": "v-narrator",
@@ -2439,10 +2644,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 554.27
+          "start_s": 623.78
         },
         {
-          "id": "L055",
+          "id": "L062",
           "kind": "vo",
           "dur_s": 11.45,
           "read_by": "v-narrator",
@@ -2453,10 +2658,10 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 565.82
+          "start_s": 635.33
         },
         {
-          "id": "L056",
+          "id": "L063",
           "kind": "vo",
           "dur_s": 9.05,
           "read_by": "v-narrator",
@@ -2471,7 +2676,7 @@
               "kind": "consensus"
             }
           ],
-          "start_s": 577.77
+          "start_s": 647.28
         }
       ],
       "text": [
@@ -2480,8 +2685,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-1",
-          "start_s": 469.12,
-          "end_s": 481.07,
+          "start_s": 538.63,
+          "end_s": 550.58,
           "shows": {
             "lines": [
               "RIYADH · SAT 21 NOV"
@@ -2493,8 +2698,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-2",
-          "start_s": 481.07,
-          "end_s": 492.22,
+          "start_s": 550.58,
+          "end_s": 561.73,
           "shows": {
             "lines": [
               "WASHINGTON · TUE 17 NOV"
@@ -2506,8 +2711,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-3",
-          "start_s": 492.22,
-          "end_s": 503.37,
+          "start_s": 561.73,
+          "end_s": 572.88,
           "shows": {
             "lines": [
               "UNITED STATES · MON 16 NOV"
@@ -2519,8 +2724,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-4",
-          "start_s": 503.37,
-          "end_s": 516.92,
+          "start_s": 572.88,
+          "end_s": 586.43,
           "shows": {
             "lines": [
               "WASHINGTON · FRI 20 NOV"
@@ -2532,8 +2737,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-5",
-          "start_s": 516.92,
-          "end_s": 526.47,
+          "start_s": 586.43,
+          "end_s": 595.98,
           "shows": {
             "lines": [
               "NEW YORK · MON 16 NOV"
@@ -2545,8 +2750,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-6",
-          "start_s": 526.47,
-          "end_s": 539.22,
+          "start_s": 595.98,
+          "end_s": 608.73,
           "shows": {
             "lines": [
               "SHENZHEN · TUE 17 NOV"
@@ -2558,8 +2763,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-7",
-          "start_s": 539.22,
-          "end_s": 553.97,
+          "start_s": 608.73,
+          "end_s": 623.48,
           "shows": {
             "lines": [
               "COPENHAGEN · THU 19 NOV"
@@ -2571,8 +2776,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-8",
-          "start_s": 553.97,
-          "end_s": 565.52,
+          "start_s": 623.48,
+          "end_s": 635.03,
           "shows": {
             "lines": [
               "CARACAS · WED 18 NOV"
@@ -2584,8 +2789,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-9",
-          "start_s": 565.52,
-          "end_s": 577.47,
+          "start_s": 635.03,
+          "end_s": 646.98,
           "shows": {
             "lines": [
               "LONDON · MON 16 NOV"
@@ -2597,8 +2802,8 @@
           "kind": "graphic",
           "subtype": "brief_strip",
           "asset": "g-t-br-10",
-          "start_s": 577.47,
-          "end_s": 587.02,
+          "start_s": 646.98,
+          "end_s": 656.53,
           "shows": {
             "lines": [
               "JERUSALEM · TUE 17 NOV"
@@ -2618,7 +2823,7 @@
         {
           "id": "G-BUMP-2",
           "kind": "graphic",
-          "start_s": 587.02,
+          "start_s": 656.53,
           "dur_s": 3.3,
           "transition_in": {
             "type": "cut"
@@ -2643,7 +2848,7 @@
         {
           "id": "S-EC-1",
           "kind": "graphic",
-          "start_s": 588.82,
+          "start_s": 658.33,
           "dur_s": 15.82,
           "transition_in": {
             "type": "dissolve",
@@ -2674,7 +2879,7 @@
         {
           "id": "S-EC-2",
           "kind": "graphic",
-          "start_s": 604.64,
+          "start_s": 674.15,
           "dur_s": 16.43,
           "transition_in": {
             "type": "cut"
@@ -2694,7 +2899,7 @@
         {
           "id": "S-EC-3",
           "kind": "graphic",
-          "start_s": 621.07,
+          "start_s": 690.58,
           "dur_s": 26.0,
           "transition_in": {
             "type": "cut"
@@ -2714,7 +2919,7 @@
         {
           "id": "S-EC-4",
           "kind": "graphic",
-          "start_s": 647.07,
+          "start_s": 716.58,
           "dur_s": 12.55,
           "transition_in": {
             "type": "cut"
@@ -2734,7 +2939,7 @@
         {
           "id": "S-EC-5",
           "kind": "graphic",
-          "start_s": 659.62,
+          "start_s": 729.13,
           "dur_s": 23.22,
           "transition_in": {
             "type": "cut"
@@ -2749,7 +2954,7 @@
         {
           "id": "S-EC-6",
           "kind": "graphic",
-          "start_s": 682.84,
+          "start_s": 752.35,
           "dur_s": 20.91,
           "transition_in": {
             "type": "cut"
@@ -2763,7 +2968,7 @@
         {
           "id": "S-EC-7",
           "kind": "graphic",
-          "start_s": 703.75,
+          "start_s": 773.26,
           "dur_s": 35.42,
           "transition_in": {
             "type": "cut"
@@ -2777,7 +2982,7 @@
         {
           "id": "S-EC-8",
           "kind": "graphic",
-          "start_s": 739.17,
+          "start_s": 808.68,
           "dur_s": 7.02,
           "transition_in": {
             "type": "cut"
@@ -2803,7 +3008,7 @@
         {
           "id": "S-EC-ROOM",
           "kind": "graphic",
-          "start_s": 746.19,
+          "start_s": 815.7,
           "dur_s": 2.0,
           "transition_in": {
             "type": "cut"
@@ -2819,7 +3024,7 @@
       ],
       "lines": [
         {
-          "id": "L057",
+          "id": "L064",
           "kind": "vo",
           "dur_s": 12.42,
           "read_by": "v-narrator-echo",
@@ -2834,10 +3039,10 @@
               "kind": "caption"
             }
           ],
-          "start_s": 591.82
+          "start_s": 661.33
         },
         {
-          "id": "L058",
+          "id": "L065",
           "kind": "vo",
           "dur_s": 5.9,
           "read_by": "v-narrator-echo",
@@ -2848,10 +3053,10 @@
               "kind": "record"
             }
           ],
-          "start_s": 605.04
+          "start_s": 674.55
         },
         {
-          "id": "L059",
+          "id": "L066",
           "kind": "vo",
           "dur_s": 9.38,
           "read_by": "v-narrator-echo",
@@ -2863,10 +3068,10 @@
               "locator": "sections II and III"
             }
           ],
-          "start_s": 611.29
+          "start_s": 680.8
         },
         {
-          "id": "L060",
+          "id": "L067",
           "kind": "vo",
           "dur_s": 13.73,
           "read_by": "v-narrator-echo",
@@ -2878,10 +3083,10 @@
               "locator": "section VI"
             }
           ],
-          "start_s": 621.47
+          "start_s": 690.98
         },
         {
-          "id": "L061",
+          "id": "L068",
           "kind": "vo",
           "dur_s": 11.12,
           "read_by": "v-narrator-echo",
@@ -2893,10 +3098,10 @@
               "locator": "section VI"
             }
           ],
-          "start_s": 635.55
+          "start_s": 705.06
         },
         {
-          "id": "L062",
+          "id": "L069",
           "kind": "vo",
           "dur_s": 11.55,
           "read_by": "v-narrator-echo",
@@ -2907,10 +3112,10 @@
               "kind": "record"
             }
           ],
-          "start_s": 647.47
+          "start_s": 716.98
         },
         {
-          "id": "L063",
+          "id": "L070",
           "kind": "read",
           "dur_s": 10.46,
           "read_by": "v-reader",
@@ -2918,10 +3123,10 @@
           "speaker": "sp-polish-govt",
           "quote_sha256": "a61736d8abff41005fe1565d8801e82ae0ebcc4d18dd89fd204c404804b2671d",
           "date": "1945-02-15",
-          "start_s": 660.12
+          "start_s": 729.63
         },
         {
-          "id": "L064",
+          "id": "L071",
           "kind": "read",
           "dur_s": 11.31,
           "read_by": "v-reader",
@@ -2929,10 +3134,10 @@
           "speaker": "sp-polish-govt",
           "quote_sha256": "8ca74fc85c18708166c5c4178d5e2e5026c21e8dadd810931533d1926c8dbab7",
           "date": "1945-02-15",
-          "start_s": 670.93
+          "start_s": 740.44
         },
         {
-          "id": "L065",
+          "id": "L072",
           "kind": "vo",
           "dur_s": 5.47,
           "read_by": "v-narrator-echo",
@@ -2943,10 +3148,10 @@
               "kind": "record"
             }
           ],
-          "start_s": 683.24
+          "start_s": 752.75
         },
         {
-          "id": "L066",
+          "id": "L073",
           "kind": "read",
           "dur_s": 14.29,
           "read_by": "v-reader",
@@ -2954,10 +3159,10 @@
           "speaker": "sp-churchill",
           "quote_sha256": "a8e63937e984aa3a973cdb53191246c66ea48990f54313edb913651980e15fd0",
           "date": "1945-02-27",
-          "start_s": 689.06
+          "start_s": 758.57
         },
         {
-          "id": "L067",
+          "id": "L074",
           "kind": "vo",
           "dur_s": 7.64,
           "read_by": "v-narrator-echo",
@@ -2968,10 +3173,10 @@
               "kind": "record"
             }
           ],
-          "start_s": 704.15
+          "start_s": 773.66
         },
         {
-          "id": "L068",
+          "id": "L075",
           "kind": "read",
           "dur_s": 26.63,
           "read_by": "v-reader",
@@ -2979,10 +3184,10 @@
           "speaker": "sp-fdr",
           "quote_sha256": "63952aab2351c4d01c2c1d1c0a16947e18695319ecccbe2ed994ba3c83596b16",
           "date": "1945-03-01",
-          "start_s": 712.14
+          "start_s": 781.65
         },
         {
-          "id": "L069",
+          "id": "L076",
           "kind": "vo",
           "dur_s": 2.42,
           "read_by": "v-narrator-echo",
@@ -2993,7 +3198,7 @@
               "kind": "record"
             }
           ],
-          "start_s": 739.77
+          "start_s": 809.28
         }
       ],
       "text": [
@@ -3002,8 +3207,8 @@
           "kind": "graphic",
           "subtype": "lower_third",
           "asset": "g-slate-echo",
-          "start_s": 588.82,
-          "end_s": 592.82,
+          "start_s": 658.33,
+          "end_s": 662.33,
           "shows": {
             "lines": [
               "YALTA, THE CRIMEA · FEBRUARY 1945"
@@ -3017,8 +3222,8 @@
           "id": "M-STING-ECHO",
           "kind": "music",
           "source": "the sting (bible j): issue 33's take, carried over (own-score-35)",
-          "start_s": 587.02,
-          "end_s": 587.82,
+          "start_s": 656.53,
+          "end_s": 657.33,
           "score_role": "sting",
           "wav": "D:/omnibus-media/35/score/sting.wav",
           "licence": "CC BY-SA 4.0",
@@ -3028,8 +3233,8 @@
           "id": "M-ECHO-1",
           "kind": "music",
           "source": "issue 33's Echo bed, 150 s (E8), its opening: a draft stand-in until bed 2 (T8b)",
-          "start_s": 588.82,
-          "end_s": 659.32,
+          "start_s": 658.33,
+          "end_s": 728.83,
           "gain_lufs": -32,
           "duck_db": 9,
           "note": "enters on the dissolve; its first movement cadences before the first quotation (no music under quotes)",
@@ -3037,17 +3242,17 @@
           "ledger_item": "echo-bed-150.1",
           "wav": "D:/omnibus-media/35/studio/score/echo-bed-150.1.wav",
           "licence": "CC BY-SA 4.0",
+          "gain_db": 0,
           "bed_in_s": 0.0,
           "fade_in_s": 1.5,
-          "fade_out_s": 0.6,
-          "gain_db": 0
+          "fade_out_s": 0.6
         },
         {
           "id": "M-ECHO-2",
           "kind": "music",
           "source": "issue 33's Echo bed, 150 s (E8), its written ending: a draft stand-in until bed 2 (T8b)",
-          "start_s": 739.47,
-          "end_s": 746.19,
+          "start_s": 808.98,
+          "end_s": 815.7,
           "gain_lufs": -32,
           "duck_db": 9,
           "note": "returns after the last quotation and lands its written ending under the last frame",
@@ -3055,16 +3260,16 @@
           "ledger_item": "echo-bed-150.2",
           "wav": "D:/omnibus-media/35/studio/score/echo-bed-150.2.wav",
           "licence": "CC BY-SA 4.0",
+          "gain_db": 0,
           "bed_in_s": 143.28,
           "fade_in_s": 1.5,
-          "fade_out_s": 0,
-          "gain_db": 0
+          "fade_out_s": 0
         }
       ],
       "silence_windows": [
         {
-          "start_s": 659.62,
-          "end_s": 739.17,
+          "start_s": 729.13,
+          "end_s": 808.68,
           "reason": "No music under the quotations or their set-ups: the bed rests from the Polish statement to Roosevelt's words."
         }
       ]
@@ -3078,7 +3283,7 @@
         {
           "id": "S-IDENT",
           "kind": "card",
-          "start_s": 748.19,
+          "start_s": 817.7,
           "dur_s": 10.15,
           "transition_in": {
             "type": "cut"
@@ -3091,12 +3296,12 @@
       ],
       "lines": [
         {
-          "id": "L070",
+          "id": "L077",
           "kind": "signoff",
           "dur_s": 8.65,
           "read_by": "v-narrator",
           "text": "That was the week of sixteen to twenty-one November. For the record, every source is at omnibus dot voidvision dot org.",
-          "start_s": 748.69
+          "start_s": 818.2
         }
       ]
     },
@@ -3109,7 +3314,7 @@
         {
           "id": "G-CREDITS",
           "kind": "graphic",
-          "start_s": 758.34,
+          "start_s": 827.85,
           "dur_s": 16.0,
           "transition_in": {
             "type": "cut"
@@ -3118,8 +3323,9 @@
           "asset": "g-credits",
           "mark": "DRAWN",
           "roll": [
-            "Pictures: The White House; US Naval Forces Central Command, via DVIDS; US Department of War, via Wikimedia Commons",
-            "Released by a party to the story: THE WHITE HOUSE; THE DEPARTMENT OF WAR",
+            "Pictures: The White House; US Naval Forces Central Command, via DVIDS; US Department of War, via Wikimedia Commons; Security Service of Ukraine, via Wikimedia Commons (CC BY 4.0); Kremlin.ru (CC BY 4.0)",
+            "Released by a party to the story: THE WHITE HOUSE; THE DEPARTMENT OF WAR; THE SECURITY SERVICE OF UKRAINE; THE KREMLIN",
+            "Transcripts: Kremlin.ru, the President of Russia's English texts of 18 and 19 Nov 2026 (CC BY 4.0)",
             "Documents: The White House, U.S.-Russia-China Heads of State Declaration toward Peace, 19 Nov 2026",
             "The Echo: Foreign Relations of the United States (Malta and Yalta; 1945 vol. V); House of Commons Debates, 27 Feb 1945; The American Presidency Project",
             "The Echo was chosen after the week was known, from an entry added to the echo bank on 21 November; see the sources page",
@@ -3133,7 +3339,7 @@
         {
           "id": "G-ENDBOARD",
           "kind": "graphic",
-          "start_s": 774.34,
+          "start_s": 843.85,
           "dur_s": 4.0,
           "transition_in": {
             "type": "cut"
@@ -3151,8 +3357,8 @@
           "kind": "music",
           "role": "house_motif",
           "source": "the wire (theme, 18 s, bible d): issue 33's take, carried over (own-score-35)",
-          "start_s": 758.34,
-          "end_s": 776.34,
+          "start_s": 827.85,
+          "end_s": 845.85,
           "wav": "D:/omnibus-media/35/score/theme.wav",
           "licence": "CC BY-SA 4.0",
           "gain_db": 0

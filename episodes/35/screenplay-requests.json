@@ -3,14 +3,15 @@
   "issue": 35,
   "written": "2026-11-22",
   "by": "T9b writer",
-  "what": "Every picture, page and voice the screenplay wants and does not yet have. Each shot that names a request airs its cleared fallback now (the shot's picture_slot.now), so the draft renders without it. pending_t5 waits for ticket 5's adapters; to_fetch is a request for scripts/rights.mjs; to_capture is a primary text to capture with its terms URL before a reader speaks it; rights_read is a NARA restriction to clear by a reader, never by assumption.",
+  "what": "Every picture, page and voice the screenplay wants and does not yet have. Each shot that names a request airs its cleared fallback now (the shot's picture_slot.now), so the draft renders without it. pending_t5 waits for ticket 5's adapters; cleared names what cleared it; sot_review waits for a bite's review; to_fetch is a request for scripts/rights.mjs; to_capture is a primary text to capture with its terms URL before a reader speaks it; rights_read is a NARA restriction to clear by a reader, never by assumption.",
   "requests": [
     {
       "id": "t9b-lead-ssu-video",
-      "class": "pending_t5",
+      "class": "cleared",
+      "cleared_as": "e35-lead-ssu-video (0.167 to 28.8 s, muted)",
       "for": [
-        "S-TEASE-1",
-        "S-LEAD-1"
+        "S-LEAD-1",
+        "S-LEAD-2"
       ],
       "kind": "footage",
       "item": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
@@ -23,9 +24,11 @@
     },
     {
       "id": "t9b-lead-ssu-stills",
-      "class": "pending_t5",
+      "class": "cleared",
+      "cleared_as": "e35-lead-ssu-still (KerchBridgeCollapse.jpg); FlamingoKerch.jpg not taken",
       "for": [
-        "S-LEAD-2"
+        "S-TEASE-1",
+        "S-LEAD-3"
       ],
       "kind": "still",
       "item": "File:KerchBridgeCollapse.jpg; File:FlamingoKerch.jpg (Commons)",
@@ -47,9 +50,10 @@
     },
     {
       "id": "t9b-lead-kremlin-read",
-      "class": "pending_t5",
+      "class": "cleared",
+      "cleared_as": "e35-lead-kremlin-read and tr-e35-lead-putin-presser (official English), read over e35-lead-putin-presser",
       "for": [
-        "S-LEAD-3"
+        "S-LEAD-6"
       ],
       "kind": "document",
       "item": "kremlin.ru English text of Putin's remarks on a ceasefire after the bridge attacks (date and occasion to locate)",
@@ -59,7 +63,7 @@
     },
     {
       "id": "t9b-lead-kyiv-ses",
-      "class": "pending_t5",
+      "class": "to_fetch",
       "for": [
         "S-LEAD-5"
       ],
@@ -161,9 +165,10 @@
     },
     {
       "id": "t9b-p4-putin-sot",
-      "class": "pending_t5",
+      "class": "cleared",
+      "cleared_as": "e35-p4-putin-apec (110 to 130 s, muted) with tr-e35-p4-putin-apec read; a bite still needs record_kind reviewed",
       "for": [
-        "S-P4-5"
+        "S-P4-APEC"
       ],
       "kind": "footage (SOT)",
       "item": "Putin's address to the APEC business summit, Shenzhen, 18 Nov (kremlin.ru, 1177.7 s record)",
@@ -284,6 +289,28 @@
       "item": "NARA 23465 (111-ADC-9700), 17042 (111-ADC-3239), 17079 (111-ADC-3276)",
       "status": "NARA 'Restricted - Possibly' (Copyright): never cleared by assumption",
       "fallback": "stills and documents"
+    },
+    {
+      "id": "t9b-lead-putin-bite",
+      "class": "sot_review",
+      "for": [
+        "S-LEAD-6"
+      ],
+      "kind": "footage (SOT)",
+      "item": "e35-lead-putin-presser, the answer on the Crimean Bridge (about 1380 to 1535 s; 14 cuts in the span)",
+      "needs": "a bite of 10 to 20 s at transcript sentence bounds with no internal cut, its own sound up 1.5 s then ducked to -24 LUFS under the reader (TRANSLATION · KREMLIN TRANSCRIPT); record_kind news_conference is stated by the adapter",
+      "fallback": "the muted record with the reader speaking the official English text (aired now)"
+    },
+    {
+      "id": "t9b-p4-apec-bite",
+      "class": "sot_review",
+      "for": [
+        "S-P4-APEC"
+      ],
+      "kind": "footage (SOT)",
+      "item": "e35-p4-putin-apec, 110 to 130 s",
+      "needs": "record_kind reviewed by a checking role (now unknown, so the ledger airs it muted)",
+      "fallback": "the muted record with the reader (aired now)"
     },
     {
       "id": "t9b-audio-sting-briefs",
