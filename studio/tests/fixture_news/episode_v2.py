@@ -338,7 +338,20 @@ FAIL = {
     "a count card that declares nothing": (lambda p, a, i: shot(p, "C-COUNT").update(figures=[], text=["wards"]),
                                            {"card-kind"}),
     "a quote card not drawn as a quote": (lambda p, a, i: shot(p, "C-QUOTE").pop("quote"), {"card-kind"}),
-    "a quote card in a full package": (lambda p, a, i: part(p, "p-pkg-2").update(shape="full"), {"card-kind"}),
+    # the rundown made a full package too (30 s cleared), so only the card rule speaks
+    "a quote card in a full package": (lambda p, a, i: (part(p, "p-pkg-2").update(shape="full"),
+                                                        story(i, "package_2").update(shape="full", footage_cleared_s=30.0)),
+                                       {"card-kind"}),
+    # -- shape-from-rundown (ticket 2): the part's shape is the rundown story's -------------------------------------
+    "a full package for a document story": (lambda p, a, i: story(i, "package_3").update(shape="document",
+                                                                                         footage_cleared_s=12.0),
+                                            {"shape-from-rundown"}),
+    "a document package the rundown made full": (lambda p, a, i: part(p, "p-pkg-3").update(shape="document"),
+                                                 {"shape-from-rundown"}),
+    "a package part with no rundown story": (lambda p, a, i: i["rundown"].update(
+        stories=[s for s in i["rundown"]["stories"] if s["slot"] != "package_4"]), {"shape-from-rundown"}),
+    "a v2 screenplay over a rundown/1": (lambda p, a, i: i["rundown"].update(schema="omnibus.rundown/1"),
+                                         {"shape-from-rundown"}),
     "a blank count card": (lambda p, a, i: shot(p, "C-COUNT").update(text=[" "]), {"card-kind"}),   # black-share misses it
     "a quote card with no words": (lambda p, a, i: shot(p, "C-QUOTE").update(text=[]), {"card-kind"}),
     "the ident card in a package": (lambda p, a, i: shot(p, "C-COUNT").update(card="lockup", figures=[], text=[]),
@@ -397,9 +410,16 @@ FAIL = {
 
 WARN = {
     "two packages": (_pop_part("p-pkg-4"), {"package-count"}),
-    "five packages": (lambda p, a, i: [p["parts"].insert(7, dict(copy.deepcopy(part(p, "p-pkg-4")), id=f"p-pkg-{k}"))
+    "five packages": (lambda p, a, i: [(p["parts"].insert(7, dict(copy.deepcopy(part(p, "p-pkg-4")), id=f"p-pkg-{k}")),
+                                        i["rundown"]["stories"].append(dict(copy.deepcopy(story(i, "package_4")),
+                                                                            slot=f"package_{k}", rank=k)))
                                        for k in (5, 6)], {"package-count"}),
 }
+
+
+def story(inputs: dict, slot: str) -> dict:
+    """The rundown story in a slot (the fixture's inputs)."""
+    return next(s for s in inputs["rundown"]["stories"] if s["slot"] == slot)
 
 
 def failing(name: str, table=None):

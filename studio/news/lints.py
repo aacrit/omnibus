@@ -1428,7 +1428,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     return out + deferred_checks()
 
 
-RULES = ("show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
+RULES = (RS.RULE, "show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
          "part-shape", "graphic-schema", "alteration-marked", "sound-role", "card-kind", "line-schema",
          "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION,
          FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",

@@ -8,11 +8,15 @@ the ledger never cleared, and the reverse hides cleared footage the rank is owed
 
 A part names its story by its place in the spine: the ``lead`` part is the rundown's ``lead`` slot, and the k-th
 ``package`` part, in screenplay order, is ``package_{k+1}``. A part with no ``shape`` reads as ``full``, as the
-schema's card rule reads it (studio/news/schema.py). A v1 rundown (issue 33, frozen) has no shapes and is not
-checked. Pure: the rundown comes from the inputs ``lints.load_inputs`` reads.
+schema's card rule reads it (studio/news/schema.py). A v2 screenplay with lead or package parts and no rundown/2
+blocks. Two cases are left to the rule that owns them: a shape that is not one (``part-shape``) and a second lead
+(``segment-spine``). The frozen issue 33 (v1 spine, rundown/1) is not checked. Pure: the rundown comes from the
+inputs ``lints.load_inputs`` reads.
 """
 
 from __future__ import annotations
+
+from studio.news import schema as SC
 
 RULE = "shape-from-rundown"
 RUNDOWN_V2 = "omnibus.rundown/2"
@@ -25,11 +29,13 @@ def _check(ok, *, unit, evidence) -> dict:
 
 
 def slots(play: dict) -> list[tuple[dict, str]]:
-    """Each lead or package part with the rundown slot it plays, in screenplay order."""
-    out, k = [], 0
+    """Each lead or package part with the rundown slot it plays, in screenplay order (one lead: shape_checks refuses
+    to guess slots when there are two, which segment-spine blocks)."""
+    out, k, lead = [], 0, False
     for p in play.get("parts") or []:
         seg = p.get("segment") if isinstance(p, dict) else None
-        if seg == "lead":
+        if seg == "lead" and not lead:
+            lead = True
             out.append((p, "lead"))
         elif seg == "package":
             k += 1
@@ -38,14 +44,28 @@ def slots(play: dict) -> list[tuple[dict, str]]:
 
 
 def shape_checks(play: dict, inputs: dict) -> list[dict]:
+    if SC.spine(play) is SC.V1:
+        return []                                  # issue 33, frozen: its rundown/1 has no shapes
+    if sum(1 for p in play.get("parts") or [] if isinstance(p, dict) and p.get("segment") == "lead") > 1:
+        return []                                  # two leads: no part's slot is known, and segment-spine blocks it
+    parts = slots(play)
     rundown = (inputs or {}).get("rundown")
     if not isinstance(rundown, dict) or rundown.get("schema") != RUNDOWN_V2:
-        return []
+        # A v2 screenplay's shapes come only from a rundown/2: without one there is nothing to check them against,
+        # so a shaped part blocks (never a silent pass).
+        if not parts:
+            return []
+        return [_check(False, unit="news.rundown", evidence={
+            "schema": rundown.get("schema") if isinstance(rundown, dict) else None,
+            "why": f"the screenplay has lead or package parts but its rundown is not {RUNDOWN_V2}",
+            "fix": "news.rundown names the episode's rundown.json, written by scripts/normalise-rundown.mjs"})]
     by_slot = {s.get("slot"): s for s in rundown.get("stories") or [] if isinstance(s, dict)}
     out = []
-    for part, slot in slots(play):
-        story = by_slot.get(slot)
+    for part, slot in parts:
         shape = part.get("shape", "full")
+        if shape not in SC.PART_SHAPES:
+            continue                               # not a shape at all: part-shape blocks it, by its own rule
+        story = by_slot.get(slot)
         unit = f"part {part.get('id')}"
         if story is None:
             out.append(_check(False, unit=unit, evidence={
