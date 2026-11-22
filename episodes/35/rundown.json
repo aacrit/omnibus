@@ -24,7 +24,7 @@
   "inputs": {
     "edit": {
       "path": "episodes/35/rundown-edit.json",
-      "sha256": "1a0dfb6a2d6c1d40034af0bb863189d81a68a7aca543c404e6d803b9c241d1e8"
+      "sha256": "976b78509226ee7a230b72ad41d6e0028b39e0550ca753acc4a6244b90064552"
     },
     "rights_ledger": {
       "path": "episodes/35/rights-ledger.json",
@@ -170,8 +170,8 @@
   "stories": [
     {
       "key": "ukraine-bridges-strikes",
-      "slug": null,
-      "place": null,
+      "slug": "THE BRIDGE IS STRUCK THREE TIMES",
+      "place": "KERCH",
       "cluster_ids": [
         "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
         "1711ed61-dd08-4645-b80f-41798480158b",
@@ -209,8 +209,18 @@
         "total_divergence": 214.09
       },
       "desk_title": "Ukrainian Strikes Collapse Crimean Bridge Arch and Halt Kerch Strait Traffic",
-      "parties": [],
-      "entities": [],
+      "parties": [
+        "Ukraine",
+        "Russia",
+        "Poland"
+      ],
+      "entities": [
+        "Security Service of Ukraine",
+        "Office of the President of Ukraine",
+        "General Staff of the Armed Forces of Ukraine",
+        "Ministry of Transport of the Russian Federation",
+        "Government of Poland"
+      ],
       "primary_sources": [
         {
           "id": "doc-ua-ssu-kerch",
@@ -252,13 +262,15 @@
         "unconfirmed": [],
         "no_duration": []
       },
-      "mechanisms": [],
+      "mechanisms": [
+        "leaders-meet-in-person"
+      ],
       "coi": false
     },
     {
       "key": "uk-eu-reset",
-      "slug": null,
-      "place": null,
+      "slug": "THE UK AND EU SIGN THREE DEALS",
+      "place": "BRUSSELS",
       "cluster_ids": [
         "14607933-69a3-4c79-9392-193d1e178006",
         "3f219792-786d-4e1a-889c-f2450b9492c6",
@@ -295,8 +307,16 @@
         "total_divergence": 196.23
       },
       "desk_title": "Prime Minister Andy Burnham Agrees to Trade and Youth Mobility Deals With European Union Leaders",
-      "parties": [],
-      "entities": [],
+      "parties": [
+        "Government of the United Kingdom",
+        "European Union",
+        "Reform UK",
+        "Conservative Party"
+      ],
+      "entities": [
+        "European Council",
+        "European Commission"
+      ],
       "primary_sources": [
         {
           "id": "doc-uk-burnham-speech",
@@ -327,8 +347,8 @@
     },
     {
       "key": "gulf-us-iran",
-      "slug": null,
-      "place": null,
+      "slug": "QESHM IS STRUCK, DRONES AT BASES",
+      "place": "THE GULF",
       "cluster_ids": [
         "1419ceed-ffc1-4072-b96e-b509ab776fe5",
         "7071d64f-5ee0-489b-b523-74a35da24439",
@@ -365,8 +385,18 @@
         "total_divergence": 188.96
       },
       "desk_title": "Gulf Nations Intercept Aerial Attacks Following US Strikes on Qeshm Island",
-      "parties": [],
-      "entities": [],
+      "parties": [
+        "United States",
+        "Iran"
+      ],
+      "entities": [
+        "US Central Command",
+        "Islamic Republic of Iran Army",
+        "Kuwait",
+        "Bahrain",
+        "Oman",
+        "ADNOC L&S"
+      ],
       "primary_sources": [
         {
           "id": "doc-centcom-qeshm",
@@ -397,8 +427,8 @@
     },
     {
       "key": "shenzhen-summit",
-      "slug": null,
-      "place": null,
+      "slug": "THREE LEADERS SIGN A DECLARATION",
+      "place": "SHENZHEN",
       "cluster_ids": [
         "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
         "36cb8fdf-4b45-45d5-b644-a8146347d96c",
@@ -432,8 +462,15 @@
         "total_divergence": 140.52
       },
       "desk_title": "Trump, Xi, and Putin Issue Peace Declaration After Historic Trilateral Summit",
-      "parties": [],
-      "entities": [],
+      "parties": [
+        "United States",
+        "Russia",
+        "China"
+      ],
+      "entities": [
+        "The White House",
+        "The Kremlin"
+      ],
       "primary_sources": [
         {
           "id": "doc-us-ru-cn-declaration",
@@ -441,7 +478,23 @@
           "issuer": "The White House",
           "date": "2026-11-19",
           "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
-          "status": "fetched as a document (US federal, public domain)"
+          "status": "fetched as a document (US federal, public domain)",
+          "extracts": [
+            {
+              "point": 3,
+              "quote": "The three heads of state recognized that the principle of state consent and respect for immunities of State officials are of paramount importance, and concurred that the International Criminal Court and other similar bodies must not abuse their jurisdiction.",
+              "quote_sha256": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
+              "date": "2026-11-19",
+              "read_from": "D:/omnibus-media/35/e35-p4-declaration.html (ledger e35-p4-declaration, sha256 d13d2be3...), list item 3, tags stripped"
+            },
+            {
+              "point": 4,
+              "quote": "The three heads of state reaffirmed that a nuclear war cannot be won and must never be fought. The three countries will conduct a dialogue on reducing nuclear risks and preventing the proliferation of nuclear weapons.",
+              "quote_sha256": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
+              "date": "2026-11-19",
+              "read_from": "the same page, list item 4, tags stripped"
+            }
+          ]
         },
         {
           "id": "doc-kremlin-declaration",
@@ -468,13 +521,15 @@
         "unconfirmed": [],
         "no_duration": []
       },
-      "mechanisms": [],
+      "mechanisms": [
+        "leaders-meet-in-person"
+      ],
       "coi": false
     },
     {
       "key": "thread-ec790a82",
-      "slug": null,
-      "place": null,
+      "slug": "COURT FINDS GENOCIDE IN MYANMAR",
+      "place": "THE HAGUE",
       "cluster_ids": [
         "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
         "bdde5310-3569-485a-b3df-5fc6f3bbf3c1",
@@ -502,8 +557,13 @@
         "total_divergence": 88.62
       },
       "desk_title": "International Court of Justice Rules Myanmar Committed Genocide Against Rohingya",
-      "parties": [],
-      "entities": [],
+      "parties": [
+        "The Gambia",
+        "Myanmar"
+      ],
+      "entities": [
+        "International Court of Justice"
+      ],
       "primary_sources": [
         {
           "id": "doc-icj-gambia-myanmar-judgment",
@@ -542,8 +602,8 @@
     },
     {
       "key": "thread-a3e1e3ef",
-      "slug": null,
-      "place": null,
+      "slug": "MISSILES ARE STOPPED OVER RIYADH",
+      "place": "RIYADH",
       "cluster_ids": [
         "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
         "cee27d6b-ee40-4304-9764-3fc92e756b6e"
@@ -584,8 +644,8 @@
     },
     {
       "key": "thread-833e5c6b",
-      "slug": null,
-      "place": null,
+      "slug": "ROUTERS UNDER EXAMINATION",
+      "place": "WASHINGTON",
       "cluster_ids": [
         "3ab138f6-82a2-4b40-9f7d-df581e21083d",
         "3c9b15d3-00f6-4e5c-b92d-6802aea8934e"
@@ -626,8 +686,8 @@
     },
     {
       "key": "thread-149f229b",
-      "slug": null,
-      "place": null,
+      "slug": "A UNITED OUTAGE HOLDS FLIGHTS",
+      "place": "CHICAGO",
       "cluster_ids": [
         "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
         "676bb7d7-85cb-4d3f-9251-d9332cea49eb"
@@ -668,8 +728,8 @@
     },
     {
       "key": "thread-b1206893",
-      "slug": null,
-      "place": null,
+      "slug": "THE CYBER DIRECTOR IS REMOVED",
+      "place": "WASHINGTON",
       "cluster_ids": [
         "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
         "bc0e12ac-c8ea-4a79-b469-71df24fe3a1c"
@@ -719,8 +779,8 @@
     },
     {
       "key": "thread-3d743169",
-      "slug": null,
-      "place": null,
+      "slug": "A POLICE UNIT IS DISBANDED",
+      "place": "NEW YORK",
       "cluster_ids": [
         "89091251-470b-4d03-baf1-2c15bb4e9b02",
         "ee8ca440-cf69-43a5-a306-be0900eeefc7"
@@ -761,8 +821,8 @@
     },
     {
       "key": "canada-china-tariffs",
-      "slug": null,
-      "place": null,
+      "slug": "CANADA AND CHINA CUT TARIFFS",
+      "place": "SHENZHEN",
       "cluster_ids": [
         "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
         "e70e2747-67a6-45fb-8444-8d0b8449e436"
@@ -803,8 +863,8 @@
     },
     {
       "key": "greenland-security-deal",
-      "slug": null,
-      "place": null,
+      "slug": "DENMARK APPROVES THE ACCORD",
+      "place": "COPENHAGEN",
       "cluster_ids": [
         "991593d2-fb9b-4d1e-abf9-8a161bf49609",
         "e0993e3e-23ff-4eb5-8be9-910bf3978b08"
@@ -845,8 +905,8 @@
     },
     {
       "key": "thread-1c145f33",
-      "slug": null,
-      "place": null,
+      "slug": "A MILITARY ACCORD IS SIGNED",
+      "place": "CARACAS",
       "cluster_ids": [
         "44ece519-a5cb-420c-8daf-56602dbfa816",
         "e247da23-21af-4552-a68a-ccb99266c2b3"
@@ -892,8 +952,8 @@
     },
     {
       "key": "thread-3c336fd7",
-      "slug": null,
-      "place": null,
+      "slug": "A REVIEW OF AN AUTOPSY",
+      "place": "LONDON",
       "cluster_ids": [
         "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76",
         "c84982b2-9766-4da6-bf52-4aeab7c6897d"
@@ -934,8 +994,8 @@
     },
     {
       "key": "thread-1a2c9331",
-      "slug": null,
-      "place": null,
+      "slug": "THE KNESSET ELECTS A SPEAKER",
+      "place": "JERUSALEM",
       "cluster_ids": [
         "29c43c1b-cde2-445f-afc5-2e3734d93c9b",
         "c2c750dc-af94-48fd-a1aa-2e3ca611d656"
@@ -2214,7 +2274,34 @@
     "gulf-us-iran",
     "shenzhen-summit"
   ],
-  "echo": null,
+  "echo": {
+    "id": "yalta-conference-1945",
+    "bank_commit": "e635665870796d6a37061be47f850260894f5565",
+    "bank_tag": "echo-bank/2026-11-21",
+    "picked_at": "2026-11-22T06:00:00Z",
+    "top3": [
+      {
+        "id": "yalta-conference-1945",
+        "score": 1,
+        "tiebreak": 3
+      },
+      {
+        "id": "potsdam-conference-1945",
+        "score": 1,
+        "tiebreak": 1
+      },
+      {
+        "id": "helsinki-final-act-1975",
+        "score": 1,
+        "tiebreak": 0
+      }
+    ],
+    "reason": "The lead's one tagged mechanism, the heads of rival great powers meeting in person, is shared by three entries; Yalta breaks the tie on the lead's own conditions: the three met while the war went on, and the decisions concerned a state that was not at the table and said so in its own words.",
+    "bed": "bed-2 (T8b, music director; not yet written)",
+    "advance_pick": false,
+    "late_pick": "Founder ruling, 2026-11-21: issue 35's Echo is picked late and disclosed. The bank entry was committed on 2026-11-21 (tag echo-bank/2026-11-21), after the week opened on 2026-11-16, so echo-advance-pick cannot pass; the sources page and the credits say so.",
+    "record": "episodes/35/echo-pick.json"
+  },
   "briefs_order": [
     "thread-a3e1e3ef",
     "thread-833e5c6b",

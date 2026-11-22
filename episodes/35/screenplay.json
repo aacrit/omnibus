@@ -1,0 +1,3128 @@
+{
+  "title": "void omnibus, issue 35",
+  "slug": "issue-35",
+  "show": "omnibus",
+  "issue": 35,
+  "as_of": "2026-11-21T14:17:37Z",
+  "languages": {
+    "spoken": "en",
+    "subtitles": [
+      "en"
+    ]
+  },
+  "share_alike": {
+    "decision": "docs/DECISIONS.md 2026-11-11: G1 greenlight approved (docs/decisions/2026-11-11-g1-greenlight-approved.md: the episode is CC BY-SA 4.0 by founder ruling)"
+  },
+  "runtime_target_s": 778,
+  "settings": {
+    "master_fps": 30
+  },
+  "news": {
+    "week": "week.json",
+    "rundown": "rundown.json",
+    "echo_pick": "echo-pick.json",
+    "edition": {
+      "issue": 35,
+      "cutoff_utc": "2026-11-21T14:17:37Z",
+      "archive_commit": "b8dcf8752b2ddbb903c3e9a0ed05f29d3a98d82c"
+    },
+    "clusters": [
+      {
+        "id": "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "1711ed61-dd08-4645-b80f-41798480158b",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "1c44ffc9-65a3-4b64-91df-3a6b96c5c758",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "277d5dcf-824e-4900-990d-a87ef07172d2",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "672e3dce-f779-4d60-8643-867de16ae26c",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "a20dee58-b05f-45e6-81eb-ff767ae64a10",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "a6a8ae52-5e2f-4a70-8b14-baf9262d8cab",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "fc265ec6-9d0f-4bc9-b91c-90aaa66bc2a7",
+        "rank": 1,
+        "weight": 0.890378,
+        "slot": "lead"
+      },
+      {
+        "id": "14607933-69a3-4c79-9392-193d1e178006",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "3f219792-786d-4e1a-889c-f2450b9492c6",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "5b086856-d4b3-4f71-89a4-06fad19bc1a7",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "8a5319e4-ae72-4b2f-82f5-9e469ab1af57",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "9482dab6-bcd0-4d53-bfbd-19fca2f08b7a",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "d0b7be12-2491-4c23-938a-fdecb438db8d",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "d3ceb398-3e3e-41d0-8f93-6d75ddd27966",
+        "rank": 2,
+        "weight": 0.805544,
+        "slot": "package_2"
+      },
+      {
+        "id": "1419ceed-ffc1-4072-b96e-b509ab776fe5",
+        "rank": 3,
+        "weight": 0.799603,
+        "slot": "package_3"
+      },
+      {
+        "id": "7071d64f-5ee0-489b-b523-74a35da24439",
+        "rank": 3,
+        "weight": 0.799603,
+        "slot": "package_3"
+      },
+      {
+        "id": "add77fbf-bfcf-4f59-a9e0-53bd230b985a",
+        "rank": 3,
+        "weight": 0.799603,
+        "slot": "package_3"
+      },
+      {
+        "id": "b4b4b822-93cb-4e70-b767-d9808707117a",
+        "rank": 3,
+        "weight": 0.799603,
+        "slot": "package_3"
+      },
+      {
+        "id": "b6e83412-c448-4ec2-9463-b376e53e3ace",
+        "rank": 3,
+        "weight": 0.799603,
+        "slot": "package_3"
+      },
+      {
+        "id": "db0bd3d6-c29f-4db1-b587-296a66e1919d",
+        "rank": 3,
+        "weight": 0.799603,
+        "slot": "package_3"
+      },
+      {
+        "id": "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
+        "rank": 4,
+        "weight": 0.700861,
+        "slot": "package_4"
+      },
+      {
+        "id": "36cb8fdf-4b45-45d5-b644-a8146347d96c",
+        "rank": 4,
+        "weight": 0.700861,
+        "slot": "package_4"
+      },
+      {
+        "id": "46f3452c-439e-4e1e-9113-64c95c5d1ee7",
+        "rank": 4,
+        "weight": 0.700861,
+        "slot": "package_4"
+      },
+      {
+        "id": "662a8e1c-bfc0-4b5b-b16a-815b395cb73b",
+        "rank": 4,
+        "weight": 0.700861,
+        "slot": "package_4"
+      },
+      {
+        "id": "7523e65f-d1bf-42f8-8170-e30c70b4b70d",
+        "rank": 4,
+        "weight": 0.700861,
+        "slot": "package_4"
+      },
+      {
+        "id": "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
+        "rank": 5,
+        "weight": 0.600218,
+        "slot": "package_5"
+      },
+      {
+        "id": "bdde5310-3569-485a-b3df-5fc6f3bbf3c1",
+        "rank": 5,
+        "weight": 0.600218,
+        "slot": "package_5"
+      },
+      {
+        "id": "df975185-f5e5-40bd-8a57-0bf1c89f9b8a",
+        "rank": 5,
+        "weight": 0.600218,
+        "slot": "package_5"
+      },
+      {
+        "id": "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
+        "rank": 6,
+        "weight": 0.475498,
+        "slot": "brief_1"
+      },
+      {
+        "id": "cee27d6b-ee40-4304-9764-3fc92e756b6e",
+        "rank": 6,
+        "weight": 0.475498,
+        "slot": "brief_1"
+      },
+      {
+        "id": "3ab138f6-82a2-4b40-9f7d-df581e21083d",
+        "rank": 7,
+        "weight": 0.462592,
+        "slot": "brief_2"
+      },
+      {
+        "id": "3c9b15d3-00f6-4e5c-b92d-6802aea8934e",
+        "rank": 7,
+        "weight": 0.462592,
+        "slot": "brief_2"
+      },
+      {
+        "id": "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
+        "rank": 8,
+        "weight": 0.453874,
+        "slot": "brief_3"
+      },
+      {
+        "id": "676bb7d7-85cb-4d3f-9251-d9332cea49eb",
+        "rank": 8,
+        "weight": 0.453874,
+        "slot": "brief_3"
+      },
+      {
+        "id": "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
+        "rank": 9,
+        "weight": 0.429921,
+        "slot": "brief_4"
+      },
+      {
+        "id": "bc0e12ac-c8ea-4a79-b469-71df24fe3a1c",
+        "rank": 9,
+        "weight": 0.429921,
+        "slot": "brief_4"
+      },
+      {
+        "id": "89091251-470b-4d03-baf1-2c15bb4e9b02",
+        "rank": 10,
+        "weight": 0.42713,
+        "slot": "brief_5"
+      },
+      {
+        "id": "ee8ca440-cf69-43a5-a306-be0900eeefc7",
+        "rank": 10,
+        "weight": 0.42713,
+        "slot": "brief_5"
+      },
+      {
+        "id": "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
+        "rank": 11,
+        "weight": 0.423048,
+        "slot": "brief_6"
+      },
+      {
+        "id": "e70e2747-67a6-45fb-8444-8d0b8449e436",
+        "rank": 11,
+        "weight": 0.423048,
+        "slot": "brief_6"
+      },
+      {
+        "id": "991593d2-fb9b-4d1e-abf9-8a161bf49609",
+        "rank": 12,
+        "weight": 0.419722,
+        "slot": "brief_7"
+      },
+      {
+        "id": "e0993e3e-23ff-4eb5-8be9-910bf3978b08",
+        "rank": 12,
+        "weight": 0.419722,
+        "slot": "brief_7"
+      },
+      {
+        "id": "44ece519-a5cb-420c-8daf-56602dbfa816",
+        "rank": 13,
+        "weight": 0.414627,
+        "slot": "brief_8"
+      },
+      {
+        "id": "e247da23-21af-4552-a68a-ccb99266c2b3",
+        "rank": 13,
+        "weight": 0.414627,
+        "slot": "brief_8"
+      },
+      {
+        "id": "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76",
+        "rank": 14,
+        "weight": 0.41429,
+        "slot": "brief_9"
+      },
+      {
+        "id": "c84982b2-9766-4da6-bf52-4aeab7c6897d",
+        "rank": 14,
+        "weight": 0.41429,
+        "slot": "brief_9"
+      },
+      {
+        "id": "29c43c1b-cde2-445f-afc5-2e3734d93c9b",
+        "rank": 15,
+        "weight": 0.412643,
+        "slot": "brief_10"
+      },
+      {
+        "id": "c2c750dc-af94-48fd-a1aa-2e3ca611d656",
+        "rank": 15,
+        "weight": 0.412643,
+        "slot": "brief_10"
+      }
+    ],
+    "desk_credit": "Research desk: void news",
+    "coi": false
+  },
+  "ledgers": {
+    "rights": {
+      "path": "rights-ledger.json",
+      "media": "D:/omnibus-media/35"
+    },
+    "graphics": {
+      "path": "graphics-plan.json",
+      "media": "D:/omnibus-media/35/graphics"
+    }
+  },
+  "requests": "screenplay-requests.json",
+  "cast": {
+    "speakers": [
+      {
+        "id": "sp-declaration",
+        "name": "Donald J. Trump, Vladimir Putin and Xi Jinping",
+        "role": "the heads of state's joint declaration, 19 Nov 2026, as the White House published it"
+      },
+      {
+        "id": "sp-polish-govt",
+        "name": "The Polish Government in London",
+        "role": "statement communicated by Ambassador J. Ciechanowski, 15 February 1945"
+      },
+      {
+        "id": "sp-churchill",
+        "name": "Winston S. Churchill",
+        "role": "Prime Minister of the United Kingdom, 1945"
+      },
+      {
+        "id": "sp-fdr",
+        "name": "Franklin D. Roosevelt",
+        "role": "President of the United States, 1945"
+      }
+    ],
+    "voices": [
+      {
+        "id": "v-narrator",
+        "engine": "kokoro",
+        "voice": "af_aoede",
+        "speed": 0.88,
+        "credit": "Narrated by a synthesised voice, Kokoro af_aoede",
+        "dot_label": "synthesised voice"
+      },
+      {
+        "id": "v-narrator-echo",
+        "engine": "kokoro",
+        "voice": "af_aoede",
+        "speed": 0.84,
+        "credit": "Narrated by a synthesised voice, Kokoro af_aoede",
+        "dot_label": "synthesised voice"
+      },
+      {
+        "id": "v-reader",
+        "engine": "kokoro",
+        "voice": "am_michael",
+        "speed": 0.86,
+        "credit": "Documents read by a computer voice, Kokoro am_michael",
+        "dot_label": "computer voice"
+      }
+    ]
+  },
+  "moments": [
+    {
+      "id": "M-ROOM",
+      "start_s": 746.19,
+      "end_s": 748.19,
+      "silence": "intended",
+      "reason": "Two seconds of room tone after the Echo's written ending, before the hard cut to the ident."
+    }
+  ],
+  "parts": [
+    {
+      "id": "p-clock",
+      "kind": "chapter",
+      "segment": "clock",
+      "title": "Clock",
+      "shots": [
+        {
+          "id": "G-CLOCK",
+          "kind": "graphic",
+          "start_s": 0.0,
+          "dur_s": 6.0,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "clock",
+          "asset": "g-clock",
+          "mark": "DRAWN",
+          "data_ref": "as_of",
+          "shows": {
+            "lines": [
+              "MONDAY 21:00 UTC"
+            ]
+          },
+          "why": "The sweep to airtime. The sting lands at zero."
+        }
+      ],
+      "cues": [
+        {
+          "id": "M-STING-CLOCK",
+          "kind": "music",
+          "role": "sting",
+          "source": "the sting (bible j)",
+          "start_s": 5.7,
+          "end_s": 6.0
+        }
+      ]
+    },
+    {
+      "id": "p-tease",
+      "kind": "chapter",
+      "segment": "tease",
+      "title": "Tease",
+      "shots": [
+        {
+          "id": "S-TEASE-1",
+          "kind": "graphic",
+          "start_s": 6.0,
+          "dur_s": 8.25,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-tease-kerch",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KERCH STRAIT",
+              "CRIMEA"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-lead-ssu-video",
+            "awaits": "pending_t5: the SSU's Kerch strike video (Commons, CC BY 4.0, RELEASED BY THE SECURITY SERVICE OF UKRAINE), its best frame with its own sound up for 1 s",
+            "now": "the locator, Kerch Strait",
+            "pending_t5": true
+          },
+          "why": "Beat 1, the lead. The only cleared picture of the bridge is the map until ticket 5 lands."
+        },
+        {
+          "id": "S-TEASE-2",
+          "kind": "graphic",
+          "start_s": 14.25,
+          "dur_s": 7.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-tease-brussels",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "BRUSSELS"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-p2-govuk-summit",
+            "awaits": "pending_t5: gov.uk photographs or video of the Brussels summit, 20 Nov (Crown copyright, OGL v3)",
+            "now": "the locator, Brussels",
+            "pending_t5": true
+          },
+          "why": "Beat 2, package 2."
+        },
+        {
+          "id": "S-TEASE-3",
+          "kind": "archive_still",
+          "start_s": 22.1,
+          "dur_s": 7.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p3-carrier",
+          "mark": "ARCHIVE",
+          "preset": "DRIFT",
+          "dot_label": "RELEASED BY THE DEPARTMENT OF WAR",
+          "why": "Beat 3, package 3: the carrier the line names, US Naval Forces Central Command's own photograph (DVIDS, PD)."
+        },
+        {
+          "id": "S-TEASE-4",
+          "kind": "archive_video",
+          "start_s": 29.95,
+          "dur_s": 9.15,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p4-arrival",
+          "in_s": 45.0,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "nat",
+            "translation": "none"
+          },
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "why": "Beat 4, package 4: the arrival at Air Force One's door, its own sound up for 1.2 s; the package opens on the same frame.",
+          "out_s": 54.15
+        }
+      ],
+      "lines": [
+        {
+          "id": "L001",
+          "kind": "vo",
+          "dur_s": 6.65,
+          "read_by": "v-narrator",
+          "text": "The Kerch Strait. In one week, the bridge from Russia into Crimea was struck three times.",
+          "sources": [
+            {
+              "cluster": "672e3dce",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "a6a8ae52",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 7.0
+        },
+        {
+          "id": "L002",
+          "kind": "vo",
+          "dur_s": 6.25,
+          "read_by": "v-narrator",
+          "text": "Brussels. Britain and the European Union signed agreements on food, carbon trading and youth mobility.",
+          "sources": [
+            {
+              "cluster": "3f219792",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "5b086856",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 15.25
+        },
+        {
+          "id": "L003",
+          "kind": "vo",
+          "dur_s": 6.25,
+          "read_by": "v-narrator",
+          "text": "The Gulf. A third American aircraft carrier arrived, and American and Iranian forces exchanged strikes.",
+          "sources": [
+            {
+              "cluster": "add77fbf",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "b4b4b822",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 23.1
+        },
+        {
+          "id": "L004",
+          "kind": "vo",
+          "dur_s": 7.45,
+          "read_by": "v-narrator",
+          "text": "Shenzhen. President Trump arrived for the first meeting of the leaders of the United States, Russia and China.",
+          "sources": [
+            {
+              "cluster": "662a8e1c",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "46f3452c",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 31.15
+        }
+      ],
+      "text": [
+        {
+          "id": "T-STRIP-1",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-strip-1",
+          "start_s": 6.0,
+          "end_s": 14.25,
+          "shows": {
+            "lines": [
+              "KERCH STRAIT · TUE 17 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-STRIP-2",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-strip-2",
+          "start_s": 14.25,
+          "end_s": 22.1,
+          "shows": {
+            "lines": [
+              "BRUSSELS · FRI 20 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-STRIP-3",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-strip-3",
+          "start_s": 22.1,
+          "end_s": 29.95,
+          "shows": {
+            "lines": [
+              "MIDDLE EAST · TUE 17 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-STRIP-4",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-strip-4",
+          "start_s": 29.95,
+          "end_s": 39.1,
+          "shows": {
+            "lines": [
+              "SHENZHEN · WED 18 NOV"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p-title",
+      "kind": "chapter",
+      "segment": "title",
+      "title": "Title",
+      "shots": [
+        {
+          "id": "T-MACRO",
+          "kind": "drawn",
+          "start_s": 39.1,
+          "dur_s": 15.4,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "dr-title",
+          "mark": "DRAWN",
+          "shows": {
+            "title_lines": [
+              "1  KERCH      THE BRIDGE IS STRUCK THREE TIMES",
+              "2  BRUSSELS   THE UK AND EU SIGN THREE DEALS",
+              "3  THE GULF   QESHM IS STRUCK, DRONES AT BASES",
+              "4  SHENZHEN   THREE LEADERS SIGN A DECLARATION",
+              "5  THE HAGUE  COURT FINDS GENOCIDE IN MYANMAR",
+              "   AROUND THE WORLD",
+              "   THE ECHO       1945"
+            ],
+            "week_line": "ISSUE 35   16 TO 21 NOV 2026   CLOSED SAT 21 NOV 14:17 UTC"
+          },
+          "why": "The teleprinter prints the programme's own rundown (bible d): S1 to S4, the machine, the rundown, the close, the tear."
+        },
+        {
+          "id": "T-LOCKUP",
+          "kind": "card",
+          "start_s": 54.5,
+          "dur_s": 2.6,
+          "transition_in": {
+            "type": "cut"
+          },
+          "mark": "CARD",
+          "card": "lockup",
+          "text": [],
+          "why": "S5, the ident card with the week line; the sting on the cut."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L005",
+          "kind": "signon",
+          "dur_s": 5.05,
+          "read_by": "v-narrator",
+          "text": "This is void omnibus. The week of sixteen November, on the record.",
+          "start_s": 54.75
+        }
+      ],
+      "cues": [
+        {
+          "id": "M-THEME",
+          "kind": "music",
+          "role": "house_motif",
+          "source": "the wire (theme, 18 s, bible d)",
+          "start_s": 39.1,
+          "end_s": 57.1
+        },
+        {
+          "id": "M-STING-LOCKUP",
+          "kind": "music",
+          "role": "sting",
+          "source": "the sting (bible j)",
+          "start_s": 54.5,
+          "end_s": 55.0
+        }
+      ],
+      "note": "The sign-on runs past the lockup into the lead's slate (bible d), which is silent: room tone only."
+    },
+    {
+      "id": "p-lead",
+      "kind": "chapter",
+      "segment": "lead",
+      "title": "Lead: Kerch and Kyiv",
+      "shape": "document",
+      "story": "ukraine-bridges-strikes",
+      "shots": [
+        {
+          "id": "S-LEAD-1",
+          "kind": "graphic",
+          "start_s": 57.1,
+          "dur_s": 14.15,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-kerch-1",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KERCH STRAIT",
+              "CRIMEA"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-lead-ssu-video",
+            "awaits": "pending_t5: the SSU's Kerch video (34.4 s, CC BY 4.0, RELEASED BY THE SECURITY SERVICE OF UKRAINE): its first frame with nat full under the slate, then the strike under the narrator",
+            "now": "the locator, Kerch Strait, pushed 1.0 to 2.5 s",
+            "pending_t5": true
+          },
+          "why": "Slate on the locator (document package, bible e); the slate holds 2.5 s on room tone."
+        },
+        {
+          "id": "S-LEAD-2",
+          "kind": "graphic",
+          "start_s": 71.25,
+          "dur_s": 14.05,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-kerch-2",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KERCH STRAIT"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-lead-ssu-stills",
+            "awaits": "pending_t5: KerchBridgeCollapse.jpg (Commons, CC BY 4.0, SSU, RELEASED BY THE SECURITY SERVICE OF UKRAINE); the Office of the President's statement of 17 Nov as a typeset page, read",
+            "now": "the locator, Kerch Strait, a closer push",
+            "pending_t5": true
+          },
+          "requests": [
+            "t9b-lead-zelenskyy-read"
+          ],
+          "why": "Ukraine in its president's words, attributed until ticket 5 clears the Office of the President's text."
+        },
+        {
+          "id": "S-LEAD-3",
+          "kind": "graphic",
+          "start_s": 85.3,
+          "dur_s": 21.65,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-kerch-3",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KERCH STRAIT",
+              "CRIMEA"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-lead-sentinel-kerch",
+            "awaits": "dated imagery: Sentinel-2 of the Kerch bridge inside 16 to 21 Nov (Copernicus open licence, labelled with its date), tier 3",
+            "now": "the locator, Kerch Strait"
+          },
+          "requests": [
+            "t9b-lead-kremlin-read"
+          ],
+          "why": "Russia in its president's words, attributed until the Kremlin's English text clears (ticket 5)."
+        },
+        {
+          "id": "S-LEAD-4",
+          "kind": "card",
+          "start_s": 106.95,
+          "dur_s": 9.45,
+          "transition_in": {
+            "type": "cut"
+          },
+          "mark": "CARD",
+          "card": "count",
+          "text": [
+            "MORE THAN 400 DRONES",
+            "MORE THAN 110 MISSILES",
+            "UKRAINE · FRI 20 NOV"
+          ],
+          "figures": [
+            {
+              "value": 400,
+              "field": "facts.ukraine_20nov.drones_more_than"
+            },
+            {
+              "value": 110,
+              "field": "facts.ukraine_20nov.missiles_more_than"
+            }
+          ],
+          "source_date": "2026-11-20",
+          "why": "A count card from the record (tier 4)."
+        },
+        {
+          "id": "S-LEAD-5",
+          "kind": "graphic",
+          "start_s": 116.4,
+          "dur_s": 11.05,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-kyiv",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KYIV",
+              "DNIPRO"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-lead-kyiv-ses",
+            "awaits": "pending_t5 search: SES Ukraine or Kyiv City State Administration footage of 20 Nov on Commons (CC BY 4.0, RELEASED BY <body>), dignity list applied",
+            "now": "the locator, Kyiv",
+            "pending_t5": true
+          },
+          "why": "Kyiv on the map; no cleared picture of the 20 Nov strike existed by the cutoff."
+        },
+        {
+          "id": "S-LEAD-6",
+          "kind": "graphic",
+          "start_s": 127.45,
+          "dur_s": 29.65,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-poland",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "POLAND",
+              "UKRAINE"
+            ]
+          },
+          "requests": [
+            "t9b-lead-poland-read"
+          ],
+          "why": "Poland in its ministers' words, attributed (gov.pl terms unreviewed). Out on the locator held 2 s (document package)."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L006",
+          "kind": "vo",
+          "dur_s": 7.85,
+          "read_by": "v-narrator",
+          "text": "On Monday, Ukraine struck the bridge that carries road and rail across the Kerch Strait, from Russia into Crimea.",
+          "sources": [
+            {
+              "cluster": "a6a8ae52",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "0ea94eb4",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 59.6
+        },
+        {
+          "id": "L007",
+          "kind": "vo",
+          "dur_s": 3.05,
+          "read_by": "v-narrator",
+          "text": "Within twenty-four hours it was struck again.",
+          "sources": [
+            {
+              "cluster": "a6a8ae52",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 67.8
+        },
+        {
+          "id": "L008",
+          "kind": "vo",
+          "dur_s": 7.45,
+          "read_by": "v-narrator",
+          "text": "On Tuesday, Russian authorities closed the crossing to cars and trains alike. They opened an investigation for terrorism.",
+          "sources": [
+            {
+              "cluster": "a6a8ae52",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "fc265ec6",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 71.65
+        },
+        {
+          "id": "L009",
+          "kind": "vo",
+          "dur_s": 5.45,
+          "read_by": "v-narrator",
+          "text": "President Zelenskyy said the operation had used Ukraine's own drones and cruise missiles.",
+          "sources": [
+            {
+              "cluster": "fc265ec6",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Ukraine",
+          "tier": "attributed",
+          "start_s": 79.45
+        },
+        {
+          "id": "L010",
+          "kind": "vo",
+          "dur_s": 13.05,
+          "read_by": "v-narrator",
+          "text": "Early on Thursday it was hit a third time. Ukraine's General Staff said Neptune missiles had damaged the railway track. Russia's Transport Ministry said no one was hurt, and the trains stopped.",
+          "sources": [
+            {
+              "cluster": "672e3dce",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 85.7
+        },
+        {
+          "id": "L011",
+          "kind": "vo",
+          "dur_s": 7.45,
+          "read_by": "v-narrator",
+          "text": "Vladimir Putin said that, after the attacks on the bridge, Russia would hold no ceasefire talks with Ukraine.",
+          "sources": [
+            {
+              "cluster": "672e3dce",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Russia",
+          "tier": "attributed",
+          "start_s": 99.1
+        },
+        {
+          "id": "L012",
+          "kind": "vo",
+          "dur_s": 8.65,
+          "read_by": "v-narrator",
+          "text": "Overnight into Friday, Russian forces launched more than four hundred drones and more than a hundred and ten missiles at Ukraine.",
+          "sources": [
+            {
+              "cluster": "a20dee58",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 107.35
+        },
+        {
+          "id": "L013",
+          "kind": "vo",
+          "dur_s": 10.25,
+          "read_by": "v-narrator",
+          "text": "In Kyiv they struck three bridges over the Dnipro. Ukrainian officials said at least eight people were killed across the country, and about thirty wounded.",
+          "sources": [
+            {
+              "cluster": "a20dee58",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 116.8
+        },
+        {
+          "id": "L014",
+          "kind": "vo",
+          "dur_s": 4.25,
+          "read_by": "v-narrator",
+          "text": "That morning, three objects from the attack crossed into Poland.",
+          "sources": [
+            {
+              "cluster": "1711ed61",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 127.85
+        },
+        {
+          "id": "L015",
+          "kind": "vo",
+          "dur_s": 10.65,
+          "read_by": "v-narrator",
+          "text": "Poland's defence minister, Wladyslaw Kosiniak-Kamysz, said the first was a Kh-101, a cruise missile; the second was probably also a missile; the third, a jet-powered drone.",
+          "sources": [
+            {
+              "cluster": "1711ed61",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Poland",
+          "tier": "attributed",
+          "start_s": 132.45
+        },
+        {
+          "id": "L016",
+          "kind": "vo",
+          "dur_s": 4.25,
+          "read_by": "v-narrator",
+          "text": "The prime minister, Donald Tusk, called it an intentional provocation.",
+          "sources": [
+            {
+              "cluster": "1711ed61",
+              "kind": "divergence, attributed"
+            }
+          ],
+          "party": "Poland",
+          "tier": "attributed",
+          "start_s": 143.45
+        },
+        {
+          "id": "L017",
+          "kind": "vo",
+          "dur_s": 6.65,
+          "read_by": "v-narrator",
+          "text": "No one was hurt where they came down, at Nowy Lipowiec, Rudnik nad Sanem and Molodycz.",
+          "sources": [
+            {
+              "cluster": "1711ed61",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 148.05
+        }
+      ],
+      "text": [
+        {
+          "id": "G-SLATE-LEAD",
+          "kind": "graphic",
+          "subtype": "lower_third",
+          "asset": "g-g-slate-lead",
+          "start_s": 57.1,
+          "end_s": 61.1,
+          "shows": {
+            "lines": [
+              "KERCH STRAIT · MON 16 NOV 2026"
+            ]
+          },
+          "variant": "slate"
+        }
+      ]
+    },
+    {
+      "id": "p-pkg-2",
+      "kind": "chapter",
+      "segment": "package",
+      "title": "Package 2: Britain and the EU",
+      "shape": "document",
+      "story": "uk-eu-reset",
+      "shots": [
+        {
+          "id": "S-P2-1",
+          "kind": "graphic",
+          "start_s": 157.1,
+          "dur_s": 10.75,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-london",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "LONDON"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-p2-govuk-speech",
+            "awaits": "pending_t5: gov.uk video of the Mansion House speech, 16 Nov (OGL v3), as SOT: Burnham's own sentence that Brexit has not worked, 10 to 20 s at sentence bounds, with its transcript",
+            "now": "the locator, London",
+            "pending_t5": true
+          },
+          "why": "Slate on the locator. The speech's own words wait for the gov.uk adapter (OGL v3, ticket 5)."
+        },
+        {
+          "id": "S-P2-2",
+          "kind": "graphic",
+          "start_s": 167.85,
+          "dur_s": 24.05,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-brussels",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "BRUSSELS"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-p2-govuk-summit",
+            "awaits": "pending_t5: gov.uk photographs or video of the summit, 20 Nov (OGL v3), PHOTOGRAPHED or FILMED inside the week",
+            "now": "the locator, Brussels",
+            "pending_t5": true
+          },
+          "requests": [
+            "t9b-p2-agreements-read"
+          ],
+          "why": "The agreements' text waits for gov.uk (OGL) and an allowlisted EU host; until then the facts are the desk's consensus."
+        },
+        {
+          "id": "S-P2-3",
+          "kind": "card",
+          "start_s": 191.9,
+          "dur_s": 11.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "mark": "CARD",
+          "card": "count",
+          "text": [
+            "UP TO 100,000 YOUNG PEOPLE",
+            "UP TO 3 YEARS",
+            "YOUTH EXPERIENCE SCHEME · FRI 20 NOV"
+          ],
+          "figures": [
+            {
+              "value": 100000,
+              "field": "facts.uk_eu_youth.young_people_up_to"
+            },
+            {
+              "value": 3,
+              "field": "facts.uk_eu_youth.years_up_to"
+            }
+          ],
+          "source_date": "2026-11-20",
+          "why": "A count card from the record."
+        },
+        {
+          "id": "S-P2-4",
+          "kind": "graphic",
+          "start_s": 203.75,
+          "dur_s": 15.25,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-brussels-2",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "BRUSSELS",
+              "LONDON"
+            ]
+          },
+          "why": "The one point where the two governments' accounts differ, each attributed."
+        },
+        {
+          "id": "S-P2-5",
+          "kind": "graphic",
+          "start_s": 219.0,
+          "dur_s": 13.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-london-2",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "LONDON"
+            ]
+          },
+          "why": "The opposition, attributed. Out on the locator held 2 s."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L018",
+          "kind": "vo",
+          "dur_s": 7.85,
+          "read_by": "v-narrator",
+          "text": "On Monday, Prime Minister Andy Burnham told the Lord Mayor's Banquet, at Mansion House, that Brexit had not worked.",
+          "sources": [
+            {
+              "cluster": "8a5319e4",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "d0b7be12",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Government of the United Kingdom",
+          "tier": "attributed",
+          "start_s": 159.6
+        },
+        {
+          "id": "L019",
+          "kind": "vo",
+          "dur_s": 11.05,
+          "read_by": "v-narrator",
+          "text": "On Friday in Brussels he met Antonio Costa, president of the European Council, and Ursula von der Leyen, president of the European Commission. They signed three agreements.",
+          "sources": [
+            {
+              "cluster": "3f219792",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 168.25
+        },
+        {
+          "id": "L020",
+          "kind": "vo",
+          "dur_s": 11.85,
+          "read_by": "v-narrator",
+          "text": "Under the first, Britain is to follow specified European food rules, and most checks on its food exports are to be removed. The second linked their carbon trading systems.",
+          "sources": [
+            {
+              "cluster": "d3ceb398",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "5b086856",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 179.65
+        },
+        {
+          "id": "L021",
+          "kind": "vo",
+          "dur_s": 11.05,
+          "read_by": "v-narrator",
+          "text": "Under the third, up to a hundred thousand young people from each side may live and work in the other, each for as long as three years.",
+          "sources": [
+            {
+              "cluster": "5b086856",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "d3ceb398",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 192.3
+        },
+        {
+          "id": "L022",
+          "kind": "vo",
+          "dur_s": 8.65,
+          "read_by": "v-narrator",
+          "text": "European Union governments made final adoption depend on talks, within six months, on lower university fees for European students in Britain.",
+          "sources": [
+            {
+              "cluster": "5b086856",
+              "kind": "consensus"
+            }
+          ],
+          "party": "European Union",
+          "tier": "attributed",
+          "start_s": 204.15
+        },
+        {
+          "id": "L023",
+          "kind": "vo",
+          "dur_s": 5.45,
+          "read_by": "v-narrator",
+          "text": "The foreign secretary, Ed Miliband, said the agreements would take effect either way.",
+          "sources": [
+            {
+              "cluster": "d3ceb398",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Government of the United Kingdom",
+          "tier": "attributed",
+          "start_s": 213.15
+        },
+        {
+          "id": "L024",
+          "kind": "vo",
+          "dur_s": 11.05,
+          "read_by": "v-narrator",
+          "text": "In London, Nigel Farage, the leader of Reform UK, said he would undo the agreements if he came to power. The Conservative leader, Kemi Badenoch, condemned it.",
+          "sources": [
+            {
+              "cluster": "8a5319e4",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "14607933",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Reform UK; Conservative Party",
+          "tier": "attributed",
+          "start_s": 219.4
+        }
+      ],
+      "text": [
+        {
+          "id": "G-SLATE-P2",
+          "kind": "graphic",
+          "subtype": "lower_third",
+          "asset": "g-g-slate-p2",
+          "start_s": 157.1,
+          "end_s": 161.1,
+          "shows": {
+            "lines": [
+              "LONDON · MON 16 NOV 2026"
+            ]
+          },
+          "variant": "slate"
+        }
+      ]
+    },
+    {
+      "id": "p-pkg-3",
+      "kind": "chapter",
+      "segment": "package",
+      "title": "Package 3: the Gulf",
+      "shape": "document",
+      "story": "gulf-us-iran",
+      "shots": [
+        {
+          "id": "S-P3-1",
+          "kind": "graphic",
+          "start_s": 232.85,
+          "dur_s": 18.15,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-hormuz",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "STRAIT OF HORMUZ",
+              "QESHM"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-p3-worldview-qeshm",
+            "awaits": "dated imagery: NASA Worldview or Sentinel-2 of Qeshm inside 16 to 21 Nov (tier 3, labelled with its date)",
+            "now": "the locator, Strait of Hormuz"
+          },
+          "requests": [
+            "t9b-p3-centcom-read",
+            "t9b-p3-iran-mfa-read"
+          ],
+          "why": "Slate on the locator. CENTCOM's release (centcom.mil answered 403) and Iran's foreign ministry statement wait for capture."
+        },
+        {
+          "id": "S-P3-2",
+          "kind": "archive_still",
+          "start_s": 251.0,
+          "dur_s": 9.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p3-carrier",
+          "mark": "ARCHIVE",
+          "preset": "DRIFT",
+          "dot_label": "RELEASED BY THE DEPARTMENT OF WAR",
+          "why": "The carrier, in US Naval Forces Central Command's own photograph of 17 Nov (DVIDS, PD); the United States is a party, so the label says who released it."
+        },
+        {
+          "id": "S-P3-3",
+          "kind": "graphic",
+          "start_s": 260.85,
+          "dur_s": 22.45,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-kuwait-bahrain",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "KUWAIT",
+              "BAHRAIN"
+            ]
+          },
+          "why": "The bases on the map."
+        },
+        {
+          "id": "S-P3-4",
+          "kind": "graphic",
+          "start_s": 283.3,
+          "dur_s": 26.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-musandam",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "STRAIT OF HORMUZ",
+              "OMAN"
+            ]
+          },
+          "why": "The tankers on the map. Out on the locator held 2 s."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L025",
+          "kind": "vo",
+          "dur_s": 7.05,
+          "read_by": "v-narrator",
+          "text": "On Tuesday, American warplanes struck a Revolutionary Guard missile launch site on the Iranian island of Qeshm.",
+          "sources": [
+            {
+              "cluster": "db0bd3d6",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "b4b4b822",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 235.35
+        },
+        {
+          "id": "L026",
+          "kind": "vo",
+          "dur_s": 7.85,
+          "read_by": "v-narrator",
+          "text": "Iran's Hormozgan province, through its deputy governor, Ahmad Nafisi, said the strike had damaged no homes, businesses or infrastructure.",
+          "sources": [
+            {
+              "cluster": "db0bd3d6",
+              "kind": "divergence, attributed"
+            }
+          ],
+          "party": "Iran",
+          "tier": "attributed",
+          "start_s": 242.75
+        },
+        {
+          "id": "L027",
+          "kind": "vo",
+          "dur_s": 9.05,
+          "read_by": "v-narrator",
+          "text": "On Monday, Central Command confirmed that a third American aircraft carrier was in the region, alongside more than fifty thousand American troops.",
+          "sources": [
+            {
+              "cluster": "add77fbf",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "b6e83412",
+              "kind": "consensus"
+            }
+          ],
+          "party": "United States",
+          "tier": "attributed",
+          "start_s": 251.4
+        },
+        {
+          "id": "L028",
+          "kind": "vo",
+          "dur_s": 9.85,
+          "read_by": "v-narrator",
+          "text": "On Wednesday, Iran sent drones at military installations in Kuwait and Bahrain. Iran's army said it had aimed at American air defences in Kuwait.",
+          "sources": [
+            {
+              "cluster": "b4b4b822",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "db0bd3d6",
+              "kind": "summary, attributed"
+            }
+          ],
+          "party": "Iran",
+          "tier": "attributed",
+          "start_s": 261.25
+        },
+        {
+          "id": "L029",
+          "kind": "vo",
+          "dur_s": 11.45,
+          "read_by": "v-narrator",
+          "text": "Both countries said their air defences intercepted the attacks. Central Command said no American personnel were hurt and no equipment was damaged in the first attacks on Bahrain.",
+          "sources": [
+            {
+              "cluster": "b4b4b822",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "db0bd3d6",
+              "kind": "consensus"
+            }
+          ],
+          "party": "United States",
+          "tier": "attributed",
+          "start_s": 271.45
+        },
+        {
+          "id": "L030",
+          "kind": "vo",
+          "dur_s": 13.05,
+          "read_by": "v-narrator",
+          "text": "On Tuesday, off Oman, a projectile struck the Panama-flagged gas tanker Tara Gas. Omani rescuers brought the crew ashore at Khasab; two went to hospital, and one, an Indian national, was missing.",
+          "sources": [
+            {
+              "cluster": "1419ceed",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 283.7
+        },
+        {
+          "id": "L031",
+          "kind": "vo",
+          "dur_s": 10.65,
+          "read_by": "v-narrator",
+          "text": "ADNOC L&S, an Emirati shipping company, said a vessel of its own was hit in the strait, with eleven crew injured and one unaccounted for.",
+          "sources": [
+            {
+              "cluster": "1419ceed",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "b4b4b822",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 297.1
+        }
+      ],
+      "text": [
+        {
+          "id": "G-SLATE-P3",
+          "kind": "graphic",
+          "subtype": "lower_third",
+          "asset": "g-g-slate-p3",
+          "start_s": 232.85,
+          "end_s": 236.85,
+          "shows": {
+            "lines": [
+              "THE GULF · TUE 17 NOV 2026"
+            ]
+          },
+          "variant": "slate"
+        }
+      ]
+    },
+    {
+      "id": "p-pkg-4",
+      "kind": "chapter",
+      "segment": "package",
+      "title": "Package 4: Shenzhen",
+      "shape": "full",
+      "story": "shenzhen-summit",
+      "shots": [
+        {
+          "id": "S-P4-1",
+          "kind": "archive_video",
+          "start_s": 310.15,
+          "dur_s": 12.45,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p4-arrival",
+          "in_s": 45.0,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "nat",
+            "translation": "none"
+          },
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "why": "Slate: the arrival's first frame, nat full 2.5 s; the narrator under it; then the ceremony's own sound up as he reaches the steps.",
+          "out_s": 57.45
+        },
+        {
+          "id": "S-P4-2",
+          "kind": "archive_video",
+          "start_s": 322.6,
+          "dur_s": 12.9,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p4-talks",
+          "in_s": 0.0,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "A produced White House release: mute B-roll only, never a bite (bible e)."
+          },
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "why": "The talks, mute B-roll inside the file's own cuts; the end card at 13.4 s never airs.",
+          "out_s": 12.9
+        },
+        {
+          "id": "S-P4-3",
+          "kind": "graphic",
+          "start_s": 335.5,
+          "dur_s": 23.05,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-decl-3",
+          "mark": "DRAWN",
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "extract": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
+          "why": "The declaration's own words, typeset and read (US federal, public domain). The three parties' joint text."
+        },
+        {
+          "id": "S-P4-4",
+          "kind": "graphic",
+          "start_s": 358.55,
+          "dur_s": 18.17,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-decl-4",
+          "mark": "DRAWN",
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "extract": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
+          "why": "Point 4, typeset and read."
+        },
+        {
+          "id": "S-P4-5",
+          "kind": "graphic",
+          "start_s": 376.72,
+          "dur_s": 18.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-shenzhen",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "SHENZHEN"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-p4-putin-sot",
+            "awaits": "pending_t5: SOT Putin, APEC business summit address, Wed 18 Nov (kremlin.ru, CC BY 4.0, RELEASED BY THE KREMLIN; TRANSLATION · KREMLIN TRANSCRIPT), a 10 to 20 s span at sentence bounds chosen at the transcript step, after a set-up line naming the occasion",
+            "now": "the locator, Shenzhen; Putin attributed through the lead",
+            "pending_t5": true
+          },
+          "requests": [
+            "t9b-p4-kantei-stills",
+            "t9b-p4-china-mfa-read"
+          ],
+          "why": "The locator at VO 2. Russia's own voice slots in here when ticket 5 clears it; China's is the joint text only."
+        },
+        {
+          "id": "S-P4-6",
+          "kind": "archive_still",
+          "start_s": 395.57,
+          "dur_s": 4.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p4-still",
+          "mark": "ARCHIVE",
+          "preset": "DRIFT",
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "why": "Trump and Putin at the pull-aside, 19 Nov (Official White House Photo, PD); both in frame."
+        },
+        {
+          "id": "S-P4-7",
+          "kind": "archive_video",
+          "start_s": 400.42,
+          "dur_s": 4.6,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-p4-arrival",
+          "in_s": 65.4,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "nat",
+            "translation": "none"
+          },
+          "dot_label": "RELEASED BY THE WHITE HOUSE",
+          "why": "Out: the welcome line at the foot of the steps, nat full, no words.",
+          "out_s": 70.0
+        }
+      ],
+      "lines": [
+        {
+          "id": "L032",
+          "kind": "vo",
+          "dur_s": 5.05,
+          "read_by": "v-narrator",
+          "text": "On Wednesday, President Trump landed in Shenzhen for the APEC leaders' summit.",
+          "sources": [
+            {
+              "cluster": "662a8e1c",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 312.65
+        },
+        {
+          "id": "L033",
+          "kind": "vo",
+          "dur_s": 11.85,
+          "read_by": "v-narrator",
+          "text": "On Thursday he met China's president, Xi Jinping, and Russia's, Vladimir Putin: the first meeting of the three countries' leaders together. Before it, he held separate talks with each.",
+          "sources": [
+            {
+              "cluster": "46f3452c",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "7523e65f",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 322.9
+        },
+        {
+          "id": "L034",
+          "kind": "vo",
+          "dur_s": 5.05,
+          "read_by": "v-narrator",
+          "text": "Afterwards the three issued a joint declaration, in four points. The third:",
+          "sources": [
+            {
+              "cluster": "7523e65f",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 335.9
+        },
+        {
+          "id": "L035",
+          "kind": "read",
+          "dur_s": 16.85,
+          "read_by": "v-reader",
+          "text": "The three heads of state recognized that the principle of state consent and respect for immunities of State officials are of paramount importance, and concurred that the International Criminal Court and other similar bodies must not abuse their jurisdiction.",
+          "speaker": "sp-declaration",
+          "quote_sha256": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
+          "date": "2026-11-19",
+          "start_s": 341.3
+        },
+        {
+          "id": "L036",
+          "kind": "vo",
+          "dur_s": 1.45,
+          "read_by": "v-narrator",
+          "text": "And the fourth:",
+          "sources": [
+            {
+              "cluster": "46f3452c",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 358.95
+        },
+        {
+          "id": "L037",
+          "kind": "read",
+          "dur_s": 15.57,
+          "read_by": "v-reader",
+          "text": "The three heads of state reaffirmed that a nuclear war cannot be won and must never be fought. The three countries will conduct a dialogue on reducing nuclear risks and preventing the proliferation of nuclear weapons.",
+          "speaker": "sp-declaration",
+          "quote_sha256": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
+          "date": "2026-11-19",
+          "start_s": 360.75
+        },
+        {
+          "id": "L038",
+          "kind": "vo",
+          "dur_s": 8.65,
+          "read_by": "v-narrator",
+          "text": "The text set no binding limits on nuclear weapons, and no plan to end the wars in Ukraine or with Iran.",
+          "sources": [
+            {
+              "cluster": "46f3452c",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 377.12
+        },
+        {
+          "id": "L039",
+          "kind": "vo",
+          "dur_s": 9.05,
+          "read_by": "v-narrator",
+          "text": "At the same summit, Australia's prime minister, Anthony Albanese, addressed the leaders and called on Putin to stop the war in Ukraine.",
+          "sources": [
+            {
+              "cluster": "36cb8fdf",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 386.12
+        },
+        {
+          "id": "L040",
+          "kind": "vo",
+          "dur_s": 3.05,
+          "read_by": "v-narrator",
+          "text": "Trump spoke of Putin as his friend.",
+          "sources": [
+            {
+              "cluster": "46f3452c",
+              "kind": "consensus"
+            }
+          ],
+          "party": "United States",
+          "tier": "attributed",
+          "start_s": 396.17
+        }
+      ],
+      "text": [
+        {
+          "id": "G-SLATE-P4",
+          "kind": "graphic",
+          "subtype": "lower_third",
+          "asset": "g-g-slate-p4",
+          "start_s": 310.15,
+          "end_s": 314.15,
+          "shows": {
+            "lines": [
+              "SHENZHEN · WED 18 NOV 2026"
+            ]
+          },
+          "variant": "slate"
+        }
+      ]
+    },
+    {
+      "id": "p-pkg-5",
+      "kind": "chapter",
+      "segment": "package",
+      "title": "Package 5: The Hague",
+      "shape": "document",
+      "story": "thread-ec790a82",
+      "shots": [
+        {
+          "id": "S-P5-1",
+          "kind": "graphic",
+          "start_s": 405.02,
+          "dur_s": 16.35,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-hague",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "THE HAGUE"
+            ]
+          },
+          "requests": [
+            "t9b-p5-judgment-read"
+          ],
+          "why": "Slate on the locator. The judgment's operative paragraph waits for a capture with its terms URL (icj-cij.org serves a browser challenge to the fetcher)."
+        },
+        {
+          "id": "S-P5-2",
+          "kind": "card",
+          "start_s": 421.37,
+          "dur_s": 3.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "mark": "CARD",
+          "card": "count",
+          "text": [
+            "9 TO 6",
+            "THE COURT'S VOTE · THU 19 NOV"
+          ],
+          "figures": [
+            {
+              "value": 9,
+              "field": "facts.icj_vote.for"
+            },
+            {
+              "value": 6,
+              "field": "facts.icj_vote.against"
+            }
+          ],
+          "source_date": "2026-11-19",
+          "why": "A count card from the record."
+        },
+        {
+          "id": "S-P5-3",
+          "kind": "graphic",
+          "start_s": 425.22,
+          "dur_s": 21.25,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-rakhine",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "RAKHINE",
+              "COX'S BAZAR"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-p5-sentinel-coxs",
+            "awaits": "dated imagery: Sentinel-2 of the Cox's Bazar camps inside 16 to 21 Nov (tier 3), or a camp still with PHOTOGRAPHED <year> (tier 5)",
+            "now": "the locator, Rakhine and Cox's Bazar"
+          },
+          "requests": [
+            "t9b-p5-gambia-read"
+          ],
+          "why": "The place the judgment concerns. The Gambia has no words of its own here yet: its statement is to locate."
+        },
+        {
+          "id": "S-P5-4",
+          "kind": "graphic",
+          "start_s": 446.47,
+          "dur_s": 20.85,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-hague-2",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "THE HAGUE",
+              "MYANMAR"
+            ]
+          },
+          "requests": [
+            "t9b-p5-myanmar-read"
+          ],
+          "why": "Myanmar's reply, attributed until its statement is captured. Out on the locator held 2 s."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L041",
+          "kind": "vo",
+          "dur_s": 13.45,
+          "read_by": "v-narrator",
+          "text": "On Thursday, at The Hague's International Court of Justice, the judges found Myanmar responsible for genocide against the Rohingya, in the north of Rakhine state, in breach of the Genocide Convention of 1948.",
+          "sources": [
+            {
+              "cluster": "36e19cbb",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 407.52
+        },
+        {
+          "id": "L042",
+          "kind": "vo",
+          "dur_s": 3.05,
+          "read_by": "v-narrator",
+          "text": "The vote was nine judges to six.",
+          "sources": [
+            {
+              "cluster": "bdde5310",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 421.77
+        },
+        {
+          "id": "L043",
+          "kind": "vo",
+          "dur_s": 11.85,
+          "read_by": "v-narrator",
+          "text": "In the military campaign of 2017, the court found, Myanmar's security forces killed thousands of civilians, subjected women to widespread sexual violence, attacked children, and destroyed village after village.",
+          "sources": [
+            {
+              "cluster": "36e19cbb",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 425.62
+        },
+        {
+          "id": "L044",
+          "kind": "vo",
+          "dur_s": 8.25,
+          "read_by": "v-narrator",
+          "text": "The Gambia brought the case in 2019. Never before had the court found that a state bore responsibility for genocide.",
+          "sources": [
+            {
+              "cluster": "36e19cbb",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "bdde5310",
+              "kind": "consensus"
+            }
+          ],
+          "party": "The Gambia",
+          "tier": "attributed",
+          "start_s": 437.82
+        },
+        {
+          "id": "L045",
+          "kind": "vo",
+          "dur_s": 10.25,
+          "read_by": "v-narrator",
+          "text": "It ordered Myanmar to let the Rohingya return in safety and dignity, and by their own choice; to prosecute those responsible; and to pay reparations.",
+          "sources": [
+            {
+              "cluster": "36e19cbb",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 446.87
+        },
+        {
+          "id": "L046",
+          "kind": "vo",
+          "dur_s": 7.45,
+          "read_by": "v-narrator",
+          "text": "On Friday, a spokesperson for Myanmar's government, Khaing Khaing Soe, said the ruling was unfair, and not unanimous.",
+          "sources": [
+            {
+              "cluster": "bdde5310",
+              "kind": "consensus"
+            }
+          ],
+          "party": "Myanmar",
+          "tier": "attributed",
+          "start_s": 457.47
+        }
+      ],
+      "text": [
+        {
+          "id": "G-SLATE-P5",
+          "kind": "graphic",
+          "subtype": "lower_third",
+          "asset": "g-g-slate-p5",
+          "start_s": 405.02,
+          "end_s": 409.02,
+          "shows": {
+            "lines": [
+              "THE HAGUE · THU 19 NOV 2026"
+            ]
+          },
+          "variant": "slate"
+        }
+      ]
+    },
+    {
+      "id": "p-briefs",
+      "kind": "chapter",
+      "segment": "briefs",
+      "title": "Around the world",
+      "shots": [
+        {
+          "id": "G-BUMP-1",
+          "kind": "graphic",
+          "start_s": 467.32,
+          "dur_s": 1.8,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "bumper",
+          "asset": "g-bump-briefs",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "AROUND THE WORLD"
+            ]
+          },
+          "why": "The bumper, no bars (bible i). Its sting waits for ticket 3's routing: no-music-under-news counts any music cue in the briefs."
+        },
+        {
+          "id": "S-BR-1",
+          "kind": "graphic",
+          "start_s": 469.12,
+          "dur_s": 11.95,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-1",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "RIYADH",
+              "SAUDI ARABIA"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-2",
+          "kind": "graphic",
+          "start_s": 481.07,
+          "dur_s": 11.15,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-2",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "WASHINGTON"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-3",
+          "kind": "graphic",
+          "start_s": 492.22,
+          "dur_s": 11.15,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-3",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "CHICAGO"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-4",
+          "kind": "graphic",
+          "start_s": 503.37,
+          "dur_s": 13.55,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-4",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "WASHINGTON"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-5",
+          "kind": "graphic",
+          "start_s": 516.92,
+          "dur_s": 9.55,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-5",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "NEW YORK"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-6",
+          "kind": "graphic",
+          "start_s": 526.47,
+          "dur_s": 12.75,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-6",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "SHENZHEN"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-7",
+          "kind": "graphic",
+          "start_s": 539.22,
+          "dur_s": 14.75,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-7",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "COPENHAGEN",
+              "GREENLAND"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-8",
+          "kind": "archive_video",
+          "start_s": 553.97,
+          "dur_s": 11.55,
+          "transition_in": {
+            "type": "cut"
+          },
+          "asset": "e35-b8-caracas",
+          "in_s": 15.0,
+          "mark": "ARCHIVE",
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "The rights ledger airs it muted: a brief carries one attributed fact over the picture."
+          },
+          "dot_label": "RELEASED BY THE DEPARTMENT OF WAR",
+          "why": "Hegseth at the lectern at the US Embassy in Caracas, 18 Nov (DoW, raw address, PD); muted, the narrator over it.",
+          "out_s": 26.55
+        },
+        {
+          "id": "S-BR-9",
+          "kind": "graphic",
+          "start_s": 565.52,
+          "dur_s": 11.95,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-9",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "LONDON"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        },
+        {
+          "id": "S-BR-10",
+          "kind": "graphic",
+          "start_s": 577.47,
+          "dur_s": 9.55,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-br-10",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "JERUSALEM"
+            ]
+          },
+          "why": "One brief, one fact, one locator (bible f)."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L047",
+          "kind": "vo",
+          "dur_s": 11.45,
+          "read_by": "v-narrator",
+          "text": "In Riyadh on Saturday, Saudi air defences destroyed three ballistic missiles fired by Yemen's Houthis. An earlier Houthi strike had damaged the tower of the Public Investment Fund.",
+          "sources": [
+            {
+              "cluster": "cee27d6b",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 469.42
+        },
+        {
+          "id": "L048",
+          "kind": "vo",
+          "dur_s": 10.65,
+          "read_by": "v-narrator",
+          "text": "By Tuesday, the Federal Aviation Administration said, investigators were examining contractor routers as the source of the data surge behind the ground stop of the thirteenth.",
+          "sources": [
+            {
+              "cluster": "3ab138f6",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 481.37
+        },
+        {
+          "id": "L049",
+          "kind": "vo",
+          "dur_s": 10.65,
+          "read_by": "v-narrator",
+          "text": "On Monday, a systems outage at United Airlines held its departures across the country for about ninety minutes; the airline saw no sign of a cyberattack.",
+          "sources": [
+            {
+              "cluster": "36371e2c",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 492.52
+        },
+        {
+          "id": "L050",
+          "kind": "vo",
+          "dur_s": 13.05,
+          "read_by": "v-narrator",
+          "text": "On Friday, President Trump said he had removed Sean Cairncross as national cyber director because he was not good enough for the post. Kirsten Davies took the post in an acting capacity.",
+          "sources": [
+            {
+              "cluster": "bc0e12ac",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 503.67
+        },
+        {
+          "id": "L051",
+          "kind": "vo",
+          "dur_s": 9.05,
+          "read_by": "v-narrator",
+          "text": "In New York on Monday, Mayor Zohran Mamdani disbanded the police department's Strategic Response Group, which had handled both counterterrorism and protests.",
+          "sources": [
+            {
+              "cluster": "ee8ca440",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "89091251",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 517.22
+        },
+        {
+          "id": "L052",
+          "kind": "vo",
+          "dur_s": 12.25,
+          "read_by": "v-narrator",
+          "text": "In Shenzhen on Tuesday, China agreed to cut tariffs on about four hundred million Canadian dollars of pork and seafood; Canada extended its exemptions for some Chinese steel and aluminium.",
+          "sources": [
+            {
+              "cluster": "5aea8c5c",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 526.77
+        },
+        {
+          "id": "L053",
+          "kind": "vo",
+          "dur_s": 14.25,
+          "read_by": "v-narrator",
+          "text": "In Copenhagen on Thursday, Denmark's parliament voted one hundred and nine to none to approve a defence agreement among Denmark, Greenland and the United States. It allows American forces to expand their base at Pituffik.",
+          "sources": [
+            {
+              "cluster": "991593d2",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "e0993e3e",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 539.52
+        },
+        {
+          "id": "L054",
+          "kind": "vo",
+          "dur_s": 11.05,
+          "read_by": "v-narrator",
+          "text": "In Caracas on Wednesday, the head of the Pentagon, Pete Hegseth, signed a military cooperation agreement with Venezuela: joint training, shared intelligence, and operations against drug trafficking.",
+          "sources": [
+            {
+              "cluster": "44ece519",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "e247da23",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 554.27
+        },
+        {
+          "id": "L055",
+          "kind": "vo",
+          "dur_s": 11.45,
+          "read_by": "v-narrator",
+          "text": "In London on Monday, the forensic scientist Michael Freeman said Jeffrey Epstein's death was probably a homicide. New York City's medical examiner stood by its ruling of suicide.",
+          "sources": [
+            {
+              "cluster": "c0f3e97e",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 565.82
+        },
+        {
+          "id": "L056",
+          "kind": "vo",
+          "dur_s": 9.05,
+          "read_by": "v-narrator",
+          "text": "In Jerusalem on Tuesday, the Knesset elected Matan Kahana, of Gadi Eisenkot's Yashar party, as its speaker, by sixty-six votes to fifty-two.",
+          "sources": [
+            {
+              "cluster": "c2c750dc",
+              "kind": "consensus"
+            },
+            {
+              "cluster": "29c43c1b",
+              "kind": "consensus"
+            }
+          ],
+          "start_s": 577.77
+        }
+      ],
+      "text": [
+        {
+          "id": "T-BR-1",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-1",
+          "start_s": 469.12,
+          "end_s": 481.07,
+          "shows": {
+            "lines": [
+              "RIYADH · SAT 21 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-2",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-2",
+          "start_s": 481.07,
+          "end_s": 492.22,
+          "shows": {
+            "lines": [
+              "WASHINGTON · TUE 17 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-3",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-3",
+          "start_s": 492.22,
+          "end_s": 503.37,
+          "shows": {
+            "lines": [
+              "UNITED STATES · MON 16 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-4",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-4",
+          "start_s": 503.37,
+          "end_s": 516.92,
+          "shows": {
+            "lines": [
+              "WASHINGTON · FRI 20 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-5",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-5",
+          "start_s": 516.92,
+          "end_s": 526.47,
+          "shows": {
+            "lines": [
+              "NEW YORK · MON 16 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-6",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-6",
+          "start_s": 526.47,
+          "end_s": 539.22,
+          "shows": {
+            "lines": [
+              "SHENZHEN · TUE 17 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-7",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-7",
+          "start_s": 539.22,
+          "end_s": 553.97,
+          "shows": {
+            "lines": [
+              "COPENHAGEN · THU 19 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-8",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-8",
+          "start_s": 553.97,
+          "end_s": 565.52,
+          "shows": {
+            "lines": [
+              "CARACAS · WED 18 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-9",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-9",
+          "start_s": 565.52,
+          "end_s": 577.47,
+          "shows": {
+            "lines": [
+              "LONDON · MON 16 NOV"
+            ]
+          }
+        },
+        {
+          "id": "T-BR-10",
+          "kind": "graphic",
+          "subtype": "brief_strip",
+          "asset": "g-t-br-10",
+          "start_s": 577.47,
+          "end_s": 587.02,
+          "shows": {
+            "lines": [
+              "JERUSALEM · TUE 17 NOV"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p-echo",
+      "kind": "chapter",
+      "segment": "echo",
+      "title": "The Echo: Yalta, 1945",
+      "as_of": "1945-03-01T23:59:00-04:00",
+      "echo": "yalta-conference-1945",
+      "shots": [
+        {
+          "id": "G-BUMP-2",
+          "kind": "graphic",
+          "start_s": 587.02,
+          "dur_s": 1.8,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "bumper",
+          "asset": "g-bump-echo",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "THE ECHO",
+              "1945"
+            ],
+            "figures": [
+              {
+                "value": 1945,
+                "field": "echo:year"
+              }
+            ]
+          },
+          "why": "The Echo's bumper with the year in the circle; the sting."
+        },
+        {
+          "id": "S-EC-1",
+          "kind": "graphic",
+          "start_s": 588.82,
+          "dur_s": 15.82,
+          "transition_in": {
+            "type": "dissolve",
+            "s": 1.5
+          },
+          "subtype": "locator",
+          "asset": "g-loc-echo-crimea",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "YALTA",
+              "THE CRIMEA"
+            ]
+          },
+          "register": "umber",
+          "picture_slot": {
+            "request": "t9b-echo-still-livadia",
+            "awaits": "fetch: NARA 197001, Roosevelt, Stalin, Churchill and others at Livadia Palace, 4 Feb 1945 (FDR Library public domain series, Unrestricted), PHOTOGRAPHED LIVADIA · FEB 1945",
+            "now": "the locator, the Crimea, in the umber register"
+          },
+          "film_slot": {
+            "request": "t9b-echo-film-yalta",
+            "awaits": "rights read: NARA 23465 (111-ADC-9700) THE YALTA CONFERENCE, Signal Corps film marked 'Restricted - Possibly' (Copyright); never cleared by assumption",
+            "now": "stills and documents only"
+          },
+          "why": "echo-dissolve, 1.5 s, the programme's only dissolve; the slate in Playfair italic. Period film waits for a rights read, so the Echo is planned on stills and documents."
+        },
+        {
+          "id": "S-EC-2",
+          "kind": "graphic",
+          "start_s": 604.64,
+          "dur_s": 16.43,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-communique-1",
+          "mark": "DRAWN",
+          "register": "umber",
+          "period_document": "src-frus-malta-d500",
+          "picture_slot": {
+            "request": "t9b-echo-still-patio",
+            "awaits": "fetch: NARA 531340 (111-SC-260486), the Big Three on the patio (Unrestricted), PHOTOGRAPHED YALTA · FEB 1945",
+            "now": "the communique, typeset and toured"
+          },
+          "why": "The period document on the desk: the Report of the Crimea Conference, toured."
+        },
+        {
+          "id": "S-EC-3",
+          "kind": "graphic",
+          "start_s": 621.07,
+          "dur_s": 26.0,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-communique-6",
+          "mark": "DRAWN",
+          "register": "umber",
+          "period_document": "src-frus-malta-d500",
+          "picture_slot": {
+            "request": "t9b-echo-still-molotov",
+            "awaits": "fetch: NARA 197000, Stalin with Molotov at the Palace, Yalta (Unrestricted), PHOTOGRAPHED YALTA · FEB 1945",
+            "now": "the communique's section on Poland, typeset and toured"
+          },
+          "why": "Section VI, on Poland."
+        },
+        {
+          "id": "S-EC-4",
+          "kind": "graphic",
+          "start_s": 647.07,
+          "dur_s": 12.55,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "locator",
+          "asset": "g-loc-echo-london",
+          "mark": "DRAWN",
+          "shows": {
+            "lines": [
+              "LONDON",
+              "WASHINGTON"
+            ]
+          },
+          "register": "umber",
+          "why": "The set-up names the occasion; it never paraphrases the words that follow."
+        },
+        {
+          "id": "S-EC-5",
+          "kind": "graphic",
+          "start_s": 659.62,
+          "dur_s": 23.22,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-polish",
+          "mark": "DRAWN",
+          "register": "umber",
+          "dot_label": "PUBLISHED 1969",
+          "why": "The party whose frontier and government were settled, in its own words: the Polish Government in London's statement, typeset and read. FRUS printed it in 1969."
+        },
+        {
+          "id": "S-EC-6",
+          "kind": "graphic",
+          "start_s": 682.84,
+          "dur_s": 20.91,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-hansard",
+          "mark": "DRAWN",
+          "register": "umber",
+          "why": "Churchill in his own words, from the official report, typeset and read."
+        },
+        {
+          "id": "S-EC-7",
+          "kind": "graphic",
+          "start_s": 703.75,
+          "dur_s": 35.42,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-fdr",
+          "mark": "DRAWN",
+          "register": "umber",
+          "why": "Roosevelt in his own words, typeset and read; never a still of him under words from another occasion."
+        },
+        {
+          "id": "S-EC-8",
+          "kind": "graphic",
+          "start_s": 739.17,
+          "dur_s": 7.02,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-signatures",
+          "mark": "DRAWN",
+          "register": "umber",
+          "shows": {
+            "lines": [
+              "WINSTON S. CHURCHILL",
+              "FRANKLIN D. ROOSEVELT",
+              "J. V. STALIN"
+            ]
+          },
+          "picture_slot": {
+            "request": "t9b-echo-still-patio",
+            "awaits": "fetch: NARA 531340, the Big Three on the patio (Unrestricted), held as the last frame",
+            "now": "the signatures, typeset"
+          },
+          "why": "It ends on a frame: the three names. The bed's written ending lands under it."
+        },
+        {
+          "id": "S-EC-ROOM",
+          "kind": "graphic",
+          "start_s": 746.19,
+          "dur_s": 2.0,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "page",
+          "asset": "g-page-echo-signatures",
+          "mark": "DRAWN",
+          "register": "umber",
+          "silence": "intended",
+          "reason": "Two seconds of room tone after the bed's written ending, then the hard cut (bible g, h).",
+          "why": "Room: the last frame held on room tone only."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L057",
+          "kind": "vo",
+          "dur_s": 12.42,
+          "read_by": "v-narrator-echo",
+          "text": "On the fourth of February, nineteen forty-five, three men sat down together at the Livadia Palace, at Yalta in the Crimea: Winston Churchill, Franklin Roosevelt and Marshal Stalin.",
+          "sources": [
+            {
+              "source": "src-frus-malta-d500",
+              "kind": "record"
+            },
+            {
+              "source": "yalta-pd-05",
+              "kind": "caption"
+            }
+          ],
+          "start_s": 591.82
+        },
+        {
+          "id": "L058",
+          "kind": "vo",
+          "dur_s": 5.9,
+          "read_by": "v-narrator-echo",
+          "text": "They talked for eight days, and on the eleventh they signed their report.",
+          "sources": [
+            {
+              "source": "src-frus-malta-d500",
+              "kind": "record"
+            }
+          ],
+          "start_s": 605.04
+        },
+        {
+          "id": "L059",
+          "kind": "vo",
+          "dur_s": 9.38,
+          "read_by": "v-narrator-echo",
+          "text": "Germany was to be divided into zones of occupation, and was to make good, in kind, the damage it had done.",
+          "sources": [
+            {
+              "source": "src-frus-malta-d500",
+              "kind": "record",
+              "locator": "sections II and III"
+            }
+          ],
+          "start_s": 611.29
+        },
+        {
+          "id": "L060",
+          "kind": "vo",
+          "dur_s": 13.73,
+          "read_by": "v-narrator-echo",
+          "text": "Poland's eastern frontier was to follow the Curzon Line. Poland was to gain land in the north and the west, and its western border was to wait for the Peace Conference.",
+          "sources": [
+            {
+              "source": "src-frus-malta-d500",
+              "kind": "record",
+              "locator": "section VI"
+            }
+          ],
+          "start_s": 621.47
+        },
+        {
+          "id": "L061",
+          "kind": "vo",
+          "dur_s": 11.12,
+          "read_by": "v-narrator-echo",
+          "text": "The government then working inside Poland was to be reorganised on a broader democratic basis, and then called the Polish Provisional Government of National Unity.",
+          "sources": [
+            {
+              "source": "src-frus-malta-d500",
+              "kind": "record",
+              "locator": "section VI"
+            }
+          ],
+          "start_s": 635.55
+        },
+        {
+          "id": "L062",
+          "kind": "vo",
+          "dur_s": 11.55,
+          "read_by": "v-narrator-echo",
+          "text": "On the evening of the twelfth, the Foreign Office handed the text to the Polish ambassador in London. Three days later, his government's statement reached Washington.",
+          "sources": [
+            {
+              "source": "src-frus-1945v05-d111",
+              "kind": "record"
+            }
+          ],
+          "start_s": 647.47
+        },
+        {
+          "id": "L063",
+          "kind": "read",
+          "dur_s": 10.46,
+          "read_by": "v-reader",
+          "text": "decisions of the three-Power conference were prepared and taken not only without participation and authorization of the Polish Government but also without their knowledge.",
+          "speaker": "sp-polish-govt",
+          "quote_sha256": "a61736d8abff41005fe1565d8801e82ae0ebcc4d18dd89fd204c404804b2671d",
+          "date": "1945-02-15",
+          "start_s": 660.12
+        },
+        {
+          "id": "L064",
+          "kind": "read",
+          "dur_s": 11.31,
+          "read_by": "v-reader",
+          "text": "The Polish Government declares that the decision of the Three-Power conference concerning Poland cannot be recognized by the Polish Government and cannot bind the Polish nation.",
+          "speaker": "sp-polish-govt",
+          "quote_sha256": "8ca74fc85c18708166c5c4178d5e2e5026c21e8dadd810931533d1926c8dbab7",
+          "date": "1945-02-15",
+          "start_s": 670.93
+        },
+        {
+          "id": "L065",
+          "kind": "vo",
+          "dur_s": 5.47,
+          "read_by": "v-narrator-echo",
+          "text": "On the twenty-seventh, Churchill asked the House of Commons to approve it.",
+          "sources": [
+            {
+              "source": "src-hansard-1945-02-27",
+              "kind": "record"
+            }
+          ],
+          "start_s": 683.24
+        },
+        {
+          "id": "L066",
+          "kind": "read",
+          "dur_s": 14.29,
+          "read_by": "v-reader",
+          "text": "I have never concealed from the House that, personally, I think the Russian claim is just and right. If I champion this frontier for Russia, it is not because I bow to force.",
+          "speaker": "sp-churchill",
+          "quote_sha256": "a8e63937e984aa3a973cdb53191246c66ea48990f54313edb913651980e15fd0",
+          "date": "1945-02-27",
+          "start_s": 689.06
+        },
+        {
+          "id": "L067",
+          "kind": "vo",
+          "dur_s": 7.64,
+          "read_by": "v-narrator-echo",
+          "text": "On the first of March, Roosevelt reported to Congress, seated, after a journey of fourteen thousand miles.",
+          "sources": [
+            {
+              "source": "src-app-fdr-1945-03-01",
+              "kind": "record"
+            }
+          ],
+          "start_s": 704.15
+        },
+        {
+          "id": "L068",
+          "kind": "read",
+          "dur_s": 26.63,
+          "read_by": "v-reader",
+          "text": "The decision with respect to the boundaries of Poland was, frankly, a compromise. I did not agree with all of it, by any means, but we did not go as far as Britain wanted, in certain areas; we did not go so far as Russia wanted, in certain areas; and we did not go so far as I wanted, in certain areas.",
+          "speaker": "sp-fdr",
+          "quote_sha256": "63952aab2351c4d01c2c1d1c0a16947e18695319ecccbe2ed994ba3c83596b16",
+          "date": "1945-03-01",
+          "start_s": 712.14
+        },
+        {
+          "id": "L069",
+          "kind": "vo",
+          "dur_s": 2.42,
+          "read_by": "v-narrator-echo",
+          "text": "The report bore three signatures.",
+          "sources": [
+            {
+              "source": "src-frus-malta-d500",
+              "kind": "record"
+            }
+          ],
+          "start_s": 739.77
+        }
+      ],
+      "text": [
+        {
+          "id": "G-SLATE-ECHO",
+          "kind": "graphic",
+          "subtype": "lower_third",
+          "asset": "g-slate-echo",
+          "start_s": 588.82,
+          "end_s": 592.82,
+          "shows": {
+            "lines": [
+              "YALTA, THE CRIMEA · FEBRUARY 1945"
+            ]
+          },
+          "variant": "echo-slate"
+        }
+      ],
+      "cues": [
+        {
+          "id": "M-STING-ECHO",
+          "kind": "music",
+          "role": "sting",
+          "source": "the sting (bible j)",
+          "start_s": 587.02,
+          "end_s": 587.52
+        },
+        {
+          "id": "M-ECHO-1",
+          "kind": "music",
+          "role": "echo_bed",
+          "source": "bed-2, first movement (T8b; not yet written)",
+          "start_s": 588.82,
+          "end_s": 659.32,
+          "gain_lufs": -32,
+          "duck_db": 9,
+          "note": "enters on the dissolve; its first movement cadences before the first quotation (no music under quotes)"
+        },
+        {
+          "id": "M-ECHO-2",
+          "kind": "music",
+          "role": "echo_bed",
+          "source": "bed-2, written ending (T8b; not yet written)",
+          "start_s": 739.47,
+          "end_s": 746.19,
+          "gain_lufs": -32,
+          "duck_db": 9,
+          "note": "returns after the last quotation and lands its written ending under the last frame"
+        }
+      ],
+      "silence_windows": [
+        {
+          "start_s": 659.62,
+          "end_s": 739.17,
+          "reason": "No music under the quotations or their set-ups: the bed rests from the Polish statement to Roosevelt's words."
+        }
+      ]
+    },
+    {
+      "id": "p-signoff",
+      "kind": "chapter",
+      "segment": "signoff",
+      "title": "Sign-off",
+      "shots": [
+        {
+          "id": "S-IDENT",
+          "kind": "card",
+          "start_s": 748.19,
+          "dur_s": 10.15,
+          "transition_in": {
+            "type": "cut"
+          },
+          "mark": "CARD",
+          "card": "lockup",
+          "text": [],
+          "why": "The ident card; one spoken line (sign-off-fixed)."
+        }
+      ],
+      "lines": [
+        {
+          "id": "L070",
+          "kind": "signoff",
+          "dur_s": 8.65,
+          "read_by": "v-narrator",
+          "text": "That was the week of sixteen to twenty-one November. For the record, every source is at omnibus dot voidvision dot org.",
+          "start_s": 748.69
+        }
+      ]
+    },
+    {
+      "id": "p-credits",
+      "kind": "credits",
+      "segment": "credits",
+      "title": "Credits",
+      "shots": [
+        {
+          "id": "G-CREDITS",
+          "kind": "graphic",
+          "start_s": 758.34,
+          "dur_s": 16.0,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "credits",
+          "asset": "g-credits",
+          "mark": "DRAWN",
+          "roll": [
+            "Pictures: The White House; US Naval Forces Central Command, via DVIDS; US Department of War, via Wikimedia Commons",
+            "Released by a party to the story: THE WHITE HOUSE; THE DEPARTMENT OF WAR",
+            "Documents: The White House, U.S.-Russia-China Heads of State Declaration toward Peace, 19 Nov 2026",
+            "The Echo: Foreign Relations of the United States (Malta and Yalta; 1945 vol. V); House of Commons Debates, 27 Feb 1945; The American Presidency Project",
+            "The Echo was chosen after the week was known, from an entry added to the echo bank on 21 November; see the sources page",
+            "Maps: Natural Earth; GeoNames",
+            "Narrated by a synthesised voice, Kokoro af_aoede",
+            "Documents read by a computer voice, Kokoro am_michael",
+            "Research desk: void news"
+          ],
+          "why": "Cream Barlow caps over walnut; the theme under it."
+        },
+        {
+          "id": "G-ENDBOARD",
+          "kind": "graphic",
+          "start_s": 774.34,
+          "dur_s": 4.0,
+          "transition_in": {
+            "type": "cut"
+          },
+          "subtype": "end_board",
+          "asset": "g-endboard",
+          "mark": "DRAWN",
+          "board": "void omnibus · Issue 35 · MMXXVI · CC BY-SA 4.0 · omnibus.voidvision.org",
+          "why": "The end board holds 4 s."
+        }
+      ],
+      "cues": [
+        {
+          "id": "M-THEME-CREDITS",
+          "kind": "music",
+          "role": "house_motif",
+          "source": "the wire (theme, 18 s, bible d)",
+          "start_s": 758.34,
+          "end_s": 776.34
+        }
+      ]
+    }
+  ]
+}

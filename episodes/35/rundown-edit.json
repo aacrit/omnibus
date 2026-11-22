@@ -136,7 +136,25 @@
           "url": null,
           "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
         }
-      ]
+      ],
+      "slug": "THE BRIDGE IS STRUCK THREE TIMES",
+      "place": "KERCH",
+      "parties": [
+        "Ukraine",
+        "Russia",
+        "Poland"
+      ],
+      "entities": [
+        "Security Service of Ukraine",
+        "Office of the President of Ukraine",
+        "General Staff of the Armed Forces of Ukraine",
+        "Ministry of Transport of the Russian Federation",
+        "Government of Poland"
+      ],
+      "mechanisms": [
+        "leaders-meet-in-person"
+      ],
+      "mechanism_basis": "fc265ec6 consensus: the strike coincided with preparations for the meeting of Putin, Trump and Xi; 672e3dce consensus: Putin said Russia would not negotiate a ceasefire after the attacks. The heads of three powers met in person while the war's own parties struck each other's bridges; no settlement was reached, so great-powers-settle-over-absent-party is not tagged."
     },
     "uk-eu-reset": {
       "primary_sources": [
@@ -156,7 +174,20 @@
           "url": null,
           "status": "pending T5 for the gov.uk text (OGL v3); the EU text on consilium.europa.eu or ec.europa.eu is not on the fetcher allowlist"
         }
-      ]
+      ],
+      "slug": "THE UK AND EU SIGN THREE DEALS",
+      "place": "BRUSSELS",
+      "parties": [
+        "Government of the United Kingdom",
+        "European Union",
+        "Reform UK",
+        "Conservative Party"
+      ],
+      "entities": [
+        "European Council",
+        "European Commission"
+      ],
+      "mechanisms": []
     },
     "gulf-us-iran": {
       "primary_sources": [
@@ -176,7 +207,22 @@
           "url": null,
           "status": "to locate; terms unreviewed: quoted as a state organ record or attributed"
         }
-      ]
+      ],
+      "slug": "QESHM IS STRUCK, DRONES AT BASES",
+      "place": "THE GULF",
+      "parties": [
+        "United States",
+        "Iran"
+      ],
+      "entities": [
+        "US Central Command",
+        "Islamic Republic of Iran Army",
+        "Kuwait",
+        "Bahrain",
+        "Oman",
+        "ADNOC L&S"
+      ],
+      "mechanisms": []
     },
     "shenzhen-summit": {
       "primary_sources": [
@@ -186,7 +232,23 @@
           "issuer": "The White House",
           "date": "2026-11-19",
           "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
-          "status": "fetched as a document (US federal, public domain)"
+          "status": "fetched as a document (US federal, public domain)",
+          "extracts": [
+            {
+              "point": 3,
+              "quote": "The three heads of state recognized that the principle of state consent and respect for immunities of State officials are of paramount importance, and concurred that the International Criminal Court and other similar bodies must not abuse their jurisdiction.",
+              "quote_sha256": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
+              "date": "2026-11-19",
+              "read_from": "D:/omnibus-media/35/e35-p4-declaration.html (ledger e35-p4-declaration, sha256 d13d2be3...), list item 3, tags stripped"
+            },
+            {
+              "point": 4,
+              "quote": "The three heads of state reaffirmed that a nuclear war cannot be won and must never be fought. The three countries will conduct a dialogue on reducing nuclear risks and preventing the proliferation of nuclear weapons.",
+              "quote_sha256": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
+              "date": "2026-11-19",
+              "read_from": "the same page, list item 4, tags stripped"
+            }
+          ]
         },
         {
           "id": "doc-kremlin-declaration",
@@ -196,6 +258,20 @@
           "url": null,
           "status": "pending T5: kremlin.ru adapter (CC BY 4.0, RIA Novosti and TASS excluded)"
         }
+      ],
+      "slug": "THREE LEADERS SIGN A DECLARATION",
+      "place": "SHENZHEN",
+      "parties": [
+        "United States",
+        "Russia",
+        "China"
+      ],
+      "entities": [
+        "The White House",
+        "The Kremlin"
+      ],
+      "mechanisms": [
+        "leaders-meet-in-person"
       ]
     },
     "thread-ec790a82": {
@@ -224,7 +300,17 @@
           "url": null,
           "status": "to locate; quoted as a state organ record or attributed"
         }
-      ]
+      ],
+      "slug": "COURT FINDS GENOCIDE IN MYANMAR",
+      "place": "THE HAGUE",
+      "parties": [
+        "The Gambia",
+        "Myanmar"
+      ],
+      "entities": [
+        "International Court of Justice"
+      ],
+      "mechanisms": []
     },
     "thread-b1206893": {
       "primary_sources": [
@@ -236,7 +322,73 @@
           "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
           "status": "US federal, public domain"
         }
-      ]
+      ],
+      "slug": "THE CYBER DIRECTOR IS REMOVED",
+      "place": "WASHINGTON"
+    },
+    "thread-a3e1e3ef": {
+      "slug": "MISSILES ARE STOPPED OVER RIYADH",
+      "place": "RIYADH"
+    },
+    "thread-833e5c6b": {
+      "slug": "ROUTERS UNDER EXAMINATION",
+      "place": "WASHINGTON"
+    },
+    "thread-149f229b": {
+      "slug": "A UNITED OUTAGE HOLDS FLIGHTS",
+      "place": "CHICAGO"
+    },
+    "thread-3d743169": {
+      "slug": "A POLICE UNIT IS DISBANDED",
+      "place": "NEW YORK"
+    },
+    "canada-china-tariffs": {
+      "slug": "CANADA AND CHINA CUT TARIFFS",
+      "place": "SHENZHEN"
+    },
+    "greenland-security-deal": {
+      "slug": "DENMARK APPROVES THE ACCORD",
+      "place": "COPENHAGEN"
+    },
+    "thread-1c145f33": {
+      "slug": "A MILITARY ACCORD IS SIGNED",
+      "place": "CARACAS"
+    },
+    "thread-3c336fd7": {
+      "slug": "A REVIEW OF AN AUTOPSY",
+      "place": "LONDON"
+    },
+    "thread-1a2c9331": {
+      "slug": "THE KNESSET ELECTS A SPEAKER",
+      "place": "JERUSALEM"
     }
+  },
+  "echo": {
+    "id": "yalta-conference-1945",
+    "bank_commit": "e635665870796d6a37061be47f850260894f5565",
+    "bank_tag": "echo-bank/2026-11-21",
+    "picked_at": "2026-11-22T06:00:00Z",
+    "top3": [
+      {
+        "id": "yalta-conference-1945",
+        "score": 1.0,
+        "tiebreak": 3
+      },
+      {
+        "id": "potsdam-conference-1945",
+        "score": 1.0,
+        "tiebreak": 1
+      },
+      {
+        "id": "helsinki-final-act-1975",
+        "score": 1.0,
+        "tiebreak": 0
+      }
+    ],
+    "reason": "The lead's one tagged mechanism, the heads of rival great powers meeting in person, is shared by three entries; Yalta breaks the tie on the lead's own conditions: the three met while the war went on, and the decisions concerned a state that was not at the table and said so in its own words.",
+    "bed": "bed-2 (T8b, music director; not yet written)",
+    "advance_pick": false,
+    "late_pick": "Founder ruling, 2026-11-21: issue 35's Echo is picked late and disclosed. The bank entry was committed on 2026-11-21 (tag echo-bank/2026-11-21), after the week opened on 2026-11-16, so echo-advance-pick cannot pass; the sources page and the credits say so.",
+    "record": "episodes/35/echo-pick.json"
   }
 }

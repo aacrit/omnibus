@@ -1,0 +1,41 @@
+{
+  "schema": "omnibus.week-record/2",
+  "issue": 35,
+  "week_start": "2026-11-16",
+  "week_end": "2026-11-21",
+  "as_of": "2026-11-21T14:17:37Z",
+  "archive_commit": "b8dcf8752b2ddbb903c3e9a0ed05f29d3a98d82c",
+  "what": "The figures the programme prints on screen, each with the cluster and consensus point it rests on. The desk's facts, never shown as the desk's (bible k). Written by the T9b writer from the archive at the pin.",
+  "facts": {
+    "ukraine_20nov": {
+      "drones_more_than": 400,
+      "missiles_more_than": 110,
+      "date": "2026-11-20",
+      "source": {
+        "cluster": "a20dee58-b05f-45e6-81eb-ff767ae64a10",
+        "kind": "consensus",
+        "point": "Russian forces launched an overnight attack consisting of more than 400 drones and over 110 missiles."
+      }
+    },
+    "uk_eu_youth": {
+      "young_people_up_to": 100000,
+      "years_up_to": 3,
+      "date": "2026-11-20",
+      "source": {
+        "cluster": "5b086856-d4b3-4f71-89a4-06fad19bc1a7",
+        "kind": "consensus",
+        "point": "The youth experience scheme permits up to 100,000 young people from each side to live and work in the other's territory for up to three years."
+      }
+    },
+    "icj_vote": {
+      "for": 9,
+      "against": 6,
+      "date": "2026-11-19",
+      "source": {
+        "cluster": "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
+        "kind": "consensus",
+        "point": "The International Court of Justice ruled in a 9-6 decision that Myanmar committed genocide against the Rohingya minority."
+      }
+    }
+  }
+}
