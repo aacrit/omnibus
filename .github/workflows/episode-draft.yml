@@ -307,7 +307,11 @@ jobs:
           mkdir -p "$m" "$PKG/reports" "$DOCUMENT_JOURNAL_DIR" "episodes/$ISSUE/audio"
           mv "$dl/stage-graphics-$ISSUE/media" "$m/graphics"
           mv "$dl/stage-narration-$ISSUE/media" "$m/voice"
-          mv "$dl/stage-sources-$ISSUE/media" "$m/media"
+          # the sources land where the screenplay's rights ledger reference says its media are (issue 33:
+          # <root>/33/media/33; issue 35: <root>/35), read through this machine's media root (T9c)
+          rights_dir="$(python -m studio.engine.mediaroot rights-dir "episodes/$ISSUE")"
+          mkdir -p "$rights_dir"
+          mv "$dl/stage-sources-$ISSUE/media/$ISSUE/"* "$rights_dir/"
           cp "$dl/stage-graphics-$ISSUE/graphics-ledger.json" "episodes/$ISSUE/graphics-ledger.json"
           cp "$dl/stage-narration-$ISSUE/voice.json" "episodes/$ISSUE/audio/voice.json"
           # a v2 screenplay names its graphics plan until they are drawn: this run's checkout reads the drawn ledger (T9c)

@@ -65,3 +65,27 @@ def remap_tree(doc, env=None):
         return remap(x, env)
 
     return walk(doc)
+
+
+def rights_dir(film, env=None) -> str:
+    """T9c: the folder a film's rights-ledger media live in on this machine: its screenplay's ``ledgers.rights.media``
+    read under this machine's root, else the rights ledger's own folder (the engine's load_ledgers reading)."""
+    import json
+    from pathlib import Path
+    film = Path(film)
+    ref = (json.loads((film / "screenplay.json").read_text(encoding="utf-8")).get("ledgers") or {}).get("rights")
+    if isinstance(ref, dict) and ref.get("media"):
+        media = _norm(remap(ref["media"], env))
+        absolute = media.startswith("/") or (len(media) > 1 and media[1] == ":")    # POSIX or a drive, on any OS
+        return media if absolute else _norm(str(film / media))
+    path = film / (ref if isinstance(ref, str) else (ref or {}).get("path", "rights-ledger.json"))
+    return _norm(str(path.parent))
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) == 3 and sys.argv[1] == "rights-dir":
+        print(rights_dir(sys.argv[2]))
+        raise SystemExit(0)
+    print("usage: python -m studio.engine.mediaroot rights-dir <film>", file=sys.stderr)
+    raise SystemExit(2)

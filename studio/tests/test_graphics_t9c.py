@@ -92,3 +92,10 @@ def test_a_graphic_is_ledgered_by_its_plan_item_and_dated_from_the_plan(tmp_path
                            output_path="x.mov", output_sha256="0" * 64, frames=180, extra={})
     render.plan_fields([e], ROOT / "episodes" / "35", _play())
     assert e.extra["content_date"] and e.extra["content_basis"]
+
+
+def test_the_runner_lays_rights_media_where_each_screenplay_names_them():
+    from studio.engine import mediaroot as MR
+    env = {"OMNIBUS_MEDIA_ROOT": "/home/runner/omnibus-media"}
+    assert MR.rights_dir(ROOT / "episodes" / "35", env) == "/home/runner/omnibus-media/35"
+    assert MR.rights_dir(ROOT / "episodes" / "33", env) == "/home/runner/omnibus-media/33/media/33"
