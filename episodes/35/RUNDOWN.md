@@ -59,7 +59,7 @@ The draft reads four primary texts of the week: the declaration's points 3 and 4
 
 ## The Echo
 
-Yalta, the Crimea, 4 to 11 February 1945, horizon the close of 1 March 1945 (Roosevelt's report to Congress). Picked late and disclosed by the founder's ruling of 21 November: the bank entry was committed on 21 November, after the week opened, so the advance-pick rule could not hold. Score: the lead's one tagged mechanism (`leaders-meet-in-person`) is shared by Yalta, Potsdam and Helsinki; Yalta breaks the tie because the three met while the war went on and the decisions concerned a state that was not at the table and said so in its own words. The pick, its scores and its risks are in `echo-pick.json`. The Signal Corps films are a rights-read request, never cleared; the Echo is planned on the communique and the three voices' texts, with four NARA stills (Unrestricted) to fetch. The bed rests under every quotation and lands its written ending under the three signatures.
+Yalta, the Crimea, 4 to 11 February 1945, horizon the close of 1 March 1945 (Roosevelt's report to Congress). Picked late and disclosed by the founder's ruling of 21 November: the bank entry was committed on 21 November, after the week opened, so the advance-pick rule could not hold. Score: the lead's one tagged mechanism (`leaders-meet-in-person`) is shared by Yalta, Potsdam and Helsinki; Yalta breaks the tie because the three met while the war went on and the decisions concerned a state that was not at the table and said so in its own words. The pick, its scores and its risks are in `echo-pick.json`. The Signal Corps films are a rights-read request, never cleared; the Echo is planned on the three voices' texts and maps, with four NARA stills (Unrestricted) to fetch. The bed rests under every quotation and lands its written ending under the last frame, Yalta on the map. The communique itself is not typeset: its text is not in hand, so the two passages that give its terms run over maps of Germany and Poland.
 
 ## Pictures
 
@@ -67,8 +67,8 @@ Yalta, the Crimea, 4 to 11 February 1945, horizon the close of 1 March 1945 (Roo
 |---|---|---|
 | footage | 124.9 | 14.7% |
 | still | 44.9 | 5.3% |
-| map | 423.0 | 49.9% |
-| document | 172.2 | 20.3% |
+| map | 474.5 | 56.0% |
+| document | 120.8 | 14.2% |
 | card | 37.9 | 4.5% |
 | graphic | 45.0 | 5.3% |
 
@@ -129,14 +129,14 @@ Cleared moving picture on screen: S-TEASE-4 9.1 s, S-LEAD-1 22.8 s, S-LEAD-2 5.8
 | p-briefs | S-BR-10 | 10:47.0 | 9.6 s | map | g-loc-br-10 | In Jerusalem on Tuesday, the Knesset elected Matan Kahana, of Gadi Eisenkot's Yashar party, as its speaker, by sixty-six votes to fifty-two. |  |
 | p-echo | G-BUMP-2 | 10:56.5 | 1.8 s | bumper | g-bump-echo |  |  |
 | p-echo | S-EC-1 | 10:58.3 | 15.8 s | map | g-loc-echo-crimea | On the fourth of February, nineteen forty-five, three men sat down together at the Livadia Palace, at Yalta in the Crimea: Winston Churchill, Franklin Roosev... | `t9b-echo-still-livadia` (to_fetch) |
-| p-echo | S-EC-2 | 11:14.1 | 16.4 s | document | g-page-echo-communique-1 | They talked for eight days, and on the eleventh they signed their report. / Germany was to be divided into zones of occupation, and was to make good, in kind... | `t9b-echo-still-patio` (to_fetch) |
-| p-echo | S-EC-3 | 11:30.6 | 26.0 s | document | g-page-echo-communique-6 | Poland's eastern frontier was to follow the Curzon Line. Poland was to gain land in the north and the west, and its western border was to wait for the Peace ... | `t9b-echo-still-molotov` (to_fetch) |
+| p-echo | S-EC-2 | 11:14.1 | 16.4 s | map | g-loc-echo-germany | They talked for eight days, and on the eleventh they signed their report. / Germany was to be divided into zones of occupation, and was to make good, in kind... | `t9b-echo-still-patio` (to_fetch) |
+| p-echo | S-EC-3 | 11:30.6 | 26.0 s | map | g-loc-echo-poland | Poland's eastern frontier was to follow the Curzon Line. Poland was to gain land in the north and the west, and its western border was to wait for the Peace ... | `t9b-echo-still-molotov` (to_fetch) |
 | p-echo | S-EC-4 | 11:56.6 | 12.6 s | map | g-loc-echo-london | On the evening of the twelfth, the Foreign Office handed the text to the Polish ambassador in London. Three days later, his government's statement reached Wa... |  |
 | p-echo | S-EC-5 | 12:09.1 | 23.2 s | document | g-page-echo-polish | READ: decisions of the three-Power conference were prepared and taken not only without participation and authorization of the Polish Government but also with... |  |
 | p-echo | S-EC-6 | 12:32.4 | 20.9 s | document | g-page-echo-hansard | On the twenty-seventh, Churchill asked the House of Commons to approve it. / READ: I have never concealed from the House that, personally, I think the Russia... |  |
 | p-echo | S-EC-7 | 12:53.3 | 35.4 s | document | g-page-echo-fdr | On the first of March, Roosevelt reported to Congress, seated, after a journey of fourteen thousand miles. / READ: The decision with respect to the boundarie... |  |
-| p-echo | S-EC-8 | 13:28.7 | 7.0 s | document | g-page-echo-signatures | The report bore three signatures. | `t9b-echo-still-patio` (to_fetch) |
-| p-echo | S-EC-ROOM | 13:35.7 | 2.0 s | document | g-page-echo-signatures |  |  |
+| p-echo | S-EC-8 | 13:28.7 | 7.0 s | map | g-loc-echo-yalta | The report bore three signatures. | `t9b-echo-still-patio` (to_fetch) |
+| p-echo | S-EC-ROOM | 13:35.7 | 2.0 s | map | g-loc-echo-yalta |  |  |
 | p-signoff | S-IDENT | 13:37.7 | 10.2 s | ident card |  | That was the week of sixteen to twenty-one November. For the record, every source is at omnibus dot voidvision dot org. |  |
 | p-credits | G-CREDITS | 13:47.9 | 16.0 s | credits | g-credits |  |  |
 | p-credits | G-ENDBOARD | 14:03.9 | 4.0 s | end board | g-endboard |  |  |
@@ -168,8 +168,8 @@ Each shot that names an open request airs its cleared fallback now; requests of 
 | `t9b-p5-myanmar-read` | to_capture | S-P5-4 | the narrator attributes |
 | `t9b-p5-sentinel-coxs` | to_fetch | S-P5-3 | locator, Rakhine and Cox's Bazar |
 | `t9b-echo-still-livadia` | to_fetch | S-EC-1 | locator, the Crimea, umber |
-| `t9b-echo-still-patio` | to_fetch | S-EC-2, S-EC-8 | the communique, typeset |
-| `t9b-echo-still-molotov` | to_fetch | S-EC-3 | the communique's section on Poland, typeset |
+| `t9b-echo-still-patio` | to_fetch | S-EC-2, S-EC-8 | the map: Germany (S-EC-2) and Yalta (S-EC-8) |
+| `t9b-echo-still-molotov` | to_fetch | S-EC-3 | the map: Poland (S-EC-3) |
 | `t9b-echo-film-yalta` | rights_read | S-EC-1 | stills and documents |
 | `t9b-lead-putin-bite` | sot_review | S-LEAD-6 | the muted record with the reader speaking the official English text (aired now) |
 | `t9b-p4-apec-bite` | sot_review | S-P4-APEC | the muted record with the reader (aired now) |

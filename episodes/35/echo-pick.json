@@ -183,10 +183,31 @@
   "period_documents": [
     {
       "id": "src-frus-malta-d500",
-      "what": "Report of the Crimea Conference (the communique), signed by Churchill, Roosevelt and Stalin, text from the original signed document in the Department of State files",
+      "what": "Report of the Crimea Conference (the communique), 11 February 1945",
       "date": "1945-02-11",
       "licence": "pd-us-federal",
-      "show": "typeset and toured (sections II, III, VI, the signatures)"
+      "show": "not typeset in issue 35: its text is not held verbatim here (only its sha256), so the narrator states its terms from the bank's sourced facts over maps of Germany and Poland"
+    },
+    {
+      "id": "src-frus-1945v05-d111",
+      "what": "Statement of the Polish Government, communicated 15 February 1945 (FRUS 1945 vol. V, doc. 111, printed 1969)",
+      "date": "1945-02-15",
+      "licence": "pd-us-federal",
+      "show": "typeset verbatim (S-EC-5) and read; dot PUBLISHED 1969"
+    },
+    {
+      "id": "src-hansard-1945-02-27",
+      "what": "House of Commons Debates, 27 February 1945, Crimea Conference",
+      "date": "1945-02-27",
+      "licence": "Parliamentary copyright; quoted only",
+      "show": "the quoted passage typeset verbatim (S-EC-6) and read"
+    },
+    {
+      "id": "src-app-fdr-1945-03-01",
+      "what": "Roosevelt's Address to Congress on the Yalta Conference, 1 March 1945",
+      "date": "1945-03-01",
+      "licence": "public, presidential address",
+      "show": "the quoted passage typeset verbatim (S-EC-7) and read"
     }
   ],
   "sources": [
