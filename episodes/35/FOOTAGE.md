@@ -1,61 +1,73 @@
 # Issue 35 footage and primary sources (T9a)
 
-The sourcing pass of 2026-11-22 ran against the pin b8dcf87, with the cutoff at 2026-11-21T14:17:37Z. It read the rights ledger after the redo fetch of 2026-11-22, which followed the verifier's three marks reviews (verifier: claude-sonnet-5, 2026-11-22T01:00:00Z). Requests are in `rundown-assets.json`, pins and searches in `candidates/<story>.json`, and the fetcher's own record in `ASSETS.md` and `rights-ledger.json`.
+This file is the sourcing pass against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z), updated on 2026-11-22. That update came after ticket 5 (#42) merged the kremlin, uastate and kantei adapters and OGL v3. Where each record lives:
 
-**Cleared** means the ledger holds the item and every blocking lint passes, so it counts in `footage_cleared_s`. **Awaiting review** means the item is fitted and staged with its cuts found, but no marks review has been signed yet; none is left in that state.
+- **Requests:** `rundown-assets.json`.
+- **Pins and searches:** `candidates/<story>.json`.
+- **The fetcher's record:** `ASSETS.md` and `rights-ledger.json` (with two official transcripts).
+
+**Cleared** means the ledger holds the item and every blocking rights lint passes. It is the figure `footage_cleared_s` counts, the sum of each item's fit span. A fit span is the most that may air, not what the screenplay will cut.
 
 ## Summary
 
-| Slot | Story | Cleared moving picture | Awaiting marks review | Pending T5 | SOT bites available | Documents | Gaps |
-|---|---|---|---|---|---|---|---|
-| lead | ukraine-bridges-strikes | 0 s | 0 s | 34.4 s: the SSU's Kerch strike video (CC BY 4.0, RELEASED BY THE SSU), plus 2 stills | none | SSU statement (pending T5); Zelenskyy statements (pending T5, president.gov.ua 403); Russian MoD statement (to locate, typeset as a state record); Poland's statement (to locate, gov.pl terms unreviewed) | No free picture of the 20 Nov Kyiv strike or of Poland by the cutoff. No Russian-side picture. Clears the 30 s cap only once T5 lands and the SSU file's fit keeps 30 s or more. |
-| package_2 | uk-eu-reset | 0 s | 0 s | gov.uk video and texts under OGL v3, not yet located | none | Burnham's Brexit speech, 16 Nov (pending T5, OGL); the UK and EU agreements, 20 Nov (gov.uk pending T5; EU text on a host outside the allowlist) | No free moving picture with the adapters that exist. The Commission's audiovisual service is not a fetcher host. |
-| package_3 | gulf-us-iran | 0 s | 0 s | none | none | CENTCOM statements on Qeshm (centcom.mil answered 403); Iran's foreign ministry statement (to locate) | No video of the strikes, intercepts, drones or tanker on DVIDS or Commons. One still cleared: USS Theodore Roosevelt enters the 5th Fleet, 17 Nov (DVIDS, PD). |
-| package_4 | shenzhen-summit | **37.93 s**: arrival ceremony 45 to 70 s (25 s, raw pool, nat sound); trilateral talks 0 to 12.93 s (produced, mute B-roll) | 0 s | Putin's APEC Business Summit speech (1177.7 s record, CC BY 4.0, RELEASED BY THE KREMLIN); 5 Kremlin stills; kantei stills | Putin, APEC address, 18 Nov: record 1177.7 s (pending T5 and the transcript step). Trump: none clean. | The declaration, White House text of 19 Nov (**fetched**); the Kremlin's English text (pending T5) | No Chinese-side picture; Xi is a page or attributed. One still cleared: Trump and Putin, 19 Nov (White House, PD). Shape `full` (37.93 s, over the 30 s cap). |
-| package_5 | thread-ec790a82 (ICJ) | 0 s | 0 s | none | none | The judgment in The Gambia v. Myanmar, 19 Nov; the Court's press release; Myanmar's rejection, 20 Nov (to locate). All typeset; icj-cij.org is not a fetcher host. | No free moving picture. UN Web TV is refused, and the ICJ's picture terms are unreviewed. A document package. |
-| brief_1 | thread-a3e1e3ef (Houthis, Riyadh) | 0 s | 0 s | none | none | none named | Nothing filmed on a free source. |
-| brief_2 | thread-833e5c6b (FAA ground stop) | 0 s | 0 s | none | none | none named | The White House briefing on the ground stop is dated 13 Nov, before the week (not taken). |
-| brief_3 | thread-149f229b (United outage) | 0 s | 0 s | none | none | none named | Nothing free. |
-| brief_4 | thread-b1206893 (cyber director) | 0 s | 0 s | none | none | The White House release naming Kirsten Davies, 20 Nov (**fetched**) | No picture. |
-| brief_5 | thread-3d743169 (Mamdani, NYPD) | 0 s | 0 s | none | none | none named | New York City's video terms are unreviewed. |
-| brief_6 | canada-china-tariffs | 0 s | 0 s | none | none | none named | Nothing of the agreement. |
-| brief_7 | greenland-security-deal | 0 s | 0 s | none | none | none named | Folketing terms are unreviewed. |
-| brief_8 | thread-1c145f33 (US and Venezuela) | **12 s**: Hegseth at the lectern, Caracas, 18 Nov (DoW, raw address, 15 to 27 s, muted) | 0 s | none | Hegseth, Caracas address, 18 Nov: record 1259.8 s (a brief takes no bite) | none named | VTV and La Iguana TV uploads are refused (laundering rule). |
-| brief_9 | thread-3c336fd7 (Epstein autopsy) | 0 s | 0 s | none | none | none named | Nothing free. |
-| brief_10 | thread-1a2c9331 (Knesset speaker) | 0 s | 0 s | none | none | none named | Entered when the ICJ became package 5. Not searched by name. |
+| Slot | Story | Cleared moving picture | Awaiting a signed review | SOT bites available | Documents | Gaps and refusals |
+|---|---|---|---|---|---|---|
+| lead | ukraine-bridges-strikes | **155 s**: Putin's 19 Nov news conference (kremlin.ru), his answer on the attacks on the Crimean Bridge, 1380 to 1535 s | 28.63 s: the SSU's Kerch strike video, 0.167 to 28.8 s (marks review) | Putin, news conference, 19 Nov: `news_conference` from the page's title, with an official English transcript in the ledger; the bite is cut inside 1380 to 1535 s at sentence bounds | The Kremlin's English transcript of 19 Nov (**fetched**): "following the strikes on the Crimean Bridge, there will be no negotiations". The SSU still KerchBridgeCollapse.jpg (**fetched**, RELEASED BY THE SECURITY SERVICE OF UKRAINE) | **FlamingoKerch.jpg refused**: its only source is the President's X post, not president.gov.ua. No Zelenskyy statement or video on a Commons upload in the week. No SES or KMDA footage of the 20 Nov Kyiv strike. kremlin.ru 81276 (17 Nov bridge update) has no video. |
+| package_2 | uk-eu-reset | 0 s | 0 s | none | none reachable | No OGL transfer on Commons of the speech, the summit or the agreements. T5 built no gov.uk adapter, because gov.uk video is YouTube embeds. |
+| package_3 | gulf-us-iran | 0 s | 0 s | none | CENTCOM (403) and Iran (to locate) | No video of the week's events. One still: USS Theodore Roosevelt enters the 5th Fleet, 17 Nov (DVIDS). |
+| package_4 | shenzhen-summit | **57.93 s**: arrival 45 to 70 s (25 s); Putin's APEC CEO Summit address 110 to 130 s (20 s, kremlin.ru); trilateral talks 0 to 12.93 s (12.93 s) | none for the fetcher (see the review list) | Putin, APEC CEO Summit address, 18 Nov, 1177.7 s, with an official English transcript in the ledger. Its `record_kind` is `unknown` (the title "Деловой саммит форума АТЭС" does not state it), so it airs muted until a checking role reviews the kind. | The declaration, White House text (**fetched**); the Kremlin's English APEC transcript (**fetched**) | kantei skipped: refused until the CoS signs its terms. kremlin.ru 81303 (trilateral meeting) lists no video. No Chinese-side picture. |
+| package_5 | thread-ec790a82 (ICJ) | 0 s | 0 s | none | the judgment, the press release, Myanmar's rejection (typeset; not fetcher hosts) | No free moving picture. |
+| brief_4 | thread-b1206893 | 0 s | 0 s | none | the White House release (**fetched**) | |
+| brief_8 | thread-1c145f33 | **12 s**: Hegseth, Caracas, 15 to 27 s | 0 s | (a brief takes no bite) | | VTV and La Iguana TV refused |
+| other briefs | | 0 s | 0 s | none | | as in the candidates files |
+
+### Ledger changes
+
+- The three videos ledgered before ticket 5 were re-fetched (`--redo`) so that they state `record_kind`. Its new lint blocks footage without one.
+- The commons adapter reads no kind from "Participates in ... Arrival Ceremony", "Hold Trilateral Talks" or "Full Address at", so all three are `unknown` and muted.
+- The arrival's nat sound therefore does not air until a checking role reviews its kind.
+- Their marks reviews stood against the files' own cuts again, with no re-sign.
 
 ## Footage share against 13:30 (810 s)
 
 | State | Moving picture | Share |
 |---|---|---|
-| Cleared now (after the three marks reviews) | 49.93 s | 6.2% |
-| Plus T5 (SSU 34.4 s; about 25 s from Putin's address) and their reviews | about 109 s | about 13% |
-| Plus the Echo's film at bible q's 85 s (T8, not sourced here) | about 194 s | about 24% |
+| Cleared now, by fit span | 224.93 s | 27.8% |
+| Cleared now, as it would plausibly air | about 115 s | about 14% |
+| Plus the SSU video after its marks review | about 144 s | about 18% |
+| Plus the Echo's film at bible q's 85 s (T8, not sourced here) | about 229 s | about 28% |
 
-That is far below the 60 to 80% target and below bible q's estimate of 43 to 55%. Most of the week's free picture of the Ukraine lead and the Gulf is party-released material behind ticket 5, or does not exist on a free source. Nothing is padded.
+The "plausibly air" row counts the lead's news conference as one 20 s bite, not its 155 s answer span. It counts the APEC address as one 20 s bite, and the arrival, talks and Caracas spans as fitted. The share is still well under the 60 to 80% target and under bible q's 43 to 55%. Nothing is padded.
 
-## Verifier marks reviews (signed 2026-11-22T01:00:00Z, all three stood)
+## Reviews needed from a checking role
 
-Each item is staged in `D:/omnibus-media/35/review/`. The cuts below were found with `scripts/lib/rights/scenes.mjs` at threshold 0.2 over the fit span. The redo fetch found the same cuts in the files it downloaded, and no review was marked for a re-sign.
+**Marks review (the fetcher requires it):**
 
-| Request | Staged file (sha256) | Span | Cuts in span |
+| Request | File (sha256) | Span | Cuts in span (found by scenes.mjs, threshold 0.2) |
 |---|---|---|---|
-| e35-p4-arrival | e35-p4-arrival.webm (63dd396f...762e) | 45 to 70 s | none (one shot) |
-| e35-p4-talks | e35-p4-talks.webm (2094dc14...f3c3) | 0 to 12.93 s | 0.751, 2.252, 3.837, 4.588, 5.339, 6.757, 7.966, 9.468, 9.885, 10.969 |
-| e35-b8-caracas | e35-b8-caracas.webm (d3e95d3c...937c) | 15 to 27 s | none |
+| e35-lead-ssu-video | `D:/omnibus-media/35/review/e35-lead-ssu.webm` (6073b1e4...f825) | 0.167 to 28.8 s | 22.99, 24.491, 26.994 |
 
-After T5 lands, two more need reviews: the SSU Kerch video and Putin's APEC address.
+The SSU's own bug sits top left in every sampled frame. Its title card (before 0.167 s) and its end card (from about 28.8 s) are outside the span.
 
-## Not taken, and why
+**Marks review for the vision pass.** The fetcher does not require these, because kremlin.ru files are not YouTube copies. They are the ledger's own files.
 
-- **20 Nov White House news conference.** Washington, not Shenzhen, and a burned-in CTA banner with a QR code.
-- **"Addresses Historic Trilateral Meeting".** A vertical social edit with a title banner and captions.
-- **The X copy of the talks.** A duplicate of the White House transfer.
-- **Kanal13's Shenzhen clips.** Agency pool (AP).
-- **TASS photo.** An agency.
-- **Hegseth's Lincoln message.** Dated 7 Oct, and not a fit.
-- **The Mullin and Duffy FAA briefing.** Dated 13 Nov.
-- **C-SPAN items.** Committee camera coverage.
-- **VTV and La Iguana TV.** Venezuelan media marked public domain.
+| Request | File (sha256) | Span | Cuts in span |
+|---|---|---|---|
+| e35-lead-putin-presser | `D:/omnibus-media/35/e35-lead-putin-presser.mp4` (b8a7a3e7...de15) | 1380 to 1535 s | 1385.32, 1396.76, 1401.68, 1407.2, 1412.96, 1417.16, 1436.56, 1446.96, 1455.76, 1493.68, 1498.04, 1503.04, 1526.92, 1532.64 |
+| e35-p4-putin-apec | `D:/omnibus-media/35/e35-p4-putin-apec.mp4` (dcbf2045...6f60) | 110 to 130 s | 126.48, 128.04 |
 
-The capture pool has no issue-34 or issue-35 pool, so `rights.mjs candidates 35` found nothing to map (R2: no pool; artifact: none of the last runs). The capture index of run 44933588497 held only locators for this week's stories.
+**Signed `record_kind` reviews.** A pin's `record_kind: { kind, by, at, why }` comes from a verifier, the CoS or the founder, never the sourcer.
+
+- **e35-p4-putin-apec:** an address on its occasion. Without the review, no bite can come from it.
+- **e35-p4-arrival:** the kind of an arrival ceremony's raw feed. Without it, its nat sound stays muted.
+- **e35-lead-putin-presser:** the page's title already gives `news_conference`. Before a bite, the reviewer should confirm whether the English page's file carries Putin's own Russian sound or an interpretation. The Russian page lists its own 1.9 GB file.
+
+## Refused or skipped
+
+- **FlamingoKerch.jpg:** uastate refuses it, because its source is x.com/ZelenskyyUa, not president.gov.ua.
+- **kantei stills:** skipped. The adapter refuses them until the CoS signs kantei's terms.
+- **kremlin.ru 81303 and 81276:** the pages list no video of their own.
+- **Earlier refusals:** the CTA-bannered news conference, the produced vertical clip, Kanal13, TASS, VTV, La Iguana TV, C-SPAN, and items dated before the week. See the candidates files.
+- **centcom.mil and war.gov:** both answered 403 to the honest request. Not retried.
+
+Every request carried the fetcher's User-Agent, `void-omnibus-rights/1 (+https://omnibus.voidvision.org; asset fetcher, one request at a time)`, with no email in any header. Downloads ran one at a time. kremlin.ru was read over plain http under T5's ruling, which pins every file by sha256.

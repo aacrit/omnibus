@@ -2,7 +2,7 @@
   "schema": "omnibus.rundown-assets/1",
   "issue": 35,
   "written": "2026-11-22",
-  "by": "T9a sourcing pass (Forge builder): one request per item, ladders that name the file, for the slots of rundown.json at the pin b8dcf87",
+  "by": "T9a sourcing pass (Forge builder): one request per item, ladders that name the file, for the slots of rundown.json at the pin b8dcf87; T9a second pass after T5 (#42), 2026-11-22: the state-channel requests",
   "asset_requests": [
     {
       "id": "e35-p4-arrival",
@@ -141,6 +141,143 @@
         }
       ],
       "fallback": "tier 4: the locator, Caracas"
+    },
+    {
+      "id": "e35-lead-ssu-video",
+      "for": "lead",
+      "kind": "footage",
+      "purpose": "The Kerch bridge, 17 Nov: the Security Service of Ukraine's own video of its strike (thermal approach, the impact, the arch down in daylight).",
+      "must_show": "the bridge and the strike; the SSU's own end card never airs",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "uastate",
+          "query": "File:Video 2026-11-17 13-25-19.webm",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Kerch Strait"
+    },
+    {
+      "id": "e35-lead-ssu-still",
+      "for": "lead",
+      "kind": "still",
+      "purpose": "The Kerch bridge after the 17 Nov strike: the SSU's photograph of the damaged span.",
+      "must_show": "the bridge",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "uastate",
+          "query": "File:KerchBridgeCollapse.jpg",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Kerch Strait"
+    },
+    {
+      "id": "e35-lead-flamingo-still",
+      "for": "lead",
+      "kind": "still",
+      "purpose": "The Office of the President's picture of the missile aimed at the bridge (screenplay request t9b-lead-ssu-stills).",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "uastate",
+          "query": "File:FlamingoKerch.jpg",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Kerch Strait"
+    },
+    {
+      "id": "e35-lead-putin-presser",
+      "for": "lead",
+      "kind": "footage",
+      "purpose": "Shenzhen, Thursday 19 Nov: Putin's news conference, his answer on the attacks on the Crimean Bridge (the Kremlin's own record).",
+      "must_show": "Putin at the lectern",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "en.kremlin.ru",
+          "adapter": "kremlin",
+          "query": "a pinned kremlin.ru page",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Kerch Strait; the narrator attributes"
+    },
+    {
+      "id": "e35-lead-kremlin-read",
+      "for": "lead",
+      "kind": "document",
+      "purpose": "The Kremlin's English transcript of the 19 Nov news conference: Putin's words on the Crimean Bridge and negotiations, the page the reader speaks.",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "en.kremlin.ru",
+          "adapter": "kremlin",
+          "query": "a pinned kremlin.ru page",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "the narrator attributes"
+    },
+    {
+      "id": "e35-p4-putin-apec",
+      "for": "package_4",
+      "kind": "footage",
+      "purpose": "Shenzhen, Wednesday 18 Nov: Putin's address to the APEC CEO Summit (the Kremlin's own record).",
+      "must_show": "Putin at the lectern",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "kremlin.ru",
+          "adapter": "kremlin",
+          "query": "a pinned kremlin.ru page",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Shenzhen"
+    },
+    {
+      "id": "e35-p4-apec-read",
+      "for": "package_4",
+      "kind": "document",
+      "purpose": "The Kremlin's English transcript of Putin's APEC CEO Summit address (18 Nov).",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "en.kremlin.ru",
+          "adapter": "kremlin",
+          "query": "a pinned kremlin.ru page",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "the narrator attributes"
     }
   ]
 }

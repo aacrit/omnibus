@@ -3,7 +3,7 @@
   "issue": 35,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "05cba80892ccdc6e1b823fd64c5d58188eb0349f137a4b576f06b823f171711a",
+  "ledger_sha256": "86c4db3d44196f263e9c17dc5faaa935c704ab1445b244c33b31b8237a08a31b",
   "credit_disclosures": [
     {
       "text": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
@@ -138,7 +138,11 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump Participates in an Arrival Ceremony – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-22T00:43:25Z"
+        "captured_at": "2026-11-22T01:49:42Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "record_kind unknown: not shown to be an unedited event record, so its own sound never airs (bible v2 section e, sot-raw-source); mute B-roll only"
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,
@@ -163,7 +167,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump, Xi and Putin Hold Trilateral Talks in China – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-22T00:43:54Z"
+        "captured_at": "2026-11-22T01:50:21Z"
       },
       "audio": {
         "mode": "muted",
@@ -192,7 +196,7 @@
       "licence_evidence": {
         "url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Department of War\nCredit: YouTube: Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela. – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
-        "captured_at": "2026-11-22T00:43:57Z"
+        "captured_at": "2026-11-22T01:50:25Z"
       },
       "audio": {
         "mode": "muted",
@@ -203,6 +207,135 @@
       "out_point": null,
       "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
       "dispute": "This episode uses \"Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela\" from https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm. It is in the public domain: Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105). The licence was read at https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint d3e95d3cf9c68f0baec5e2cd03ff37f464102355a526a8868ba9d6d0350e937c. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-lead-ssu-still",
+      "title": "KerchBridgeCollapse",
+      "source_url": "https://commons.wikimedia.org/wiki/File:KerchBridgeCollapse.jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/0/05/KerchBridgeCollapse.jpg",
+      "sha256": "1b97d1b4a0790b80c628baf9edf4102783f99cec0ed620b8e3aaced1b3c17997",
+      "credit": "Security Service Ukraine, via Wikimedia Commons",
+      "licence": {
+        "id": "cc-by-4.0",
+        "name": "CC BY 4.0",
+        "deed_url": "https://creativecommons.org/licenses/by/4.0/",
+        "legalcode_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "terms": "Anyone may copy, adapt and share the work, including commercially, provided the author is credited, the licence is named and changes are indicated."
+      },
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:KerchBridgeCollapse.jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: CC BY 4.0\nLicense: cc-by-4.0\nLicenseUrl: https://creativecommons.org/licenses/by/4.0\nUsageTerms: Creative Commons Attribution 4.0\nArtist: Security Service Ukraine\nCredit: https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video\nState body: the Security Service of Ukraine; licence template: {{Ssu.gov.ua}}; source: https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video.\nA release of the Security Service of Ukraine under CC BY 4.0 on its own site, transferred to Commons; party label RELEASED BY THE SECURITY SERVICE OF UKRAINE.",
+        "captured_at": "2026-11-22T01:39:08Z"
+      },
+      "basis": "CC BY 4.0 under the Security Service of Ukraine's own site terms, as the Commons licence tag states; the file's source is the body's own page https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video (bible v2 section n)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"KerchBridgeCollapse\" from https://commons.wikimedia.org/wiki/File:KerchBridgeCollapse.jpg. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"Security Service Ukraine, via Wikimedia Commons\". The licence was read at https://commons.wikimedia.org/wiki/File:KerchBridgeCollapse.jpg on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 1b97d1b4a0790b80c628baf9edf4102783f99cec0ed620b8e3aaced1b3c17997. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-lead-putin-presser",
+      "title": "Press conference following visit to China",
+      "source_url": "http://en.kremlin.ru/events/president/news/81305",
+      "media_url": "http://static.kremlin.ru/media/events/video/en/video_high/VAWWNXlVSaDA3eACazVbthdDV67lWqnG.mp4",
+      "sha256": "b8a7a3e7cd9c782a432628876dc44fc6288687b9a6bda9629a47b8f82d8fde15",
+      "credit": "Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://en.kremlin.ru/events/president/news/81305",
+      "licence": {
+        "id": "cc-by-4.0",
+        "name": "CC BY 4.0",
+        "deed_url": "https://creativecommons.org/licenses/by/4.0/",
+        "legalcode_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "terms": "Anyone may copy, adapt and share the work, including commercially, provided the author is credited, the licence is named and changes are indicated."
+      },
+      "licence_evidence": {
+        "url": "http://en.kremlin.ru/events/president/news/81305",
+        "captured_text": "Read from the page http://en.kremlin.ru/events/president/news/81305 and the President of Russia website's terms (http://en.kremlin.ru/about/copyrights).\nTerms: \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\" The terms exclude RIA Novosti photographs (MIA Russia Today) and TASS photographs posted with the agency and author named. Terms text sha256 77eee66a9826923de33cb8f818a3194582a4a7ccc065f417b57345100d6a1fde.\nTitle: \"Press conference following visit to China\"; day 2026-11-19; place Shenzhen.\nThe page's own video files: http://static.kremlin.ru/media/events/video/en/video_high/VAWWNXlVSaDA3eACazVbthdDV67lWqnG.mp4 (High quality, 1.9 GB); http://static.kremlin.ru/media/events/video/en/video_low/1eXUmAvdfR05Y48vMZaczjTAcBh512Fq.mp4 (Standard quality, 344.8 MB).\nReleased by the Kremlin under CC BY 4.0 (Creative Commons Attribution 4.0 International); party label RELEASED BY THE KREMLIN.",
+        "captured_at": "2026-11-22T01:39:10Z"
+      },
+      "basis": "kremlin.ru's terms (http://en.kremlin.ru/about/copyrights): \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\"; the page's own video (bible v2 section n)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Press conference following visit to China\" from http://en.kremlin.ru/events/president/news/81305. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://en.kremlin.ru/events/president/news/81305\". The licence was read at http://en.kremlin.ru/events/president/news/81305 on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b8a7a3e7cd9c782a432628876dc44fc6288687b9a6bda9629a47b8f82d8fde15. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-lead-kremlin-read",
+      "title": "Press conference following visit to China",
+      "source_url": "http://en.kremlin.ru/events/president/news/81305",
+      "media_url": "http://en.kremlin.ru/events/president/news/81305",
+      "sha256": "b205726cfb7c5b4c051d0d9eb754898960aba95a2e34fdcfe710136d74cce121",
+      "credit": "Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://en.kremlin.ru/events/president/news/81305",
+      "licence": {
+        "id": "cc-by-4.0",
+        "name": "CC BY 4.0",
+        "deed_url": "https://creativecommons.org/licenses/by/4.0/",
+        "legalcode_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "terms": "Anyone may copy, adapt and share the work, including commercially, provided the author is credited, the licence is named and changes are indicated."
+      },
+      "licence_evidence": {
+        "url": "http://en.kremlin.ru/events/president/news/81305",
+        "captured_text": "Read from the page http://en.kremlin.ru/events/president/news/81305 and the President of Russia website's terms (http://en.kremlin.ru/about/copyrights).\nTerms: \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\" The terms exclude RIA Novosti photographs (MIA Russia Today) and TASS photographs posted with the agency and author named. Terms text sha256 77eee66a9826923de33cb8f818a3194582a4a7ccc065f417b57345100d6a1fde.\nTitle: \"Press conference following visit to China\"; day 2026-11-19; place Shenzhen.\nReleased by the Kremlin under CC BY 4.0 (Creative Commons Attribution 4.0 International); party label RELEASED BY THE KREMLIN.",
+        "captured_at": "2026-11-22T01:45:05Z"
+      },
+      "basis": "kremlin.ru's terms (http://en.kremlin.ru/about/copyrights): \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\"; the page's own text (bible v2 section n)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Press conference following visit to China\" from http://en.kremlin.ru/events/president/news/81305. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://en.kremlin.ru/events/president/news/81305\". The licence was read at http://en.kremlin.ru/events/president/news/81305 on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint b205726cfb7c5b4c051d0d9eb754898960aba95a2e34fdcfe710136d74cce121. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-p4-putin-apec",
+      "title": "Деловой саммит форума АТЭС",
+      "source_url": "http://kremlin.ru/events/president/news/81286",
+      "media_url": "http://static.kremlin.ru/media/events/video/ru/video_high/UmFVUbUhrvCvb06tYl1cObEBUuxpcYAk.mp4",
+      "sha256": "dcbf2045d2f5f335c70774131aba7ad8102ab149de8855cd227011dceac76f60",
+      "credit": "Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://kremlin.ru/events/president/news/81286",
+      "licence": {
+        "id": "cc-by-4.0",
+        "name": "CC BY 4.0",
+        "deed_url": "https://creativecommons.org/licenses/by/4.0/",
+        "legalcode_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "terms": "Anyone may copy, adapt and share the work, including commercially, provided the author is credited, the licence is named and changes are indicated."
+      },
+      "licence_evidence": {
+        "url": "http://kremlin.ru/events/president/news/81286",
+        "captured_text": "Read from the page http://kremlin.ru/events/president/news/81286 and the President of Russia website's terms (http://en.kremlin.ru/about/copyrights).\nTerms: \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\" The terms exclude RIA Novosti photographs (MIA Russia Today) and TASS photographs posted with the agency and author named. Terms text sha256 77eee66a9826923de33cb8f818a3194582a4a7ccc065f417b57345100d6a1fde.\nTitle: \"Деловой саммит форума АТЭС\"; day 2026-11-18; place Шэньчжэнь.\nThe page's own video files: http://static.kremlin.ru/media/events/video/ru/video_high/UmFVUbUhrvCvb06tYl1cObEBUuxpcYAk.mp4 (Высокое качество, 583.6 МБ); http://static.kremlin.ru/media/events/video/ru/video_low/fCBNK21d05T5BSEFAPvLBVBJVUkoXzbW.mp4 (Стандартное качество, 95.8 МБ).\nReleased by the Kremlin under CC BY 4.0 (Creative Commons Attribution 4.0 International); party label RELEASED BY THE KREMLIN.",
+        "captured_at": "2026-11-22T01:45:07Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "record_kind unknown: not shown to be an unedited event record, so its own sound never airs (bible v2 section e, sot-raw-source); mute B-roll only"
+      },
+      "basis": "kremlin.ru's terms (http://en.kremlin.ru/about/copyrights): \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\"; the page's own video (bible v2 section n)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"Деловой саммит форума АТЭС\" from http://kremlin.ru/events/president/news/81286. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://kremlin.ru/events/president/news/81286\". The licence was read at http://kremlin.ru/events/president/news/81286 on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint dcbf2045d2f5f335c70774131aba7ad8102ab149de8855cd227011dceac76f60. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
+    },
+    {
+      "id": "e35-p4-apec-read",
+      "title": "APEC CEO Summit",
+      "source_url": "http://en.kremlin.ru/events/president/news/81286",
+      "media_url": "http://en.kremlin.ru/events/president/news/81286",
+      "sha256": "7392cbadb02b1da209237203874b96f2dbc143ceb3ffeab341931794e7bdb081",
+      "credit": "Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://en.kremlin.ru/events/president/news/81286",
+      "licence": {
+        "id": "cc-by-4.0",
+        "name": "CC BY 4.0",
+        "deed_url": "https://creativecommons.org/licenses/by/4.0/",
+        "legalcode_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "terms": "Anyone may copy, adapt and share the work, including commercially, provided the author is credited, the licence is named and changes are indicated."
+      },
+      "licence_evidence": {
+        "url": "http://en.kremlin.ru/events/president/news/81286",
+        "captured_text": "Read from the page http://en.kremlin.ru/events/president/news/81286 and the President of Russia website's terms (http://en.kremlin.ru/about/copyrights).\nTerms: \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\" The terms exclude RIA Novosti photographs (MIA Russia Today) and TASS photographs posted with the agency and author named. Terms text sha256 77eee66a9826923de33cb8f818a3194582a4a7ccc065f417b57345100d6a1fde.\nTitle: \"APEC CEO Summit\"; day 2026-11-18; place Shenzhen.\nReleased by the Kremlin under CC BY 4.0 (Creative Commons Attribution 4.0 International); party label RELEASED BY THE KREMLIN.",
+        "captured_at": "2026-11-22T01:47:18Z"
+      },
+      "basis": "kremlin.ru's terms (http://en.kremlin.ru/about/copyrights): \"All content on this site is licensed under Creative Commons Attribution 4.0 International.\"; the page's own text (bible v2 section n)",
+      "in_point": null,
+      "out_point": null,
+      "placement": "Not placed yet: in and out points are filled from the master's edit list when the episode is rendered.",
+      "dispute": "This episode uses \"APEC CEO Summit\" from http://en.kremlin.ru/events/president/news/81286. It is published under the CC BY 4.0 licence (https://creativecommons.org/licenses/by/4.0/), which permits reuse, including commercial reuse, with attribution. The credit it requires is \"Kremlin.ru (Presidential Executive Office of Russia (kremlin.ru)), CC BY 4.0, http://en.kremlin.ru/events/president/news/81286\". The licence was read at http://en.kremlin.ru/events/president/news/81286 on 2026-11-22, and the text read is kept with this packet. The file used has the SHA-256 fingerprint 7392cbadb02b1da209237203874b96f2dbc143ceb3ffeab341931794e7bdb081. Its in and out points in the episode are listed in this packet once the episode is rendered. We are entitled to use it and ask that the claim be released."
     }
   ]
 }

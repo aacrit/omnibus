@@ -4,41 +4,82 @@
   "source": "t9a",
   "story": "ukraine-bridges-strikes",
   "note": "Sourcing pass T9a (issue 35), read 2026-11-22 against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z). Searches: the capture pool of run 44933588497 (no pool for issue 35; its index only), Wikimedia Commons uploads 15 to 21 Nov, DVIDS video and images published 16 Nov to the cutoff, VOA's feed as captured, whitehouse.gov listings. Fit first: a pin names the story key as its beat, why the picture shows it, and the span that may air. Nothing here is a rights decision; the fetcher checks every candidate, and every video named here is a video2commons transfer that needs a verifier's marks review before the fetcher will take it.",
-  "pins": {},
-  "pending_t5": [
-    {
-      "ref": "File:Video 2026-11-17 13-25-19.webm",
-      "adapter_needed": "Ukraine state via Commons (Security Service of Ukraine)",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-17",
-      "published_at": "2026-11-17T11:36:48Z",
-      "seconds": 34.4,
-      "mb": 3.2,
-      "kind": "footage",
-      "note": "the SSU's video of its strike on the Kerch bridge ('Відео атаки СБУ на Кримський міст'); party label RELEASED BY THE SSU; a video2commons transfer, so a marks review is needed too. Not staged."
-    },
-    {
-      "ref": "File:KerchBridgeCollapse.jpg",
-      "adapter_needed": "Ukraine state via Commons (Security Service of Ukraine)",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-17",
-      "kind": "still"
-    },
-    {
-      "ref": "File:FlamingoKerch.jpg",
-      "adapter_needed": "Ukraine state via Commons (Office of the President of Ukraine)",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-17",
-      "kind": "still"
-    }
-  ],
+  "pins": {
+    "e35-lead-ssu-video": [
+      {
+        "tier": 1,
+        "adapter": "uastate",
+        "ref": "File:Video 2026-11-17 13-25-19.webm",
+        "fit": {
+          "beat": "ukraine-bridges-strikes",
+          "why": "The Security Service of Ukraine's own video of its strike on the Kerch bridge, released 17 Nov: a thermal drone approach to the arch (0.17 to 22.99 s), the impact at night (22.99 to 26.99 s), the arch down in daylight (26.99 s on). The span starts after the 0.17 s title card ('fourth SSU strike') and stops at 28.8 s, before the SSU's end card wipes in (between 28.8 and 29.4 s). Party label RELEASED BY THE SECURITY SERVICE OF UKRAINE; the SSU's own bug sits top left.",
+          "in_s": 0.167,
+          "out_s": 28.8
+        }
+      }
+    ],
+    "e35-lead-ssu-still": [
+      {
+        "tier": 1,
+        "adapter": "uastate",
+        "ref": "File:KerchBridgeCollapse.jpg",
+        "fit": {
+          "beat": "ukraine-bridges-strikes",
+          "why": "The SSU's photograph of the Crimean Bridge after the 17 Nov strike (its own description: damage to the bridge following a Ukrainian military operation on 17 November 2026). A still, with its party label."
+        }
+      }
+    ],
+    "e35-lead-flamingo-still": [
+      {
+        "tier": 1,
+        "adapter": "uastate",
+        "ref": "File:FlamingoKerch.jpg",
+        "fit": {
+          "beat": "ukraine-bridges-strikes",
+          "why": "Requested by the screenplay (t9b-lead-ssu-stills); fetched so the adapter's own finding is on the record."
+        }
+      }
+    ],
+    "e35-lead-putin-presser": [
+      {
+        "tier": 1,
+        "adapter": "kremlin",
+        "ref": "http://en.kremlin.ru/events/president/news/81305",
+        "fit": {
+          "beat": "ukraine-bridges-strikes",
+          "why": "The Kremlin's own record of Putin's news conference in Shenzhen on 19 Nov (a news conference by the page's own title). The page's contents put 'The attacks on the Crimean Bridge' at 22:45 to 25:40; sampled frames show the question from the floor at about 22:46 and Putin answering at the lectern from about 23:00 to 25:35. The span is that answer; the bite is cut inside it at sentence bounds at the transcript step. Party label RELEASED BY THE KREMLIN.",
+          "in_s": 1380,
+          "out_s": 1535
+        }
+      }
+    ],
+    "e35-lead-kremlin-read": [
+      {
+        "tier": 1,
+        "adapter": "kremlin",
+        "ref": "http://en.kremlin.ru/events/president/news/81305",
+        "fit": {
+          "beat": "ukraine-bridges-strikes",
+          "why": "The Kremlin's English transcript of the 19 Nov news conference: Putin says the Crimean Bridge is a civilian facility and that 'following the strikes on the Crimean Bridge, there will be no negotiations'. The reader speaks it as TRANSLATION · KREMLIN TRANSCRIPT."
+        }
+      }
+    ]
+  },
+  "pending_t5": [],
   "searched": [
     "Commons 15 to 21 Nov: Kerch bridge, Crimean Bridge (in English, Ukrainian and Russian), Kerch Strait, Kyiv after Russian attack, Kyiv's bridges by name (Pivdennyi, Paton, Darnytskyi, Podilskyi, Metro), SES Ukraine, the Office of the President, Zelenskyy, Poland airspace, Rzeszow, Lublin, Tusk: nothing of the 20 Nov Kyiv strike or of Poland's statement by the cutoff.",
     "DVIDS: Poland, Ukraine: nothing of the week's events."
   ],
   "gaps": [
-    "No free moving picture of the 20 Nov strike on Kyiv's bridges by the cutoff.",
-    "No free Russian-side moving picture (mil.ru is not CC); the Russian side is a page or attributed.",
-    "Poland: gov.pl terms unreviewed; its statement is quoted as a record or attributed."
-  ]
+    "No Office of the President (Zelenskyy) statement or video on a Commons upload in the week; the narrator attributes.",
+    "No SES or KMDA footage of the 20 Nov strike on Kyiv's bridges by the cutoff.",
+    "The 19 Nov news conference video is the one on the English page; whether its sound is Putin's own Russian or an interpretation is for the verifier to confirm before any bite (the Russian page lists its own file of the same size)."
+  ],
+  "t5_pass": {
+    "at": "2026-11-22",
+    "searched": [
+      "Commons hastemplate:Ssu.gov.ua, President.gov.ua, dsns.gov.ua, kyivcity.gov.ua (the uastate bodies' templates): in the week only the SSU video, KerchBridgeCollapse.jpg and FlamingoKerch.jpg; no Office of the President statement or video (Zelenskyy) and no SES or KMDA footage of the 20 Nov Kyiv strike by the cutoff.",
+      "kremlin.ru (en and ru) news list 16 to 21 Nov: 81276 'The President received an update on the Crimean Bridge situation' (17 Nov) has no video of its own; 81305 the 19 Nov news conference holds Putin's words on the bridge."
+    ]
+  }
 }
