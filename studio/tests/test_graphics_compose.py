@@ -180,3 +180,32 @@ def test_typed_paper_refuses_misaligned_advances_and_a_short_window():
         list(compose.typed_paper_frames(full, rows, boxes, [advances[0][:2]], 30.0, total_s=1.0))
     with pytest.raises(ValueError):
         list(compose.typed_paper_frames(full, rows, boxes, advances, 3.0, total_s=0.5))
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): rostrum (the locator's slow push).
+# ===========================================================================
+
+def test_rostrum_frames_count_and_size_are_unchanged():
+    static = _solid((200, 100))
+    frames = list(compose.rostrum_frames(static, hold_s=2.0, push_start_s=0.5, push_end_s=1.5))
+    assert len(frames) == motion.rostrum_frame_count(2.0)
+    assert all(f.size == static.size for f in frames)
+
+
+def test_rostrum_frames_hold_before_the_push_then_crop_in():
+    static = _solid((300, 300))
+    frames = list(compose.rostrum_frames(static, hold_s=2.0, push_start_s=0.5, push_end_s=1.5))
+    first = np.asarray(frames[0])
+    held_last = np.asarray(frames[int(0.5 * motion.FPS)])
+    assert np.array_equal(first, np.asarray(static)) and np.array_equal(held_last, np.asarray(static))
+    pushed = frames[-1]
+    assert pushed.size == static.size
+    # A centred, scaled-up crop of a solid colour is still that colour everywhere (no seam, no edge showing).
+    assert np.array_equal(np.asarray(pushed), np.asarray(static))
+
+
+def test_rostrum_frames_rejects_a_push_past_the_hold():
+    static = _solid((100, 100))
+    with pytest.raises(ValueError):
+        list(compose.rostrum_frames(static, hold_s=1.0, push_start_s=0.5, push_end_s=1.5))

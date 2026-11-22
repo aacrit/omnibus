@@ -1,0 +1,115 @@
+[
+  {
+    "id": "G-LOC-1",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "0fb3176e23835791565a1806835ba098785e7bc315a2d597316d65d2417d7845",
+    "output_path": "/home/runner/stage/graphics/media/G-LOC-1.mov",
+    "output_sha256": "a122c786d6a2cac56789e37dc12038038cad1e1f935ab03f48c21247ae492e5c",
+    "frames": 120,
+    "class": "DRAWN",
+    "places": [
+      "Shenzhen"
+    ],
+    "scale_km": 500.0,
+    "push_s": [
+      1.0,
+      2.5
+    ]
+  },
+  {
+    "id": "G-BSTRIP-1",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "fc2e9d5617f40f491a748a49fec5f2afd50152cc06dc5d0bb156e5750b1baf7c",
+    "output_path": "/home/runner/stage/graphics/media/G-BSTRIP-1.mov",
+    "output_sha256": "d28e11c4788de76ed712e02443547799479c04957bb5e9168f138343c3daba43",
+    "frames": 120,
+    "class": "DRAWN"
+  },
+  {
+    "id": "G-BUMPER-BRIEFS",
+    "subtype": "bumper",
+    "data_ref": "shows.lines[briefs]",
+    "source_template_sha256": "ef12a0e705115adf388da16c2babfe68392298efecb0e1e9b3916c3acd6877f7",
+    "output_path": "/home/runner/stage/graphics/media/G-BUMPER-BRIEFS.mov",
+    "output_sha256": "53852b6e2f5ff62bf65746fdff984fdfdfa944fc36d4aeb848dd63e858a0049c",
+    "frames": 54,
+    "class": "DRAWN",
+    "segment": "briefs",
+    "word": "AROUND THE WORLD"
+  },
+  {
+    "id": "G-LOC-2",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "f636cda9cfe5c02b91ef4b3d2da14f10ebfc2747b80ce58c427b71cff85c300d",
+    "output_path": "/home/runner/stage/graphics/media/G-LOC-2.mov",
+    "output_sha256": "32136075d462a98c3c9f16b0ddad95e80e255a7069f52782c97a471b75d1e8bd",
+    "frames": 120,
+    "class": "DRAWN",
+    "places": [
+      "Kerch Strait",
+      "Kyiv"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ]
+  },
+  {
+    "id": "G-BSTRIP-2",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "1bb1218940058f6af9201ea6653390b829115deb40d23257ee5f61a9baa721eb",
+    "output_path": "/home/runner/stage/graphics/media/G-BSTRIP-2.mov",
+    "output_sha256": "fd09fda341af1ebf2d15e4124327b928cd55c9aaef924affee81816f0a3a7174",
+    "frames": 240,
+    "class": "DRAWN"
+  },
+  {
+    "id": "G-SOT-1",
+    "subtype": "sot_super",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "f589025fb900e3090629c0033816e773e8963f5571c7f2514328a7ed80ea7e0b",
+    "output_path": "/home/runner/stage/graphics/media/G-SOT-1.mov",
+    "output_sha256": "992ffefc75c443d6d672e9b0d193172807b9c8129611f28ee1452e750148ae03",
+    "frames": 420,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      781,
+      1369,
+      101
+    ]
+  },
+  {
+    "id": "G-SOT-2",
+    "subtype": "sot_super",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "08bbf115caa1e04714e4ef311fb48bfe7b28993586332a8db4bcb738475de1b6",
+    "output_path": "/home/runner/stage/graphics/media/G-SOT-2.mov",
+    "output_sha256": "bf541b45b83af3de6a790b7ac825172a897f90a02e3202f6738e1ea2c64c7f60",
+    "frames": 360,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      781,
+      956,
+      101
+    ]
+  },
+  {
+    "id": "G-BUMPER-ECHO",
+    "subtype": "bumper",
+    "data_ref": "shows.lines[echo]",
+    "source_template_sha256": "9ba22e098b7c00f1875699c85fa8ccb7eddfa558232d90045c7e6a775ea90bc2",
+    "output_path": "/home/runner/stage/graphics/media/G-BUMPER-ECHO.mov",
+    "output_sha256": "a6cec5b3f5be7bbe9dae099fe8ab7738a78847908d46bcb772bcd696a0515e52",
+    "frames": 54,
+    "class": "DRAWN",
+    "segment": "echo",
+    "word": "THE ECHO"
+  }
+]

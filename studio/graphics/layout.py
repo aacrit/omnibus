@@ -289,3 +289,62 @@ def paginate_rows(rows: list[dict]) -> list[list[dict]]:
     for i in range(0, len(rows), ROWS_PER_PAGE):
         pages.append(rows[i:i + ROWS_PER_PAGE])
     return pages or [[]]
+
+
+# ---- locator (show bible v2, ticket 4) -----------------------------------
+#
+# Natural Earth's own coastline vectors are a data snapshot (Agentique CLAUDE.md rule 8: no data snapshots in
+# git), so this first draft draws no traced shoreline. Instead the field is a plate-carree graticule, and each
+# place lands by its own cited lon/lat, which is the honest half of "Natural Earth and GeoNames" the bible asks
+# for: a real geographic projection, not a fractional guess. A coastline layer (studio.engine.maps's own Natural
+# Earth renderer, fetched at render time rather than committed) is docs/decisions/2026-11-21-t4-locator-
+# graticule.md's named follow-up. "No globe, no 3D, no relief" (bible i) holds either way.
+
+LOCATOR_BOX = (144.0, 150.0, 1152.0, 780.0)   # x, y, width, height inside the 1440x1080 field, title-safe
+GRATICULE_STEP_DEG = 30
+KM_PER_DEGREE_LON_AT_EQUATOR = 111.32
+
+
+@dataclass(frozen=True)
+class LocatorPoint:
+    x: float
+    y: float
+
+
+def locator_point(lat: float, lon: float, *, box: tuple[float, float, float, float] = LOCATOR_BOX) -> LocatorPoint:
+    """Plate carree: a lon/lat point onto `box`, centred on the prime meridian and the equator
+    (x = (lon+180)/360 * width, y = (90-lat)/180 * height, offset into the box's own origin)."""
+    if not -90.0 <= lat <= 90.0:
+        raise ValueError(f"lat {lat} is outside -90..90")
+    if not -180.0 <= lon <= 180.0:
+        raise ValueError(f"lon {lon} is outside -180..180")
+    bx, by, bw, bh = box
+    return LocatorPoint(x=bx + (lon + 180.0) / 360.0 * bw, y=by + (90.0 - lat) / 180.0 * bh)
+
+
+def graticule_lines(*, box: tuple[float, float, float, float] = LOCATOR_BOX,
+                     step_deg: int = GRATICULE_STEP_DEG) -> list[tuple[LocatorPoint, LocatorPoint]]:
+    """Meridians and parallels every `step_deg`, as (start, end) point pairs in field coordinates."""
+    if step_deg <= 0 or 180 % step_deg:
+        raise ValueError(f"step_deg {step_deg} must divide 180 evenly")
+    lines = []
+    for lon in range(-180, 181, step_deg):
+        lines.append((locator_point(-90, lon, box=box), locator_point(90, lon, box=box)))
+    for lat in range(-90, 91, step_deg):
+        lines.append((locator_point(lat, -180, box=box), locator_point(lat, 180, box=box)))
+    return lines
+
+
+def locator_scale_bar_px(scale_km: float, *, lat: float,
+                          box: tuple[float, float, float, float] = LOCATOR_BOX) -> float:
+    """The scale bar's length in px for `scale_km`, true along the place's own parallel (plate carree narrows a
+    degree of longitude by cos(lat) moving away from the equator; the bar is only ever exact at its own place's
+    latitude, never across the whole field)."""
+    if not -90.0 < lat < 90.0:
+        raise ValueError(f"lat {lat} gives no east-west scale (the pole)")
+    if scale_km <= 0:
+        raise ValueError(f"scale_km must be positive, got {scale_km}")
+    bw = box[2]
+    deg_per_px = 360.0 / bw
+    km_per_deg = KM_PER_DEGREE_LON_AT_EQUATOR * math.cos(math.radians(lat))
+    return scale_km / (km_per_deg * deg_per_px)

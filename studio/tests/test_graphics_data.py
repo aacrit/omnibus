@@ -290,3 +290,122 @@ def test_title_macro_refuses_a_rate_over_the_cap(rundown):
     next(p for p in broken["parts"] if p["id"] == "title")["strike"]["rate_cps"] = 100.5
     with pytest.raises(ValueError):
         data.title_macro_spec(broken)
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): bumper, locator, sot_super, brief_strip.
+# ===========================================================================
+
+def test_bumper_spec_briefs():
+    shot = {"shows": {"lines": ["AROUND THE WORLD", "ISSUE 35   16 TO 21 NOV 2026"]}}
+    spec = data.bumper_spec(shot, segment="briefs")
+    assert spec.segment == "briefs" and spec.word == "AROUND THE WORLD"
+    assert spec.week_line == "ISSUE 35   16 TO 21 NOV 2026"
+    assert spec.year is None
+
+
+def test_bumper_spec_echo_carries_the_year():
+    shot = {"shows": {"lines": ["THE ECHO", "ISSUE 35   16 TO 21 NOV 2026", "1962"]}}
+    spec = data.bumper_spec(shot, segment="echo")
+    assert spec.word == "THE ECHO" and spec.year == "1962"
+
+
+def test_bumper_spec_rejects_an_unknown_segment():
+    with pytest.raises(ValueError):
+        data.bumper_spec({"shows": {"lines": ["X", "Y"]}}, segment="title")
+
+
+def test_bumper_spec_rejects_a_mismatched_first_line():
+    with pytest.raises(ValueError):
+        data.bumper_spec({"shows": {"lines": ["WRONG WORD", "Y"]}}, segment="briefs")
+
+
+def test_bumper_spec_echo_without_a_year_rejected():
+    with pytest.raises(ValueError):
+        data.bumper_spec({"shows": {"lines": ["THE ECHO", "Y"]}}, segment="echo")
+
+
+def test_bumper_spec_briefs_may_not_carry_a_year():
+    with pytest.raises(ValueError):
+        data.bumper_spec({"shows": {"lines": ["AROUND THE WORLD", "Y", "1962"]}}, segment="briefs")
+
+
+def test_locator_spec_one_place():
+    shot = {"locator": {"places": [{"name": "Shenzhen", "lat": 22.54, "lon": 114.06}], "scale_km": 500},
+            "shows": {"lines": ["Shenzhen"]}}
+    spec = data.locator_spec(shot)
+    assert len(spec.places) == 1 and spec.places[0].name == "Shenzhen"
+    assert spec.scale_km == 500.0
+    assert spec.push_s == (1.0, 2.5)
+
+
+def test_locator_spec_two_places():
+    shot = {"locator": {"places": [{"name": "Kerch Strait", "lat": 45.36, "lon": 36.47},
+                                   {"name": "Kyiv", "lat": 50.45, "lon": 30.52}], "scale_km": 200},
+            "shows": {"lines": ["Kerch Strait", "Kyiv"]}}
+    spec = data.locator_spec(shot)
+    assert [p.name for p in spec.places] == ["Kerch Strait", "Kyiv"]
+
+
+def test_locator_spec_rejects_three_places():
+    shot = {"locator": {"places": [{"name": "A", "lat": 0, "lon": 0}, {"name": "B", "lat": 0, "lon": 0},
+                                   {"name": "C", "lat": 0, "lon": 0}], "scale_km": 500},
+            "shows": {"lines": ["A", "B", "C"]}}
+    with pytest.raises(ValueError):
+        data.locator_spec(shot)
+
+
+def test_locator_spec_requires_shows_lines_to_name_each_place_in_order():
+    shot = {"locator": {"places": [{"name": "Shenzhen", "lat": 22.54, "lon": 114.06}], "scale_km": 500},
+            "shows": {"lines": ["Wrong name"]}}
+    with pytest.raises(ValueError):
+        data.locator_spec(shot)
+
+
+def test_locator_spec_rejects_a_non_positive_scale():
+    shot = {"locator": {"places": [{"name": "Shenzhen", "lat": 22.54, "lon": 114.06}], "scale_km": 0},
+            "shows": {"lines": ["Shenzhen"]}}
+    with pytest.raises(ValueError):
+        data.locator_spec(shot)
+
+
+def test_sot_super_spec_two_lines():
+    spec = data.sot_super_spec({"shows": {"lines": ["Donald Trump", "President of the United States"]}})
+    assert spec.name == "Donald Trump" and spec.third_line is None
+
+
+def test_sot_super_spec_three_lines_translation():
+    spec = data.sot_super_spec({"shows": {"lines": ["Vladimir Putin", "President of Russia",
+                                                     "TRANSLATION · KREMLIN TRANSCRIPT"]}})
+    assert spec.third_line == "TRANSLATION · KREMLIN TRANSCRIPT"
+
+
+@pytest.mark.parametrize("third", ["OUR TRANSLATION", "RELEASED BY THE KREMLIN"])
+def test_sot_super_spec_accepts_every_third_line_label(third):
+    spec = data.sot_super_spec({"shows": {"lines": ["A", "B", third]}})
+    assert spec.third_line == third
+
+
+def test_sot_super_spec_rejects_an_unlabelled_third_line():
+    with pytest.raises(ValueError):
+        data.sot_super_spec({"shows": {"lines": ["A", "B", "not a recognised label"]}})
+
+
+def test_sot_super_spec_rejects_a_single_line():
+    with pytest.raises(ValueError):
+        data.sot_super_spec({"shows": {"lines": ["Only one"]}})
+
+
+def test_brief_strip_spec_splits_place_and_date():
+    spec = data.brief_strip_spec({"shows": {"lines": ["KERCH STRAIT · TUE 17 NOV"]}})
+    assert spec.place == "KERCH STRAIT" and spec.date == "TUE 17 NOV"
+
+
+def test_brief_strip_spec_rejects_a_missing_middle_dot():
+    with pytest.raises(ValueError):
+        data.brief_strip_spec({"shows": {"lines": ["KERCH STRAIT - TUE 17 NOV"]}})
+
+
+def test_brief_strip_spec_rejects_more_than_one_line():
+    with pytest.raises(ValueError):
+        data.brief_strip_spec({"shows": {"lines": ["A · B", "C · D"]}})

@@ -88,6 +88,9 @@ const STEPS = [
           "studio/tests/test_graphics_fixtures.py",
           "studio/tests/test_graphics_expected.py",
           "studio/tests/test_graphics_framesheet.py",
+          // show bible v2, ticket 4: bumper, locator, sot_super, brief_strip, render_episode's pure half.
+          "studio/tests/test_graphics_verify.py",
+          "studio/tests/test_graphics_render_episode.py",
           "-q", "-p", "no:cacheprovider",
         ],
         { cwd: repoRoot, stdio: "inherit", shell: false },

@@ -16,10 +16,15 @@ from pathlib import Path
 
 
 def release_args(rows: list[dict]) -> list[str]:
-    """The renderer's --release flags as the committed ledger's clock rows record them (one release for all)."""
+    """The renderer's --release flags as the committed ledger's clock rows record them (one release for all).
+    A ledger with no release-bearing row (no clock entry at all - a v2 episode this ticket draws has none yet:
+    render_episode does not draw a clock) needs no --release flag, so this returns []; more than one distinct
+    release is still ambiguous and still raises."""
     seen = {(r.get("release"), bool(r.get("release_nominal"))) for r in rows if r.get("release")}
-    if len(seen) != 1:
+    if len(seen) > 1:
         raise ValueError(f"the ledger records {len(seen)} release times, not one: {sorted(map(str, seen))}")
+    if not seen:
+        return []
     release, nominal = seen.pop()
     return ["--release", release] + (["--release-nominal"] if nominal else [])
 
