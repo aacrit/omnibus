@@ -1,0 +1,14 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 35,
+  "source": "t9a",
+  "story": "thread-1a2c9331",
+  "note": "Sourcing pass T9a (issue 35), read 2026-11-22 against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z). Searches: the capture pool of run 44933588497 (no pool for issue 35; its index only), Wikimedia Commons uploads 15 to 21 Nov, DVIDS video and images published 16 Nov to the cutoff, VOA's feed as captured, whitehouse.gov listings. Fit first: a pin names the story key as its beat, why the picture shows it, and the span that may air. Nothing here is a rights decision; the fetcher checks every candidate, and every video named here is a video2commons transfer that needs a verifier's marks review before the fetcher will take it.",
+  "pins": {},
+  "searched": [
+    "Not searched by name: the Knesset story entered the briefs at brief_10 when the ICJ story became package 5."
+  ],
+  "gaps": [
+    "No adapter reads the Knesset's own channel; Israeli government material needs an editorial terms review."
+  ]
+}

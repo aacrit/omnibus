@@ -126,6 +126,8 @@ jobs:
           mkdir -p "$out/reports"
           cp "$led" /home/runner/graphics-ledger.committed.json
           rel=$(python -m studio.graphics.verify release /home/runner/graphics-ledger.committed.json)
+          # A check slice draws every graphic too: the render plans and lints the whole film, so every graphic the
+          # screenplay cites must be in this run's ledger (T9c; render --until stays for a local preview).
           # shellcheck disable=SC2086
           python -m studio.graphics.render "week$ISSUE" --out "$out/media" $rel
           cp "$led" "$out/graphics-ledger.json"
@@ -245,6 +247,22 @@ jobs:
             pats=(); for f in "${own[@]}"; do pats+=(--pattern "$f"); done
             gh release download "own-pages-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"
           fi
+          # T9c (CoS decision 2026-11-22): a US federal work whose origin serves this runner other bytes than the
+          # ledger checked comes from the pd-sources-<issue> release, the laptop's verified bytes. Only the ledger's
+          # pd-us-federal files are taken from it (pd-files); the fetch below hashes each against the ledger.
+          if gh release view "pd-sources-$ISSUE" -R "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            pd_list="$(node scripts/episode-draft.mjs pd-files "$ISSUE")"
+            assets="$(gh release view "pd-sources-$ISSUE" -R "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')"
+            pats=()
+            if [ -n "$pd_list" ]; then
+              while IFS= read -r f; do
+                if printf '%s\n' "$assets" | grep -qxF "$f"; then pats+=(--pattern "$f"); fi
+              done <<< "$pd_list"
+            fi
+            if [ "${#pats[@]}" -gt 0 ]; then
+              gh release download "pd-sources-$ISSUE" -R "$GITHUB_REPOSITORY" -D "$out/media/$ISSUE" "${pats[@]}"
+            fi
+          fi
           node scripts/rights.mjs fetch "$ISSUE" --media "$out/media" --from-ledger --report "$out/reports/sources.json"
           node scripts/episode-draft.mjs unusable "$out/reports/sources.json" --issue "$ISSUE"
           du -sh "$out"
@@ -301,9 +319,15 @@ jobs:
           mkdir -p "$m" "$PKG/reports" "$DOCUMENT_JOURNAL_DIR" "episodes/$ISSUE/audio"
           mv "$dl/stage-graphics-$ISSUE/media" "$m/graphics"
           mv "$dl/stage-narration-$ISSUE/media" "$m/voice"
-          mv "$dl/stage-sources-$ISSUE/media" "$m/media"
+          # the sources land where the screenplay's rights ledger reference says its media are (issue 33:
+          # <root>/33/media/33; issue 35: <root>/35), read through this machine's media root (T9c)
+          rights_dir="$(python -m studio.engine.mediaroot rights-dir "episodes/$ISSUE")"
+          mkdir -p "$rights_dir"
+          mv "$dl/stage-sources-$ISSUE/media/$ISSUE/"* "$rights_dir/"
           cp "$dl/stage-graphics-$ISSUE/graphics-ledger.json" "episodes/$ISSUE/graphics-ledger.json"
           cp "$dl/stage-narration-$ISSUE/voice.json" "episodes/$ISSUE/audio/voice.json"
+          # a v2 screenplay names its graphics plan until they are drawn: this run's checkout reads the drawn ledger (T9c)
+          python -m studio.news.graphics_ledger use-drawn "episodes/$ISSUE"
           for s in graphics narration sources; do cp -r "$dl/stage-$s-$ISSUE/reports/." "$PKG/reports/"; done
           cp "episodes/$ISSUE/graphics-ledger.json" "$PKG/graphics-ledger.json"
           cp "episodes/$ISSUE/audio/voice.json" "$PKG/voice.json"

@@ -50,7 +50,51 @@ CREDIT = "void omnibus, drawn by code"
 SUBTYPES = {                  # E6's subtype -> the engine's (graphic.SUBTYPES; title_macro is E4b's title macro)
     "testcard": "testcard", "board": "board", "lower-third": "lower_third", "count-card": "count",
     "day-bars": "day", "clock": "clock", "credits": "credits", "end-board": "end_board", "title-macro": "title_macro",
+    # v2 (T4, T9c): render_episode writes the engine's own spellings
+    "bumper": "bumper", "locator": "locator", "sot_super": "sot_super", "brief_strip": "brief_strip",
+    "lower_third": "lower_third", "end_board": "end_board", "title_macro": "title_macro", "page": "page",
 }
+PLAN_SCHEMA = "omnibus.graphics-plan/1"
+LEDGER = "graphics-ledger.json"
+
+
+def use_drawn(play: dict, plan_doc: dict | None) -> dict:
+    """T9c: the screenplay with its graphics reference moved from the graphics plan (``omnibus.graphics-plan/1``, the
+    lints' stand-in before anything is drawn) to the ledger the graphics job drew (``graphics-ledger.json``, read
+    through this adapter), the media folder kept. The Actions draft does this to its own checkout only; nothing is
+    committed. A screenplay whose reference is not a plan is returned as it is."""
+    ref = (play.get("ledgers") or {}).get("graphics")
+    if not (isinstance(plan_doc, dict) and plan_doc.get("schema") == PLAN_SCHEMA and ref):
+        return play
+    media = ref.get("media") if isinstance(ref, dict) else None
+    new = {"path": LEDGER, **({"media": media} if media else {}), "format": FORMAT}
+    return dict(play, ledgers=dict(play["ledgers"], graphics=new))
+
+
+def main(argv=None) -> int:
+    import argparse
+    import json
+    from pathlib import Path
+    ap = argparse.ArgumentParser(prog="python -m studio.news.graphics_ledger")
+    ap.add_argument("mode", choices=["use-drawn"])
+    ap.add_argument("film")
+    a = ap.parse_args(argv)
+    film = Path(a.film)
+    sp = film / "screenplay.json"
+    play = json.loads(sp.read_text(encoding="utf-8"))
+    ref = (play.get("ledgers") or {}).get("graphics")
+    path = film / (ref if isinstance(ref, str) else (ref or {}).get("path", ""))
+    plan = json.loads(path.read_text(encoding="utf-8")) if ref and path.is_file() else None
+    out = use_drawn(play, plan)
+    if out is play:
+        print("graphics_ledger: the screenplay already names a drawn ledger")
+        return 0
+    if not (film / LEDGER).is_file():
+        print(f"graphics_ledger: refused: {film / LEDGER} is not there (the graphics job writes it)")
+        return 1
+    sp.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"graphics_ledger: the screenplay now reads {LEDGER} ({FORMAT})")
+    return 0
 TESTCARD_PARTS = {"week": "the-week", "weight": "the-weight", "echo": "the-echo", "margins": "the-margins"}
 REQUIRED = ("id", "subtype", "data_ref", "output_path", "output_sha256", "frames", "class")
 ISO = re.compile(r"^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?)?$")
@@ -244,3 +288,7 @@ def adapt(rows, inputs: dict, *, source: str = "graphics-ledger.json") -> tuple[
                 it["content_date"], it["content_basis"] = d, basis
         items.append(it)
     return items, problems
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

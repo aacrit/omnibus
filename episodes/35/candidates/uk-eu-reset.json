@@ -1,0 +1,23 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 35,
+  "source": "t9a",
+  "story": "uk-eu-reset",
+  "note": "Sourcing pass T9a (issue 35), read 2026-11-22 against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z). Searches: the capture pool of run 44933588497 (no pool for issue 35; its index only), Wikimedia Commons uploads 15 to 21 Nov, DVIDS video and images published 16 Nov to the cutoff, VOA's feed as captured, whitehouse.gov listings. Fit first: a pin names the story key as its beat, why the picture shows it, and the span that may air. Nothing here is a rights decision; the fetcher checks every candidate, and every video named here is a video2commons transfer that needs a verifier's marks review before the fetcher will take it.",
+  "pins": {},
+  "pending_t5": [],
+  "searched": [
+    "Commons 15 to 21 Nov: Burnham, Andy Burnham, EU-UK summit, von der Leyen, Antonio Costa, Kaja Kallas, European Council, Berlaymont: nothing of the week (an unrelated drawing and older EU archive films only).",
+    "The Commission's audiovisual service (EU reuse is on the licence allowlist) is on no host the fetcher may reach; widening the hosts needs its own decision."
+  ],
+  "gaps": [
+    "No OGL picture or text of the speech, the summit or the agreements reachable by the fetcher: the narrator states the desk's consensus points and attributes."
+  ],
+  "t5_pass": {
+    "at": "2026-11-22",
+    "searched": [
+      "Commons hastemplate:OGL3 (all, and with 'Prime Minister'), 'Mansion House speech 2026', 'Prime Minister Burnham', 'UK-EU summit Brussels 2026', 'Number 10 Downing Street November 2026': no OGL upload of the speech, the summit or the agreements in the week."
+    ],
+    "why": "T5 built no gov.uk adapter: gov.uk's video is YouTube embeds, never taken, and OGL material arrives only as Commons transfers (decision 2026-11-21 T5, OGL v3). None exists for this story by the cutoff."
+  }
+}

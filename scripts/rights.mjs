@@ -4,7 +4,9 @@
 //
 //   node scripts/rights.mjs resolve <issue>
 //       resolves rundown.json's asset ladders (searches) into concrete
-//       candidates in episodes/<issue>/assets.json; federal .gov and Wayback
+//       candidates in episodes/<issue>/assets.json (a rundown/2 has no ladders
+//       of its own: they are read from episodes/<issue>/rundown-assets.json);
+//       federal .gov and Wayback
 //       steps are read through episodes/<issue>/asset-pins.json.
 //   node scripts/rights.mjs fetch <issue> --media <dir> [--dry-run] [--redo <id,id>]
 //       reads episodes/<issue>/assets.json (the rundown's ranked asset
@@ -37,6 +39,12 @@
 //       captured item it names in R2 (capture/pins/<issue>.json, and the index
 //       itself where R2's S3 API can write it conditionally), so their proxies
 //       outlive the 14-day sweep until the episode airs plus 30 days.
+//   node scripts/rights.mjs telecine <issue> --item <id> --media <dir>
+//       measures whether a footage item is telecined (ffmpeg idet over its
+//       aired span, scripts/lib/rights/telecine.mjs) once its file is checked
+//       against the ledger's sha256, and records telecined and the measure on
+//       the item (the engine's A6 telecine-declared reads it). Counts that do
+//       not decide it write nothing.
 //   node scripts/rights.mjs packet <issue>
 //       regenerates episodes/<issue>/disputes.json from the ledger.
 //   node scripts/rights.mjs lint
@@ -74,6 +82,8 @@ import { mergeCandidatePins, pinProblems, resolveRequests } from "./lib/rights/r
 import { lintAll } from "./lint-rights.mjs";
 import { ledgerTranscriptProblems, ourTranscript } from "./lib/rights/records.mjs";
 import { isoSecond } from "./lib/rights/text.mjs";
+import * as telecine from "./lib/rights/telecine.mjs";
+import { sha256File } from "./lib/draft-outputs.mjs";
 import { candidatesFromPool, poolKey, poolProblems } from "./capture/pool.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -156,11 +166,38 @@ export async function runPull({ root = repoRoot, issue, mediaDir, http = { getMe
   return pullLedger({ ledger, mediaDir: path.join(mediaDir, String(issue)), http, log });
 }
 
+export const RUNDOWN_V2 = "omnibus.rundown/2";
+export const ASSET_REQUESTS_V2 = "omnibus.rundown-assets/1";
+
+/**
+ * The asset requests an episode asks for, in the shape resolve.mjs reads ({ issue, as_of, asset_requests }).
+ * A v1 rundown carries them itself. A rundown/2 (written by scripts/normalise-rundown.mjs, never by hand)
+ * carries none, so its sourcing pass writes episodes/<issue>/rundown-assets.json beside it
+ * (omnibus.rundown-assets/1: { schema, issue, asset_requests }); each request's `for` is the slot it
+ * serves (lead, package_<n>, brief_<n>, tease), which the fetcher holds to publication by its window's end.
+ */
+export function requestSource(dir, issue) {
+  const rundown = JSON.parse(readFileSync(path.join(dir, "rundown.json"), "utf8"));
+  if (rundown.schema !== RUNDOWN_V2) {
+    if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
+    return rundown;
+  }
+  if (rundown.edition?.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.edition?.issue}, not ${issue}`);
+  const p = path.join(dir, "rundown-assets.json");
+  if (!existsSync(p)) return { issue, as_of: null, asset_requests: [] };
+  const doc = JSON.parse(readFileSync(p, "utf8"));
+  if (doc.schema !== ASSET_REQUESTS_V2) throw new Error(`rundown-assets.json: schema must be ${ASSET_REQUESTS_V2}`);
+  if (doc.issue !== issue) throw new Error(`rundown-assets.json is for issue ${doc.issue}, not ${issue}`);
+  if (!Array.isArray(doc.asset_requests)) throw new Error("rundown-assets.json: asset_requests must be a list");
+  const slots = new Set([...(rundown.stories ?? []).map((s) => s.slot), "tease"]);
+  for (const r of doc.asset_requests) if (!slots.has(r?.for)) throw new Error(`rundown-assets.json: ${r?.id} is for ${r?.for}, which is no slot of the rundown`);
+  return { issue, as_of: null, asset_requests: doc.asset_requests };
+}
+
 /** Resolves the rundown's asset requests into episodes/<issue>/assets.json (resolve.mjs). */
 export async function runResolve({ root = repoRoot, issue, http = { getJson, getText }, log = console.log }) {
   const dir = episodeDir(root, issue);
-  const rundown = JSON.parse(readFileSync(path.join(dir, "rundown.json"), "utf8"));
-  if (rundown.issue !== issue) throw new Error(`rundown.json is for issue ${rundown.issue}, not ${issue}`);
+  const rundown = requestSource(dir, issue);
   const pinsPath = path.join(dir, "asset-pins.json");
   const pinsDoc = existsSync(pinsPath) ? JSON.parse(readFileSync(pinsPath, "utf8")) : { pins: {} };
   // The sourcing passes' candidate pins (episodes/<issue>/candidates/*.json) join the hand pins.
@@ -290,6 +327,38 @@ export async function runTranscript({ root = repoRoot, issue, itemId, id, offici
   return t;
 }
 
+/**
+ * Records whether one footage item is telecined (T9c), measured from its own file: the file must hash to the ledger's
+ * sha256 first, then ffmpeg's idet reads its aired span. A decision is written to the item (``telecined`` and
+ * ``telecine_check``) and the dispute packet regenerated; counts that do not decide it throw, and nothing is written.
+ */
+export async function runTelecine({ root = repoRoot, issue, itemId, mediaDir, measure = telecine.measure, sha = sha256File, now = () => new Date() }) {
+  const dir = episodeDir(root, issue);
+  const ledgerPath = path.join(dir, "rights-ledger.json");
+  const ledger = JSON.parse(readFileSync(ledgerPath, "utf8"));
+  const k = ledger.items.findIndex((i) => i.id === itemId);
+  if (k < 0) throw new Error(`no ledger item ${itemId}`);
+  const item = ledger.items[k];
+  if (item.kind !== "footage") throw new Error(`${itemId} is ${item.kind}, not footage`);
+  const file = path.join(mediaDir, String(issue), item.file);
+  if (!existsSync(file)) throw new Error(`${file} is not on this machine`);
+  const got = await sha(file);
+  if (got !== item.sha256) throw new Error(`${file}: sha256 ${got.slice(0, 12)} is not the ledger's ${item.sha256.slice(0, 12)}`);
+  const { fromS, durS } = telecine.windowOf(item);
+  const { counts, ffmpeg } = measure(file, { fromS, durS });
+  const d = telecine.decide(counts);
+  if (d.telecined === null) throw new Error(`${itemId}: telecine not decided (${d.why}); nothing written`);
+  const check = { method: telecine.METHOD, span_s: [fromS, Math.round((fromS + durS) * 1000) / 1000], counts,
+    progressive_share: Math.round(d.progressive * 10000) / 10000, repeated_share: Math.round(d.repeated * 10000) / 10000,
+    ffmpeg: ffmpeg ?? "unknown", checked_at: isoSecond(now().toISOString()) };
+  const next = { ...ledger, items: ledger.items.map((i, j) => (j === k ? { ...i, telecined: d.telecined, telecine_check: check } : i)) };
+  const problems = validateLedger(next);
+  if (problems.length) throw new Error(`the ledger does not pass:\n  ${problems.join("\n  ")}`);
+  writeFileSync(ledgerPath, serialiseLedger(next));
+  writePacket(root, issue);
+  return { id: itemId, telecined: d.telecined, check };
+}
+
 /** Writes episodes/<issue>/ASSETS.md from assets.json and the ledger, measuring footage and sound on the media drive. */
 export function runCoverage({ root = repoRoot, issue, mediaDir, probe = probeSeconds }) {
   const dir = episodeDir(root, issue);
@@ -384,8 +453,15 @@ async function main(argv) {
     console.log(`rights: transcript ${t.id} (${t.source}${t.agreement !== undefined ? `, ${(t.agreement * 100).toFixed(1)}% agreement` : ""}) written to the ledger`);
     return 0;
   }
+  if (cmd === "telecine") {
+    const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
+    assertMediaOutsideRepo(mediaDir);
+    const r = await runTelecine({ issue: parseIssue(issueArg), itemId: flag("item"), mediaDir });
+    console.log(`rights: ${r.id} telecined: ${r.telecined} (progressive ${(r.check.progressive_share * 100).toFixed(1)}%, repeated fields ${(r.check.repeated_share * 100).toFixed(1)}%, ${r.check.span_s.join(" to ")} s) written to the ledger`);
+    return 0;
+  }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs resolve <issue> | candidates <issue> [--pool r2|artifact|<path>] | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | transcript <issue> --item <id> [--id <tid>] (--official <url> | --ours <a.json> <b.json> --lang <xx> [--span in,out]) | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | candidates <issue> [--pool r2|artifact|<path>] | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | telecine <issue> --item <id> --media <dir> | transcript <issue> --item <id> [--id <tid>] (--official <url> | --ours <a.json> <b.json> --lang <xx> [--span in,out]) | lint");
   return 2;
 }
 

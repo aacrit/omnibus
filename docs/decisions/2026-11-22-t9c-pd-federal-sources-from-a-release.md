@@ -1,0 +1,7 @@
+# 2026-11-22: T9c: a US federal work the runner cannot fetch byte for byte comes from pd-sources-<issue> (CoS decision, relayed by the coordinator)
+
+On run 44982815573, whitehouse.gov served the Actions runner other bytes for two pages than the ledger checked: `e35-p4-declaration` (cited by the screenplay) and `e35-b4-release`. From the laptop, the same URL hashes exactly to the ledger, and the run before fetched both cleanly. The sha256 check refused them, as it must, and it stays exactly as it is.
+
+The fallback mirrors own-pages. The laptop uploads its ledger-verified bytes to the prerelease `pd-sources-<issue>`. The sources job downloads from it only the files of the ledger's `pd-us-federal` items. That gate is in code (`pull.mjs` `pdFiles` and `isPdFederal`), so a file of any other licence is never taken. The fetch then hashes each against the ledger. One that does not match is discarded and fetched from its origin as before, never used. The laptop's side, `node scripts/episode-draft.mjs pd-verified <issue> --media <dir>`, lists only federal files that hash to the ledger and refuses any other. Only those files are uploaded. Nothing is re-fetched to fill the release.
+
+The capture design's refusal of release assets still applies to every third-party copyrighted item: a release on this public repo redistributes the file. A US federal work (17 U.S.C. 105) carries no such restriction, and that is the only class this release may hold.

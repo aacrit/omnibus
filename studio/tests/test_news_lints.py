@@ -5,6 +5,7 @@ Plus the frozen issue 33 itself, and the show profile's tweaks to the lifted eng
 
 from __future__ import annotations
 
+import copy
 import json
 import sys
 from pathlib import Path
@@ -46,7 +47,7 @@ def test_the_pass_fixture_passes_every_rule(fx):
     passed = {c["rule"] for c in res if c["ok"] and c["severity"] == "block"}
     # every rule is exercised, not skipped (news-inputs is checked through the file path below); the v1 fixture binds
     # no v2-only rule
-    want = BLOCKING_RULES - {"news-inputs"} - (V1_UNEXERCISED if fx == "v1" else set())
+    want = BLOCKING_RULES - {"news-inputs"} - (V1_UNEXERCISED if fx == "v1" else set(NL.V1_ONLY))
     assert want <= passed, want - passed
     if fx == "v1":
         assert not {c["rule"] for c in res} & V2_ONLY
@@ -203,7 +204,7 @@ def test_news_inputs_read_from_files_and_refuse_when_missing(tmp_path):
 def test_deferred_rules_are_declared_not_implemented():
     res = run(*EP.episode())
     deferred = {c["rule"]: c for c in res if c["severity"] == "not_implemented"}
-    assert set(deferred) == {"clock-true", "sources-last", "no-youtube", "no-bridge-reverse"}
+    assert set(deferred) == {"clock-true", "sources-last", "no-youtube", "sot-share", "no-bridge-reverse"}
     assert all(c["evidence"]["what"] and c["evidence"]["deferred_to"] for c in deferred.values())
 
 
@@ -496,3 +497,21 @@ def test_a_shot_carries_its_items_sourcing_dot_label():
     EP.shot(play, "S-MARGIN")["dot_label"] = lab
     res = NL.dot_label_checks(play, assets)
     assert not _bad(res) and res[-1]["evidence"]["checked"] == 1
+
+
+def test_the_narration_ceiling_binds_the_frozen_issue_only_and_v2_advises_the_narrator_share():
+    """Bible v2 o: narration-ceiling (55%, every voiced kind) becomes narration-share (the narrator's own speech, advise
+    at 62%) and sot-share (measured on the mix). Issue 33 keeps its ceiling; a v2 screenplay never blocks on either."""
+    play, assets, inputs = EP2.episode()
+    play = copy.deepcopy(play)
+    for p in play["parts"]:                                  # the narrator over 62% of the runtime, readings included
+        for ln in p.get("lines") or []:
+            if ln["kind"] in ("vo", "read", "sot"):
+                ln["dur_s"] = 30.0
+    res = run(play, assets, inputs)
+    assert failing_rules(res) == set(), [c for c in res if not c["ok"] and c["severity"] == "block"]
+    share = [c for c in res if c["rule"] == "narration-share"]
+    assert len(share) == 1 and share[0]["severity"] == "warn" and not share[0]["ok"]
+    assert not [c for c in res if c["rule"] == "narration-ceiling"]
+    assert {c["rule"] for c in run(*EP.episode())} >= {"narration-ceiling"} and not [
+        c for c in run(*EP.episode()) if c["rule"] == "narration-share"]

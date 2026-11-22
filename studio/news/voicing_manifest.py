@@ -79,11 +79,20 @@ def _kind(ln: dict):
     return ENGINE_LINE_KIND.get(ln.get("kind"), ln.get("kind"))
 
 
+def _news_kind(ln: dict):
+    """The line's own v2 kind, whether the screenplay states it or the engine's reading kept it (``news_kind``)."""
+    return ln.get("news_kind") or ln.get("kind")
+
+
 def voiced_lines(play: dict) -> list[dict]:
-    """The lines a take must exist for: narration and testimony, not an archival span (its clip's own sound)."""
+    """The lines a take must exist for: narration (v2 vo, signon, signoff) and testimony (v2 read), not an archival
+    span (its clip's own sound) and never a v2 ``sot`` line: a sound bite is the speaker's own voice, played from its
+    clip on the sot bus, so no synthesised take is ever made or required for it (bible v2 j)."""
     out = []
     for part in play.get("parts") or []:
         for ln in part.get("lines") or []:
+            if _news_kind(ln) == "sot":
+                continue
             if _kind(ln) in VOICE_KINDS and not (ln.get("archival_audio") and ln.get("clip")):   # render.archival_span
                 out.append(ln)
     return out
@@ -209,7 +218,8 @@ def apply(play: dict, man, *, words: bool = True) -> dict:
         new = []
         for ln in part.get("lines") or []:
             rec = lines.get(ln.get("id"))
-            if _kind(ln) in VOICE_KINDS and isinstance(rec, dict) and not line_problems(ln["id"], rec, None):
+            if (_kind(ln) in VOICE_KINDS and _news_kind(ln) != "sot" and isinstance(rec, dict)
+                    and not line_problems(ln["id"], rec, None)):
                 ln = dict(ln)
                 ln.setdefault("wav", take(man, rec["wav"]))
                 if words and not ln.get("words"):

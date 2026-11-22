@@ -1,0 +1,25 @@
+{
+ "_note": "Studio items for issue 35 (T9c): the Echo bed's two spans, cut sample-exact from issue 33's finished Echo bed (own-score-35, a draft stand-in until bed 2, T8b) by studio.news.studio_items at each cue's bed_in_s. Media under D:/omnibus-media/35/studio.",
+ "items": [
+  {
+   "id": "echo-bed-150.1",
+   "file": "score/echo-bed-150.1.wav",
+   "kind": "sound",
+   "licence": "CC BY-SA 4.0",
+   "credit": "void omnibus score (E8)",
+   "shows_bodies": false,
+   "derived_from": "D:/omnibus-media/35/score/echo-bed-150.wav (E8, score.take.json), cut at the cue's bed_in_s (studio.news.studio_items, soundfile, PCM 24-bit, sample-exact)",
+   "sha256": "b37a230743843c98e4c75f3b24fa6b82002da3dcc3670493070607b3baeb42b4"
+  },
+  {
+   "id": "echo-bed-150.2",
+   "file": "score/echo-bed-150.2.wav",
+   "kind": "sound",
+   "licence": "CC BY-SA 4.0",
+   "credit": "void omnibus score (E8)",
+   "shows_bodies": false,
+   "derived_from": "D:/omnibus-media/35/score/echo-bed-150.wav (E8, score.take.json), cut at the cue's bed_in_s (studio.news.studio_items, soundfile, PCM 24-bit, sample-exact)",
+   "sha256": "9b77817f7f0e2855ce5849ac2a78cbb76324b60e7ade13accc4c10aad8ae8801"
+  }
+ ]
+}

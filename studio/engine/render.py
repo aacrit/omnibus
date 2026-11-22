@@ -10704,6 +10704,10 @@ def place_voices(film: Path, play: dict, journal: Journal, out: Path, *, fit: bo
     from the voicing manifest, then, once the lines are where they play, its word timings."""
     news = SHOW.is_news(play)
     if news:
+        # T9c: a v2 line (vo, signon, signoff, read, sot) is read as the engine's narration or testimony before the
+        # takes are placed, so --fit-voices and the pre-flight see every voiced line (build_plan reads it so too; the
+        # reading is idempotent, and the news lints undo it, schema.news_play)
+        play = NL.SC.engine_play(play)
         play = news_voicing(film, play, words=False)["play"]
     if fit:
         journal.human("scout", "--fit-voices: voice lines may move later and their shots grow", override="--fit-voices")
@@ -10730,6 +10734,8 @@ def check_plan(film: Path | str, *, draft: bool = False, height: int = 1080, jou
     play = MR.remap_tree(json.loads((film / "screenplay.json").read_text(encoding="utf-8")))
     refusals: list[str] = []
     news = SHOW.is_news(play)
+    if news:
+        play = NL.SC.engine_play(play)      # T9c: as place_voices reads it, so a check judges the render's plan
     voicing = news_voicing(film, play, words=not fit) if news else None
     if voicing is not None:
         play = voicing["play"]

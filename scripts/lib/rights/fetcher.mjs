@@ -315,7 +315,8 @@ export function spanLeftOut(span, fit) {
 }
 
 /** The rundown parts about the week's news, whose pictures must be public by the part's horizon. */
-export const NEWS_PART = /^(cold-open|week-|weight-|margins-)/;
+// v1 parts, and v2's slots (show bible v2, section n, picture-in-week): a picture is public by its window's end.
+export const NEWS_PART = /^(cold-open|week-|weight-|margins-|tease$|lead$|package_\d+$|brief_\d+$)/;
 
 /** The ledger entry for a checked, downloaded candidate. */
 export function ledgerEntry({ request, candidate: c, tier, check, media, file, checkedBy, today }) {
