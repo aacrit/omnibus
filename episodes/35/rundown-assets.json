@@ -1,0 +1,146 @@
+{
+  "schema": "omnibus.rundown-assets/1",
+  "issue": 35,
+  "written": "2026-11-22",
+  "by": "T9a sourcing pass (Forge builder): one request per item, ladders that name the file, for the slots of rundown.json at the pin b8dcf87",
+  "asset_requests": [
+    {
+      "id": "e35-p4-arrival",
+      "for": "package_4",
+      "kind": "footage",
+      "purpose": "Shenzhen, Wednesday 18 Nov: the US President arrives for the APEC summit; the pool camera on the arrival ceremony, unedited.",
+      "must_show": "Air Force One at Shenzhen, the President at the door and on the steps; no graphic, no bug",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:President Trump Participates in a Shenzhen, China Arrival Ceremony.webm",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Shenzhen"
+    },
+    {
+      "id": "e35-p4-talks",
+      "for": "package_4",
+      "kind": "footage",
+      "purpose": "Shenzhen, Thursday 19 Nov: the three leaders at the trilateral talks (the White House release, mute B-roll).",
+      "must_show": "Trump, Xi and Putin at the table; the release's end card never airs",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:President Trump, Xi and Putin Hold Trilateral Talks in China.webm",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Shenzhen"
+    },
+    {
+      "id": "e35-p4-still",
+      "for": "package_4",
+      "kind": "still",
+      "purpose": "Shenzhen, Thursday 19 Nov: Trump and Putin at the pull-aside meeting during the APEC summit (Official White House Photo).",
+      "must_show": "both leaders in frame",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:P20261119PW-0073 (55662747591).jpg",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Shenzhen"
+    },
+    {
+      "id": "e35-p4-declaration",
+      "for": "package_4",
+      "kind": "document",
+      "purpose": "The declaration's own text, as the White House published it on Thursday 19 Nov: the typeset page the reader speaks.",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "whitehouse.gov",
+          "adapter": "gov-federal",
+          "query": "the declaration page",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 5: typeset from the text the White House published"
+    },
+    {
+      "id": "e35-p3-carrier",
+      "for": "package_3",
+      "kind": "still",
+      "purpose": "The third US carrier in the Gulf theatre: USS Theodore Roosevelt entering the 5th Fleet area (US Naval Forces Central Command, DVIDS).",
+      "must_show": "the carrier",
+      "ladder": [
+        {
+          "tier": 2,
+          "host": "api.dvidshub.net",
+          "adapter": "dvids",
+          "query": "image:10105396",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Strait of Hormuz"
+    },
+    {
+      "id": "e35-b4-release",
+      "for": "brief_4",
+      "kind": "document",
+      "purpose": "The White House release naming Kirsten Davies National Cyber Director (Friday 20 Nov).",
+      "ladder": [
+        {
+          "tier": 5,
+          "host": "whitehouse.gov",
+          "adapter": "gov-federal",
+          "query": "the release page",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 5: typeset from the release"
+    },
+    {
+      "id": "e35-b8-caracas",
+      "for": "brief_8",
+      "kind": "footage",
+      "purpose": "Caracas, Wednesday 18 Nov: the US Secretary of War at the lectern at the US Embassy (the Department of War's full, unedited address).",
+      "must_show": "Hegseth at the lectern, the city behind",
+      "ladder": [
+        {
+          "tier": 1,
+          "host": "commons.wikimedia.org",
+          "adapter": "commons",
+          "query": "File:Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela.webm",
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          }
+        }
+      ],
+      "fallback": "tier 4: the locator, Caracas"
+    }
+  ]
+}

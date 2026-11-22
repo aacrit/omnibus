@@ -1,0 +1,36 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 35,
+  "source": "t9a",
+  "story": "thread-1c145f33",
+  "note": "Sourcing pass T9a (issue 35), read 2026-11-22 against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z). Searches: the capture pool of run 44933588497 (no pool for issue 35; its index only), Wikimedia Commons uploads 15 to 21 Nov, DVIDS video and images published 16 Nov to the cutoff, VOA's feed as captured, whitehouse.gov listings. Fit first: a pin names the story key as its beat, why the picture shows it, and the span that may air. Nothing here is a rights decision; the fetcher checks every candidate, and every video named here is a video2commons transfer that needs a verifier's marks review before the fetcher will take it.",
+  "pins": {
+    "e35-b8-caracas": [
+      {
+        "tier": 1,
+        "adapter": "commons",
+        "ref": "File:Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela.webm",
+        "fit": {
+          "beat": "thread-1c145f33",
+          "why": "The Department of War's full, unedited 4K record of the Secretary's address at the US Embassy in Caracas on Wednesday 18 Nov (1259.8 s, an address, so SOT-eligible): from 15 s Hegseth alone at the lectern, the city behind him. A brief takes 12 s of picture under the narrator; party label RELEASED BY THE DEPARTMENT OF WAR once it exists (T5).",
+          "in_s": 15,
+          "out_s": 27
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "a brief carries one attributed fact over the picture; the address's own words are not a bite here"
+        }
+      }
+    ]
+  },
+  "not_taken": [
+    {
+      "ref": "File:Presidenta Delcy Rodríguez sostiene reunión con el Secretario de Guerra de EE.UU. Pete Hegseth.webm",
+      "why": "VTV (Venezuelan state TV) marked public domain on Commons: refused until its terms are reviewed (bible n); the adapter also finds no PD basis"
+    },
+    {
+      "ref": "File:Acuerdo militar entre Venezuela-EEUU y visita de Pete Hegseth- Exclusiva Carola Chávez.webm",
+      "why": "La Iguana TV marked public domain on Commons: the same laundering rule; not taken"
+    }
+  ]
+}
