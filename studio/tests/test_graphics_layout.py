@@ -5,6 +5,10 @@ ground truth, not just against themselves."""
 
 from __future__ import annotations
 
+import math
+
+import pytest
+
 from studio.graphics import layout
 
 
@@ -182,3 +186,55 @@ def test_strike_rate_cap():
     assert layout.check_strike_rate(100) == 100
     with pytest.raises(ValueError):
         layout.check_strike_rate(100.01)
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): locator geometry.
+# ===========================================================================
+
+def test_locator_point_centres_on_prime_meridian_and_equator():
+    box = (100.0, 100.0, 800.0, 400.0)
+    centre = layout.locator_point(0.0, 0.0, box=box)
+    assert centre.x == pytest.approx(100.0 + 400.0) and centre.y == pytest.approx(100.0 + 200.0)
+
+
+def test_locator_point_corners():
+    box = (0.0, 0.0, 360.0, 180.0)
+    nw = layout.locator_point(90.0, -180.0, box=box)
+    se = layout.locator_point(-90.0, 180.0, box=box)
+    assert (nw.x, nw.y) == pytest.approx((0.0, 0.0))
+    assert (se.x, se.y) == pytest.approx((360.0, 180.0))
+
+
+def test_locator_point_rejects_out_of_range_coordinates():
+    with pytest.raises(ValueError):
+        layout.locator_point(91.0, 0.0)
+    with pytest.raises(ValueError):
+        layout.locator_point(0.0, 181.0)
+
+
+def test_graticule_lines_cover_every_meridian_and_parallel():
+    lines = layout.graticule_lines(step_deg=30)
+    # 13 meridians (-180..180 step 30) + 7 parallels (-90..90 step 30).
+    assert len(lines) == 13 + 7
+
+
+def test_graticule_lines_rejects_a_step_that_does_not_divide_180():
+    with pytest.raises(ValueError):
+        layout.graticule_lines(step_deg=40)
+
+
+def test_locator_scale_bar_wider_away_from_the_equator():
+    # The projection's meridians are drawn parallel (never converging), so a degree of longitude covers fewer
+    # real km as the latitude rises; the same scale_km therefore needs more pixels there, not fewer.
+    equator_px = layout.locator_scale_bar_px(500.0, lat=0.0)
+    temperate_px = layout.locator_scale_bar_px(500.0, lat=45.0)
+    assert temperate_px > equator_px
+    assert equator_px == pytest.approx(temperate_px * math.cos(math.radians(45.0)), rel=1e-6)
+
+
+def test_locator_scale_bar_rejects_the_pole_and_a_non_positive_distance():
+    with pytest.raises(ValueError):
+        layout.locator_scale_bar_px(500.0, lat=90.0)
+    with pytest.raises(ValueError):
+        layout.locator_scale_bar_px(0.0, lat=0.0)

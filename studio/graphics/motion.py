@@ -128,6 +128,36 @@ def credits_crop_offsets(strip_height: int, viewport_height: int, *, px_per_fram
 
 # ---- typed-paper macro: characters appear at the strike rate -----------
 
+# ---- rostrum: a slow, held push on a static field (bible e: the locator) ---
+
+def rostrum_frame_count(hold_s: float, fps: int = FPS) -> int:
+    if hold_s <= 0:
+        raise ValueError("a rostrum graphic must hold a positive number of seconds")
+    return max(1, round(hold_s * fps))
+
+
+def rostrum_progress(t_s: float, *, push_start_s: float, push_end_s: float) -> float:
+    """0.0 before `push_start_s`, 1.0 from `push_end_s` on, smoothstep-eased in between: a slow push, never a
+    snap (bible i: the locator's rostrum push runs 1.0 to 2.5 s into the shot)."""
+    if push_end_s <= push_start_s:
+        raise ValueError("a rostrum push needs push_end_s > push_start_s")
+    if t_s <= push_start_s:
+        return 0.0
+    if t_s >= push_end_s:
+        return 1.0
+    p = (t_s - push_start_s) / (push_end_s - push_start_s)
+    return p * p * (3 - 2 * p)
+
+
+def rostrum_scale(t_s: float, *, push_start_s: float, push_end_s: float, zoom_from: float = 1.0,
+                   zoom_to: float = 1.08) -> float:
+    """The centred crop's scale at `t_s` seconds in: `zoom_from` held, easing to `zoom_to`, then held."""
+    if zoom_to <= zoom_from:
+        raise ValueError("a rostrum push zooms in: zoom_to must be greater than zoom_from")
+    p = rostrum_progress(t_s, push_start_s=push_start_s, push_end_s=push_end_s)
+    return zoom_from + (zoom_to - zoom_from) * p
+
+
 def typed_paper_frame_count(rows: list[str], rate_cps: float, *, row_gap_frames: int = 0, fps: int = FPS) -> int:
     """Total frames for every row to finish striking, rows typed one after
     another (each row starts once the previous row's text is complete)."""

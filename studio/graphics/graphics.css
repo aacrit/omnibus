@@ -59,3 +59,44 @@ body.macro, body.macro .frame { background: var(--o-paper); }
 .lt--compact .lt-name { font-size: calc(var(--bc-name) * 0.78); }
 .lt--compact .lt-role { font-size: calc(var(--bc-second) * 0.85); }
 .lt--compact .lt-date { font-size: calc(var(--bc-second) * 0.85); }
+
+/* ======================================================================
+   v2 (show bible v2, ticket 4): locator, sot_super, brief_strip. None of
+   these reads a --bias-* or --spectrum-* token (bumper-no-bars): the
+   locator's base field is a graticule, never the lean spectrum.
+   ====================================================================== */
+
+/* Locator (section i): a plate-carree graticule, a chrome-ruled label per
+   place on a leader line, a Mono scale bar. No globe, no 3D, no relief. */
+.loc-grid { stroke: var(--color-grid); stroke-width: 1; fill: none; }
+.loc-leader { stroke: var(--o-chrome); stroke-width: 1.5; }
+.loc-dot { fill: var(--o-chrome); stroke: var(--o-black); stroke-width: 2; }
+.loc-label { position: absolute; transform: translateY(-50%); }
+.loc-label-text { display: inline-block; background: var(--color-bar); border: 2px solid var(--o-chrome); color: var(--o-white); padding: 6px 14px; font-size: 24px; white-space: nowrap; }
+.loc-scale { position: absolute; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.loc-scale-label { font-size: 22px; color: var(--o-grey-2); letter-spacing: 0.04em; }
+.loc-scale-bar { display: block; height: 4px; background: var(--o-chrome); }
+
+/* SOT super (section i): the speaker lower third, up to three lines; the
+   third (a translation or party label) grows the bar, never replaces the
+   first two. Same overlay grammar as the Echo's lower third (`.lt`). */
+.ss { position: absolute; left: 312px; top: 790px; animation: wipe var(--dur-wipe) var(--ease-wipe) both; }
+.ss-rule { height: 4px; background: var(--o-chrome); }
+.ss-t1, .ss-t2, .ss-t3 { background: var(--color-bar); padding: 0 72px; display: inline-flex; align-items: center; white-space: nowrap; }
+.ss-t1 { height: 88px; }
+.ss-t2 { height: 58px; margin-top: 4px; }
+.ss-t3 { height: 44px; margin-top: 4px; }
+.ss-name { font-family: var(--font-structure); font-weight: 700; font-size: var(--bc-name); letter-spacing: -0.01em; color: var(--o-white); }
+.ss-role { font-size: var(--bc-second); color: var(--o-grey-2); }
+.ss-third { font-size: var(--bc-second); color: var(--o-white); }
+.ss-dot { position: absolute; top: -9px; width: 22px; height: 22px; border-radius: 50%; background: var(--o-chrome); box-shadow: 0 0 0 4px var(--o-black); }
+
+/* Brief strip (section i): one line, place and date, Mono caps, the only
+   persistent super outside a story's own lower third. */
+.bstrip { position: absolute; left: 144px; top: 926px; }
+.bstrip-rule { height: 4px; background: var(--o-chrome); }
+.bstrip-line { background: var(--color-bar); padding: 0 24px; height: 40px; display: inline-flex; align-items: center; text-transform: uppercase; font-size: 26px; color: var(--o-white); letter-spacing: 0.04em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ss { animation: none; }
+}

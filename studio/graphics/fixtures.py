@@ -98,3 +98,82 @@ COUNT_CARD = CountCardSpec(
 CLOCK = ClockSpec(hour=20, minute=59, second=54, date_line="MON 02 NOV 2026 · UTC")
 
 END_BOARD = EndBoardSpec(issue=32, roman_year="MMXXVI", licence="CC BY-SA 4.0", domain="omnibus.voidvision.org")
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): a graphics-only episode fixture.
+#
+# Issue 35 (bible q) is real; this is not - it carries no news, no sources,
+# no voices. It exists because ticket 4 ships before ticket 2's rundown/2
+# normaliser (and so before episodes/35/screenplay.json), and the acceptance
+# asks for a 2-minute episode-draft.yml dispatch all the same: "if none
+# exists yet, render the fixture." Issue 900 is picked precisely because it
+# cannot collide with a real week (issues run in the 30s this decade).
+#
+# It is the single source: `episodes/900/screenplay.json`, the file
+# episode-draft.yml's `route` job actually checks for and `render.py`'s CLI
+# actually reads, is this dict dumped verbatim
+# (`studio/tests/test_graphics_render_episode.py` asserts the two match, so
+# they can never drift apart). It exercises every subtype this ticket
+# draws: a bumper with no year (briefs) and with one (the Echo), a locator
+# with one place and with two, an sot_super with a third line and without,
+# and two brief strips.
+# ===========================================================================
+
+EPISODE_V2_FIXTURE = {
+    "title": "void omnibus: ticket 4 graphics fixture",
+    "show": "omnibus",
+    "issue": 900,
+    "_note": "studio/graphics/render.py, ticket 4 (show bible v2): exercises bumper, locator, sot_super and "
+             "brief_strip end to end on Actions. Not a real issue: episode 900 reports no news.",
+    "parts": [
+        {
+            "id": "p-tease", "segment": "tease",
+            "shots": [
+                {"id": "G-LOC-1", "kind": "graphic", "subtype": "locator", "mark": "DRAWN", "dur_s": 4.0,
+                 "locator": {"places": [{"name": "Shenzhen", "lat": 22.54, "lon": 114.06}], "scale_km": 500,
+                             "push_s": [1.0, 2.5]},
+                 "shows": {"lines": ["Shenzhen"]}},
+            ],
+            "text": [
+                {"id": "G-BSTRIP-1", "kind": "graphic", "subtype": "brief_strip", "start_s": 0.0, "end_s": 4.0,
+                 "shows": {"lines": ["SHENZHEN · THU 19 NOV"]}},
+            ],
+        },
+        {
+            "id": "p-briefs", "segment": "briefs",
+            "shots": [
+                {"id": "G-BUMPER-BRIEFS", "kind": "graphic", "subtype": "bumper", "mark": "DRAWN", "dur_s": 1.8,
+                 "shows": {"lines": ["AROUND THE WORLD", "ISSUE 900   16 TO 21 NOV 2026"]}},
+                {"id": "G-LOC-2", "kind": "graphic", "subtype": "locator", "mark": "DRAWN", "dur_s": 4.0,
+                 "locator": {"places": [{"name": "Kerch Strait", "lat": 45.36, "lon": 36.47},
+                                         {"name": "Kyiv", "lat": 50.45, "lon": 30.52}], "scale_km": 200,
+                             "push_s": [1.0, 2.5]},
+                 "shows": {"lines": ["Kerch Strait", "Kyiv"]}},
+            ],
+            "text": [
+                {"id": "G-BSTRIP-2", "kind": "graphic", "subtype": "brief_strip", "start_s": 4.0, "end_s": 12.0,
+                 "shows": {"lines": ["KERCH STRAIT · TUE 17 NOV"]}},
+            ],
+        },
+        {
+            "id": "p-lead", "segment": "lead",
+            "shots": [],
+            "text": [
+                {"id": "G-SOT-1", "kind": "graphic", "subtype": "sot_super", "start_s": 20.0, "end_s": 34.0,
+                 "shows": {"lines": ["Vladimir Putin", "President of Russia",
+                                     "TRANSLATION · KREMLIN TRANSCRIPT"]}},
+                {"id": "G-SOT-2", "kind": "graphic", "subtype": "sot_super", "start_s": 40.0, "end_s": 52.0,
+                 "shows": {"lines": ["Donald Trump", "President of the United States"]}},
+            ],
+        },
+        {
+            "id": "p-echo", "segment": "echo",
+            "shots": [
+                {"id": "G-BUMPER-ECHO", "kind": "graphic", "subtype": "bumper", "mark": "DRAWN", "dur_s": 1.8,
+                 "shows": {"lines": ["THE ECHO", "ISSUE 900   16 TO 21 NOV 2026", "1962"]}},
+            ],
+            "text": [],
+        },
+    ],
+}

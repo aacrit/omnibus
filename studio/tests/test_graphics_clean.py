@@ -38,3 +38,34 @@ def test_graphics_not_clean_names_the_layer_and_effect():
         assert "vignette" in str(exc)
     else:
         pytest.fail("expected GraphicsNotClean")
+
+
+# ===========================================================================
+# v2 (show bible v2, ticket 4): bumper-no-bars.
+# ===========================================================================
+
+def test_bumper_html_has_no_spectrum_token():
+    assert clean.find_spectrum_tokens('<rect class="tc-field" fill="var(--o-field)"></rect>') == []
+
+
+@pytest.mark.parametrize("snippet", [
+    'fill="var(--bias-far-left)"',
+    'color: var(--spectrum-dark-center)',
+    'fill="#5088d0"',
+    'background: #B02E26;',   # case-insensitive
+])
+def test_find_spectrum_tokens_catches_every_form(snippet):
+    assert clean.find_spectrum_tokens(snippet) != []
+
+
+def test_assert_no_bias_tokens_names_the_layer():
+    try:
+        clean.assert_no_bias_tokens('<rect fill="var(--bias-center)"/>', where="bumper-briefs")
+    except clean.SpectrumInEngineLayer as exc:
+        assert "bumper-briefs" in str(exc) and "--bias-center" in str(exc)
+    else:
+        pytest.fail("expected SpectrumInEngineLayer")
+
+
+def test_assert_no_bias_tokens_passes_clean_markup():
+    clean.assert_no_bias_tokens('<rect fill="var(--o-chrome)"/>', where="locator-1")  # must not raise
