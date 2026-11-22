@@ -2,7 +2,7 @@
 
 void omnibus, issue 35, the week of 16 to 21 November 2026, closed at the pin `b8dcf87` (2026-11-21T14:17:37Z). The first v2 evening-news episode. Written by T9b from `screenplay.json`; every number here comes from it. Timings are estimated from word counts (narrator 2.5 words a second at 0.88, 2.3 in the Echo at 0.84; reader 2.35 at 0.86) until Kokoro measures the takes on Actions.
 
-**Runtime: 12:58.3** (778.3 s), inside the 13:00 to 14:30 target.
+**Runtime: 12:58.3** (778.3 s): inside the 12:00 to 15:00 range, 1.7 s under the 13:00 to 14:30 target (advisory). The bites waiting on ticket 5 add to it.
 
 ## Segments
 
