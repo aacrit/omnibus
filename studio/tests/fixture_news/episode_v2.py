@@ -266,7 +266,8 @@ FAIL = {
     "the cold open is gone": (lambda p, a, i: part(p, "p-tease").update(segment="cold_open"),
                               {"part-segment", "segment-spine", "graphic-schema"}),   # its brief strip is then untrusted
     "no tease": (_pop_part("p-tease"), {"segment-spine"}),
-    "no sign-off": (_pop_part("p-signoff"), {"segment-spine"}),
+    # with no signoff part at all, the Echo's bed (ticket 3's echo-bed-ending) has nothing to time its ending to
+    "no sign-off": (_pop_part("p-signoff"), {"segment-spine", "echo-bed-ending"}),
     "two leads": (lambda p, a, i: part(p, "p-pkg-3").update(segment="lead"), {"segment-spine"}),
     "a second lead is linted as an untrusted part": (lambda p, a, i: part(p, "p-pkg-2").update(segment="lead"),
                                                      {"segment-spine", "part-shape", "card-kind"}),

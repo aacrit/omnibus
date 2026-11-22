@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3ADestructions+in+Komyshuvakha+after+Russian+attack%2C+2026-11-02+%28001%29.webm",
+  "at": "2026-11-22T00:21:20Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 202820505,
+     "ns": 6,
+     "title": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{ru|1=Последствия российской бомбардировки [[:ru:Камышеваха (Запорожская область)|Камышевахи]] (Запорожская область) 2&nbsp;ноября 2026 года. Разрушена школа, где выдавали гуманитарную помощь, поражено бомбоубежище, расположенное в подземных помещениях школы. Погибли не менее 40 человек. Надземная часть школы была разрушена ещё в 2023 году ([https://www.bbc.com/russian/articles/cmn8wnvyp278o 1], [https://web.archive.org/web/20261105004827/https://suspilne.media/zaporizhzhia/1444833-udar-fab-3000-po-pidzemnij-skoli-v-komisuvasi-akim-malo-b-buti-ukritta-abi-vitrimati-aviaudar-rf/ 2]).}}\n{{en|1=Consequences of Russian bombing of [[:en:Komyshuvakha, Zaporizhzhia Oblast|Komyshuvakha, Zaporizhzhia Oblast]] on 2&nbsp;November 2026. The bombing destroyed a school, used as humanitarian aid center. Air raid shelter, located in underground room of the school, was also destroyed. At least 40 people were killed. Above-ground building of the school was destroyed by a strike in 2023 ([https://www.bbc.com/russian/articles/cmn8wnvyp278o 1], [https://web.archive.org/web/20261105004827/https://suspilne.media/zaporizhzhia/1444833-udar-fab-3000-po-pidzemnij-skoli-v-komisuvasi-akim-malo-b-buti-ukritta-abi-vitrimati-aviaudar-rf/ 2]).}}\n{{uk|1=''Original description:''<br>Станом на 17.30 [04.11] кількість загиблих внаслідок авіаудару по Запорізькому району зросла до 40 людей. Пошуково-рятувальні роботи тривають.\n\nРятувальники, фахівці Державного гірничорятувального загону ДСНС України та кінологічні розрахунки ДСНС продовжують обстежувати місце удару і розбирати зруйновані конструкції. Не покладаючи рук, розчищають завали та забезпечують доступ до місць пошуку.\n\nКінологи разом зі службовими собаками допомогли виявити понад 30 фрагментів тіл загиблих. Пошук ускладнюють пил, дим, значні руйнування та загроза повторних російських обстрілів. Кожну ділянку ретельно перевіряють, щоб знайти загиблих і повернути їх родинам.\n\nСтаном на 12.00 4 листопада кількість загиблих внаслідок авіаудару рф по Комишувасі Запорізького району 2 листопада зросла до 37 людей. \n\nНа місці події продовжують працювати кінологічні розрахунки та підрозділ Державного гірничорятувального загону ДСНС України. Пошуково-рятувальні роботи тривають.\n\nСтаном на 14:00 3 листопада відомо про 31 загиблого внаслідок російського удару 2 листопада по селищу Комишуваха Запорізького району. Пошуково-рятувальні роботи тривають. Залучені кінологічні розрахунки ДСНС.\n\nСтаном на 22.00 вже 26 людей загинуло унаслідок російського удару по селищу Комишуваха Запорізького району. Серед них – 2 рятувальників та 4 поліцейських. Ще 5 людей - поранені, з них 2 співробітники ДСНС.\n\nАварійно-рятувальні роботи тривають.\n\nСтаном на 20.00 до 24 людей зросла кількість загиблих внаслідок російських ударів по навчальному закладу в одному з населених пунктів Запорізького району, серед них 2 рятувальників і 4 поліцейських. Ще 5 осіб поранені, серед них - 2 рятувальників. Аварійно-рятувальні роботи тривають.\n\nНадзвичайно страшний російський удар по селищу Комишуваха в Запорізькій області вдень 2 листопада. Про це повідомив Президент України Володимир Зеленський у Facebook.\n\n\"Від ранку було вже кілька ударів авіабомб по селищу – по школі, яка використовувалась для гуманітарних потреб: там роздавали людям гуманітарну допомогу. Після першого удару авіабомб був повторний удар ще дев’яти бомб, і саме по укриттю, де перебували люди. Станом на зараз відомо, на жаль, про 18 загиблих. Мої співчуття рідним і близьким. П’ять людей поранено. На місці триває рятувальна операція, продовжується пошук людей. Дуже непросто. Військові сили, рятувальники, сили спеціальних служб залучені.\n\nРосіяни не могли не знати, що щотижня місцеві, які залишились в Комишувасі, отримували гуманітарну допомогу саме там. І це черговий доказ, що Росія не хоче жодної деескалації, жодної реальної справедливості. Після гуманітарної операції в Олешках був момент, коли наступні кроки могли б показати, що наближення миру можливе. Такими вбивствами Росія дає абсолютно протилежний сигнал – Росія розраховує на подальші вбивства. Потрібна відповідь на це, відповідь від світу. Сильна та жорстка. Відповідь Росії. І підтримка для України. Треба захищати життя. Дякую всім, хто допомагає!\" - написав Президент.}}\n|date=2026-11-02\n|source=[https://dsns.gov.ua/news/nadzvicaini-podiyi/rosiiani-vdarili-po-skoli-v-selishhi-komisuvaxa-zaporizkoyi-oblasti-je-zertvi-onovleno Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено)] ([https://www.youtube.com/watch?v=SUFuE0pfO0c on Youtube])\n|author=[[:en:State Emergency Service of Ukraine|State Emergency Service of Ukraine]]\n|permission=\n|other versions=\n}}\n\n=={{int:license-header}}==\n{{dsns.gov.ua}}\n\n[[Category:Attack on Komyshuvakha, 2 November 2026]]\n[[Category:Videos of the Russo-Ukrainian War from 2026]]\n[[Category:Videos of 2026 from Zaporizhzhia Oblast]]\n[[Category:Videos of 2026]]\n[[Category:Videos in Ukrainian]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,132 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3APresidenta+Delcy+Rodr%C3%ADguez+sostiene+reuni%C3%B3n+con+el+Secretario+de+Guerra+de+EE.UU.+Pete+Hegseth.webm",
+  "at": "2026-11-22T00:21:26Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203461434,
+     "ns": 6,
+     "title": "File:Presidenta Delcy Rodríguez sostiene reunión con el Secretario de Guerra de EE.UU. Pete Hegseth.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-19T09:51:56Z",
+       "user": "TaronjaSatsuma",
+       "size": 44981948,
+       "width": 1280,
+       "height": 720,
+       "duration": 557.048,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Presidenta_Delcy_Rodr%C3%ADguez_sostiene_reuni%C3%B3n_con_el_Secretario_de_Guerra_de_EE.UU._Pete_Hegseth.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Presidenta_Delcy_Rodr%C3%ADguez_sostiene_reuni%C3%B3n_con_el_Secretario_de_Guerra_de_EE.UU._Pete_Hegseth.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/203461434",
+       "sha1": "d14438e2e48f08f5f4327d0d94159fbdb4642187",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Presidenta Delcy Rodríguez sostiene reunión con el Secretario de Guerra de EE.UU. Pete Hegseth",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Venezolana de Televisión|PD Venezuela official|Pete Hegseth|Videos from YouTube|Uploaded with video2commons|November 2026 in Venezuela|Videos in Spanish|Videos of 2026 from Venezuela|Delcy Rodríguez in 2026",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Te invitamos a seguirnos en nuestras plataformas digitales:\n<p>THREADS\n<a rel=\"nofollow\" class=\"external free\" href=\"https://www.threads.com/@vtv_canal8\">https://www.threads.com/@vtv_canal8</a>\n</p><p>MASTODON\n<a rel=\"nofollow\" class=\"external free\" href=\"https://mastodon.social/deck/home\">https://mastodon.social/deck/home</a>\n</p><p>TELEGRAM\n<a rel=\"nofollow\" class=\"external free\" href=\"https://t.me/vtv_canal8\">https://t.me/vtv_canal8</a>\n</p><p>INSTAGRAM \n<a rel=\"nofollow\" class=\"external free\" href=\"https://www.instagram.com/vtv_canal8?igsh=amVra3BhdWFkbm9i\">https://www.instagram.com/vtv_canal8?igsh=amVra3BhdWFkbm9i</a>\n</p><p>TIK TOK\n<a rel=\"nofollow\" class=\"external free\" href=\"https://www.tiktok.com/@vtvcanal.8?_r=1&amp;_t=ZM-93BUcls96wl\">https://www.tiktok.com/@vtvcanal.8?_r=1&amp;_t=ZM-93BUcls96wl</a>\n</p><p>TIK TOK ALTERNATIVO \n<a rel=\"nofollow\" class=\"external free\" href=\"https://www.tiktok.com/@vtvcanal8alt?_r=1&amp;_t=ZM-93BUfsYedXI\">https://www.tiktok.com/@vtvcanal8alt?_r=1&amp;_t=ZM-93BUfsYedXI</a>\n</p><p>YOUTUBE \n<a rel=\"nofollow\" class=\"external free\" href=\"https://youtube.com/@VTV-canal8?si=7t-fOBvBa1d59OjP\">https://youtube.com/@VTV-canal8?si=7t-fOBvBa1d59OjP</a>\n</p><p>X <a rel=\"nofollow\" class=\"external free\" href=\"https://x.com/VTVcanal8\">https://x.com/VTVcanal8</a>\n</p><p>Nuestra página web\n</p><p><a rel=\"nofollow\" class=\"external free\" href=\"https://vtv.com.ve/\">https://vtv.com.ve/</a>\n</p><p>Y sigue nuestra transmisión en vivo las 24 horas en\n</p><p>Kick <a rel=\"nofollow\" class=\"external free\" href=\"https://kick.com/VTVCanal8\">https://kick.com/VTVCanal8</a>\n</p>\nTwich <a rel=\"nofollow\" class=\"external free\" href=\"https://m.twitch.tv/vtvcanal8\">https://m.twitch.tv/vtvcanal8</a>",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-18",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=juq_951wcL4\"><bdi lang=\"\">Presidenta Delcy Rodríguez sostiene reunión con el Secretario de Guerra de EE.UU. Pete Hegseth</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=juq_951wcL4\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/@VTV-canal8\">Venezolana de Televisión</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Public domain",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "false",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Copyrighted": {
+         "value": "False",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "pd",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:Delcy Rodríguez in 2026"
+      },
+      {
+       "ns": 14,
+       "title": "Category:November 2026 in Venezuela"
+      },
+      {
+       "ns": 14,
+       "title": "Category:PD Venezuela official"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Pete Hegseth"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Uploaded with video2commons"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Venezolana de Televisión"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos from YouTube"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos in Spanish"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos of 2026 from Venezuela"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

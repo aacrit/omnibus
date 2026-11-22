@@ -229,7 +229,9 @@ def _many(*fs):
 
 
 FAIL = {
-    "show without an issue": (lambda p, a, i: p.pop("issue"), {"show-profile"}),
+    # with no issue number, spine() cannot read this play as v1 (it needs issue in V1_ISSUES), so it falls through
+    # to v2's spine; this v1-shaped play then has no signoff part either (ticket 3's echo-bed-ending, honestly)
+    "show without an issue": (lambda p, a, i: p.pop("issue"), {"show-profile", "echo-bed-ending"}),
     "unknown segment": (lambda p, a, i: part(p, "p-margins").update(segment="margin"), {"part-segment"}),
     "part horizon not a date": (lambda p, a, i: part(p, "p-mon").update(as_of="Monday"), {"part-as-of-declared"}),
     "graphic subtype unknown": (lambda p, a, i: shot(p, "G-DAY1").update(subtype="days"), {"graphic-schema"}),

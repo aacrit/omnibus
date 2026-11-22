@@ -27,6 +27,10 @@ import { REQUESTS_SCHEMA_ID } from "./ledger.mjs";
 import { findCaptures } from "./adapters/wayback.mjs";
 import { queryAlternatives as dvidsAlternatives, redact as dvidsRedact, searchResults as dvidsResults, searchUrl as dvidsSearchUrl } from "./adapters/dvids.mjs";
 import { clip } from "./text.mjs";
+import { recordKindReviewProblems } from "./records.mjs";
+
+/** Adapters with no search: their items are pinned by page (a sourcing pass finds them on the source's own site). */
+export const PIN_ONLY = new Set(["kremlin", "kantei"]);
 
 export const SEARCH_HITS = 8;
 
@@ -162,6 +166,12 @@ async function resolvePin(pin, step, { http, echoPick }) {
     if (!(Number.isFinite(f.in_s) && Number.isFinite(f.out_s) && (f.out_s <= b.from_s || f.in_s >= b.to_s))) throw new Error(`pin ${pin.ref}: its fit must name an in_s..out_s clear of the excluded ${b.from_s}..${b.to_s} s`);
     c.bodies_excluded = { from_s: b.from_s, to_s: b.to_s, note: clip(String(b.note), 400) };
   }
+  // A checking role's review of what kind of record the footage is (T5): only a signed one is carried.
+  if (pin.record_kind !== undefined) {
+    const p = recordKindReviewProblems(pin.record_kind);
+    if (p.length) throw new Error(`pin ${pin.ref}: ${p.join("; ")}`);
+    c.record_kind = { kind: pin.record_kind.kind, by: String(pin.record_kind.by).toLowerCase(), at: String(pin.record_kind.at), why: clip(String(pin.record_kind.why), 600) };
+  }
   // The record of a frame check of the item's on-screen marks (S4 review): the fetcher and the lint hold it to marksProblems.
   if (pin.marks_checked !== undefined) c.marks_checked = pin.marks_checked;
   // A second catalogue record that states the item's day (the fetcher reads it and refines the date).
@@ -192,6 +202,13 @@ async function searchStep(stepIn, { http, env, searchTo = null }) {
     const r = await http.getJson(commonsSearchUrl(step.query));
     const hits = r.status === "ok" ? (r.json?.query?.search ?? []).map((h) => h.title) : [];
     return hits.map((t) => ({ adapter: "commons", ref: t, ...base }));
+  }
+  if (step.adapter === "uastate") {
+    // Ukraine's state bodies through Commons (T5): a Commons search whose hits the uastate adapter holds to the body checks.
+    if (/^File:/.test(step.query)) return [{ adapter: "uastate", ref: step.query, ...base, pinned: true }];
+    const r = await http.getJson(commonsSearchUrl(step.query));
+    const hits = r.status === "ok" ? (r.json?.query?.search ?? []).map((h) => h.title) : [];
+    return hits.map((t) => ({ adapter: "uastate", ref: t, ...base }));
   }
   if (step.adapter === "nasa") {
     const r = await http.getJson(nasaSearchUrl(stepParams(step.query)));
@@ -272,6 +289,12 @@ export async function resolveRequests(rundown, { pins = {}, echoPick = null, htt
       // A pinned item for a searchable step (a founder ruling, an echo pick) goes before the search's hits.
       for (const pin of (pins[req.id] ?? []).filter((p) => !p.exclude && p.adapter === adapter && (p.tier ?? step.tier) === step.tier)) {
         candidates.push(...(await resolvePin(pin, step, { http, echoPick })).candidates);
+      }
+      if (PIN_ONLY.has(adapter)) {
+        if (!(pins[req.id] ?? []).some((p) => !p.exclude && p.adapter === adapter && (p.tier ?? step.tier) === step.tier)) {
+          notFetched.push({ tier: step.tier, host, reason: `${adapter} has no search: its items are pinned by page, and none is pinned for this step` });
+        }
+        continue;
       }
       let found;
       try {

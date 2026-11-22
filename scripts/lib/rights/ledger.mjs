@@ -6,12 +6,13 @@
 
 import { readFileSync } from "node:fs";
 import { validate } from "./json-schema.mjs";
+import { recordKindReviewProblems } from "./records.mjs";
 
 export const LEDGER_SCHEMA = JSON.parse(readFileSync(new URL("./ledger.schema.json", import.meta.url), "utf8"));
 export const SCHEMA_ID = "omnibus.rights-ledger/1";
 export const REQUESTS_SCHEMA_ID = "omnibus.asset-requests/1";
 export const KINDS = ["still", "footage", "sound", "document"];
-export const ADAPTERS = ["commons", "nasa", "loc", "dvids", "gov", "nara", "wayback", "voidnews"];
+export const ADAPTERS = ["commons", "nasa", "loc", "dvids", "gov", "nara", "wayback", "voidnews", "voa", "kremlin", "uastate", "kantei"];
 
 export function emptyLedger(issue) {
   return { schema: SCHEMA_ID, issue, items: [], rejected: [] };
@@ -81,6 +82,7 @@ export function validateRequests(doc) {
       if (c?.audio !== undefined && !(c.audio?.mode === "muted" && typeof c.audio?.reason === "string" && c.audio.reason.trim())) out.push(`${cat}.audio must be { mode: "muted", reason }`);
       if (c?.dot_label !== undefined && !(typeof c.dot_label?.text === "string" && c.dot_label.text.trim() && typeof c.dot_label?.why === "string" && c.dot_label.why.trim())) out.push(`${cat}.dot_label must be { text, why }`);
       if (c?.marks_checked !== undefined && !(Array.isArray(c.marks_checked?.marks) && c.marks_checked.marks.every((x) => typeof x === "string") && typeof c.marks_checked?.reviewed?.by === "string" && Array.isArray(c.marks_checked?.reviewed?.frames) && typeof c.marks_checked?.reviewed?.contact_sheet?.path === "string")) out.push(`${cat}.marks_checked must be { marks: [strings], reviewed: { by, at, frames: [s], contact_sheet: { path, sha256 }, duration_s?, cuts?: { times, threshold, method } }, mask? }`);
+      if (c?.record_kind !== undefined) for (const p of recordKindReviewProblems(c.record_kind)) out.push(`${cat}.${p}`);
       if (c?.date_record !== undefined && !(ADAPTERS.includes(c.date_record?.adapter) && typeof c.date_record?.ref === "string" && c.date_record.ref.trim() && c.date_record.ref.length <= 400)) out.push(`${cat}.date_record must be { adapter, ref } naming an adapter the fetcher has`);
     });
     (r?.not_fetched ?? []).forEach((s, j) => {

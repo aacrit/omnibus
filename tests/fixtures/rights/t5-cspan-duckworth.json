@@ -1,0 +1,197 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3ASen.+Tammy+Duckworth+%28D-IL%29+Calls+Navy+Secretary+Nominee+Hung+Cao+A+%22Yes+Man%22.webm",
+  "at": "2026-11-22T00:21:24Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203414321,
+     "ns": 6,
+     "title": "File:Sen. Tammy Duckworth (D-IL) Calls Navy Secretary Nominee Hung Cao A \"Yes Man\".webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-18T08:32:09Z",
+       "user": "PublicDomainFan08",
+       "size": 41451162,
+       "width": 1280,
+       "height": 720,
+       "duration": 312.221,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Sen._Tammy_Duckworth_%28D-IL%29_Calls_Navy_Secretary_Nominee_Hung_Cao_A_%22Yes_Man%22.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Sen._Tammy_Duckworth_(D-IL)_Calls_Navy_Secretary_Nominee_Hung_Cao_A_%22Yes_Man%22.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/203414321",
+       "sha1": "b32c9e63bf6b906ca6ee8dd279600d3800146bb6",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Sen. Tammy Duckworth (D-IL) Calls Navy Secretary Nominee Hung Cao A \"Yes Man\"",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Videos from YouTube|Uploaded with video2commons|Video display resolution 1280 x 720|PD-CSPAN|Videos of 2026|Videos in American English|Videos by the United States Senate|Videos taken on 2026-11-17",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Navy secy. nominee Hung Cao tells Sen. Tammy Duckworth (D-IL) that it is not within his \"purview\" to urge Defense Secretary Hegseth to end the Iran war:\nDuckworth: \"It is within your purview! ...I cannot go for you because you're gonna be another yes man.\"",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-17",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=oS3x_M91by0\"><bdi lang=\"\">Sen. Duckworth to Navy Cecy. Nominee: \"I cannot go for you because you're gonna be another yes man.\"</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=oS3x_M91by0\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/@CSPAN\">C-SPAN</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Public domain",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "false",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Copyrighted": {
+         "value": "False",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "pd",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      },
+      {
+       "timestamp": "2026-11-18T08:18:52Z",
+       "user": "PublicDomainFan08",
+       "size": 20276099,
+       "width": 1280,
+       "height": 720,
+       "duration": 312.228,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/archive/a/a7/20261118083205%21Sen._Tammy_Duckworth_%28D-IL%29_Calls_Navy_Secretary_Nominee_Hung_Cao_A_%22Yes_Man%22.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Sen._Tammy_Duckworth_(D-IL)_Calls_Navy_Secretary_Nominee_Hung_Cao_A_%22Yes_Man%22.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/203414321",
+       "sha1": "a2812f77a206ea907764a62f81d5e114803730a1",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Sen. Tammy Duckworth (D-IL) Calls Navy Secretary Nominee Hung Cao A \"Yes Man\"",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Videos from YouTube|Uploaded with video2commons|Video display resolution 1280 x 720|PD-CSPAN|Videos of 2026|Videos in American English|Videos by the United States Senate|Videos taken on 2026-11-17",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Navy secy. nominee Hung Cao tells Sen. Tammy Duckworth (D-IL) that it is not within his \"purview\" to urge Defense Secretary Hegseth to end the Iran war:\nDuckworth: \"It is within your purview! ...I cannot go for you because you're gonna be another yes man.\"",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-17",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=oS3x_M91by0\"><bdi lang=\"\">Sen. Duckworth to Navy Cecy. Nominee: \"I cannot go for you because you're gonna be another yes man.\"</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=oS3x_M91by0\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/@CSPAN\">C-SPAN</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "Public domain",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Public domain",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "false",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Copyrighted": {
+         "value": "False",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "pd",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:PD-CSPAN"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Uploaded with video2commons"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Video display resolution 1280 x 720"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos by the United States Senate"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos from YouTube"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos in American English"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos of 2026"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos taken on 2026-11-17"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}
