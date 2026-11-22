@@ -1966,7 +1966,7 @@
           "id": "S-P4-1",
           "kind": "archive_video",
           "start_s": 362.26,
-          "dur_s": 10.42,
+          "dur_s": 11.02,
           "transition_in": {
             "type": "cut"
           },
@@ -1980,14 +1980,14 @@
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "why": "Slate: the arrival's first frame on room tone (the ledger airs it muted); the narrator under it as he reaches the steps.",
-          "out_s": 55.42,
+          "out_s": 56.02,
           "repeat_of": "S-TEASE-4"
         },
         {
           "id": "S-P4-APEC",
           "kind": "archive_video",
-          "start_s": 372.68,
-          "dur_s": 19.43,
+          "start_s": 373.28,
+          "dur_s": 19.13,
           "transition_in": {
             "type": "cut"
           },
@@ -2001,13 +2001,13 @@
           },
           "dot_label": "RELEASED BY THE KREMLIN",
           "why": "Putin at the lectern of the APEC CEO Summit, 18 Nov (kremlin.ru, CC BY 4.0), muted; the reader speaks the Kremlin's English transcript.",
-          "out_s": 129.9
+          "out_s": 129.6
         },
         {
           "id": "S-P4-2",
           "kind": "archive_video",
-          "start_s": 392.11,
-          "dur_s": 12.9,
+          "start_s": 392.41,
+          "dur_s": 12.6,
           "transition_in": {
             "type": "cut"
           },
@@ -2021,7 +2021,7 @@
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "why": "The talks, mute B-roll inside the file's own cuts; the end card at 13.4 s never airs.",
-          "out_s": 12.9
+          "out_s": 12.6
         },
         {
           "id": "S-P4-3",

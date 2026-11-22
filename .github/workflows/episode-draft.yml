@@ -119,8 +119,6 @@ jobs:
       # geometry within the tolerance verify.py states. Bytes may differ (Chromium and ffmpeg on Linux). Content drift
       # fails the step; the run's ledger is still uploaded below, for a local commit once the change is intended.
       - name: render the broadcast graphics, compare the ledger
-        env:
-          UNTIL: ${{ inputs.until }}
         run: |
           bash scripts/ci/meter.sh mark graphics
           led="episodes/$ISSUE/graphics-ledger.json"
@@ -128,14 +126,12 @@ jobs:
           mkdir -p "$out/reports"
           cp "$led" /home/runner/graphics-ledger.committed.json
           rel=$(python -m studio.graphics.verify release /home/runner/graphics-ledger.committed.json)
-          # A check slice of a v2 episode draws only the graphics that start before UNTIL and compares the rows it
-          # drew with the committed ones (T9c); week33 always draws its whole set.
-          sl=(); cmp=()
-          if [ -n "$UNTIL" ] && [ "$ISSUE" != "33" ]; then sl=(--until "$UNTIL"); cmp=(--slice); fi
+          # A check slice draws every graphic too: the render plans and lints the whole film, so every graphic the
+          # screenplay cites must be in this run's ledger (T9c; render --until stays for a local preview).
           # shellcheck disable=SC2086
-          python -m studio.graphics.render "week$ISSUE" --out "$out/media" $rel "${sl[@]}"
+          python -m studio.graphics.render "week$ISSUE" --out "$out/media" $rel
           cp "$led" "$out/graphics-ledger.json"
-          python -m studio.graphics.verify compare /home/runner/graphics-ledger.committed.json "$led" "${cmp[@]}" \
+          python -m studio.graphics.verify compare /home/runner/graphics-ledger.committed.json "$led" \
             --report "$out/reports/graphics-compare.json"
           du -sh "$out"
       - name: the graphics ledger (for a local commit)

@@ -16,3 +16,5 @@ After the lead became a full package (t9b at 152a4c1), the same check named thre
 - `telecine-declared`: the SSU video is measured too. It is progressive.
 
 Still open on real takes: `--fit-voices` grows a clip under a delayed line, and with stand-in takes it grew S-P4-APEC 0.32 s past its fit (`fit-span`, blocking, kept). If the real takes do the same, fit_voices must move the time to a shot that is not fit-bound. That is the engine's call, not a looser lint.
+
+The real takes (run 44982815573) did overrun the fits under `--fit-voices`: S-P4-APEC by 0.004 s and S-P4-2 (talks, fit 0 to 12.93) by 0.077 s. Both lints stay. The shots were trimmed inside their fits: S-P4-1 grows 0.6 s (arrival 45.0 to 56.02, fit to 70), S-P4-APEC loses 0.3 s (110.47 to 129.6) and S-P4-2 loses 0.3 s (0 to 12.6). S-P4-3 and everything after keep their starts.
