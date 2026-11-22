@@ -662,7 +662,7 @@
       "shots": [
         {
           "id": "T-MACRO",
-          "kind": "drawn",
+          "kind": "archive_video",
           "start_s": 39.1,
           "dur_s": 15.4,
           "transition_in": {
@@ -682,7 +682,15 @@
             ],
             "week_line": "ISSUE 35   16 TO 21 NOV 2026   CLOSED SAT 21 NOV 14:17 UTC"
           },
-          "why": "The teleprinter prints the programme's own rundown (bible d): S1 to S4, the machine, the rundown, the close, the tear."
+          "why": "The teleprinter prints the programme's own rundown (bible d): S1 to S4, the machine, the rundown, the close, the tear.",
+          "in_s": 0.0,
+          "out_s": 15.4,
+          "native_fps": 30,
+          "sound": {
+            "role": "muted",
+            "translation": "none",
+            "mute_reason": "the macro is drawn by code without sound: the theme carries the title (bible d)"
+          }
         },
         {
           "id": "T-LOCKUP",

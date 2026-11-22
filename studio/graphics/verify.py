@@ -86,6 +86,9 @@ def main(argv=None) -> int:
     ap.add_argument("committed")
     ap.add_argument("fresh", nargs="?")
     ap.add_argument("--report")
+    ap.add_argument("--slice", action="store_true",
+                    help="the fresh ledger is a check slice's (render --until): compare only the rows it drew; every "
+                         "one of them must still be in the committed ledger and match it")
     a = ap.parse_args(argv)
     committed = json.loads(Path(a.committed).read_text(encoding="utf-8"))
     if a.mode == "release":
@@ -93,7 +96,11 @@ def main(argv=None) -> int:
         return 0
     if not a.fresh:
         ap.error("compare needs the fresh ledger")
-    res = compare(committed, json.loads(Path(a.fresh).read_text(encoding="utf-8")))
+    fresh = json.loads(Path(a.fresh).read_text(encoding="utf-8"))
+    if a.slice:
+        drawn = {r["id"] for r in fresh}
+        committed = [r for r in committed if r["id"] in drawn]
+    res = compare(committed, fresh)
     for r in res["rows"]:
         if r["outcome"] != "matches":
             what = ", ".join(r.get("content", []) + [f"{k} {v['max_delta_px']} px" for k, v in r.get("geometry", {}).items()]
