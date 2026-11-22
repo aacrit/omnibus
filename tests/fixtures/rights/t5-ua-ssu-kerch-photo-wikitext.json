@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3AKerchBridgeCollapse.jpg",
+  "at": "2026-11-22T00:21:10Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203380112,
+     "ns": 6,
+     "title": "File:KerchBridgeCollapse.jpg",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{en|1=Damage to the Crimean Bridge (Kerch Strait Bridge) following a Ukrainian military operation on 17 November 2026.}}\n|date=2026-11-17\n|source=https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video\n|author=Security Service Ukraine\n|permission=\n|other versions=\n}}\n\n=={{int:license-header}}==\n{{Ssu.gov.ua}}\n\n[[Category:Crimean Bridge in 2026]]\n[[Category:Arches of the Crimean Bridge]]\n[[Category:Damaged bridges in the 2022 Russian invasion of Ukraine]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

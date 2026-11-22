@@ -56,6 +56,9 @@ import { fileURLToPath } from "node:url";
 import * as commons from "./lib/rights/adapters/commons.mjs";
 import * as dvids from "./lib/rights/adapters/dvids.mjs";
 import * as gov from "./lib/rights/adapters/gov.mjs";
+import * as kantei from "./lib/rights/adapters/kantei.mjs";
+import * as kremlin from "./lib/rights/adapters/kremlin.mjs";
+import * as uastate from "./lib/rights/adapters/uastate.mjs";
 import * as loc from "./lib/rights/adapters/loc.mjs";
 import * as nara from "./lib/rights/adapters/nara.mjs";
 import * as nasa from "./lib/rights/adapters/nasa.mjs";
@@ -71,10 +74,12 @@ import { getJson, getMedia, getText } from "./lib/rights/http.mjs";
 import { emptyLedger, serialiseLedger, validateLedger, validateRequests } from "./lib/rights/ledger.mjs";
 import { mergeCandidatePins, pinProblems, resolveRequests } from "./lib/rights/resolve.mjs";
 import { lintAll } from "./lint-rights.mjs";
+import { ledgerTranscriptProblems, ourTranscript } from "./lib/rights/records.mjs";
+import { isoSecond } from "./lib/rights/text.mjs";
 import { candidatesFromPool, poolKey, poolProblems } from "./capture/pool.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews, voa };
+export const ADAPTERS = { commons, nasa, loc, dvids, gov, nara, wayback, voidnews, voa, kremlin, uastate, kantei };
 export const CHECKED_BY = "void omnibus fetcher, metadata checks (scripts/rights.mjs)";
 
 export function episodeDir(root, issue) {
@@ -284,6 +289,36 @@ export function probeSeconds(file) {
   }
 }
 
+/**
+ * Adds one transcript to the ledger's transcripts (T5, bible v2 section e), replacing any of the same id, then
+ * regenerates the dispute packet. official: the Kremlin's own text, read from its page (the one official reader so
+ * far); ours: two engines' outputs ({ engine, model, text } JSON files), the agreement computed here and held to 98%
+ * by the lint. A transcript that does not pass is never written.
+ */
+export async function runTranscript({ root = repoRoot, issue, itemId, id, official = null, ours = null, lang = null, span = null, http = { getText }, now = () => new Date() }) {
+  const dir = episodeDir(root, issue);
+  const ledgerPath = path.join(dir, "rights-ledger.json");
+  const ledger = JSON.parse(readFileSync(ledgerPath, "utf8"));
+  const capturedAt = isoSecond(now().toISOString());
+  let t;
+  if (official) {
+    if (!kremlin.PAGE.test(official)) throw new Error(`no official-transcript reader for ${official} yet (kremlin.ru event pages only)`);
+    const page = await http.getText(official);
+    if (page.status !== "ok") throw new Error(`${official} could not be read`);
+    t = kremlin.pageTranscript(page.text, { pageUrl: official, id, itemId, capturedAt });
+    if (!t) throw new Error(`${official} holds no transcript text`);
+  } else if (ours) {
+    const engines = ours.map((f) => JSON.parse(readFileSync(f, "utf8")));
+    t = ourTranscript({ id, item_id: itemId, lang, span, engines, capturedAt });
+  } else throw new Error("transcript needs --official <url> or --ours <engine-a.json> <engine-b.json>");
+  const next = { ...ledger, transcripts: [...(ledger.transcripts ?? []).filter((x) => x.id !== id), t] };
+  const problems = [...validateLedger(next), ...ledgerTranscriptProblems(next)];
+  if (problems.length) throw new Error(`the transcript does not pass:\n  ${problems.join("\n  ")}`);
+  writeFileSync(ledgerPath, serialiseLedger(next));
+  writePacket(root, issue);
+  return t;
+}
+
 /** Writes episodes/<issue>/ASSETS.md from assets.json and the ledger, measuring footage and sound on the media drive. */
 export function runCoverage({ root = repoRoot, issue, mediaDir, probe = probeSeconds }) {
   const dir = episodeDir(root, issue);
@@ -369,8 +404,17 @@ async function main(argv) {
     console.log(`rights: wrote ${path.relative(repoRoot, out)}`);
     return 0;
   }
+  if (cmd === "transcript") {
+    const issue = parseIssue(issueArg);
+    const i = argv.indexOf("--ours");
+    const spanArg = flag("span");
+    const span = spanArg ? (([a, b]) => ({ in_s: Number(a), out_s: Number(b) }))(spanArg.split(",")) : null;
+    const t = await runTranscript({ issue, itemId: flag("item"), id: flag("id") ?? `tr-${flag("item")}`, official: flag("official") ?? null, ours: i >= 0 ? [argv[i + 1], argv[i + 2]] : null, lang: flag("lang") ?? null, span });
+    console.log(`rights: transcript ${t.id} (${t.source}${t.agreement !== undefined ? `, ${(t.agreement * 100).toFixed(1)}% agreement` : ""}) written to the ledger`);
+    return 0;
+  }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs resolve <issue> | candidates <issue> [--pool r2|artifact|<path>] | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | candidates <issue> [--pool r2|artifact|<path>] | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | transcript <issue> --item <id> [--id <tid>] (--official <url> | --ours <a.json> <b.json> --lang <xx> [--span in,out]) | lint");
   return 2;
 }
 

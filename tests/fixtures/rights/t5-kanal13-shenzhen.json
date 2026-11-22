@@ -1,0 +1,116 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3ATrump%2C+Putin+arrive+in+Shenzhen+ahead+of+landmark+summit+with+Chinese+President+Xi+Jinping.webm",
+  "at": "2026-11-22T00:21:21Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203500713,
+     "ns": 6,
+     "title": "File:Trump, Putin arrive in Shenzhen ahead of landmark summit with Chinese President Xi Jinping.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-20T04:24:31Z",
+       "user": "PublicDomainFan08",
+       "size": 71111605,
+       "width": 1920,
+       "height": 1080,
+       "duration": 350.508,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Trump%2C_Putin_arrive_in_Shenzhen_ahead_of_landmark_summit_with_Chinese_President_Xi_Jinping.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Trump,_Putin_arrive_in_Shenzhen_ahead_of_landmark_summit_with_Chinese_President_Xi_Jinping.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/203500713",
+       "sha1": "0ea6347e787aca92fde25e2b95f4eddbacc6807a",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Trump, Putin arrive in Shenzhen ahead of landmark summit with Chinese President Xi Jinping",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Videos from YouTube|Uploaded with video2commons|Videos of 2026",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Click here and support Kanal13 monthly for distributing more videos and independent journalism",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-18",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=CQkp0fkFhJQ\"><bdi lang=\"\">Trump, Putin arrive in Shenzhen ahead of landmark summit with Chinese President Xi Jinping</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=CQkp0fkFhJQ\">archive.org</a></bdi>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/@Kanal13AZ\">Kanal13</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY 4.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution 4.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by/4.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-4.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:CC-BY-4.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Uploaded with video2commons"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos from YouTube"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos of 2026"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

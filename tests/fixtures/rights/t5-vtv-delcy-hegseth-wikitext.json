@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3APresidenta+Delcy+Rodr%C3%ADguez+sostiene+reuni%C3%B3n+con+el+Secretario+de+Guerra+de+EE.UU.+Pete+Hegseth.webm",
+  "at": "2026-11-22T00:21:28Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203461434,
+     "ns": 6,
+     "title": "File:Presidenta Delcy Rodríguez sostiene reunión con el Secretario de Guerra de EE.UU. Pete Hegseth.webm",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{ca|1=Te invitamos a seguirnos en nuestras plataformas digitales:\n\nTHREADS\nhttps://www.threads.com/@vtv_canal8\n\nMASTODON\nhttps://mastodon.social/deck/home\n\nTELEGRAM\nhttps://t.me/vtv_canal8\n\nINSTAGRAM \nhttps://www.instagram.com/vtv_canal8?igsh=amVra3BhdWFkbm9i\n\nTIK TOK\nhttps://www.tiktok.com/@vtvcanal.8?_r=1&_t=ZM-93BUcls96wl\n\nTIK TOK ALTERNATIVO \nhttps://www.tiktok.com/@vtvcanal8alt?_r=1&_t=ZM-93BUfsYedXI\n\nYOUTUBE \nhttps://youtube.com/@VTV-canal8?si=7t-fOBvBa1d59OjP\n\nX https://x.com/VTVcanal8\n\nNuestra página web\n\nhttps://vtv.com.ve/\n\nY sigue nuestra transmisión en vivo las 24 horas en\n\nKick https://kick.com/VTVCanal8\nTwich https://m.twitch.tv/vtvcanal8}}\n|date=2026-11-18\n|source={{From YouTube|1=juq_951wcL4|2=Presidenta Delcy Rodríguez sostiene reunión con el Secretario de Guerra de EE.UU. Pete Hegseth}}\n|author=[https://www.youtube.com/@VTV-canal8 Venezolana de Televisión]\n|permission=\n|other_versions=\n|other_fields=\n}}\n\n=={{int:license-header}}==\n{{PD-VenezuelaGov}}\n[[Category:Uploaded with video2commons]]\n[[Category:Venezolana de Televisión]]\n[[Category:Videos of 2026 from Venezuela]][[Category:Videos in Spanish]][[Category:November 2026 in Venezuela]][[Category:Pete Hegseth]][[Category:Delcy Rodríguez in 2026]]\n[[Category:Uploaded with video2commons]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

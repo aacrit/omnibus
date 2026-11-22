@@ -56,6 +56,18 @@ export const EDITORIAL_USE = "editorial-use";
  */
 export const FAIR_USE = "fair-use-excerpt";
 
+/**
+ * The UK Open Government Licence v3.0 (T5, bible v2 section n). Its own terms declare it compatible with CC BY 4.0,
+ * so Crown copyright material under it may go into a CC BY-SA 4.0 episode. It requires the attribution statement
+ * below in the credits, and it never covers what its section "Exemptions" lists (personal data, departmental or
+ * public sector logos, crests and the Royal Arms, military insignia, third-party rights, identity documents).
+ * Versions 1.0 and 2.0 are not on the allowlist.
+ */
+export const OGL = "ogl-uk-3.0";
+export const OGL_STATEMENT = "Contains public sector information licensed under the Open Government Licence v3.0.";
+/** What OGL v3 never licenses, named in a title, description, category or credit. */
+export const OGL_EXEMPT = /\bRoyal Arms\b|\bcoat of arms\b|\bcrest\b|\binsignia\b|\bpassport\b|\bidentity (?:card|document)\b|\bdriving licen[cs]e\b/i;
+
 /** Every canonical licence id that passes. Anything else fails the gate. */
 export const ALLOWED_IDS = new Set([
   ...PD_BASES,
@@ -63,6 +75,7 @@ export const ALLOWED_IDS = new Set([
   ...CC_VERSIONS.map((v) => `cc-by-${v}`),
   ...SA_VERSIONS.map((v) => `cc-by-sa-${v}`),
   "eu-reuse-credit",
+  OGL,
   OWN_PROPERTY,
   FAIR_USE,
 ]);
@@ -99,6 +112,14 @@ export function readLicence(raw) {
 
   if (/^©\s*european union\b/i.test(s) || /\beu(ropean union)? (free )?reuse\b/i.test(s) || /2011\/833\/eu/i.test(s)) {
     return { family: "eu", kind: null, version: null, port: null, id: "eu-reuse-credit", raw: s };
+  }
+  // OGL v3 only: "OGL 3", "OGL v3.0", "Open Government Licence v3.0", the National Archives' licence address.
+  if (/\bOGL\b|open government licen[cs]e|open-government-licence/i.test(s)) {
+    const v3 =
+      /^OGL[- ]?v?3(?:\.0)?\b/i.test(s) ||
+      /open government licen[cs]e,?\s*(?:version\s*|v)3(?:\.0)?\b/i.test(s) ||
+      /open-government-licence\/version\/3\b/i.test(s);
+    return { family: "ogl", kind: null, version: v3 ? "3.0" : null, port: null, id: v3 ? OGL : null, raw: s };
   }
   if (/\bcc0\b|\bcc[- ]zero\b|publicdomain\/zero\/|public domain dedication \(cc0/i.test(s)) {
     return { family: "cc0", kind: null, version: "1.0", port: null, id: "cc0-1.0", raw: s };
@@ -139,6 +160,7 @@ function fromCanonical(id) {
   if (PD_BASES.includes(id)) return { family: "pd", kind: null, version: null, port: null, id, raw: id };
   if (id === "cc0-1.0") return { family: "cc0", kind: null, version: "1.0", port: null, id, raw: id };
   if (id === "eu-reuse-credit") return { family: "eu", kind: null, version: null, port: null, id, raw: id };
+  if (id === OGL) return { family: "ogl", kind: null, version: "3.0", port: null, id, raw: id };
   if (id === OWN_PROPERTY) return { family: "own", kind: null, version: null, port: null, id, raw: id };
   if (id === EDITORIAL_USE) return { family: "editorial", kind: null, version: null, port: null, id, raw: id };
   if (id === FAIR_USE) return { family: "fair-use", kind: null, version: null, port: null, id, raw: id };
@@ -153,6 +175,7 @@ export function licenceName(id) {
   if (id === "pd-dedication") return "Public domain (dedicated by the author)";
   if (id === "cc0-1.0") return "CC0 1.0";
   if (id === "eu-reuse-credit") return "EU reuse with credit (Commission Decision 2011/833/EU)";
+  if (id === OGL) return "Open Government Licence v3.0";
   if (id === OWN_PROPERTY) return "Own property (void news, the same owner's publication)";
   if (id === EDITORIAL_USE) return "Editorial use under the publisher's stated terms";
   if (id === FAIR_USE) return "Fair-use excerpt (evidence of coverage, The Weight only)";
@@ -221,6 +244,15 @@ export function licenceTerms(id, item = null) {
       deed_url: "https://commission.europa.eu/legal-notice_en",
       legalcode_url: "https://eur-lex.europa.eu/eli/dec/2011/833/oj",
       terms: "European Commission material may be reused, including commercially, provided the source is acknowledged with the credit the item states (© European Union, year) and the meaning is not distorted.",
+    };
+  }
+  if (id === OGL) {
+    return {
+      id,
+      name: licenceName(id),
+      deed_url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      legalcode_url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      terms: `Anyone may copy, adapt and publish the information, including commercially, provided the source is acknowledged with the attribution statement "${OGL_STATEMENT}" The licence states it is compatible with CC BY 4.0. It does not cover personal data, logos, crests, the Royal Arms, military insignia, third-party rights or identity documents.`,
     };
   }
   if (id === OWN_PROPERTY) {
@@ -629,7 +661,7 @@ export function licenceProblems(item) {
     out.push(
       read.family === "pd"
         ? `licence "${id}": public domain needs its basis (US federal, by age, or by explicit dedication)`
-        : `licence "${id}" is not on the allowlist (PD, CC0, CC BY 1 to 4, CC BY-SA 1 to 4, EU reuse with credit)`,
+        : `licence "${id}" is not on the allowlist (PD, CC0, CC BY 1 to 4, CC BY-SA 1 to 4, EU reuse with credit, OGL v3)`,
     );
     return out;
   }
@@ -642,6 +674,7 @@ export function licenceProblems(item) {
   }
   if (id === FAIR_USE && !item.fair_use) out.push(`licence "${id}" needs its fair_use record (rationale, excerpt bounds, outlet, rung)`);
   if (/^cc-by/.test(id) && !credit) out.push(`licence "${id}" requires a credit, and the item has none`);
+  if (id === OGL && !credit.includes(OGL_STATEMENT)) out.push(`OGL v3 requires the attribution statement "${OGL_STATEMENT}" in the credit; the item's credit is "${credit}"`);
   if (id === "eu-reuse-credit" && !EU_CREDIT.test(credit)) {
     out.push(`EU reuse requires the credit "© European Union, <year>"; the item's credit is "${credit}"`);
   }

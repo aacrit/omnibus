@@ -77,10 +77,25 @@ def test_the_rundowns_slot_follows_screenplay_order_not_part_ids():
     assert failing(p, r) == ["part p-pkg-3", "part p-pkg-2"]
 
 
-def test_a_v1_rundown_or_none_is_not_checked():
-    assert RS.shape_checks(play(), {"rundown": {"schema": "omnibus.rundown/1", "parts": []}}) == []
-    assert RS.shape_checks(play(), {"rundown": None}) == []
-    assert RS.shape_checks(play(), {}) == []
+def test_a_v2_screenplay_without_a_rundown_2_blocks():
+    for rd in ({"schema": "omnibus.rundown/1", "parts": []}, None):
+        res = RS.shape_checks(play(), {"rundown": rd})
+        assert [(c["ok"], c["unit"]) for c in res] == [(False, "news.rundown")]
+    assert RS.shape_checks(play(), {}) == RS.shape_checks(play(), {"rundown": None})
+
+
+def test_the_frozen_v1_issue_is_not_checked():
+    p = dict(play(), issue=33)
+    assert RS.shape_checks(p, {"rundown": {"schema": "omnibus.rundown/1", "parts": []}}) == []
+
+
+def test_two_leads_and_non_shapes_are_left_to_their_own_rules():
+    p = play()
+    p["parts"][2]["segment"] = "lead"
+    assert RS.shape_checks(p, {"rundown": rundown()}) == []            # segment-spine blocks it
+    p = play()
+    p["parts"][2]["shape"] = "feature"
+    assert "part p-pkg-2" not in [c["unit"] for c in RS.shape_checks(p, {"rundown": rundown()})]   # part-shape blocks it
 
 
 def test_a_v2_rundown_with_no_shaped_part_passes_once():

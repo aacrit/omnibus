@@ -64,3 +64,4 @@ sorts by date).
 - [2026-11-13: C7 review: candidates pins what it names](decisions/2026-11-13-c7-review-candidates-pins-what-it-names.md)
 - [2026-11-13: C6/C7 review follow-ups: bytes, reconcile, retries, dignity excludes](decisions/2026-11-13-c6-c7-review-follow-ups-bytes-reconcile-retries-dignity-excludes.md)
 - [2026-11-13: C6/C7 go-live fixes](decisions/2026-11-13-c6-c7-go-live-fixes.md)
+- [2026-11-21: T3, audio routing (show bible v2 j)](decisions/2026-11-21-t3-audio-routing.md)
