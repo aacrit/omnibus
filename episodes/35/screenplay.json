@@ -1966,7 +1966,7 @@
           "id": "S-P4-1",
           "kind": "archive_video",
           "start_s": 362.26,
-          "dur_s": 11.02,
+          "dur_s": 11.8,
           "transition_in": {
             "type": "cut"
           },
@@ -1980,13 +1980,13 @@
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "why": "Slate: the arrival's first frame on room tone (the ledger airs it muted); the narrator under it as he reaches the steps.",
-          "out_s": 56.02,
+          "out_s": 56.8,
           "repeat_of": "S-TEASE-4"
         },
         {
           "id": "S-P4-APEC",
           "kind": "archive_video",
-          "start_s": 373.28,
+          "start_s": 374.06,
           "dur_s": 19.13,
           "transition_in": {
             "type": "cut"
@@ -2006,8 +2006,8 @@
         {
           "id": "S-P4-2",
           "kind": "archive_video",
-          "start_s": 392.41,
-          "dur_s": 12.6,
+          "start_s": 393.19,
+          "dur_s": 11.82,
           "transition_in": {
             "type": "cut"
           },
@@ -2021,7 +2021,7 @@
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "why": "The talks, mute B-roll inside the file's own cuts; the end card at 13.4 s never airs.",
-          "out_s": 12.6
+          "out_s": 11.82
         },
         {
           "id": "S-P4-3",
