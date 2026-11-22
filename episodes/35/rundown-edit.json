@@ -1,0 +1,242 @@
+{
+  "schema": "omnibus.rundown-edit/1",
+  "issue": 35,
+  "written": "2026-11-21",
+  "by": "Forge builder, ticket 2: the hand check of the desk's threads (bible k), over the top 25 threads of episodes/35/desk.json",
+  "threads": [
+    {
+      "op": "split",
+      "key": "greenland-security-deal",
+      "cluster_ids": [
+        "e0993e3e",
+        "991593d2"
+      ],
+      "reason": "Denmark's Folketing approving the Greenland security deal with the United States is not the Shenzhen summit; void news's linker filed both in thread 3d0d10ec on the word trilateral."
+    },
+    {
+      "op": "split",
+      "key": "canada-china-tariffs",
+      "cluster_ids": [
+        "5aea8c5c",
+        "e70e2747"
+      ],
+      "reason": "Canada and China's tariff relief is a bilateral trade agreement made at APEC, not the US, China and Russia summit's declaration that thread 20c65f07 joins it to."
+    },
+    {
+      "op": "join",
+      "key": "shenzhen-summit",
+      "cluster_ids": [
+        "662a8e1c",
+        "7523e65f",
+        "46f3452c",
+        "0461f9fd",
+        "36cb8fdf"
+      ],
+      "reason": "One event: the US, China and Russia summit in Shenzhen, from its scheduling (16 Nov) to the leaders' declaration (19 and 20 Nov) and the summit's sessions (21 Nov); Albanese's address to Putin was made at the same APEC meeting in Shenzhen on Thursday. Void news split it across threads 3d0d10ec and 20c65f07 and filed Albanese under the UK and EU thread 82c2a903. The envoys' security-guarantee pitch (4940de75) was made in Berlin and stays its own story."
+    },
+    {
+      "op": "join",
+      "key": "ukraine-bridges-strikes",
+      "cluster_ids": [
+        "0ea94eb4",
+        "a6a8ae52",
+        "fc265ec6",
+        "672e3dce",
+        "1c44ffc9",
+        "277d5dcf",
+        "a20dee58",
+        "1711ed61"
+      ],
+      "reason": "One exchange of strikes on bridges in the week: Ukraine's three strikes on the Kerch bridge (16 to 19 Nov) and Russia's strike on Kyiv's Dnipro bridges (20 Nov), whose missiles crossed into Polish airspace (20 Nov). Void news filed the 16 Nov Kerch strike and the Kyiv strike in thread 389bef29 and Poland's statement in b318d131."
+    },
+    {
+      "op": "join",
+      "key": "gulf-us-iran",
+      "cluster_ids": [
+        "db0bd3d6",
+        "b4b4b822",
+        "7071d64f",
+        "b6e83412",
+        "add77fbf",
+        "1419ceed"
+      ],
+      "reason": "One theatre, one week, one pair of parties: US strikes on Qeshm and the Gulf intercepts that followed (18 Nov), Iranian drones on Bahrain (16 Nov) and on US bases in Kuwait and Bahrain (19 Nov), the third US carrier's arrival (17 and 18 Nov) and the tanker struck in the Strait of Hormuz (18 Nov). The Houthi strikes on Riyadh are a different war and stay their own story."
+    },
+    {
+      "op": "split",
+      "key": "irish-man-aircraft-charge",
+      "cluster_ids": [
+        "5076fab8"
+      ],
+      "reason": "An Irish man charged in the United States with wrecking a military aircraft is not the carrier's arrival in the Middle East; void news filed it in thread ed4c17c2."
+    },
+    {
+      "op": "join",
+      "key": "uk-eu-reset",
+      "cluster_ids": [
+        "d0b7be12",
+        "8a5319e4",
+        "5b086856",
+        "3f219792",
+        "9482dab6",
+        "14607933",
+        "d3ceb398"
+      ],
+      "reason": "One story: Burnham's Brussels summit with the EU, from his speech on Brexit (16 and 17 Nov) to the agreements (20 and 21 Nov). Void news split it across threads 50419b1a and 82c2a903."
+    },
+    {
+      "op": "split",
+      "key": "bilkis-bano-bail",
+      "cluster_ids": [
+        "150c2468"
+      ],
+      "reason": "India's Supreme Court granting bail in the Bilkis Bano case is not the US Supreme Court's ruling on research grants; void news filed both in thread fadeb1f6 on the words Supreme Court."
+    },
+    {
+      "op": "split",
+      "key": "us-canada-directive",
+      "cluster_ids": [
+        "9757bf5c"
+      ],
+      "reason": "Hegseth's directive on US and Canada defence ties is not the US and Venezuela military agreement; void news filed it in thread 1c145f33 on Hegseth's name."
+    }
+  ],
+  "stories": {
+    "ukraine-bridges-strikes": {
+      "primary_sources": [
+        {
+          "id": "doc-ua-ssu-kerch",
+          "title": "Security Service of Ukraine statement and video on the strike on the Kerch bridge",
+          "issuer": "Security Service of Ukraine",
+          "date": "2026-11-17",
+          "url": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+          "status": "pending T5: Ukraine state sources via Commons (CC BY 4.0, party label)"
+        },
+        {
+          "id": "doc-ua-president",
+          "title": "The President of Ukraine statements on the Kerch and Kyiv strikes",
+          "issuer": "Office of the President of Ukraine",
+          "date": "2026-11-17",
+          "url": null,
+          "status": "pending T5: president.gov.ua answers 403; Commons uploads of the Office of the President"
+        },
+        {
+          "id": "doc-ru-mod",
+          "title": "Russian Ministry of Defence statement on the strike on Kyiv",
+          "issuer": "Ministry of Defence of the Russian Federation",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; mil.ru is not a free source: quoted as a state organ record, typeset, basis recorded"
+        },
+        {
+          "id": "doc-pl-gov",
+          "title": "Government of Poland statement on the missiles in Polish airspace",
+          "issuer": "Government of Poland",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
+        }
+      ]
+    },
+    "uk-eu-reset": {
+      "primary_sources": [
+        {
+          "id": "doc-uk-burnham-speech",
+          "title": "The Prime Minister Andy Burnham speech on Brexit",
+          "issuer": "Prime Minister's Office, 10 Downing Street",
+          "date": "2026-11-16",
+          "url": null,
+          "status": "pending T5: gov.uk under OGL v3"
+        },
+        {
+          "id": "doc-uk-eu-agreements",
+          "title": "The UK and EU summit agreements on trade and youth mobility",
+          "issuer": "Government of the United Kingdom and the European Union",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "pending T5 for the gov.uk text (OGL v3); the EU text on consilium.europa.eu or ec.europa.eu is not on the fetcher allowlist"
+        }
+      ]
+    },
+    "gulf-us-iran": {
+      "primary_sources": [
+        {
+          "id": "doc-centcom-qeshm",
+          "title": "US Central Command statements on the strikes on Qeshm and the intercepts",
+          "issuer": "US Central Command",
+          "date": "2026-11-18",
+          "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/",
+          "status": "centcom.mil answered 403 (Akamai) to the honest request on 2026-11-22; not retried"
+        },
+        {
+          "id": "doc-ir-mfa",
+          "title": "Iran's foreign ministry statement on the US strikes",
+          "issuer": "Ministry of Foreign Affairs of the Islamic Republic of Iran",
+          "date": "2026-11-18",
+          "url": null,
+          "status": "to locate; terms unreviewed: quoted as a state organ record or attributed"
+        }
+      ]
+    },
+    "shenzhen-summit": {
+      "primary_sources": [
+        {
+          "id": "doc-us-ru-cn-declaration",
+          "title": "U.S.-Russia-China Heads of State Declaration toward Peace",
+          "issuer": "The White House",
+          "date": "2026-11-19",
+          "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+          "status": "fetched as a document (US federal, public domain)"
+        },
+        {
+          "id": "doc-kremlin-declaration",
+          "title": "The Kremlin's English text of the declaration",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-19",
+          "url": null,
+          "status": "pending T5: kremlin.ru adapter (CC BY 4.0, RIA Novosti and TASS excluded)"
+        }
+      ]
+    },
+    "thread-ec790a82": {
+      "primary_sources": [
+        {
+          "id": "doc-icj-gambia-myanmar-judgment",
+          "title": "Judgment, Application of the Convention on the Prevention and Punishment of the Crime of Genocide (The Gambia v. Myanmar)",
+          "issuer": "International Court of Justice",
+          "date": "2026-11-19",
+          "url": "https://www.icj-cij.org/case/178",
+          "status": "court record, typeset; icj-cij.org is not on the fetcher allowlist, so its text is captured with its terms URL before the reader speaks it"
+        },
+        {
+          "id": "doc-icj-press-release",
+          "title": "The Court's press release on the judgment",
+          "issuer": "International Court of Justice",
+          "date": "2026-11-19",
+          "url": "https://www.icj-cij.org/case/178",
+          "status": "court record, typeset; as above"
+        },
+        {
+          "id": "doc-mm-response",
+          "title": "Myanmar's statement rejecting the judgment",
+          "issuer": "Government of Myanmar",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; quoted as a state organ record or attributed"
+        }
+      ]
+    },
+    "thread-b1206893": {
+      "primary_sources": [
+        {
+          "id": "doc-wh-cyber-director",
+          "title": "President Trump Taps Pentagon Cyber Chief Kirsten Davies as National Cyber Director",
+          "issuer": "The White House",
+          "date": "2026-11-20",
+          "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+          "status": "US federal, public domain"
+        }
+      ]
+    }
+  }
+}

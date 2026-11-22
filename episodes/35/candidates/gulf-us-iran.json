@@ -1,0 +1,48 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 35,
+  "source": "t9a",
+  "story": "gulf-us-iran",
+  "note": "Sourcing pass T9a (issue 35), read 2026-11-22 against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z). Searches: the capture pool of run 44933588497 (no pool for issue 35; its index only), Wikimedia Commons uploads 15 to 21 Nov, DVIDS video and images published 16 Nov to the cutoff, VOA's feed as captured, whitehouse.gov listings. Fit first: a pin names the story key as its beat, why the picture shows it, and the span that may air. Nothing here is a rights decision; the fetcher checks every candidate, and every video named here is a video2commons transfer that needs a verifier's marks review before the fetcher will take it.",
+  "pins": {
+    "e35-p3-carrier": [
+      {
+        "tier": 2,
+        "adapter": "dvids",
+        "ref": "image:10105396",
+        "fit": {
+          "beat": "gulf-us-iran",
+          "why": "US Naval Forces Central Command's own photograph published on DVIDS on 20 Nov, titled 'Theodore Roosevelt Enters 5th Fleet': the third US carrier in the theatre. A still, for the rostrum, with RELEASED BY THE DEPARTMENT OF WAR once the party label exists (T5)."
+        }
+      },
+      {
+        "tier": 2,
+        "exclude": "*",
+        "why": "only the pinned photograph; no search hit stands in for it"
+      }
+    ]
+  },
+  "searched": [
+    "DVIDS video, 16 Nov to the cutoff: Abraham Lincoln, carrier strike group, CENTCOM, Central Command, Bahrain, Kuwait, Arabian Sea, Hormuz, Red Sea, NAVCENT, Fifth Fleet, 5th Fleet, Iran, Qeshm, Theodore Roosevelt, George Washington, George H.W. Bush, flight operations, air defense: no video of the week's events (the Kuwait hits are Thanksgiving greetings).",
+    "Commons: Qeshm, Strait of Hormuz, Hormuz tanker, CENTCOM, Bahrain drone, Kuwait base, Camp Arifjan: nothing of the week.",
+    "centcom.mil and war.gov release lists answered 403 (Akamai) to the honest request on 2026-11-22; not retried."
+  ],
+  "not_taken": [
+    {
+      "ref": "File:Secretary Hegseth's Message to the Warriors of the USS Abraham Lincoln.webm",
+      "why": "dated 2026-10-07, outside the week, and about the Lincoln's return home, not the third carrier; it would need a FILMED label under picture-in-week and is not a fit"
+    },
+    {
+      "ref": "File:Director of National Intelligence Jay Clayton on Threats from Iran and Tech Outages.webm",
+      "why": "C-SPAN camera coverage: refused unless the record shows a chamber's own floor feed (bible n)"
+    }
+  ],
+  "more_stills": [
+    "DVIDS image:10105393 and image:10105394 'George Washington Operates Alongside USS Theodore Roosevelt' (20 Nov)",
+    "DVIDS image:10102546 'George Washington Operates with Theodore Roosevelt' (19 Nov)",
+    "DVIDS image:10104206 'Daily Operations Aboard USS George H.W. Bush (CVN 77)' (20 Nov)"
+  ],
+  "gaps": [
+    "No free moving picture of the strikes, the intercepts, the drones on Kuwait and Bahrain or the tanker by the cutoff; the Iranian side is a page or attributed."
+  ]
+}

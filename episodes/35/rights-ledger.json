@@ -1,0 +1,505 @@
+{
+  "schema": "omnibus.rights-ledger/1",
+  "issue": 35,
+  "items": [
+    {
+      "id": "e35-p4-still",
+      "request_id": "e35-p4-still",
+      "kind": "still",
+      "adapter": "commons",
+      "title": "P20261119PW-0073 (55662747591)",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:P20261119PW-0073_(55662747591).jpg",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: https://www.flickr.com/photos/whitehouse/55662747591/in/album-72177720336989142\nBasis category: PD US Government",
+        "captured_at": "2026-11-22T00:32:49Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD US Government\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:P20261119PW-0073_(55662747591).jpg",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/P20261119PW-0073_%2855662747591%29.jpg",
+      "file": "e35-p4-still.jpg",
+      "mime": "image/jpeg",
+      "sha256": "a628ad466e6fa06d029cfa8dc61bc7a4882f27be15796f3d86f5afd44636eb2f",
+      "bytes": 3746371,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-19",
+      "published_at": "2026-11-19T20:25:03Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "fit": {
+        "beat": "shenzhen-summit",
+        "why": "Official White House Photo by Patrick Witty, its own caption: Trump in a pull-aside meeting with Putin during the APEC summit in Shenzhen, Thursday 19 Nov 2026. A still, for the rostrum; never under a bite from another occasion."
+      }
+    },
+    {
+      "id": "e35-p4-declaration",
+      "request_id": "e35-p4-declaration",
+      "kind": "document",
+      "adapter": "gov",
+      "title": "U.S.-Russia-China Heads of State Declaration toward Peace",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+        "captured_text": "Read from the page https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/.\nHost www.whitehouse.gov belongs to The White House, a body of the US federal government.\nThe page names it: \"The White House\"; og:site_name \"The White House\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside The White House: a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-22T00:32:51Z"
+      },
+      "basis": "Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+      "media_url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+      "file": "e35-p4-declaration.html",
+      "mime": "text/html; charset=UTF-8",
+      "sha256": "d13d2be39e496a1a14972ea8eb2991bc5bb45b905b6f4425dc7792959b254385",
+      "bytes": 265787,
+      "credit": "The White House",
+      "date": "2026-11-19",
+      "published_at": "2026-11-19T13:53:04Z",
+      "content_date": null,
+      "source_tier": 5,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "description",
+          "page-credits",
+          "embeds",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      },
+      "fit": {
+        "beat": "shenzhen-summit",
+        "why": "The declaration's own text as the White House published it on 19 Nov at 13:53 UTC (a US federal work): the typeset page the reader speaks, the record of what the three leaders signed."
+      }
+    },
+    {
+      "id": "e35-p3-carrier",
+      "request_id": "e35-p3-carrier",
+      "kind": "still",
+      "adapter": "dvids",
+      "title": "Theodore Roosevelt Enters 5th Fleet",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.dvidshub.net/image/10105396",
+        "captured_text": "Read from the public DVIDS item page https://www.dvidshub.net/image/10105396, fetched without a key.\nThe page's mark: \"PUBLIC DOMAIN\"\ncredit line: \"Photo by NAVCENT Public Affairs September 2026\" September 2026\" August 2026\" August 2026\" July 2026\" July 2026\" June 2026\" May 2026\" April 2026\" March 2026\" August 2022\" December 2021\" May 2021\"\"\nunit: \"U.S. Naval Forces Central Command / U.S. 5th Fleet\"\nVIRIN: \"261117-N-NO146-3013\"\nThe page's restrictions line: \"This work, Theodore Roosevelt Enters 5th Fleet [Image 9 of 9], by NAVCENT Public Affairs, identified by DVIDS, must comply with the restrictions shown on https://www.dvidshub.net/about/copyright.\"\nThe page and the API record (the second evidence entry) indicate no other copyright status: public domain, a US federal government work (17 U.S.C. 105).",
+        "captured_at": "2026-11-22T00:32:51Z"
+      },
+      "basis": "the public DVIDS page marks it PUBLIC DOMAIN, and DVIDS states its media is public domain unless another copyright status is indicated; neither the page nor the API record indicates one: a US federal government work by NAVCENT Public Affairs (Navy) (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.dvidshub.net/image/10105396",
+      "media_url": "https://d34w7g4gy10iej.cloudfront.net/photos/2611/10105396.jpg",
+      "file": "e35-p3-carrier.jpg",
+      "mime": "image/jpeg",
+      "sha256": "a85ba15e2e6aefa61d8fafc9594e00d82b38c31d3c15ac05ff4a8014cc776e85",
+      "bytes": 2389807,
+      "credit": "NAVCENT Public Affairs, U.S. Naval Forces Central Command / U.S. 5th Fleet, DVIDS",
+      "date": "2026-11-17",
+      "published_at": "2026-11-20T15:18:06Z",
+      "content_date": null,
+      "source_tier": 2,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "keywords",
+          "title",
+          "description",
+          "credit",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      },
+      "evidence_also": [
+        {
+          "url": "https://api.dvidshub.net/asset?id=image:10105396",
+          "captured_text": "Read from the DVIDS API asset record for image 10105396 (https://api.dvidshub.net/asset?id=image:10105396, the key removed).\nDVIDS's statement (https://api.dvidshub.net/docs/copyright): \"All media on the site is produced by U.S. DoD or Federal Agency and is in the public domain unless other copyright status is indicated.\"\nbranch: Navy; unit: U.S. Naval Forces Central Command / U.S. 5th Fleet\ncredit: NAVCENT Public Affairs\nattribution: U.S. Navy photo\nVIRIN 261117-N-NO146-3013; category: (none)\ndate: 2026-11-17T00:00:00-05:00; date_published: 2026-11-20T10:18:06-05:00\nThe record indicates no other copyright status: public domain, a US federal government work (17 U.S.C. 105).",
+          "captured_at": "2026-11-22T00:32:51Z"
+        }
+      ],
+      "disclosure": "The appearance of U.S. Department of War (DoW) visual information does not imply or constitute DoW endorsement.",
+      "fit": {
+        "beat": "gulf-us-iran",
+        "why": "US Naval Forces Central Command's own photograph published on DVIDS on 20 Nov, titled 'Theodore Roosevelt Enters 5th Fleet': the third US carrier in the theatre. A still, for the rostrum, with RELEASED BY THE DEPARTMENT OF WAR once the party label exists (T5)."
+      }
+    },
+    {
+      "id": "e35-b4-release",
+      "request_id": "e35-b4-release",
+      "kind": "document",
+      "adapter": "gov",
+      "title": "President Trump Taps Pentagon Cyber Chief Kirsten Davies as National Cyber Director",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+        "captured_text": "Read from the page https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/.\nHost www.whitehouse.gov belongs to The White House, a body of the US federal government.\nThe page names it: \"The White House\"; og:site_name \"The White House\".\nCredits stated on the page: (none).\nEmbeds from other hosts: (none).\nNo credit outside The White House: a work of the US federal government, public domain (17 U.S.C. 105).",
+        "captured_at": "2026-11-22T00:32:52Z"
+      },
+      "basis": "Published on www.whitehouse.gov by The White House, a body of the US federal government (17 U.S.C. 105); the page names it and states no credit outside it",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+      "media_url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+      "file": "e35-b4-release.html",
+      "mime": "text/html; charset=UTF-8",
+      "sha256": "76d73c423596320cf30bdc4969429318a624859a791271197964e1b2f0bd68e6",
+      "bytes": 273238,
+      "credit": "The White House",
+      "date": "2026-11-20",
+      "published_at": "2026-11-20T16:53:12Z",
+      "content_date": null,
+      "source_tier": 5,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "title",
+          "description",
+          "page-credits",
+          "embeds",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "not_applicable",
+        "findings": []
+      },
+      "fit": {
+        "beat": "thread-b1206893",
+        "why": "The White House's own release of 20 Nov naming Kirsten Davies National Cyber Director: the record the brief's one fact rests on."
+      }
+    },
+    {
+      "id": "e35-p4-arrival",
+      "request_id": "e35-p4-arrival",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "President Trump Participates in a Shenzhen, China Arrival Ceremony",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump Participates in an Arrival Ceremony – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:25Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Participates_in_a_Shenzhen,_China_Arrival_Ceremony.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/President_Trump_Participates_in_a_Shenzhen%2C_China_Arrival_Ceremony.webm",
+      "file": "e35-p4-arrival.webm",
+      "mime": "video/webm",
+      "sha256": "63dd396fc0be00885839f57760abad7262bf9492176317ed01fd08627a72762e",
+      "bytes": 290493084,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-18",
+      "published_at": "2026-11-18T20:50:54Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "fit": {
+        "beat": "shenzhen-summit",
+        "why": "The White House's own unedited pool record of the arrival ceremony at Shenzhen on Wednesday 18 Nov (421.8 s, one camera, no graphic seen in fifteen sampled frames): from about 45 s the President is at Air Force One's door, waves, and descends the red steps toward the welcome line by 70 s. Its own nat sound plays. The US is a party to the summit, so the shot carries RELEASED BY THE WHITE HOUSE once the party label exists (T5).",
+        "in_s": 45,
+        "out_s": 70
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T01:00:00Z",
+          "frames": [
+            45,
+            47.5,
+            50,
+            52.5,
+            55,
+            57.5,
+            60,
+            62.5,
+            65,
+            67.5,
+            69.9,
+            70
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-arrival/contact-sheet.png",
+            "sha256": "01f229b2002c58f9a050df92bf4318535c03200f7d7f8238ae2af55bda175cb6"
+          },
+          "cuts": {
+            "times": [],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              45,
+              70
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e35-p4-talks",
+      "request_id": "e35-p4-talks",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "President Trump, Xi and Putin Hold Trilateral Talks in China",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: The White House\nCredit: YouTube: President Trump, Xi and Putin Hold Trilateral Talks in China – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:54Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:President_Trump,_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/President_Trump%2C_Xi_and_Putin_Hold_Trilateral_Talks_in_China.webm",
+      "file": "e35-p4-talks.webm",
+      "mime": "video/webm",
+      "sha256": "2094dc14d0cf3cb9cfdee96f0d4a12f19b538dd74342d79064b5eaef0320f3c3",
+      "bytes": 14116896,
+      "credit": "The White House, via Wikimedia Commons",
+      "date": "2026-11-19",
+      "published_at": "2026-11-19T16:56:33Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "a produced release: mute B-roll only (bible e); the narrator speaks over it"
+      },
+      "fit": {
+        "beat": "shenzhen-summit",
+        "why": "The White House's release of the trilateral talks on Thursday 19 Nov: Trump, Xi and Putin walking in, Xi speaking at the round table, the three at the table, Trump and Xi shaking hands. It is a produced montage (graded, cut short, a White House end card fading in from about 13.4 s), so it airs as mute B-roll only and never as a bite (bible e, sot-raw-source); the span stops at the file's own cut at 12.93 s, before the logo.",
+        "in_s": 0,
+        "out_s": 12.93
+      },
+      "youtube_source": "category \"Uploaded with video2commons\"",
+      "marks_checked": {
+        "marks": [],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T01:00:00Z",
+          "frames": [
+            0.376,
+            1.502,
+            3.045,
+            4.213,
+            4.964,
+            6.048,
+            7.362,
+            8.717,
+            9.677,
+            10.427,
+            11.95,
+            12.83
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-talks/contact-sheet.png",
+            "sha256": "371b4f71203af53ba6342707d322eb77ab97bf4173a93eddd82c0bee438f03b5"
+          },
+          "cuts": {
+            "times": [
+              0.751,
+              2.252,
+              3.837,
+              4.588,
+              5.339,
+              6.757,
+              7.966,
+              9.468,
+              9.885,
+              10.969
+            ],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              0,
+              12.93
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e35-b8-caracas",
+      "request_id": "e35-b8-caracas",
+      "kind": "footage",
+      "adapter": "commons",
+      "title": "Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela",
+      "licence": "pd-us-federal",
+      "licence_evidence": {
+        "url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
+        "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: Department of War\nCredit: YouTube: Secretary Hegseth’s Full Address at the U.S. Embassy in Caracas, Venezuela. – View/save archived versions on archive.org\nBasis category: PD-USGov missing SDC copyright status",
+        "captured_at": "2026-11-22T00:43:57Z"
+      },
+      "basis": "Wikimedia Commons marks the file public domain (category \"PD-USGov missing SDC copyright status\"): a work of the US federal government (17 U.S.C. 105)",
+      "rights_checked": {
+        "date": "2026-11-22",
+        "by": "void omnibus fetcher, metadata checks (scripts/rights.mjs)"
+      },
+      "item_url": "https://commons.wikimedia.org/wiki/File:Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas,_Venezuela.webm",
+      "media_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Secretary_Hegseth%E2%80%99s_Full_Address_at_the_U.S._Embassy_in_Caracas%2C_Venezuela.webm",
+      "file": "e35-b8-caracas.webm",
+      "mime": "video/webm",
+      "sha256": "d3e95d3cf9c68f0baec5e2cd03ff37f464102355a526a8868ba9d6d0350e937c",
+      "bytes": 1253423975,
+      "credit": "Department of War, via Wikimedia Commons",
+      "date": "2026-11-18",
+      "published_at": "2026-11-20T05:04:59Z",
+      "content_date": null,
+      "source_tier": 1,
+      "ai_provenance_check": {
+        "status": "clear",
+        "method": "metadata",
+        "checked": [
+          "commons-categories",
+          "title",
+          "description",
+          "credit",
+          "licence",
+          "xmp-digital-source-type",
+          "c2pa-label"
+        ],
+        "findings": [],
+        "vision": "pending"
+      },
+      "laundering_check": {
+        "status": "clear",
+        "findings": []
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "a brief carries one attributed fact over the picture; the address's own words are not a bite here"
+      },
+      "fit": {
+        "beat": "thread-1c145f33",
+        "why": "The Department of War's full, unedited 4K record of the Secretary's address at the US Embassy in Caracas on Wednesday 18 Nov (1259.8 s, an address, so SOT-eligible): from 15 s Hegseth alone at the lectern, the city behind him. A brief takes 12 s of picture under the narrator; party label RELEASED BY THE DEPARTMENT OF WAR once it exists (T5).",
+        "in_s": 15,
+        "out_s": 27
+      },
+      "youtube_source": "category \"Videos from YouTube\"",
+      "marks_checked": {
+        "marks": [],
+        "reviewed": {
+          "by": "verifier: claude-sonnet-5",
+          "at": "2026-11-22T01:00:00Z",
+          "frames": [
+            15,
+            17.5,
+            20,
+            22.5,
+            25,
+            26.9,
+            27
+          ],
+          "contact_sheet": {
+            "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-b8-caracas/contact-sheet.png",
+            "sha256": "01cc221386d64bddaea8b12e84756b71e00d182cf05f192b407ad2f352fa819d"
+          },
+          "cuts": {
+            "times": [],
+            "threshold": 0.2,
+            "method": "ffmpeg select=gt(scene,0.2) over the aired span, null output",
+            "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+            "span": [
+              15,
+              27
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "rejected": [],
+  "dropped": []
+}

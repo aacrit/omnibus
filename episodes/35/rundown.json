@@ -1,0 +1,2239 @@
+{
+  "schema": "omnibus.rundown/2",
+  "edition": {
+    "issue": 35,
+    "cutoff_utc": "2026-11-21T14:17:37Z",
+    "archive_commit": "b8dcf8752b2ddbb903c3e9a0ed05f29d3a98d82c",
+    "weekly_edition_seen": false,
+    "window": {
+      "from": "2026-11-16",
+      "to": "2026-11-21"
+    },
+    "days_present": [
+      "2026-11-16",
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-21"
+    ],
+    "pin_rule": "the first commit whose frontend/build-data/archive.json holds the 2026-11-21 print",
+    "last_print_utc": "2026-11-21T14:07:07Z",
+    "repo": "https://github.com/aacrit/void--news"
+  },
+  "inputs": {
+    "edit": {
+      "path": "episodes/35/rundown-edit.json",
+      "sha256": "1a0dfb6a2d6c1d40034af0bb863189d81a68a7aca543c404e6d803b9c241d1e8"
+    },
+    "rights_ledger": {
+      "path": "episodes/35/rights-ledger.json",
+      "sha256": "05cba80892ccdc6e1b823fd64c5d58188eb0349f137a4b576f06b823f171711a"
+    },
+    "capture_pool": null,
+    "desk_sha256": "81a6f4052716881fc72d3ea54238bac1cff23849227311c1c81c3f85ac74456e"
+  },
+  "thread_checks": [
+    {
+      "op": "split",
+      "key": "greenland-security-deal",
+      "cluster_ids": [
+        "991593d2-fb9b-4d1e-abf9-8a161bf49609",
+        "e0993e3e-23ff-4eb5-8be9-910bf3978b08"
+      ],
+      "from": [
+        "thread-3d0d10ec"
+      ],
+      "reason": "Denmark's Folketing approving the Greenland security deal with the United States is not the Shenzhen summit; void news's linker filed both in thread 3d0d10ec on the word trilateral."
+    },
+    {
+      "op": "split",
+      "key": "canada-china-tariffs",
+      "cluster_ids": [
+        "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
+        "e70e2747-67a6-45fb-8444-8d0b8449e436"
+      ],
+      "from": [
+        "thread-20c65f07"
+      ],
+      "reason": "Canada and China's tariff relief is a bilateral trade agreement made at APEC, not the US, China and Russia summit's declaration that thread 20c65f07 joins it to."
+    },
+    {
+      "op": "join",
+      "key": "shenzhen-summit",
+      "cluster_ids": [
+        "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
+        "36cb8fdf-4b45-45d5-b644-a8146347d96c",
+        "46f3452c-439e-4e1e-9113-64c95c5d1ee7",
+        "662a8e1c-bfc0-4b5b-b16a-815b395cb73b",
+        "7523e65f-d1bf-42f8-8170-e30c70b4b70d"
+      ],
+      "from": [
+        "thread-20c65f07",
+        "thread-3d0d10ec",
+        "thread-82c2a903"
+      ],
+      "reason": "One event: the US, China and Russia summit in Shenzhen, from its scheduling (16 Nov) to the leaders' declaration (19 and 20 Nov) and the summit's sessions (21 Nov); Albanese's address to Putin was made at the same APEC meeting in Shenzhen on Thursday. Void news split it across threads 3d0d10ec and 20c65f07 and filed Albanese under the UK and EU thread 82c2a903. The envoys' security-guarantee pitch (4940de75) was made in Berlin and stays its own story."
+    },
+    {
+      "op": "join",
+      "key": "ukraine-bridges-strikes",
+      "cluster_ids": [
+        "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
+        "1711ed61-dd08-4645-b80f-41798480158b",
+        "1c44ffc9-65a3-4b64-91df-3a6b96c5c758",
+        "277d5dcf-824e-4900-990d-a87ef07172d2",
+        "672e3dce-f779-4d60-8643-867de16ae26c",
+        "a20dee58-b05f-45e6-81eb-ff767ae64a10",
+        "a6a8ae52-5e2f-4a70-8b14-baf9262d8cab",
+        "fc265ec6-9d0f-4bc9-b91c-90aaa66bc2a7"
+      ],
+      "from": [
+        "thread-2fd54bb9",
+        "thread-389bef29",
+        "thread-b318d131"
+      ],
+      "reason": "One exchange of strikes on bridges in the week: Ukraine's three strikes on the Kerch bridge (16 to 19 Nov) and Russia's strike on Kyiv's Dnipro bridges (20 Nov), whose missiles crossed into Polish airspace (20 Nov). Void news filed the 16 Nov Kerch strike and the Kyiv strike in thread 389bef29 and Poland's statement in b318d131."
+    },
+    {
+      "op": "join",
+      "key": "gulf-us-iran",
+      "cluster_ids": [
+        "1419ceed-ffc1-4072-b96e-b509ab776fe5",
+        "7071d64f-5ee0-489b-b523-74a35da24439",
+        "add77fbf-bfcf-4f59-a9e0-53bd230b985a",
+        "b4b4b822-93cb-4e70-b767-d9808707117a",
+        "b6e83412-c448-4ec2-9463-b376e53e3ace",
+        "db0bd3d6-c29f-4db1-b587-296a66e1919d"
+      ],
+      "from": [
+        "thread-29d17d94",
+        "thread-4570905f",
+        "thread-5e7bbbff",
+        "thread-dd741d65",
+        "thread-ed4c17c2"
+      ],
+      "reason": "One theatre, one week, one pair of parties: US strikes on Qeshm and the Gulf intercepts that followed (18 Nov), Iranian drones on Bahrain (16 Nov) and on US bases in Kuwait and Bahrain (19 Nov), the third US carrier's arrival (17 and 18 Nov) and the tanker struck in the Strait of Hormuz (18 Nov). The Houthi strikes on Riyadh are a different war and stay their own story."
+    },
+    {
+      "op": "split",
+      "key": "irish-man-aircraft-charge",
+      "cluster_ids": [
+        "5076fab8-f5e0-400a-9a9f-8508078cb413"
+      ],
+      "from": [
+        "thread-ed4c17c2"
+      ],
+      "reason": "An Irish man charged in the United States with wrecking a military aircraft is not the carrier's arrival in the Middle East; void news filed it in thread ed4c17c2."
+    },
+    {
+      "op": "join",
+      "key": "uk-eu-reset",
+      "cluster_ids": [
+        "14607933-69a3-4c79-9392-193d1e178006",
+        "3f219792-786d-4e1a-889c-f2450b9492c6",
+        "5b086856-d4b3-4f71-89a4-06fad19bc1a7",
+        "8a5319e4-ae72-4b2f-82f5-9e469ab1af57",
+        "9482dab6-bcd0-4d53-bfbd-19fca2f08b7a",
+        "d0b7be12-2491-4c23-938a-fdecb438db8d",
+        "d3ceb398-3e3e-41d0-8f93-6d75ddd27966"
+      ],
+      "from": [
+        "thread-50419b1a",
+        "thread-82c2a903"
+      ],
+      "reason": "One story: Burnham's Brussels summit with the EU, from his speech on Brexit (16 and 17 Nov) to the agreements (20 and 21 Nov). Void news split it across threads 50419b1a and 82c2a903."
+    },
+    {
+      "op": "split",
+      "key": "bilkis-bano-bail",
+      "cluster_ids": [
+        "150c2468-5395-48ca-b10d-ad5cff823113"
+      ],
+      "from": [
+        "thread-fadeb1f6"
+      ],
+      "reason": "India's Supreme Court granting bail in the Bilkis Bano case is not the US Supreme Court's ruling on research grants; void news filed both in thread fadeb1f6 on the words Supreme Court."
+    },
+    {
+      "op": "split",
+      "key": "us-canada-directive",
+      "cluster_ids": [
+        "9757bf5c-1222-44cf-8021-7ad9c282f774"
+      ],
+      "from": [
+        "thread-1c145f33"
+      ],
+      "reason": "Hegseth's directive on US and Canada defence ties is not the US and Venezuela military agreement; void news filed it in thread 1c145f33 on Hegseth's name."
+    }
+  ],
+  "stories": [
+    {
+      "key": "ukraine-bridges-strikes",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "0ea94eb4-4472-4b49-80ca-09d57075f6ce",
+        "1711ed61-dd08-4645-b80f-41798480158b",
+        "1c44ffc9-65a3-4b64-91df-3a6b96c5c758",
+        "277d5dcf-824e-4900-990d-a87ef07172d2",
+        "672e3dce-f779-4d60-8643-867de16ae26c",
+        "a20dee58-b05f-45e6-81eb-ff767ae64a10",
+        "a6a8ae52-5e2f-4a70-8b14-baf9262d8cab",
+        "fc265ec6-9d0f-4bc9-b91c-90aaa66bc2a7"
+      ],
+      "thread_ids": [
+        "2fd54bb9-2b82-4162-b4b3-20f0c89952ef",
+        "389bef29-c8f8-4a29-b2f8-25ff19cb9387",
+        "b318d131-b2c4-4076-84de-652da9d15825"
+      ],
+      "thread_reason": "One exchange of strikes on bridges in the week: Ukraine's three strikes on the Kerch bridge (16 to 19 Nov) and Russia's strike on Kyiv's Dnipro bridges (20 Nov), whose missiles crossed into Polish airspace (20 Nov). Void news filed the 16 Nov Kerch strike and the Kyiv strike in thread 389bef29 and Poland's statement in b318d131.",
+      "weight": 0.890378,
+      "rank": 1,
+      "slot": "lead",
+      "shape": "document",
+      "category": "conflict",
+      "days": [
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-19",
+        "2026-11-20"
+      ],
+      "signals": {
+        "daily_appearances": 5,
+        "cumulative_sources": 218,
+        "brief_mentions": 4,
+        "peak_rank": 72.53,
+        "edition_spread": 1,
+        "total_divergence": 214.09
+      },
+      "desk_title": "Ukrainian Strikes Collapse Crimean Bridge Arch and Halt Kerch Strait Traffic",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [
+        {
+          "id": "doc-ua-ssu-kerch",
+          "title": "Security Service of Ukraine statement and video on the strike on the Kerch bridge",
+          "issuer": "Security Service of Ukraine",
+          "date": "2026-11-17",
+          "url": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+          "status": "pending T5: Ukraine state sources via Commons (CC BY 4.0, party label)"
+        },
+        {
+          "id": "doc-ua-president",
+          "title": "The President of Ukraine statements on the Kerch and Kyiv strikes",
+          "issuer": "Office of the President of Ukraine",
+          "date": "2026-11-17",
+          "url": null,
+          "status": "pending T5: president.gov.ua answers 403; Commons uploads of the Office of the President"
+        },
+        {
+          "id": "doc-ru-mod",
+          "title": "Russian Ministry of Defence statement on the strike on Kyiv",
+          "issuer": "Ministry of Defence of the Russian Federation",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; mil.ru is not a free source: quoted as a state organ record, typeset, basis recorded"
+        },
+        {
+          "id": "doc-pl-gov",
+          "title": "Government of Poland statement on the missiles in Polish airspace",
+          "issuer": "Government of Poland",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
+        }
+      ],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "uk-eu-reset",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "14607933-69a3-4c79-9392-193d1e178006",
+        "3f219792-786d-4e1a-889c-f2450b9492c6",
+        "5b086856-d4b3-4f71-89a4-06fad19bc1a7",
+        "8a5319e4-ae72-4b2f-82f5-9e469ab1af57",
+        "9482dab6-bcd0-4d53-bfbd-19fca2f08b7a",
+        "d0b7be12-2491-4c23-938a-fdecb438db8d",
+        "d3ceb398-3e3e-41d0-8f93-6d75ddd27966"
+      ],
+      "thread_ids": [
+        "50419b1a-e824-4ccc-892f-8d865b58c10b",
+        "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+      ],
+      "thread_reason": "One story: Burnham's Brussels summit with the EU, from his speech on Brexit (16 and 17 Nov) to the agreements (20 and 21 Nov). Void news split it across threads 50419b1a and 82c2a903.",
+      "weight": 0.805544,
+      "rank": 2,
+      "slot": "package_2",
+      "shape": "document",
+      "category": "general",
+      "days": [
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-19",
+        "2026-11-20",
+        "2026-11-21"
+      ],
+      "signals": {
+        "daily_appearances": 6,
+        "cumulative_sources": 119,
+        "brief_mentions": 3,
+        "peak_rank": 70.43,
+        "edition_spread": 1,
+        "total_divergence": 196.23
+      },
+      "desk_title": "Prime Minister Andy Burnham Agrees to Trade and Youth Mobility Deals With European Union Leaders",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [
+        {
+          "id": "doc-uk-burnham-speech",
+          "title": "The Prime Minister Andy Burnham speech on Brexit",
+          "issuer": "Prime Minister's Office, 10 Downing Street",
+          "date": "2026-11-16",
+          "url": null,
+          "status": "pending T5: gov.uk under OGL v3"
+        },
+        {
+          "id": "doc-uk-eu-agreements",
+          "title": "The UK and EU summit agreements on trade and youth mobility",
+          "issuer": "Government of the United Kingdom and the European Union",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "pending T5 for the gov.uk text (OGL v3); the EU text on consilium.europa.eu or ec.europa.eu is not on the fetcher allowlist"
+        }
+      ],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "gulf-us-iran",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "1419ceed-ffc1-4072-b96e-b509ab776fe5",
+        "7071d64f-5ee0-489b-b523-74a35da24439",
+        "add77fbf-bfcf-4f59-a9e0-53bd230b985a",
+        "b4b4b822-93cb-4e70-b767-d9808707117a",
+        "b6e83412-c448-4ec2-9463-b376e53e3ace",
+        "db0bd3d6-c29f-4db1-b587-296a66e1919d"
+      ],
+      "thread_ids": [
+        "29d17d94-7535-47d8-aa5d-5539a68ddba2",
+        "4570905f-b247-4033-b824-258c923953be",
+        "5e7bbbff-7fb5-48f4-83c6-d2f9be411de0",
+        "dd741d65-f694-415c-90da-b916e0d2bddb",
+        "ed4c17c2-a3a4-4229-a72f-872b4c88a60e"
+      ],
+      "thread_reason": "One theatre, one week, one pair of parties: US strikes on Qeshm and the Gulf intercepts that followed (18 Nov), Iranian drones on Bahrain (16 Nov) and on US bases in Kuwait and Bahrain (19 Nov), the third US carrier's arrival (17 and 18 Nov) and the tanker struck in the Strait of Hormuz (18 Nov). The Houthi strikes on Riyadh are a different war and stay their own story.",
+      "weight": 0.799603,
+      "rank": 3,
+      "slot": "package_3",
+      "shape": "document",
+      "category": "general",
+      "days": [
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-19"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 156,
+        "brief_mentions": 4,
+        "peak_rank": 73.95,
+        "edition_spread": 1,
+        "total_divergence": 188.96
+      },
+      "desk_title": "Gulf Nations Intercept Aerial Attacks Following US Strikes on Qeshm Island",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [
+        {
+          "id": "doc-centcom-qeshm",
+          "title": "US Central Command statements on the strikes on Qeshm and the intercepts",
+          "issuer": "US Central Command",
+          "date": "2026-11-18",
+          "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/",
+          "status": "centcom.mil answered 403 (Akamai) to the honest request on 2026-11-22; not retried"
+        },
+        {
+          "id": "doc-ir-mfa",
+          "title": "Iran's foreign ministry statement on the US strikes",
+          "issuer": "Ministry of Foreign Affairs of the Islamic Republic of Iran",
+          "date": "2026-11-18",
+          "url": null,
+          "status": "to locate; terms unreviewed: quoted as a state organ record or attributed"
+        }
+      ],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "shenzhen-summit",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "0461f9fd-1c7d-4d09-831f-5bd0363593cc",
+        "36cb8fdf-4b45-45d5-b644-a8146347d96c",
+        "46f3452c-439e-4e1e-9113-64c95c5d1ee7",
+        "662a8e1c-bfc0-4b5b-b16a-815b395cb73b",
+        "7523e65f-d1bf-42f8-8170-e30c70b4b70d"
+      ],
+      "thread_ids": [
+        "20c65f07-e6bf-4ecd-8337-59fdac0f6645",
+        "3d0d10ec-0773-481e-b27e-727621040f0a",
+        "82c2a903-8a4a-4568-800a-d5b4c5073bd7"
+      ],
+      "thread_reason": "One event: the US, China and Russia summit in Shenzhen, from its scheduling (16 Nov) to the leaders' declaration (19 and 20 Nov) and the summit's sessions (21 Nov); Albanese's address to Putin was made at the same APEC meeting in Shenzhen on Thursday. Void news split it across threads 3d0d10ec and 20c65f07 and filed Albanese under the UK and EU thread 82c2a903. The envoys' security-guarantee pitch (4940de75) was made in Berlin and stays its own story.",
+      "weight": 0.700861,
+      "rank": 4,
+      "slot": "package_4",
+      "shape": "full",
+      "category": "conflict",
+      "days": [
+        "2026-11-16",
+        "2026-11-19",
+        "2026-11-20",
+        "2026-11-21"
+      ],
+      "signals": {
+        "daily_appearances": 4,
+        "cumulative_sources": 309,
+        "brief_mentions": 1,
+        "peak_rank": 61.01,
+        "edition_spread": 1,
+        "total_divergence": 140.52
+      },
+      "desk_title": "Trump, Xi, and Putin Issue Peace Declaration After Historic Trilateral Summit",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [
+        {
+          "id": "doc-us-ru-cn-declaration",
+          "title": "U.S.-Russia-China Heads of State Declaration toward Peace",
+          "issuer": "The White House",
+          "date": "2026-11-19",
+          "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+          "status": "fetched as a document (US federal, public domain)"
+        },
+        {
+          "id": "doc-kremlin-declaration",
+          "title": "The Kremlin's English text of the declaration",
+          "issuer": "President of Russia (kremlin.ru)",
+          "date": "2026-11-19",
+          "url": null,
+          "status": "pending T5: kremlin.ru adapter (CC BY 4.0, RIA Novosti and TASS excluded)"
+        }
+      ],
+      "footage_cleared_s": 37.93,
+      "footage": {
+        "items": [
+          {
+            "id": "e35-p4-arrival",
+            "seconds": 25
+          },
+          {
+            "id": "e35-p4-talks",
+            "seconds": 12.93
+          }
+        ],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-ec790a82",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "36e19cbb-cf0b-4961-a9c9-d6f437de1a0f",
+        "bdde5310-3569-485a-b3df-5fc6f3bbf3c1",
+        "df975185-f5e5-40bd-8a57-0bf1c89f9b8a"
+      ],
+      "thread_ids": [
+        "ec790a82-a6a4-47bf-ac62-a92d5ca7e757"
+      ],
+      "weight": 0.600218,
+      "rank": 5,
+      "slot": "package_5",
+      "shape": "document",
+      "category": "politics",
+      "days": [
+        "2026-11-19",
+        "2026-11-20",
+        "2026-11-21"
+      ],
+      "signals": {
+        "daily_appearances": 3,
+        "cumulative_sources": 145,
+        "brief_mentions": 2,
+        "peak_rank": 72.03,
+        "edition_spread": 1,
+        "total_divergence": 88.62
+      },
+      "desk_title": "International Court of Justice Rules Myanmar Committed Genocide Against Rohingya",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [
+        {
+          "id": "doc-icj-gambia-myanmar-judgment",
+          "title": "Judgment, Application of the Convention on the Prevention and Punishment of the Crime of Genocide (The Gambia v. Myanmar)",
+          "issuer": "International Court of Justice",
+          "date": "2026-11-19",
+          "url": "https://www.icj-cij.org/case/178",
+          "status": "court record, typeset; icj-cij.org is not on the fetcher allowlist, so its text is captured with its terms URL before the reader speaks it"
+        },
+        {
+          "id": "doc-icj-press-release",
+          "title": "The Court's press release on the judgment",
+          "issuer": "International Court of Justice",
+          "date": "2026-11-19",
+          "url": "https://www.icj-cij.org/case/178",
+          "status": "court record, typeset; as above"
+        },
+        {
+          "id": "doc-mm-response",
+          "title": "Myanmar's statement rejecting the judgment",
+          "issuer": "Government of Myanmar",
+          "date": "2026-11-20",
+          "url": null,
+          "status": "to locate; quoted as a state organ record or attributed"
+        }
+      ],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-a3e1e3ef",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "b76c9ee3-47b0-4d9e-819b-c3eb271c3cff",
+        "cee27d6b-ee40-4304-9764-3fc92e756b6e"
+      ],
+      "thread_ids": [
+        "a3e1e3ef-6ad0-4242-9948-093c3c853288"
+      ],
+      "weight": 0.475498,
+      "rank": 6,
+      "slot": "brief_1",
+      "shape": "brief",
+      "category": "conflict",
+      "days": [
+        "2026-11-16",
+        "2026-11-21"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 56,
+        "brief_mentions": 2,
+        "peak_rank": 69.84,
+        "edition_spread": 1,
+        "total_divergence": 43.25
+      },
+      "desk_title": "Yemeni Houthi Missiles Target Riyadh While Saudi Coalition Strikes Hodeidah",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-833e5c6b",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "3ab138f6-82a2-4b40-9f7d-df581e21083d",
+        "3c9b15d3-00f6-4e5c-b92d-6802aea8934e"
+      ],
+      "thread_ids": [
+        "833e5c6b-0a44-423a-9efa-c6bac8463608"
+      ],
+      "weight": 0.462592,
+      "rank": 7,
+      "slot": "brief_2",
+      "shape": "brief",
+      "category": "science",
+      "days": [
+        "2026-11-16",
+        "2026-11-17"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 102,
+        "brief_mentions": 1,
+        "peak_rank": 67.11,
+        "edition_spread": 1,
+        "total_divergence": 70.28
+      },
+      "desk_title": "Airlines Recover After Federal Aviation Administration Nationwide Ground Stop",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-149f229b",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "36371e2c-c253-4dc0-9823-a37b0a95a5b9",
+        "676bb7d7-85cb-4d3f-9251-d9332cea49eb"
+      ],
+      "thread_ids": [
+        "149f229b-148f-4882-894b-212ed804aea9"
+      ],
+      "weight": 0.453874,
+      "rank": 8,
+      "slot": "brief_3",
+      "shape": "brief",
+      "category": "general",
+      "days": [
+        "2026-11-17",
+        "2026-11-18"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 90,
+        "brief_mentions": 1,
+        "peak_rank": 70,
+        "edition_spread": 1,
+        "total_divergence": 56.22
+      },
+      "desk_title": "United Airlines Resolves Widespread System Outage That Delayed Flight Departures",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-b1206893",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "6c391ddb-1d40-4e61-8aa8-cdd8deb7ea64",
+        "bc0e12ac-c8ea-4a79-b469-71df24fe3a1c"
+      ],
+      "thread_ids": [
+        "b1206893-f734-4aa1-a794-38a4162cb2a0"
+      ],
+      "weight": 0.429921,
+      "rank": 9,
+      "slot": "brief_4",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-20",
+        "2026-11-21"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 58,
+        "brief_mentions": 1,
+        "peak_rank": 67.39,
+        "edition_spread": 1,
+        "total_divergence": 60.14
+      },
+      "desk_title": "White House Replaces National Cyber Director Sean Cairncross Amid Outages",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [
+        {
+          "id": "doc-wh-cyber-director",
+          "title": "President Trump Taps Pentagon Cyber Chief Kirsten Davies as National Cyber Director",
+          "issuer": "The White House",
+          "date": "2026-11-20",
+          "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+          "status": "US federal, public domain"
+        }
+      ],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-3d743169",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "89091251-470b-4d03-baf1-2c15bb4e9b02",
+        "ee8ca440-cf69-43a5-a306-be0900eeefc7"
+      ],
+      "thread_ids": [
+        "3d743169-9302-4bfa-a5ec-5f1ab3cfd2d4"
+      ],
+      "weight": 0.42713,
+      "rank": 10,
+      "slot": "brief_5",
+      "shape": "brief",
+      "category": "general",
+      "days": [
+        "2026-11-17",
+        "2026-11-18"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 41,
+        "brief_mentions": 1,
+        "peak_rank": 71.21,
+        "edition_spread": 1,
+        "total_divergence": 61.83
+      },
+      "desk_title": "New York City Mayor Zohran Mamdani Disbands NYPD Strategic Response Group",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "canada-china-tariffs",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "5aea8c5c-a9a8-4098-bf7e-6ccd574c0464",
+        "e70e2747-67a6-45fb-8444-8d0b8449e436"
+      ],
+      "thread_ids": [
+        "20c65f07-e6bf-4ecd-8337-59fdac0f6645"
+      ],
+      "weight": 0.423048,
+      "rank": 11,
+      "slot": "brief_6",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-17",
+        "2026-11-18"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 38,
+        "brief_mentions": 1,
+        "peak_rank": 72.44,
+        "edition_spread": 1,
+        "total_divergence": 52.13
+      },
+      "desk_title": "Canada and China Expand Tariff Relief Ahead of APEC Summit",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "greenland-security-deal",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "991593d2-fb9b-4d1e-abf9-8a161bf49609",
+        "e0993e3e-23ff-4eb5-8be9-910bf3978b08"
+      ],
+      "thread_ids": [
+        "3d0d10ec-0773-481e-b27e-727621040f0a"
+      ],
+      "weight": 0.419722,
+      "rank": 12,
+      "slot": "brief_7",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-19",
+        "2026-11-20"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 53,
+        "brief_mentions": 1,
+        "peak_rank": 63.92,
+        "edition_spread": 1,
+        "total_divergence": 59.67
+      },
+      "desk_title": "Danish Parliament Unanimously Approves Trilateral Security Deal With United States and Greenland",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-1c145f33",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "44ece519-a5cb-420c-8daf-56602dbfa816",
+        "e247da23-21af-4552-a68a-ccb99266c2b3"
+      ],
+      "thread_ids": [
+        "1c145f33-feed-47e6-b7ae-40efb7168525"
+      ],
+      "weight": 0.414627,
+      "rank": 13,
+      "slot": "brief_8",
+      "shape": "brief",
+      "category": "conflict",
+      "days": [
+        "2026-11-19",
+        "2026-11-20"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 46,
+        "brief_mentions": 1,
+        "peak_rank": 64.87,
+        "edition_spread": 1,
+        "total_divergence": 54.51
+      },
+      "desk_title": "United States and Venezuela Sign New Military Cooperation Agreement in Caracas",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 12,
+      "footage": {
+        "items": [
+          {
+            "id": "e35-b8-caracas",
+            "seconds": 12
+          }
+        ],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-3c336fd7",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "c0f3e97e-9479-4ec0-8a1e-cc1ca57f9b76",
+        "c84982b2-9766-4da6-bf52-4aeab7c6897d"
+      ],
+      "thread_ids": [
+        "3c336fd7-506b-4a0b-b3bf-ff2bde556491"
+      ],
+      "weight": 0.41429,
+      "rank": 14,
+      "slot": "brief_9",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-17",
+        "2026-11-18"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 34,
+        "brief_mentions": 1,
+        "peak_rank": 66.28,
+        "edition_spread": 1,
+        "total_divergence": 64.55
+      },
+      "desk_title": "Forensic Expert Claims Jeffrey Epstein Autopsy Findings Indicate Homicidal Strangulation",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    },
+    {
+      "key": "thread-1a2c9331",
+      "slug": null,
+      "place": null,
+      "cluster_ids": [
+        "29c43c1b-cde2-445f-afc5-2e3734d93c9b",
+        "c2c750dc-af94-48fd-a1aa-2e3ca611d656"
+      ],
+      "thread_ids": [
+        "1a2c9331-4a27-4d9c-9a95-d2d5847e14db"
+      ],
+      "weight": 0.412643,
+      "rank": 15,
+      "slot": "brief_10",
+      "shape": "brief",
+      "category": "politics",
+      "days": [
+        "2026-11-18",
+        "2026-11-19"
+      ],
+      "signals": {
+        "daily_appearances": 2,
+        "cumulative_sources": 37,
+        "brief_mentions": 1,
+        "peak_rank": 65.39,
+        "edition_spread": 1,
+        "total_divergence": 60.57
+      },
+      "desk_title": "Israeli Parliament Elects Opposition Lawmaker Matan Kahana as New Knesset Speaker",
+      "parties": [],
+      "entities": [],
+      "primary_sources": [],
+      "footage_cleared_s": 0,
+      "footage": {
+        "items": [],
+        "refused": [],
+        "unconfirmed": [],
+        "no_duration": []
+      },
+      "mechanisms": [],
+      "coi": false
+    }
+  ],
+  "not_covered": [
+    {
+      "key": "thread-27c62115",
+      "rank": 16,
+      "weight": 0.410857,
+      "category": "general",
+      "cluster_ids": [
+        "61ac7528-a2b6-4e34-affa-a50e2c5044dd",
+        "81d1e794-b8bc-4ed9-b342-0f3e4eb00b42",
+        "bafcdbe3-82b1-4bfb-be71-aaf0f5a4ef62"
+      ],
+      "desk_title": "Second Federal Judge Blocks Construction of President Trump's Triumphal Arch in Washington",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d449471b",
+      "rank": 17,
+      "weight": 0.406877,
+      "category": "conflict",
+      "cluster_ids": [
+        "64b6d669-58c5-4918-9c9c-c7219563fa14",
+        "7dee2b74-a0d2-4428-9bcc-95724b0b2224"
+      ],
+      "desk_title": "Federal Appeals Court Temporarily Halts US Army Lead Azide Detonation in Iowa",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b0d973d3",
+      "rank": 18,
+      "weight": 0.406482,
+      "category": "conflict",
+      "cluster_ids": [
+        "880534eb-ef9b-429f-b214-cd4938f0ca5c",
+        "e2529302-e27f-4e24-899e-1d624a4f828f"
+      ],
+      "desk_title": "Skyscraper Housing Saudi Sovereign Wealth Fund Damaged in Houthi Missile Attack",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-37b39ce4",
+      "rank": 19,
+      "weight": 0.405619,
+      "category": "general",
+      "cluster_ids": [
+        "9df3192f-8afd-418f-aca1-d1bf8bc6f650",
+        "eba291e0-a9cc-4765-901b-eed4c6d18ddd"
+      ],
+      "desk_title": "Classified Internal Communications Network at the National Security Agency Goes Down",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e53dbdb6",
+      "rank": 20,
+      "weight": 0.401455,
+      "category": "economy",
+      "cluster_ids": [
+        "9f68b7b7-d296-48d0-8ccd-4a3fa5d3265c",
+        "dd303af9-f36c-499f-8209-9c3eb07f03be"
+      ],
+      "desk_title": "Anthropic Sets Initial Public Offering Record With Nasdaq Market Debut",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-81496b39",
+      "rank": 21,
+      "weight": 0.397719,
+      "category": "general",
+      "cluster_ids": [
+        "70a57d48-693e-40a2-8232-380e56ec7faf",
+        "bd3fe394-971f-49c7-9367-6eabcd8c0789"
+      ],
+      "desk_title": "Jordan and Iraq Block Telegram Application Citing National Security Concerns",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-95bb4483",
+      "rank": 22,
+      "weight": 0.394066,
+      "category": "politics",
+      "cluster_ids": [
+        "962de9d3-5092-42bb-9db4-19733e8e7163",
+        "cc3f3f62-387e-4595-a77f-48d3a07ea3bc"
+      ],
+      "desk_title": "US Senate Passes Bipartisan Permitting Reform Bill to Accelerate Energy Projects",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6628f9bc",
+      "rank": 23,
+      "weight": 0.392353,
+      "category": "economy",
+      "cluster_ids": [
+        "23551094-d25b-49f1-9349-28a703f03c34",
+        "f80c82b0-a58c-49cc-af5a-ee8fe29b97ae"
+      ],
+      "desk_title": "Amazon MGM Studios Casts Robert Pattinson as the Seventh Actor to Play James Bond",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-87b42973",
+      "rank": 24,
+      "weight": 0.386025,
+      "category": "science",
+      "cluster_ids": [
+        "37caa539-cf6e-4022-8728-17a9f13bf6d5",
+        "ac912dad-0008-4cca-bf7d-fd117eae4a75"
+      ],
+      "desk_title": "NASA Voyager 1 Reaches Historic Milestone One Light Day From Earth",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-fadeb1f6",
+      "rank": 25,
+      "weight": 0.375617,
+      "category": "politics",
+      "cluster_ids": [
+        "db71e948-f301-43e6-905b-7a6975e76369"
+      ],
+      "desk_title": "Supreme Court Rejects Trump Appeal to Cut University Research Grants",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-16ee8fdf",
+      "rank": 26,
+      "weight": 0.373242,
+      "category": "science",
+      "cluster_ids": [
+        "31560b5e-73f7-4ea1-a7cf-c9f6ba27fd0e",
+        "eeeed6bb-6493-4b28-9b15-7fefdb03ae58"
+      ],
+      "desk_title": "California Sues OpenAI Over Autonomous Artificial Intelligence Hacking Incidents",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-41d5040d",
+      "rank": 27,
+      "weight": 0.370703,
+      "category": "conflict",
+      "cluster_ids": [
+        "9cf80ef2-a999-4c77-8ad5-594cac42bd0e",
+        "cf5a1346-d7e7-418e-8756-f7c7c8e21f60"
+      ],
+      "desk_title": "Estonia Closes Border Crossings With Russia After Foiled Sabotage Plot",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-06e68c69",
+      "rank": 28,
+      "weight": 0.366252,
+      "category": "general",
+      "cluster_ids": [
+        "5c7d7398-4939-44c0-9d08-455fe0d86412"
+      ],
+      "desk_title": "European Leaders Condemn Russian Airspace Breach and Pledge Support to Poland",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-61715c31",
+      "rank": 29,
+      "weight": 0.363519,
+      "category": "environment",
+      "cluster_ids": [
+        "ea3cf962-5682-4b3a-9f1d-df9b765346c7"
+      ],
+      "desk_title": "COP31 Climate Talks Enter Overtime in Antalya Amid Fossil Fuel Dispute",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f264682c",
+      "rank": 30,
+      "weight": 0.360589,
+      "category": "general",
+      "cluster_ids": [
+        "5274dcbf-bf62-437e-b53d-b080cd27fcb0",
+        "f916bd1f-e354-4394-bcbf-6981461f1ec7"
+      ],
+      "desk_title": "Cincinnati Zoo Announces Death of Beloved Hippo Fiona After Swallowing Hat",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9ee360c1",
+      "rank": 31,
+      "weight": 0.357366,
+      "category": "politics",
+      "cluster_ids": [
+        "21c4199a-c8c4-49a8-898e-ef5ae8a8b2b5",
+        "e84b0d92-b66f-42ae-8022-e50adec771ef"
+      ],
+      "desk_title": "Progressive Groups Endorse Chris Van Hollen to Challenge Chuck Schumer for Senate Leadership",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-80f0d291",
+      "rank": 32,
+      "weight": 0.352886,
+      "category": "politics",
+      "cluster_ids": [
+        "40ee43df-3496-4e92-872b-f4dc279cfa9f",
+        "6a9df5cd-06f8-48b0-858f-6688c42da4f3"
+      ],
+      "desk_title": "Israeli Strike in Gaza Kills Rafah Brigade Commander Samir Abu Younis",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e18d610f",
+      "rank": 33,
+      "weight": 0.350654,
+      "category": "environment",
+      "cluster_ids": [
+        "501b8bc7-46a8-417a-98e1-bea08d63ecab"
+      ],
+      "desk_title": "Former Ride-Share Driver Found Guilty of Federal Arson in Deadly Palisades Fire",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-1fb2954c",
+      "rank": 34,
+      "weight": 0.34822,
+      "category": "politics",
+      "cluster_ids": [
+        "500328c0-1610-4e86-94b2-78b432173c40"
+      ],
+      "desk_title": "Trump Arrives in the Philippines for Regional Talks and China Summit",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6938b003",
+      "rank": 35,
+      "weight": 0.347614,
+      "category": "general",
+      "cluster_ids": [
+        "fab36223-904b-4808-b3d5-82015223038b"
+      ],
+      "desk_title": "Texas Prosecutor Warns Democratic Lawmakers Over Trump Investigation Inquiries",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c3cfc463",
+      "rank": 36,
+      "weight": 0.346646,
+      "category": "politics",
+      "cluster_ids": [
+        "9b15e95f-9b45-40ac-8fa0-aa8f4af15db7",
+        "9fea39f7-2e2c-40bb-860c-b4e515589841"
+      ],
+      "desk_title": "Hakeem Jeffries Secures Democratic Nomination for House Speaker in Vote",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-328c146f",
+      "rank": 37,
+      "weight": 0.346007,
+      "category": "politics",
+      "cluster_ids": [
+        "b18717b3-5812-4e88-b94f-9c275cd59c70"
+      ],
+      "desk_title": "White House Withdraws Nomination of Heidi Overton to Lead Food and Drug Administration",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-515c87a9",
+      "rank": 38,
+      "weight": 0.345958,
+      "category": "politics",
+      "cluster_ids": [
+        "7c3520e1-523a-4e09-8130-26b482252ea9"
+      ],
+      "desk_title": "Acting Navy Secretary Hung Cao Faces Tough Senate Confirmation Hearing Over Munitions",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-284885f7",
+      "rank": 39,
+      "weight": 0.345818,
+      "category": "general",
+      "cluster_ids": [
+        "c2cca4ec-6586-428e-90ee-99f0fd2065e2"
+      ],
+      "desk_title": "Transportation Secretary Sean Duffy Asks Congress for 50 Billion Dollars",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0e8a0fad",
+      "rank": 40,
+      "weight": 0.34567,
+      "category": "general",
+      "cluster_ids": [
+        "21df0ab4-839f-4be4-8bd4-1ab38c5ce0d2"
+      ],
+      "desk_title": "Ukrainian and European Officials Discuss Security Frameworks With US Envoys",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7fe84b05",
+      "rank": 41,
+      "weight": 0.344906,
+      "category": "politics",
+      "cluster_ids": [
+        "f941b069-bef5-491b-b43c-345024d50908"
+      ],
+      "desk_title": "Federal Court Sentences Pakistani National to 330 Months in Prison for Assassination Plot",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-1776dfbf",
+      "rank": 42,
+      "weight": 0.344559,
+      "category": "politics",
+      "cluster_ids": [
+        "f63bc2f8-d2cb-4fa6-a2cd-19c0310357e6"
+      ],
+      "desk_title": "Cape Verde President José Maria Neves Wins Second Term in Provisional Vote",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ea273fb2",
+      "rank": 43,
+      "weight": 0.343376,
+      "category": "environment",
+      "cluster_ids": [
+        "6a5a2c8f-d356-4a84-a7bd-8dbbc613a490"
+      ],
+      "desk_title": "COP31 Revised Draft Omits Fossil Fuels and Retains Carbon Capture",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2c7b4200",
+      "rank": 44,
+      "weight": 0.342947,
+      "category": "politics",
+      "cluster_ids": [
+        "24c0a545-ace2-47ec-9e0b-17a2cef63ef6",
+        "bf4e7fe5-5134-4bd6-89de-d225eac6f034"
+      ],
+      "desk_title": "Former Mexican Drug Kingpin Miguel Ángel Félix Gallardo Dies at 80",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-33755523",
+      "rank": 45,
+      "weight": 0.341138,
+      "category": "conflict",
+      "cluster_ids": [
+        "913d9906-b59b-44da-a216-b94e96dd4223"
+      ],
+      "desk_title": "Vice President JD Vance Declines to Endorse Iran Strikes at White House Press Briefing",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b16bb82e",
+      "rank": 46,
+      "weight": 0.340483,
+      "category": "conflict",
+      "cluster_ids": [
+        "61e3f19e-a282-40cd-9274-fb39904cedca"
+      ],
+      "desk_title": "Denmark Expels Russian Diplomat After Thwarting Assassination Plot Against Rapper Kyivstoner",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c9c08714",
+      "rank": 47,
+      "weight": 0.337162,
+      "category": "politics",
+      "cluster_ids": [
+        "907b23ae-79d5-4926-a022-caaccc863d45"
+      ],
+      "desk_title": "China Urges Japan to Change Attitude on Taiwan After Xi Snubs Takaichi",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ba35e603",
+      "rank": 48,
+      "weight": 0.3347,
+      "category": "conflict",
+      "cluster_ids": [
+        "e42bef67-eba1-4eb5-ae32-c848eeec6a6c"
+      ],
+      "desk_title": "Pentagon Official Leaves Ukraine Defense Meeting After Criticizing Long-Range Strikes",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-70a3e8a1",
+      "rank": 49,
+      "weight": 0.3342,
+      "category": "conflict",
+      "cluster_ids": [
+        "4940de75-ee10-4491-8054-77845b5c9f43"
+      ],
+      "desk_title": "US Envoys Pitch NATO-Like Security Guarantees for Ukraine Peace",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7dc576ee",
+      "rank": 50,
+      "weight": 0.333665,
+      "category": "science",
+      "cluster_ids": [
+        "5407e4d4-f3fa-411f-84e7-769cfaa44d94",
+        "fa648652-dc47-409a-ba7c-ffd5cf685ae3"
+      ],
+      "desk_title": "Google Rejects UK Government Request to Remove Russell Brand Video",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f8b0fe2a",
+      "rank": 51,
+      "weight": 0.333606,
+      "category": "politics",
+      "cluster_ids": [
+        "7cd2e844-9b44-43af-a4f9-734a09bd93b8"
+      ],
+      "desk_title": "SpaceX Retains Democratic Lobbyists as Congressional Democrats Prepare Oversight Inquiries",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e23e4e6d",
+      "rank": 52,
+      "weight": 0.33286,
+      "category": "economy",
+      "cluster_ids": [
+        "5b21b1d1-4d55-4935-b3de-e6a274e59389"
+      ],
+      "desk_title": "Japan Economy Stalls in Third Quarter as Rising Inflation Squeezes Consumption",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-bbd33fd3",
+      "rank": 53,
+      "weight": 0.332304,
+      "category": "politics",
+      "cluster_ids": [
+        "021caa58-04b9-44b0-a7d2-25777033d369"
+      ],
+      "desk_title": "Donald Trump Dismisses Questions Over Domestic Infrastructure and Iranian Drone Threats",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ff9218d2",
+      "rank": 54,
+      "weight": 0.33137,
+      "category": "politics",
+      "cluster_ids": [
+        "32bcd205-a660-4ff6-90e3-b54c8707d44d"
+      ],
+      "desk_title": "Senators Clash Over Social Security and Government Funding Deadlines",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d532bf3b",
+      "rank": 55,
+      "weight": 0.327134,
+      "category": "politics",
+      "cluster_ids": [
+        "28d090bc-96f4-401d-b74e-6702cf320db7"
+      ],
+      "desk_title": "Canada May Turn to Chinese Automakers if US Trade Talks Fail",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ca3ce385",
+      "rank": 56,
+      "weight": 0.326828,
+      "category": "conflict",
+      "cluster_ids": [
+        "db5e94c8-997f-4e11-9722-9ca13d1a59cb",
+        "ececdaf5-b19b-4099-b750-871e127dea25"
+      ],
+      "desk_title": "Jordanian Court Sentences Three Men to Death for Church Attack",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-639f63e9",
+      "rank": 57,
+      "weight": 0.317977,
+      "category": "environment",
+      "cluster_ids": [
+        "cc800ee9-3a6b-4b25-8a40-0a8017e5a704"
+      ],
+      "desk_title": "Pacific Island Nations Fiji and Tonga Declare Severe El Nino Drought Crisis",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-fcc29949",
+      "rank": 58,
+      "weight": 0.317651,
+      "category": "politics",
+      "cluster_ids": [
+        "d948db5a-e343-48de-8e97-6384179f71f6",
+        "da5986fb-1b28-474a-9f16-3e9f5669dfa3"
+      ],
+      "desk_title": "FIFA Confirms Diallo and Tashima as Challengers to Gianni Infantino",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-57ba4ff4",
+      "rank": 59,
+      "weight": 0.305742,
+      "category": "science",
+      "cluster_ids": [
+        "690ddb33-47c7-4b0d-91b3-58b5830198cc"
+      ],
+      "desk_title": "Nvidia Board Rules Out Jensen Huang Comeback Amid Growing Campaign",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-6c941428",
+      "rank": 60,
+      "weight": 0.303759,
+      "category": "conflict",
+      "cluster_ids": [
+        "07987b31-e0d3-4739-9778-3f566df97360",
+        "bf1a7069-033d-45f9-a6b0-078c06ae34e6"
+      ],
+      "desk_title": "Bangladesh Deploys Paramilitary Troops Amid Nationwide Unrest and Arson Attacks",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "bilkis-bano-bail",
+      "rank": 61,
+      "weight": 0.29614,
+      "category": "general",
+      "cluster_ids": [
+        "150c2468-5395-48ca-b10d-ad5cff823113"
+      ],
+      "desk_title": "Supreme Court Suspends Life Sentences and Grants Bail to Two Bilkis Bano Convicts",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-aaf56b53",
+      "rank": 62,
+      "weight": 0.292206,
+      "category": "politics",
+      "cluster_ids": [
+        "ee130eb9-5c85-4fdd-91de-e0f12afea9e1"
+      ],
+      "desk_title": "Trump Raises Possibility of Meeting North Korean Leader During Asia Trip",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ad187711",
+      "rank": 63,
+      "weight": 0.291488,
+      "category": "conflict",
+      "cluster_ids": [
+        "de7c164c-d38f-4c5c-8ce4-24f63364ff17"
+      ],
+      "desk_title": "Federal Appeals Court Blocks Pentagon From Expelling Transgender Troops From Military",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d5f89bfd",
+      "rank": 64,
+      "weight": 0.29139,
+      "category": "science",
+      "cluster_ids": [
+        "43391976-2e89-4a95-9db7-726ac5b77ac4"
+      ],
+      "desk_title": "Apple Restores Services After Internal Update Triggers Worldwide Technical Outages",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c08383d5",
+      "rank": 65,
+      "weight": 0.289541,
+      "category": "science",
+      "cluster_ids": [
+        "049b4da6-1b3c-4bb7-b835-6aa05358ee68"
+      ],
+      "desk_title": "Anthropic Researcher Claims AI Tool Claude Proves 167-Year-Old Riemann Hypothesis",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-4e4e7e42",
+      "rank": 66,
+      "weight": 0.288047,
+      "category": "politics",
+      "cluster_ids": [
+        "51cee30c-a91f-4705-bed5-b11277434dcb"
+      ],
+      "desk_title": "Democrat Mary Peltola Unseats Republican Dan Sullivan in Alaska Senate Race",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-91842e09",
+      "rank": 67,
+      "weight": 0.284987,
+      "category": "general",
+      "cluster_ids": [
+        "f4adaa23-79a7-45b8-bb2c-94570409376c"
+      ],
+      "desk_title": "Prince William and Kate Middleton Arrive in Mumbai for Earthshot Prize and India Engagements",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9744be5d",
+      "rank": 68,
+      "weight": 0.284058,
+      "category": "science",
+      "cluster_ids": [
+        "f8612c60-495a-4fd4-8b20-cd5621ee3159"
+      ],
+      "desk_title": "European Commission Confirms Artificial Intelligence Assisted Cyberattack Targeted Internal Systems",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0ed7ff88",
+      "rank": 69,
+      "weight": 0.283934,
+      "category": "conflict",
+      "cluster_ids": [
+        "cf0ad8bb-101e-4274-88e7-02240e203fc2"
+      ],
+      "desk_title": "Hundreds of Thousands Protest Czech Media Funding Overhaul in Prague",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-73deb38c",
+      "rank": 70,
+      "weight": 0.281195,
+      "category": "general",
+      "cluster_ids": [
+        "9411b88c-28ee-4874-96e9-2ed21d48d6ac"
+      ],
+      "desk_title": "Japan Scrambles Fighter Jets After Suspected Russian Aircraft Enter Airspace",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-37dc40d9",
+      "rank": 71,
+      "weight": 0.279294,
+      "category": "general",
+      "cluster_ids": [
+        "606c3619-82f5-414d-ae18-fa5a2585d4d1"
+      ],
+      "desk_title": "Waymo Pauses Driverless Freeway Rides Across United States After California Ban",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f6268d17",
+      "rank": 72,
+      "weight": 0.278739,
+      "category": "politics",
+      "cluster_ids": [
+        "2039f12c-4d60-480c-a690-ee46aa0983c7"
+      ],
+      "desk_title": "Marco Rubio Surpasses JD Vance in New Poll as Political Tensions Rise",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7e0bd9b3",
+      "rank": 73,
+      "weight": 0.276768,
+      "category": "politics",
+      "cluster_ids": [
+        "d9ed8a1e-56a1-44c1-8c0f-f03c6b731252"
+      ],
+      "desk_title": "ASEAN Reaffirms Myanmar Engagement While Maintaining Summit Representation Restrictions",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-37261c35",
+      "rank": 74,
+      "weight": 0.275716,
+      "category": "general",
+      "cluster_ids": [
+        "579f8e70-f1fb-4eeb-b350-97c8294da2eb"
+      ],
+      "desk_title": "Steering Failure on Asphalt Tanker Caused Collision with Mississippi River Cruise Ship",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "us-canada-directive",
+      "rank": 75,
+      "weight": 0.274892,
+      "category": "conflict",
+      "cluster_ids": [
+        "9757bf5c-1222-44cf-8021-7ad9c282f774"
+      ],
+      "desk_title": "Defense Secretary Pete Hegseth Issues Secret Directive Restricting US-Canada Military Ties",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-a36bdae4",
+      "rank": 76,
+      "weight": 0.274348,
+      "category": "conflict",
+      "cluster_ids": [
+        "7b84848b-a113-4a2d-855f-4a151fc36481"
+      ],
+      "desk_title": "Scott Bessent Urges Nvidia to Appoint Outside Chief Executive",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-b35f68cf",
+      "rank": 77,
+      "weight": 0.271003,
+      "category": "science",
+      "cluster_ids": [
+        "5eff66e5-d1e1-4acc-9160-3f07d4d3c77d"
+      ],
+      "desk_title": "Anthropic Moves Toward Market Debut at Top of Target Price Range",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2da508ec",
+      "rank": 78,
+      "weight": 0.269792,
+      "category": "conflict",
+      "cluster_ids": [
+        "ee1d262d-1400-4ad1-874b-dc455dba4088"
+      ],
+      "desk_title": "Royal Navy Submarine HMS Vengeance Returns to Base After Record Breaking Nuclear Patrol",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-64260fcd",
+      "rank": 79,
+      "weight": 0.269673,
+      "category": "science",
+      "cluster_ids": [
+        "b86eb04f-6ddc-414e-8a6a-8d86ef6176aa"
+      ],
+      "desk_title": "Anthropic Prepares for Nasdaq Listing at Trillion Dollar Valuation",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9e7c3a96",
+      "rank": 80,
+      "weight": 0.269663,
+      "category": "conflict",
+      "cluster_ids": [
+        "c891c050-749a-4b86-919e-9c74763d5180"
+      ],
+      "desk_title": "Pakistan Assumes Economic Cooperation Organization Chair and Urges Action on Terrorism",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f64397a2",
+      "rank": 81,
+      "weight": 0.268882,
+      "category": "conflict",
+      "cluster_ids": [
+        "1405e1fe-59dc-4b4d-be15-fa06f596573a"
+      ],
+      "desk_title": "Top US Military Commander Meets With Israeli Officials as Regional Tensions Persist",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9d458dd2",
+      "rank": 82,
+      "weight": 0.268063,
+      "category": "politics",
+      "cluster_ids": [
+        "b5697e76-c19d-48b3-84f3-e84261c6e67b"
+      ],
+      "desk_title": "Pakistan Climate Minister Arrives in New Delhi for SCO Dialogue",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-88f9713f",
+      "rank": 83,
+      "weight": 0.267862,
+      "category": "health",
+      "cluster_ids": [
+        "56c835ff-1779-4e96-98b9-531e84341042"
+      ],
+      "desk_title": "Missouri Judge Approves $7.25 Billion Bayer Settlement for Roundup Cancer Lawsuits",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-da98c43c",
+      "rank": 84,
+      "weight": 0.267745,
+      "category": "general",
+      "cluster_ids": [
+        "82004091-4f29-4689-af59-5822b9e7b83d"
+      ],
+      "desk_title": "Pew Research Center Projects Islam Will Surpass Christianity by 2035",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-2f6f9f95",
+      "rank": 85,
+      "weight": 0.267087,
+      "category": "politics",
+      "cluster_ids": [
+        "31e4ba61-8dd1-43b8-a18e-2351a334f57d"
+      ],
+      "desk_title": "British Women Receive Automatic Pardons for Previous Abortion Convictions Under Repealed Law",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ae440c68",
+      "rank": 86,
+      "weight": 0.266932,
+      "category": "conflict",
+      "cluster_ids": [
+        "d21ec248-3ca8-406d-bcda-029209d15c79"
+      ],
+      "desk_title": "Iraqi Security Forces Deploy Into Kataib Hezbollah Stronghold of Jurf al-Sakhar",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-a9970411",
+      "rank": 87,
+      "weight": 0.265715,
+      "category": "politics",
+      "cluster_ids": [
+        "ac972e76-70ef-4579-a506-b3d48746fafd"
+      ],
+      "desk_title": "Elon Musk Expresses Regret Over Spending Millions in Midterm Defeats",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-9ba194ce",
+      "rank": 88,
+      "weight": 0.265061,
+      "category": "conflict",
+      "cluster_ids": [
+        "57515f06-0775-4c53-96e3-fff242b92283"
+      ],
+      "desk_title": "Indian Security Forces Kill Lashkar Commander Lateef Bhat in Kulgam Mosque",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-8bc4ce84",
+      "rank": 89,
+      "weight": 0.264325,
+      "category": "health",
+      "cluster_ids": [
+        "17b383e3-8cf8-4444-8e31-81ea0790ddcb"
+      ],
+      "desk_title": "Democratic Republic of Congo Ebola Outbreak Surpasses 11000 Cases Amid Regional Insecurity",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f33cc238",
+      "rank": 90,
+      "weight": 0.264059,
+      "category": "conflict",
+      "cluster_ids": [
+        "ca1fe8b4-811f-4f16-b6eb-69607a904c71"
+      ],
+      "desk_title": "Bangladesh Rejects Extradition Conditions Report While Ousted Leader Plans December Return",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-5332704c",
+      "rank": 91,
+      "weight": 0.263618,
+      "category": "general",
+      "cluster_ids": [
+        "9ee2891c-f33a-431b-a11a-c48669f42760"
+      ],
+      "desk_title": "Russian Military Transport Plane Crashes in Siberia Killing All 19 Aboard",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-82d8d550",
+      "rank": 92,
+      "weight": 0.263091,
+      "category": "culture",
+      "cluster_ids": [
+        "4786afc4-60da-4375-86a5-09649b476713"
+      ],
+      "desk_title": "Bayern Munich Striker Harry Kane Faces Months Out After Undergoing Left Ankle Surgery",
+      "reason": "category culture: sport and entertainment never hold a package (bible f)"
+    },
+    {
+      "key": "thread-a6684015",
+      "rank": 93,
+      "weight": 0.262665,
+      "category": "conflict",
+      "cluster_ids": [
+        "6be4d3f1-c160-4421-aaf9-036eecfd7323"
+      ],
+      "desk_title": "Federal Prosecutors Indict Irish Man for Destroying American C-130 Hercules Plane",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-3fccae60",
+      "rank": 94,
+      "weight": 0.262305,
+      "category": "environment",
+      "cluster_ids": [
+        "1dba047b-0dfe-43f5-9f39-8f601d507cea"
+      ],
+      "desk_title": "Delegates Present Initial Draft Climate Agreement as COP31 Talks Near Deadline",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ad3a829a",
+      "rank": 95,
+      "weight": 0.262166,
+      "category": "politics",
+      "cluster_ids": [
+        "fe954cae-55a7-40b2-a04e-e86ec0e0685f"
+      ],
+      "desk_title": "Israeli Air Force Strikes Hezbollah Weapons Shipment Near Syria Border",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-bd432043",
+      "rank": 96,
+      "weight": 0.262101,
+      "category": "conflict",
+      "cluster_ids": [
+        "7822f18a-2fc9-4efd-8c2a-5ff4554e1e0f"
+      ],
+      "desk_title": "Workers and Students Stage Protests Across Europe as Italy General Strike Disrupts Services",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-966672fa",
+      "rank": 97,
+      "weight": 0.261947,
+      "category": "politics",
+      "cluster_ids": [
+        "c2cb4994-0d22-4d7e-9e17-90c08cbe01ba"
+      ],
+      "desk_title": "Mexican Military Captures FBI Most-Wanted Cartel Boss Fausto Isidro Meza Flores in Sinaloa",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0c6abaaf",
+      "rank": 98,
+      "weight": 0.261529,
+      "category": "general",
+      "cluster_ids": [
+        "0789576c-c30c-402b-8f93-b973658a978f"
+      ],
+      "desk_title": "Italy Approves New Antisemitism Law Amid Opposition Protests and Resignation",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-a6d275ad",
+      "rank": 99,
+      "weight": 0.261409,
+      "category": "politics",
+      "cluster_ids": [
+        "f3c0a756-b659-409f-9011-15cee3bc887e"
+      ],
+      "desk_title": "British Prison Officials Review Russell Brand Status Following Online Message Controversy",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-ade1a5e1",
+      "rank": 100,
+      "weight": 0.261302,
+      "category": "general",
+      "cluster_ids": [
+        "0d869c59-9263-49c0-ba48-b08bedd30c20"
+      ],
+      "desk_title": "Ghana Former Finance Minister Criticizes Projected Interest Bill and Borrowing Levels",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-685e2da4",
+      "rank": 101,
+      "weight": 0.261031,
+      "category": "conflict",
+      "cluster_ids": [
+        "08931f8e-6ab3-493e-b474-420312158842"
+      ],
+      "desk_title": "Secretary Rubio Rejects Imminent Threat Following Iranian Dirty Bomb Reports",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-00390fdc",
+      "rank": 102,
+      "weight": 0.260885,
+      "category": "economy",
+      "cluster_ids": [
+        "0fca39e3-66b9-44d8-8986-3c1360836f84"
+      ],
+      "desk_title": "Canadian Prime Minister Mark Carney Concludes Asia Tour Following Tariff Deals",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-1f5b9ad9",
+      "rank": 103,
+      "weight": 0.260833,
+      "category": "general",
+      "cluster_ids": [
+        "df106132-d852-45ce-b222-b18d38105cf3"
+      ],
+      "desk_title": "Moscow Rebuffs Boris Johnson Claim of Forced Vodka Drinking",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-acd55c56",
+      "rank": 104,
+      "weight": 0.259485,
+      "category": "health",
+      "cluster_ids": [
+        "72bde005-c436-4af4-a334-54d8822b2a43"
+      ],
+      "desk_title": "Pan American Health Organization Revokes United States Measles Elimination Status",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-505a0793",
+      "rank": 105,
+      "weight": 0.259253,
+      "category": "politics",
+      "cluster_ids": [
+        "504480cc-7914-4a34-b183-70498f30fe8c"
+      ],
+      "desk_title": "Markwayne Mullin Defends Government Flight to College Football Game After Ground Stop",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-31facd69",
+      "rank": 106,
+      "weight": 0.259127,
+      "category": "conflict",
+      "cluster_ids": [
+        "9157a5d7-7fba-47d5-9707-3b7037cac69e"
+      ],
+      "desk_title": "Australia and Britain Impose New Sanctions on West Bank Settlements",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-c77f4fac",
+      "rank": 107,
+      "weight": 0.258559,
+      "category": "general",
+      "cluster_ids": [
+        "c7028d03-f85f-45bb-b1da-cf834fc85daa"
+      ],
+      "desk_title": "Farm Labor Advocates Seek Senate Support for H-2A Visa Reform",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-3ff3b83d",
+      "rank": 108,
+      "weight": 0.258397,
+      "category": "general",
+      "cluster_ids": [
+        "6939bacf-e08d-4e7d-aaae-53acf39cfe15"
+      ],
+      "desk_title": "Election Commission of India Orders Special Summary Revision in Karnataka Amid Voter Roll Concerns",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-152ccba7",
+      "rank": 109,
+      "weight": 0.258171,
+      "category": "general",
+      "cluster_ids": [
+        "16421356-df5b-48f9-b3f1-3c0989095190"
+      ],
+      "desk_title": "Federal Prosecutor Issues Evidence Preservation Warning to Senator Elizabeth Warren",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-19355095",
+      "rank": 110,
+      "weight": 0.257629,
+      "category": "general",
+      "cluster_ids": [
+        "aada0423-9675-4264-9956-96ff826a4ed3"
+      ],
+      "desk_title": "Mauricio Pochettino Alters Manchester United Post Match Training Schedule",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-98f404e5",
+      "rank": 111,
+      "weight": 0.257103,
+      "category": "science",
+      "cluster_ids": [
+        "de65dfe4-1043-4ca9-b1fe-463ed05c7fd2"
+      ],
+      "desk_title": "Amazon Releases New Two-Part Documentary Series Featuring Melania Trump",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-64a12770",
+      "rank": 112,
+      "weight": 0.254802,
+      "category": "politics",
+      "cluster_ids": [
+        "4cd36c99-d99f-4e29-82d5-56c8746e54c9"
+      ],
+      "desk_title": "Federal Authorities Arrest 14 Suspects in Southern California Train Heist Ring",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-680c2a73",
+      "rank": 113,
+      "weight": 0.254064,
+      "category": "conflict",
+      "cluster_ids": [
+        "0863fbbc-89b8-46f6-8160-5f02eb95e413"
+      ],
+      "desk_title": "17 killed in two mass shootings in South Africa: police",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-61878088",
+      "rank": 114,
+      "weight": 0.25277,
+      "category": "economy",
+      "cluster_ids": [
+        "b63239db-9de0-431f-b363-56590df0cdba"
+      ],
+      "desk_title": "Leaked Files Detail Deutsche Bank Transactions Involving Jeffrey Epstein and Oligarchs",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-0e3987b5",
+      "rank": 115,
+      "weight": 0.251263,
+      "category": "politics",
+      "cluster_ids": [
+        "15919762-dc76-49be-9527-4ef8e0362db4"
+      ],
+      "desk_title": "Europe's migrant crackdown: Rejected asylum seekers face deportation to Rwanda",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-7f3bce69",
+      "rank": 116,
+      "weight": 0.251237,
+      "category": "conflict",
+      "cluster_ids": [
+        "436d5032-47fd-4106-be2c-404295b32660"
+      ],
+      "desk_title": "Search and Operations Conclude in Komyshuvakha Following Russian Airstrike That Killed 72",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-e45d3329",
+      "rank": 117,
+      "weight": 0.251047,
+      "category": "general",
+      "cluster_ids": [
+        "5f0ebb68-4c8f-4662-bbd2-b3f1331f438c"
+      ],
+      "desk_title": "New Zealand and India Prepare Pace Attacks for First Test in Wellington",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-f45afb3a",
+      "rank": 118,
+      "weight": 0.250971,
+      "category": "general",
+      "cluster_ids": [
+        "ca7c3572-7ec6-46b9-b727-a67fcaaaeb2a"
+      ],
+      "desk_title": "Uttar Pradesh Chief Minister Yogi Adityanath Loses Mother Savitri Devi",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d8a56f91",
+      "rank": 119,
+      "weight": 0.250274,
+      "category": "economy",
+      "cluster_ids": [
+        "45f55de4-1b34-4b60-9eb6-8b9d9acb9c3f"
+      ],
+      "desk_title": "Department of Homeland Security Secretary Attributes Technology Outages to Artificial Intelligence Speed",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-d3c14ced",
+      "rank": 120,
+      "weight": 0.249421,
+      "category": "conflict",
+      "cluster_ids": [
+        "cbc90b17-7c7f-4aff-835e-c89fcd9c20c3"
+      ],
+      "desk_title": "Russian Cargo Vessel on Fire Near Finland Following Reported Drone Attack",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-acccdb48",
+      "rank": 121,
+      "weight": 0.248202,
+      "category": "politics",
+      "cluster_ids": [
+        "ab33c787-b419-432d-b229-ca46f58057e2"
+      ],
+      "desk_title": "Federal Judge Bars Agriculture Secretary From Sending Christian Holiday Emails",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-1e862e39",
+      "rank": 122,
+      "weight": 0.247469,
+      "category": "general",
+      "cluster_ids": [
+        "c19fe5b6-ffcb-433a-a52a-f4160bdf00c5"
+      ],
+      "desk_title": "Turkish Research Vessel Oruc Reis Arrives in Karachi as Pakistan Targets 2027 Offshore Drilling",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "irish-man-aircraft-charge",
+      "rank": 123,
+      "weight": 0.244999,
+      "category": "conflict",
+      "cluster_ids": [
+        "5076fab8-f5e0-400a-9a9f-8508078cb413"
+      ],
+      "desk_title": "Irish Man Charged in United States With Destroying Military Aircraft",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-691912cc",
+      "rank": 124,
+      "weight": 0.240631,
+      "category": "politics",
+      "cluster_ids": [
+        "9ce2f152-012f-42b7-a6b6-55de70ef9022"
+      ],
+      "desk_title": "Texas Executes Reinaldo Dennes by Lethal Injection After Prison Staff Struggle to Find Veins",
+      "reason": "below the brief run by weight"
+    },
+    {
+      "key": "thread-3e2fb80e",
+      "rank": 125,
+      "weight": 0.236525,
+      "category": "conflict",
+      "cluster_ids": [
+        "cbe5621d-d125-4b42-aa27-808732c22f55"
+      ],
+      "desk_title": "Indian Youth Congress Protests Meta Offices Following Account Removals",
+      "reason": "below the brief run by weight"
+    }
+  ],
+  "tease": [
+    "ukraine-bridges-strikes",
+    "uk-eu-reset",
+    "gulf-us-iran",
+    "shenzhen-summit"
+  ],
+  "echo": null,
+  "briefs_order": [
+    "thread-a3e1e3ef",
+    "thread-833e5c6b",
+    "thread-149f229b",
+    "thread-b1206893",
+    "thread-3d743169",
+    "canada-china-tariffs",
+    "greenland-security-deal",
+    "thread-1c145f33",
+    "thread-3c336fd7",
+    "thread-1a2c9331"
+  ],
+  "weekly_crosscheck": {
+    "weekly_edition_seen": false
+  },
+  "notes": [
+    "lead ukraine-bridges-strikes: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "package_2 uk-eu-reset: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "package_3 gulf-us-iran: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
+    "package_5 thread-ec790a82: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank"
+  ]
+}

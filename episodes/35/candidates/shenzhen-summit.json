@@ -1,0 +1,219 @@
+{
+  "schema": "omnibus.asset-candidates/1",
+  "issue": 35,
+  "source": "t9a",
+  "story": "shenzhen-summit",
+  "note": "Sourcing pass T9a (issue 35), read 2026-11-22 against the pin b8dcf87 (cutoff 2026-11-21T14:17:37Z). Searches: the capture pool of run 44933588497 (no pool for issue 35; its index only), Wikimedia Commons uploads 15 to 21 Nov, DVIDS video and images published 16 Nov to the cutoff, VOA's feed as captured, whitehouse.gov listings. Fit first: a pin names the story key as its beat, why the picture shows it, and the span that may air. Nothing here is a rights decision; the fetcher checks every candidate, and every video named here is a video2commons transfer that needs a verifier's marks review before the fetcher will take it.",
+  "pins": {
+    "e35-p4-arrival": [
+      {
+        "tier": 1,
+        "adapter": "commons",
+        "ref": "File:President Trump Participates in a Shenzhen, China Arrival Ceremony.webm",
+        "fit": {
+          "beat": "shenzhen-summit",
+          "why": "The White House's own unedited pool record of the arrival ceremony at Shenzhen on Wednesday 18 Nov (421.8 s, one camera, no graphic seen in fifteen sampled frames): from about 45 s the President is at Air Force One's door, waves, and descends the red steps toward the welcome line by 70 s. Its own nat sound plays. The US is a party to the summit, so the shot carries RELEASED BY THE WHITE HOUSE once the party label exists (T5).",
+          "in_s": 45,
+          "out_s": 70
+        },
+        "marks_checked": {
+          "marks": [],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-22T01:00:00Z",
+            "frames": [
+              45,
+              47.5,
+              50,
+              52.5,
+              55,
+              57.5,
+              60,
+              62.5,
+              65,
+              67.5,
+              69.9,
+              70
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-arrival/contact-sheet.png",
+              "sha256": "01f229b2002c58f9a050df92bf4318535c03200f7d7f8238ae2af55bda175cb6"
+            }
+          }
+        },
+        "marks_note": "the verifier, as given: marks none (White House unedited feed; aircraft livery only)"
+      }
+    ],
+    "e35-p4-talks": [
+      {
+        "tier": 1,
+        "adapter": "commons",
+        "ref": "File:President Trump, Xi and Putin Hold Trilateral Talks in China.webm",
+        "fit": {
+          "beat": "shenzhen-summit",
+          "why": "The White House's release of the trilateral talks on Thursday 19 Nov: Trump, Xi and Putin walking in, Xi speaking at the round table, the three at the table, Trump and Xi shaking hands. It is a produced montage (graded, cut short, a White House end card fading in from about 13.4 s), so it airs as mute B-roll only and never as a bite (bible e, sot-raw-source); the span stops at the file's own cut at 12.93 s, before the logo.",
+          "in_s": 0,
+          "out_s": 12.93
+        },
+        "audio": {
+          "mode": "muted",
+          "reason": "a produced release: mute B-roll only (bible e); the narrator speaks over it"
+        },
+        "marks_checked": {
+          "marks": [],
+          "reviewed": {
+            "by": "verifier: claude-sonnet-5",
+            "at": "2026-11-22T01:00:00Z",
+            "frames": [
+              0.376,
+              1.502,
+              3.045,
+              4.213,
+              4.964,
+              6.048,
+              7.362,
+              8.717,
+              9.677,
+              10.427,
+              11.95,
+              12.83
+            ],
+            "contact_sheet": {
+              "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-p4-talks/contact-sheet.png",
+              "sha256": "371b4f71203af53ba6342707d322eb77ab97bf4173a93eddd82c0bee438f03b5"
+            }
+          }
+        },
+        "marks_note": "the verifier, as given: marks none (pool camera bodies with no legible branding, and a red tally light)"
+      }
+    ],
+    "e35-p4-still": [
+      {
+        "tier": 1,
+        "adapter": "commons",
+        "ref": "File:P20261119PW-0073 (55662747591).jpg",
+        "fit": {
+          "beat": "shenzhen-summit",
+          "why": "Official White House Photo by Patrick Witty, its own caption: Trump in a pull-aside meeting with Putin during the APEC summit in Shenzhen, Thursday 19 Nov 2026. A still, for the rostrum; never under a bite from another occasion."
+        }
+      }
+    ],
+    "e35-p4-declaration": [
+      {
+        "tier": 5,
+        "adapter": "gov",
+        "host": "whitehouse.gov",
+        "window": {
+          "from": "2026-11-16",
+          "to": "2026-11-21T14:17:37Z"
+        },
+        "ref": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+        "fit": {
+          "beat": "shenzhen-summit",
+          "why": "The declaration's own text as the White House published it on 19 Nov at 13:53 UTC (a US federal work): the typeset page the reader speaks, the record of what the three leaders signed."
+        }
+      }
+    ]
+  },
+  "pending_t5": [
+    {
+      "ref": "File:2026-11-18 APEC Business Summit – Putin speech.webm",
+      "adapter_needed": "kremlin.ru (Commons upload credited President of Russia)",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-18",
+      "published_at": "2026-11-21T13:22:43Z",
+      "seconds": 1177.7,
+      "mb": 638.9,
+      "kind": "footage; SOT source (address)",
+      "speaker": "Vladimir Putin, APEC Business Summit, Shenzhen",
+      "note": "Putin's own words with the Kremlin's English transcript (TRANSLATION · KREMLIN TRANSCRIPT); party label RELEASED BY THE KREMLIN; a video2commons transfer, so a marks review is needed too. Not staged."
+    },
+    {
+      "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 01.jpg",
+      "adapter_needed": "kremlin.ru",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-19",
+      "kind": "still"
+    },
+    {
+      "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 02.jpg",
+      "adapter_needed": "kremlin.ru",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-19",
+      "kind": "still"
+    },
+    {
+      "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 03.jpg",
+      "adapter_needed": "kremlin.ru",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-19",
+      "kind": "still"
+    },
+    {
+      "ref": "File:Vladimir Putin, Xi Jinping and Donald Trump at APEC China 2026.jpg",
+      "adapter_needed": "kremlin.ru",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-18",
+      "kind": "still"
+    },
+    {
+      "ref": "File:Russian-Chinese talks at the 2026 APEC Summit 01.jpg",
+      "adapter_needed": "kremlin.ru",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-18",
+      "kind": "still"
+    },
+    {
+      "ref": "kremlin.ru English text of the declaration",
+      "adapter_needed": "kremlin.ru",
+      "kind": "document",
+      "note": "not located in this pass"
+    },
+    {
+      "ref": "kantei.go.jp 20261119apec02.jpg, 20261119apec03.jpg (bible q)",
+      "adapter_needed": "kantei.go.jp",
+      "licence_as_recorded": "CC BY 4.0",
+      "date": "2026-11-19",
+      "kind": "still",
+      "note": "not located on Commons in this pass"
+    }
+  ],
+  "not_taken": [
+    {
+      "ref": "File:President Trump Addresses Historic Trilateral Meeting with President Xi and President Putin.webm",
+      "why": "a vertical (1080x1920) social edit with a burned-in title banner and captions over a small picture window: produced, never a bite, and not full-frame footage"
+    },
+    {
+      "ref": "File:Xi–Putin–Trump summit 2026 (EM59Up0mxSGcS09x).webm",
+      "why": "an X copy of the same 17.8 s White House release (caption 'Peace through strength.'); the White House's own transfer is pinned instead"
+    },
+    {
+      "ref": "File:President Trump Hosts a News Conference, Nov. 20, 2026.webm",
+      "why": "the briefing room in Washington, not Shenzhen; a call-to-action banner (TEXT POTUS TO 45470, a QR code) is burned into every sampled frame: CTA marks are refused (bible n) unless masked and alteration-marked, which is a ruling, not a sourcing call. The staged copy was deleted."
+    },
+    {
+      "ref": "File:President Donald J. Trump arrives in Shenzhen, China, where he'll participate in the APEC Summit.webm",
+      "why": "no licence stated on the file page (the commons adapter: 'no licence stated')"
+    },
+    {
+      "ref": "File:US President Donald Trump, China's Xi Jinping and Russia's Vladimir Putin meet in Shenzhen.webm",
+      "why": "Kanal13: agency pool material (its description cites the Associated Press); refused by default (bible n, Commons laundering); the adapter also refuses it as AP material"
+    },
+    {
+      "ref": "File:Trump and Russia's Putin meet for bilateral talks in Shenzhen.webm",
+      "why": "Kanal13, as above"
+    },
+    {
+      "ref": "File:Trump, Putin arrive in Shenzhen ahead of landmark summit with Chinese President Xi Jinping.webm",
+      "why": "Kanal13, as above"
+    },
+    {
+      "ref": "File:TASS 2026-11-17 Vladimir Putin has arrived in China (photo 2 of 11).jpg",
+      "why": "a TASS photograph: an agency, and excluded from the kremlin.ru licence (bible n)"
+    }
+  ],
+  "gaps": [
+    "No Chinese-side moving picture (CCTV and Xinhua are not free); Xi is a page or attributed.",
+    "No free SOT of Trump on the summit: the 20 Nov news conference carries a CTA banner; the 19 Nov 'Addresses' clip is produced."
+  ]
+}
