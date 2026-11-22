@@ -228,3 +228,89 @@ def test_voice_episode_pronunciation_changes_the_sound_not_the_hash(tmp_path, mo
     assert any("Mass-ee spoke." == t for t in seen)                       # the model heard the respelling
     assert res["manifest"]["lines"]["N1"]["text_sha256"] == h("Massie spoke.")   # the record keeps the written word
     assert [w["w"] for w in res["manifest"]["lines"]["N1"]["words"]] == ["Massie", "spoke."]
+
+
+# --------------------------------------------------------------------------
+# Show bible v2 line kinds (ticket 9c): vo, signon and signoff are the narrator's, read is the reader's, sot is the
+# speaker's own sound and is never voiced
+# --------------------------------------------------------------------------
+
+ECHO = {"id": "v-narrator-echo", "engine": "kokoro", "voice": "af_aoede", "speed": 0.84}
+
+
+def play_v2(read_text="The bridge is closed.", read_hash=None):
+    return {"cast": {"speakers": [{"id": "sp-x", "name": "X"}], "voices": [READER, ECHO, AOEDE]},
+            "parts": [{"lines": [
+                {"id": "R1", "kind": "read", "read_by": "v-reader-x", "speaker": "sp-x", "text": read_text,
+                 "quote_sha256": read_hash if read_hash is not None else h(read_text), "dur_s": 1.5},
+                {"id": "ON", "kind": "signon", "read_by": "v-narrator", "text": "This is void omnibus.", "dur_s": 2.0},
+                {"id": "V1", "kind": "vo", "read_by": "v-narrator", "text": "Tuesday, the third.", "dur_s": 2.0},
+                {"id": "E1", "kind": "vo", "read_by": "v-narrator-echo", "text": "In 1945.", "dur_s": 1.0},
+                {"id": "S1", "kind": "sot", "speaker": "sp-x", "shot_ref": "S-1", "text": "We will rebuild it.",
+                 "in_s": 1.0, "out_s": 3.0},
+                {"id": "OFF", "kind": "signoff", "read_by": "v-narrator", "text": "On the record.", "dur_s": 1.0}]}]}
+
+
+def test_v2_kinds_are_voiced_by_their_cast_voice_and_sot_never():
+    from studio.news import schema as SC
+    for play in (play_v2(), SC.engine_play(play_v2())):     # the screenplay as written, and as the engine reads it
+        lines = NVO.voiced_lines(play)
+        assert [ln["id"] for ln in lines] == ["R1", "ON", "V1", "E1", "OFF"]          # S1 plays its clip's sound
+        groups = {vid: [ln["id"] for ln in g] for vid, g in VE.group_lines(play, lines).items()}
+        assert groups == {"v-reader-x": ["R1"], "v-narrator": ["ON", "V1", "OFF"], "v-narrator-echo": ["E1"]}
+
+
+def test_v2_read_line_is_held_to_its_quote_hash():
+    assert VE.quote_problems(NVO.voiced_lines(play_v2())) == []
+    stale = VE.quote_problems(NVO.voiced_lines(play_v2(read_hash=h("something else"))))
+    assert len(stale) == 1 and stale[0].startswith("R1:")
+
+
+def test_voice_episode_v2_manifest_identity_is_the_narrators(tmp_path, monkeypatch):
+    monkeypatch.setenv("DOCUMENT_HEAVY_LOCK", str(tmp_path / "HEAVY.lock"))
+    film = tmp_path / "film"
+    film.mkdir()
+    (film / "screenplay.json").write_text(json.dumps(play_v2()), encoding="utf-8")
+    folder, lock = _folder_and_lock(tmp_path)
+    VE.voice_episode(film, media_root=tmp_path / "media", cache=tmp_path / "cache", folder=folder, lock=lock,
+                     runner=_stub_runner(1.0), prober=probe)
+    man = json.loads((film / "audio" / "voice.json").read_text(encoding="utf-8"))
+    assert man["identity"] == NR.identity(AOEDE)            # the narrator's, though the reader is voiced first
+    assert set(man["lines"]) == {"R1", "ON", "V1", "E1", "OFF"} and "S1" not in man["lines"]
+    assert NVO.problems(man, play_v2(), exists=lambda rel: (film / rel).exists(),
+                        read_sha=lambda rel: NR.sha256_path(film / rel), text_sha=NR.sha256_text) == []
+
+
+def test_a_last_word_ending_on_the_takes_last_sample_stays_inside_the_rounded_take(tmp_path, monkeypatch):
+    """13.0465 s rounds to 13.046 as the take's length but its last word's end to 13.047: clamped, never past it."""
+    monkeypatch.setenv("DOCUMENT_HEAVY_LOCK", str(tmp_path / "HEAVY.lock"))
+    film = tmp_path / "film"
+    film.mkdir()
+    long = ("On Thursday, at The Hague's International Court of Justice, the judges found Myanmar responsible for "
+            "genocide against the Rohingya, in the north of Rakhine state, in breach of the Genocide Convention of 1948.")
+    (film / "screenplay.json").write_text(json.dumps(play_with(narration_text=long)), encoding="utf-8")
+    folder, lock = _folder_and_lock(tmp_path)
+
+    def runner(jobs, files, out, **kw):
+        n, timings = 313116, {}                    # 13.0465 s at 24 kHz
+        for j in jobs:
+            with wave.open(str(out / f"{j['id']}.wav"), "wb") as w:
+                w.setnchannels(1)
+                w.setsampwidth(2)
+                w.setframerate(24000)
+                w.writeframes(b"\x00\x00" * n)
+            words, t, spans, step = j["text"].split(), 0.0, [], n / 24000 / len(j["text"].split())
+            for k, wd in enumerate(words):
+                if k:
+                    spans.append((" ", t, t))
+                spans.append((wd[0], t, t + step))
+                t += step
+            timings[j["id"]] = [list(s) for s in spans]
+        return {"ok": [j["id"] for j in jobs], "failed": {}, "timing": {"audio_s": 1.0}, "timings": timings}
+
+    VE.voice_episode(film, media_root=tmp_path / "media", cache=tmp_path / "cache", folder=folder, lock=lock,
+                     runner=runner, prober=probe)
+    man = json.loads((film / "audio" / "voice.json").read_text(encoding="utf-8"))
+    for lid, rec in man["lines"].items():
+        assert rec["words"][-1]["end_s"] <= rec["dur_s"], lid
+        assert NVO.line_problems(lid, rec, None) == []

@@ -39,6 +39,12 @@
 //       captured item it names in R2 (capture/pins/<issue>.json, and the index
 //       itself where R2's S3 API can write it conditionally), so their proxies
 //       outlive the 14-day sweep until the episode airs plus 30 days.
+//   node scripts/rights.mjs telecine <issue> --item <id> --media <dir>
+//       measures whether a footage item is telecined (ffmpeg idet over its
+//       aired span, scripts/lib/rights/telecine.mjs) once its file is checked
+//       against the ledger's sha256, and records telecined and the measure on
+//       the item (the engine's A6 telecine-declared reads it). Counts that do
+//       not decide it write nothing.
 //   node scripts/rights.mjs packet <issue>
 //       regenerates episodes/<issue>/disputes.json from the ledger.
 //   node scripts/rights.mjs lint
@@ -76,6 +82,8 @@ import { mergeCandidatePins, pinProblems, resolveRequests } from "./lib/rights/r
 import { lintAll } from "./lint-rights.mjs";
 import { ledgerTranscriptProblems, ourTranscript } from "./lib/rights/records.mjs";
 import { isoSecond } from "./lib/rights/text.mjs";
+import * as telecine from "./lib/rights/telecine.mjs";
+import { sha256File } from "./lib/draft-outputs.mjs";
 import { candidatesFromPool, poolKey, poolProblems } from "./capture/pool.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -319,6 +327,38 @@ export async function runTranscript({ root = repoRoot, issue, itemId, id, offici
   return t;
 }
 
+/**
+ * Records whether one footage item is telecined (T9c), measured from its own file: the file must hash to the ledger's
+ * sha256 first, then ffmpeg's idet reads its aired span. A decision is written to the item (``telecined`` and
+ * ``telecine_check``) and the dispute packet regenerated; counts that do not decide it throw, and nothing is written.
+ */
+export async function runTelecine({ root = repoRoot, issue, itemId, mediaDir, measure = telecine.measure, sha = sha256File, now = () => new Date() }) {
+  const dir = episodeDir(root, issue);
+  const ledgerPath = path.join(dir, "rights-ledger.json");
+  const ledger = JSON.parse(readFileSync(ledgerPath, "utf8"));
+  const k = ledger.items.findIndex((i) => i.id === itemId);
+  if (k < 0) throw new Error(`no ledger item ${itemId}`);
+  const item = ledger.items[k];
+  if (item.kind !== "footage") throw new Error(`${itemId} is ${item.kind}, not footage`);
+  const file = path.join(mediaDir, String(issue), item.file);
+  if (!existsSync(file)) throw new Error(`${file} is not on this machine`);
+  const got = await sha(file);
+  if (got !== item.sha256) throw new Error(`${file}: sha256 ${got.slice(0, 12)} is not the ledger's ${item.sha256.slice(0, 12)}`);
+  const { fromS, durS } = telecine.windowOf(item);
+  const { counts, ffmpeg } = measure(file, { fromS, durS });
+  const d = telecine.decide(counts);
+  if (d.telecined === null) throw new Error(`${itemId}: telecine not decided (${d.why}); nothing written`);
+  const check = { method: telecine.METHOD, span_s: [fromS, Math.round((fromS + durS) * 1000) / 1000], counts,
+    progressive_share: Math.round(d.progressive * 10000) / 10000, repeated_share: Math.round(d.repeated * 10000) / 10000,
+    ffmpeg: ffmpeg ?? "unknown", checked_at: isoSecond(now().toISOString()) };
+  const next = { ...ledger, items: ledger.items.map((i, j) => (j === k ? { ...i, telecined: d.telecined, telecine_check: check } : i)) };
+  const problems = validateLedger(next);
+  if (problems.length) throw new Error(`the ledger does not pass:\n  ${problems.join("\n  ")}`);
+  writeFileSync(ledgerPath, serialiseLedger(next));
+  writePacket(root, issue);
+  return { id: itemId, telecined: d.telecined, check };
+}
+
 /** Writes episodes/<issue>/ASSETS.md from assets.json and the ledger, measuring footage and sound on the media drive. */
 export function runCoverage({ root = repoRoot, issue, mediaDir, probe = probeSeconds }) {
   const dir = episodeDir(root, issue);
@@ -413,8 +453,15 @@ async function main(argv) {
     console.log(`rights: transcript ${t.id} (${t.source}${t.agreement !== undefined ? `, ${(t.agreement * 100).toFixed(1)}% agreement` : ""}) written to the ledger`);
     return 0;
   }
+  if (cmd === "telecine") {
+    const mediaDir = flag("media") ?? process.env.OMNIBUS_MEDIA;
+    assertMediaOutsideRepo(mediaDir);
+    const r = await runTelecine({ issue: parseIssue(issueArg), itemId: flag("item"), mediaDir });
+    console.log(`rights: ${r.id} telecined: ${r.telecined} (progressive ${(r.check.progressive_share * 100).toFixed(1)}%, repeated fields ${(r.check.repeated_share * 100).toFixed(1)}%, ${r.check.span_s.join(" to ")} s) written to the ledger`);
+    return 0;
+  }
   if (cmd === "lint") return lintAll({ root: repoRoot, log: console.log, error: console.error });
-  console.error("usage: node scripts/rights.mjs resolve <issue> | candidates <issue> [--pool r2|artifact|<path>] | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | transcript <issue> --item <id> [--id <tid>] (--official <url> | --ours <a.json> <b.json> --lang <xx> [--span in,out]) | lint");
+  console.error("usage: node scripts/rights.mjs resolve <issue> | candidates <issue> [--pool r2|artifact|<path>] | fetch <issue> --media <dir> [--dry-run] [--redo <id,id>] | fetch <issue> --media <dir> --from-ledger [--report <file>] | coverage <issue> --media <dir> | packet <issue> | telecine <issue> --item <id> --media <dir> | transcript <issue> --item <id> [--id <tid>] (--official <url> | --ours <a.json> <b.json> --lang <xx> [--span in,out]) | lint");
   return 2;
 }
 

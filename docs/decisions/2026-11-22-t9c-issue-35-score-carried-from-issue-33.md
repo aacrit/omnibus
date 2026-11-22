@@ -1,0 +1,9 @@
+# 2026-11-22: T9c: issue 35's score is issue 33's theme, sting and Echo bed, published as own-score-35 (builder, from the CoS brief and show bible v2 section j)
+
+Issue 35 has no score of its own. Section j carries the theme ("the wire", 18 s) and the sting over unchanged; the Echo's bed 2 is ticket 8b and not written. So `episodes/35/score/score.take.json` lists issue 33's `theme.wav`, `sting.wav` and `echo-bed-150.wav` with issue 33's own `sha256` and `decoded_sha256`, and the three files are published unchanged as the prerelease `own-score-35`, the own-score-33 pattern. `score_check` holds each file to those hashes on the runner, so the draft plays exactly issue 33's takes.
+
+The Echo bed is a stand-in. Bible j's rotation (no bed twice in a quarter) and the founder's rule against reusing a bed across films both forbid it on air. It is for the draft only and must be replaced by bed 2 before G3. `score.take.json` records that under `carried_from.pending`.
+
+The bed's two spans are cut by the existing `studio_items` score-cut recipe, from a new studio ledger (`episodes/35/ledgers/studio.json`). `M-ECHO-1` is the bed's opening, 70.5 s from 0, with a 0.6 s fade out before the first quotation. `M-ECHO-2` is its written ending, the last 6.72 s, so `bed_in_s` is 143.28 and the ending lands under the Echo's last frame. The cut is sample-exact and proved by its decoded hash. Its ledger sha256 was made on the laptop with the same soundfile cut the runner uses.
+
+The cues now state what the engine reads. A sting is `score_role: sting`, since `role: sting` is not a music role. A bed is `score_role: bed`. Each cue names its `wav` and licence. Each sting plays the whole 0.8 s take (300 then 500 ms, bible j), not 0.3 or 0.5 s of it. The clock's sting runs 5.2 to 6.0 s and ends on the zero. It may not run into the tease: `no-music-under-news` blocked it at 5.7 to 6.5 s.

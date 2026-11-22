@@ -28,7 +28,7 @@
     },
     "rights_ledger": {
       "path": "episodes/35/rights-ledger.json",
-      "sha256": "05cba80892ccdc6e1b823fd64c5d58188eb0349f137a4b576f06b823f171711a"
+      "sha256": "b50b41366d5d55c4afd3fbf74a02bf52a5e5f4eacf2c1862b06ca139c7ec4cf2"
     },
     "capture_pool": null,
     "desk_sha256": "81a6f4052716881fc72d3ea54238bac1cff23849227311c1c81c3f85ac74456e"

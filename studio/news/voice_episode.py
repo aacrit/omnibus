@@ -1,6 +1,7 @@
 # Net-new in omnibus (E7, issue 33).
 """Voices a news episode's whole screenplay with the lifted narrator engine (studio/engine/narrator.py): every
-narration line and every reader (testimony) line, across every cast voice the screenplay names (the narrator, a
+narration line and every reader (testimony) line (show bible v2: ``vo``, ``signon`` and ``signoff`` are narration,
+``read`` is a reader line, and ``sot`` is never voiced, voicing_manifest.voiced_lines), across every cast voice the screenplay names (the narrator, a
 slower variant such as the Echo's, and each reader), and writes the voicing manifest
 ``studio/news/voicing_manifest.py`` describes (schema ``omnibus-voicing/1``) at ``<film>/audio/voice.json``.
 
@@ -91,7 +92,7 @@ def quote_problems(lines: list[dict]) -> list[str]:
     the extract it cites."""
     out = []
     for ln in lines:
-        if ln.get("kind") != "testimony":
+        if NVO._kind(ln) != "testimony":       # v1 testimony, and v2 read (schema.ENGINE_LINE_KIND)
             continue
         want, text = ln.get("quote_sha256"), ln.get("text") or ""
         if not want:
@@ -223,6 +224,10 @@ def voice_episode(film: Path, *, out: Path | None = None, cache: Path | None = N
                 timeline = [tuple(e) for e in (info.get("timeline") or [])]
                 words, estimated = NR.words_timed(synth_text, timeline, total_s=dur_s)
                 words = [dict(w, w=orig) for w, orig in zip(words, orig_text[lid].split())]  # the written word
+                # the take's length is recorded to the millisecond (dur_s below), and so is each word: a last word that
+                # ends on the take's last sample must not round past the rounded length (line_problems holds it inside)
+                cap = round(dur_s, 3)
+                words = [dict(w, start_s=min(w["start_s"], cap), end_s=min(w["end_s"], cap)) for w in words]
                 if estimated:
                     words_estimated.append(lid)
                 lines_doc[lid] = {"voice": vid, "wav": dest_wav.relative_to(film).as_posix(),
@@ -230,7 +235,7 @@ def voice_episode(film: Path, *, out: Path | None = None, cache: Path | None = N
                                   "dur_s": round(dur_s, 3), "words": words}
                 per_line_report[lid] = dict(plan_diff(dur_s, ln.get("dur_s")), dur_s=round(dur_s, 3),
                                             word_outliers=word_outliers(words))
-    narrator_voice_id = next((ln.get("read_by") or "v-narrator" for ln in lines if ln.get("kind") == "narration"
+    narrator_voice_id = next((ln.get("read_by") or "v-narrator" for ln in lines if NVO._kind(ln) == "narration"
                               and (ln.get("read_by") or "v-narrator") in voices_doc), None)
     manifest = {"schema": NVO.SCHEMA, "identity": voices_doc.get(narrator_voice_id) or next(iter(voices_doc.values())),
                "voices": voices_doc, "lines": lines_doc, "media": media_root.as_posix(),

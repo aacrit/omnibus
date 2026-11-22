@@ -333,6 +333,10 @@
     "graphics": {
       "path": "graphics-plan.json",
       "media": "D:/omnibus-media/35/graphics"
+    },
+    "studio": {
+      "path": "ledgers/studio.json",
+      "media": "D:/omnibus-media/35/studio"
     }
   },
   "requests": "screenplay-requests.json",
@@ -426,10 +430,14 @@
         {
           "id": "M-STING-CLOCK",
           "kind": "music",
-          "role": "sting",
-          "source": "the sting (bible j)",
-          "start_s": 5.7,
-          "end_s": 6.0
+          "source": "the sting (bible j): issue 33's take, carried over (own-score-35)",
+          "start_s": 5.2,
+          "end_s": 6.0,
+          "score_role": "sting",
+          "wav": "D:/omnibus-media/35/score/sting.wav",
+          "licence": "CC BY-SA 4.0",
+          "gain_db": 0,
+          "note": "the whole sting (0.8 s) ends on the clock's zero: it may not run into the tease (no-music-under-news)"
         }
       ]
     },
@@ -710,17 +718,23 @@
           "id": "M-THEME",
           "kind": "music",
           "role": "house_motif",
-          "source": "the wire (theme, 18 s, bible d)",
+          "source": "the wire (theme, 18 s, bible d): issue 33's take, carried over (own-score-35)",
           "start_s": 39.1,
-          "end_s": 57.1
+          "end_s": 57.1,
+          "wav": "D:/omnibus-media/35/score/theme.wav",
+          "licence": "CC BY-SA 4.0",
+          "gain_db": 0
         },
         {
           "id": "M-STING-LOCKUP",
           "kind": "music",
-          "role": "sting",
-          "source": "the sting (bible j)",
+          "source": "the sting (bible j): issue 33's take, carried over (own-score-35)",
           "start_s": 54.5,
-          "end_s": 55.0
+          "end_s": 55.3,
+          "score_role": "sting",
+          "wav": "D:/omnibus-media/35/score/sting.wav",
+          "licence": "CC BY-SA 4.0",
+          "gain_db": 0
         }
       ],
       "note": "The sign-on runs past the lockup into the lead's slate (bible d), which is silent: room tone only."
@@ -1616,7 +1630,8 @@
           },
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "why": "Slate: the arrival's first frame, nat full 2.5 s; the narrator under it; then the ceremony's own sound up as he reaches the steps.",
-          "out_s": 57.45
+          "out_s": 57.45,
+          "repeat_of": "S-TEASE-4"
         },
         {
           "id": "S-P4-2",
@@ -2604,7 +2619,7 @@
           "id": "G-BUMP-2",
           "kind": "graphic",
           "start_s": 587.02,
-          "dur_s": 1.8,
+          "dur_s": 3.3,
           "transition_in": {
             "type": "cut"
           },
@@ -3001,32 +3016,49 @@
         {
           "id": "M-STING-ECHO",
           "kind": "music",
-          "role": "sting",
-          "source": "the sting (bible j)",
+          "source": "the sting (bible j): issue 33's take, carried over (own-score-35)",
           "start_s": 587.02,
-          "end_s": 587.52
+          "end_s": 587.82,
+          "score_role": "sting",
+          "wav": "D:/omnibus-media/35/score/sting.wav",
+          "licence": "CC BY-SA 4.0",
+          "gain_db": 0
         },
         {
           "id": "M-ECHO-1",
           "kind": "music",
-          "role": "echo_bed",
-          "source": "bed-2, first movement (T8b; not yet written)",
+          "source": "issue 33's Echo bed, 150 s (E8), its opening: a draft stand-in until bed 2 (T8b)",
           "start_s": 588.82,
           "end_s": 659.32,
           "gain_lufs": -32,
           "duck_db": 9,
-          "note": "enters on the dissolve; its first movement cadences before the first quotation (no music under quotes)"
+          "note": "enters on the dissolve; its first movement cadences before the first quotation (no music under quotes)",
+          "score_role": "bed",
+          "ledger_item": "echo-bed-150.1",
+          "wav": "D:/omnibus-media/35/studio/score/echo-bed-150.1.wav",
+          "licence": "CC BY-SA 4.0",
+          "bed_in_s": 0.0,
+          "fade_in_s": 1.5,
+          "fade_out_s": 0.6,
+          "gain_db": 0
         },
         {
           "id": "M-ECHO-2",
           "kind": "music",
-          "role": "echo_bed",
-          "source": "bed-2, written ending (T8b; not yet written)",
+          "source": "issue 33's Echo bed, 150 s (E8), its written ending: a draft stand-in until bed 2 (T8b)",
           "start_s": 739.47,
           "end_s": 746.19,
           "gain_lufs": -32,
           "duck_db": 9,
-          "note": "returns after the last quotation and lands its written ending under the last frame"
+          "note": "returns after the last quotation and lands its written ending under the last frame",
+          "score_role": "bed",
+          "ledger_item": "echo-bed-150.2",
+          "wav": "D:/omnibus-media/35/studio/score/echo-bed-150.2.wav",
+          "licence": "CC BY-SA 4.0",
+          "bed_in_s": 143.28,
+          "fade_in_s": 1.5,
+          "fade_out_s": 0,
+          "gain_db": 0
         }
       ],
       "silence_windows": [
@@ -3118,9 +3150,12 @@
           "id": "M-THEME-CREDITS",
           "kind": "music",
           "role": "house_motif",
-          "source": "the wire (theme, 18 s, bible d)",
+          "source": "the wire (theme, 18 s, bible d): issue 33's take, carried over (own-score-35)",
           "start_s": 758.34,
-          "end_s": 776.34
+          "end_s": 776.34,
+          "wav": "D:/omnibus-media/35/score/theme.wav",
+          "licence": "CC BY-SA 4.0",
+          "gain_db": 0
         }
       ]
     }

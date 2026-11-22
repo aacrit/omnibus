@@ -303,6 +303,31 @@
             ]
           }
         }
+      },
+      "telecined": false,
+      "telecine_check": {
+        "method": "ffmpeg idet over the aired span, null output",
+        "span_s": [
+          45,
+          65
+        ],
+        "counts": {
+          "multi": {
+            "tff": 0,
+            "bff": 0,
+            "progressive": 600,
+            "undetermined": 0
+          },
+          "repeated": {
+            "neither": 600,
+            "top": 0,
+            "bottom": 0
+          }
+        },
+        "progressive_share": 1,
+        "repeated_share": 0,
+        "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+        "checked_at": "2026-11-22T01:53:23Z"
       }
     },
     {

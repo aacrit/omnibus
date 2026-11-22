@@ -1,0 +1,99 @@
+{
+ "what": "void omnibus issue 35: the score's manifest. No cue is composed for 35 yet: the theme, the sting and the Echo bed are issue 33's finished E8 takes, byte for byte (bible v2 j: the theme and sting carry over; the Echo bed is a draft stand-in until the music director's bed 2, ticket 8b). Published unchanged as the own-score-35 prerelease.",
+ "issue": 35,
+ "rate": 48000,
+ "format": "WAV, mono, PCM 24-bit",
+ "media_dir": "D:/omnibus-media/35/score",
+ "carried_from": {
+  "issue": 33,
+  "take": "episodes/33/score/score.take.json",
+  "release": "own-score-33",
+  "why": "T9c (CoS brief 2026-11-21): issue 35 has no own score yet; each output's sha256 and decoded_sha256 are issue 33's, so the files are proved the same takes",
+  "pending": "T8b: the Echo's bed 2 with its written ending replaces echo-bed-150.wav before G3 (bible j rotation: no bed twice in a quarter)"
+ },
+ "outputs": {
+  "theme.wav": {
+   "sha256": "0d3e2fc34ef7fda923fc4eb723f7a8fc36d0ab9bbb2719637ac9848d2589f7c2",
+   "decoded_sha256": "c0cd31e5f66d4e66e76c06019d088fd78943bafbe65a3849fea099e4a57b4e3c",
+   "samples": 864000,
+   "seconds": 18.0,
+   "cue": "theme"
+  },
+  "sting.wav": {
+   "sha256": "60b9cb15e70a42234a63b956d206805eff067f72ec7b0a151b083312d1c8cc34",
+   "decoded_sha256": "ff4238b274032d71a023d52843c9f6ef89911a30463511a6ec749171a45c8dd3",
+   "samples": 38400,
+   "seconds": 0.8,
+   "cue": "sting"
+  },
+  "echo-bed-150.wav": {
+   "sha256": "4ef74371928efe39b1a02715c05cacd65edb6db840fdb3a1e086603e92bbcdfa",
+   "decoded_sha256": "6f91497038664f451797d2bdbe6b559350fdb4d6c7d59564e10cbb9747131d1b",
+   "samples": 7200000,
+   "seconds": 150.0,
+   "cue": "echo-bed-150"
+  }
+ },
+ "cues": {
+  "theme": {
+   "role": "main_title",
+   "length_s": 18.0,
+   "room": "small",
+   "seed": 3311,
+   "notes": 14,
+   "sampler_loops": 0,
+   "looped_notes": [],
+   "max_shift_semitones": 3,
+   "shift_histogram": {
+    "0": 9,
+    "1": 1,
+    "2": 3,
+    "3": 1
+   },
+   "gain_db": 2.42,
+   "target_lufs": -26.0
+  },
+  "sting": {
+   "role": "sting",
+   "synthesis": "two sine tones written by build.py (no sample)",
+   "tones_hz": [
+    659.2551,
+    988.88265
+   ],
+   "durs_s": [
+    0.3,
+    0.5
+   ],
+   "attack_s": 0.015,
+   "release_s": [
+    0.05,
+    0.11
+   ],
+   "target_lufs": -20.0,
+   "why": "E5 then the B a pure fifth above (3:2): the second tone sits in the broadcast line-up tone's register (988.9 Hz, by 1 kHz); the theme is centred on E, so the sting is its open fifth and never clashes",
+   "gain_db": -16.35
+  },
+  "echo-bed-150": {
+   "role": "bed",
+   "length_s": 150.0,
+   "room": "hall",
+   "seed": 3313,
+   "notes": 76,
+   "sampler_loops": 0,
+   "looped_notes": [],
+   "max_shift_semitones": 3,
+   "shift_histogram": {
+    "0": 14,
+    "1": 11,
+    "2": 49,
+    "3": 2
+   },
+   "gain_db": 9.78,
+   "target_lufs": -32.0,
+   "files": {
+    "echo-bed-150.wav": "unshaped: the engine's bed input (it band-shapes and levels at the mix)",
+    "echo-bed-150.mix.wav": "band-shaped with the engine's bed_shape at 400 Hz and levelled: as the mix places it before the duck (for a hand edit; do not shape it again)"
+   }
+  }
+ }
+}

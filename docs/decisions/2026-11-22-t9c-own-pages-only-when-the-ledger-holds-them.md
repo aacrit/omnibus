@@ -1,0 +1,3 @@
+# 2026-11-22: T9c: own pages are fetched only when the ledger holds own-property items (builder, from the CoS brief)
+
+Issue 35 airs no void page (void is never on screen), so no `own-pages-35` release exists or is needed. The sources job already asks `node scripts/episode-draft.mjs own-files <issue>` for the ledger's own-property file names and downloads from `own-pages-<issue>` only when that list is not empty; for issue 35 it is empty (checked: `own-files 35` prints nothing, and `route 35` allows the artifact route, all 7 items public domain). No change was needed; this records that the condition is the ledger's own contents, not the issue number.

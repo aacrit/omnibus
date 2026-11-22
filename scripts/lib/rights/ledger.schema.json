@@ -532,6 +532,25 @@
             "confirmed_by": { "type": "string", "minLength": 1, "maxLength": 200 }
           }
         },
+        "telecined": {
+          "description": "Whether the footage is film under 3:2 pulldown (the engine's A6 telecine-declared), measured from the file by scripts/rights.mjs telecine, never assumed (T9c).",
+          "type": "boolean"
+        },
+        "telecine_check": {
+          "description": "How telecined was measured: ffmpeg idet over the aired span, its counts and shares (scripts/lib/rights/telecine.mjs).",
+          "type": "object",
+          "required": ["method", "span_s", "counts", "progressive_share", "repeated_share", "ffmpeg", "checked_at"],
+          "additionalProperties": false,
+          "properties": {
+            "method": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "span_s": { "type": "array", "items": { "type": "number", "minimum": 0 }, "minItems": 2, "maxItems": 2 },
+            "counts": { "type": "object" },
+            "progressive_share": { "type": "number", "minimum": 0, "maximum": 1 },
+            "repeated_share": { "type": "number", "minimum": 0, "maximum": 1 },
+            "ffmpeg": { "type": "string", "maxLength": 200 },
+            "checked_at": { "type": "string", "minLength": 1, "maxLength": 40 }
+          }
+        },
         "shows_bodies": {
           "description": "Whether the file shows bodies (GRAMMAR 1.6): true with bodies_excluded when the seconds that do lie outside the fit and never air (CoS ruling, rights fix round 4).",
           "type": "boolean"
