@@ -480,7 +480,21 @@
             "now": "the locator, Brussels",
             "pending_t5": true
           },
-          "why": "Beat 2, package 2."
+          "why": "Beat 2, package 2.",
+          "locator": {
+            "places": [
+              {
+                "name": "BRUSSELS",
+                "lat": 50.85,
+                "lon": 4.35
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-TEASE-3",
@@ -798,8 +812,7 @@
           "mark": "DRAWN",
           "shows": {
             "lines": [
-              "KYIV",
-              "RUSSIA"
+              "KYIV"
             ]
           },
           "picture_slot": {
@@ -807,7 +820,21 @@
             "awaits": "search: SES Ukraine or Kyiv City State Administration footage on Commons (CC BY 4.0, RELEASED BY <body>), dignity list applied",
             "now": "the locator, Kyiv"
           },
-          "why": "VO 2 over the locator: the other bridges of the week."
+          "why": "VO 2 over the locator: the other bridges of the week.",
+          "locator": {
+            "places": [
+              {
+                "name": "KYIV",
+                "lat": 50.45,
+                "lon": 30.52
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-LEAD-5",
@@ -831,7 +858,26 @@
             "awaits": "dated imagery: Sentinel-2 of the Kerch bridge inside 16 to 21 Nov (tier 3)",
             "now": "the locator, Kerch Strait"
           },
-          "why": "The third strike on the map."
+          "why": "The third strike on the map.",
+          "locator": {
+            "places": [
+              {
+                "name": "KERCH STRAIT",
+                "lat": 45.36,
+                "lon": 36.47
+              },
+              {
+                "name": "CRIMEA",
+                "lat": 45.3,
+                "lon": 34.4
+              }
+            ],
+            "scale_km": 100,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-LEAD-6",
@@ -894,11 +940,24 @@
           "mark": "DRAWN",
           "shows": {
             "lines": [
-              "KYIV",
-              "DNIPRO"
+              "KYIV"
             ]
           },
-          "why": "Kyiv on the map; no cleared picture of the 20 Nov strike existed by the cutoff."
+          "why": "Kyiv on the map; no cleared picture of the 20 Nov strike existed by the cutoff.",
+          "locator": {
+            "places": [
+              {
+                "name": "KYIV",
+                "lat": 50.45,
+                "lon": 30.52
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-LEAD-9",
@@ -920,7 +979,26 @@
           "requests": [
             "t9b-lead-poland-read"
           ],
-          "why": "Poland in its ministers' words, attributed (gov.pl terms unreviewed). VO 4 ends on a fact with its place."
+          "why": "Poland in its ministers' words, attributed (gov.pl terms unreviewed). VO 4 ends on a fact with its place.",
+          "locator": {
+            "places": [
+              {
+                "name": "POLAND",
+                "lat": 52.07,
+                "lon": 19.48
+              },
+              {
+                "name": "UKRAINE",
+                "lat": 48.38,
+                "lon": 31.18
+              }
+            ],
+            "scale_km": 500,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-LEAD-10",
@@ -1266,7 +1344,21 @@
             "now": "the locator, London",
             "pending_t5": true
           },
-          "why": "Slate on the locator. The speech's own words wait for the gov.uk adapter (OGL v3, ticket 5)."
+          "why": "Slate on the locator. The speech's own words wait for the gov.uk adapter (OGL v3, ticket 5).",
+          "locator": {
+            "places": [
+              {
+                "name": "LONDON",
+                "lat": 51.51,
+                "lon": -0.13
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P2-2",
@@ -1293,7 +1385,21 @@
           "requests": [
             "t9b-p2-agreements-read"
           ],
-          "why": "The agreements' text waits for gov.uk (OGL) and an allowlisted EU host; until then the facts are the desk's consensus."
+          "why": "The agreements' text waits for gov.uk (OGL) and an allowlisted EU host; until then the facts are the desk's consensus.",
+          "locator": {
+            "places": [
+              {
+                "name": "BRUSSELS",
+                "lat": 50.85,
+                "lon": 4.35
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P2-3",
@@ -1340,7 +1446,26 @@
               "LONDON"
             ]
           },
-          "why": "The one point where the two governments' accounts differ, each attributed."
+          "why": "The one point where the two governments' accounts differ, each attributed.",
+          "locator": {
+            "places": [
+              {
+                "name": "BRUSSELS",
+                "lat": 50.85,
+                "lon": 4.35
+              },
+              {
+                "name": "LONDON",
+                "lat": 51.51,
+                "lon": -0.13
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P2-5",
@@ -1358,7 +1483,21 @@
               "LONDON"
             ]
           },
-          "why": "The opposition, attributed. Out on the locator held 2 s."
+          "why": "The opposition, attributed. Out on the locator held 2 s.",
+          "locator": {
+            "places": [
+              {
+                "name": "LONDON",
+                "lat": 51.51,
+                "lon": -0.13
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         }
       ],
       "lines": [
@@ -1536,7 +1675,26 @@
             "t9b-p3-centcom-read",
             "t9b-p3-iran-mfa-read"
           ],
-          "why": "Slate on the locator. CENTCOM's release (centcom.mil answered 403) and Iran's foreign ministry statement wait for capture."
+          "why": "Slate on the locator. CENTCOM's release (centcom.mil answered 403) and Iran's foreign ministry statement wait for capture.",
+          "locator": {
+            "places": [
+              {
+                "name": "STRAIT OF HORMUZ",
+                "lat": 26.57,
+                "lon": 56.25
+              },
+              {
+                "name": "QESHM",
+                "lat": 26.75,
+                "lon": 55.82
+              }
+            ],
+            "scale_km": 50,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P3-2",
@@ -1569,7 +1727,26 @@
               "BAHRAIN"
             ]
           },
-          "why": "The bases on the map."
+          "why": "The bases on the map.",
+          "locator": {
+            "places": [
+              {
+                "name": "KUWAIT",
+                "lat": 29.37,
+                "lon": 47.98
+              },
+              {
+                "name": "BAHRAIN",
+                "lat": 26.23,
+                "lon": 50.59
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P3-4",
@@ -1588,7 +1765,26 @@
               "OMAN"
             ]
           },
-          "why": "The tankers on the map. Out on the locator held 2 s."
+          "why": "The tankers on the map. Out on the locator held 2 s.",
+          "locator": {
+            "places": [
+              {
+                "name": "STRAIT OF HORMUZ",
+                "lat": 26.57,
+                "lon": 56.25
+              },
+              {
+                "name": "OMAN",
+                "lat": 26.18,
+                "lon": 56.25
+              }
+            ],
+            "scale_km": 50,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         }
       ],
       "lines": [
@@ -1817,7 +2013,22 @@
           "mark": "DRAWN",
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "extract": "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b",
-          "why": "The declaration's own words, typeset and read (US federal, public domain). The three parties' joint text."
+          "why": "The declaration's own words, typeset and read (US federal, public domain). The three parties' joint text.",
+          "page": {
+            "source_id": "e35-p4-declaration",
+            "title": [
+              "U.S.-Russia-China Heads of State Declaration toward Peace"
+            ],
+            "body": [
+              "The three heads of state recognized that the principle of state consent and respect for immunities of State officials are of paramount importance, and concurred that the International Criminal Court and other similar bodies must not abuse their jurisdiction."
+            ],
+            "source": "The White House, 19 November 2026 (whitehouse.gov), point 3 of 4",
+            "quote_sha256": [
+              "005fe484003e27da672fd3cf025c8aa63b2a02c57aae68b282ceac953ae5d50b"
+            ],
+            "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+            "locator": "list item 3 of 4"
+          }
         },
         {
           "id": "S-P4-4",
@@ -1832,7 +2043,22 @@
           "mark": "DRAWN",
           "dot_label": "RELEASED BY THE WHITE HOUSE",
           "extract": "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4",
-          "why": "Point 4, typeset and read."
+          "why": "Point 4, typeset and read.",
+          "page": {
+            "source_id": "e35-p4-declaration",
+            "title": [
+              "U.S.-Russia-China Heads of State Declaration toward Peace"
+            ],
+            "body": [
+              "The three heads of state reaffirmed that a nuclear war cannot be won and must never be fought. The three countries will conduct a dialogue on reducing nuclear risks and preventing the proliferation of nuclear weapons."
+            ],
+            "source": "The White House, 19 November 2026 (whitehouse.gov), point 4 of 4",
+            "quote_sha256": [
+              "e7589501250199a9b425f29580a1667633de3bc7c35a4055799fabc5387b0ab4"
+            ],
+            "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/",
+            "locator": "list item 4 of 4"
+          }
         },
         {
           "id": "S-P4-5",
@@ -1854,7 +2080,21 @@
             "t9b-p4-kantei-stills",
             "t9b-p4-china-mfa-read"
           ],
-          "why": "The locator at VO 2. China's words are the joint text only."
+          "why": "The locator at VO 2. China's words are the joint text only.",
+          "locator": {
+            "places": [
+              {
+                "name": "SHENZHEN",
+                "lat": 22.54,
+                "lon": 114.06
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P4-6",
@@ -2107,7 +2347,21 @@
           "requests": [
             "t9b-p5-judgment-read"
           ],
-          "why": "Slate on the locator. The judgment's operative paragraph waits for a capture with its terms URL (icj-cij.org serves a browser challenge to the fetcher)."
+          "why": "Slate on the locator. The judgment's operative paragraph waits for a capture with its terms URL (icj-cij.org serves a browser challenge to the fetcher).",
+          "locator": {
+            "places": [
+              {
+                "name": "THE HAGUE",
+                "lat": 52.08,
+                "lon": 4.3
+              }
+            ],
+            "scale_km": 100,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P5-2",
@@ -2161,7 +2415,26 @@
           "requests": [
             "t9b-p5-gambia-read"
           ],
-          "why": "The place the judgment concerns. The Gambia has no words of its own here yet: its statement is to locate."
+          "why": "The place the judgment concerns. The Gambia has no words of its own here yet: its statement is to locate.",
+          "locator": {
+            "places": [
+              {
+                "name": "RAKHINE",
+                "lat": 19.5,
+                "lon": 94.0
+              },
+              {
+                "name": "COX'S BAZAR",
+                "lat": 21.45,
+                "lon": 91.98
+              }
+            ],
+            "scale_km": 100,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-P5-4",
@@ -2183,7 +2456,26 @@
           "requests": [
             "t9b-p5-myanmar-read"
           ],
-          "why": "Myanmar's reply, attributed until its statement is captured. Out on the locator held 2 s."
+          "why": "Myanmar's reply, attributed until its statement is captured. Out on the locator held 2 s.",
+          "locator": {
+            "places": [
+              {
+                "name": "THE HAGUE",
+                "lat": 52.08,
+                "lon": 4.3
+              },
+              {
+                "name": "MYANMAR",
+                "lat": 19.75,
+                "lon": 96.13
+              }
+            ],
+            "scale_km": 2000,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         }
       ],
       "lines": [
@@ -2316,7 +2608,18 @@
           "mark": "DRAWN",
           "shows": {
             "lines": [
-              "AROUND THE WORLD"
+              "AROUND THE WORLD",
+              "ISSUE 35   16 TO 21 NOV 2026"
+            ],
+            "figures": [
+              {
+                "value": 35,
+                "field": "issue"
+              },
+              {
+                "value": 16,
+                "field": "window.from_day"
+              }
             ]
           },
           "why": "The bumper, no bars (bible i). Its sting waits for ticket 3's routing: no-music-under-news counts any music cue in the briefs."
@@ -2338,7 +2641,26 @@
               "SAUDI ARABIA"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "RIYADH",
+                "lat": 24.71,
+                "lon": 46.68
+              },
+              {
+                "name": "SAUDI ARABIA",
+                "lat": 24.0,
+                "lon": 45.0
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-2",
@@ -2356,7 +2678,21 @@
               "WASHINGTON"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "WASHINGTON",
+                "lat": 38.9,
+                "lon": -77.04
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-3",
@@ -2374,7 +2710,21 @@
               "CHICAGO"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "CHICAGO",
+                "lat": 41.88,
+                "lon": -87.63
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-4",
@@ -2392,7 +2742,21 @@
               "WASHINGTON"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "WASHINGTON",
+                "lat": 38.9,
+                "lon": -77.04
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-5",
@@ -2410,7 +2774,21 @@
               "NEW YORK"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "NEW YORK",
+                "lat": 40.71,
+                "lon": -74.01
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-6",
@@ -2428,7 +2806,21 @@
               "SHENZHEN"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "SHENZHEN",
+                "lat": 22.54,
+                "lon": 114.06
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-7",
@@ -2447,7 +2839,26 @@
               "GREENLAND"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "COPENHAGEN",
+                "lat": 55.68,
+                "lon": 12.57
+              },
+              {
+                "name": "GREENLAND",
+                "lat": 72.0,
+                "lon": -40.0
+              }
+            ],
+            "scale_km": 1000,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-8",
@@ -2485,7 +2896,21 @@
               "LONDON"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "LONDON",
+                "lat": 51.51,
+                "lon": -0.13
+              }
+            ],
+            "scale_km": 200,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-BR-10",
@@ -2503,7 +2928,21 @@
               "JERUSALEM"
             ]
           },
-          "why": "One brief, one fact, one locator (bible f)."
+          "why": "One brief, one fact, one locator (bible f).",
+          "locator": {
+            "places": [
+              {
+                "name": "JERUSALEM",
+                "lat": 31.78,
+                "lon": 35.22
+              }
+            ],
+            "scale_km": 100,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         }
       ],
       "lines": [
@@ -2819,16 +3258,21 @@
           "shows": {
             "lines": [
               "THE ECHO",
+              "ISSUE 35",
               "1945"
             ],
             "figures": [
+              {
+                "value": 35,
+                "field": "issue"
+              },
               {
                 "value": 1945,
                 "field": "echo:year"
               }
             ]
           },
-          "why": "The Echo's bumper with the year in the circle; the sting."
+          "why": "The Echo's bumper with the year in the circle; the sting. Its week line is the issue alone: the Echo keeps its own horizon, so no 2026 date prints inside it."
         },
         {
           "id": "S-EC-1",
@@ -2859,7 +3303,26 @@
             "awaits": "rights read: NARA 23465 (111-ADC-9700) THE YALTA CONFERENCE, Signal Corps film marked 'Restricted - Possibly' (Copyright); never cleared by assumption",
             "now": "stills and documents only"
           },
-          "why": "echo-dissolve, 1.5 s, the programme's only dissolve; the slate in Playfair italic. Period film waits for a rights read, so the Echo is planned on stills and documents."
+          "why": "echo-dissolve, 1.5 s, the programme's only dissolve; the slate in Playfair italic. Period film waits for a rights read, so the Echo is planned on stills and documents.",
+          "locator": {
+            "places": [
+              {
+                "name": "YALTA",
+                "lat": 44.5,
+                "lon": 34.17
+              },
+              {
+                "name": "THE CRIMEA",
+                "lat": 45.3,
+                "lon": 34.4
+              }
+            ],
+            "scale_km": 50,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-EC-2",
@@ -2869,17 +3332,35 @@
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "page",
-          "asset": "g-page-echo-communique-1",
+          "subtype": "locator",
           "mark": "DRAWN",
           "register": "umber",
-          "period_document": "src-frus-malta-d500",
           "picture_slot": {
             "request": "t9b-echo-still-patio",
             "awaits": "fetch: NARA 531340 (111-SC-260486), the Big Three on the patio (Unrestricted), PHOTOGRAPHED YALTA · FEB 1945",
             "now": "the communique, typeset and toured"
           },
-          "why": "The period document on the desk: the Report of the Crimea Conference, toured."
+          "why": "Germany on the map in the umber register while the narrator gives the communique's terms for it; the communique's own text is not in hand, so no page is typeset.",
+          "asset": "g-loc-echo-germany",
+          "shows": {
+            "lines": [
+              "GERMANY"
+            ]
+          },
+          "locator": {
+            "places": [
+              {
+                "name": "GERMANY",
+                "lat": 51.16,
+                "lon": 10.45
+              }
+            ],
+            "scale_km": 300,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-EC-3",
@@ -2889,17 +3370,35 @@
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "page",
-          "asset": "g-page-echo-communique-6",
+          "subtype": "locator",
           "mark": "DRAWN",
           "register": "umber",
-          "period_document": "src-frus-malta-d500",
           "picture_slot": {
             "request": "t9b-echo-still-molotov",
             "awaits": "fetch: NARA 197000, Stalin with Molotov at the Palace, Yalta (Unrestricted), PHOTOGRAPHED YALTA · FEB 1945",
             "now": "the communique's section on Poland, typeset and toured"
           },
-          "why": "Section VI, on Poland."
+          "why": "Poland on the map, its label at Warsaw (the 1945 frontiers were the question); the communique's text is not in hand, so no page is typeset.",
+          "asset": "g-loc-echo-poland",
+          "shows": {
+            "lines": [
+              "POLAND"
+            ]
+          },
+          "locator": {
+            "places": [
+              {
+                "name": "POLAND",
+                "lat": 52.23,
+                "lon": 21.01
+              }
+            ],
+            "scale_km": 300,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-EC-4",
@@ -2919,7 +3418,26 @@
             ]
           },
           "register": "umber",
-          "why": "The set-up names the occasion; it never paraphrases the words that follow."
+          "why": "The set-up names the occasion; it never paraphrases the words that follow.",
+          "locator": {
+            "places": [
+              {
+                "name": "LONDON",
+                "lat": 51.51,
+                "lon": -0.13
+              },
+              {
+                "name": "WASHINGTON",
+                "lat": 38.9,
+                "lon": -77.04
+              }
+            ],
+            "scale_km": 2000,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-EC-5",
@@ -2934,7 +3452,22 @@
           "mark": "DRAWN",
           "register": "umber",
           "dot_label": "PUBLISHED 1969",
-          "why": "The party whose frontier and government were settled, in its own words: the Polish Government in London's statement, typeset and read. FRUS printed it in 1969."
+          "why": "The party whose frontier and government were settled, in its own words: the Polish Government in London's statement, typeset and read. FRUS printed it in 1969.",
+          "page": {
+            "source_id": "src-frus-1945v05-d111",
+            "title": [],
+            "body": [
+              "decisions of the three-Power conference were prepared and taken not only without participation and authorization of the Polish Government but also without their knowledge.",
+              "The Polish Government declares that the decision of the Three-Power conference concerning Poland cannot be recognized by the Polish Government and cannot bind the Polish nation."
+            ],
+            "source": "Statement of the Polish Government, communicated by Ambassador J. Ciechanowski, Washington, 15 February 1945. Foreign Relations of the United States, 1945, vol. V, doc. 111 (printed 1969), paragraphs 4 and 5",
+            "quote_sha256": [
+              "a61736d8abff41005fe1565d8801e82ae0ebcc4d18dd89fd204c404804b2671d",
+              "8ca74fc85c18708166c5c4178d5e2e5026c21e8dadd810931533d1926c8dbab7"
+            ],
+            "url": "https://history.state.gov/historicaldocuments/frus1945v05/d111",
+            "locator": "statement paragraphs 4 and 5"
+          }
         },
         {
           "id": "S-EC-6",
@@ -2948,7 +3481,22 @@
           "asset": "g-page-echo-hansard",
           "mark": "DRAWN",
           "register": "umber",
-          "why": "Churchill in his own words, from the official report, typeset and read."
+          "why": "Churchill in his own words, from the official report, typeset and read.",
+          "page": {
+            "source_id": "src-hansard-1945-02-27",
+            "title": [
+              "CRIMEA CONFERENCE"
+            ],
+            "body": [
+              "I have never concealed from the House that, personally, I think the Russian claim is just and right. If I champion this frontier for Russia, it is not because I bow to force."
+            ],
+            "source": "Winston S. Churchill, House of Commons, 27 February 1945. HC Deb vol 408 cc1267-345 (historic Hansard)",
+            "quote_sha256": [
+              "a8e63937e984aa3a973cdb53191246c66ea48990f54313edb913651980e15fd0"
+            ],
+            "url": "https://api.parliament.uk/historic-hansard/commons/1945/feb/27/crimea-conference",
+            "locator": "HC Deb 27 February 1945 vol 408, Crimea Conference debate, about c1275"
+          }
         },
         {
           "id": "S-EC-7",
@@ -2962,7 +3510,22 @@
           "asset": "g-page-echo-fdr",
           "mark": "DRAWN",
           "register": "umber",
-          "why": "Roosevelt in his own words, typeset and read; never a still of him under words from another occasion."
+          "why": "Roosevelt in his own words, typeset and read; never a still of him under words from another occasion.",
+          "page": {
+            "source_id": "src-app-fdr-1945-03-01",
+            "title": [
+              "Address to Congress on the Yalta Conference"
+            ],
+            "body": [
+              "The decision with respect to the boundaries of Poland was, frankly, a compromise. I did not agree with all of it, by any means, but we did not go as far as Britain wanted, in certain areas; we did not go so far as Russia wanted, in certain areas; and we did not go so far as I wanted, in certain areas."
+            ],
+            "source": "Franklin D. Roosevelt, joint session of Congress, 1 March 1945. The American Presidency Project",
+            "quote_sha256": [
+              "63952aab2351c4d01c2c1d1c0a16947e18695319ecccbe2ed994ba3c83596b16"
+            ],
+            "url": "https://www.presidency.ucsb.edu/documents/address-congress-the-yalta-conference",
+            "locator": "Address to Congress on the Yalta Conference, passage on Poland's boundaries"
+          }
         },
         {
           "id": "S-EC-8",
@@ -2972,23 +3535,35 @@
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "page",
-          "asset": "g-page-echo-signatures",
+          "subtype": "locator",
           "mark": "DRAWN",
           "register": "umber",
-          "shows": {
-            "lines": [
-              "WINSTON S. CHURCHILL",
-              "FRANKLIN D. ROOSEVELT",
-              "J. V. STALIN"
-            ]
-          },
           "picture_slot": {
             "request": "t9b-echo-still-patio",
             "awaits": "fetch: NARA 531340, the Big Three on the patio (Unrestricted), held as the last frame",
             "now": "the signatures, typeset"
           },
-          "why": "It ends on a frame: the three names. The bed's written ending lands under it."
+          "why": "It ends on a frame: Yalta again, on the map. The bed's written ending lands under it.",
+          "asset": "g-loc-echo-yalta",
+          "shows": {
+            "lines": [
+              "YALTA"
+            ]
+          },
+          "locator": {
+            "places": [
+              {
+                "name": "YALTA",
+                "lat": 44.5,
+                "lon": 34.17
+              }
+            ],
+            "scale_km": 50,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         },
         {
           "id": "S-EC-ROOM",
@@ -2998,13 +3573,32 @@
           "transition_in": {
             "type": "cut"
           },
-          "subtype": "page",
-          "asset": "g-page-echo-signatures",
+          "subtype": "locator",
+          "asset": "g-loc-echo-yalta",
           "mark": "DRAWN",
           "register": "umber",
           "silence": "intended",
           "reason": "Two seconds of room tone after the bed's written ending, then the hard cut (bible g, h).",
-          "why": "Room: the last frame held on room tone only."
+          "why": "Room: the last frame held on room tone only.",
+          "shows": {
+            "lines": [
+              "YALTA"
+            ]
+          },
+          "locator": {
+            "places": [
+              {
+                "name": "YALTA",
+                "lat": 44.5,
+                "lon": 34.17
+              }
+            ],
+            "scale_km": 50,
+            "push_s": [
+              1.0,
+              2.5
+            ]
+          }
         }
       ],
       "lines": [

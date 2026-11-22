@@ -728,32 +728,6 @@
       "alpha": "straight"
     },
     {
-      "id": "g-page-echo-communique-1",
-      "kind": "graphic",
-      "subtype": "page",
-      "fps": "30",
-      "frames": 900,
-      "planned": true,
-      "generator": "studio/graphics (E6), planned for the Actions draft",
-      "content_date": "1945-02-11",
-      "content_basis": "typeset from src-frus-malta-d500, sections II and III, toured",
-      "licence": "CC0",
-      "shows_bodies": false
-    },
-    {
-      "id": "g-page-echo-communique-6",
-      "kind": "graphic",
-      "subtype": "page",
-      "fps": "30",
-      "frames": 900,
-      "planned": true,
-      "generator": "studio/graphics (E6), planned for the Actions draft",
-      "content_date": "1945-02-11",
-      "content_basis": "typeset from src-frus-malta-d500, section VI (Poland), toured",
-      "licence": "CC0",
-      "shows_bodies": false
-    },
-    {
       "id": "g-loc-echo-london",
       "kind": "graphic",
       "subtype": "locator",
@@ -806,19 +780,6 @@
       "shows_bodies": false
     },
     {
-      "id": "g-page-echo-signatures",
-      "kind": "graphic",
-      "subtype": "page",
-      "fps": "30",
-      "frames": 270,
-      "planned": true,
-      "generator": "studio/graphics (E6), planned for the Actions draft",
-      "content_date": "1945-02-11",
-      "content_basis": "typeset from src-frus-malta-d500, the signatures",
-      "licence": "CC0",
-      "shows_bodies": false
-    },
-    {
       "id": "g-credits",
       "kind": "graphic",
       "subtype": "credits",
@@ -841,6 +802,45 @@
       "generator": "studio/graphics (E6), planned for the Actions draft",
       "content_date": "2026-11-21T14:17:37Z",
       "content_basis": "drawn from the screenplay's own words",
+      "licence": "CC0",
+      "shows_bodies": false
+    },
+    {
+      "id": "g-loc-echo-germany",
+      "kind": "graphic",
+      "subtype": "locator",
+      "fps": "30",
+      "frames": 900,
+      "planned": true,
+      "generator": "studio/graphics (E6), planned for the Actions draft",
+      "content_date": "1945-02-11",
+      "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words",
+      "licence": "CC0",
+      "shows_bodies": false
+    },
+    {
+      "id": "g-loc-echo-poland",
+      "kind": "graphic",
+      "subtype": "locator",
+      "fps": "30",
+      "frames": 900,
+      "planned": true,
+      "generator": "studio/graphics (E6), planned for the Actions draft",
+      "content_date": "1945-02-11",
+      "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words",
+      "licence": "CC0",
+      "shows_bodies": false
+    },
+    {
+      "id": "g-loc-echo-yalta",
+      "kind": "graphic",
+      "subtype": "locator",
+      "fps": "30",
+      "frames": 900,
+      "planned": true,
+      "generator": "studio/graphics (E6), planned for the Actions draft",
+      "content_date": "1945-02-11",
+      "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words",
       "licence": "CC0",
       "shows_bodies": false
     }

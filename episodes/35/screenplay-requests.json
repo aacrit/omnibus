@@ -265,7 +265,7 @@
       "item": "NARA 531340 (yalta-pd-04)",
       "licence": "pd-us-federal, Unrestricted",
       "label": "PHOTOGRAPHED YALTA · FEB 1945",
-      "fallback": "the communique, typeset"
+      "fallback": "the map: Germany (S-EC-2) and Yalta (S-EC-8)"
     },
     {
       "id": "t9b-echo-still-molotov",
@@ -277,7 +277,7 @@
       "item": "NARA 197000 (yalta-pd-07)",
       "licence": "pd-us-federal, Unrestricted",
       "label": "PHOTOGRAPHED YALTA · FEB 1945",
-      "fallback": "the communique's section on Poland, typeset"
+      "fallback": "the map: Poland (S-EC-3)"
     },
     {
       "id": "t9b-echo-film-yalta",
