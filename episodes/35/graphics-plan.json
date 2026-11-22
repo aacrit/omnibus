@@ -17,19 +17,6 @@
       "shows_bodies": false
     },
     {
-      "id": "g-loc-tease-kerch",
-      "kind": "graphic",
-      "subtype": "locator",
-      "fps": "30",
-      "frames": 900,
-      "planned": true,
-      "generator": "studio/graphics (E6), planned for the Actions draft",
-      "content_date": "2026-11-21T14:17:37Z",
-      "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words",
-      "licence": "CC0",
-      "shows_bodies": false
-    },
-    {
       "id": "g-t-strip-1",
       "kind": "graphic",
       "subtype": "brief_strip",
@@ -112,19 +99,6 @@
       "shows_bodies": false
     },
     {
-      "id": "g-loc-kerch-1",
-      "kind": "graphic",
-      "subtype": "locator",
-      "fps": "30",
-      "frames": 900,
-      "planned": true,
-      "generator": "studio/graphics (E6), planned for the Actions draft",
-      "content_date": "2026-11-21T14:17:37Z",
-      "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words",
-      "licence": "CC0",
-      "shows_bodies": false
-    },
-    {
       "id": "g-g-slate-lead",
       "kind": "graphic",
       "subtype": "lower_third",
@@ -139,7 +113,7 @@
       "alpha": "straight"
     },
     {
-      "id": "g-loc-kerch-2",
+      "id": "g-loc-kyiv-1",
       "kind": "graphic",
       "subtype": "locator",
       "fps": "30",
@@ -163,6 +137,20 @@
       "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words",
       "licence": "CC0",
       "shows_bodies": false
+    },
+    {
+      "id": "g-super-putin-1",
+      "kind": "graphic",
+      "subtype": "sot_super",
+      "fps": "30",
+      "frames": 120,
+      "planned": true,
+      "generator": "studio/graphics (E6), planned for the Actions draft",
+      "content_date": "2026-11-19",
+      "content_basis": "drawn from the screenplay's own words",
+      "licence": "CC0",
+      "shows_bodies": false,
+      "alpha": "straight"
     },
     {
       "id": "g-loc-kyiv",
@@ -318,6 +306,20 @@
       "planned": true,
       "generator": "studio/graphics (E6), planned for the Actions draft",
       "content_date": "2026-11-21T14:17:37Z",
+      "content_basis": "drawn from the screenplay's own words",
+      "licence": "CC0",
+      "shows_bodies": false,
+      "alpha": "straight"
+    },
+    {
+      "id": "g-super-putin-2",
+      "kind": "graphic",
+      "subtype": "sot_super",
+      "fps": "30",
+      "frames": 120,
+      "planned": true,
+      "generator": "studio/graphics (E6), planned for the Actions draft",
+      "content_date": "2026-11-18",
       "content_basis": "drawn from the screenplay's own words",
       "licence": "CC0",
       "shows_bodies": false,
