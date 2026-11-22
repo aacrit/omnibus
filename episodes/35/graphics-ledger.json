@@ -1,1 +1,1090 @@
-[]
+[
+  {
+    "id": "g-clock",
+    "subtype": "clock",
+    "data_ref": "release",
+    "source_template_sha256": "80f2119c60445bfffa2ac8e9837aba2202ad3809093984d9e36b2f3cf983a6dd",
+    "output_path": "/home/runner/stage/graphics/media/g-clock.mov",
+    "output_sha256": "73040b536b849bece399f9e9e4c1b87746e376928088ffdd57280a4fb8e960cc",
+    "frames": 181,
+    "class": "DRAWN",
+    "release": "2026-11-23T21:00:00Z",
+    "release_nominal": true,
+    "airtime_frame": 180,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "the airtime, Monday 21:00 UTC; rendered last, to the release (clock-true)"
+  },
+  {
+    "id": "g-loc-tease-brussels",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "c363ce4be68cedbfd49e2f4e9db7d289721dd46d7ccce6e5ad501d41170acb89",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-tease-brussels.mov",
+    "output_sha256": "bf0b3ce6c89d6322d9d60b8f41dcc780e9e7ea0950c514c35c3d0f751e36e14a",
+    "frames": 236,
+    "class": "DRAWN",
+    "places": [
+      "BRUSSELS"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-t-strip-1",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "1bb1218940058f6af9201ea6653390b829115deb40d23257ee5f61a9baa721eb",
+    "output_path": "/home/runner/stage/graphics/media/g-t-strip-1.mov",
+    "output_sha256": "ce35d5193600ab9177bcab362862280735eb494e6cbd484e08c9ddfb54ccaa2e",
+    "frames": 248,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-strip-2",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "681789bc25dfbc59e88de36b1ae52f0ab8ed62be32e9e1d4610bf3f8502422c8",
+    "output_path": "/home/runner/stage/graphics/media/g-t-strip-2.mov",
+    "output_sha256": "b9eafa4373dae3c1ef95191e51b35bab7374a9377a5c2ac684e4b5721ba6a619",
+    "frames": 236,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-strip-3",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "320306debd9faec349154394050933334481168d8c91d9b52712a7839ed31113",
+    "output_path": "/home/runner/stage/graphics/media/g-t-strip-3.mov",
+    "output_sha256": "45cefa445aa09451b780ca583d088637db90ed2d83cdbc582c4417278535f7d2",
+    "frames": 235,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-strip-4",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "b7067b8e3fcd07aad66c135440a553c1eec667254b007919836209dabe95211e",
+    "output_path": "/home/runner/stage/graphics/media/g-t-strip-4.mov",
+    "output_sha256": "7420c49ec392e771b519ce04cb9f0df8fb6381b24a3ac10b6b09f13c292aab1c",
+    "frames": 275,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-loc-kyiv-1",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "a95462929aa09c6b89c6f26f50ce76e2b9ec61d292b5499ab411ab38118c38e7",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-kyiv-1.mov",
+    "output_sha256": "7e000d523b3faa58c406a06703318cda757e7f67bb70a047f37de05e70634864",
+    "frames": 554,
+    "class": "DRAWN",
+    "places": [
+      "KYIV"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-kerch-3",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "8fac0d1a51c7f9e70ce453b2c4db84390444f402bec794e29239c4d7e1662646",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-kerch-3.mov",
+    "output_sha256": "fc35d895a42b67df8d9d71f63071a5ca24db9c6428cb5731d06399479ddaec43",
+    "frames": 440,
+    "class": "DRAWN",
+    "places": [
+      "KERCH STRAIT",
+      "CRIMEA"
+    ],
+    "scale_km": 100.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-kyiv",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "a95462929aa09c6b89c6f26f50ce76e2b9ec61d292b5499ab411ab38118c38e7",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-kyiv.mov",
+    "output_sha256": "49a946e4672d26b997d9c2f471896fef5c39df1db1be6064c6e8f81283f5a67c",
+    "frames": 332,
+    "class": "DRAWN",
+    "places": [
+      "KYIV"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-poland",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "97825ee4e890ea4e645f319295d052be2f48386985f216eb9a71f636e90d0f89",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-poland.mov",
+    "output_sha256": "7080fe6c865e686f0670b29fd062ec7359d6319769b918355ddd4aa19a7a337a",
+    "frames": 830,
+    "class": "DRAWN",
+    "places": [
+      "POLAND",
+      "UKRAINE"
+    ],
+    "scale_km": 500.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-g-slate-lead",
+    "subtype": "lower_third",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "b1f908561bd04234d0e7700d2509fabac64aa2c5d064a404c46f1e0013b52c50",
+    "output_path": "/home/runner/stage/graphics/media/g-g-slate-lead.mov",
+    "output_sha256": "3301164ff569d98b919494f0dfa21ecdd3dcc71932ee2473a03f6a3ef43310c2",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      825,
+      545,
+      167
+    ],
+    "compact": false,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-super-putin-1",
+    "subtype": "sot_super",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "aedfa822f7e363352cd26b450fc82862da5069d5d8675d1fdf3e96cfc1a370d8",
+    "output_path": "/home/runner/stage/graphics/media/g-super-putin-1.mov",
+    "output_sha256": "993fa96828d9cee7d6d004334fdde913a6ebb191455e4552ac5bf2d090e66fde",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      781,
+      1422,
+      101
+    ],
+    "content_date": "2026-11-19",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-loc-london",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "2f17188e31c0f208b9a7a34e7cfeee7550d905dd110cd3cccd84f4334115020b",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-london.mov",
+    "output_sha256": "6ef5f136f50c30b665cc0a99591d60573b1401580572e1b603e360e08624b466",
+    "frames": 322,
+    "class": "DRAWN",
+    "places": [
+      "LONDON"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-brussels",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "c363ce4be68cedbfd49e2f4e9db7d289721dd46d7ccce6e5ad501d41170acb89",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-brussels.mov",
+    "output_sha256": "934db34aa40e11e6fe06c879470af2bde3f025a23c505ec88f248a47f042e295",
+    "frames": 722,
+    "class": "DRAWN",
+    "places": [
+      "BRUSSELS"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-brussels-2",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "e44fdefd5c873058e15ce2144702aa0c1560e25d0da468244874e173f1150538",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-brussels-2.mov",
+    "output_sha256": "e40689f245f332f8f7a0bf2f153929ba7684e3811e91986b4243fff53ac0b130",
+    "frames": 458,
+    "class": "DRAWN",
+    "places": [
+      "BRUSSELS",
+      "LONDON"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-london-2",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "2f17188e31c0f208b9a7a34e7cfeee7550d905dd110cd3cccd84f4334115020b",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-london-2.mov",
+    "output_sha256": "058abad47855e746a446b33a0a3ed3bedc3a8982d6710e623cfc1f9e8c2a0549",
+    "frames": 416,
+    "class": "DRAWN",
+    "places": [
+      "LONDON"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-g-slate-p2",
+    "subtype": "lower_third",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "07f43c331eb9c39492c21f5504b329eeef95f180b6823ba9b465da1175dd0bed",
+    "output_path": "/home/runner/stage/graphics/media/g-g-slate-p2.mov",
+    "output_sha256": "e2010c0a12849f653cf2eea1ac133f195c25d6b5030bfeba9cc1650a6f62a420",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      825,
+      539,
+      167
+    ],
+    "compact": false,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-loc-hormuz",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "b8cbf583f92a488fc02ebab2460c791bb787aacf6810340d241b2e5393a555ac",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-hormuz.mov",
+    "output_sha256": "e5c5749f47c1d03588289695f400d7b2e72781edd52911a3710ed82f75da7d0f",
+    "frames": 544,
+    "class": "DRAWN",
+    "places": [
+      "STRAIT OF HORMUZ",
+      "QESHM"
+    ],
+    "scale_km": 50.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-kuwait-bahrain",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "36d226cbe8dfd06c0a25ec051579a5690e7538c56b222d8d2cdfa68d79977f90",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-kuwait-bahrain.mov",
+    "output_sha256": "563b393647dae1c8d80efcfb668845486dd4faa5af6735dab47e11f97a3ef3ae",
+    "frames": 674,
+    "class": "DRAWN",
+    "places": [
+      "KUWAIT",
+      "BAHRAIN"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-musandam",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "a6e328d5a8cdf10086159b340b9849ee91262be437186cfd55466b7407e5ea6d",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-musandam.mov",
+    "output_sha256": "40893ff3bfe2d49b587b354f665b0c05199808e9eb98ea422cfb047154f75203",
+    "frames": 806,
+    "class": "DRAWN",
+    "places": [
+      "STRAIT OF HORMUZ",
+      "OMAN"
+    ],
+    "scale_km": 50.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-g-slate-p3",
+    "subtype": "lower_third",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "a2fcb479e0908e72f83e6dfd1b0ca8fbfed7b6a0cc9d5adf39aea7b7f3fd278d",
+    "output_path": "/home/runner/stage/graphics/media/g-g-slate-p3.mov",
+    "output_sha256": "b110c65c6666aa0c2d0fc426a6de47297acb775c245a461cd5f54565ae540655",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      825,
+      539,
+      167
+    ],
+    "compact": false,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-page-decl-3",
+    "subtype": "page",
+    "data_ref": "page.source_id:e35-p4-declaration",
+    "source_template_sha256": "34cea44cfbe3ccf724981a9c57ea5c16f3dc348ac34ee015cd115736277d0b08",
+    "output_path": "/home/runner/stage/graphics/media/g-page-decl-3.mov",
+    "output_sha256": "76b27a6b6bda2adde9ca52d21ba2a4bf3f8e8ade889bda5f4c864a83906c30a3",
+    "frames": 692,
+    "class": "DRAWN",
+    "source_id": "e35-p4-declaration",
+    "party_label": "RELEASED BY THE WHITE HOUSE",
+    "body_px": 40,
+    "content_date": "2026-11-19",
+    "content_basis": "typeset from e35-p4-declaration, point 3, verbatim"
+  },
+  {
+    "id": "g-page-decl-4",
+    "subtype": "page",
+    "data_ref": "page.source_id:e35-p4-declaration",
+    "source_template_sha256": "59c6a557ed3aafc193671ad58ad0cfc8a8f9708fd8e60f07ff123fc81b617c64",
+    "output_path": "/home/runner/stage/graphics/media/g-page-decl-4.mov",
+    "output_sha256": "b8534a1b8b9a66133296ea295f48165691ccc12b832f58dfe91897c2af8615d4",
+    "frames": 545,
+    "class": "DRAWN",
+    "source_id": "e35-p4-declaration",
+    "party_label": "RELEASED BY THE WHITE HOUSE",
+    "body_px": 40,
+    "content_date": "2026-11-19",
+    "content_basis": "typeset from e35-p4-declaration, point 4, verbatim"
+  },
+  {
+    "id": "g-loc-shenzhen",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "7e3ab79e5052256f05787664b623922e6c2dc189731501461f99211edb98b5e7",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-shenzhen.mov",
+    "output_sha256": "6c4dbd9d1e931b93b9d365f1da2d10c1ec4687e9d9b00965959223b02231f3da",
+    "frames": 566,
+    "class": "DRAWN",
+    "places": [
+      "SHENZHEN"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-g-slate-p4",
+    "subtype": "lower_third",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "e0b31f68ee90b8917639b48e0f5b903278d4bb83cd650cb7b4dd60ff4fd0c33f",
+    "output_path": "/home/runner/stage/graphics/media/g-g-slate-p4.mov",
+    "output_sha256": "26be8f7d689c17cca71b902504dfa4d7f7cfe83f359bf3e72132557cfc55aa6b",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      825,
+      539,
+      167
+    ],
+    "compact": false,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-super-putin-2",
+    "subtype": "sot_super",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "aedfa822f7e363352cd26b450fc82862da5069d5d8675d1fdf3e96cfc1a370d8",
+    "output_path": "/home/runner/stage/graphics/media/g-super-putin-2.mov",
+    "output_sha256": "993fa96828d9cee7d6d004334fdde913a6ebb191455e4552ac5bf2d090e66fde",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      781,
+      1422,
+      101
+    ],
+    "content_date": "2026-11-18",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-loc-hague",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "9e2ac180092cc9cba8e0d6b0557f7f8aa16a7d69b4e89402066b10cae7e5cf15",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-hague.mov",
+    "output_sha256": "ddd2c50c995685d5b1e010dacc9eda5cdcc84466685adb1fa6df08d6240df5cf",
+    "frames": 491,
+    "class": "DRAWN",
+    "places": [
+      "THE HAGUE"
+    ],
+    "scale_km": 100.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-rakhine",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "b4a424f688092303413cffb6fc06b301d3c7ffb4072d48413ca586142f505887",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-rakhine.mov",
+    "output_sha256": "12500f87028cd5bd7a04975a37ba35e93ba59c289848a0dd97774c3f29712fc6",
+    "frames": 638,
+    "class": "DRAWN",
+    "places": [
+      "RAKHINE",
+      "COX'S BAZAR"
+    ],
+    "scale_km": 100.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-hague-2",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "e616d9e47e2b0c6d1987f4b208dba5c89842bbf970da2cbb4a0ac0e59e28ea44",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-hague-2.mov",
+    "output_sha256": "194d09d6fa547d140df4693416cd2f5fcc7695618989f12254348cabf508f9f6",
+    "frames": 626,
+    "class": "DRAWN",
+    "places": [
+      "THE HAGUE",
+      "MYANMAR"
+    ],
+    "scale_km": 2000.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-g-slate-p5",
+    "subtype": "lower_third",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "db40adfb186338e169561569b5a70fcdacf97ad95177291311f4176a8b3eb8c4",
+    "output_path": "/home/runner/stage/graphics/media/g-g-slate-p5.mov",
+    "output_sha256": "b9984b2fb897008bb2154f5f8796855734f1fe3ef408288248b09e8aa50e689d",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      825,
+      539,
+      167
+    ],
+    "compact": false,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-bump-briefs",
+    "subtype": "bumper",
+    "data_ref": "shows.lines[briefs]",
+    "source_template_sha256": "4932ae0bcdd241ee4763f09b0e3b83fb61d09bd8aff3502acdaa5cdf41038e04",
+    "output_path": "/home/runner/stage/graphics/media/g-bump-briefs.mov",
+    "output_sha256": "c60e4696a8f3b5893d9b696597634363558fc7193db9c4d05f063b4e4a9b69c8",
+    "frames": 54,
+    "class": "DRAWN",
+    "segment": "briefs",
+    "word": "AROUND THE WORLD",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-1",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "e4c666ed745496895e9f988e0a7029a37d9a5816a0e5c4907f1b542d810cde45",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-1.mov",
+    "output_sha256": "6076022d47a6682a7a29cdf465050f738e1aff337b1555c333da89743310a169",
+    "frames": 358,
+    "class": "DRAWN",
+    "places": [
+      "RIYADH",
+      "SAUDI ARABIA"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-2",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "96b6a25a333f12e373480336ec7512c15f20b084e73e541ab4e42197fa225a5c",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-2.mov",
+    "output_sha256": "926afc51296eae83dce3b32ef17c0bec4e1378bae472dcdbfcab69ac478640cb",
+    "frames": 334,
+    "class": "DRAWN",
+    "places": [
+      "WASHINGTON"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-3",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "2451794c11e285574eb790311dda0e1df9374f1b1a975fc1bf509c4223609a0a",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-3.mov",
+    "output_sha256": "57de5f971e336aed9c3b4ed15bde75e6b3a85aec8e9e77d2f4f6d4f75de1fff9",
+    "frames": 334,
+    "class": "DRAWN",
+    "places": [
+      "CHICAGO"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-4",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "96b6a25a333f12e373480336ec7512c15f20b084e73e541ab4e42197fa225a5c",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-4.mov",
+    "output_sha256": "c7a622c1449b393eda3d54d5619df9073b05ee6a21b2e30e5a3a95ce347cc2a6",
+    "frames": 406,
+    "class": "DRAWN",
+    "places": [
+      "WASHINGTON"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-5",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "17b77fa92119c76e0271e7c41208ccd8efbf7f7ae29e1194d50d6bad8af8a0b7",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-5.mov",
+    "output_sha256": "14a7f55544850517c1c69a3b4baf0df0074eabc178fb031fbb36b5689c369215",
+    "frames": 286,
+    "class": "DRAWN",
+    "places": [
+      "NEW YORK"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-6",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "7e3ab79e5052256f05787664b623922e6c2dc189731501461f99211edb98b5e7",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-6.mov",
+    "output_sha256": "ef395de11314c75e8841061cfa4a2708aec5e9b1e97697308d48d717b66846b6",
+    "frames": 382,
+    "class": "DRAWN",
+    "places": [
+      "SHENZHEN"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-7",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "c8791400c16d29febcc3a1733d65be05d6d8db57d57e5d379df6dd237fb60835",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-7.mov",
+    "output_sha256": "bb53d00a46537690c623fc062de996519b5c5f048232cd2d6fdcc0157ffed3ae",
+    "frames": 442,
+    "class": "DRAWN",
+    "places": [
+      "COPENHAGEN",
+      "GREENLAND"
+    ],
+    "scale_km": 1000.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-9",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "2f17188e31c0f208b9a7a34e7cfeee7550d905dd110cd3cccd84f4334115020b",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-9.mov",
+    "output_sha256": "e313b184553c4481f61e44453f2bc72cde78cbc23e522e783aa9db5925948c9e",
+    "frames": 358,
+    "class": "DRAWN",
+    "places": [
+      "LONDON"
+    ],
+    "scale_km": 200.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-br-10",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "1705440ed08a6f441e4c83321011e7f54ce01d8f6e7ba104f1e0aeed45393682",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-br-10.mov",
+    "output_sha256": "3a65219b749844af33de48b4aca74a2bb57b6a7b936aaa703465f305dd4a2b6e",
+    "frames": 286,
+    "class": "DRAWN",
+    "places": [
+      "JERUSALEM"
+    ],
+    "scale_km": 100.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-1",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "064289f561594065d8d666aab81a9a3c237de359f149faa1263343f36905aceb",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-1.mov",
+    "output_sha256": "6b18336015de37ceb312efc18aeea575217f1ea6562391a4b53d50cdd3dcc3d6",
+    "frames": 359,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-2",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "fc4ab98446ae6de61abcdc0b73823df2b0c52c4e94b523a2224846f5bd81d992",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-2.mov",
+    "output_sha256": "c0fe1f9eaac336c19ade89c33bd8cf93159eb5b7bba63354bcb2bb4fb3e7f799",
+    "frames": 334,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-3",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "037acea6bed1d3c6fa2ca3df53755235a223671c8546a1762da7a0c8170a523f",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-3.mov",
+    "output_sha256": "543ad28371f2ef90ba7b3e3e0c701351fa09dd2502bf63d74c74ee6a985f8b07",
+    "frames": 334,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-4",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "125f6d4ed2b661331d57847b2fc24740384506114f9e4d2fab15411e85e79f22",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-4.mov",
+    "output_sha256": "0205da9d30844756b619c971f25163a44fa9bc60fe08b8f2b618c0556755fd42",
+    "frames": 406,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-5",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "692bd07cd98ccdc0738dd5a1b7089617b3d0b670971d974ce233f66535c55397",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-5.mov",
+    "output_sha256": "8547222ffd425e831541c67d5cc869b6a316ac32d1b8401c2784d3c916af6092",
+    "frames": 287,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-6",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "839da870d0b65bd4cd8e6493954e5d8e398cfc523aaa2dab7e1e5009f73ae7a0",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-6.mov",
+    "output_sha256": "87ffb5e936959647bebc3418c79fb94a0a31aefa2d2451dc07c59496b40219d1",
+    "frames": 382,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-7",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "3c1c8c29a38c75f98057728913714e24716c56b04209b3d49d006c49cfc2cf10",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-7.mov",
+    "output_sha256": "6d4658abcefa45f615f0ace10b83fd9f5b6432b10944557f6898cff1e0e70f34",
+    "frames": 442,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-8",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "b231fa7d16265060e2b9ebb2270a833df30a95983211ac9c2161dcf424321099",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-8.mov",
+    "output_sha256": "fba7f573c9c992b2bee89a994f6613813650fda01204d467142462c74acf2c9d",
+    "frames": 346,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-9",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "fb563ee72cdfa99ed52bdacce0af25e85f401d778cf749e174d1e5c5039f2c8d",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-9.mov",
+    "output_sha256": "65ca539bb34c3a080427251b09af25a2ccd33367f3998f1544cf0bb0152b5652",
+    "frames": 359,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-t-br-10",
+    "subtype": "brief_strip",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "66ef96abe6f761f6ffbf271df9523305eba2c49049e69193ad9a09d78a318bc1",
+    "output_path": "/home/runner/stage/graphics/media/g-t-br-10.mov",
+    "output_sha256": "0faaad1c09fc982d0fbdf8c15bc60f5353d22795a967380eb27f75c9f4381ee4",
+    "frames": 286,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-bump-echo",
+    "subtype": "bumper",
+    "data_ref": "shows.lines[echo]",
+    "source_template_sha256": "ff70c17ceceb09e672106f43cb6f1da7a2d0b2f640f131d1ff46617eb867d6a2",
+    "output_path": "/home/runner/stage/graphics/media/g-bump-echo.mov",
+    "output_sha256": "caf0a2827e5c0336463807b8f41b92a8304a38eec73d6bec8094ffd6c9000a40",
+    "frames": 99,
+    "class": "DRAWN",
+    "segment": "echo",
+    "word": "THE ECHO",
+    "content_date": "1945-02-11",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-loc-echo-crimea",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "96477b586e59ddf2d289e64158396815757a5d2ce527929a2aaed097130a0875",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-echo-crimea.mov",
+    "output_sha256": "c57a205c38036259fe5301178ba15fc614493f7401f54bc2ae0107ce1a2232cc",
+    "frames": 475,
+    "class": "DRAWN",
+    "places": [
+      "YALTA",
+      "THE CRIMEA"
+    ],
+    "scale_km": 50.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "1945-02-04",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-echo-germany",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "99a04466a98cb0ef6a6b43136f56be33c3c63ded3c35636b87873de47bb2e32b",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-echo-germany.mov",
+    "output_sha256": "575b2cbb95eb1cb247f45dc3bccbe65bb377794a9310a0a573ca6080db1c4ad1",
+    "frames": 493,
+    "class": "DRAWN",
+    "places": [
+      "GERMANY"
+    ],
+    "scale_km": 300.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "1945-02-11",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-echo-poland",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "56c6d915e0876db273f8ac6e05e06128f5c3f8533d115c7674f3134ebeccddf1",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-echo-poland.mov",
+    "output_sha256": "57478f2a6339e61347b274e503d5b4bd4dd64996a36ffec25ddb17da5b37a482",
+    "frames": 780,
+    "class": "DRAWN",
+    "places": [
+      "POLAND"
+    ],
+    "scale_km": 300.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "1945-02-11",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-loc-echo-london",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "c3b2cb916cd9118be45dd2bceb2eb67b511ada8d3b74a402a676e5b7bcadffba",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-echo-london.mov",
+    "output_sha256": "e1173aa3ccde46a016f7f10bda368ccbc1bfd27ddc91a5771b8bbb1ed75d6b26",
+    "frames": 376,
+    "class": "DRAWN",
+    "places": [
+      "LONDON",
+      "WASHINGTON"
+    ],
+    "scale_km": 2000.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "1945-02-15",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-page-echo-polish",
+    "subtype": "page",
+    "data_ref": "page.source_id:src-frus-1945v05-d111",
+    "source_template_sha256": "ea75b2d046f6f94475692de1003f9e9a2e18e4b96a05ec030e8d4dff1fa6e90d",
+    "output_path": "/home/runner/stage/graphics/media/g-page-echo-polish.mov",
+    "output_sha256": "511b00d56642ec9d112d959a2ee8bb8dd8e5dbd004c0fbdc10d3bbc64a4d9a49",
+    "frames": 697,
+    "class": "DRAWN",
+    "source_id": "src-frus-1945v05-d111",
+    "party_label": null,
+    "body_px": 40,
+    "content_date": "1945-02-15",
+    "content_basis": "typeset from src-frus-1945v05-d111, statement paragraphs 4 and 5, verbatim"
+  },
+  {
+    "id": "g-page-echo-hansard",
+    "subtype": "page",
+    "data_ref": "page.source_id:src-hansard-1945-02-27",
+    "source_template_sha256": "36829e6ac25ef7655a20f0a4a51ae49596d0b1fe3109690f9229a0eb06a1b4ef",
+    "output_path": "/home/runner/stage/graphics/media/g-page-echo-hansard.mov",
+    "output_sha256": "a358e1499e2d2ff716966986bf6f79be8760bddde2d59fb4da519a0bacd64cda",
+    "frames": 627,
+    "class": "DRAWN",
+    "source_id": "src-hansard-1945-02-27",
+    "party_label": null,
+    "body_px": 40,
+    "content_date": "1945-02-27",
+    "content_basis": "typeset from src-hansard-1945-02-27, about c1275, verbatim"
+  },
+  {
+    "id": "g-page-echo-fdr",
+    "subtype": "page",
+    "data_ref": "page.source_id:src-app-fdr-1945-03-01",
+    "source_template_sha256": "07d012fbe2b6f2243f0727040ad946731636c0885e2ad0f515de2210f553fd32",
+    "output_path": "/home/runner/stage/graphics/media/g-page-echo-fdr.mov",
+    "output_sha256": "d0998738f5fa02b6c0abceb085fbe4459986b30853da046bb89689a3c9317bf8",
+    "frames": 1063,
+    "class": "DRAWN",
+    "source_id": "src-app-fdr-1945-03-01",
+    "party_label": null,
+    "body_px": 40,
+    "content_date": "1945-03-01",
+    "content_basis": "typeset from src-app-fdr-1945-03-01, passage on Poland's boundaries, verbatim"
+  },
+  {
+    "id": "g-loc-echo-yalta",
+    "subtype": "locator",
+    "data_ref": "shot.locator",
+    "source_template_sha256": "6c2230d3763121f545e4e3fd7e2d2eef8bf9074d9df8a7feea3513ddabfe337c",
+    "output_path": "/home/runner/stage/graphics/media/g-loc-echo-yalta.mov",
+    "output_sha256": "64fa7466bc3d3aae52cd2cab0254d32282d0d0118ea3ff6322f95ee6211b5cc1",
+    "frames": 211,
+    "class": "DRAWN",
+    "places": [
+      "YALTA"
+    ],
+    "scale_km": 50.0,
+    "push_s": [
+      1.0,
+      2.5
+    ],
+    "content_date": "1945-02-11",
+    "content_basis": "Natural Earth and GeoNames; the labels are the screenplay's own words"
+  },
+  {
+    "id": "g-slate-echo",
+    "subtype": "lower_third",
+    "data_ref": "shows.lines",
+    "source_template_sha256": "6caa531728e90db4926595bd0ef12787e881b882b326c0191cdfdb597f56cf0a",
+    "output_path": "/home/runner/stage/graphics/media/g-slate-echo.mov",
+    "output_sha256": "6ba377332496d07016da235460f9eada33d38e5f091f8217415ebeba91889b0f",
+    "frames": 120,
+    "class": "DRAWN",
+    "wipe_box": [
+      312,
+      825,
+      710,
+      167
+    ],
+    "compact": false,
+    "content_date": "1945-02-04",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "g-credits",
+    "subtype": "credits",
+    "data_ref": "roll; rights-ledger:items[].disclosure",
+    "source_template_sha256": "195d0015abdda935a9864f820835fb53ba23895b6a376e610821826021154249",
+    "output_path": "/home/runner/stage/graphics/media/g-credits.mov",
+    "output_sha256": "da0d9b2ee296978e82b2fd875c0458301d856bf0dabd68fea10fcabaaa87bf26",
+    "frames": 718,
+    "class": "DRAWN",
+    "strip_px": 3231,
+    "lines": 11,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "the ledgers' credits and the lines below"
+  },
+  {
+    "id": "g-endboard",
+    "subtype": "end_board",
+    "data_ref": "issue, as_of",
+    "source_template_sha256": "9fd57ca7683bac3f74df3e3b8f78c2b721f7edb8b743a7fc41e87acf5b46319e",
+    "output_path": "/home/runner/stage/graphics/media/g-endboard.mov",
+    "output_sha256": "d5a666e508de7002ed972c7af882d7a02d37ef281c27e880507fb7b99cd764bf",
+    "frames": 120,
+    "class": "DRAWN",
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "drawn from the screenplay's own words"
+  },
+  {
+    "id": "dr-title",
+    "subtype": "title_macro",
+    "data_ref": "rundown:stories[].slug, place; title week_line",
+    "source_template_sha256": "ec3cc20aef740fb8fd9e5f5d0b7f43df29f5f1ef230b2a6ef7070596d518975b",
+    "output_path": "/home/runner/stage/graphics/media/dr-title.mov",
+    "output_sha256": "2dcdf0eee37a289d0259640693310609ff78e8887afb336ac41ea9a132bf6b76",
+    "frames": 462,
+    "class": "DRAWN",
+    "rate_cps": 74.3,
+    "print_window_s": 15.4,
+    "content_date": "2026-11-21T14:17:37Z",
+    "content_basis": "the rundown's slugs in rank order and the pinned commit's time"
+  }
+]
