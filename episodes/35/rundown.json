@@ -28,7 +28,7 @@
     },
     "rights_ledger": {
       "path": "episodes/35/rights-ledger.json",
-      "sha256": "05cba80892ccdc6e1b823fd64c5d58188eb0349f137a4b576f06b823f171711a"
+      "sha256": "28aaa89469c2700afbdbdb6f9e603f1eadbf98460c3a5f59a9b07f665333e9bb"
     },
     "capture_pool": null,
     "desk_sha256": "81a6f4052716881fc72d3ea54238bac1cff23849227311c1c81c3f85ac74456e"
@@ -191,7 +191,7 @@
       "weight": 0.890378,
       "rank": 1,
       "slot": "lead",
-      "shape": "document",
+      "shape": "full",
       "category": "conflict",
       "days": [
         "2026-11-16",
@@ -255,9 +255,18 @@
           "status": "to locate; gov.pl terms unreviewed: quoted as a state organ record, typeset, basis recorded"
         }
       ],
-      "footage_cleared_s": 0,
+      "footage_cleared_s": 183.633,
       "footage": {
-        "items": [],
+        "items": [
+          {
+            "id": "e35-lead-putin-presser",
+            "seconds": 155
+          },
+          {
+            "id": "e35-lead-ssu-video",
+            "seconds": 28.633
+          }
+        ],
         "refused": [],
         "unconfirmed": [],
         "no_duration": []
@@ -505,12 +514,16 @@
           "status": "pending T5: kremlin.ru adapter (CC BY 4.0, RIA Novosti and TASS excluded)"
         }
       ],
-      "footage_cleared_s": 37.93,
+      "footage_cleared_s": 57.93,
       "footage": {
         "items": [
           {
             "id": "e35-p4-arrival",
             "seconds": 25
+          },
+          {
+            "id": "e35-p4-putin-apec",
+            "seconds": 20
           },
           {
             "id": "e35-p4-talks",
@@ -2318,7 +2331,6 @@
     "weekly_edition_seen": false
   },
   "notes": [
-    "lead ukraine-bridges-strikes: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_2 uk-eu-reset: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_3 gulf-us-iran: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank",
     "package_5 thread-ec790a82: 0 s of cleared moving picture, under the 30 s cap; a document package at its rank"

@@ -281,6 +281,231 @@
         }
       ],
       "not_fetched": []
+    },
+    {
+      "id": "e35-lead-ssu-video",
+      "kind": "footage",
+      "for": "lead",
+      "title": "The Kerch bridge, 17 Nov: the Security Service of Ukraine's own video of its strike (thermal approach, the impact, the arch down in daylight).",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the locator, Kerch Strait"
+      },
+      "candidates": [
+        {
+          "adapter": "uastate",
+          "ref": "File:Video 2026-11-17 13-25-19.webm",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "ukraine-bridges-strikes",
+            "why": "The Security Service of Ukraine's own video of its strike on the Kerch bridge, released 17 Nov: a thermal drone approach to the arch (0.17 to 22.99 s), the impact at night (22.99 to 26.99 s), the arch down in daylight (26.99 s on). The span starts after the 0.17 s title card ('fourth SSU strike') and stops at 28.8 s, before the SSU's end card wipes in (between 28.8 and 29.4 s). Party label RELEASED BY THE SECURITY SERVICE OF UKRAINE; the SSU's own bug sits top left.",
+            "in_s": 0.167,
+            "out_s": 28.8
+          },
+          "marks_checked": {
+            "marks": [
+              "SSU bug (СЛУЖБА БЕЗПЕКИ УКРАЇНИ), top-left in every frame: the credited source"
+            ],
+            "reviewed": {
+              "by": "verifier: claude-sonnet-5",
+              "at": "2026-11-22T03:30:00Z",
+              "frames": [
+                0.167,
+                2.5,
+                5,
+                7.5,
+                10,
+                12.5,
+                15,
+                17.5,
+                20,
+                22.5,
+                22.99,
+                24.491,
+                25.742,
+                26.994,
+                28.7
+              ],
+              "contact_sheet": {
+                "path": "C:/Users/aacri/claudeprojects/Agentique/reports/verify/omnibus-marks/35/e35-lead-ssu-video/contact_sheet.png",
+                "sha256": "caed0978730f825c4e32a8ba5140a9afd0e37efecf9afe313168dbf17f9c6bb8"
+              }
+            }
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e35-lead-ssu-still",
+      "kind": "still",
+      "for": "lead",
+      "title": "The Kerch bridge after the 17 Nov strike: the SSU's photograph of the damaged span.",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the locator, Kerch Strait"
+      },
+      "candidates": [
+        {
+          "adapter": "uastate",
+          "ref": "File:KerchBridgeCollapse.jpg",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "ukraine-bridges-strikes",
+            "why": "The SSU's photograph of the Crimean Bridge after the 17 Nov strike (its own description: damage to the bridge following a Ukrainian military operation on 17 November 2026). A still, with its party label."
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e35-lead-flamingo-still",
+      "kind": "still",
+      "for": "lead",
+      "title": "The Office of the President's picture of the missile aimed at the bridge (screenplay request t9b-lead-ssu-stills).",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the locator, Kerch Strait"
+      },
+      "candidates": [
+        {
+          "adapter": "uastate",
+          "ref": "File:FlamingoKerch.jpg",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "ukraine-bridges-strikes",
+            "why": "Requested by the screenplay (t9b-lead-ssu-stills); fetched so the adapter's own finding is on the record."
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e35-lead-putin-presser",
+      "kind": "footage",
+      "for": "lead",
+      "title": "Shenzhen, Thursday 19 Nov: Putin's news conference, his answer on the attacks on the Crimean Bridge (the Kremlin's own record).",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the locator, Kerch Strait; the narrator attributes"
+      },
+      "candidates": [
+        {
+          "adapter": "kremlin",
+          "ref": "http://en.kremlin.ru/events/president/news/81305",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "ukraine-bridges-strikes",
+            "why": "The Kremlin's own record of Putin's news conference in Shenzhen on 19 Nov (a news conference by the page's own title). The page's contents put 'The attacks on the Crimean Bridge' at 22:45 to 25:40; sampled frames show the question from the floor at about 22:46 and Putin answering at the lectern from about 23:00 to 25:35. The span is that answer; the bite is cut inside it at sentence bounds at the transcript step. Party label RELEASED BY THE KREMLIN.",
+            "in_s": 1380,
+            "out_s": 1535
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e35-lead-kremlin-read",
+      "kind": "document",
+      "for": "lead",
+      "title": "The Kremlin's English transcript of the 19 Nov news conference: Putin's words on the Crimean Bridge and negotiations, the page the reader speaks.",
+      "fallback": {
+        "tier": null,
+        "text": "the narrator attributes"
+      },
+      "candidates": [
+        {
+          "adapter": "kremlin",
+          "ref": "http://en.kremlin.ru/events/president/news/81305",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "ukraine-bridges-strikes",
+            "why": "The Kremlin's English transcript of the 19 Nov news conference: Putin says the Crimean Bridge is a civilian facility and that 'following the strikes on the Crimean Bridge, there will be no negotiations'. The reader speaks it as TRANSLATION · KREMLIN TRANSCRIPT."
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e35-p4-putin-apec",
+      "kind": "footage",
+      "for": "package_4",
+      "title": "Shenzhen, Wednesday 18 Nov: Putin's address to the APEC CEO Summit (the Kremlin's own record).",
+      "fallback": {
+        "tier": 4,
+        "text": "tier 4: the locator, Shenzhen"
+      },
+      "candidates": [
+        {
+          "adapter": "kremlin",
+          "ref": "http://kremlin.ru/events/president/news/81286",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "shenzhen-summit",
+            "why": "The Kremlin's own record of Putin's address to the APEC CEO Summit in Shenzhen on 18 Nov (1177.7 s, multi-camera, no bug seen in nine sampled frames). The Russian page carries the video (the English page lists none). From 110 to 130 s: Putin at the lectern and the wide hall under the summit's banner; the bite is chosen at the transcript step and replaces this span. Its kind is not read from its title ('Деловой саммит форума АТЭС'), so the ledger airs it muted until a checking role reviews record_kind. Party label RELEASED BY THE KREMLIN.",
+            "in_s": 110,
+            "out_s": 130
+          }
+        }
+      ],
+      "not_fetched": []
+    },
+    {
+      "id": "e35-p4-apec-read",
+      "kind": "document",
+      "for": "package_4",
+      "title": "The Kremlin's English transcript of Putin's APEC CEO Summit address (18 Nov).",
+      "fallback": {
+        "tier": null,
+        "text": "the narrator attributes"
+      },
+      "candidates": [
+        {
+          "adapter": "kremlin",
+          "ref": "http://en.kremlin.ru/events/president/news/81286",
+          "tier": 1,
+          "pinned": true,
+          "window": {
+            "from": "2026-11-16",
+            "to": "2026-11-21T14:17:37Z"
+          },
+          "fit": {
+            "beat": "shenzhen-summit",
+            "why": "The Kremlin's English transcript of the 18 Nov APEC CEO Summit address: the text the reader voice speaks under the ducked original."
+          }
+        }
+      ],
+      "not_fetched": []
     }
   ]
 }

@@ -113,69 +113,40 @@
           "why": "The declaration's own text as the White House published it on 19 Nov at 13:53 UTC (a US federal work): the typeset page the reader speaks, the record of what the three leaders signed."
         }
       }
+    ],
+    "e35-p4-putin-apec": [
+      {
+        "tier": 1,
+        "adapter": "kremlin",
+        "ref": "http://kremlin.ru/events/president/news/81286",
+        "fit": {
+          "beat": "shenzhen-summit",
+          "why": "The Kremlin's own record of Putin's address to the APEC CEO Summit in Shenzhen on 18 Nov (1177.7 s, multi-camera, no bug seen in nine sampled frames). The Russian page carries the video (the English page lists none). From 110 to 130 s: Putin at the lectern and the wide hall under the summit's banner; the bite is chosen at the transcript step and replaces this span. Its kind is not read from its title ('Деловой саммит форума АТЭС'), so the ledger airs it muted until a checking role reviews record_kind. Party label RELEASED BY THE KREMLIN.",
+          "in_s": 110,
+          "out_s": 130
+        }
+      }
+    ],
+    "e35-p4-apec-read": [
+      {
+        "tier": 1,
+        "adapter": "kremlin",
+        "ref": "http://en.kremlin.ru/events/president/news/81286",
+        "fit": {
+          "beat": "shenzhen-summit",
+          "why": "The Kremlin's English transcript of the 18 Nov APEC CEO Summit address: the text the reader voice speaks under the ducked original."
+        }
+      }
     ]
   },
   "pending_t5": [
-    {
-      "ref": "File:2026-11-18 APEC Business Summit – Putin speech.webm",
-      "adapter_needed": "kremlin.ru (Commons upload credited President of Russia)",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-18",
-      "published_at": "2026-11-21T13:22:43Z",
-      "seconds": 1177.7,
-      "mb": 638.9,
-      "kind": "footage; SOT source (address)",
-      "speaker": "Vladimir Putin, APEC Business Summit, Shenzhen",
-      "note": "Putin's own words with the Kremlin's English transcript (TRANSLATION · KREMLIN TRANSCRIPT); party label RELEASED BY THE KREMLIN; a video2commons transfer, so a marks review is needed too. Not staged."
-    },
-    {
-      "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 01.jpg",
-      "adapter_needed": "kremlin.ru",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-19",
-      "kind": "still"
-    },
-    {
-      "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 02.jpg",
-      "adapter_needed": "kremlin.ru",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-19",
-      "kind": "still"
-    },
-    {
-      "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 03.jpg",
-      "adapter_needed": "kremlin.ru",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-19",
-      "kind": "still"
-    },
-    {
-      "ref": "File:Vladimir Putin, Xi Jinping and Donald Trump at APEC China 2026.jpg",
-      "adapter_needed": "kremlin.ru",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-18",
-      "kind": "still"
-    },
-    {
-      "ref": "File:Russian-Chinese talks at the 2026 APEC Summit 01.jpg",
-      "adapter_needed": "kremlin.ru",
-      "licence_as_recorded": "CC BY 4.0",
-      "date": "2026-11-18",
-      "kind": "still"
-    },
-    {
-      "ref": "kremlin.ru English text of the declaration",
-      "adapter_needed": "kremlin.ru",
-      "kind": "document",
-      "note": "not located in this pass"
-    },
     {
       "ref": "kantei.go.jp 20261119apec02.jpg, 20261119apec03.jpg (bible q)",
       "adapter_needed": "kantei.go.jp",
       "licence_as_recorded": "CC BY 4.0",
       "date": "2026-11-19",
       "kind": "still",
-      "note": "not located on Commons in this pass"
+      "note": "kantei is refused until the CoS signs its terms (T5); skipped"
     }
   ],
   "not_taken": [
@@ -215,5 +186,22 @@
   "gaps": [
     "No Chinese-side moving picture (CCTV and Xinhua are not free); Xi is a page or attributed.",
     "No free SOT of Trump on the summit: the 20 Nov news conference carries a CTA banner; the 19 Nov 'Addresses' clip is produced."
-  ]
+  ],
+  "t5_pass": {
+    "at": "2026-11-22",
+    "not_taken": [
+      {
+        "ref": "http://en.kremlin.ru/events/president/news/81303 (trilateral meeting, 19 Nov) and its Russian page",
+        "why": "the page's player lists no mp4 of its own on static.kremlin.ru: nothing to take as video"
+      },
+      {
+        "ref": "File:2026-11-18 APEC Business Summit – Putin speech.webm (the Commons copy)",
+        "why": "superseded by the Kremlin's own file on kremlin.ru/events/president/news/81286, taken through the kremlin adapter"
+      },
+      {
+        "ref": "File:China-US-Russia trilateral meeting at APEC (2026) 01-03.jpg and the other Commons copies of Kremlin photographs",
+        "why": "the kremlin adapter takes a still only from its own slide on the Kremlin page; the Commons copies were not pinned in this pass"
+      }
+    ]
+  }
 }

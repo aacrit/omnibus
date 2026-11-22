@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3AFlamingoKerch.jpg",
+  "at": "2026-11-22T00:21:15Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203380505,
+     "ns": 6,
+     "title": "File:FlamingoKerch.jpg",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{en|1=A FP-5 Flamingo targeting the Crimean Bridge}}\n|date=2026-11-17\n|source=https://x.com/ZelenskyyUa/status/2122623023488393517\n|author=Office of the President of Ukraine\n|permission=\n|other versions=\n}}\n\n=={{int:license-header}}==\n{{President.gov.ua}}\n\n[[Category:Russo-Ukrainian War]]\n[[Category:Flamingo (cruise missile)]]\n[[Category:Crimean Bridge in 2026]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
