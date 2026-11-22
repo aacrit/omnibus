@@ -31,6 +31,7 @@ from .data import (
     EndBoardSpec,
     LocatorSpec,
     LowerThirdSpec,
+    PageSpec,
     SotSuperSpec,
     TestCardSpec,
     TitleMacroSpec,
@@ -640,4 +641,27 @@ def brief_strip_html(spec: BriefStripSpec, *, tokens_css: str, frame_css: str, g
         + '<div class="bstrip-rule"></div>'
         + f'<div class="bstrip-line bc-mono">{esc(line)}</div>'
         + "</div></div>\n" + _TAIL
+    )
+
+
+# ---- page (T9c): a primary document, typeset verbatim ------------------------
+
+def page_html(spec: PageSpec, *, tokens_css: str, frame_css: str, graphics_css: str = "", body_px: int = 40) -> str:
+    """A primary document on the house paper: its own head lines (Barlow caps), the record's words verbatim
+    (Playfair, every numeral in the data face's tabular figures), the source line (Inter) and, when a party to the
+    story released it, its RELEASED BY label (Barlow caps, chrome rule). The Echo's pages sit on the umber field.
+    ``body_px`` is the body's size; render.py steps it down until the page holds the words, never cutting one."""
+    title = "".join(f'<p class="pg-title-line bc-caps">{esc(t)}</p>' for t in spec.title)
+    body = "".join(f'<p class="pg-para">{esc(p)}</p>' for p in spec.body)
+    party = (f'<div class="pg-party"><span class="pg-party-label bc-caps">{esc(spec.party_label)}</span></div>'
+             if spec.party_label else "")
+    field = "field pg-field pg-field--echo" if spec.echo else "field pg-field"
+    return (
+        _head(f"Page, {spec.source_id}", tokens_css=tokens_css, frame_css=frame_css, graphics_css=graphics_css)
+        + f'<div class="frame"><div class="{field}">'
+        + f'<div class="pg-sheet" role="img" aria-label="{esc(spec.source_id)}" style="--pg-body:{int(body_px)}px">'
+        + party + f'<div class="pg-title">{title}</div>'
+        + f'<div class="pg-body">{body}</div>'
+        + f'<div class="pg-source">{esc(spec.source)}</div>'
+        + "</div></div></div>\n" + _TAIL
     )

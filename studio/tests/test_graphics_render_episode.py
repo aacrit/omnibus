@@ -55,7 +55,7 @@ def test_graphics_shots_skips_a_non_graphic_shot():
 
 def test_v2_renderers_cover_exactly_the_subtypes_this_ticket_draws():
     assert set(render.V2_RENDERERS) == set(render.V2_SUBTYPES_DRAWN) == {
-        "bumper", "locator", "sot_super", "brief_strip", "clock", "lower_third", "credits", "end_board"}
+        "bumper", "locator", "sot_super", "brief_strip", "clock", "lower_third", "credits", "end_board", "page"}
 
 
 def test_every_fixture_shot_has_a_registered_renderer():

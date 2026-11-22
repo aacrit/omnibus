@@ -683,3 +683,42 @@ def brief_strip_spec(shot: dict) -> BriefStripSpec:
     if not place.strip() or not date.strip():
         raise ValueError(f"brief_strip: {lines[0]!r} needs a place and a date either side of the middle dot")
     return BriefStripSpec(place=place.strip(), date=date.strip())
+
+
+# ---- page (T9c): a primary document, typeset verbatim ------------------------
+
+@dataclass(frozen=True)
+class PageSpec:
+    source_id: str                  # the record the words are set from (a rights-ledger, rundown or echo-pick id)
+    title: tuple[str, ...]          # the document's own head lines, as it heads itself
+    body: tuple[str, ...]           # the record's words, verbatim, one paragraph each ("[…]" marks a cut)
+    source: str                     # the source line: whose record, where it is set from
+    party_label: str = ""           # "RELEASED BY THE WHITE HOUSE" when a party to the story released it
+    echo: bool = False              # the Echo's umber register
+
+
+def page_spec(shot: dict) -> PageSpec:
+    """A v2 page names its document on the shot (``shot["page"]``, this ticket's convention):
+    ``{source_id, title: [line, ...], body: [paragraph, ...], source}``. The body is the record's own words and must
+    be there; so must the id of the record and its source line. The party label is the shot's ``dot_label`` when it
+    is a RELEASED BY label. Nothing is typeset from the narrator's words or from a guess."""
+    pg = shot.get("page")
+    sid = shot.get("id")
+    if not isinstance(pg, dict):
+        raise ValueError(f"page {sid}: the shot names its document (shot.page: {{source_id, title, body, source}})")
+    body = pg.get("body")
+    if not (isinstance(body, list) and body and all(isinstance(p, str) and p.strip() for p in body)):
+        raise ValueError(f"page {sid}: page.body holds the record's verbatim words (one paragraph a string)")
+    source_id = str(pg.get("source_id") or "").strip()
+    if not source_id:
+        raise ValueError(f"page {sid}: page.source_id names the record the words are set from")
+    source = str(pg.get("source") or "").strip()
+    if not source:
+        raise ValueError(f"page {sid}: page.source is the source line (whose record, where it is set from)")
+    title = pg.get("title") or []
+    if not (isinstance(title, list) and all(isinstance(t, str) and t.strip() for t in title)):
+        raise ValueError(f"page {sid}: page.title is a list of the document's own head lines")
+    label = str(shot.get("dot_label") or "")
+    return PageSpec(source_id=source_id, title=tuple(title), body=tuple(body), source=source,
+                    party_label=label if label.startswith("RELEASED BY ") else "",
+                    echo=shot.get("register") == "umber")

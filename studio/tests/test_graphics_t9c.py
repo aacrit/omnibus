@@ -49,7 +49,7 @@ def test_a_title_line_the_rundown_does_not_print_is_refused():
         render.title_spec(_play(), rd)
 
 
-@pytest.mark.parametrize("subtype", ["page", "count"])
+@pytest.mark.parametrize("subtype", ["count"])
 def test_a_subtype_still_not_drawn_raises_before_any_browser(subtype, tmp_path, monkeypatch):
     monkeypatch.setattr(render.shoot, "chromium", lambda: (_ for _ in ()).throw(AssertionError("a browser opened")))
     play = {"parts": [{"id": "p1", "segment": "lead",
@@ -58,9 +58,32 @@ def test_a_subtype_still_not_drawn_raises_before_any_browser(subtype, tmp_path, 
         render.render_episode(play, tmp_path)
 
 
-def test_issue_35_names_page_which_is_not_drawn_yet():
+def test_every_subtype_issue_35_names_is_drawn():
     subtypes = {g["shot"]["subtype"] for g in render.graphics_shots(_play())}
-    assert subtypes - set(render.V2_RENDERERS) == {"page"}
+    assert subtypes <= set(render.V2_RENDERERS)
+
+
+def test_a_page_with_its_verbatim_words_source_id_and_source_line():
+    from studio.graphics import data, typeset
+    shot = {"id": "g-p", "subtype": "page", "dot_label": "RELEASED BY THE WHITE HOUSE",
+            "page": {"source_id": "e35-p4-declaration", "title": ["JOINT DECLARATION"],
+                     "body": ["The three heads of state reaffirmed that a nuclear war cannot be won."],
+                     "source": "The White House, 19 Nov 2026"}}
+    spec = data.page_spec(shot)
+    assert spec.party_label == "RELEASED BY THE WHITE HOUSE" and not spec.echo
+    html = typeset.page_html(spec, tokens_css="t", frame_css="f")
+    assert "a nuclear war cannot be won." in html and "RELEASED BY THE WHITE HOUSE" in html
+
+
+@pytest.mark.parametrize("drop,why", [("body", "verbatim"), ("source_id", "source_id"), ("source", "source line")])
+def test_a_page_without_its_words_or_its_source_is_refused(drop, why):
+    from studio.graphics import data
+    pg = {"source_id": "x", "body": ["words"], "source": "a line"}
+    pg.pop(drop)
+    with pytest.raises(ValueError, match=why):
+        data.page_spec({"id": "g-p", "page": pg})
+    with pytest.raises(ValueError, match="names its document"):
+        data.page_spec({"id": "g-p"})
 
 
 def test_a_graphic_is_ledgered_by_its_plan_item_and_dated_from_the_plan(tmp_path):

@@ -370,7 +370,7 @@ def graphics_shots(rundown: dict) -> list[dict]:
 #: variants, page, credits, end_board) is "kept" per bible i, but wiring it into `render_episode` is a later
 #: ticket's job (it needs the rundown/2 normaliser's own data shapes, ticket 2); `render_episode` raises rather
 #: than silently skipping one, so a screenplay that names one is never quietly left un-rendered.
-V2_SUBTYPES_DRAWN = ("bumper", "locator", "sot_super", "brief_strip", "clock", "lower_third", "credits", "end_board")  # T9c: the last four
+V2_SUBTYPES_DRAWN = ("bumper", "locator", "sot_super", "brief_strip", "clock", "lower_third", "credits", "end_board", "page")  # T9c: the last five
 
 
 def _render_bumper(run: "Run", g: dict, PH: dict) -> None:
@@ -552,10 +552,38 @@ def _render_end_board(run: "Run", g: dict, PH: dict, ctx: dict) -> None:
              compose.step_frames(compose.load_rgba(png), frames_for(float(shot.get("dur_s") or 4.0))))
 
 
+PAGE_BODY_PX = (40, 36, 32, 29, 26)      # the body steps down until the sheet holds every word; never cut
+
+
+def _render_page(run: "Run", g: dict, PH: dict, ctx: dict) -> None:
+    """A primary document typeset verbatim (``data.page_spec``): the body stepped down through PAGE_BODY_PX until
+    the sheet holds it, refused when it never does (a word is never cut); every paragraph read back from the page
+    and held to the record's words. Held for the shot's length: the engine's tour moves over it."""
+    shot, gid = g["shot"], g["shot"]["id"]
+    spec = data.page_spec(shot)
+    png = t = None
+    for px in PAGE_BODY_PX:
+        t = typeset.page_html(spec, body_px=px, **PH)
+        with run.session(t, where=gid, check_bias=True) as page:
+            if page.texts(".pg-para") != list(spec.body):
+                raise ValueError(f"{gid}: the page's paragraphs are not the record's words verbatim")
+            over = page.evaluate("() => { const b = document.querySelector('.pg-body'); "
+                                 "return b.scrollHeight - b.clientHeight; }")
+            if over <= 1:
+                png = page.screenshot()
+                break
+    if png is None:
+        raise ValueError(f"{gid}: {spec.source_id}'s words do not fit the sheet at {PAGE_BODY_PX[-1]} px: cut the "
+                         "passage with a marked cut ([…]) in the screenplay, never on the page")
+    run.emit(gid, "page", f"page.source_id:{spec.source_id}", t,
+             compose.step_frames(compose.load_rgba(png), frames_for(float(shot.get("dur_s") or 4.0))),
+             extra={"source_id": spec.source_id, "party_label": spec.party_label or None, "body_px": px})
+
+
 V2_RENDERERS = {"bumper": _render_bumper, "locator": _render_locator, "sot_super": _render_sot_super,
                 "brief_strip": _render_brief_strip, "clock": _render_clock, "lower_third": _render_lower_third,
-                "credits": _render_credits, "end_board": _render_end_board}
-V2_NEEDS_CONTEXT = ("clock", "lower_third", "credits", "end_board")
+                "credits": _render_credits, "end_board": _render_end_board, "page": _render_page}
+V2_NEEDS_CONTEXT = ("clock", "lower_third", "credits", "end_board", "page")
 TITLE_STRIKE_CPS = 74.3          # the v1 macro's strike rate (E6 review, 3.2)
 
 
