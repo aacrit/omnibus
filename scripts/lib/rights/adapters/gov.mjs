@@ -9,6 +9,7 @@
 import { hostOf } from "../licences.mjs";
 import { isAllowedUrl, isFederalHost } from "../http.mjs";
 import { clip, decodeEntities, firstDate, isoSecond, plain } from "../text.mjs";
+import { partyLabel, recordKindFromTitle } from "../records.mjs";
 
 /** Each federal host's body and how its page names it. A host not listed here is never read as federal. */
 export const AGENCIES = [
@@ -274,6 +275,10 @@ export function parseFederalPage(html, { pageUrl, kind, media = null, capturedAt
       own_work: false,
       uploader: null,
       witness,
+      // The body released it: a party label when the US is a party to the story (bible v2 section e, party-label).
+      released_by: body.agency,
+      party_label: partyLabel(body.agency),
+      ...(kind === "footage" && recordKindFromTitle(title) ? { record_kind: recordKindFromTitle(title).kind, record_kind_note: recordKindFromTitle(title).evidence } : {}),
       ai_fields_checked: ["title", "description", "page-credits", "embeds"],
     },
   };

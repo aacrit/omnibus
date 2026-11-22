@@ -9,7 +9,8 @@
 // categories and upload history, to keep the response small with
 // iiextmetadatafilter, and never to download here (the fetcher does that).
 
-import { readLicence, youtubeInText } from "../licences.mjs";
+import { OGL, OGL_STATEMENT, readLicence, youtubeInText } from "../licences.mjs";
+import { sourceUrls } from "../sources.mjs";
 import { clip, firstDate, isoSecond, latestYear, plain } from "../text.mjs";
 
 const API = "https://commons.wikimedia.org/w/api.php";
@@ -117,6 +118,12 @@ const BASIS_WORDS = {
   "pd-dedication": "released into the public domain by its author",
 };
 
+/** "<author>, via Wikimedia Commons", with OGL v3's attribution statement after it when that is the licence. */
+export function commonsCredit(author, licence) {
+  if (!author) return null;
+  return licence === OGL ? `${author}, via Wikimedia Commons. ${OGL_STATEMENT}` : `${author}, via Wikimedia Commons`;
+}
+
 /** Pure: the candidate a recorded imageinfo response (and optional user record) describes. */
 export function parseInfo(json, { ref, user = null, capturedAt, wikitext = "" }) {
   const page = json?.query?.pages?.[0];
@@ -150,6 +157,7 @@ export function parseInfo(json, { ref, user = null, capturedAt, wikitext = "" })
   } else if (licence) {
     basis = `Wikimedia Commons file page: ${shortName || template}${em.UsageTerms ? ` (${plain(em.UsageTerms)})` : ""}`;
   }
+  if (read.family === "ogl" && !licence) licenceNote = "an Open Government Licence other than v3.0, which is not on the allowlist";
   const creditRaw = plain(em.Credit);
   const ownWork = /int-own-work/.test(String(em.Credit)) || /^own work\b/i.test(creditRaw);
   const artist = plain(em.Artist) || null;
@@ -183,7 +191,8 @@ export function parseInfo(json, { ref, user = null, capturedAt, wikitext = "" })
       licence,
       licence_note: licenceNote,
       basis,
-      credit: artist ? `${artist}, via Wikimedia Commons` : creditRaw ? `${creditRaw}, via Wikimedia Commons` : null,
+      // OGL v3 requires its attribution statement in the credit (bible v2 section n).
+      credit: commonsCredit(artist || creditRaw || null, licence),
       // The raw Artist and Credit text, so an outlet named only in Credit is refused before download, as the lint does.
       credit_fields: [artist, creditRaw].filter(Boolean),
       evidence: { url: ii.descriptionurl, captured_text: capturedText, captured_at: capturedAt },
@@ -192,7 +201,11 @@ export function parseInfo(json, { ref, user = null, capturedAt, wikitext = "" })
       categories,
       keywords: [],
       own_work: ownWork,
-      uploader: ownWork ? parseUser(user, first.user) : null,
+      // The uploader of every transfer is recorded (bible v2 section n: the uploader check is mandatory); an own-work
+      // claim also reads the account's age and edits.
+      uploader: ownWork ? parseUser(user, first.user) : first.user ? { name: String(first.user), registration: null, editcount: null } : null,
+      // Every address the file page's |source= and |author= lines name: a denied host there refuses the file.
+      source_urls: sourceUrls(wikitext),
       restriction_reasons: restrictionReasons(plain(em.Restrictions)),
       ai_fields_checked: ["commons-categories", "title", "description", "credit", "licence"],
       ref_requested: ref,
