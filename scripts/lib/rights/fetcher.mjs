@@ -14,6 +14,7 @@ import { emptyLedger, validateLedger } from "./ledger.mjs";
 import { checkCandidate } from "./provenance.mjs";
 import { clip, isoSecond } from "./text.mjs";
 import { cutsDisagree, detectCuts as ffmpegCuts } from "./scenes.mjs";
+import { muteReasonFor, resolveRecordKind, sotEligible } from "./records.mjs";
 
 /** A marks review as the ledger keeps it: who (a role), when, the frames, the contact sheet, the file's length, a video's cuts. */
 function marksReviewed(r = {}) {
@@ -364,7 +365,26 @@ export function ledgerEntry({ request, candidate: c, tier, check, media, file, c
     ...(c.published_by_edition ? { published_by_edition: { ...c.published_by_edition } } : {}),
     // A dot label the shot must carry wherever the item airs (ruling A's, or a sourcing pass's: an Echo film of another place and day).
     ...(c.dot_label ? { dot_label: { text: clip(c.dot_label.text, 120), why: clip(c.dot_label.why, 600) } } : {}),
+    // T5 (bible v2 sections e and n): what kind of record the footage is, and who released it.
+    ...(c.record_kind ? { record_kind: c.record_kind, record_kind_evidence: { ...c.record_kind_evidence, text: clip(c.record_kind_evidence?.text, 600) } } : {}),
+    ...(c.released_by ? { released_by: clip(c.released_by, 120), party_label: clip(c.party_label, 160) } : {}),
   };
+}
+
+/**
+ * The record kind of a footage candidate (T5): the adapter's own reading, else the pin's signed review, else
+ * unknown. Footage of a kind that may not feed SOT airs muted, with the reason, unless its pin already mutes it.
+ * Mutates c; returns the problem that refuses it, or null.
+ */
+export function applyRecordKind(c, cand, requestKind) {
+  if (requestKind !== "footage") return null;
+  const rk = resolveRecordKind({ adapterKind: c.record_kind ?? null, adapterEvidence: c.record_kind_note ?? null, review: cand.record_kind ?? null });
+  delete c.record_kind_note;
+  if (rk.problem) return rk.problem;
+  c.record_kind = rk.kind;
+  c.record_kind_evidence = rk.evidence;
+  if (!sotEligible(rk.kind) && !c.audio) c.audio = { mode: "muted", reason: muteReasonFor(rk.kind) };
+  return null;
 }
 
 /** The fit record a pin states, held to its fields and lengths. */
@@ -463,6 +483,8 @@ export async function fetchRequests(requestsDoc, ledgerIn, opts) {
       // A pin's fit and fair-use record travel with the candidate; the source's own record never sets them.
       const c = { ...found.candidate, kind: request.kind, ...(cand.audio ? { audio: cand.audio } : {}), ...(cand.fit ? { fit: cand.fit } : {}), ...(cand.fair_use ? { fair_use: cand.fair_use } : {}), ...(cand.marks_checked ? { marks_checked: cand.marks_checked } : {}), ...(cand.shows_bodies !== undefined ? { shows_bodies: cand.shows_bodies } : {}), ...(cand.bodies_excluded ? { bodies_excluded: cand.bodies_excluded } : {}) };
       const reasons = [];
+      const kindProblem = applyRecordKind(c, cand, request.kind);
+      if (kindProblem) reasons.push(kindProblem);
       // A pin's date record states the item's day where the source gives only its year (a NARA record of a Commons file).
       if (cand.date_record) {
         let rec;

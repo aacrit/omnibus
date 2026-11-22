@@ -1,0 +1,127 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3AAir+raid+shelter+in+Kyiv%2C+2026-11-13.jpg",
+  "at": "2026-11-22T00:21:16Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203243397,
+     "ns": 6,
+     "title": "File:Air raid shelter in Kyiv, 2026-11-13.jpg",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-14T21:47:41Z",
+       "user": "Sneeuwschaap",
+       "size": 265102,
+       "width": 1100,
+       "height": 732,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Air_raid_shelter_in_Kyiv%2C_2026-11-13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Air_raid_shelter_in_Kyiv,_2026-11-13.jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/203243397",
+       "sha1": "beb9b3b22c8ade4e1c5b92ce08f10ae716d82603",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Air raid shelter in Kyiv, 2026-11-13",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "November 2026 in Kyiv|Creative Commons Attribution 4.0 missing SDC copyright license|Creative Commons Attribution missing SDC copyright status|Images from kyivcity.gov.ua|Air raid shelters in Kyiv|Russo-Ukrainian War on 2026-11-13",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Air raid shelter in Kyiv, built in November 2026.",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-13",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://kyivcity.gov.ua/news/klichko_kivpastrans_zavershiv_montazh_mobilnogo_ukrittya_na_zupintsi_prospekt_ivasyuka__v_bik_troyeschini/\">Віталій Кличко: «Київпастранс» цього тижня завершив монтаж мобільного укриття на зупинці «Проспект Володимира Івасюка» – в бік Троєщини</a>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "Kyiv City State Administration",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY 4.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution 4.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by/4.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-4.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:Air raid shelters in Kyiv"
+      },
+      {
+       "ns": 14,
+       "title": "Category:CC-BY-4.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Creative Commons Attribution 4.0 missing SDC copyright license"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Creative Commons Attribution missing SDC copyright status"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Images from kyivcity.gov.ua"
+      },
+      {
+       "ns": 14,
+       "title": "Category:November 2026 in Kyiv"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Russo-Ukrainian War on 2026-11-13"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

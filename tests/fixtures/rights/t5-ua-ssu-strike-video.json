@@ -1,0 +1,136 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3AVideo+2026-11-17+13-25-19.webm",
+  "at": "2026-11-22T00:21:11Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203375285,
+     "ns": 6,
+     "title": "File:Video 2026-11-17 13-25-19.webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-17T11:36:48Z",
+       "user": "Nesanya",
+       "size": 3303884,
+       "width": 1280,
+       "height": 720,
+       "duration": 34.367,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Video_2026-11-17_13-25-19.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Video_2026-11-17_13-25-19.webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/203375285",
+       "sha1": "41a00ef753c34340d8717aeef1155ae689f1c2f8",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Video 2026-11-17 13-25-19",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Security Service of Ukraine|Creative Commons Attribution 4.0 missing SDC copyright license|Creative Commons Attribution missing SDC copyright status|Uploaded with video2commons|Videos in Ukrainian|Images from ssu.gov.ua|Videos taken on 2026-11-17|Crimean Bridge in 2026",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Відео атаки СБУ на Кримський міст",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-17",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video\">https://ssu.gov.ua/novyny/sbu-spilno-iz-sylamy-oborony-urazyla-krymskyi-mist-odnu-z-arok-ta-avtomobilnyi-prolit-povnistiu-znyshcheno-video</a>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "Security Service of Ukraine",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY 4.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution 4.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by/4.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-4.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:CC-BY-4.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Creative Commons Attribution 4.0 missing SDC copyright license"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Creative Commons Attribution missing SDC copyright status"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Crimean Bridge in 2026"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Images from ssu.gov.ua"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Security Service of Ukraine"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Uploaded with video2commons"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos in Ukrainian"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos taken on 2026-11-17"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

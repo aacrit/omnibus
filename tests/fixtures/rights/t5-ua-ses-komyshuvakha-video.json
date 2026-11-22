@@ -1,0 +1,128 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3ADestructions+in+Komyshuvakha+after+Russian+attack%2C+2026-11-02+%28001%29.webm",
+  "at": "2026-11-22T00:21:19Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 202820505,
+     "ns": 6,
+     "title": "File:Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001).webm",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-11-05T04:06:35Z",
+       "user": "Sneeuwschaap",
+       "size": 20913714,
+       "width": 1920,
+       "height": 1080,
+       "duration": 67.868,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Destructions_in_Komyshuvakha_after_Russian_attack%2C_2026-11-02_%28001%29.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Destructions_in_Komyshuvakha_after_Russian_attack,_2026-11-02_(001).webm",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/202820505",
+       "sha1": "edceb51d7415cc056714f89ce7a459eed9596d8f",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Destructions in Komyshuvakha after Russian attack, 2026-11-02 (001)",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "Videos of 2026|Videos in Ukrainian|Images from dsns.gov.ua|Videos of 2026 from Zaporizhzhia Oblast|Videos of the Russo-Ukrainian War from 2026|Attack on Komyshuvakha, 2 November 2026",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "Consequences of Russian bombing of <a href=\"https://en.wikipedia.org/wiki/Komyshuvakha,_Zaporizhzhia_Oblast\" class=\"extiw\" title=\"en:Komyshuvakha, Zaporizhzhia Oblast\">Komyshuvakha, Zaporizhzhia Oblast</a> on 2 November 2026. The bombing destroyed a school, used as humanitarian aid center. Air raid shelter, located in underground room of the school, was also destroyed. At least 40 people were killed. Above-ground building of the school was destroyed by a strike in 2023 (<a rel=\"nofollow\" class=\"external text\" href=\"https://www.bbc.com/russian/articles/cmn8wnvyp278o\">1</a>, <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/20261105004827/https://suspilne.media/zaporizhzhia/1444833-udar-fab-3000-po-pidzemnij-skoli-v-komisuvasi-akim-malo-b-buti-ukritta-abi-vitrimati-aviaudar-rf/\">2</a>).",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-11-02",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://dsns.gov.ua/news/nadzvicaini-podiyi/rosiiani-vdarili-po-skoli-v-selishhi-komisuvaxa-zaporizkoyi-oblasti-je-zertvi-onovleno\">Росіяни вдарили по школі в селищі Комишуваха Запорізької області: є жертви (оновлено)</a> (<a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=SUFuE0pfO0c\">on Youtube</a>)",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "<a href=\"https://en.wikipedia.org/wiki/State_Emergency_Service_of_Ukraine\" class=\"extiw\" title=\"en:State Emergency Service of Ukraine\">State Emergency Service of Ukraine</a>",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "CC BY 4.0",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Creative Commons Attribution 4.0",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "https://creativecommons.org/licenses/by/4.0",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "License": {
+         "value": "cc-by-4.0",
+         "source": "commons-templates",
+         "hidden": ""
+        }
+       },
+       "mime": "video/webm"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:Attack on Komyshuvakha, 2 November 2026"
+      },
+      {
+       "ns": 14,
+       "title": "Category:CC-BY-4.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Images from dsns.gov.ua"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos in Ukrainian"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos of 2026"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos of 2026 from Zaporizhzhia Oblast"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Videos of the Russo-Ukrainian War from 2026"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

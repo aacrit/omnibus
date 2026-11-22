@@ -1,0 +1,110 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Ccategories&cllimit=max&iilimit=20&iiprop=url%7Csize%7Csha1%7Cmime%7Ctimestamp%7Cuser%7Cextmetadata&iiextmetadatafilter=ObjectName%7CImageDescription%7CArtist%7CCredit%7CDateTimeOriginal%7CLicenseShortName%7CLicense%7CLicenseUrl%7CUsageTerms%7CAttributionRequired%7CCopyrighted%7CRestrictions%7CCategories&iiextmetadatalanguage=en&titles=File%3APrime+Minister+Andy+Burnham+with+Spanish+Prime+Minister+Pedro+Sanchez+at+UNGA.jpg",
+  "at": "2026-11-22T00:21:29Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 200011049,
+     "ns": 6,
+     "title": "File:Prime Minister Andy Burnham with Spanish Prime Minister Pedro Sanchez at UNGA.jpg",
+     "imagerepository": "local",
+     "imageinfo": [
+      {
+       "timestamp": "2026-09-22T18:27:53Z",
+       "user": "StevoLaker",
+       "size": 4201092,
+       "width": 5277,
+       "height": 3520,
+       "url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Prime_Minister_Andy_Burnham_with_Spanish_Prime_Minister_Pedro_Sanchez_at_UNGA.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+       "descriptionurl": "https://commons.wikimedia.org/wiki/File:Prime_Minister_Andy_Burnham_with_Spanish_Prime_Minister_Pedro_Sanchez_at_UNGA.jpg",
+       "descriptionshorturl": "https://commons.wikimedia.org/wiki/Special:Redirect/page/200011049",
+       "sha1": "946fac359ad9c7cb2c5bea7a0b62ee9aeee8a066",
+       "extmetadata": {
+        "ObjectName": {
+         "value": "Prime Minister Andy Burnham with Spanish Prime Minister Pedro Sanchez at UNGA",
+         "source": "mediawiki-metadata"
+        },
+        "Categories": {
+         "value": "OGL v3.0|Pedro Sánchez in 2026|Andy Burnham and Pedro Sánchez|Andy Burnham at the 81st session of the United Nations General Assembly",
+         "source": "commons-categories",
+         "hidden": ""
+        },
+        "ImageDescription": {
+         "value": "22/09/2026. New York, United States. Prime Minister Andy Burnham meets Pedro Sánchez, Prime Minister of Spain in Central Park ahead of attending the United Nations General Assembly at the United Nations Headquarters in New York. Picture by Simon Dawson / No 10 Downing Street",
+         "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+         "value": "2026-09-22",
+         "source": "commons-desc-page"
+        },
+        "Credit": {
+         "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.flickr.com/photos/number10gov/55544264511/\">https://www.flickr.com/photos/number10gov/55544264511/</a>",
+         "source": "commons-desc-page"
+        },
+        "Artist": {
+         "value": "Number 10",
+         "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+         "value": "OGL 3",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "UsageTerms": {
+         "value": "Open Government License 3",
+         "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+         "value": "true",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "LicenseUrl": {
+         "value": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3",
+         "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+         "value": "True",
+         "source": "commons-desc-page",
+         "hidden": ""
+        },
+        "Restrictions": {
+         "value": "",
+         "source": "commons-desc-page",
+         "hidden": ""
+        }
+       },
+       "mime": "image/jpeg"
+      }
+     ],
+     "categories": [
+      {
+       "ns": 14,
+       "title": "Category:Andy Burnham and Pedro Sánchez"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Andy Burnham at the 81st session of the United Nations General Assembly"
+      },
+      {
+       "ns": 14,
+       "title": "Category:OGL v3.0"
+      },
+      {
+       "ns": 14,
+       "title": "Category:Pedro Sánchez in 2026"
+      }
+     ]
+    }
+   ]
+  },
+  "limits": {
+   "categories": 500
+  }
+ }
+}

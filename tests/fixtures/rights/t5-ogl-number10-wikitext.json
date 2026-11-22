@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3APrime+Minister+Andy+Burnham+with+Spanish+Prime+Minister+Pedro+Sanchez+at+UNGA.jpg",
+  "at": "2026-11-22T00:21:30Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 200011049,
+     "ns": 6,
+     "title": "File:Prime Minister Andy Burnham with Spanish Prime Minister Pedro Sanchez at UNGA.jpg",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{en|1=22/09/2026. New York, United States. Prime Minister Andy Burnham meets Pedro Sánchez, Prime Minister of Spain in Central Park ahead of attending the United Nations General Assembly at the United Nations Headquarters in New York. Picture by Simon Dawson / No 10 Downing Street}}\n|date=2026-09-22\n|source=https://www.flickr.com/photos/number10gov/55544264511/\n|author=Number 10\n|permission=\n|other versions=\n}}\n\n=={{int:license-header}}==\n{{OGL3}}\n\n[[Category:Andy Burnham at the 81st session of the United Nations General Assembly]]\n[[Category:Pedro Sánchez in 2026]]\n[[Category:Andy Burnham and Pedro Sánchez]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

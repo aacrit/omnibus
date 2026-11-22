@@ -8,7 +8,11 @@
 // from void document (aacrit/document@b62c4fa42017d5f3432bb3317b0fc03465bda193:
 // studio/engine/titles.py _provenance_problems()); the laundering checks are net-new.
 
-import { FAIR_USE, aiSignals, deniedBy, licenceProblems, marksProblems } from "./licences.mjs";
+import { FAIR_USE, OGL, OGL_EXEMPT, aiSignals, deniedBy, licenceProblems, marksProblems } from "./licences.mjs";
+import { sourceRefusals } from "./sources.mjs";
+
+/** The adapters whose items are Commons transfers: the uploader check applies to every one (bible v2 section n). */
+export const COMMONS_ADAPTERS = ["commons", "uastate"];
 
 /** An uploader account younger than this at upload time, with few edits, makes an own-work claim suspect. */
 export const NEW_ACCOUNT_DAYS = 30;
@@ -30,8 +34,10 @@ function toTime(d) {
  * Institution records (NASA, LoC, DVIDS) are not uploader claims.
  */
 export function launderingCheck(c) {
-  if (c.adapter !== "commons") return { status: "not_applicable", findings: [] };
+  if (!COMMONS_ADAPTERS.includes(c.adapter)) return { status: "not_applicable", findings: [] };
   const findings = [];
+  // The uploader check is mandatory for every Commons transfer (bible v2 section n): who put the file there is read, always.
+  if (!c.own_work && !String(c.uploader?.name ?? "").trim()) findings.push("a Commons transfer whose uploader could not be read (the uploader check is mandatory)");
   const upload = toTime(c.published_at);
   const capture = toTime(c.date);
   if (capture !== null && upload !== null && capture > upload + DAY_MS) {
@@ -93,7 +99,7 @@ export function checkCandidate(c) {
   if (!c.evidence?.url || !String(c.evidence?.captured_text ?? "").trim()) reasons.push("no licence evidence captured");
   reasons.push(
     ...deniedBy({
-      urls: [c.item_url, c.media_url, ...(c.related_urls ?? [])],
+      urls: [c.item_url, c.media_url, ...(c.related_urls ?? []), ...(c.source_urls ?? [])],
       texts: [c.title, c.description, c.basis],
       credits: [c.credit, ...(c.credit_fields ?? [])],
       tags: [...(c.categories ?? []), ...(c.keywords ?? [])],
@@ -106,6 +112,14 @@ export function checkCandidate(c) {
   const laundering = launderingCheck(c);
   if (laundering.status === "suspect") reasons.push(...laundering.findings.map((f) => `laundering suspicion: ${f}`));
   reasons.push(...(c.restriction_reasons ?? []));
+  // Sources refused whatever licence they show (C-SPAN, Kanal13, VTV, a foreign state's PD mark): read from the source's own record.
+  reasons.push(...sourceRefusals({ credits: [c.credit, ...(c.credit_fields ?? [])], wikitext: c.source_text ?? "", categories: c.categories ?? [], uploader: c.uploader }));
+  if (c.licence === OGL) {
+    const exempt = [c.title, c.description, ...(c.categories ?? []), ...(c.credit_fields ?? [])].filter(Boolean).map(String).find((t) => OGL_EXEMPT.test(t));
+    if (exempt) reasons.push(`OGL v3 never licenses what its exemptions list (crests, arms, insignia, identity documents): "${exempt.match(OGL_EXEMPT)[0]}"`);
+  }
+  // A transfer's party-label and state-body checks (uastate.mjs, kremlin.mjs, kantei.mjs) report here.
+  reasons.push(...(c.adapter_problems ?? []));
   // On-screen marks: a VOA item or a YouTube copy needs a reviewed frame check; a denied party's mark refuses any item.
   reasons.push(...marksProblems(c, { resignPending: true }));
   if (!c.media_url) reasons.push("no media address");

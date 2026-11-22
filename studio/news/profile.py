@@ -81,6 +81,10 @@ _LICENCES = {
     "cc0-1.0": {"as": "allowed", "reads_as": "CC0 1.0", "attribution": False, "basis": "CC0 1.0"},
     "eu-reuse-credit": {"as": "allowed", "reads_as": "EU reuse with credit (2011/833/EU)", "attribution": True,
                         "basis": "EU reuse with mandatory credit (Commission Decision 2011/833/EU)"},
+    # The UK Open Government Licence v3.0 (T5, bible v2 section n): compatible with CC BY 4.0 by its own terms; its
+    # attribution statement is mandatory in the credits (licences.mjs OGL_STATEMENT).
+    "ogl-uk-3.0": {"as": "allowed", "reads_as": "Open Government Licence v3.0", "attribution": True,
+                   "basis": "Open Government Licence v3.0 (compatible with CC BY 4.0)"},
     "own-property": {"as": "allowed", "reads_as": None, "attribution": False,
                      "basis": "void news's own printed page, the same owner's publication (no licence granted)"},
     **{f"cc-by-{v}": {"as": "allowed", "reads_as": f"CC BY {v}", "attribution": True, "basis": f"CC BY {v}"}

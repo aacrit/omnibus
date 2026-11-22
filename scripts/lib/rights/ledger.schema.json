@@ -38,6 +38,13 @@
         "$ref": "#/$defs/drop"
       }
     },
+    "transcripts": {
+      "description": "T5 (bible v2 section e): the official and our own transcripts the sound bites' words must match.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/transcript"
+      }
+    },
     "witnesses": {
       "description": "Dated Wayback captures read as date witnesses for primary texts (founder ruling, chat 2026-11-12): what was captured, when, and its sha256. A witness is never a licence; used is true only when the item it witnesses passed its own rights checks.",
       "type": "array",
@@ -54,6 +61,124 @@
     "datetime": {
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+    },
+    "weburl": {
+      "description": "An https address, or a plain-http address on kremlin.ru's three hosts, the one source reached over http (scripts/lib/rights/http.mjs PLAIN_HTTP_HOSTS).",
+      "type": "string",
+      "pattern": "^(https://[^\\s]+|http://(en\\.|static\\.)?kremlin\\.ru/[^\\s]+)$",
+      "maxLength": 2048
+    },
+    "transcript": {
+      "description": "T5 (bible v2 section e): a transcript a sound bite is matched against. official: the state organ's own published text on its own host; ours: two different ASR engines' texts, admissible at 98% word agreement or better, recomputed by the lint (scripts/lib/rights/records.mjs).",
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "item_id",
+        "lang",
+        "text",
+        "text_sha256",
+        "captured_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+        },
+        "source": {
+          "enum": [
+            "official",
+            "ours"
+          ]
+        },
+        "item_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+        },
+        "lang": {
+          "type": "string",
+          "pattern": "^[a-z]{2,3}$"
+        },
+        "translated_from": {
+          "type": "string",
+          "pattern": "^[a-z]{2,3}$"
+        },
+        "span": {
+          "type": "object",
+          "required": [
+            "in_s",
+            "out_s"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "in_s": {
+              "type": "number",
+              "minimum": 0
+            },
+            "out_s": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "url": {
+          "$ref": "#/$defs/weburl"
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200000
+        },
+        "text_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "engines": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "engine",
+              "model",
+              "text"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "engine": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "model": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200000
+              }
+            }
+          }
+        },
+        "agreement": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "captured_at": {
+          "$ref": "#/$defs/datetime"
+        }
+      }
     },
     "https": {
       "type": "string",
@@ -112,7 +237,10 @@
             "nara",
             "wayback",
             "voidnews",
-            "voa"
+            "voa",
+            "kremlin",
+            "uastate",
+            "kantei"
           ]
         },
         "title": {
@@ -136,7 +264,7 @@
           "additionalProperties": false,
           "properties": {
             "url": {
-              "$ref": "#/$defs/https"
+              "$ref": "#/$defs/weburl"
             },
             "captured_text": {
               "type": "string",
@@ -173,10 +301,10 @@
           }
         },
         "item_url": {
-          "$ref": "#/$defs/https"
+          "$ref": "#/$defs/weburl"
         },
         "media_url": {
-          "$ref": "#/$defs/https"
+          "$ref": "#/$defs/weburl"
         },
         "file": {
           "type": "string",
@@ -445,6 +573,66 @@
             "why": { "type": "string", "minLength": 1, "maxLength": 600 }
           }
         },
+        "record_kind": {
+          "description": "T5 (bible v2 section n): what kind of record the footage is. Only the first seven may feed SOT; any other kind airs muted (audio.mode muted).",
+          "enum": [
+            "remarks",
+            "briefing",
+            "news_conference",
+            "floor",
+            "hearing_own_feed",
+            "address",
+            "interview_own_crew",
+            "produced",
+            "promo",
+            "unknown"
+          ]
+        },
+        "record_kind_evidence": {
+          "description": "Where the kind was read: the source's own record (adapter), or a checking role's signed review (review).",
+          "type": "object",
+          "required": [
+            "source",
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "enum": [
+                "adapter",
+                "review"
+              ]
+            },
+            "by": {
+              "enum": [
+                "verifier",
+                "cos",
+                "founder"
+              ]
+            },
+            "at": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 600
+            }
+          }
+        },
+        "released_by": {
+          "description": "The body that released the item; a party label when it is a party to the story it appears in.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "party_label": {
+          "description": "The on-screen label: RELEASED BY <released_by> in capitals.",
+          "type": "string",
+          "pattern": "^RELEASED BY \\S.*$",
+          "maxLength": 160
+        },
         "terms": {
           "description": "An editorial-use item's terms (founder ruling, 2026-11-13): the terms page, its quoted text, the credit it requires and the restrictions it sets.",
           "type": "object",
@@ -558,7 +746,7 @@
       "additionalProperties": false,
       "properties": {
         "url": {
-          "$ref": "#/$defs/https"
+          "$ref": "#/$defs/weburl"
         },
         "captured_text": {
           "type": "string",

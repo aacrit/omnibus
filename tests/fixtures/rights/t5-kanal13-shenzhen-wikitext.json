@@ -1,0 +1,30 @@
+{
+ "_recorded": {
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=revisions&rvprop=content&rvslots=main&titles=File%3ATrump%2C+Putin+arrive+in+Shenzhen+ahead+of+landmark+summit+with+Chinese+President+Xi+Jinping.webm",
+  "at": "2026-11-22T00:21:22Z",
+  "by": "T5 fixture recording: API metadata only, no media"
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 203500713,
+     "ns": 6,
+     "title": "File:Trump, Putin arrive in Shenzhen ahead of landmark summit with Chinese President Xi Jinping.webm",
+     "revisions": [
+      {
+       "slots": {
+        "main": {
+         "contentmodel": "wikitext",
+         "contentformat": "text/x-wiki",
+         "content": "=={{int:filedesc}}==\n{{Information\n|description={{en|1=Click here and support Kanal13 monthly for distributing more videos and independent journalism}}\n|date=2026-11-18\n|source={{From YouTube|1=CQkp0fkFhJQ|2=Trump, Putin arrive in Shenzhen ahead of landmark summit with Chinese President Xi Jinping}}\n|author=[https://www.youtube.com/@Kanal13AZ Kanal13]\n|permission=\n|other_versions=\n|other_fields=\n}}\n\n=={{int:license-header}}==\n{{YouTube CC-BY 4.0|Kanal13}}\n\n[[Category:Uploaded with video2commons]]\n[[Category:Videos of 2026]]"
+        }
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}
