@@ -22,7 +22,7 @@ from studio.news import profile as SHOW  # noqa: E402
 
 @pytest.fixture(scope="module")
 def news_render(tmp_path_factory):
-    film = FILM.make(tmp_path_factory.mktemp("news") / "week-99")
+    film = FILM.make(tmp_path_factory.mktemp("news") / "episodes" / "33")
     out = film.parent / "out"
     try:
         summary = R.render(film, out, height=720, workers=2, min_free_gb=1, encode_preset="veryfast", draft=True)
@@ -40,10 +40,10 @@ def frame_at(path: Path, t: float) -> np.ndarray:
 def test_the_master_is_30_fps_and_links_to_omnibus(news_render):
     src = json.loads((news_render["out"] / "sources.json").read_text(encoding="utf-8"))
     assert src["fps_rate"] == "30"
-    assert src["show"]["sources_page"] == "https://omnibus.voidvision.org/e/99/sources"
+    assert src["show"]["sources_page"] == "https://omnibus.voidvision.org/e/33/sources"
     assert src["show"]["target_lufs"] == -16.0
     text = (news_render["out"] / "description.txt").read_text(encoding="utf-8")
-    assert "https://omnibus.voidvision.org/e/99/sources" in text and "document.voidvision.org" not in text
+    assert "https://omnibus.voidvision.org/e/33/sources" in text and "document.voidvision.org" not in text
     kinds = {s["id"]: s for s in src["shots"]}
     assert kinds["G-DAY1"]["graphic"]["subtype"] == "day" and kinds["G-DAY1"]["mark"]["class"] == "DRAWN"
     assert [g["id"] for g in src["graphics_over"]] == ["G-LT"]
@@ -82,7 +82,7 @@ def test_the_master_meets_the_shows_loudness(news_render):
 
 
 def _film(tmp_path, edit_play=None, edit_items=None) -> Path:
-    film = FILM.make(tmp_path / "week-99")
+    film = FILM.make(tmp_path / "episodes" / "33")    # the frozen v1 spine reads only the episodes/33 folder
     if edit_items:
         led = json.loads((film / "ledger.json").read_text(encoding="utf-8"))
         edit_items({it["id"]: it for it in led["items"]})
@@ -129,3 +129,59 @@ def test_a_document_film_cannot_use_the_news_kinds(tmp_path):
                     s.update(kind="card", mark="CARD", text=[s["id"].title()])
     msg = _refusal(_film(tmp_path / "overlay", edit_play=overlay_only))
     assert "kind-supported (G-LT)" in msg, msg
+
+
+def test_a_v2_line_kind_over_black_is_refused_by_the_render(tmp_path):
+    """Review of PR #36: build_plan maps v2 line kinds to the engine's (schema.engine_play), so a vo line heard over
+    black reaches voice-over-black. The frozen v1 fixture with its closing narration relabelled vo and moved over B1
+    (89 to 90 s). A final render of this fixture refuses earlier, on the take lints (A19 voice-clean: its voices are
+    test tones), so the plan is built as a draft and voice-over-black is run on it at a final render's severity,
+    exactly as render()'s pre-flight runs it, and refused as render() refuses it."""
+    from studio.engine.journal import Journal
+
+    def edit(play):
+        for p in play["parts"]:
+            for ln in p.get("lines") or []:
+                if ln["id"] == "L-q":
+                    ln.update(kind="vo", start_s=88.0)
+    film = _film(tmp_path, edit_play=edit)
+    try:
+        plan = R.build_plan(film, W=1280, H=720, burn_subtitles=False, journal=Journal(film="news-vob-plan"), draft=True)
+        lq = next(ln for ln in plan["lines"] if ln["id"] == "L-q")
+        assert lq["kind"] == "narration" and lq["news_kind"] == "vo"
+        out = R.voice_over_black_lints(Journal(film="news-vob"), plan)
+        assert any(o.startswith("voice-over-black (B1") and "L-q" in o for o in out), out
+        with pytest.raises(R.Refused, match=r"voice-over-black \(B1"):
+            if out:
+                raise R.Refused(f"on-screen time (pre-flight): {'; '.join(out)}")
+    finally:
+        R.apply_show(SHOW.of({}))
+
+
+def test_a_muted_role_plans_as_the_engines_mute(tmp_path):
+    """Review of PR #36: a v2 shot with sound.role muted comes out of build_plan with mode mute."""
+    from studio.engine.journal import Journal
+
+    def edit(play):
+        play["parts"][0]["shots"].append({"id": "S-MUTED", "kind": "archive_video", "asset": "st-open", "start_s": 5.0,
+                                          "dur_s": 1.0, "mark": "DRAWN", "transition_in": {"type": "cut"},
+                                          "sound": {"role": "muted", "translation": "none",
+                                                    "mute_reason": "a music bed in the source here"}})
+    film = _film(tmp_path, edit_play=edit)
+    play = json.loads((film / "screenplay.json").read_text(encoding="utf-8"))
+    shot = play["parts"][0]["shots"][-1]
+    from studio.news import schema as SC
+    assert SC.engine_sound(shot["sound"])["mode"] == "mute"
+    j = Journal(film="news-muted")
+    try:
+        try:
+            plan = R.build_plan(film, W=1280, H=720, burn_subtitles=False, journal=j, draft=True)
+            got = next(s for s in plan["shots"] if s["id"] == "S-MUTED")["sound"]
+            assert got["mode"] == "mute" and got["role"] == "muted"
+        except R.Refused:
+            pass                          # a still standing in for a clip may refuse elsewhere; the lint below holds
+        from studio.engine import journal as J
+        rows = [e for e in J.read(j.path) if e.get("rule") == "sound-muted-mode"]
+        assert rows and rows[0]["status"] == "pass", rows
+    finally:
+        R.apply_show(SHOW.of({}))

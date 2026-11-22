@@ -465,7 +465,7 @@
           }
         },
         "fair_use": {
-          "description": "A fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13), held to the blocking fair-use lints in scripts/lib/rights/lints.mjs.",
+          "description": "A fair-use excerpt's bounds and rationale (founder ruling, 2026-11-13), refused outright since show bible v2 (fair-use-refused, scripts/lib/rights/lints.mjs): an item that carries it blocks.",
           "type": "object",
           "required": [
             "beat",

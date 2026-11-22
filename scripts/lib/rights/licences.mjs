@@ -50,7 +50,7 @@ export const EDITORIAL_USE = "editorial-use";
 /**
  * Ledger class fair-use-excerpt (founder ruling, 2026-11-13): a broadcast or
  * outlet clip, only as evidence of coverage in The Weight beside the board,
- * bounded by the fair-use lints (scripts/lib/rights/lints.mjs lintFairUse).
+ * refused outright since show bible v2 (scripts/lib/rights/lints.mjs lintFairUseRefused).
  * It is the only class that may carry an outlet's material; agencies
  * (AP, Reuters, AFP, Getty) stay refused whatever the class.
  */

@@ -1,5 +1,5 @@
 # Net-new in omnibus (E3).
-"""The programme's blocking lints (show bible j), for an omnibus screenplay.
+"""The programme's blocking lints (show bible v2, section o), for an omnibus screenplay.
 
     python -m studio.news.lints <film dir> [--json]
 
@@ -13,7 +13,8 @@ pick; studio/news/schema.py):
 
 Which part is which comes from the checked order (schema.segments), never from a part's own label or kind: only
 the first part labelled clock and the last labelled credits are exempt where the rules exempt them, and a part whose
-label is out of the spine's order is linted as news.
+label is out of the spine's order is linted as news. The spine is the screenplay's (schema.spine): v2's, or v1's for
+the frozen issue 33 (V1 ONLY paths below read The Week's day parts and the board, which only issue 33 has).
 
 - ``as-of`` (part level): everything a part shows or says is dated on or before its horizon (its own ``as_of``,
   clamped to the episode's), to the second when both state a time: each shot's and each graphic overlay's ledger
@@ -24,15 +25,14 @@ label is out of the spine's order is linted as news.
   never UTC. A whole-day date on the horizon's own day is a review item; a part's horizon is an instant or a day
   before the episode's, never after it or a whole day straddling it.
 - ``picture_published_by_edition`` (founder ruling A, 2026-11-13): a news part's picture (a shot's or overlay's
-  ledger item with a ``published_at``) is public by the part's horizon; in The Week only, a picture of the day's own
+  ledger item with a ``published_at``) is public by the part's horizon; in The Week only (V1 ONLY, until ticket 6's
+  ``picture-in-week``), a picture of the day's own
   event (its ``date`` on or before the day's horizon) may be published by the edition cutoff (the episode's
   ``as_of``) instead, and then its ledger item and the shot both carry the dot label ``FILMED {date} · PUBLISHED
   {date}``. Facts and narration stay at the day's horizon (``as-of``).
-- ``fair-use-on-timeline`` (S4 review, 2026-11-13): a fair-use excerpt (ledger licence ``fair-use-excerpt``) airs
-  only in The Weight, at most 10 s on the timeline per item (every shot of it summed) and 45 s per episode, the
-  bounds scripts/lib/rights/lints.mjs lintFairUse holds the ledger's in and out points to.
 - ``never-tell`` and ``hindsight-language``: the bible's news list (studio/news/lexicon.json) on the narration and
-  our own on-screen text, quotations exempt; and no narration line paraphrases a headline the board on screen shows.
+  our own on-screen text, quotations exempt; and (V1 ONLY: no v2 graphic is a board) no narration line paraphrases a
+  headline the board on screen shows.
 - ``no-outlet-characterisation``: no characterising word next to an outlet's name (in any case) or a media noun (a
   legal status the screenplay states, with its basis, aside).
 - ``no-bridge``: none of the week's named persons, places and parties-as-actors (the rundown's Echo ``no_bridge``
@@ -41,37 +41,36 @@ label is out of the spine's order is linted as news.
   as written or in capitals, with a single listed word's demonyms and derived forms and a listed place's period
   spellings (CoS ruling under the founder's narrow rule); and no bridging phrase ("like today", "just as") anywhere.
   The reverse direction (no Echo-era entity in a news part) is declared ``not_implemented`` with its reason.
-- ``board-rule``: a board shows the record's rows only (claim records, never context), one per titled occupied rung,
-  verbatim and sha-matched, at least three when three are titled; an occupied rung with no titled headline has no
-  row (the untitled-rung exception).
 - ``counts-match``: every figure an element declares (``figures`` on a card or text element, ``shows.figures`` on a
   graphic) equals its record field, and every count its on-screen text states (numerals and written-out numbers; a
   date's own day, month and year aside) is one of its own declared figures.
 - ``quote-verbatim``: every reader line's text hashes to its ``quote_sha256``, and that hash is an extract the
   rundown or the echo pick records; every displayed headline hashes to its ``headline_sha256``, a hash the record
   holds; and our own text that reproduces a record headline carries its ``headline_sha256``.
-- ``title-lines-verbatim``: the title part carries ``title_lines`` and ``week_line``; each printed day line is the
-  day's rank-1 headline and count as the record holds them, and the week line is the edition's.
 - ``dot-label-carried`` (S4 review round 3): every shot of a ledger item that names a ``dot_label`` (a sourcing
   pass's: another place or day than the line names, or a montage dated only by its upload day, "WHITE HOUSE VIDEO ·
   PUBLISHED 6 NOV 2026") carries that label's text as its own ``dot_label``; ruling A's label is checked by
   ``picture_published_by_edition``.
-- ``no-music-under-news``: no music cue over the cold open, The Week, The Weight or The Margins.
+- ``no-music-under-news``: no music cue over a news part (the spine's news segments: v2's tease, lead, packages and
+  briefs).
 - ``no-music-under-quote`` (founder ruling): no music cue under any reader line.
+- ``fair-use-refused`` (bible o, replacing ``fair-use-excerpt`` and ``fair-use-on-timeline``): no shot, overlay, cue
+  or clip whose ledger item rests on fair use (its licence class, a ``fair_use`` record, or a basis citing it).
 - ``narration-ceiling``: at most 55% of the runtime voiced.
 - ``voice-disclosed``: the narrator and every reader voice state a credit naming the synthesised or computer voice,
   and their dot label; a reader line that names no voice fails.
-- ``ending-question``: the last voiced line before the credits is the narrator's, a question, followed by at least
-  6 s with no voice.
 - ``tour-window-inside``: every window of a filled still's authored camera path lies inside the picture (z 1 or
   more) and off its ledger item's no-tour bands; the picture's size comes from the ledger, never the file.
-- ``tour-no-claim-before-board``: before The Weight (and any board), no tour window shows a claim record's headline box on the
-  same printed edition (boxes from the ledger's own pages toured to a claim headline).
 - ``total of`` in a figure's field sums every number under it (a week's bars to its placed total).
 - ``black-share``: black on screen (a black shot, a black card, a card that draws only its text with none) is at
   most 3% of the runtime, and each states its reason.
 
 A lint that cannot read its inputs fails its rule with the reason; it never crashes the run.
+
+Killed by bible v2 (DIED, for every screenplay, issue 33 included): ``board-rule``, ``tour-no-claim-before-board``,
+``ladder-labels-derived``, ``ending-question``, ``fair-use-excerpt``, ``fair-use-on-timeline``,
+``title-lines-verbatim``. Their replacements that are not ``fair-use-refused`` (``title-lines-from-rundown`` and the
+rest of section o's new table) land with tickets 3, 4, 6 and 7.
 
 Declared here and run later (``not_implemented`` until then): ``clock-true``, ``sources-last``, ``no-youtube`` (the
 release step), ``no-bridge-reverse`` (the echo pick's entity list).
@@ -99,8 +98,7 @@ LADDER_PATH = REPO / "web" / "src" / "lib" / "ladder.mjs"
 GRAMMAR = "show bible j"
 NARRATION_CEILING = 0.55
 BLACK_SHARE_MAX = 0.03
-QUESTION_SILENCE_S = 6.0
-BOARD_MIN_RUNGS, BOARD_MAX_ROWS = 3, 6
+VOICED_KINDS = ("narration", "testimony", *SC.LINE_KINDS)   # v1's engine kinds (issue 33) and v2's (bible o)
 EST_WPM = 150.0                       # a line with no WAV and no dur_s is timed at the narrator's rate (rundown voices)
 OVERLAP_EPS = 1.0 / 60.0              # under half a frame at 30 fps is not an overlap
 PARAPHRASE_SHARE, PARAPHRASE_MIN_WORDS = 0.6, 3
@@ -396,7 +394,7 @@ def voiced(play: dict, durations: dict | None) -> list[dict]:
     out = []
     for p in play.get("parts") or []:
         for ln in p.get("lines") or []:
-            if ln.get("kind") in ("narration", "testimony"):
+            if ln.get("kind") in VOICED_KINDS:
                 d, how = line_dur(ln, durations)
                 a = float(ln.get("start_s") or 0.0)
                 out.append({"id": ln.get("id"), "kind": ln["kind"], "start": a, "end": a + d, "how": how,
@@ -417,13 +415,14 @@ def parts(play: dict):
     """(part, segment) for every part, the segment as the checked order trusts it (schema.segments: None where a
     label is out of place, so the part is linted as news). No exemption is read from a part's own label or kind."""
     ps = [p for p in play.get("parts") or [] if isinstance(p, dict)]
-    return list(zip(ps, SC.segments({"parts": ps})))
+    return list(zip(ps, SC.segments(dict(play, parts=ps))))
 
 
 def _as_linted(part: dict) -> dict:
     """The part as A0's surfaces read it, its self-declared exemptions removed: A0 skips a ``kind: credits`` part
     and a card labelled credits, attribution or mark key; in a news part those are labels, not exemptions."""
     q = dict(part, kind="chapter" if part.get("kind") == "credits" else part.get("kind"))
+    q["lines"] = [SC.engine_line(ln) for ln in part.get("lines") or []]     # a v2 vo line is narration, read/sot quotation
     q["shots"] = [dict(s, card="statement") if s.get("card") in AW.EXEMPT_CARDS else s for s in part.get("shots") or []]
     return q
 
@@ -551,8 +550,8 @@ def as_of_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
                 judge(g.get("id"), "undated" if d is None else against(d, hz),
                       dict(base, data_ref=g["data_ref"], field=k, date=v))
         for ln in p.get("lines") or []:
-            if ln.get("kind") != "testimony":
-                continue
+            if ln.get("kind") not in ("testimony", *SC.READER_KINDS):
+                continue                      # a v2 sot line is dated by its clip's ledger item
             v = ln.get("date") if ln.get("date") is not None else ln.get("year")
             src = "line"
             if v is None and id(ln) in readers:
@@ -597,9 +596,10 @@ def published_by_edition_checks(play: dict, assets: dict) -> list[dict]:
     episode = instant(play.get("as_of"))
     if episode is None:
         return []                             # as-of names the unreadable horizon
-    week_hz = []                              # the horizons of The Week's parts so far: a day's window starts at the last
+    week_hz = []                              # V1 ONLY: The Week's horizons so far (a day's window starts at the last)
+    news = SC.spine(play).news
     for p, seg in parts(play):
-        if seg in SC.AS_OF_EXEMPT or seg in ("title", "echo", "question"):
+        if seg is not None and seg not in news:
             continue                          # news parts only, the checked order deciding (a mislabelled part is news)
         own = instant(p.get("as_of")) if p.get("as_of") else episode
         if own is None:
@@ -679,35 +679,50 @@ def dot_label_checks(play: dict, assets: dict) -> list[dict]:
 
 
 FAIR_USE = "fair-use-excerpt"
-FAIR_USE_CLIP_MAX_S, FAIR_USE_TOTAL_MAX_S = 10.0, 45.0
+FAIR_USE_REFUSED = "fair-use-refused"
+_FAIR_USE_BASIS = re.compile(r"\bfair[\s-]?(?:use|dealing)\b|\b17\s*U\.?S\.?C\.?\s*(?:\u00a7+|sec(?:tion|\.)?)?\s*107\b",
+                             re.I)
 
 
-def fair_use_timeline_checks(play: dict, assets: dict) -> list[dict]:
-    """``fair-use-on-timeline``: the seconds each fair-use excerpt is on screen, every shot of it summed, within the
-    ledger's bounds; and only in The Weight."""
-    found, per, where = [], {}, {}
-    for p, seg in parts(play):
-        for x in p.get("shots") or []:
-            item = assets.get(x.get("asset")) if x.get("asset") else None
-            if not item or item.get("licence") != FAIR_USE:
-                continue
-            per[x["asset"]] = per.get(x["asset"], 0.0) + float(x.get("dur_s") or 0.0)
-            if seg != "weight":
-                where.setdefault(x["asset"], []).append(p.get("id"))
-    for aid, secs in per.items():
-        probs = []
-        if secs > FAIR_USE_CLIP_MAX_S + 1e-6:
-            probs.append(f"on the timeline {secs:.1f} s in all, over {FAIR_USE_CLIP_MAX_S:.0f} s")
-        if where.get(aid):
-            probs.append(f"shown outside The Weight ({', '.join(where[aid])})")
-        if probs:
-            found.append(_check("fair-use-on-timeline", False, unit=aid, evidence={"asset": aid, "seconds": round(secs, 2),
-                                                                                 "problems": probs}))
-    total = sum(per.values())
-    if total > FAIR_USE_TOTAL_MAX_S + 1e-6:
-        found.append(_check("fair-use-on-timeline", False, unit="episode", evidence={
-            "seconds": round(total, 2), "problems": [f"fair-use excerpts run {total:.1f} s, over {FAIR_USE_TOTAL_MAX_S:.0f} s"]}))
-    return _summary("fair-use-on-timeline", found, len(per))
+def is_fair_use(item: dict | None) -> bool:
+    """A ledger item that rests on fair use: the fair-use-excerpt class, a fair_use record, or a basis that says so."""
+    if not isinstance(item, dict):
+        return False
+    return (item.get("licence") == FAIR_USE or item.get("fair_use") is not None
+            or bool(_FAIR_USE_BASIS.search(str(item.get("basis") or ""))))
+
+
+def fair_use_refused_checks(play: dict, assets: dict) -> list[dict]:
+    """``fair-use-refused`` (bible o): fair use was tied to The Weight, which is gone, so any picture or sound whose
+    ledger item rests on fair use blocks, wherever it airs, until the founder re-rules."""
+    found, checked = [], 0
+    for p, _seg in parts(play):
+        for coll in ("shots", "text", "cues"):
+            for x in p.get(coll) or []:
+                aid = x.get("asset") or x.get("clip") or (x.get("source") if coll == "cues" else None)
+                if not isinstance(aid, str) or not aid:
+                    continue
+                checked += 1
+                if is_fair_use(assets.get(aid)):
+                    found.append(_check(FAIR_USE_REFUSED, False, unit=x.get("id"), evidence={
+                        "part": p.get("id"), "asset": aid, "licence": assets[aid].get("licence"),
+                        "why": "fair use is unavailable in v2 (bible n): replace the item with a cleared one"}))
+    shots = {s.get("id"): s for p in play.get("parts") or [] for s in p.get("shots") or []}
+    for ln in (ln for p in play.get("parts") or [] for ln in p.get("lines") or []):
+        refs = [ln.get("clip"), ln.get("transcript_ref"), (shots.get(ln.get("shot_ref")) or {}).get("asset")]
+        for aid in dict.fromkeys(r for r in refs if isinstance(r, str) and r):
+            checked += 1
+            if is_fair_use(assets.get(aid)):
+                found.append(_check(FAIR_USE_REFUSED, False, unit=ln.get("id"), evidence={
+                    "asset": aid, "why": "fair use is unavailable in v2 (bible n)"}))
+    for c in play.get("music") or []:
+        aid = c.get("asset") or c.get("clip") or c.get("source")
+        if isinstance(aid, str) and aid:
+            checked += 1
+            if is_fair_use(assets.get(aid)):
+                found.append(_check(FAIR_USE_REFUSED, False, unit=c.get("id"), evidence={
+                    "asset": aid, "why": "fair use is unavailable in v2 (bible n)"}))
+    return _summary(FAIR_USE_REFUSED, found, checked)
 
 
 def _extract_dates(inputs: dict) -> dict:
@@ -744,7 +759,7 @@ def language_checks(play: dict, inputs: dict, durations: dict | None) -> list[di
             if hh:
                 hind.append(_check("hindsight-language", False, unit=srf["unit"], evidence={"text": srf["text"], "hits": hh,
                                                                                            "list": "news (bible j)"}))
-    # a narration line spoken over a board never paraphrases a headline the board shows
+    # V1 ONLY (frozen, issue 33): a narration line spoken over a board never paraphrases a headline the board shows
     boards = []
     for p in play.get("parts") or []:
         for s in p.get("shots") or []:
@@ -752,7 +767,7 @@ def language_checks(play: dict, inputs: dict, durations: dict | None) -> list[di
                 a = float(s.get("start_s") or 0.0)
                 boards.append((s, a, a + shot_dur(s)))
     for v in voiced(play, durations):
-        if v["kind"] != "narration":
+        if v["kind"] not in SC.NARRATOR_KINDS:
             continue
         nw = _content_words(v["text"])
         for s, a, b in boards:
@@ -932,69 +947,6 @@ def bridge_checks(play: dict, inputs: dict) -> list[dict]:
                     "part": p.get("id"), "text": srf["text"], "hits": hits,
                     "why": "a sentence points between the Echo and the week"}))
     return _summary("no-bridge", found, n)
-
-
-def board_checks(play: dict, inputs: dict) -> list[dict]:
-    found, n = [], 0
-    names = rungs()
-    for _, g in _graphics(play):
-        if g.get("subtype") != "board":
-            continue
-        n += 1
-        ref = str(g.get("data_ref") or "")
-        probs = []
-        if not ref.endswith(".board"):
-            found.append(_check("board-rule", False, unit=g.get("id"), evidence={
-                "data_ref": ref, "why": "a board's data_ref names a record's board (…board)"}))
-            continue
-        try:
-            rec_rows = resolve(ref, inputs)
-            parent = resolve(ref[: -len(".board")], inputs)
-        except FieldError as e:
-            found.append(_check("board-rule", False, unit=g.get("id"), evidence={"data_ref": ref, "why": str(e)}))
-            continue
-        claim = parent.get("claim") or {}
-        clusters = set(claim.get("clusters") or [])
-        titled = claim.get("titled_by_rung") or []
-        counts = claim.get("rung_counts") or []
-        shown = (g.get("shows") or {}).get("rows") or []
-        by_key = {(r.get("rung"), r.get("outlet"), r.get("headline")): r for r in rec_rows if isinstance(r, dict)}
-        for r in rec_rows:
-            if r.get("cluster_id") not in clusters:
-                probs.append(f"the record's {r.get('rung')} row ({r.get('outlet')}) is from a context record, not the claim")
-        seen = []
-        for k, r in enumerate(shown):
-            key = (r.get("rung"), r.get("outlet"), r.get("headline"))
-            rec = by_key.get(key)
-            if rec is None:
-                probs.append(f"row {k} ({r.get('rung')}, {r.get('outlet')}) is not a row of the record's board, verbatim")
-                continue
-            if r.get("headline_sha256") != sha256_text(r.get("headline")) or r.get("headline_sha256") != rec.get("headline_sha256"):
-                probs.append(f"row {k}'s headline_sha256 does not match its headline and the record's")
-            if r.get("rung") in seen:
-                probs.append(f"rung {r.get('rung')} has two rows")
-            seen.append(r.get("rung"))
-        titled_rungs = [names[i] for i, c in enumerate(titled) if i < len(names) and c > 0]
-        untitled = [names[i] for i, c in enumerate(counts) if i < len(names) and c > 0 and not (i < len(titled) and titled[i] > 0)]
-        missing = [x for x in titled_rungs if x not in seen][: max(0, BOARD_MAX_ROWS - len(seen))]
-        if missing:
-            probs.append(f"titled occupied rungs with no row: {missing}")
-        for x in seen:
-            if x in untitled:
-                probs.append(f"rung {x} has no titled headline in the claim, so it has no row (untitled-rung exception)")
-            elif x not in titled_rungs:
-                probs.append(f"rung {x} is not occupied by the claim's titled headlines")
-        if len(titled_rungs) >= BOARD_MIN_RUNGS and len(seen) < BOARD_MIN_RUNGS:
-            probs.append(f"{len(titled_rungs)} rungs are titled, so the board shows at least {BOARD_MIN_RUNGS}")
-        if len(shown) > BOARD_MAX_ROWS:
-            probs.append(f"{len(shown)} rows: a board shows at most {BOARD_MAX_ROWS}")
-        rec_untitled = sorted(parent.get("board_untitled_rungs") or [])
-        if sorted(untitled) != rec_untitled:
-            probs.append(f"the record's board_untitled_rungs {rec_untitled} disagree with its counts {sorted(untitled)}")
-        found.append(_check("board-rule", not probs, unit=g.get("id"), evidence={
-            "data_ref": ref, "rows": len(shown), "titled_rungs": titled_rungs, "untitled_rungs": untitled,
-            "problems": probs}))
-    return _summary("board-rule", found, n) if n else [_check("board-rule", True, evidence={"boards": 0})]
 
 
 def _values_equal(a, b) -> bool:
@@ -1206,76 +1158,11 @@ def _own_screen_lines(play: dict):
                     yield f"{t.get('id')}.shows.lines[{k}]", str(x), False
 
 
-DOW = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
-MON = ("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
-
-
-def day_stamp(d: dt.date) -> str:
-    return f"{DOW[d.weekday()]} {d.day:02d} {MON[d.month - 1]}"
-
-
-def expected_title_lines(record: dict) -> list[str]:
-    """Each printed day line as the record holds it: day, count and the rank-1 headline (in capitals, the
-    teleprinter's case), or NO PRINT for a day the record does not hold."""
-    out = []
-    for day in record.get("days") or []:
-        d = dt.date.fromisoformat(day["date"])
-        lead = day.get("lead") or {}
-        if day.get("available") and lead.get("title"):
-            out.append(f"{day_stamp(d)}   {lead.get('source_count')} SRC  {str(lead['title']).upper()}")
-        else:
-            out.append(f"{day_stamp(d)}   NO PRINT")
-    return out
-
-
-def expected_week_line(record: dict) -> str:
-    t = instant(record.get("as_of"))[0]
-    return f"WEEK {record.get('issue')}  CLOSED {day_stamp(t.date())} {t.hour:02d}:{t.minute:02d} UTC"
-
-
-def title_checks(play: dict, inputs: dict) -> list[dict]:
-    """The title part (by the checked order) carries the day lines and the week line, and every element that
-    declares either holds them as the record does."""
-    found, n = [], 0
-    rec = inputs.get("record") or {}
-    for p, seg in parts(play):
-        if seg == "title" and not any(
-                {"title_lines", "week_line"} <= set(x.get("shows") or {}) for x in (p.get("shots") or []) + (p.get("text") or [])
-                if isinstance(x.get("shows"), dict)):
-            found.append(_check("title-lines-verbatim", False, unit=f"part {p.get('id')}", evidence={
-                "why": "the title part declares no element whose shows carry both title_lines and week_line, so its "
-                       "printed lines cannot be held to the record"}))
-    if not any(seg == "title" for _, seg in parts(play)):
-        found.append(_check("title-lines-verbatim", False, unit="parts", evidence={
-            "why": "no title part in the spine's order: the title's day lines and week line are not declared"}))
-    for p in play.get("parts") or []:
-        for x in (p.get("shots") or []) + (p.get("text") or []):
-            sh = x.get("shows") if isinstance(x.get("shows"), dict) else {}
-            if "title_lines" not in sh and "week_line" not in sh:
-                continue
-            n += 1
-            probs = []
-            for key in ("title_lines", "week_line"):
-                if key not in sh:
-                    probs.append(f"declares the title but not its {key}")
-            if "title_lines" in sh:
-                want, got = expected_title_lines(rec), list(sh.get("title_lines") or [])
-                if len(got) != len(want):
-                    probs.append(f"{len(got)} day lines; the record has {len(want)} days")
-                for k, (a, b) in enumerate(zip(got, want)):
-                    if a != b:
-                        probs.append({"line": k, "shown": a, "record": b})
-            if "week_line" in sh and sh.get("week_line") != expected_week_line(rec):
-                probs.append({"week_line": sh.get("week_line"), "record": expected_week_line(rec)})
-            found.append(_check("title-lines-verbatim", not probs, unit=x.get("id"), evidence={"problems": probs}))
-    return _summary("title-lines-verbatim", found, n)
-
-
 def music_checks(play: dict, durations: dict | None) -> list[dict]:
     cues = music_cues(play)
     out, news = [], []
     for p, seg in parts(play):
-        if seg is not None and seg not in SC.NEWS_SEGMENTS:
+        if seg is not None and seg not in SC.spine(play).news:
             continue                          # a part the checked order does not trust is news
         sp = part_span(p)
         if sp is None:
@@ -1326,7 +1213,7 @@ def disclosure_checks(play: dict) -> list[dict]:
     roles: dict[str, str] = {}
     for p in play.get("parts") or []:
         for ln in p.get("lines") or []:
-            if ln.get("kind") == "narration":
+            if ln.get("kind") in SC.NARRATOR_KINDS:
                 roles.setdefault(ln.get("read_by") or "v-narrator", "narrator")
     found = []
     for _, ln in SC.reader_lines(play):
@@ -1348,25 +1235,6 @@ def disclosure_checks(play: dict) -> list[dict]:
                 probs.append(f"its dot_label is {DOT_LABELS[role]!r} (bible g)")
         found.append(_check("voice-disclosed", not probs, unit=vid, evidence={"role": role, "problems": probs}))
     return found or [_check("voice-disclosed", True, evidence={"voices": 0})]
-
-
-def ending_checks(play: dict, durations: dict | None) -> list[dict]:
-    credits = [part_span(p) for p, seg in parts(play) if seg == "credits"]
-    end = min((c[0] for c in credits if c), default=runtime(play))
-    vs = [v for v in voiced(play, durations) if v["start"] < end]
-    if not vs:
-        return [_check("ending-question", False, evidence={"why": "the episode has no voiced line"})]
-    last = max(vs, key=lambda v: v["end"])
-    probs = []
-    if last["kind"] != "narration":
-        probs.append("the last voiced line before the credits is not the narrator's")
-    elif not AW.QUESTION_END.search(last["text"].rstrip()):
-        probs.append("the last narration line is not a question")
-    gap = end - last["end"]
-    if gap < QUESTION_SILENCE_S - 1e-9:
-        probs.append(f"{gap:.2f} s with no voice after it; at least {QUESTION_SILENCE_S:g} s")
-    return [_check("ending-question", not probs, unit=last["id"], evidence={
-        "text": last["text"], "silence_after_s": round(gap, 2), "timed": last["how"], "problems": probs})]
 
 
 BLANK_CARDS = ("statement", "silent", "perspective")     # cards that draw only their text[]: blank without it
@@ -1479,26 +1347,10 @@ def _meets(w, b) -> bool:
 
 def tour_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
     """``tour-window-inside``: every window of a filled still's authored camera path (``fill_ok``) lies inside the
-    picture, at z 1 or more, and off every band its ledger item marks no-tour. ``tour-no-claim-before-board``:
-    before The Weight (and before any board), no window of any tour shows a claim record's headline box on the same printed edition
-    (the boxes are the ledger's own pages toured to a claim headline), so no reason is named before the board."""
-    inside, claim, n_in, n_claim = [], [], 0, 0
-    rec = inputs.get("record") or {}
-    claim_titles = {r.get("title") for r in (rec.get("lead") or {}).get("records") or [] if r.get("role") == "claim"}
-    claim_boxes: dict = {}
-    for it in assets.values():
-        op = _own_page(it)
-        tt = (op or {}).get("tour_target") or {}
-        if op and tt.get("headline") in claim_titles and isinstance(tt.get("box"), dict):
-            claim_boxes.setdefault(op.get("edition"), []).append((tt["headline"], _box(tt["box"])))
-    board_seen = False
-    weight = SC.SEGMENTS.index("weight")
-    for p, seg in parts(play):
-        if seg is not None and SC.SEGMENTS.index(seg) >= weight:
-            board_seen = True                 # The Weight shows the claim on purpose; only what comes before it is held
+    picture, at z 1 or more, and off every band its ledger item marks no-tour."""
+    inside, n_in = [], 0
+    for p, _seg in parts(play):
         for s in p.get("shots") or []:
-            if G.is_graphic(s) and s.get("subtype") == "board":
-                board_seen = True
             cam = s.get("camera")
             if not isinstance(cam, list) or not cam or not s.get("asset"):
                 continue
@@ -1524,14 +1376,7 @@ def tour_checks(play: dict, assets: dict, inputs: dict) -> list[dict]:
                     "on_no_tour": len(on_band), "below_fill": len(low_z),
                     **({} if ok else {"first": [round(v, 1) for v in first] if first else None,
                                       "fix": "a path whose every window is inside the picture, off its no-tour bands"})}))
-            if not board_seen:
-                n_claim += 1
-                boxes = claim_boxes.get((_own_page(item) or {}).get("edition"), [])
-                hits = sorted({h for h, b in boxes for w in wins if _meets(w, b)})
-                claim.append(_check("tour-no-claim-before-board", not hits, unit=s.get("id"), evidence={
-                    "asset": s["asset"], "claim_boxes": len(boxes), "shown": hits,
-                    **({} if not hits else {"why": "a claim record's headline is in frame before the board"})}))
-    return _summary("tour-window-inside", inside, n_in) + _summary("tour-no-claim-before-board", claim, n_claim)
+    return _summary("tour-window-inside", inside, n_in)
 
 
 def deferred_checks() -> list[dict]:
@@ -1555,6 +1400,7 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
     """Every news check for an omnibus screenplay (none for another show): the schema's, then the bible's."""
     if not SC.is_news(play):
         return []
+    play = SC.settled(SC.news_play(play), film)     # the screenplay's own line kinds; its spine, judged once
     assets = assets or {}
     out = SC.checks(play, assets)
     problems = []
@@ -1565,29 +1411,30 @@ def checks(play: dict, assets: dict | None = None, *, film: Path | None = None, 
         return out + deferred_checks()
     out += _guarded("as-of", as_of_checks, play, assets, inputs)
     out += _guarded(PUBLISHED_BY_EDITION, published_by_edition_checks, play, assets)
-    out += _guarded("fair-use-on-timeline", fair_use_timeline_checks, play, assets)
+    out += _guarded(FAIR_USE_REFUSED, fair_use_refused_checks, play, assets)
     out += _guarded(DOT_LABEL_CARRIED, dot_label_checks, play, assets)
     out += _guarded("never-tell", language_checks, play, inputs, durations)
     out += _guarded("no-outlet-characterisation", outlet_checks, play, inputs)
     out += _guarded("no-bridge", bridge_checks, play, inputs)
-    out += _guarded("board-rule", board_checks, play, inputs)
     out += _guarded("counts-match", counts_checks, play, inputs)
     out += _guarded("quote-verbatim", quote_checks, play, inputs)
-    out += _guarded("title-lines-verbatim", title_checks, play, inputs)
     out += _guarded("no-music-under-news", music_checks, play, durations)
     out += _guarded("narration-ceiling", ceiling_checks, play, durations)
     out += _guarded("voice-disclosed", disclosure_checks, play)
-    out += _guarded("ending-question", ending_checks, play, durations)
     out += _guarded("black-share", black_checks, play)
     out += _guarded("tour-window-inside", tour_checks, play, assets, inputs)
     return out + deferred_checks()
 
 
-RULES = ("show-profile", "segment-spine", "part-segment", "part-as-of-declared", "graphic-schema", "alteration-marked",
-         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION, "fair-use-on-timeline", DOT_LABEL_CARRIED, "never-tell", "hindsight-language",
-         "no-outlet-characterisation", "no-bridge", "board-rule", "counts-match", "quote-verbatim",
-         "title-lines-verbatim", "no-music-under-news", "no-music-under-quote", "narration-ceiling", "voice-disclosed",
-         "ending-question", "black-share", "tour-window-inside", "tour-no-claim-before-board", *DEFERRED)
+RULES = ("show-profile", "news-fields", "segment-spine", "package-count", "part-segment", "part-as-of-declared",
+         "part-shape", "graphic-schema", "alteration-marked", "sound-role", "card-kind", "line-schema",
+         "reader-quote-sha", "reader-read-by", "silence-reason", "news-inputs", "as-of", PUBLISHED_BY_EDITION,
+         FAIR_USE_REFUSED, DOT_LABEL_CARRIED, "never-tell", "hindsight-language", "no-outlet-characterisation",
+         "no-bridge", "counts-match", "quote-verbatim", "no-music-under-news", "no-music-under-quote",
+         "narration-ceiling", "voice-disclosed", "black-share", "tour-window-inside", *DEFERRED)
+# Show bible v2 section o's die list, gone from every screenplay (the frozen issue 33 included): never a rule here.
+DIED = ("board-rule", "tour-no-claim-before-board", "ladder-labels-derived", "ending-question", "fair-use-excerpt",
+        "fair-use-on-timeline", "title-lines-verbatim")
 
 
 def main(argv=None) -> int:
