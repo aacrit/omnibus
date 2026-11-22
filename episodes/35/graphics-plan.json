@@ -326,6 +326,19 @@
       "alpha": "straight"
     },
     {
+      "id": "g-page-apec",
+      "kind": "graphic",
+      "subtype": "page",
+      "fps": "30",
+      "frames": 574,
+      "planned": true,
+      "generator": "studio/graphics (E6), planned for the Actions draft",
+      "content_date": "2026-11-18",
+      "content_basis": "typeset from e35-p4-apec-read, the Kremlin's English transcript, verbatim",
+      "licence": "CC0",
+      "shows_bodies": false
+    },
+    {
       "id": "g-page-decl-3",
       "kind": "graphic",
       "subtype": "page",

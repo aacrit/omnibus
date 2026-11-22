@@ -1985,23 +1985,32 @@
         },
         {
           "id": "S-P4-APEC",
-          "kind": "archive_video",
+          "kind": "graphic",
           "start_s": 374.06,
           "dur_s": 19.13,
           "transition_in": {
             "type": "cut"
           },
-          "asset": "e35-p4-putin-apec",
-          "in_s": 110.47,
-          "mark": "ARCHIVE",
-          "sound": {
-            "role": "muted",
-            "translation": "none",
-            "mute_reason": "The rights ledger airs it muted: record_kind unknown until a checking role reviews it."
-          },
+          "subtype": "page",
+          "asset": "g-page-apec",
+          "mark": "DRAWN",
           "dot_label": "RELEASED BY THE KREMLIN",
-          "why": "Putin at the lectern of the APEC CEO Summit, 18 Nov (kremlin.ru, CC BY 4.0), muted; the reader speaks the Kremlin's English transcript.",
-          "out_s": 129.6
+          "extract": "6e2c9de4d73d2c218a1eb65548aa58aee72fd7e68ebef2f12a017331b7c58f4f",
+          "why": "Putin's words at the APEC CEO Summit, typeset from the Kremlin's own English transcript and read (CC BY 4.0). CoS decision 2026-11-22: the Russian page's video (e35-p4-putin-apec) has no English twin, so its picture is the transcript.",
+          "page": {
+            "source_id": "e35-p4-apec-read",
+            "title": [
+              "APEC CEO Summit"
+            ],
+            "body": [
+              "Sanctions, tariffs and export restrictions may still have a restraining effect, but they are no longer capable of bringing growth to a complete halt, let alone crushing the economies of competitors."
+            ],
+            "source": "Kremlin.ru, the President of Russia's English text, 18 November 2026 (en.kremlin.ru 81286), CC BY 4.0",
+            "quote_sha256": [
+              "6e2c9de4d73d2c218a1eb65548aa58aee72fd7e68ebef2f12a017331b7c58f4f"
+            ],
+            "url": "http://en.kremlin.ru/events/president/news/81286"
+          }
         },
         {
           "id": "S-P4-2",
