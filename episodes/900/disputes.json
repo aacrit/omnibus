@@ -3,7 +3,7 @@
   "issue": 900,
   "generated_by": "node scripts/rights.mjs packet <issue>",
   "note": "Generated from rights-ledger.json. Never edited by hand: the gate regenerates it and fails on any difference.",
-  "ledger_sha256": "71d249a98276e7287689dc48227dfe4152173df45dc9c59c504c41c8127320c3",
+  "ledger_sha256": "1230972c68b66f5a34f9f3e5fb858cb19c0edcdbcc7986546b31f7d2ad509a60",
   "credit_disclosures": [],
   "assets": [
     {
@@ -24,6 +24,10 @@
         "url": "https://commons.wikimedia.org/wiki/File:Explorer_1_Teletype_Reporting_During_Launch.webm",
         "captured_text": "Read from the Wikimedia Commons API (imageinfo extmetadata) for this file page.\nLicenseShortName: Public domain\nLicense: pd\nLicenseUrl: (none)\nUsageTerms: Public domain\nArtist: U.S. Army\nCredit: https://www.jpl.nasa.gov/video/details.php?id=1446 (rounded timestamps 1:51 seconds to 1:58)\nBasis category: PD US Army",
         "captured_at": "2026-11-13T00:20:08Z"
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "Ticket 4 graphics fixture: this item exists only to satisfy outputsRoute's non-empty-ledger rule and is not cited by episodes/900/screenplay.json; its own sound is never aired."
       },
       "basis": "Wikimedia Commons marks the file public domain (category \"PD US Army\"): a work of the US federal government (17 U.S.C. 105)",
       "in_point": null,

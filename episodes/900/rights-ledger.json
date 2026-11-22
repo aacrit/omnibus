@@ -48,6 +48,15 @@
       "laundering_check": {
         "status": "clear",
         "findings": []
+      },
+      "record_kind": "unknown",
+      "record_kind_evidence": {
+        "source": "adapter",
+        "text": "Archival NASA/Army teletype footage, not an event record of any of the seven SOT-eligible kinds; this item is never cited as sot in the fixture screenplay, so it airs muted."
+      },
+      "audio": {
+        "mode": "muted",
+        "reason": "Ticket 4 graphics fixture: this item exists only to satisfy outputsRoute's non-empty-ledger rule and is not cited by episodes/900/screenplay.json; its own sound is never aired."
       }
     }
   ],
